@@ -13,6 +13,7 @@ UI je česky, s uživatelem se komunikuje česky. Hraje se hlavně na telefonu, 
   Prázdné `url/key` = offline režim (tak běží i verze publikovaná jako claude.ai artefakt).
 - `EKONOMIKA.md` – dlouhodobá progrese: návrh, stav (fáze 1–5 hotové) a co zbývá (serverový inventář, monetizace).
 - `COOP.md` – co-op: architektura, pravidla, stav fází a co zbývá.
+- `VYDANI.md` – plán vydání na Google Play / App Store a monetizace: co je potřeba, pořadí, kdo co dělá (Claude vs. uživatel), realistická očekávání výdělku, hra vytvořená s AI.
 - PWA: `manifest.webmanifest`, `sw.js` (network-first, cache jen jako offline záloha, cizí domény neřeší), ikony `icon-180/192/512(-maskable).png` (vygenerované z lebky `SPR.icon.skull`). SW se registruje jen na https.
 - `tests/` – `supabase-mock.js` (mock Supabase přes BroadcastChannel) a `coop-test.js` (dvě stránky, WebRTC).
 - `supabase-setup.sql`, `supabase-pin.sql` – schéma DB (už spuštěné uživatelem v Supabase SQL Editoru).
@@ -91,7 +92,7 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - Progrese – zbývá (viz `EKONOMIKA.md`): ladění čísel podle testerů (ceny, drop materiálů), serverový inventář (fáze 6, podmínka monetizace), monetizace (fáze 7: nejdřív kosmetika/Kryptová cesta, placené truhly až po právní kontrole).
 - Úkoly – zbývá: týdenní kontrakty (těžší, kombinují systémy, železná/zlatá truhla). Ladit cíle úkolů a Mistrovství podle testerů.
 - Další nápady: kosmetika (vzhledy hrdinů, barvy pouta) jako odměny Mistrovství a později za peníze, víc tajných fúzí, týdenní kontrakty, push notifikace přes PWA (denní truhla), ověřit sdílení a instalaci na iPhonu/Androidu naostro.
-- Uživatel chce hru časem vydat v App Store / Google Play s monetizací (pak platby přes obchody, viz EKONOMIKA.md kap. 9).
+- **Vydání na Google Play / App Store s monetizací – plán v `VYDANI.md`** (zatím nic nezačato). Pořadí: serverový inventář → Capacitor + Android build přes GitHub Actions → uzavřený test (12 testerů / 14 dní) → nákupy kosmetiky / reklama za odměnu → iOS. Platby jen přes nákupy v obchodech. První krok uživatele: založit Google Play účet.
 - Ověřit naostro na telefonu: sdílení výsledku, instalace na plochu (Android), nová hudba, nové okno sloučení.
 - Čekáme na feedback k balancu, hudbě a ovládání od testerů.
 

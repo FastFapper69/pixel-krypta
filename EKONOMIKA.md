@@ -138,6 +138,7 @@ Hodnoty se losují v rozsahu dané rarity, třeba Vzácná: poškození +6–10 
 - **Placené náhodné truhly (loot boxy) jsou právně citlivé.** V Belgii jsou zakázané, v dalších zemích EU se regulují a vždy se musí zveřejnit šance. Navíc hru hrají i mladší kamarádi. Než se zavedou, je potřeba si ověřit aktuální pravidla, nejlépe s někým, kdo se v tom vyzná. Já nejsem právník.
 - **Bezpečnější a pro hráče příjemnější:** kosmetika za peníze (vzhledy hrdinů, barvy pouta, efekty fúze, mazlíček, který běhá vedle hrdiny) a **sezónní „Kryptová cesta“** (battle pass), tedy odměny za hraní a placená prémiová řada. Peníze tak nekupují sílu a co-op i žebříček zůstanou férové.
 - **Technicky:** platby přes Stripe (vyžaduje podnikatele, DPH přes OSS a podmínky vrácení). Kdyby byla hra v App Store nebo Google Play, platby musí jít přes ně a berou si 15–30 %.
+- **Rozhodnuto (11/2026):** cílem je vydání v Google Play / App Store, takže platby přes nákupy v obchodech. Podrobný plán v `VYDANI.md`.
 
 ## 10. Postup po fázích
 1. **Materiály a úrovně hrdinů:** drop materiálů, ukazatel v HUD a na konci běhu, obrazovka Hrdina s úrovněmi a talenty. *Samo o sobě už nutí hrát všechny mapy.*
