@@ -63,6 +63,7 @@ Háčky na `window.__krypta`: `step(dt)` (tick vč. conductoru), `startRun`, `ap
 `startRun(hrdina, mapa, {nm, mod})`.
 Co-op test: `python3 -m http.server 8765` v kořeni repa, pak `node tests/coop-test.js` (a `nortc` pro zálohu). Virtuální partner bez sítě: `NET.open=true; CO.on=true; CO.role='host'; coHostGo()`.
 V simulacích vypni zvuk (`save.sound=false; save.music=false`). Online toky testuj s mock Supabase (`addInitScript`). Multitouch přes CDP `Input.dispatchTouchEvent`.
+Hotové testovací skripty jsou v `tests/tools/` (viz README tam: smoke `shot.js`, UI, DPS, úkoly `qtest.js`…).
 Po změně vždy: smoke test (start běhu, ~90 kroků, žádné `pageerror`, šířka dokumentu = viewport) a screenshot.
 
 ## Hotovo

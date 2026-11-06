@@ -1,0 +1,10 @@
+const {chromium}=require('playwright');
+(async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,deviceScaleFactor:2});
+const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto('file://'+process.cwd()+'/off.html');
+await p.evaluate(()=>{const S=window.__krypta.save;S.sound=true;S.music=false;S.coins=1240;window.__krypta.openMenu();});
+await p.waitForTimeout(2500);await p.screenshot({path:'m_menu.png'});
+await p.evaluate(()=>{const S=window.__krypta.save;S.cleared={hrbitov:true,poust:true};window.__krypta.setSel('knight','doly');});await p.click('#mPlay');await p.waitForTimeout(1500);
+await p.click('#scr-select [data-back]');await p.waitForTimeout(1500);await p.screenshot({path:'m_menu_doly.png'});
+await p.click('#mCoop');await p.waitForTimeout(300);await p.screenshot({path:'m_coop.png'});
+console.log(errs);await b.close();})();

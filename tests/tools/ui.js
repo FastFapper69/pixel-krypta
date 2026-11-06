@@ -1,0 +1,23 @@
+const {chromium}=require('playwright');
+(async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true,deviceScaleFactor:2});
+const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message+' '+(e.stack||'').split('\n')[1]));
+await p.goto('file://'+process.cwd()+'/off.html');await p.waitForTimeout(400);
+await p.evaluate(()=>{const K=window.__krypta,S=K.save;S.sound=false;S.music=false;S.coins=2400;S.mats={bone:180,amber:60,magma:25};S.hlv={knight:9};S.cleared={hrbitov:true};S.nm={hrbitov:3};
+ S.heroes.mage=true;S.inv=[];for(const r of [0,0,0,1,1,2,2,3,4])S.inv.push(K.makeItem(r));const a=K.makeItem(3,'amulet');a.lv=4;S.inv.push(a);const l=K.makeItem(4,'ring',.7,'metro');l.lv=2;S.inv.push(l);
+ S.eq={knight:{amulet:a.u,ring:l.u}};S.codex={f:{vortex:true},l:{metro:true}};K.openMenu();});
+await p.waitForTimeout(300);await p.screenshot({path:'ui_menu.png'});
+await p.click('#mHero');await p.waitForTimeout(250);await p.screenshot({path:'ui_hero.png',fullPage:false});
+await p.evaluate(()=>document.querySelector('#scr-hero').scrollTop=600);await p.waitForTimeout(150);await p.screenshot({path:'ui_hero2.png'});
+await p.click('#invGrid .itile.r4');await p.waitForTimeout(200);await p.screenshot({path:'ui_item.png'});
+await p.click('#ipClose');await p.click('#scr-hero [data-back]');await p.click('#mChest');await p.waitForTimeout(250);await p.screenshot({path:'ui_shop.png'});
+await p.evaluate(()=>{document.querySelectorAll('#chestList .card')[3].querySelector('button').click();});await p.waitForTimeout(500);await p.screenshot({path:'ui_reveal.png'});
+await p.click('#rvOk');await p.evaluate(()=>document.querySelector('#scr-chests').scrollTop=900);await p.waitForTimeout(150);await p.screenshot({path:'ui_forge.png'});
+// merge ritual with perfect taps
+await p.evaluate(()=>{[...document.querySelectorAll('#forgeList .card')][0].querySelector('button').click();});
+const res=await p.evaluate(()=>new Promise(r=>{const K=window.__krypta;const loop=()=>{const F=K.FZ;if(!F){r('none');return;}const b=K.audioBeat(),i=F.res.findIndex(x=>x===null);
+  if(i>=0&&b>=F.targets[i])K.fuseTap();if(F.done){r(F.res.join(''));return;}requestAnimationFrame(loop);};requestAnimationFrame(loop);}));
+await p.waitForTimeout(1500);console.log('sloučení:',res,'stav',await p.evaluate(()=>window.__krypta.state));await p.screenshot({path:'ui_merge.png'});
+await p.click('#rvOk');await p.click('#scr-chests [data-back]');await p.click('#mCodex');await p.waitForTimeout(200);await p.screenshot({path:'ui_codex.png'});
+await p.click('#scr-codex [data-back]');await p.click('#mPlay');await p.waitForTimeout(300);await p.screenshot({path:'ui_select.png'});
+await p.evaluate(()=>document.querySelector('#scr-select').scrollTop=2000);await p.waitForTimeout(150);await p.screenshot({path:'ui_select2.png'});
+console.log(errs);await b.close();})();
