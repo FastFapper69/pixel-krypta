@@ -1,0 +1,16 @@
+const {chromium}=require('playwright');
+(async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true});
+ await c.addInitScript(()=>localStorage.setItem('pixel-krypta-lang','en'));
+ const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+ await p.goto('file://'+__dirname+'/off.html');await p.waitForTimeout(600);
+ await p.evaluate(()=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;K.save.coins=5000;K.save.stats=K.save.stats||{};K.save.newsSeen='2099';});
+ const S=async(n,f)=>{if(f)await p.evaluate(f);await p.waitForTimeout(250);await p.screenshot({path:'en_'+n+'.png'});};
+ await S('menu',()=>window.__krypta.openMenu());
+ await S('select',()=>document.getElementById('mPlay').click());
+ await S('hero',()=>window.__krypta.openHero());
+ await S('quests',()=>window.__krypta.openQuests());
+ await S('chests',()=>window.__krypta.openChestShop());
+ await S('master',()=>window.__krypta.openMaster());
+ await S('run',()=>{const K=window.__krypta;K.god=true;K.startRun('builder','poust');for(let i=0;i<300;i++)K.step(1/60);});
+ await S('over',()=>{window.__krypta.finish(true);});await p.waitForTimeout(2500);await p.screenshot({path:'en_over.png'});
+ console.log(errs);await b.close();})();

@@ -14,6 +14,7 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `audio.js` – obnova zvuku po zamčení
 - `chestanim.js`, `menushot.js`, `thumbs.js` – screenshoty animace truhly, menu, pohlednic map
 - `qtest.js <mapa>`, `qover.js` – úkoly, hledaní, svíčky, konec běhu
+- `i18n.js` (`static` = jen kontrola kódu), `en_shots.js` – anglická lokalizace (vedle `off.html` musí ležet kopie `lang-en.js`)
 - `mines.js`, `desert.js`, `cart.js` – mapy a vozíky
 
 Co-op testy jsou o úroveň výš (`tests/coop-test.js`, viz CLAUDE.md).

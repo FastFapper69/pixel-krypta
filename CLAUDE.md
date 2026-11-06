@@ -1,7 +1,7 @@
 # Pixel Krypta – poznámky pro Clauda
 
 Mobilní webová hra (HTML5 canvas, čisté JS, bez buildu), survivors-like roguelike s tower-defense prvky a pixel artem.
-UI je česky, s uživatelem se komunikuje česky. Hraje se hlavně na telefonu, testují to kamarádi (i přes Instagram in-app prohlížeč).
+UI je česky + anglická lokalizace (viz níže), s uživatelem se komunikuje česky. Hraje se hlavně na telefonu, testují to kamarádi (i přes Instagram in-app prohlížeč).
 
 - Živá verze: GitHub Pages z větve `main`, kořen repa (`index.html`). Push na `main` = nasazení (~1 min).
   **Po pushi vždy ověř, že nasazení doběhlo:** `gh api repos/FastFapper69/pixel-krypta/actions/runs` → workflow „pages build and deployment“ pro daný commit `completed success`. GitHub občas nasazení zruší („Deployment failed, try again later“) – pak pomůže prázdný commit a push.
@@ -11,6 +11,7 @@ UI je česky, s uživatelem se komunikuje česky. Hraje se hlavně na telefonu, 
 - `index.html` – celá hra v jednom souboru (~330 kB, jedno IIFE). Obsahuje konfiguraci Supabase:
   `window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_publishable_…'}` (publishable klíč je veřejný, to je v pořádku).
   Prázdné `url/key` = offline režim (tak běží i verze publikovaná jako claude.ai artefakt).
+- `lang-en.js` – anglický překlad `window.KRYPTA_EN` = {český text: anglický text}, načítá se před hrou.
 - `EKONOMIKA.md` – dlouhodobá progrese: návrh, stav (fáze 1–5 hotové) a co zbývá (serverový inventář, monetizace).
 - `COOP.md` – co-op: architektura, pravidla, stav fází a co zbývá.
 - `VYDANI.md` – plán vydání na Google Play / App Store a monetizace: co je potřeba, pořadí, kdo co dělá (Claude vs. uživatel), realistická očekávání výdělku, hra vytvořená s AI.
@@ -18,6 +19,14 @@ UI je česky, s uživatelem se komunikuje česky. Hraje se hlavně na telefonu, 
 - `tests/` – `supabase-mock.js` (mock Supabase přes BroadcastChannel) a `coop-test.js` (dvě stránky, WebRTC).
 - `supabase-setup.sql`, `supabase-pin.sql` – schéma DB (už spuštěné uživatelem v Supabase SQL Editoru).
 - Uživatel nemá přístup k terminálu, je na mobilu – vše nasazuj sám přes git push.
+
+## Lokalizace (CZ/EN, 11/2026)
+- Zdrojové texty jsou česky. Každý český řetězec v JS je obalený `_t('…')` (ne `L` – to je v kódu častá lokální proměnná). Klíč = přesný český text, překlad v `lang-en.js`.
+- `LANG` se určí při startu: `localStorage['pixel-krypta-lang']` (nesynchronizuje se do cloudu), jinak podle telefonu (cs/sk → čeština, jinak angličtina). Přepínač `#mLang` v menu uloží volbu a stránku znovu načte (jazyk se za běhu nemění, takže `_t` funguje i v datových tabulkách při načtení).
+- Statické HTML přeloží `i18nDom()` na začátku skriptu (textové uzly, placeholder/aria-label/title), ještě před `bindUi`. CSS text zuřivého bosse má variantu `html[lang=en]`.
+- Pořadí slov: kde se angličtina skládá jinak, větev `EN?…:…` (např. příchod bosse). `cz()` v angličtině nechává desetinnou tečku. `onOff(b)` = zap/vyp.
+- **Při přidání nebo změně textu**: obal ho `_t('…')` a přidej/uprav řádek v `lang-en.js` (i položky `NEWS`). Kontrola: `node tests/tools/i18n.js static` (chybějící překlady, neobalené české řetězce), bez `static` projde obrazovky v angličtině a vypíše viditelný český text. `en_shots.js` udělá anglické screenshoty.
+- Anglický název hry je Pixel Crypt (manifest PWA zůstává Pixel Krypta).
 
 ## Struktura kódu (sekce `/* ==== … ==== */` v index.html)
 helpers → save → pixel sprites → maps → weapons and passives → meta shop → audio (music + rhythm) → canvas → state → input → run → level-up → end of run → HUD → rendering → loop → menus → online (Supabase) → boot.
@@ -84,7 +93,7 @@ Hotové testovací skripty jsou v `tests/tools/` (viz README tam: smoke `shot.js
 Po změně vždy: smoke test (start běhu, ~90 kroků, žádné `pageerror`, šířka dokumentu = viewport) a screenshot.
 
 ## Hotovo
-Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, testovací režim, rytmická chiptune hudba, propracovaný pixel art (hřbitov ve stylu Graveyard Keeper), žebříček + cloud save + přezdívka/PIN, hosting na GitHub Pages, joystick ve 3 režimech + multitouch, čitelnější písmo, plynulý šikmý pohyb (kamera), propracovaná poušť (chrám, oázy s léčením, kostra obra), propracované doly (koleje, rozjeté vozíky, těžní věž), skrytý testovací režim (podržení „Hudba“ 3 s), fúze zbraní (4 ultimátky I–III, rytmický rituál, drop na frázi, hudební vrstvy), online co-op pro 2 (WebRTC, lobby s kódem, oživení, rytmické pouto), oprava zvuku po zamčení telefonu, progrese: materiály map, úrovně hrdinů a talenty, výbava s raritami, obchod s truhlami, kovárna, Noční můry I–V, legendárky, Sbírka, denní výzva, hezčí menu (pixelové rohy, ikony, živé pozadí), animace otevírání truhly, pohlednice map ve výběru, úkoly (Nástěnka: denní úkoly, svíčky, týdenní odměny, hledaní elity), audit hry (11/2026): zuřivý boss, žebříček výher podle času, věže nesnižují odměnu, víc zlata za čas, přehled buildu v pauze, drobné opravy textů. Velká aktualizace (11/2026): Bard, Mistrovství a tituly, zbraně Noty/Bumerang, pasivky, fúze Ozvěna a tajná Parní exploze, denní výzva se seedem a žebříčkem Dnes, sdílení výsledku, PWA, tutoriál, okno Novinky. Nová hudba per mapa (forma, nástroje, boss). Grafické sjednocení a oprava fullscreenu (iPhone z plochy), číslo verze v menu, okno Ovládání s výběrem joysticku, revize ekonomiky (vracení vylepšení, sloučení s výběrem slotu, víc Magmatitu na úrovně 15–20, nápověda k materiálům). Poslední verze: `GAME_VER` 2026-11-06h.
+Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, testovací režim, rytmická chiptune hudba, propracovaný pixel art (hřbitov ve stylu Graveyard Keeper), žebříček + cloud save + přezdívka/PIN, hosting na GitHub Pages, joystick ve 3 režimech + multitouch, čitelnější písmo, plynulý šikmý pohyb (kamera), propracovaná poušť (chrám, oázy s léčením, kostra obra), propracované doly (koleje, rozjeté vozíky, těžní věž), skrytý testovací režim (podržení „Hudba“ 3 s), fúze zbraní (4 ultimátky I–III, rytmický rituál, drop na frázi, hudební vrstvy), online co-op pro 2 (WebRTC, lobby s kódem, oživení, rytmické pouto), oprava zvuku po zamčení telefonu, progrese: materiály map, úrovně hrdinů a talenty, výbava s raritami, obchod s truhlami, kovárna, Noční můry I–V, legendárky, Sbírka, denní výzva, hezčí menu (pixelové rohy, ikony, živé pozadí), animace otevírání truhly, pohlednice map ve výběru, úkoly (Nástěnka: denní úkoly, svíčky, týdenní odměny, hledaní elity), audit hry (11/2026): zuřivý boss, žebříček výher podle času, věže nesnižují odměnu, víc zlata za čas, přehled buildu v pauze, drobné opravy textů. Velká aktualizace (11/2026): Bard, Mistrovství a tituly, zbraně Noty/Bumerang, pasivky, fúze Ozvěna a tajná Parní exploze, denní výzva se seedem a žebříčkem Dnes, sdílení výsledku, PWA, tutoriál, okno Novinky. Nová hudba per mapa (forma, nástroje, boss). Grafické sjednocení a oprava fullscreenu (iPhone z plochy), číslo verze v menu, okno Ovládání s výběrem joysticku, revize ekonomiky (vracení vylepšení, sloučení s výběrem slotu, víc Magmatitu na úrovně 15–20, nápověda k materiálům). Anglická lokalizace (celá hra, přepínač jazyka v menu). Poslední verze: `GAME_VER` 2026-11-06i.
 
 ## Nápady / plán
 - Co-op – zbývá (viz `COOP.md`): **ověřit naostro na dvou telefonech** (Supabase Realtime + WebRTC přes mobilní data/Instagram), Souhra, Duetní fúze, co-op karty pouta, co-op žebříček, návrat po odpojení.
