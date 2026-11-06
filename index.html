@@ -1591,7 +1591,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-06f';
+const GAME_VER='2026-11-06g';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -1640,6 +1640,16 @@ function showStickRest(){if(stick.active)return;
   else stickEl.hidden=true;}
 function stickLabels(){const t='Joystick: '+STICK_TXT[save.stick];const el=$('#pStick');if(el)el.textContent=t;setLbl('#mStick','Ovládání');}
 function setLbl(q,t,off){const b=$(q);if(!b)return;let l=b.querySelector('.lbl');if(!l){l=document.createElement('span');l.className='lbl';b.textContent='';b.appendChild(l);}l.textContent=t;b.classList.toggle('off',!!off);}
+const STICK_INFO={touch:['Pevný v místě dotyku','Joystick se objeví tam, kde položíš prst, a zůstane tam, dokud prst nezvedneš. Doporučeno.'],
+  fixed:['Pevně vlevo dole','Joystick je pořád na stejném místě vlevo dole. Hodí se, když chceš mít palec vždy na jednom místě.'],
+  follow:['Plovoucí','Joystick jede za prstem, když ho táhneš dál. Dobré na rychlé otočky.']};
+function openControls(){const pop=$('#newsPop');
+  const draw=()=>{pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">Ovládání</h2><small>Postava útočí sama, ty jen běháš. Vyber, jak se má chovat joystick:</small><div class="stack">'+
+    STICK_MODES.map(m=>'<button class="card ctl'+(save.stick===m?' sel':'')+'" data-m="'+m+'"><h3>'+STICK_INFO[m][0]+(save.stick===m?' <span class="ttl">Zapnuto</span>':'')+'</h3><small>'+STICK_INFO[m][1]+'</small></button>').join('')+
+    '</div><small>Na počítači: WASD nebo šipky, Esc je pauza. Režim jde změnit i v pauze během hry.</small><button class="btn" id="newsOk">Hotovo</button></div>';
+    pop.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{save.stick=b.dataset.m;persist();stickLabels();sfx('ui');draw();});
+    $('#newsOk').onclick=()=>{pop.hidden=true;sfx('ui');};};
+  draw();pop.hidden=false;}
 function cycleStick(){save.stick=STICK_MODES[(STICK_MODES.indexOf(save.stick)+1)%STICK_MODES.length];persist();stickLabels();sfx('ui');}
 function moveStick(px,py){const R=46;let dx=px-stick.ox,dy=py-stick.oy;const m=Math.hypot(dx,dy);
   if(m>R){if(save.stick==='follow')stickPlace(stick.ox+dx/m*(m-R),stick.oy+dy/m*(m-R));dx=dx/m*R;dy=dy/m*R;}
@@ -2812,7 +2822,7 @@ function bindUi(){
   $('#goBtn').onclick=()=>{if(!heroOwned(sel.hero))sel.hero='knight';if(!mapUnlocked(sel.map))sel.map='hrbitov';startRun(sel.hero,sel.map,{nm:Math.min(sel.nm||0,nmTiers(sel.map))});};
   buildBarInit();onTap($('#upBtn'),()=>upgradeTower());onTap($('#repBtn'),()=>repairCrystal());
   onTap($('#btnPause'),()=>{sfx('ui');togglePause();});
-  $('#mStick').onclick=()=>{audioInit();cycleStick();};$('#pStick').onclick=()=>cycleStick();
+  $('#mStick').onclick=()=>{audioInit();sfx('ui');openControls();};$('#pStick').onclick=()=>cycleStick();
   $('#pResume').onclick=()=>{sfx('ui');togglePause();};
   $('#pQuit').onclick=()=>{if(run&&run.coop&&!run.over)netSend(CO.role==='guest'?{t:'quit'}:{t:'end',won:false});if(run&&!run.over){run.over=true;if(run.tut)save.tut=1;const gain=endCoins(false);save.coins+=gain;if(!isGuest())qCommit(qSnap());persist();}openMenu();};
   $('#ovShare').onclick=()=>{sfx('ui');shareResult();};
