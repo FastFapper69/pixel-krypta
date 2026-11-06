@@ -8,11 +8,12 @@ UI je česky, s uživatelem se komunikuje česky. Hraje se hlavně na telefonu, 
 - Commity: autor `Claude <noreply@anthropic.com>`, na konci zprávy řádky `Co-Authored-By` / `Claude-Session` podle aktuální session.
 
 ## Soubory
-- `index.html` – celá hra v jednom souboru (~137 kB, jedno IIFE). Obsahuje konfiguraci Supabase:
+- `index.html` – celá hra v jednom souboru (~330 kB, jedno IIFE). Obsahuje konfiguraci Supabase:
   `window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_publishable_…'}` (publishable klíč je veřejný, to je v pořádku).
   Prázdné `url/key` = offline režim (tak běží i verze publikovaná jako claude.ai artefakt).
 - `EKONOMIKA.md` – dlouhodobá progrese: návrh, stav (fáze 1–5 hotové) a co zbývá (serverový inventář, monetizace).
 - `COOP.md` – co-op: architektura, pravidla, stav fází a co zbývá.
+- PWA: `manifest.webmanifest`, `sw.js` (network-first, cache jen jako offline záloha, cizí domény neřeší), ikony `icon-180/192/512(-maskable).png` (vygenerované z lebky `SPR.icon.skull`). SW se registruje jen na https.
 - `tests/` – `supabase-mock.js` (mock Supabase přes BroadcastChannel) a `coop-test.js` (dvě stránky, WebRTC).
 - `supabase-setup.sql`, `supabase-pin.sql` – schéma DB (už spuštěné uživatelem v Supabase SQL Editoru).
 - Uživatel nemá přístup k terminálu, je na mobilu – vše nasazuj sám přes git push.
@@ -21,7 +22,7 @@ UI je česky, s uživatelem se komunikuje česky. Hraje se hlavně na telefonu, 
 helpers → save → pixel sprites → maps → weapons and passives → meta shop → audio (music + rhythm) → canvas → state → input → run → level-up → end of run → HUD → rendering → loop → menus → online (Supabase) → boot.
 
 Obsah:
-- Hrdinové: knight (Rytíř), archer (Lučištník), mage (Mág), builder (Stavitel).
+- Hrdinové: knight (Rytíř), archer (Lučištník), mage (Mág), builder (Stavitel), bard (Bard – start Noty, zásah kombo jen způlí, `ach:'combo'` = odemyká se v Mistrovství, talenty prefix `d`).
 - Mapy: hrbitov (Zapomněný hřbitov, styl Graveyard Keeper), poust (Prašná poušť, bránění krystalu), doly (Lávové doly).
 - Věže: arrow, fire, frost, tesla (stavění za mince z běhu, vylepšování, oprava krystalu).
 - Bossové: slimeking, lich, demon. Nepřátelé: slime, bat, skeleton, zombie, ghost, spider, wolf, golem, flameskull…
@@ -50,6 +51,14 @@ Klíčové koncepty:
 - **Odměna zlata** `endCoins`: sebrané zlato (utracené za věže/opravy se nestrhává, `run.spent`, v co-opu ve zprávě `end` jako `sp`) + `rewT()/4` + bonus za výhru, × zlato z výbavy a NM.
 - **Žebříček map** `mapScore`: vyšší NM > výhra > prohra; výhry podle nejkratšího času, prohry podle nejdelšího přežití (zabití jen jako tiebreak).
 - Pauza ukazuje přehled buildu `renderPauseBuild()` (`#pBuild`: čas, úroveň, zdraví, poškození, zbraně s partnerem pro fúzi, pasivky).
+- **Nový obsah (11/2026):** zbraně `note` (Noty, vlnící se střely, `s.a0/s.wt`) a `rang` (Bumerang, `s.t`, po 0,5 s se vrací k hráči), pasivky `eye` (krit +6 %) a `greed` (zlato +10 %). Fúze `echo` Ozvěna (note+rang) a tajná `steam` Parní exploze (fireball+frost, `secret:1`, v Sbírce jen hádanka; rodiče patří i do jiných receptů). Výbuch ohnivých střel přes `shotBoom(s)`. Nové druhy střel jsou v `SKINDS` (co-op).
+- **Mistrovství** (`#scr-master`, menu `#mMaster` s tečkou): `ACH` (17 cílů, `v(S)` čte save + `save.stats.tot`), `achTrack(C,won)` ve `finish` (elity, vozíky, Perfektní rituály `pf`, max kombo, výhry hrdinů `stats.hw`, NM, co-op), `achClaim` dá zlato, titul (`save.title`, `titleOf(sv)` – v žebříčku a na tlačítku přezdívky) a případně hrdinu. `achInit()` mění `stats.tot` na místě (nevytvářet novou kopii!).
+- **Denní výzva:** stejná mapa pro všechny (`dailyInfo` z hashe data, i zamčená mapa), běh na seedu dne (`seedRng('daily|'+den)` přepíše `Math.random`, vrací se v `finish`/`openMenu`). Nejlepší pokus dne `stats.daily`, záložka žebříčku **Dnes**. Nováček (0 běhů) denní výzvu nevidí.
+- **Tutoriál** prvního běhu: `run.tut`, `tutTick` (banner `#tut`), hotovo = `save.tut`.
+- **Novinky:** pole `NEWS` (nejnovější první, `v` roste), okno `#newsPop` se ukáže jednou na novou verzi (`save.newsSeen`), vše pod tlačítkem Novinky. **Při každé změně, kterou hráči uvidí, přidej položku do `NEWS`.** Nový hráč novinky nevidí.
+- **Sdílení:** `shareImage()` kreslí obrázek 1080×1920 (pohlednice mapy, hrdina, statistiky, zbraně, přezdívka+titul, odkaz), `shareResult()` → `navigator.share` se souborem, jinak okno s obrázkem a stažením. Tlačítko `#ovShare` na konci běhu.
+- **Instalace:** `#mInstall` (jen https, ne v in-app prohlížeči, ne v režimu aplikace): Android `beforeinstallprompt`, iOS návod.
+- Save: `loadSave` načítá i `qd`, `qw`, `ach`, `title`, `tut`, `newsSeen` (dřív se úkoly po obnovení stránky offline ztrácely).
 - Rytmus: WebAudio, `SONGS` per mapa (BPM, akordy, motiv), `conductor(dt)` krokuje 16tiny → `playStep` + `gameStep(s)`.
   Zbraně/věže střílí na kvantovaných krocích (`qsteps`, `W_OFF`), nepřátelé/spawny na `run.beatNow`/`run.barNow`, SFX přes `qTime` v tónech akordu. Combo, hit-stop.
 - Save: `localStorage['pixel-krypta-v1']`, objekt `save` (coins, heroes, cleared, best, meta, stats, nick, stick, updated…).
@@ -63,7 +72,7 @@ Klíčové koncepty:
 ## Testování
 Playwright + Chromium jsou předinstalované (`require('playwright')`, neinstalovat znovu). Mobilní viewport 390×800, `hasTouch`, `isMobile`.
 Pro offline test nahraď konfiguraci prázdnou (`url:'',key:''`) – síť ze shellu na Supabase nefunguje.
-Háčky na `window.__krypta`: `step(dt)` (tick vč. conductoru), `startRun`, `applyOption`, `levelOptions`, `openMenu`, `buildTower`, `upgradeTower`, `repairCrystal`, `force`, `god`, `M`, `setSel`, `save`, `run`, `state`, `ON`, `onlineInit`, `openBoard`, `saveNick`, `fusable`, `startFuse`, `fuseTap`, `audioBeat`, `FUSIONS`, `FZ`, `CO`, `NET`, `LO`, `openCoop`, `coHostStart`, `coJoin`, `coHostGo`, `withPl`, `players`, `econInit`, `makeItem`, `openChest`, `heroBonus`, `heroUp`, `upgradeItem`, `doMerge`, `dismantleItem`, `mergeCandidates`, `openHero`, `openChestShop`, `openCodex`, `openQuests`, `qEnsure`, `qCommit`, `qClaim`, `qClaimMs`, `qClaimWanted`, `qReroll`, `qSnap`, `spawnWanted`, `qNewDay`, `dailyInfo`, `runRewards`, `itemById`, `ECON`, `ac`.
+Háčky na `window.__krypta`: `finish`, `ACH`, `achTrack`, `achClaim`, `achProg`, `openMaster`, `openNews`, `NEWS`, `shareImage`, `shareResult`, `seedRng`, `tutTick`, `titleOf`, `step(dt)` (tick vč. conductoru), `startRun`, `applyOption`, `levelOptions`, `openMenu`, `buildTower`, `upgradeTower`, `repairCrystal`, `force`, `god`, `M`, `setSel`, `save`, `run`, `state`, `ON`, `onlineInit`, `openBoard`, `saveNick`, `fusable`, `startFuse`, `fuseTap`, `audioBeat`, `FUSIONS`, `FZ`, `CO`, `NET`, `LO`, `openCoop`, `coHostStart`, `coJoin`, `coHostGo`, `withPl`, `players`, `econInit`, `makeItem`, `openChest`, `heroBonus`, `heroUp`, `upgradeItem`, `doMerge`, `dismantleItem`, `mergeCandidates`, `openHero`, `openChestShop`, `openCodex`, `openQuests`, `qEnsure`, `qCommit`, `qClaim`, `qClaimMs`, `qClaimWanted`, `qReroll`, `qSnap`, `spawnWanted`, `qNewDay`, `dailyInfo`, `runRewards`, `itemById`, `ECON`, `ac`.
 `startRun(hrdina, mapa, {nm, mod})`.
 Co-op test: `python3 -m http.server 8765` v kořeni repa, pak `node tests/coop-test.js` (a `nortc` pro zálohu). Virtuální partner bez sítě: `NET.open=true; CO.on=true; CO.role='host'; coHostGo()`.
 V simulacích vypni zvuk (`save.sound=false; save.music=false`). Online toky testuj s mock Supabase (`addInitScript`). Multitouch přes CDP `Input.dispatchTouchEvent`.
@@ -71,14 +80,14 @@ Hotové testovací skripty jsou v `tests/tools/` (viz README tam: smoke `shot.js
 Po změně vždy: smoke test (start běhu, ~90 kroků, žádné `pageerror`, šířka dokumentu = viewport) a screenshot.
 
 ## Hotovo
-Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, testovací režim, rytmická chiptune hudba, propracovaný pixel art (hřbitov ve stylu Graveyard Keeper), žebříček + cloud save + přezdívka/PIN, hosting na GitHub Pages, joystick ve 3 režimech + multitouch, čitelnější písmo, plynulý šikmý pohyb (kamera), propracovaná poušť (chrám, oázy s léčením, kostra obra), propracované doly (koleje, rozjeté vozíky, těžní věž), skrytý testovací režim (podržení „Hudba“ 3 s), fúze zbraní (4 ultimátky I–III, rytmický rituál, drop na frázi, hudební vrstvy), online co-op pro 2 (WebRTC, lobby s kódem, oživení, rytmické pouto), oprava zvuku po zamčení telefonu, progrese: materiály map, úrovně hrdinů a talenty, výbava s raritami, obchod s truhlami, kovárna, Noční můry I–V, legendárky, Sbírka, denní výzva, hezčí menu (pixelové rohy, ikony, živé pozadí), animace otevírání truhly, pohlednice map ve výběru, úkoly (Nástěnka: denní úkoly, svíčky, týdenní odměny, hledaní elity), audit hry (11/2026): zuřivý boss, žebříček výher podle času, věže nesnižují odměnu, víc zlata za čas, přehled buildu v pauze, drobné opravy textů.
+Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, testovací režim, rytmická chiptune hudba, propracovaný pixel art (hřbitov ve stylu Graveyard Keeper), žebříček + cloud save + přezdívka/PIN, hosting na GitHub Pages, joystick ve 3 režimech + multitouch, čitelnější písmo, plynulý šikmý pohyb (kamera), propracovaná poušť (chrám, oázy s léčením, kostra obra), propracované doly (koleje, rozjeté vozíky, těžní věž), skrytý testovací režim (podržení „Hudba“ 3 s), fúze zbraní (4 ultimátky I–III, rytmický rituál, drop na frázi, hudební vrstvy), online co-op pro 2 (WebRTC, lobby s kódem, oživení, rytmické pouto), oprava zvuku po zamčení telefonu, progrese: materiály map, úrovně hrdinů a talenty, výbava s raritami, obchod s truhlami, kovárna, Noční můry I–V, legendárky, Sbírka, denní výzva, hezčí menu (pixelové rohy, ikony, živé pozadí), animace otevírání truhly, pohlednice map ve výběru, úkoly (Nástěnka: denní úkoly, svíčky, týdenní odměny, hledaní elity), audit hry (11/2026): zuřivý boss, žebříček výher podle času, věže nesnižují odměnu, víc zlata za čas, přehled buildu v pauze, drobné opravy textů. Velká aktualizace (11/2026): Bard, Mistrovství a tituly, zbraně Noty/Bumerang, pasivky, fúze Ozvěna a tajná Parní exploze, denní výzva se seedem a žebříčkem Dnes, sdílení výsledku, PWA, tutoriál, okno Novinky.
 
 ## Nápady / plán
 - Co-op – zbývá (viz `COOP.md`): **ověřit naostro na dvou telefonech** (Supabase Realtime + WebRTC přes mobilní data/Instagram), Souhra, Duetní fúze, co-op karty pouta, co-op žebříček, návrat po odpojení.
 - Fúze – zbývá krok 3: Kodex fúzí v menu (neobjevené recepty jako ??? s nápovědou, uložit do savu) + stat „Objevené fúze“ v žebříčku. Případně tajné recepty (Ohnivá koule+Mráz = Parní exploze) a kalibrace rytmu pro BT sluchátka.
 - Progrese – zbývá (viz `EKONOMIKA.md`): ladění čísel podle testerů (ceny, drop materiálů), serverový inventář (fáze 6, podmínka monetizace), monetizace (fáze 7: nejdřív kosmetika/Kryptová cesta, placené truhly až po právní kontrole).
-- Úkoly – zbývá (krok 3–4 návrhu): týdenní kontrakty (těžší, kombinují systémy, železná/zlatá truhla), Mistrovství (dlouhodobé cíle, tituly u přezdívky, kosmetika). Ladit cíle úkolů podle testerů.
-- Nápady z auditu (11/2026) na oblíbenost: **sdílení výsledku** (obrázek do IG stories), **denní výzva se společným seedem a denním žebříčkem**, víc zbraní/pasivek a tajné fúze (8 zbraní + 7 pasivek je málo), odemykání postav za výkony, krátký tutoriál v 1. běhu (denní výzva je nad normální hrou i pro nováčka), PWA „Přidat na plochu“.
+- Úkoly – zbývá: týdenní kontrakty (těžší, kombinují systémy, železná/zlatá truhla). Ladit cíle úkolů a Mistrovství podle testerů.
+- Další nápady: kosmetika (vzhledy hrdinů, barvy pouta) jako odměny Mistrovství a později za peníze, víc tajných fúzí, týdenní kontrakty, push notifikace přes PWA (denní truhla), ověřit sdílení a instalaci na iPhonu/Androidu naostro.
 - Čekáme na feedback k balancu a ovládání od testerů.
 
 ## Údržba tohoto souboru
