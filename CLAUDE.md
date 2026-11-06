@@ -10,6 +10,7 @@ UI je česky, s uživatelem se komunikuje česky. Hraje se hlavně na telefonu, 
 - `index.html` – celá hra v jednom souboru (~137 kB, jedno IIFE). Obsahuje konfiguraci Supabase:
   `window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_publishable_…'}` (publishable klíč je veřejný, to je v pořádku).
   Prázdné `url/key` = offline režim (tak běží i verze publikovaná jako claude.ai artefakt).
+- `EKONOMIKA.md` – návrh dlouhodobé progrese (materiály map, úrovně hrdinů, výbava s raritami, obchod s truhlami, Noční můry, monetizace) – zatím neimplementováno.
 - `COOP.md` – co-op: architektura, pravidla, stav fází a co zbývá.
 - `tests/` – `supabase-mock.js` (mock Supabase přes BroadcastChannel) a `coop-test.js` (dvě stránky, WebRTC).
 - `supabase-setup.sql`, `supabase-pin.sql` – schéma DB (už spuštěné uživatelem v Supabase SQL Editoru).
@@ -63,6 +64,7 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 ## Nápady / plán
 - Co-op – zbývá (viz `COOP.md`): **ověřit naostro na dvou telefonech** (Supabase Realtime + WebRTC přes mobilní data/Instagram), Souhra, Duetní fúze, co-op karty pouta, co-op žebříček, návrat po odpojení.
 - Fúze – zbývá krok 3: Kodex fúzí v menu (neobjevené recepty jako ??? s nápovědou, uložit do savu) + stat „Objevené fúze“ v žebříčku. Případně tajné recepty (Ohnivá koule+Mráz = Parní exploze) a kalibrace rytmu pro BT sluchátka.
+- **Dlouhodobá progrese podle `EKONOMIKA.md`** (schválit s uživatelem, pak fáze 1: materiály + úrovně hrdinů). Před jakýmkoliv placeným obsahem nutný serverový inventář (anti-cheat) a právní kontrola loot boxů.
 - Čekáme na feedback k balancu a ovládání od testerů.
 
 ## Údržba tohoto souboru
