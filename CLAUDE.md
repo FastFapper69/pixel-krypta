@@ -31,6 +31,8 @@ Klíčové koncepty:
   Zbraně/věže střílí na kvantovaných krocích (`qsteps`, `W_OFF`), nepřátelé/spawny na `run.beatNow`/`run.barNow`, SFX přes `qTime` v tónech akordu. Combo, hit-stop.
 - Save: `localStorage['pixel-krypta-v1']`, objekt `save` (coins, heroes, cleared, best, meta, stats, nick, stick, updated…).
 - Online: supabase-js 2.45.4 (jsdelivr UMD), anonymní přihlášení, tabulka `profiles` s RLS, přezdívka + PIN přes RPC `set_pin` / `claim_profile` (bcrypt). Merge savu podle `save.updated`. In-memory storage fallback pro in-app prohlížeče. Testovací režim (`save.cheat`) se do žebříčku nepočítá.
+- Písmo: texty/čísla `Chakra Petch` (`--font`), pixelový `Pixelify Sans` (`--font-px`) jen pro velké nadpisy (.logo, .title, .head h2) – malý Pixelify byl na mobilu nečitelný.
+- Kamera: pevně na hráči (bez zpoždění), zaokrouhlená na art-pixel mřížku `RZ`; všechny pozice na obrazovce přes `RZ(x+ox)`, ne `Math.round` – jinak hrdina při šikmém pohybu poskakuje.
 - Ovládání: joystick má režimy `save.stick` = `touch` (pevný v místě dotyku, výchozí) / `fixed` (vlevo dole) / `follow` (plovoucí). Tlačítka HUD používají `onTap()` (reagují na pointerdown) kvůli multitouch. Stavění věží je svislý sloupec vpravo dole.
 
 ## Testování
@@ -41,7 +43,7 @@ V simulacích vypni zvuk (`save.sound=false; save.music=false`). Online toky tes
 Po změně vždy: smoke test (start běhu, ~90 kroků, žádné `pageerror`, šířka dokumentu = viewport) a screenshot.
 
 ## Hotovo
-Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, testovací režim, rytmická chiptune hudba, propracovaný pixel art (hřbitov ve stylu Graveyard Keeper), žebříček + cloud save + přezdívka/PIN, hosting na GitHub Pages, joystick ve 3 režimech + multitouch.
+Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, testovací režim, rytmická chiptune hudba, propracovaný pixel art (hřbitov ve stylu Graveyard Keeper), žebříček + cloud save + přezdívka/PIN, hosting na GitHub Pages, joystick ve 3 režimech + multitouch, čitelnější písmo, plynulý šikmý pohyb (kamera).
 
 ## Nápady / plán
 - Online co-op pro 2 hráče: host-authoritative, host simuluje a posílá snapshoty ~15–20/s přes Supabase Realtime broadcast, druhý telefon posílá jen vstupy; kód místnosti, sdílený level-up, odpojení, interpolace, balanc pro 2. Odhad: pár hodin práce.

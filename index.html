@@ -7,7 +7,7 @@
 <title>Pixel Krypta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet">
 <style>
 /* Layout: one-screen app. Canvas stage fills the frame, HUD and menus are HTML layers above it.
    Look: dusk-violet dungeon, gold as the reward colour, hard pixel edges, no rounding. */
@@ -15,13 +15,14 @@
   --bg:#130f1c; --panel:#211a30; --panel-hi:#2d2342; --line:#4b3a6b;
   --fg:#f3edff; --muted:#a898c4; --ink:#1a1423;
   --gold:#f6c744; --gold-dk:#a97a14; --red:#e8453c; --green:#5cc45c; --blue:#4aa3e8;
-  --font:'Pixelify Sans',ui-monospace,'Courier New',monospace;
+  --font:'Chakra Petch',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-px:'Pixelify Sans','Chakra Petch',system-ui,sans-serif;
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
 html{height:100%}
-body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;
+body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;font-weight:500;-webkit-font-smoothing:antialiased;
   overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 button{font-family:inherit}
 #app{position:relative;width:100%;height:100%;overflow:hidden;background:var(--bg)}
@@ -42,7 +43,7 @@ button{font-family:inherit}
 #xpBar{height:14px}
 #xpFill{background:var(--blue)}
 #xpBar span{font-size:11px}
-#time{font-size:26px;font-weight:700;letter-spacing:.04em;text-shadow:0 3px 0 #000a;min-width:72px;text-align:center}
+#time{font-variant-numeric:tabular-nums;font-size:26px;font-weight:700;letter-spacing:.04em;text-shadow:0 3px 0 #000a;min-width:72px;text-align:center}
 #btnPause{pointer-events:auto;width:44px;height:44px;border:0;background:#0c0912cc;color:var(--fg);font-size:18px;font-weight:700;
   box-shadow:inset 0 0 0 3px #ffffff40;cursor:pointer;letter-spacing:2px}
 #btnPause:active{background:#ffffff30}
@@ -75,7 +76,7 @@ button{font-family:inherit}
 .scr.clear{background:#130f1ccc;justify-content:center}
 .wrap{width:100%;max-width:520px;display:flex;flex-direction:column;gap:14px;margin:auto 0}
 h1,h2,h3,p{margin:0}
-.logo{font-size:clamp(44px,14vw,76px);line-height:.95;font-weight:700;color:var(--gold);letter-spacing:.02em;text-align:center;
+.logo{font-family:var(--font-px);font-size:clamp(44px,14vw,76px);line-height:.95;font-weight:700;color:var(--gold);letter-spacing:.02em;text-align:center;
   text-shadow:0 4px 0 #6b4a0f,0 8px 0 #0008;text-wrap:balance}
 .tag{text-align:center;color:var(--muted);font-size:17px;text-wrap:balance}
 .parade{display:flex;align-items:flex-end;justify-content:center;gap:10px;flex-wrap:wrap;min-height:56px}
@@ -96,7 +97,7 @@ h1,h2,h3,p{margin:0}
 .coins img{width:22px;height:22px;image-rendering:pixelated}
 .hint{text-align:center;color:var(--muted);font-size:14px;line-height:1.4}
 .head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.head h2{font-size:28px;color:var(--gold);text-shadow:0 3px 0 #0008}
+.head h2{font-family:var(--font-px);font-size:28px;color:var(--gold);text-shadow:0 3px 0 #0008}
 .sec{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
@@ -147,7 +148,7 @@ html,body,#stage{touch-action:none}
 .lvl .card h3{font-size:19px}
 .lvl .card .k{font-size:12px;color:var(--ink);background:var(--gold);padding:0 6px;font-weight:700;margin-left:6px;vertical-align:2px}
 .lvl .card p{color:var(--muted);font-size:14px;margin-top:2px}
-.title{font-size:34px;font-weight:700;text-align:center;color:var(--gold);text-shadow:0 4px 0 #0008}
+.title{font-family:var(--font-px);font-size:34px;font-weight:700;text-align:center;color:var(--gold);text-shadow:0 4px 0 #0008}
 .title.bad{color:var(--red)}
 table.res{width:100%;border-collapse:collapse;font-size:18px}
 table.res td{padding:7px 4px;border-bottom:2px solid var(--line)}
@@ -1275,8 +1276,7 @@ function update(dt){
   run.shake=Math.max(0,run.shake-dt*14);
   // camera
   const tx=clamp(p.x-VW/2,0,Math.max(0,sz-VW)),ty=clamp(p.y-VH/2,0,Math.max(0,sz-VH));
-  run.cam.x+=(tx-run.cam.x)*Math.min(1,dt*10);run.cam.y+=(ty-run.cam.y)*Math.min(1,dt*10);
-  if(run.t<.2){run.cam.x=tx;run.cam.y=ty;}
+  run.cam.x=tx;run.cam.y=ty; // locked to the player (a lagging camera + rounding made diagonal movement judder)
   run.beatNow=run.barNow=false;
   if(!run.over&&run.pending>0)openLevelUp();
 }
@@ -1414,10 +1414,10 @@ function drawNum(g,txt,x,y,col,s){s=s||1;
     g.fillStyle=col;for(let i=0;i<15;i++)if(m[i]==='1')g.fillRect(cx+(i%3)*s,y+((i/3)|0)*s,s,s);
     cx+=4*s;}
 }
-function circ(g,x,y,r,col,alpha){g.globalAlpha=alpha==null?1:alpha;g.fillStyle=col;rowsCircle(g,Math.round(x),Math.round(y),Math.round(r));g.globalAlpha=1;}
+function circ(g,x,y,r,col,alpha){g.globalAlpha=alpha==null?1:alpha;g.fillStyle=col;rowsCircle(g,RZ(x),RZ(y),Math.round(r));g.globalAlpha=1;}
 function ringPix(g,x,y,r,col,alpha){g.globalAlpha=alpha==null?1:alpha;g.fillStyle=col;const n=Math.max(12,Math.floor(r*5));
-  for(let i=0;i<n;i++){const a=i/n*6.283;g.fillRect(Math.round(x+Math.cos(a)*r),Math.round(y+Math.sin(a)*r),1,1);}g.globalAlpha=1;}
-function shadow(g,x,y,w){x=Math.round(x);y=Math.round(y);g.fillStyle='#0000004a';g.fillRect(x-(w>>1)+1,y,w-2,1);g.fillRect(x-(w>>1),y+1,w,1);g.fillRect(x-(w>>1)+2,y+2,w-4,1);}
+  for(let i=0;i<n;i++){const a=i/n*6.283;g.fillRect(RZ(x)+Math.round(Math.cos(a)*r),RZ(y)+Math.round(Math.sin(a)*r),1,1);}g.globalAlpha=1;}
+function shadow(g,x,y,w){x=RZ(x);y=RZ(y);g.fillStyle='#0000004a';g.fillRect(x-(w>>1)+1,y,w-2,1);g.fillRect(x-(w>>1),y+1,w,1);g.fillRect(x-(w>>1)+2,y+2,w-4,1);}
 
 const lc=document.createElement('canvas'),lctx=lc.getContext('2d');
 const vig=document.createElement('canvas');
@@ -1464,8 +1464,9 @@ function render(){
   const g=ctx;g.setTransform(Z,0,0,Z,0,0);g.imageSmoothingEnabled=false;g.clearRect(0,0,VW,VH);
   if(!run){g.fillStyle='#0c0912';g.fillRect(0,0,VW,VH);return;}
   const cam=run.cam,p=run.p,sz=run.map.size;
-  let sx=Math.round(cam.x),sy=Math.round(cam.y);
-  if(run.shake>0&&!RM){sx+=Math.round(rnd(-1,1)*run.shake*.5);sy+=Math.round(rnd(-1,1)*run.shake*.5);}
+  // camera on the art-pixel grid, rounded the same way as sprites -> the hero stays perfectly still on screen
+  let sx=RZ(cam.x),sy=RZ(cam.y);
+  if(run.shake>0&&!RM){sx+=RZ(rnd(-1,1)*run.shake*.5);sy+=RZ(rnd(-1,1)*run.shake*.5);}
   const ox=-sx,oy=-sy;
   g.fillStyle='#0c0912';g.fillRect(0,0,VW,VH);
   {const s0x=Math.max(0,sx),s0y=Math.max(0,sy),dx0=s0x-sx,dy0=s0y-sy,fw=Math.min(VW-dx0,sz-s0x),fh=Math.min(VH-dy0,sz-s0y);
@@ -1479,7 +1480,7 @@ function render(){
   // aura
   const au=run.W.aura;if(au){const P=WEAPONS.aura.lv[au.lv-1],pu=au.pulse||0,r=P.rad+pu*3;circ(g,p.x+ox,p.y+oy,r,'#5cc45c',.12+pu*.12);ringPix(g,p.x+ox,p.y+oy,r,'#c8ff9a',.55+pu*.4);}
   // gems bob on the beat and sparkle now and then
-  for(const q of run.gems){const x=Math.round(q.x+ox),y0=Math.round(q.y+oy);if(x<-6||y0<-6||x>VW+6||y0>VH+6)continue;
+  for(const q of run.gems){const x=RZ(q.x+ox),y0=RZ(q.y+oy);if(x<-6||y0<-6||x>VW+6||y0>VH+6)continue;
     const y=y0-((((M.beatPos+q.x*.013)%1)+1)%1<.2?1:0);
     const col=q.v>=20?'#e8453c':q.v>=5?'#5cc45c':'#4aa3e8',dk=mixHex(col,SHADOW_HUE,.45),lt=mixHex(col,LIGHT_HUE,.5);
     g.fillStyle='#120c1a';g.fillRect(x-2,y-1,5,3);g.fillRect(x-1,y-2,3,5);
@@ -1487,7 +1488,7 @@ function render(){
     g.fillStyle=dk;g.fillRect(x,y+1,1,1);g.fillRect(x+1,y,1,1);g.fillStyle=lt;g.fillRect(x-1,y-1,1,1);
     if((M.step+(q.x|0))%14===0){g.fillStyle='#ffffff';g.fillRect(x,y-4,1,1);g.fillRect(x-1,y-3,3,1);}}
   // items
-  for(const it of run.items){const x=Math.round(it.x+ox),y=Math.round(it.y+oy);if(x<-12||y<-12||x>VW+12||y>VH+12)continue;
+  for(const it of run.items){const x=RZ(it.x+ox),y=RZ(it.y+oy);if(x<-12||y<-12||x>VW+12||y>VH+12)continue;
     const bob=(((M.beatPos+it.x*.01)%1)+1)%1<.25?1:0;
     if(it.k==='chest'){const s=SPR.misc.chest;shadow(g,x,y+s.h/2-3,s.w-2);blit(g,bob?s.c2:s.c,s,x,y-s.h/2);}
     else{const s=SPR.icon[it.k==='coin'?'coin':it.k==='heart'?'heart':'magnet'];shadow(g,x,y+4,6);
@@ -1507,26 +1508,26 @@ function render(){
   for(const u of list){
     if(u.isProp){const s=u.spr;let a=1;if(u.tall&&p.y<u.y-2&&p.y>u.y-s.h+4&&Math.abs(p.x-u.x)<s.w*.42)a=.5;
       g.globalAlpha=a;blit(g,s.c,s,u.x+ox,u.y+oy-s.h+1);g.globalAlpha=1;continue;}
-    if(u.isCrystal){const s=u.spr,x=Math.round(u.x+ox),y=Math.round(u.y+oy),pul=.12+.05*Math.sin(run.t*3)+M.pulse*.1,fy=Math.round(Math.sin(run.t*2));
+    if(u.isCrystal){const s=u.spr,x=RZ(u.x+ox),y=RZ(u.y+oy),pul=.12+.05*Math.sin(run.t*3)+M.pulse*.1,fy=Math.round(Math.sin(run.t*2));
       circ(g,x,y-2,20,'#5cd8ff',pul);circ(g,x,y-2,12,'#bff4ff',pul);
       shadow(g,x,y+(s.h>>1)-4,s.w);blit(g,u.flash>0?s.f:s.c,s,x,y-s.h/2-1+fy);
       if(u.hp<u.max){const bw=24;g.fillStyle='#000';g.fillRect(x-(bw>>1)-1,y-(s.h>>1)-8,bw+2,4);g.fillStyle='#5cd8ff';g.fillRect(x-(bw>>1),y-(s.h>>1)-7,Math.round(bw*u.hp/u.max),2);}
       continue;}
-    if(u.isTower){const s=u.spr,x=Math.round(u.x+ox),y=Math.round(u.y+oy),sq=u.kick>.45;
+    if(u.isTower){const s=u.spr,x=RZ(u.x+ox),y=RZ(u.y+oy),sq=u.kick>.45;
       if(u.show>0||run.nearTower===u)ringPix(g,x,y,towerRange(u),'#ffffff',.28);
       shadow(g,x,y+(s.h>>1)-4,s.w-2);blit(g,sq?(u.flash>0?s.f2:s.c2):(u.flash>0?s.f:s.c),s,x,y-s.h/2);
       if(u.kick>.7){g.fillStyle='#fff6c8';g.fillRect(x-1,y-(s.h>>1)+1,3,1);g.fillRect(x,y-(s.h>>1),1,3);}
       for(let i=0;i<u.lv-1;i++){g.fillStyle='#14101c';g.fillRect(x-5+i*5,y-(s.h>>1)-4,4,4);g.fillStyle='#f6c744';g.fillRect(x-4+i*5,y-(s.h>>1)-3,2,2);}
       if(u.hp<u.max){const bw=s.w-4;g.fillStyle='#000';g.fillRect(x-(bw>>1)-1,y+(s.h>>1)-1,bw+2,4);g.fillStyle='#5cc45c';g.fillRect(x-(bw>>1),y+(s.h>>1),Math.round(bw*u.hp/u.max),2);}
       continue;}
-    if(u===p){const s=SPR.hero[run.heroId],x=Math.round(p.x+ox),y=Math.round(p.y+oy);
+    if(u===p){const s=SPR.hero[run.heroId],x=RZ(p.x+ox),y=RZ(p.y+oy);
       // walking steps land on eighth notes, standing still breathes on the beat
       const ph=p.moving?(Math.floor(M.beatPos*2)&1):(((M.beatPos%1)+1)%1<.14?1:0);
       const img=ph?(p.flash>0?s.f2:s.c2):(p.flash>0?s.f:s.c),bob=p.moving&&!ph?-1:0;
       shadow(g,x,y+s.h/2-4,10);
       if(p.inv>0&&Math.floor(run.t*20)%2===0&&p.flash<=0)g.globalAlpha=.45;
       blit(g,img,s,x,y-s.h/2+bob-1);g.globalAlpha=1;continue;}
-    const e=u,x=Math.round(e.x+ox),y=Math.round(e.y+oy),s=e.spr;
+    const e=u,x=RZ(e.x+ox),y=RZ(e.y+oy),s=e.spr;
     const hp=hopOf(e.boss?false:e.par),img=hp===2?(e.flash>0?s.f2:s.c2):(e.flash>0?s.f:s.c),bob=hp===1?-1:0;
     if(e.elite||e.boss)circ(g,x,y+s.h/2-3,e.boss?e.r:e.r*.9,e.boss?'#c869e0':'#f6c744',.22+M.pulse*.12);
     shadow(g,x,y+s.h/2-4,Math.max(8,s.w-4));
@@ -1544,14 +1545,14 @@ function render(){
       g.globalAlpha=.35;g.fillStyle='#d8e4ff';g.fillRect(Math.round(p.x+Math.cos(a-.25)*P.rad+ox),Math.round(p.y+Math.sin(a-.25)*P.rad+oy),2,2);g.globalAlpha=1;
       g.save();g.translate(Math.round(bx),Math.round(by));g.rotate(a+2.36);g.drawImage(s.c,-s.w/2,-s.h/2,s.w,s.h);g.restore();}}
   // shots
-  for(const s of run.shots){const x=Math.round(s.x+ox),y=Math.round(s.y+oy);if(x<-10||y<-10||x>VW+10||y>VH+10)continue;
+  for(const s of run.shots){const x=RZ(s.x+ox),y=RZ(s.y+oy);if(x<-10||y<-10||x>VW+10||y>VH+10)continue;
     if(s.kind==='bolt'){g.fillStyle='#2a5aa8';g.fillRect(x-2,y-2,5,5);g.fillStyle='#4aa3e8';g.fillRect(x-2,y-1,5,3);g.fillRect(x-1,y-2,3,5);g.fillStyle='#bfeaff';g.fillRect(x-1,y-1,2,2);g.fillStyle='#ffffff';g.fillRect(x-1,y-1,1,1);}
     else if(s.kind==='fire'){g.fillStyle='#a8241a';g.fillRect(x-3,y-3,7,7);g.fillStyle='#e8453c';g.fillRect(x-3,y-2,7,5);g.fillRect(x-2,y-3,5,7);g.fillStyle='#f08a3c';g.fillRect(x-2,y-2,5,5);g.fillStyle='#f6c744';g.fillRect(x-1,y-1,3,3);g.fillStyle='#fff6c8';g.fillRect(x-1,y-1,1,1);}
     else if(s.kind==='arrow'){const m=Math.hypot(s.vx,s.vy)||1,dx=s.vx/m,dy=s.vy/m;
       for(let i=0;i<6;i++){g.fillStyle=i===0?'#ffffff':i>4?'#e8e4d4':'#8a5a3a';g.fillRect(Math.round(x-dx*i),Math.round(y-dy*i),1,1);}
       g.fillStyle='#d8dde8';g.fillRect(Math.round(x+dx),Math.round(y+dy),1,1);}
     else if(s.kind==='axe'){const sp=SPR.icon.axe;g.save();g.translate(x,y);g.rotate(s.rot);g.drawImage(sp.c,-sp.w/2,-sp.h/2,sp.w,sp.h);g.restore();}}
-  for(const s of run.eshots){const x=Math.round(s.x+ox),y=Math.round(s.y+oy);if(x<-8||y<-8||x>VW+8||y>VH+8)continue;
+  for(const s of run.eshots){const x=RZ(s.x+ox),y=RZ(s.y+oy);if(x<-8||y<-8||x>VW+8||y>VH+8)continue;
     const sp=SPR.misc.shot;blit(g,sp.c,sp,x,y-sp.h/2);if(M.pulse>.5){g.fillStyle='#ffd0dc';g.fillRect(x-1,y-1,1,1);}}
   // lightning
   for(const f of run.fx){if(f.k!=='bolt')continue;const x=f.x+ox,y=f.y+oy;let cx=x,cy=y-110;
@@ -1569,9 +1570,9 @@ function render(){
   // particles
   for(const q of run.parts){g.globalAlpha=clamp(q.life*3,0,1);g.fillStyle=q.col;g.fillRect(RZ(q.x+ox),RZ(q.y+oy),q.sz/Z*1.5,q.sz/Z*1.5);}g.globalAlpha=1;
   const amb=run.amb,ak=run.map.ambient;
-  if(ak==='dust'){g.fillStyle='#fff3d0';for(const a of amb){g.globalAlpha=clamp(a.life,0,1)*.35;g.fillRect(Math.round(a.x+ox),Math.round(a.y+oy),3,1);}g.globalAlpha=1;}
+  if(ak==='dust'){g.fillStyle='#fff3d0';for(const a of amb){g.globalAlpha=clamp(a.life,0,1)*.35;g.fillRect(RZ(a.x+ox),RZ(a.y+oy),3,1);}g.globalAlpha=1;}
   renderLight(g,ox,oy);
-  if(ak==='firefly'||ak==='ember'){for(const a of amb){const x=Math.round(a.x+ox),y=Math.round(a.y+oy),tw=(Math.sin(a.ph*(ak==='ember'?9:3))+1)/2;
+  if(ak==='firefly'||ak==='ember'){for(const a of amb){const x=RZ(a.x+ox),y=RZ(a.y+oy),tw=(Math.sin(a.ph*(ak==='ember'?9:3))+1)/2;
       g.globalAlpha=clamp(a.life,0,1)*(.4+.6*tw);g.fillStyle=ak==='ember'?(tw>.5?'#ffd27a':'#ff7a2a'):'#d8ff8a';g.fillRect(x,y,1,1);
       if(tw>.7){g.globalAlpha*=.35;g.fillRect(x-1,y,3,1);g.fillRect(x,y-1,1,3);}}g.globalAlpha=1;}
   // crystal pointer when it is off screen
