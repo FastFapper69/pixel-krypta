@@ -52,6 +52,12 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 ## Nápady / plán
 - Online co-op pro 2 hráče: host-authoritative, host simuluje a posílá snapshoty ~15–20/s přes Supabase Realtime broadcast, druhý telefon posílá jen vstupy; kód místnosti, sdílený level-up, odpojení, interpolace, balanc pro 2. Odhad: pár hodin práce.
 - Alternativa: lokální co-op na jednom telefonu (dva joysticky) – cca čtvrtina práce.
+- **Fúze zbraní (schválený návrh, zatím neimplementováno):**
+  - Podmínka: 2 zbraně podle receptu, obě lvl ≥ 5. Pak level-up nabídne zlatou kartu „Fúze!“ s šancí 60 % (pity: nejpozději 3. level-up jistě), truhla z elity/bosse 80 %. Odmítnutá karta se vrací. Fúze uvolní slot (2 zbraně → 1).
+  - Recepty: Čepele+Aura = Vír ostří, Střela+Blesk = Řetězová bouře, Ohnivá koule+Sekera = Meteorit, Šípy+Mrazivá vlna = Ledová smršť.
+  - Ultimátka má úrovně I–III (další karty), cca 1,4× DPS obou rodičů; každá přidá do hudby vlastní vrstvu a na začátku fráze (4 takty) udělá „drop“ útok.
+  - Ťukání do rytmu po výběru karty: boj stojí, hudba hraje, 4× pulzující kruh na dobu; ťuk kamkoliv, Perfektní +6 %, Dobré +3 %, 4× Perfektní = „Perfektní fúze“ (+25 %). Netrefa nic nebere. Čas podle audio hodin (případně později kalibrace).
+  - Postup: 1) podmínka + karta + recepty + I–III + slot, 2) ťukání + hudební vrstvy, 3) Kodex fúzí v menu (??? s nápovědou) + stat v žebříčku.
 - Čekáme na feedback k balancu a ovládání od testerů.
 
 ## Údržba tohoto souboru
