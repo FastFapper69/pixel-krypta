@@ -2663,7 +2663,7 @@ function refreshMenu(){
   setLbl('#mSound','Zvuk',!save.sound);
   setLbl('#mMusic','Hudba',!save.music);stickLabels();
   $('#mWarn').hidden=!/Instagram|FBAN|FBAV|FB_IAB|Messenger|TikTok|Snapchat/i.test(navigator.userAgent||'');
-  {const I=fitApp.info||{};$('#mVer').textContent='verze '+GAME_VER+' · '+(I.sa?'aplikace':'prohlížeč')+' · '+(I.ih||0)+'/'+(I.sh||0)+'/'+(I.h||0);}
+  {const I=fitApp.info||{};$('#mVer').textContent='verze '+GAME_VER;$('#mVer').title=(I.sa?'aplikace':'prohlížeč')+' '+(I.ih||0)+'/'+(I.sh||0)+'/'+(I.h||0);}
   $('#mInstall').hidden=!pwaCan();$('#mNews').classList.toggle('has',newsUnseen().length>0);
   $('#mNick').hidden=!ON.ready;$('#mNick').textContent='Hráč: '+(save.nick||'bez přezdívky')+(titleOf(save)?' · '+titleOf(save):'')+' · změnit';
   if(save.cheat&&!isDev()){save.cheat=false;persist();}
