@@ -98,6 +98,14 @@ Hodnoty se losují v rozsahu dané rarity, třeba Vzácná: poškození +6–10 
 - **Týdenní truhla** za odehrání 5 běhů za týden.
 - **Sbírka (Kodex):** všechny předměty, legendárky a fúze jako „???“, dokud je hráč neobjeví. Navazuje na plánovaný Kodex fúzí.
 
+## 7b. Úkoly a svíčky (hotovo: denní úkoly, svíčky, hledaní)
+- Nástěnka v menu: 3 denní úkoly (lehký 60 zlata + 6 materiálu + 1 svíčka, střední 100 + 10 + 2, těžký 150 + 15 + 3), 1 přehození denně. Stejný seed dne pro všechny se stejným postupem.
+- Hledaný: denní plakát (jedna elita na mapu), po přijetí se objeví v příštím běhu na té mapě, 80 s na dopadení. Odměna 150 zlata, 20 materiálu, 2 svíčky, 35 % šance na předmět (šance železné truhly).
+- Svíčky: denní lišta 2/4/6 (60 zlata, 8 od každého materiálu, dřevěná truhla), týdenní lišta 6/12/18/24/30/40 (150 zlata, železná, 15 materiálu, 400 zlata, železná, zlatá). Vynechaný den nic nemaže.
+- Hrubá hodnota: den ≈ 450 zlata + materiál + dřevěná truhla, týden navíc ≈ 2 železné + zlatá truhla. Ladit podle testerů.
+- Týdenní lišta je připravená jako bezplatná větev budoucí „Kryptové cesty“ (fáze 7).
+- Zbývá: týdenní kontrakty, Mistrovství (tituly, kosmetika).
+
 ## 8. Menu (nové obrazovky)
 - Hlavní menu: Hrát · Hrát s kamarádem · **Hrdina** · **Obchod** · Vylepšení · Žebříček
 - **Hrdina:** výběr hrdiny, jeho úroveň a talenty, 4 sloty výbavy, souhrn statistik („Poškození +34 %“), tlačítko vylepšit úroveň.
