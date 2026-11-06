@@ -100,7 +100,7 @@ h1,h2,h3,p{margin:0}
 .sec{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-#buildbar{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:8px;pointer-events:none}
+#buildbar{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:8px;pointer-events:none}
 .bb{pointer-events:auto;width:60px;min-height:62px;background:#0c0912dd;border:0;color:var(--fg);box-shadow:inset 0 0 0 3px #ffffff40;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 0;cursor:pointer}
 .bb>img{height:32px;image-rendering:pixelated}
@@ -108,11 +108,14 @@ h1,h2,h3,p{margin:0}
 .bb .c img{height:11px;width:11px;image-rendering:pixelated}
 .bb.no{opacity:.55}
 .bb.no .c{color:#ff7a6a}
-.bb:active{background:#ffffff30}
-#upBtn{position:absolute;left:50%;bottom:86px;transform:translateX(-50%);pointer-events:auto;white-space:nowrap}
-#upBtn:active{transform:translateX(-50%) translateY(3px)}
-#repBtn{position:absolute;left:50%;bottom:136px;transform:translateX(-50%);pointer-events:auto;white-space:nowrap}
-#repBtn:active{transform:translateX(-50%) translateY(3px)}
+.bb:active,.bb.down{background:#ffffff30}
+.bb,#upBtn,#repBtn,#btnPause{touch-action:none;-webkit-user-select:none;user-select:none}
+#stick.rest{opacity:.5}
+html,body,#stage{touch-action:none}
+.scr{touch-action:pan-y}
+#upBtn{position:absolute;right:80px;bottom:10px;pointer-events:auto;white-space:nowrap}
+#repBtn{position:absolute;right:80px;bottom:60px;pointer-events:auto;white-space:nowrap}
+#upBtn:active,#repBtn:active,#upBtn.down,#repBtn.down{transform:translateY(3px)}
 #crbar{align-self:center;width:min(64%,280px);height:16px}
 #crFill{background:#5cd8ff}
 #crbar span{font-size:11px}
@@ -203,6 +206,7 @@ table.res td:last-child{text-align:right;font-weight:700}
         <button class="btn alt" id="mShop">Vylepšení</button>
         <button class="btn alt sm" id="mSound">Zvuk: zap</button>
         <button class="btn alt sm" id="mMusic">Hudba: zap</button>
+        <button class="btn alt sm" id="mStick">Joystick</button>
         <button class="btn alt sm" id="mCheat">Testovací režim: vyp</button>
         <button class="btn alt sm" id="mGold" hidden>+1000 zlata</button>
       </div>
@@ -242,6 +246,7 @@ table.res td:last-child{text-align:right;font-weight:700}
       <h2 class="title">Pauza</h2>
       <div class="stack">
         <button class="btn" id="pResume">Pokračovat</button>
+        <button class="btn alt" id="pStick">Joystick</button>
         <button class="btn alt" id="pQuit">Ukončit běh</button>
         <button class="btn alt sm" id="pSkip" hidden>Test: skok na bosse</button>
         <button class="btn alt sm" id="pGod" hidden>Test: nesmrtelnost vyp</button>
@@ -305,10 +310,11 @@ const fmtTime=s=>{s=Math.max(0,Math.floor(s));return String(Math.floor(s/60)).pa
 
 /* ============ save ============ */
 const SAVE_KEY='pixel-krypta-v1';
-let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false};
+const STICK_MODES=['touch','fixed','follow'],STICK_TXT={touch:'pevný v místě dotyku',fixed:'pevný vlevo dole',follow:'plovoucí'};
+let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false,stick:'touch'};
 function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(s.cheat)save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;}}catch(e){}}
+  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat)save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;}}catch(e){}}
 function persist(){save.updated=Date.now();try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
 
@@ -836,9 +842,9 @@ addEventListener('resize',resize);
 let state='menu',run=null,st=null;
 const screens={menu:$('#scr-menu'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick')};
 function showScreen(n){for(const k in screens)screens[k].hidden=(k!==n);}
-function setState(s){state=s;
+function setState(s){state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
   $('#hud').hidden=!(run&&(s==='play'||s==='levelup'||s==='pause'||s==='over'));
-  showScreen(s==='play'?null:s);
+  showScreen(s==='play'?null:s);try{showStickRest();}catch(_){}
   muffle(s==='pause'||s==='levelup'||s==='over');
 }
 function note(msg){const n=$('#note');n.textContent=msg;n.classList.add('on');clearTimeout(note.t);note.t=setTimeout(()=>n.classList.remove('on'),1800);}
@@ -860,16 +866,29 @@ function getInput(){
   if(stick.active&&Math.hypot(stick.x,stick.y)>.12)return{x:stick.x,y:stick.y};
   return{x:0,y:0};
 }
+function stickHome(){const r=stage.getBoundingClientRect();return{x:Math.max(80,r.width*.18),y:r.height-Math.max(150,r.height*.2)};}
+function stickPlace(x,y){stick.ox=x;stick.oy=y;stickEl.style.left=x+'px';stickEl.style.top=y+'px';}
+function showStickRest(){if(stick.active)return;
+  if(save.stick==='fixed'&&state==='play'){const h=stickHome();stickPlace(h.x,h.y);knob.style.transform='translate(0,0)';stickEl.classList.add('rest');stickEl.hidden=false;}
+  else stickEl.hidden=true;}
+function stickLabels(){const t='Joystick: '+STICK_TXT[save.stick];['#mStick','#pStick'].forEach(q=>{const el=$(q);if(el)el.textContent=t;});}
+function cycleStick(){save.stick=STICK_MODES[(STICK_MODES.indexOf(save.stick)+1)%STICK_MODES.length];persist();stickLabels();sfx('ui');}
+function moveStick(px,py){const R=46;let dx=px-stick.ox,dy=py-stick.oy;const m=Math.hypot(dx,dy);
+  if(m>R){if(save.stick==='follow')stickPlace(stick.ox+dx/m*(m-R),stick.oy+dy/m*(m-R));dx=dx/m*R;dy=dy/m*R;}
+  stick.x=dx/R;stick.y=dy/R;knob.style.transform='translate('+dx+'px,'+dy+'px)';}
 stage.addEventListener('pointerdown',e=>{audioInit();if(state!=='play'||stick.active)return;
-  const r=stage.getBoundingClientRect();stick.active=true;stick.id=e.pointerId;stick.ox=e.clientX-r.left;stick.oy=e.clientY-r.top;stick.x=stick.y=0;
-  stickEl.hidden=false;stickEl.style.left=stick.ox+'px';stickEl.style.top=stick.oy+'px';knob.style.transform='translate(0,0)';
+  const r=stage.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top;
+  if(save.stick==='fixed'){if(px>r.width*.6)return;const h=stickHome();stickPlace(h.x,h.y);}else stickPlace(px,py);
+  stick.active=true;stick.id=e.pointerId;stick.x=stick.y=0;stickEl.classList.remove('rest');stickEl.hidden=false;moveStick(px,py);
   try{stage.setPointerCapture(e.pointerId);}catch(_){}});
-stage.addEventListener('pointermove',e=>{if(!stick.active||e.pointerId!==stick.id)return;
-  const r=stage.getBoundingClientRect(),R=46;let dx=e.clientX-r.left-stick.ox,dy=e.clientY-r.top-stick.oy;const m=Math.hypot(dx,dy);
-  if(m>R){stick.ox+=dx/m*(m-R);stick.oy+=dy/m*(m-R);dx=dx/m*R;dy=dy/m*R;stickEl.style.left=stick.ox+'px';stickEl.style.top=stick.oy+'px';}
-  stick.x=dx/R;stick.y=dy/R;knob.style.transform='translate('+dx+'px,'+dy+'px)';});
-const stickEnd=e=>{if(e.pointerId!==stick.id)return;stick.active=false;stick.x=stick.y=0;stickEl.hidden=true;};
+stage.addEventListener('pointermove',e=>{if(!stick.active||e.pointerId!==stick.id)return;const r=stage.getBoundingClientRect();moveStick(e.clientX-r.left,e.clientY-r.top);});
+const stickEnd=e=>{if(e.pointerId!==stick.id)return;stick.active=false;stick.id=null;stick.x=stick.y=0;showStickRest();};
 stage.addEventListener('pointerup',stickEnd);stage.addEventListener('pointercancel',stickEnd);
+/* buttons react on touch-down, so they work while another finger holds the joystick */
+function onTap(el,fn){let last=-1e9;
+  el.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&e.button!==0)return;e.preventDefault();e.stopPropagation();last=performance.now();
+    el.classList.add('down');setTimeout(()=>el.classList.remove('down'),150);audioInit();fn();});
+  el.addEventListener('click',e=>{if(performance.now()-last<700)return;fn();});}
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='play')togglePause(true);});
 
 /* ============ run ============ */
@@ -1358,7 +1377,7 @@ function buildBarInit(){
   const box=$('#buildbar');box.innerHTML='';
   T_IDS.forEach(k=>{const b=document.createElement('button');b.className='bb';b.setAttribute('aria-label',TOWERS[k].name);
     b.innerHTML='<img alt="" src="'+dataUrl(SPR.tower[k])+'"><span class="c"><img alt="" src="'+dataUrl(SPR.icon.coin)+'"><b></b></span>';
-    b.addEventListener('click',()=>buildTower(k));box.appendChild(b);bbRef[k]={b,c:b.querySelector('b')};});
+    onTap(b,()=>buildTower(k));box.appendChild(b);bbRef[k]={b,c:b.querySelector('b')};});
 }
 function updateBuildUi(force){
   const L=run.lastHud;
@@ -1585,7 +1604,7 @@ function money(){return save.coins;}
 function refreshMenu(){
   $('#menuCoins').textContent=money();
   $('#mSound').textContent='Zvuk: '+(save.sound?'zap':'vyp');
-  $('#mMusic').textContent='Hudba: '+(save.music?'zap':'vyp');
+  $('#mMusic').textContent='Hudba: '+(save.music?'zap':'vyp');stickLabels();
   $('#mWarn').hidden=!/Instagram|FBAN|FBAV|FB_IAB|Messenger|TikTok|Snapchat/i.test(navigator.userAgent||'');
   $('#mNick').hidden=!ON.ready;$('#mNick').textContent='Hráč: '+(save.nick||'bez přezdívky')+' · změnit';
   $('#mCheat').textContent='Testovací režim: '+(save.cheat?'zap':'vyp');$('#mGold').hidden=!save.cheat;
@@ -1652,8 +1671,9 @@ function bindUi(){
   $('#pGod').onclick=()=>{const K=window.__krypta;K.god=!K.god;$('#pGod').textContent='Test: nesmrtelnost '+(K.god?'zap':'vyp');};
   document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{sfx('ui');refreshMenu();setState('menu');});
   $('#goBtn').onclick=()=>{if(!heroOwned(sel.hero))sel.hero='knight';if(!mapUnlocked(sel.map))sel.map='hrbitov';startRun(sel.hero,sel.map);};
-  buildBarInit();$('#upBtn').onclick=()=>upgradeTower();$('#repBtn').onclick=()=>repairCrystal();
-  $('#btnPause').onclick=()=>{sfx('ui');togglePause();};
+  buildBarInit();onTap($('#upBtn'),()=>upgradeTower());onTap($('#repBtn'),()=>repairCrystal());
+  onTap($('#btnPause'),()=>{sfx('ui');togglePause();});
+  $('#mStick').onclick=()=>{audioInit();cycleStick();};$('#pStick').onclick=()=>cycleStick();
   $('#pResume').onclick=()=>{sfx('ui');togglePause();};
   $('#pQuit').onclick=()=>{if(run&&!run.over){run.over=true;const gain=endCoins(false);save.coins+=gain;persist();}openMenu();};
   $('#ovAgain').onclick=()=>{sfx('ui');startRun(run.heroId,run.mapId);};
