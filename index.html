@@ -56,6 +56,14 @@ button{font-family:inherit}
 .it em{position:absolute;right:1px;bottom:-2px;font-style:normal;font-size:11px;font-weight:700;color:var(--gold);text-shadow:0 1px 0 #000,1px 0 0 #000,-1px 0 0 #000}
 #bossbar{align-self:center;width:min(86%,420px);text-align:center;font-weight:700;font-size:14px;text-shadow:0 2px 0 #000}
 #bossbar .bar{height:16px;margin-top:2px}
+#invGrid>.hint{grid-column:1/-1}
+.pbuild{background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:10px 12px;margin:0 0 14px;text-align:left;max-height:46vh;overflow:auto}
+.pbuild .ps{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--muted);margin-bottom:8px}.pbuild .ps b{color:var(--fg)}
+.pbuild .pr{display:flex;align-items:center;gap:8px;font-size:13px;padding:3px 0}.pbuild .pr img{width:22px;height:22px;image-rendering:pixelated}
+.pbuild .pr span{flex:1}.pbuild .pr b{color:var(--gold);font-size:12px;white-space:nowrap}.pbuild .pr small{display:block;color:var(--muted);font-size:11px}
+.pbuild .pr.ult span{color:var(--gold)}.pbuild h4{margin:8px 0 2px;font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+#bossbar.rage #bossName{color:#ff5a4a;animation:rageP .5s steps(2) infinite}#bossbar.rage #bossName::after{content:' zuří!'}#bossbar.rage #bossFill{background:#ff4a3a}
+@keyframes rageP{50%{transform:scale(1.08)}}
 #bossFill{background:#c869e0}
 #toast{position:absolute;left:0;right:0;top:34%;text-align:center;font-size:26px;font-weight:700;color:var(--gold);text-shadow:0 3px 0 #000;
   opacity:0;transition:opacity .25s;padding:0 16px}
@@ -485,6 +493,7 @@ table.res td:last-child{text-align:right;font-weight:700}
   <section class="scr clear" id="scr-pause" hidden>
     <div class="wrap">
       <h2 class="title">Pauza</h2>
+      <div id="pBuild" class="pbuild"></div>
       <div class="stack">
         <button class="btn" id="pResume">Pokračovat</button>
         <button class="btn alt" id="pStick">Joystick</button>
@@ -1522,8 +1531,8 @@ function spawnBoss(){
   const id=run.map.boss,d=BOSS_DEFS[id],sp=SPR.boss[id],q=edgePos(30);
   const e={id,d,x:q.x,y:q.y,hp:d.hp*(run.pls?1.8:1)*(1+.4*(run.nm||0)),max:d.hp*(run.pls?1.8:1)*(1+.4*(run.nm||0)),spd:d.spd,dmg:d.dmg*(1+.2*(run.nm||0)),r:d.r,spr:sp,w:sp.w,h:sp.h,kx:0,ky:0,flash:0,slowT:0,elite:false,boss:true,phase:0,off:{x:0,y:0},
     mode:0,mT:3,dx:0,dy:0,kbm:0,xp:60,hc:{},shootT:2.5,tA:3,tB:6,dead:false,par:false};
-  run.boss=e;run.enemies.push(e);run.bossSpawned=true;
-  $('#bossbar').hidden=false;$('#bossName').textContent=d.name;toast('Přichází '+d.name+'!',2600);sfx('boss');run.shake=6;
+  e.born=run.t;run.boss=e;run.enemies.push(e);run.bossSpawned=true;
+  $('#bossbar').hidden=false;$('#bossbar').classList.remove('rage');$('#bossName').textContent=d.name;toast('Přichází '+d.name+'!',2600);sfx('boss');run.shake=6;
 }
 function ring(x,y,n,spd,dmg,off){for(let i=0;i<n;i++){const a=(i/n)*6.283+(off||0);run.eshots.push({x,y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,dmg,r:3,life:5});}}
 
@@ -1539,6 +1548,7 @@ function updateEnemies(dt){
       if(!e.tp){dx=cr.x-e.x;dy=cr.y-e.y;dist=Math.hypot(dx,dy)||1;}}
     const ux=dx/dist,uy=dy/dist;
     let sp=e.spd*(e.frz>0?.1:e.slowT>0?.55:1),vx=0,vy=0;const beh=e.boss?e.d.pat:e.d.beh;
+    if(e.boss)sp*=bossRage(e);
     let tx=dx,ty=dy;if(!e.boss&&dist>34){tx=dx+e.off.x;ty=dy+e.off.y;}const tl=Math.hypot(tx,ty)||1;const cx=tx/tl,cy=ty/tl;
     switch(beh){
       case'wave':{const w=Math.sin(t*4+e.phase);vx=(cx+(-cy)*w*.9)*sp;vy=(cy+cx*w*.9)*sp;break;}
@@ -1568,6 +1578,11 @@ function updateEnemies(dt){
   }
   if(cr&&crDps>0&&!(window.__krypta&&window.__krypta.god)){cr.hp-=Math.min(crDps,30)*dt;cr.flash=.12;cr.hit=true;}
 }
+// a boss that is not beaten in BOSS_RAGE s starts to rage: faster and harder-hitting every minute (no endless kiting/farming)
+const BOSS_RAGE=120;
+function bossRage(e){const over=run.t-(e.born===undefined?run.t:e.born)-BOSS_RAGE;if(over<=0)return 1;
+  if(!e.rage){e.rage=1;e.dmg0=e.dmg;toast(e.d.name+' zuří!',2400);sfx('boss');run.shake=5;$('#bossbar').classList.add('rage');}
+  const k=over/60;e.dmg=e.dmg0*(1+.6*k);return 1.3+.2*Math.min(k,3);}
 function hurtEnemy(e,dmg,kx,ky){
   if(e.dead||e.bur||isGuest())return;
   let d=dmg*st.dmg,crit=false;if(Math.random()<(st.crit||.1)){d*=st.tal&&st.tal.a20?2:1.6;crit=true;}if(st.lg&&st.lg.metro&&(M.step%16)>=12)d*=2;d=Math.max(1,Math.round(d));
@@ -1786,7 +1801,7 @@ function buildTower(k){
   const c=towerCost(k);if(run.coins<c){note('Chybí ti '+(c-run.coins)+' zlata');return;}
   const p=run.p,base=Math.atan2(p.face.y,p.face.x);
   for(const rad of [18,30])for(const da of [0,.8,-.8,1.6,-1.6,2.4,-2.4,3.14]){const a=base+da,x=p.x+Math.cos(a)*rad,y=p.y+Math.sin(a)*rad;
-    if(canBuildAt(x,y)){run.coins-=c;addTower(k,x,y);sfx('level');if(run.qc)run.qc.tw[k]=(run.qc.tw[k]||0)+1;return;}}
+    if(canBuildAt(x,y)){run.coins-=c;run.spent=(run.spent||0)+c;addTower(k,x,y);sfx('level');if(run.qc)run.qc.tw[k]=(run.qc.tw[k]||0)+1;return;}}
   note('Tady není místo');
 }
 function upgradeTower(){
@@ -1794,7 +1809,7 @@ function upgradeTower(){
   if(isGuest()){netSend({t:'upg'});return;}
   if(t.lv>=3){if(t.hp<t.max){t.hp=t.max;sfx('ui');note('Věž opravena');}return;}
   const c=towerUpCost(t);if(run.coins<c){note('Chybí ti '+(c-run.coins)+' zlata');return;}
-  run.coins-=c;t.lv++;t.max=Math.round(TOWERS[t.k].hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0)));t.hp=t.max;t.show=2.5;sfx('level');
+  run.coins-=c;run.spent=(run.spent||0)+c;t.lv++;t.max=Math.round(TOWERS[t.k].hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0)));t.hp=t.max;t.show=2.5;sfx('level');
 }
 function enemiesNear(x,y,r){const out=[];for(const e of run.enemies){if(e.dead)continue;if(Math.abs(e.x-x)>r||Math.abs(e.y-y)>r)continue;if(Math.hypot(e.x-x,e.y-y)<=r)out.push(e);}return out;}
 function towerFire(t){
@@ -1852,7 +1867,7 @@ function repairCrystal(){
   const c=run.crystal;if(!c||!run.nearCrystal||state!=='play'||run.over)return;
   if(isGuest()){netSend({t:'rep'});return;}
   if(run.coins<REP_COST){note('Chybí ti '+(REP_COST-run.coins)+' zlata');return;}
-  run.coins-=REP_COST;c.hp=Math.min(c.max,c.hp+REP_HP);sfx('level');
+  run.coins-=REP_COST;run.spent=(run.spent||0)+REP_COST;c.hp=Math.min(c.max,c.hp+REP_HP);sfx('level');
 }
 
 /* ----- pickups ----- */
@@ -1905,7 +1920,7 @@ function update(dt){
   envPl(dt);if(run.pls)withPl(run.pls[1],()=>envPl(dt));
   updateSpawns(dt);updateEnemies(dt);updateWeapons(dt);updateTowers(dt);updateCrystal(dt);updateShots(dt);updatePickups(dt);updateFx(dt);updateAmbient(dt);updateCarts(dt);updateWanted(dt);qLive(dt);
   if(run.crystal&&run.qc&&!run.qc.crysX){if(run.crystal.hp>=run.crystal.max/2)run.qc.crys=run.t;else run.qc.crysX=1;}
-  if(!run.tip&&!save.tipTower&&run.t>5){run.tip=true;save.tipTower=true;persist();toast('Dole postavíš věž za zlato',3200);}
+  if(!run.tip&&!save.tipTower&&run.t>5){run.tip=true;save.tipTower=true;persist();toast('Vpravo dole postavíš věž za zlato',3200);}
   run.enemies=run.enemies.filter(e=>!e.dead);
   run.shake=Math.max(0,run.shake-dt*14);
   // camera
@@ -2056,11 +2071,14 @@ function finishFuse(){
 }
 
 /* ============ end of run ============ */
-function endCoins(won){return Math.round((Math.max(0,run.coins-run.startCoins)+Math.floor(run.t/12)+(won?100+run.idx*60:0))*(1+((st&&st.gold)||0)+.3*(run.nm||0)));}
+// time counted for rewards: past the boss window nothing more is earned (raging boss ends kiting anyway)
+const rewT=()=>Math.min(run.t,run.map.dur+BOSS_RAGE+60);
+// gold = everything picked up (tower spending does not cut the reward) + a share for time survived + win bonus
+function endCoins(won){return Math.round((Math.max(0,run.coins+(run.spent||0)-run.startCoins)+Math.floor(rewT()/4)+(won?100+run.idx*60:0))*(1+((st&&st.gold)||0)+.3*(run.nm||0)));}
 function finish(won){
   if(run.over)return;run.over=true;run.won=won;
   if(!run.coop)recordRun(won);
-  if(run.pls){netSend({t:'end',won,cd:!!run.crystalDead,tt:run.t,c:run.coins,mt:run.mat||0,k:run.kills,lv:run.level,q:run.qc});setTimeout(()=>{netClose();CO.on=false;CO.role=null;},1500);}
+  if(run.pls){netSend({t:'end',won,cd:!!run.crystalDead,tt:run.t,c:run.coins,sp:run.spent||0,mt:run.mat||0,k:run.kills,lv:run.level,q:run.qc});setTimeout(()=>{netClose();CO.on=false;CO.role=null;},1500);}
   const gain=endCoins(won);save.coins+=gain;run.rw=runRewards(won);run.qres=qCommit(qFinishC());
   let unlocked='';
   if(won){save.cleared[run.mapId]=true;const nx=MAP_IDS[run.idx+1];if(nx&&!save.cleared[nx+'_seen']){unlocked=MAPS[nx].name;}}
@@ -2088,11 +2106,26 @@ function showOver(){
 }
 function togglePause(force,remote){
   if(run&&run.coop&&!remote&&(state==='play'||state==='pause'))netSend({t:'pause',on:state==='play'?1:0});
-  if(state==='play'&&run&&!run.over){$('#pSkip').hidden=!save.cheat;$('#pGod').hidden=!save.cheat;$('#pFuse').hidden=!save.cheat;$('#pGod').textContent='Test: nesmrtelnost '+(window.__krypta&&window.__krypta.god?'zap':'vyp');setState('pause');}
+  if(state==='play'&&run&&!run.over){$('#pSkip').hidden=!save.cheat;$('#pGod').hidden=!save.cheat;$('#pFuse').hidden=!save.cheat;$('#pGod').textContent='Test: nesmrtelnost '+(window.__krypta&&window.__krypta.god?'zap':'vyp');renderPauseBuild();setState('pause');}
   else if(state==='pause'&&force!==true){setState('play');}
 }
 
 /* ============ HUD ============ */
+// pause: what the run has so far (weapons, passives, fusion partners) + a few live numbers
+function renderPauseBuild(){const box=$('#pBuild');if(!box||!run)return;const p=run.p;let h='';
+  const pct=v=>cz(Math.round(v*100))+' %';
+  h+='<div class="ps"><span>Čas <b>'+fmtTime(run.t)+'</b></span><span>Úroveň <b>'+run.level+'</b></span><span>Zabití <b>'+run.kills+'</b></span><span>Zdraví <b>'+Math.ceil(p.hp)+' / '+Math.round(p.max)+'</b></span>'+
+    (st&&st.dmg>1.005?'<span>Poškození <b>+'+pct(st.dmg-1)+'</b></span>':'')+'</div>';
+  const row=(id,name,lv,max,sub,cls)=>'<div class="pr'+(cls||'')+'"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><span>'+name+(sub?'<small>'+sub+'</small>':'')+'</span><b>'+lv+(max?' / '+max:'')+'</b></div>';
+  const known=(save.codex&&save.codex.f)||{};
+  h+='<h4>Zbraně '+nWeapons()+' / '+MAX_W+'</h4>';
+  for(const id in run.W){const W=WEAPONS[id],w=run.W[id];
+    if(W.ult){h+=row(id,W.name,'Úr. '+ROMAN[w.lv-1],'',w.mul>1?'síla z rytmu +'+Math.round((w.mul-1)*100)+' %':'',' ult');continue;}
+    const f=FUSIONS.find(f=>f.a===id||f.b===id),mate=f&&(f.a===id?f.b:f.a);
+    const sub=f?'Fúze s: '+WEAPONS[mate].name+(known[f.id]?' → '+WEAPONS[f.id].name:'')+' (obě na úr. 5)':'';
+    h+=row(id,W.name,w.lv,W.lv.length,sub);}
+  if(Object.keys(run.P).length){h+='<h4>Pasivky '+nPassives()+' / '+MAX_P+'</h4>';for(const id in run.P)h+=row(id,PASSIVES[id].name,run.P[id],MAX_PLV,PASSIVES[id].txt);}
+  box.innerHTML=h;}
 function buildItemsHud(){
   const box=$('#items');box.innerHTML='';
   const fz=new Set();for(const f of fusable()){fz.add(f.a);fz.add(f.b);}
@@ -2444,7 +2477,7 @@ function renderSelect(){
   HERO_IDS.forEach(id=>{const h=HEROES[id],own=heroOwned(id);
     const b=document.createElement('button');b.className='card hero'+(sel.hero===id&&own?' sel':'')+(own?'':' lock');
     b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><h3>'+h.name+'</h3><small>'+h.desc+'</small>'+
-      (own?'<small>Start: '+WEAPONS[h.start].name+'</small>':'<span class="cost"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+h.cost+'</span>');
+      '<small>Start: '+WEAPONS[h.start].name+'</small>'+(own?'':'<span class="cost"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+h.cost+'</span>');
     b.addEventListener('click',()=>{
       if(own){sel.hero=id;sfx('ui');renderSelect();}
       else if(save.coins>=h.cost){save.coins-=h.cost;save.heroes[id]=true;sel.hero=id;persist();sfx('coin');note('Odemčeno: '+h.name);renderSelect();}
@@ -2625,7 +2658,8 @@ function recordRun(won){
   const cur={t:Math.floor(run.t),kills:run.kills,won:!!won,lv:run.level,hero:run.heroId,nm:run.nm||0},b=S.best[run.mapId];
   if(!b||mapScore(cur)>mapScore(b))S.best[run.mapId]=cur;
 }
-const mapScore=b=>b?(b.nm||0)*1e7+(b.won?1e6:0)+b.t*100+b.kills:-1;
+// map best: higher nightmare first, then a win beats any loss; wins rank by the FASTEST time, losses by the longest survival
+const mapScore=b=>{if(!b)return -1;const t=Math.min(b.t||0,9999);return (b.nm||0)*1e7+(b.won?1e6+(9999-t)*100:t*100+Math.min(b.kills||0,99));};
 let boardTab='celkem',boardRows=null;
 async function openBoard(){
   setState('board');renderBoard();if(!ON.ready)return;
@@ -2645,7 +2679,7 @@ function renderBoard(){
     return{id:r.id,nick:r.nick||'?',st,sv,b,score:boardTab==='celkem'?((st.runs||0)?(st.wins||0)*1e6+(st.kills||0):-1):mapScore(b)};})
     .filter(r=>r.score>=0).sort((a,b)=>b.score-a.score);
   if(!rows.length){msg.textContent='Zatím tu nikdo nemá výsledek. Buď první!';return;}
-  msg.textContent='';
+  msg.textContent=boardTab==='celkem'?'':'Výš je vyšší Noční můra, pak výhra. Výhry se řadí podle nejrychlejšího času.';
   rows.forEach((r,i)=>{const el=document.createElement('div');el.className='brow'+(ON.me&&r.id===ON.me.id?' me':'');
     const rk=document.createElement('b');rk.className='rk';rk.textContent=(i+1)+'.';
     const nm=document.createElement('div');nm.className='nm';const n1=document.createElement('strong');n1.textContent=r.nick;
@@ -2720,7 +2754,8 @@ function makeItem(r,slot,q,lg){
   const pool=SLOTS[slot].stats.slice(),st={};for(let i=0;i<RAR[r].n&&pool.length;i++){const k=pool.splice((Math.random()*pool.length)|0,1)[0];st[k]=rollStat(k,r,q);}
   const it={u:newUid(),s:slot,r,lv:0,st};if(lg)it.lg=lg;return it;}
 function itemStats(it){const m=1+.08*(it.lv||0),o={};for(const k in it.st){const v=it.st[k]*m;o[k]=STATS[k].int?Math.round(v):v;}return o;}
-function fmtStat(k,v){const S=STATS[k];return S.pct?'+'+Math.round(v*1000)/10+' %':S.per?'+'+v.toFixed(2).replace(/0$/,'')+S.per:'+'+Math.round(v);}
+const cz=n=>String(n).replace('.',','); // Czech decimal comma
+function fmtStat(k,v){const S=STATS[k];return S.pct?'+'+cz(Math.round(v*1000)/10)+' %':S.per?'+'+cz(v.toFixed(2).replace(/0$/,''))+S.per:'+'+Math.round(v);}
 const itemName=it=>it.lg?LEGS[it.lg].name:ITEM_NAMES[it.s][Math.min(3,it.r)];
 const itemById=u=>save.inv.find(i=>i.u===u)||null;
 function equippedBy(u){for(const h in save.eq)for(const s in save.eq[h])if(save.eq[h][s]===u)return h;return null;}
@@ -2777,7 +2812,7 @@ function dailyInfo(){const d=today();let h=0;for(const ch of d)h=(h*31+ch.charCo
 // ----- end of run rewards (runs on both co-op sides) -----
 function runRewards(won){
   const R=run,out={};const mid=MAT_OF[R.mapId];if(!mid)return out;
-  let m=(R.mat||0)+Math.floor(R.t/60*2)+(won?15:0);if(won)m*=1.5; // the boss share is paid directly: a win ends the run before it could be picked up
+  let m=(R.mat||0)+Math.floor(rewT()/60*2)+(won?15:0);if(won)m*=1.5; // the boss share is paid directly: a win ends the run before it could be picked up
   m*=1+.5*(R.nm||0);m=Math.round(m);
   save.mats[mid]=(save.mats[mid]||0)+m;out.mat=[mid,m];
   if(won&&R.nm>0){let r=ECON.nmItem[R.nm];if(R.nm===5&&Math.random()<.25)r=4;const it=makeItem(r);addItem(it);out.item=it;
@@ -2808,8 +2843,8 @@ function tileHtml(it,extra){return '<button class="itile r'+it.r+(extra||'')+'" 
 let heroSel='knight',invFilter=null;
 function openHero(){econInit();heroSel=heroOwned(sel.hero)?sel.hero:'knight';invFilter=null;renderHero();setState('hero');}
 function bonusLines(B){const out=[];const add=(n,v)=>{if(v)out.push([n,v]);};
-  add('Zdraví',(B.hp?'+'+Math.round(B.hp):'')+(B.hpPct?(B.hp?' a ':'')+'+'+Math.round(B.hpPct*100)+' %':''));add('Brnění',B.armor?'+'+B.armor:'');add('Regenerace',B.regen?'+'+B.regen.toFixed(1)+'/s':'');
-  for(const k of ['dmg','crit','fuse','cd','spd','mag','xp','gold'])add(STATS[k].name,B[k]?'+'+Math.round(B[k]*1000)/10+' %':'');return out;}
+  add('Zdraví',(B.hp?'+'+Math.round(B.hp):'')+(B.hpPct?(B.hp?' a ':'')+'+'+Math.round(B.hpPct*100)+' %':''));add('Brnění',B.armor?'+'+B.armor:'');add('Regenerace',B.regen?'+'+cz(B.regen.toFixed(1))+'/s':'');
+  for(const k of ['dmg','crit','fuse','cd','spd','mag','xp','gold'])add(STATS[k].name,B[k]?'+'+cz(Math.round(B[k]*1000)/10)+' %':'');return out;}
 function renderHero(){
   $('#hMats').innerHTML=matsHtml();
   const tb=$('#hTabs');tb.innerHTML='';
@@ -3078,8 +3113,8 @@ function renderQuests(keep){const Q=qEnsure(),W=save.qw,box=$('#qBody'),sc=keep?
       (q.cl?'':q.done?'<button class="btn sm" data-claim="'+i+'">Vyzvednout</button>':(Q.rr<1||save.cheat)?'<button class="btn alt sm" data-rr="'+i+'">Jiný úkol</button>':'')+'</div></div>';});
   h+='</div><div class="sec">Lov na hledané</div>';
   const w=Q.w,WD=WANTED[w.id];
-  if(WD){const map=MAPS[WD.map],stTxt=['Přijmi lov a v příští hře na mapě '+map.name+' se mezi 2. a 3. minutou objeví. Máš 80 s, pak uteče.',
-      'Lov přijat. Čeká na tebe na mapě '+map.name+' mezi 2. a 3. minutou.','Dopaden! Vyzvedni si odměnu.','Dopaden. Nový plakát visí zítra.'][w.st];
+  if(WD){const map=MAPS[WD.map],stTxt=['Přijmi lov a v příští hře na mapě '+map.name+' se kolem 2. minuty objeví. Máš 80 s, pak uteče.',
+      'Lov přijat. Čeká na tebe na mapě '+map.name+' kolem 2. minuty.','Dopaden! Vyzvedni si odměnu.','Dopaden. Nový plakát visí zítra.'][w.st];
     h+='<div class="poster'+(w.st>=2?' got':'')+'"><div class="pz-h">HLEDÁ SE</div><div class="pz-img"><img alt="" src="'+dataUrl(eliteSprite(WD.e))+'"></div>'+
       '<h3>'+WD.name+'</h3><small>'+map.name+'</small><p>'+WD.desc+'</p>'+
       '<div class="rw"><span class="mt"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+W_RW.g+'</span><span class="mt"><img alt="" src="'+matIcon(MAT_OF[WD.map])+'">'+W_RW.m+'</span><span class="mt">'+candle+W_RW.c+'</span><span class="mt">+ šance na předmět</span></div>'+
@@ -3397,7 +3432,7 @@ NET.h.lvl=o=>{if(CO.role!=='guest'||!run)return;CO.cards=o.cards;
   sfx('level');setState('levelup');};
 NET.h.lvlx=()=>{if(state==='levelup'||state==='wait')setState('play');};
 NET.h.resume=()=>{if(CO.role==='guest'&&run&&!run.over&&(state==='wait'||state==='levelup'))setState('play');};
-NET.h.end=o=>{if(CO.role==='guest'&&run&&!run.over){run.crystalDead=o.cd;if(o.tt!==undefined){run.t=o.tt;run.coins=o.c;run.mat=o.mt;run.kills=o.k;run.level=o.lv;}run.qcR=o.q||null;finish(!!o.won);setTimeout(()=>{netClose();CO.on=false;CO.role=null;},1500);}};
+NET.h.end=o=>{if(CO.role==='guest'&&run&&!run.over){run.crystalDead=o.cd;if(o.tt!==undefined){run.t=o.tt;run.coins=o.c;run.spent=o.sp||0;run.mat=o.mt;run.kills=o.k;run.level=o.lv;}run.qcR=o.q||null;finish(!!o.won);setTimeout(()=>{netClose();CO.on=false;CO.role=null;},1500);}};
 function coWait(){$('#waitTxt').textContent='Kamarád ještě vybírá…';setState('wait');}
 
 /* ----- shared rendering helpers ----- */
