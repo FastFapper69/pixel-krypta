@@ -171,7 +171,8 @@ html,body,#stage{touch-action:none}
 .cost{display:flex;align-items:center;gap:5px;color:var(--gold);font-weight:700}
 .cost img{width:14px;height:14px;image-rendering:pixelated}
 .card.maprow{flex-direction:row;gap:12px;align-items:center}
-.maprow canvas{width:64px;height:64px;image-rendering:pixelated;flex:none;box-shadow:0 0 0 3px #0c0912}
+.maprow canvas{width:88px;height:88px;image-rendering:pixelated;flex:none;clip-path:var(--px);box-shadow:inset 0 0 0 3px #0c0912}
+.maprow.sel canvas{outline:0}.card.maprow.lock canvas{filter:grayscale(.85) brightness(.55)}
 .maprow div{min-width:0}
 .badge{display:inline-block;font-size:12px;font-weight:700;padding:1px 6px;background:var(--green);color:var(--ink);margin-left:6px;vertical-align:2px}
 .badge.lk{background:var(--line);color:var(--fg)}
@@ -2346,6 +2347,39 @@ function refreshMenu(){
 let sel={hero:'knight',map:'hrbitov'};
 function mapUnlocked(id){const i=MAP_IDS.indexOf(id);return !!save.cheat||i===0||!!save.cleared[MAP_IDS[i-1]];}
 const heroOwned=id=>!!save.heroes[id]||!!save.cheat;
+// map postcards: a scaled-down shot of the map's most interesting spot (props, lights, dusk) with its boss peeking in
+const TH=88,thumbs={};
+function mapThumb(id){if(thumbs[id])return thumbs[id];
+  const bm=mapsBuilt[id],m=MAPS[id],sz=m.size,c=document.createElement('canvas');c.width=c.height=TH;const g=c.getContext('2d');g.imageSmoothingEnabled=false;
+  // pick the window with the most going on (props, lights, lava, rails); the desert shows its temple and crystal
+  let fx=sz/2,fy=sz/2,best=-1;
+  for(let y=70;y<=sz-70;y+=24)for(let x=70;x<=sz-70;x+=24){let sc=0;const inW=(px,py,pad)=>Math.abs(px-x)<TH/2-(pad||0)&&Math.abs(py-y)<TH/2-(pad||0);
+    for(const q of bm.props)if(inW(q.x,q.y,6))sc+=q.tall?2:1;for(const q of bm.lights)if(inW(q.x,q.y,10))sc+=4;for(const q of bm.pools)if(inW(q.x,q.y,q.r*.3))sc+=16;
+    if(bm.rails&&bm.rails.pts.some(p=>inW(p[0],p[1],8)))sc+=6;if(bm.oases)for(const o of bm.oases)if(inW(o.x,o.y,o.r*.6))sc+=14;sc-=Math.hypot(x-sz/2,y-sz/2)*.004;if(sc>best){best=sc;fx=x;fy=y;}}
+  const sx=fx-TH/2,sy=fy-TH/2,ox=-sx,oy=-sy;
+  g.drawImage(bm.canvas,sx*Z,sy*Z,TH*Z,TH*Z,0,0,TH,TH);
+  for(const pl of bm.pools){const x=pl.x+ox,y=pl.y+oy;circ(g,x,y,pl.r,'#b8281a');circ(g,x,y,pl.r-2,'#f07a26');circ(g,x,y,pl.r*.45,'#ffc24a');}
+  const extra=[];
+  if(m.crystal&&Math.abs(sz/2-fx)<TH/2&&Math.abs(sz/2-fy)<TH/2){const s=SPR.misc.crystal;extra.push({y:sz/2,d:()=>{circ(g,sz/2+ox,sz/2+oy-2,10,'#5cd8ff',.25);blit(g,s.c,s,sz/2+ox,sz/2+oy-s.h/2-1);}});}
+  if(bm.rails){let bp=null,bd=1e9;for(const p of bm.rails.pts){const d=Math.hypot(p[0]-fx,p[1]-fy+10);if(d<bd){bd=d;bp=p;}}
+    if(bp&&bd<TH/2){const s=mnSprite('cart');extra.push({y:bp[1]+3,d:()=>{shadow(g,bp[0]+ox,bp[1]+oy+3,20);blit(g,s.c,s,bp[0]+ox,bp[1]+oy-s.h+4);}});}}
+  const items=bm.props.map(q=>({y:q.y,d:()=>{const s=q.spr;blit(g,s.c,s,q.x+ox,q.y+oy-s.h+1);}})).concat(extra).sort((a,b)=>a.y-b.y);
+  for(const it of items)it.d();
+  g.fillStyle='rgba(16,10,30,'+(m.dark>.4?.04:.32)+')';g.fillRect(0,0,TH,TH);
+  g.globalCompositeOperation='lighter';
+  const glow=(x,y,r,col,a)=>{const gr=g.createRadialGradient(x,y,0,x,y,r);gr.addColorStop(0,col);gr.addColorStop(1,'rgba(0,0,0,0)');g.globalAlpha=a;g.fillStyle=gr;g.fillRect(x-r,y-r,r*2,r*2);};
+  for(const q of bm.lights)glow(q.x+ox,q.y+oy,q.r,q.col||'#ffb060',.45);
+  for(const pl of bm.pools)glow(pl.x+ox,pl.y+oy,pl.r*2.6,'#ff5a1a',.6);
+  if(m.crystal)glow(sz/2+ox,sz/2+oy-4,40,'#5cd8ff',.35);
+  if(bm.oases)for(const o of bm.oases)glow(o.x+ox,o.y+oy,o.r*1.4,'#5ad0e0',.25);
+  g.globalAlpha=1;g.globalCompositeOperation='source-over';
+  if(m.grade){g.globalCompositeOperation='soft-light';g.globalAlpha=m.gradeA||.2;g.fillStyle=m.grade;g.fillRect(0,0,TH,TH);g.globalAlpha=1;g.globalCompositeOperation='source-over';}
+  // vignette, then the boss lurking in the corner
+  const vg=g.createRadialGradient(TH/2,TH/2,TH*.3,TH/2,TH/2,TH*.75);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(8,4,14,.75)');g.fillStyle=vg;g.fillRect(0,0,TH,TH);
+  const b=SPR.boss[m.boss];if(b){const bw=Math.min(40,b.w*.9),bh=bw*b.h/b.w,bx=TH-bw-2,by=TH-bh-1;
+    g.fillStyle='rgba(0,0,0,.45)';g.fillRect(Math.round(bx+bw*.15),Math.round(TH-3),Math.round(bw*.7),2);g.drawImage(b.c,Math.round(bx),Math.round(by),Math.round(bw),Math.round(bh));}
+  g.fillStyle='#0c0912';g.fillRect(0,0,TH,2);g.fillRect(0,TH-2,TH,2);g.fillRect(0,0,2,TH);g.fillRect(TH-2,0,2,TH);g.fillStyle='rgba(255,255,255,.12)';g.fillRect(2,2,TH-4,1);
+  return thumbs[id]=c;}
 function renderSelect(){
   const hl=$('#heroList');hl.innerHTML='';
   HERO_IDS.forEach(id=>{const h=HEROES[id],own=heroOwned(id);
@@ -2360,9 +2394,9 @@ function renderSelect(){
   const ml=$('#mapList');ml.innerHTML='';
   MAP_IDS.forEach(id=>{const m=MAPS[id],ok=mapUnlocked(id);
     const b=document.createElement('button');b.className='card maprow'+(sel.map===id&&ok?' sel':'')+(ok?'':' lock');
-    const cv2=document.createElement('canvas');cv2.width=cv2.height=32;const g2=cv2.getContext('2d');g2.imageSmoothingEnabled=false;
-    const bm=mapsBuilt[id];if(bm)g2.drawImage(bm.canvas,(m.size/2-24)*Z,(m.size/2-24)*Z,48*Z,48*Z,0,0,32,32);
-    else{g2.fillStyle=m.c1;g2.fillRect(0,0,32,32);if(!renderSelect.pend){renderSelect.pend=true;setTimeout(()=>{MAP_IDS.forEach(buildMap);renderSelect.pend=false;if(state==='select')renderSelect();},40);}}
+    const cv2=document.createElement('canvas');cv2.width=cv2.height=TH;const g2=cv2.getContext('2d');g2.imageSmoothingEnabled=false;
+    const bm=mapsBuilt[id];if(bm)g2.drawImage(mapThumb(id),0,0);
+    else{g2.fillStyle=m.c1;g2.fillRect(0,0,TH,TH);if(!renderSelect.pend){renderSelect.pend=true;setTimeout(()=>{MAP_IDS.forEach(buildMap);renderSelect.pend=false;if(state==='select')renderSelect();},40);}}
     const d=document.createElement('div');
     d.innerHTML='<h3>'+m.name+(save.cleared[id]?'<span class="badge">Splněno</span>':ok?'':'<span class="badge lk">Zamčeno</span>')+'</h3><small>'+m.desc+'</small>'+
       (save.best[id]?'<small>Nejdelší přežití: '+fmtTime(save.best[id])+'</small>':'');
