@@ -1,6 +1,15 @@
 # Pixel Krypta – návrh co-opu pro 2 hráče
 
-Stav: **návrh, neimplementováno.** Každá fáze níže se dá nasadit samostatně, hra mezi fázemi zůstává hratelná.
+Stav: **fáze 0–3 a Rytmické pouto jsou hotové a nasazené** (listopad 2026). Zbývá: Souhra, Duetní fúze, co-op karty pouta, co-op žebříček, návrat po odpojení.
+
+### Jak je to postavené (odchylky od návrhu)
+- Místo velkého refaktoru `run.p → run.players[]` hra používá **`withPl(pl, fn)`**: dočasně prohodí `run.p/W/P/hero/heroId/fused/fuseMiss/revived/meta` a `st` na partnera a pustí stávající kód. Sólo tak běží přesně stejnou cestou jako dřív.
+- Host: `run.pls=[{p:hostP}, partner]`, `run.coop=true`. Partnerova pozice přichází ze sítě (`NET.h.in`), host ji jen ořízne. Při odhození vozíkem nastaví `p.forced` + krátký `p.lock` a pošle opravu pozice (`gp`).
+- Guest: vlastní `run` jen pro vykreslení (`guestStartRun`, `guestApply`, `guestUpdate`), `isGuest()` vypíná simulaci (`hurtEnemy`, `explode`, `addXP`, `gameStep`…). Nepřátelé a střely se párují podle `nid`/`sid`, nepřátelé se plynule dotahují, střely letí podle rychlosti.
+- **Mince jsou společné** (jedna pokladna na věže i opravu krystalu), XP a úroveň taky. Každý dostane na konci mince do svého savu. Co-op se nezapisuje do sólo rekordů ani žebříčku.
+- Síť: `NET` (WebRTC `evt` reliable + `snap` unreliable, signalizace i záloha přes Supabase kanál `krypta-KÓD`), snímky 15/s (záloha 8/s), ping každou 1 s, odpojení: zavření kanálu / `bye` při `pagehide` / 6,5 s ticha.
+- Testy: `tests/supabase-mock.js` + `tests/coop-test.js` (dvě stránky, skutečné WebRTC; `nortc` = záloha s latencí 60 ms a 5% ztrátou).
+- **Neověřeno naostro:** skutečný Supabase Realtime (ze sandboxu není dostupný) a WebRTC mezi telefony přes mobilní data / Instagram. Pokud se nepůjde spojit, nejdřív zkontrolovat v Supabase, že Realtime broadcast na veřejných kanálech je povolený.
 
 ## 1. Cíl a zážitek
 
@@ -86,33 +95,33 @@ Už dnes každá ultimátka přidává do hudby nástroj. V co-opu se vrstvy obo
 ## 6. Úkoly po fázích
 
 ### Fáze 0: příprava kódu (bez viditelné změny, nasaditelné)
-- [ ] `run.p` → `run.players[]` (+ `me()`, `nearestPlayer(x,y)`). Kód sahá na hráče 47× (`const p=run.p` 32×).
-- [ ] Nepřátelé cílí na nejbližšího živého hráče (a krystal jako dnes).
-- [ ] Zbraně, pasivky, statistiky (`st`) a `run.W/run.P` jako vlastnost hráče, ne běhu.
-- [ ] Sbírání drahokamů a předmětů pro každého hráče, magnet podle vlastních statistik.
-- [ ] Kamera a HUD sledují `me()`.
-- [ ] Regresní test: sólo běh na všech 3 mapách musí hrát stejně (porovnat DPS z `dps.js`, žádné `pageerror`).
+- [x] ~~`run.p` → `run.players[]`~~ (vyřešeno přes `withPl`) (+ `me()`, `nearestPlayer(x,y)`). Kód sahá na hráče 47× (`const p=run.p` 32×).
+- [x] Nepřátelé cílí na nejbližšího živého hráče (a krystal jako dnes).
+- [x] Zbraně, pasivky, statistiky (`st`) a `run.W/run.P` jako vlastnost hráče, ne běhu.
+- [x] Sbírání drahokamů a předmětů pro každého hráče, magnet podle vlastních statistik.
+- [x] Kamera a HUD sledují `me()`.
+- [x] Regresní test: sólo běh na všech 3 mapách musí hrát stejně (porovnat DPS z `dps.js`, žádné `pageerror`).
 
 ### Fáze 1: síť a lobby
-- [ ] Vrstva `Net` s implementacemi `local`, `rtc`, `broadcast`.
-- [ ] Supabase kanál `room:KÓD` pro signalizaci, generátor kódů, `?hra=KÓD` v URL.
-- [ ] Obrazovky: Hrát s kamarádem → Založit/Připojit → výběr hrdinů, mapa, Připraven, ping.
-- [ ] **Hned otestovat WebRTC na dvou reálných telefonech, včetně Instagram in-app prohlížeče a mobilních dat.**
+- [x] Vrstva `Net` s implementacemi `local`, `rtc`, `broadcast`.
+- [x] Supabase kanál `room:KÓD` pro signalizaci, generátor kódů, `?hra=KÓD` v URL.
+- [x] Obrazovky: Hrát s kamarádem → Založit/Připojit → výběr hrdinů, mapa, Připraven, ping.
+- [ ] **Otestovat WebRTC na dvou reálných telefonech, včetně Instagram in-app prohlížeče a mobilních dat.**
 
 ### Fáze 2: síťová hra (základní co-op hratelný)
-- [ ] Host: simulace obou hráčů, snímky 15/s, události projektilů a fx.
-- [ ] Guest: lokální pohyb, odesílání pozice 15/s, interpolace nepřátel, vlastní simulace projektilů.
-- [ ] Synchronizace rytmu (ping, offset, doladění `conductor`).
-- [ ] Testy: dvě stránky v Playwrightu přes `local` transport s latencí 80 ms, jitterem 30 ms a ztrátou 5 %.
+- [x] Host: simulace obou hráčů, snímky 15/s, události projektilů a fx.
+- [x] Guest: lokální pohyb, odesílání pozice 15/s, interpolace nepřátel, vlastní simulace projektilů.
+- [x] Synchronizace rytmu (ping, offset, doladění `conductor`).
+- [x] Testy: dvě stránky v Playwrightu přes `local` transport s latencí 80 ms, jitterem 30 ms a ztrátou 5 %.
 
 ### Fáze 3: pravidla co-opu
-- [ ] Sdílený level-up s čekáním na partnera a 15s limitem.
-- [ ] Padnutí, duch a oživení do rytmu.
-- [ ] Škálování pro 2, sdílená pauza, šipka k partnerovi.
-- [ ] Odpojení a návrat, konec běhu a mince oběma, společné shrnutí.
+- [x] Sdílený level-up s čekáním na partnera a 15s limitem.
+- [x] Padnutí, duch a oživení do rytmu.
+- [x] Škálování pro 2, sdílená pauza, šipka k partnerovi.
+- [x] Odpojení, konec běhu a mince oběma. **Zbývá:** návrat po odpojení (30 s), společné shrnutí.
 
 ### Fáze 4: co-op prvky
-- [ ] Rytmické pouto + 4 co-op karty.
+- [x] Rytmické pouto. **Zbývá:** 4 co-op karty pouta.
 - [ ] Souhra.
 - [ ] Duetní fúze (rituál otázka–odpověď).
 

@@ -10,7 +10,8 @@ UI je česky, s uživatelem se komunikuje česky. Hraje se hlavně na telefonu, 
 - `index.html` – celá hra v jednom souboru (~137 kB, jedno IIFE). Obsahuje konfiguraci Supabase:
   `window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_publishable_…'}` (publishable klíč je veřejný, to je v pořádku).
   Prázdné `url/key` = offline režim (tak běží i verze publikovaná jako claude.ai artefakt).
-- `COOP.md` – návrh co-opu (architektura, pravidla, fáze s úkoly).
+- `COOP.md` – co-op: architektura, pravidla, stav fází a co zbývá.
+- `tests/` – `supabase-mock.js` (mock Supabase přes BroadcastChannel) a `coop-test.js` (dvě stránky, WebRTC).
 - `supabase-setup.sql`, `supabase-pin.sql` – schéma DB (už spuštěné uživatelem v Supabase SQL Editoru).
 - Uživatel nemá přístup k terminálu, je na mobilu – vše nasazuj sám přes git push.
 
@@ -36,6 +37,8 @@ Klíčové koncepty:
   Rituál: stav `'fuse'` (`#scr-fuse`, `startFuse`/`fuseTap`/`fuseTick`/`finishFuse`), boj stojí, hudba hraje, 4 cílové doby; `audioBeat()` = `M.beatPos` minus latence (50 ms plánování + outputLatency). Perfektní < 85 ms (+6 %), Dobré < 170 ms (+3 %), 4× Perfektní = ×1,25.
   Každá ultimátka: drop na začátku fráze (`ULT_DROP`, `s%64`) a vlastní hudební vrstva v `playStep`. Ledová smršť: `e.frz` (zmrazení, rychlost ×0,1), `iceHit` roztříští zmrzlé na střepy (`kind:'shard'`). Meteor/žár jsou fx `meteor`/`burn`.
   Balanc (měřeno na figurínách): ultimátka I ≈ 1,1–1,8× DPS obou rodičů na lvl 6, III ≈ 2,5–4×. Testovací tlačítko v pauze „Test: připrav fúzi“.
+- **Co-op (extra režim, sólo beze změny):** menu „Hrát s kamarádem“ → `#scr-coop` (kód 4 znaky, odkaz `?hra=KÓD`, výběr hrdiny, host vybírá mapu). Host simuluje oba hrdiny (`run.pls`, `withPl`), guest kreslí snímky (`isGuest()`, `guestApply`). Síť `NET` = WebRTC + signalizace/záloha přes Supabase broadcast. Detaily v `COOP.md`.
+  Pravidla: společné XP/úroveň/mince, level-up čeká na oba (`run.lv`, stav `'wait'`, 25 s limit), padnutí → duch (×0,55 rychlost, nestřílí), oživení stáním u něj 4 doby (`coopBeat`), oba padlí = konec. Škálování: spawn ×1,7, HP ×1,25, elity ×1,5, boss ×1,8. Rytmické pouto `bondStr(d)` (zlatá zóna 60–140, zásah na dobu, ×2 na takt). Pauza je společná. Co-op se nepočítá do žebříčku/rekordů.
 - Rytmus: WebAudio, `SONGS` per mapa (BPM, akordy, motiv), `conductor(dt)` krokuje 16tiny → `playStep` + `gameStep(s)`.
   Zbraně/věže střílí na kvantovaných krocích (`qsteps`, `W_OFF`), nepřátelé/spawny na `run.beatNow`/`run.barNow`, SFX přes `qTime` v tónech akordu. Combo, hit-stop.
 - Save: `localStorage['pixel-krypta-v1']`, objekt `save` (coins, heroes, cleared, best, meta, stats, nick, stick, updated…).
@@ -48,15 +51,16 @@ Klíčové koncepty:
 ## Testování
 Playwright + Chromium jsou předinstalované (`require('playwright')`, neinstalovat znovu). Mobilní viewport 390×800, `hasTouch`, `isMobile`.
 Pro offline test nahraď konfiguraci prázdnou (`url:'',key:''`) – síť ze shellu na Supabase nefunguje.
-Háčky na `window.__krypta`: `step(dt)` (tick vč. conductoru), `startRun`, `applyOption`, `levelOptions`, `openMenu`, `buildTower`, `upgradeTower`, `repairCrystal`, `force`, `god`, `M`, `setSel`, `save`, `run`, `state`, `ON`, `onlineInit`, `openBoard`, `saveNick`, `fusable`, `startFuse`, `fuseTap`, `audioBeat`, `FUSIONS`, `FZ`.
+Háčky na `window.__krypta`: `step(dt)` (tick vč. conductoru), `startRun`, `applyOption`, `levelOptions`, `openMenu`, `buildTower`, `upgradeTower`, `repairCrystal`, `force`, `god`, `M`, `setSel`, `save`, `run`, `state`, `ON`, `onlineInit`, `openBoard`, `saveNick`, `fusable`, `startFuse`, `fuseTap`, `audioBeat`, `FUSIONS`, `FZ`, `CO`, `NET`, `LO`, `openCoop`, `coHostStart`, `coJoin`, `coHostGo`, `withPl`, `players`.
+Co-op test: `python3 -m http.server 8765` v kořeni repa, pak `node tests/coop-test.js` (a `nortc` pro zálohu). Virtuální partner bez sítě: `NET.open=true; CO.on=true; CO.role='host'; coHostGo()`.
 V simulacích vypni zvuk (`save.sound=false; save.music=false`). Online toky testuj s mock Supabase (`addInitScript`). Multitouch přes CDP `Input.dispatchTouchEvent`.
 Po změně vždy: smoke test (start běhu, ~90 kroků, žádné `pageerror`, šířka dokumentu = viewport) a screenshot.
 
 ## Hotovo
-Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, testovací režim, rytmická chiptune hudba, propracovaný pixel art (hřbitov ve stylu Graveyard Keeper), žebříček + cloud save + přezdívka/PIN, hosting na GitHub Pages, joystick ve 3 režimech + multitouch, čitelnější písmo, plynulý šikmý pohyb (kamera), propracovaná poušť (chrám, oázy s léčením, kostra obra), propracované doly (koleje, rozjeté vozíky, těžní věž), skrytý testovací režim (podržení „Hudba“ 3 s), fúze zbraní (4 ultimátky I–III, rytmický rituál, drop na frázi, hudební vrstvy).
+Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, testovací režim, rytmická chiptune hudba, propracovaný pixel art (hřbitov ve stylu Graveyard Keeper), žebříček + cloud save + přezdívka/PIN, hosting na GitHub Pages, joystick ve 3 režimech + multitouch, čitelnější písmo, plynulý šikmý pohyb (kamera), propracovaná poušť (chrám, oázy s léčením, kostra obra), propracované doly (koleje, rozjeté vozíky, těžní věž), skrytý testovací režim (podržení „Hudba“ 3 s), fúze zbraní (4 ultimátky I–III, rytmický rituál, drop na frázi, hudební vrstvy), online co-op pro 2 (WebRTC, lobby s kódem, oživení, rytmické pouto).
 
 ## Nápady / plán
-- **Online co-op pro 2 hráče: podrobný návrh a úkoly po fázích v `COOP.md`** (WebRTC P2P se signalizací přes Supabase broadcast, host simuluje svět, každý řídí svůj pohyb lokálně; Rytmické pouto, Souhra, Duetní fúze, oživení do rytmu). Začít fází 0 (refaktor `run.p` → `run.players[]`).
+- Co-op – zbývá (viz `COOP.md`): **ověřit naostro na dvou telefonech** (Supabase Realtime + WebRTC přes mobilní data/Instagram), Souhra, Duetní fúze, co-op karty pouta, co-op žebříček, návrat po odpojení.
 - Fúze – zbývá krok 3: Kodex fúzí v menu (neobjevené recepty jako ??? s nápovědou, uložit do savu) + stat „Objevené fúze“ v žebříčku. Případně tajné recepty (Ohnivá koule+Mráz = Parní exploze) a kalibrace rytmu pro BT sluchátka.
 - Čekáme na feedback k balancu a ovládání od testerů.
 
