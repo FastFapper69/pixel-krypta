@@ -40,7 +40,7 @@ button{font-family:inherit}
 #stick i{position:absolute;left:-19px;top:-19px;width:38px;height:38px;background:#ffffffaa;border:4px solid #ffffffcc}
 
 /* HUD */
-#hud{position:absolute;inset:0;pointer-events:none;z-index:10;padding:8px 10px;display:flex;flex-direction:column;gap:6px}
+#hud{position:absolute;inset:0;pointer-events:none;z-index:10;padding:calc(8px + var(--sat,0px)) 10px calc(8px + var(--sab,0px));display:flex;flex-direction:column;gap:6px}
 .hud-top{display:flex;align-items:center;gap:8px}
 .bar{position:relative;height:20px;background:#0c0912cc;border:3px solid #0c0912;box-shadow:0 0 0 2px #ffffff30}
 .bar i{position:absolute;left:0;top:0;bottom:0;width:100%;transform-origin:left;transition:transform .12s}
@@ -58,9 +58,9 @@ button{font-family:inherit}
 .hud-row span{display:flex;align-items:center;gap:5px}
 .hud-row img{width:16px;height:16px;image-rendering:pixelated}
 #items{display:flex;flex-wrap:wrap;gap:4px}
-.it{position:relative;width:30px;height:30px;background:#0c0912b0;box-shadow:inset 0 0 0 2px #ffffff30;display:flex;align-items:center;justify-content:center}
-.it img{width:24px;height:24px;image-rendering:pixelated}
-.it em{position:absolute;right:1px;bottom:-2px;font-style:normal;font-size:11px;font-weight:700;color:var(--gold);text-shadow:0 1px 0 #000,1px 0 0 #000,-1px 0 0 #000}
+.it{position:relative;width:34px;height:34px;background:#0c0912b0;box-shadow:inset 0 0 0 2px #ffffff30;display:flex;align-items:center;justify-content:center}
+.it img{width:26px;height:26px;image-rendering:pixelated}
+.it em{position:absolute;right:-2px;bottom:-3px;min-width:14px;padding:0 3px;font-style:normal;font-size:11px;line-height:14px;text-align:center;font-weight:700;color:var(--gold);background:#0c0912;box-shadow:0 0 0 1px #ffffff30}
 #bossbar{align-self:center;width:min(86%,420px);text-align:center;font-weight:700;font-size:14px;text-shadow:0 2px 0 #000}
 #bossbar .bar{height:16px;margin-top:2px}
 #invGrid>.hint{grid-column:1/-1}
@@ -75,10 +75,10 @@ button{font-family:inherit}
 #toast{position:absolute;left:0;right:0;top:34%;text-align:center;font-size:26px;font-weight:700;color:var(--gold);text-shadow:0 3px 0 #000;
   opacity:0;transition:opacity .25s;padding:0 16px}
 #toast.on{opacity:1}
-#tut{position:absolute;left:14px;right:14px;top:178px;background:#130f1ce6;box-shadow:inset 0 0 0 3px var(--gold);clip-path:var(--px);padding:10px 14px;font-size:15px;font-weight:600;text-align:center;color:var(--fg);pointer-events:none;animation:rvIn .3s steps(3)}
-#mNews{position:relative}#mNews.has::after{content:'';position:absolute;top:7px;right:9px;width:8px;height:8px;background:var(--red);box-shadow:0 0 0 2px #2a0a10}
+#tut{position:absolute;left:14px;right:14px;top:calc(178px + var(--sat,0px));background:#130f1ce6;box-shadow:inset 0 0 0 3px var(--gold);clip-path:var(--px);padding:10px 14px;font-size:15px;font-weight:600;text-align:center;color:var(--fg);pointer-events:none;animation:rvIn .3s steps(3)}
+#mNews{position:relative}#mNews.has::after{content:'';position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);box-shadow:0 0 0 2px #2a0a10}
 .shareimg{width:100%;max-height:58vh;object-fit:contain;image-rendering:auto;box-shadow:0 0 0 3px var(--line)}
-#note{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--fg);padding:10px 16px;
+#note{position:absolute;left:50%;bottom:calc(22px + var(--sab,0px));transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--fg);padding:10px 16px;
   box-shadow:inset 0 0 0 3px var(--gold);font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%;text-align:center}
 #note.on{opacity:1}
 #combo{position:absolute;right:10px;top:100px;text-align:right;font-weight:700;color:var(--gold);text-shadow:0 3px 0 #000a;line-height:1}
@@ -90,9 +90,10 @@ button{font-family:inherit}
 
 /* Screens */
 .scr{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;overflow-y:auto;
-  padding:22px 16px;background:#130f1cf2;-webkit-user-select:none;user-select:none}
+  padding:calc(22px + var(--sat,0px)) 16px calc(22px + var(--sab,0px));background:#130f1cf2;-webkit-user-select:none;user-select:none}
 .scr.clear{background:#130f1ccc;justify-content:center}
 .wrap{width:100%;max-width:520px;display:flex;flex-direction:column;gap:14px;margin:auto 0}
+.scr:not(.clear):not(#scr-menu)>.wrap{margin:0 0 auto}
 h1,h2,h3,p{margin:0}
 .logo{font-family:var(--font-px);font-size:clamp(44px,14vw,76px);line-height:.95;font-weight:700;color:var(--gold);letter-spacing:.02em;text-align:center;
   text-shadow:0 4px 0 #6b4a0f,0 8px 0 #0008;text-wrap:balance}
@@ -159,7 +160,7 @@ h1,h2,h3,p{margin:0}
 .sec{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-#buildbar{position:absolute;right:10px;bottom:10px;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+#buildbar{position:absolute;right:10px;bottom:calc(10px + var(--sab,0px));display:flex;flex-direction:column;gap:8px;pointer-events:none}
 .bb{pointer-events:auto;width:60px;min-height:62px;background:#0c0912dd;border:0;color:var(--fg);box-shadow:inset 0 0 0 3px #ffffff40;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 0;cursor:pointer}
 .bb>img{height:32px;image-rendering:pixelated}
@@ -172,8 +173,8 @@ h1,h2,h3,p{margin:0}
 #stick.rest{opacity:.5}
 html,body,#stage{touch-action:none}
 .scr{touch-action:pan-y}
-#upBtn{position:absolute;right:80px;bottom:10px;pointer-events:auto;white-space:nowrap}
-#repBtn{position:absolute;right:80px;bottom:60px;pointer-events:auto;white-space:nowrap}
+#upBtn{position:absolute;right:80px;bottom:calc(10px + var(--sab,0px));pointer-events:auto;white-space:nowrap}
+#repBtn{position:absolute;right:80px;bottom:calc(60px + var(--sab,0px));pointer-events:auto;white-space:nowrap}
 #upBtn:active,#repBtn:active,#upBtn.down,#repBtn.down{transform:translateY(3px)}
 #crbar{align-self:center;width:min(64%,280px);height:16px}
 #crFill{background:#5cd8ff}
@@ -200,7 +201,7 @@ html,body,#stage{touch-action:none}
 .pips{display:flex;gap:3px;margin-top:4px}
 .pips i{width:12px;height:8px;background:#0c0912;box-shadow:inset 0 0 0 1px var(--line)}
 .pips i.on{background:var(--gold)}
-.sticky{position:sticky;bottom:-22px;padding:12px 0 22px;background:linear-gradient(#130f1c00,#130f1cf2 30%)}
+.sticky{position:sticky;bottom:calc(-22px - var(--sab,0px));padding:12px 0 calc(22px + var(--sab,0px));background:linear-gradient(#130f1c00,#130f1cf2 30%)}
 .lvl{display:flex;flex-direction:column;gap:10px;width:100%}
 .lvl .card{flex-direction:row;align-items:center;gap:12px;padding:12px}
 .lvl .card img{width:48px;height:48px;image-rendering:pixelated;flex:none}
@@ -235,7 +236,7 @@ html,body,#stage{touch-action:none}
 .card.daily{flex-direction:row;align-items:center;gap:10px;box-shadow:inset 0 0 0 3px var(--gold);background:linear-gradient(90deg,#3a2a10,var(--panel) 70%);cursor:default}
 .card.daily.done{box-shadow:inset 0 0 0 3px var(--line);background:var(--panel);opacity:.8}.card.daily .t{flex:1;display:flex;flex-direction:column;gap:3px}
 .hcard{cursor:default;gap:10px}.hc-top{display:flex;gap:12px;align-items:center}.hc-top img{width:56px;height:56px;image-rendering:pixelated}.hc-top>div{flex:1}
-.lvbar{height:8px;background:#0c0912;box-shadow:inset 0 0 0 1px var(--line);margin-top:6px}.lvbar i{display:block;height:100%;background:var(--gold)}
+.lvbar{position:relative;height:12px;background:var(--ink);box-shadow:inset 0 0 0 2px var(--line);margin-top:6px}.lvbar i{position:absolute;left:2px;top:2px;bottom:2px;max-width:calc(100% - 4px);background:var(--gold)}
 .ic-st{list-style:none;display:flex;flex-direction:column;gap:3px;font-size:15px}.ic-st li{display:flex;justify-content:space-between;gap:10px}.ic-st b{color:var(--gold)}
 .tal{list-style:none;display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}.tal li{display:flex;gap:8px;align-items:center}
 .tal li b{min-width:28px;text-align:center;background:#0c0912;box-shadow:inset 0 0 0 2px var(--line);font-size:12px;padding:1px 0}
@@ -269,7 +270,7 @@ html,body,#stage{touch-action:none}
 #qPin{display:flex;align-items:center;gap:6px;align-self:flex-start;font-size:13px;font-weight:700;color:#ffe9a8;background:#0c0912b0;padding:3px 8px 3px 5px;box-shadow:inset 0 0 0 2px #ffffff22;text-shadow:0 1px 0 #000;max-width:72%}
 #qPin[hidden]{display:none}#qPin img{width:16px;height:16px;image-rendering:pixelated;flex:none}#qPin span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #qPin.hot{color:#ffd0c8;box-shadow:inset 0 0 0 2px var(--red);animation:qhot .5s steps(2) infinite alternate}@keyframes qhot{to{background:#3a0c12c0}}
-#mQuest,#mMaster{position:relative}#mMaster .lbl{letter-spacing:0;font-size:.92em}#mQuest.has::after,#mMaster.has::after{content:'';position:absolute;top:7px;right:9px;width:8px;height:8px;background:var(--red);box-shadow:0 0 0 2px #2a0a10;animation:qdot .6s steps(2) infinite alternate}@keyframes qdot{to{transform:scale(1.3)}}
+#mQuest,#mMaster{position:relative}#mMaster .lbl{letter-spacing:0;font-size:.92em}#mQuest.has::after,#mMaster.has::after{content:'';position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);box-shadow:0 0 0 2px #2a0a10;animation:qdot .6s steps(2) infinite alternate}@keyframes qdot{to{transform:scale(1.3)}}
 .qhead{display:flex;align-items:center;gap:8px;font-size:15px;margin-top:4px}.qhead b{color:var(--gold);font-size:18px}
 img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .qtrack{position:relative;height:54px;margin:6px 18px 4px}
@@ -305,7 +306,7 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .cx b{font-size:15px}.cx small{color:var(--muted);font-size:12px}
 .ma{display:flex;flex-direction:row;gap:10px;align-items:center;cursor:default}.ma>img{width:40px;height:40px;image-rendering:pixelated;flex:none}.ma.lock>img{filter:grayscale(1) brightness(.6)}
 .ma .mb{flex:1;min-width:0}.ma h3{font-size:15px}.ma p{font-size:12px;color:var(--muted);margin-top:2px}.ma .bar{height:8px;margin:6px 0 4px}.ma .bar i{background:var(--gold)}
-.ma small{font-size:11px;color:var(--muted)}.ma small b{color:var(--gold)}.ma .btn{flex:none;padding:8px 10px;font-size:13px}
+.ma .qbar{margin:6px 0 4px}.ma.done .qbar i,.ma.got .qbar i{background:var(--green)}.ma small{font-size:11px;color:var(--muted)}.ma small b{color:var(--gold)}.ma .btn{flex:none;padding:8px 10px;font-size:13px}
 .ma.done{box-shadow:inset 0 0 0 3px var(--gold)}.ma.got{opacity:.82}.ma.worn{box-shadow:inset 0 0 0 3px var(--green)}
 .matitle{background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:10px 12px;margin-bottom:12px;font-size:14px}.matitle b{color:var(--gold)}
 .ttl{display:inline-block;font-size:11px;font-weight:700;color:#1a1423;background:var(--gold);padding:0 5px;margin-left:6px;vertical-align:2px}
@@ -330,12 +331,18 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .title{font-family:var(--font-px);font-size:34px;font-weight:700;text-align:center;color:var(--gold);text-shadow:0 4px 0 #0008}
 .title.bad{color:var(--red)}
 table.res{width:100%;border-collapse:collapse;font-size:18px}
+.ovhead{position:relative;height:118px;background:#0c0912 center/cover no-repeat;image-rendering:pixelated;box-shadow:inset 0 0 0 3px var(--line);clip-path:var(--px);margin-bottom:-4px}
+.ovhead::after{content:'';position:absolute;inset:0;background:linear-gradient(#130f1c00 40%,#130f1cd0)}
+.ovhead img{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);height:76px;image-rendering:pixelated;z-index:1;filter:drop-shadow(0 4px 0 #0008)}
+.ovhead.won{box-shadow:inset 0 0 0 3px var(--gold)}
+.ovw{display:flex;justify-content:center;flex-wrap:wrap;gap:6px}.ovw .it{width:38px;height:38px}.ovw .it img{width:30px;height:30px}
 table.res td{padding:7px 4px;border-bottom:2px solid var(--line)}
 table.res td:last-child{text-align:right;font-weight:700}
 @media (prefers-reduced-motion:reduce){#toast,.bar i{transition:none}}
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
 .tabs button{flex:1;min-width:70px;font:inherit;font-weight:700;font-size:14px;padding:8px 6px;background:var(--panel);color:var(--muted);border:0;box-shadow:inset 0 0 0 3px var(--line);cursor:pointer}
 .tabs button.on{color:var(--ink);background:var(--gold);box-shadow:none}
+#boardTabs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}#boardTabs button{min-width:0;font-size:12px;padding:8px 2px}
 .brow{display:flex;align-items:center;gap:10px;background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:8px 10px}
 .brow.me{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}
 .brow .rk{width:32px;flex:none;font-size:18px;color:var(--gold);font-variant-numeric:tabular-nums}
@@ -348,7 +355,8 @@ table.res td:last-child{text-align:right;font-weight:700}
 .fl{display:flex;flex-direction:column;gap:6px;font-weight:700;color:var(--muted);font-size:14px}
 </style>
 
-<style>html{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);background:#130f1c}</style>
+<style>/* safe areas (notch, home bar): the canvas runs edge to edge, HUD and screens pad themselves */
+:root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}</style>
 </head>
 <body>
 <div id="app">
@@ -416,7 +424,7 @@ table.res td:last-child{text-align:right;font-weight:700}
   <section class="scr" id="scr-shop" hidden>
     <div class="wrap">
       <div class="head"><h2>Vylepšení</h2><button class="btn alt sm" data-back>Zpět</button></div>
-      <div class="coins"><img id="shopCoin" alt=""><span id="shopCoins">0</span></div>
+      <div class="mats" id="shopMats"></div>
       <p class="hint">Trvalé bonusy, které platí v každém dalším běhu.</p>
       <div class="stack" id="shopList"></div>
     </div>
@@ -537,8 +545,10 @@ table.res td:last-child{text-align:right;font-weight:700}
 
   <section class="scr clear" id="scr-over" hidden>
     <div class="wrap">
+      <div class="ovhead" id="ovHead"></div>
       <h2 class="title" id="ovTitle">Vítězství!</h2>
       <p class="tag" id="ovSub"></p>
+      <div class="ovw" id="ovW"></div>
       <table class="res" id="ovTable"></table>
       <div class="stack">
         <button class="btn" id="ovAgain">Znovu</button>
@@ -712,11 +722,16 @@ const HEROES={
  archer:{name:'Lučištník',desc:'Hbitý. +10 % rychlost.',start:'arrows',hp:0,armor:0,dmg:0,spd:.10,cost:300,pal:{},rows:[
   '..gggg','.ggggg','.gffff','.gfpff','..ffff','..gggg','.nnnnn','nnnbnn','.nnnnn','..n..n','..b..b']},
  bard:{name:'Bard',desc:'Hraje do rytmu. Zásah mu kombo jen způlí.',start:'note',hp:0,armor:0,dmg:.05,spd:0,cost:0,ach:'combo',pal:{a:'#b0303a',c:'#f6c744'},rows:[
-  '.....c','....cc','..aaaa','.aaaaa','aaaaaa','.fffff','.fpfff','..ffff','.mmmmm','mmmymm','.mmmmm','..m..m','..n..n']},
+  '.....c','....cc','...aaa','..aaaa','.aaaaa','.fffff','.fpfff','..ffff','.mmmmm','mmmymm','.mmmmm','..m..m','..n..n']},
  builder:{name:'Stavitel',desc:'Věže za 60 % ceny, začíná s jednou.',start:'axe',hp:0,armor:0,dmg:0,spd:0,cost:250,builder:true,pal:{},rows:[
   '..yyyy','.yyyyy','yyyyyy','.fffff','.fpfff','..ffff','.ooooo','oouuuu','ouuuuu','.uuuuu','..u..u','..n..n']}
 };
 const HERO_IDS=Object.keys(HEROES);
+const CHEST_ROWS=['...nnnnn','..nlllll','.nnnnnnn','.mmmmmmm','.nnnnnnn','.ddddddd','.mmmmmmy','.nnnnnyy','.nlnnnyY','.nnnnnyy','.mmmmmmm','.nnnnnnn','.ddddddd'];
+const CHEST_PAL={wood:{n:'#8a5a32',l:'#b07a48',d:'#5a3a1e',m:'#6a6a78',y:'#e0b040',Y:'#3a2010'},
+  iron:{n:'#6a6e80',l:'#9aa0b4',d:'#3e4252',m:'#2a2c38',y:'#cfd4e8',Y:'#1a1a24'},
+  gold:{n:'#d89a28',l:'#ffd86a',d:'#8a5a10',m:'#7a3ab0',y:'#ffffff',Y:'#5a2a80'}};
+const HERO_DAT={knight:'Rytíři',mage:'Mágovi',archer:'Lučištníkovi',builder:'Staviteli',bard:'Bardovi'};
 
 /* ----- art: icons (8x8, not mirrored) ----- */
 const ICONS={
@@ -770,6 +785,7 @@ const SPR={enemy:{},boss:{},hero:{},icon:{},prop:{},misc:{},elite:{},tower:{}};
 function initSprites(){
   ICONS.coin.pal=Object.assign({Y:'#c28a10'},ICONS.coin.pal);
   for(const id in ICONS)SPR.icon[id]=buildSprite(ICONS[id].rows,{mirror:false,pal:ICONS[id].pal,shade:false});
+  for(const k in CHEST_PAL)SPR.icon['chest_'+k]=buildSprite(CHEST_ROWS,{pal:CHEST_PAL[k]});
   for(const id in ENEMY_DEFS)SPR.enemy[id]=buildSprite(ENEMY_DEFS[id].rows,{pal:ENEMY_DEFS[id].pal});
   for(const id in BOSS_DEFS)SPR.boss[id]=buildSprite(BOSS_DEFS[id].rows,{pal:BOSS_DEFS[id].pal,scale:2});
   for(const id in HEROES)SPR.hero[id]=buildSprite(HEROES[id].rows,{pal:HEROES[id].pal});
@@ -1581,6 +1597,7 @@ const screens={menu:$('#scr-menu'),select:$('#scr-select'),shop:$('#scr-shop'),l
 function showScreen(n){for(const k in screens)screens[k].hidden=(k!==n);}
 function setState(s){state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
   $('#hud').hidden=!(run&&(s==='play'||s==='levelup'||s==='fuse'||s==='wait'||s==='pause'||s==='over'));
+  if(s!=='play'){const tt=$('#toast');if(tt)tt.classList.remove('on');}{const tu=$('#tut');if(tu)tu.style.visibility=s==='play'?'':'hidden';}
   showScreen(s==='play'?null:s);try{showStickRest();}catch(_){}
   muffle(s==='pause'||s==='levelup'||s==='over');
 }
@@ -2288,6 +2305,10 @@ function tutTick(dt){const T=run.tut,p=run.p,el=$('#tut');T.t-=dt;
 function loseRun(){finish(false);}
 function showOver(){
   if(!run||!run.over)return;
+  try{const oh=$('#ovHead');oh.style.backgroundImage='url('+mapThumb(run.mapId).toDataURL()+')';oh.className='ovhead'+(run.won?' won':'');
+    oh.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[run.heroId]||SPR.hero.knight)+'">';
+    $('#ovW').innerHTML=Object.keys(run.W).map(id=>'<div class="it'+(WEAPONS[id].ult?' ult':'')+'"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><em>'+(WEAPONS[id].ult?ROMAN[run.W[id].lv-1]:run.W[id].lv)+'</em></div>').join('')+
+      Object.keys(run.P).map(id=>'<div class="it"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><em>'+run.P[id]+'</em></div>').join('');}catch(_){}
   $('#ovTitle').textContent=run.won?'Vítězství!':'Konec běhu';$('#ovTitle').className='title'+(run.won?'':' bad');
   $('#ovSub').textContent=run.won?(run.map.boss&&BOSS_DEFS[run.map.boss].name+' je poražen.'+(run.unlocked?' Odemčena mapa: '+run.unlocked+'.':'')):(run.crystalDead?'Krystal se rozbil a krypta zvítězila.':'Krypta si tě tentokrát vzala.');
   const rows=[['Čas',fmtTime(run.t)],['Zabití',run.kills],['Úroveň',run.level],['Zlato celkem','+'+run.gain]];const W=run.rw||{};
@@ -2709,7 +2730,7 @@ function renderSelect(){
   $('#dailyGo').onclick=()=>{sfx('ui');startRun(heroOwned(sel.hero)?sel.hero:'knight',di.map,{mod:di.mod.id});};
 }
 function renderShop(){
-  $('#shopCoins').textContent=save.coins;
+  $('#shopMats').innerHTML=matsHtml();
   const box=$('#shopList');box.innerHTML='';
   META.forEach(m=>{const r=save.meta[m.id]||0,maxed=r>=m.max,cost=m.cost(r);
     const c=document.createElement('div');c.className='card shop';
@@ -2730,7 +2751,7 @@ function bindUi(){
   ico('#mChest',[dataUrl(SPR.icon.chest_gold)]);ico('#mShop',[dataUrl(SPR.icon.power)]);ico('#mCodex',[dataUrl(itemSpr('amulet',4))]);ico('#mBoard',[dataUrl(SPR.icon.trophy)]);ico('#mQuest',[dataUrl(SPR.icon.scroll)]);ico('#mMaster',[dataUrl(SPR.icon.medal)]);ico('#ovShare',[dataUrl(SPR.icon.share)]);ico('#mNews',[dataUrl(SPR.icon.news)]);ico('#mInstall',[dataUrl(SPR.icon.phone)]);
   ico('#mSound',[dataUrl(SPR.icon.sound)]);ico('#mMusic',[dataUrl(SPR.icon.music)]);ico('#mStick',[dataUrl(SPR.icon.stick)]);
   $('#crest').src=dataUrl(SPR.icon.skull);
-  pic('#icoCoin',SPR.icon.coin);pic('#icoSkull',SPR.icon.skull);pic('#menuCoin',SPR.icon.coin);pic('#shopCoin',SPR.icon.coin);
+  pic('#icoCoin',SPR.icon.coin);pic('#icoSkull',SPR.icon.skull);pic('#menuCoin',SPR.icon.coin);
   const par=$('#parade');[SPR.hero.knight,SPR.enemy.slime,SPR.enemy.skeleton,SPR.enemy.bat,SPR.enemy.zombie,SPR.enemy.ghost].forEach(sp=>{const i=document.createElement('img');i.alt='';i.src=dataUrl(sp);par.appendChild(i);});
   $('#mPlay').onclick=()=>{audioInit();sfx('ui');renderSelect();setState('select');};
   $('#mBoard').onclick=()=>{audioInit();sfx('ui');openBoard();};
@@ -3080,7 +3101,7 @@ function renderHero(){
 function openItem(u){const it=itemById(u);if(!it)return;const pop=$('#itemPop'),h=heroSel,who=equippedBy(u),on=who===h,c=ECON.upCost(it),rf=ECON.refund(it);
   pop.innerHTML='<div class="pop-card r'+it.r+'">'+itemCardHtml(it)+
     (who&&!on?'<p class="hint">Nosí ho '+HEROES[who].name+'.</p>':'')+
-    '<div class="pop-btns"><button class="btn sm" id="ipEq">'+(on?'Sundat':'Nasadit na '+HEROES[h].name)+'</button>'+
+    '<div class="pop-btns"><button class="btn sm" id="ipEq">'+(on?'Sundat':'Nasadit '+(HERO_DAT[h]||HEROES[h].name))+'</button>'+
     (it.lv<10?'<button class="btn alt sm" id="ipUp">Vylepšit +'+(it.lv+1)+' <span class="costs">'+costHtml(c)+'</span></button>':'<p class="hint">Maximální vylepšení.</p>')+
     (who?'':'<button class="btn alt sm" id="ipDel">Rozebrat <span class="costs">+'+rf.gold+' zl, +'+rf.mat+' '+MAT_NAME[rf.matId]+'</span></button>')+
     '<button class="btn alt sm" id="ipClose">Zavřít</button></div></div>';
@@ -3141,7 +3162,7 @@ function revealItem(it,chest,title,opts){const pop=(opts&&opts.pop)||$('#chestPo
     if(opened){const n=it.r>=3?16:12,rot=(t-T_OPEN)*.6;g.save();g.translate(cx,cy-30);g.rotate(rot);g.globalAlpha=clamp((t-T_OPEN)*3,0,1)*(.22+.06*it.r);g.fillStyle=col;
       for(let i=0;i<n;i++){g.rotate(6.283/n);g.beginPath();g.moveTo(0,0);g.lineTo(-9,-150);g.lineTo(9,-150);g.closePath();g.fill();}g.restore();g.globalAlpha=1;}
     // the chest
-    if(spr){const sc=6,w=spr.c.width*sc,h=spr.c.height*sc;
+    if(spr){const sc=spr.c.width>24?3.4:6,w=spr.c.width*sc,h=spr.c.height*sc;
       let sx=0,sy=0,sqx=1,sqy=1;
       if(!opened){const hp=[.35,.8,1.25];for(let i=0;i<3;i++){const d=t-hp[i];if(d>0&&d<.3){const f=d/.3,amp=10+i*7;sy=-Math.sin(f*Math.PI)*amp;sqx=1+(f<.15?.12:-.06)*(1-f);sqy=1/sqx;}
           if(d>0&&hops<=i){hops=i+1;sfx('hit');}}
@@ -3221,7 +3242,7 @@ function renderMaster(){const S=achInit();
   $('#maList').innerHTML=ACH.map(A=>{const v=achProg(A),got=!!save.ach[A.id],done=v>=A.n,worn=save.title===A.id&&got;
     const img=A.hero?dataUrl(SPR.hero[A.hero]):dataUrl(SPR.icon[A.ic]||SPR.icon.trophy);
     return '<div class="card ma'+(got?' got':done?' done':' lock')+(worn?' worn':'')+'" data-a="'+A.id+'"><img alt="" src="'+img+'"><div class="mb"><h3>'+A.name+'</h3><p>'+A.desc+'</p>'+
-      '<div class="bar"><i style="width:'+Math.round(v/A.n*100)+'%"></i></div><small>'+(A.n>1?v+' / '+A.n+' · ':'')+'titul <b>'+A.title+'</b> · '+A.g+' zlata'+(A.hero?' · hrdina '+HEROES[A.hero].name:'')+'</small></div>'+
+      '<div class="qbar"><i style="width:'+Math.round(v/A.n*100)+'%"></i><span>'+v+' / '+A.n+'</span></div><small>titul <b>'+A.title+'</b> · '+A.g+' zlata'+(A.hero?' · hrdina '+HEROES[A.hero].name:'')+'</small></div>'+
       (got?(worn?'<span class="ttl">Nosíš</span>':''):done?'<button class="btn" data-c="'+A.id+'">Vyzvednout</button>':'')+'</div>';}).join('');
   $('#maList').querySelectorAll('[data-c]').forEach(b=>b.onclick=e=>{e.stopPropagation();if(achClaim(b.dataset.c))renderMaster();});
   $('#maList').querySelectorAll('.ma.got').forEach(c=>c.onclick=()=>{save.title=c.dataset.a;persist();sfx('ui');renderMaster();});}
@@ -3725,6 +3746,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-06e',d:'6. 11. 2026',t:'Hezčí a jednotnější vzhled',items:[
+  'Hra na celou obrazovku už nemá <b>prázdný pruh dole</b>, svět jde až k okrajům a ovládání se vyhne výřezu i spodní liště.',
+  'Nové <b>truhly</b>, větší ikony zbraní v běhu a <b>konec běhu</b> s mapou, hrdinou a celým buildem.',
+  'Všechny obrazovky mají nadpis nahoře, stejné ukazatele postupu a stejnou lištu se zlatem a materiály.',
+  'Drobnosti: záložky žebříčku na jednom řádku, „Nasadit Rytíři“, Bard má menší klobouk.']},
  {v:'2026-11-06d',d:'6. 11. 2026',t:'Nová hudba',items:[
   'Každá mapa má <b>vlastní hudbu a nástroje</b>: hřbitov strašidelnou hrací skříňku, varhany a zvon, poušť buben darbuka, loutnu a hada zaklínajícího flétnou, doly kovárnu s kovadlinou a párou.',
   'Skladby mají <b>části, které se střídají</b> (úvod, sloka, refrén, ztišení), mění tóninu a melodie se při opakování obměňuje.',
