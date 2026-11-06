@@ -1,6 +1,14 @@
 # Pixel Krypta – návrh dlouhodobé progrese: materiály, výbava, obchod, rarity
 
-Stav: **návrh, neimplementováno.**
+Stav: **fáze 1–5 jsou hotové a nasazené** (listopad 2026). Zbývá: serverový inventář (fáze 6) a monetizace (fáze 7). Zatím jen herní měna pro kamarády a testery.
+
+### Jak je to postavené
+- Data a konfigurace: `MAT_OF`, `RAR`, `SLOTS`, `STATS` (rozsahy podle rarity), `LEGS`, `ECON` (truhly, šance, pity, ceny kování/rozebrání/úrovní hrdiny, předmět za NM), `TALENTS`, `DAILY_MODS`.
+- Save: `mats`, `hlv`, `inv` (předmět `{u,s,r,lv,st,lg}`), `eq[hrdina][slot]=uid`, `nm[mapa]`, `pity`, `daily`, `codex{f,l}`, `uidc`. Synchronizuje se do cloudu (`SYNC_KEYS`). Inventář max. 200 předmětů.
+- Statistiky: `heroBonus(h)` sečte výbavu, úroveň hrdiny a talenty → `run.bonus` → `recalc()`. Bez výbavy na úrovni 1 jsou nuly, takže sólo hraje přesně jako dřív. Talenty zbraní přes `w.xn` a `wP(id,w)`.
+- **Pro budoucí server:** losování a změny inventáře jsou jen v `openChest`, `makeItem`, `upgradeItem`, `dismantleItem`, `doMerge`, `heroUp` a `runRewards`. Tyhle funkce se dají nahradit voláním Edge Function, obrazovky se měnit nemusí.
+- Odchylky od návrhu: denní výzva nemá pevný seed ani vlastní žebříček (hra používá `Math.random`). Mapa a modifikátor jsou ale pro všechny stejné podle data. Materiál z bosse se připisuje rovnou do odměny (výhra ukončí běh dřív, než by se dal sebrat).
+- **Známé riziko:** cloud save pořád vyhrává jako celek podle `updated`, takže při hraní na dvou zařízeních zároveň se může ztratit předmět. Řeší to až fáze 6.
 
 ## 1. Proč a co je dnes špatně
 - Dnes dá běh cca 100–400 zlata. Meta vylepšení stojí dohromady cca 4 900 zlata a hrdinové 700, takže se **všechno dá vykoupit za 20–40 běhů**. Pak hráč nemá důvod se vracet.
