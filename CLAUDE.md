@@ -28,6 +28,8 @@ Klíčové koncepty:
 - Světla: offscreen vrstva s destination-out gradienty, additive glow, color grade `map.grade`, vinětace.
 - Hřbitov: generátor `buildGraveyard` (šumová půda, cesty, dlažba, hroby, `GK_PROPS`, `makeTree`, y-sort, průhlednost za objekty).
 - Poušť: generátor `buildDesert` (`style:'desert'`) – duny s větrnými vlnkami, jílové pláně s prasklinami, pískovcový chrám (plaza ±70 kolem krystalu, runový kruh, obelisky, pánve s ohněm), 4 zasypané cesty s kolonádami, 3 oázy s palmami (`run.built.oases`, voda léčí 1 HP / 0,4 s), kostra obra, stolové hory `makeMesa`, palmy `makePalm`, sprity `DS_PROPS`/`dsSprite` (`big:1` = scale 2).
+- Doly: generátor `buildMines` (`style:'mines'`) – čedičová podlaha s puklinami, žhavé žíly, lávová jezírka s krustou (hazard v `pools`), dřevěná plošina s těžní věží uprostřed, kolejová smyčka `run.built.rails` (pts/cum/len, `railPos(s)`), sprity `MN_PROPS`/`mnSprite`.
+  Speciální prvek: 3 důlní vozíky `run.carts` (`updateCarts`, 74 j/s) – běžné nepřátele zabijí, elitám ubere půlku, bossovi 90; hráče zraní (16) a odhodí. Vozíky mají světlo a jiskry.
 - Rytmus: WebAudio, `SONGS` per mapa (BPM, akordy, motiv), `conductor(dt)` krokuje 16tiny → `playStep` + `gameStep(s)`.
   Zbraně/věže střílí na kvantovaných krocích (`qsteps`, `W_OFF`), nepřátelé/spawny na `run.beatNow`/`run.barNow`, SFX přes `qTime` v tónech akordu. Combo, hit-stop.
 - Save: `localStorage['pixel-krypta-v1']`, objekt `save` (coins, heroes, cleared, best, meta, stats, nick, stick, updated…).
@@ -44,12 +46,11 @@ V simulacích vypni zvuk (`save.sound=false; save.music=false`). Online toky tes
 Po změně vždy: smoke test (start běhu, ~90 kroků, žádné `pageerror`, šířka dokumentu = viewport) a screenshot.
 
 ## Hotovo
-Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, testovací režim, rytmická chiptune hudba, propracovaný pixel art (hřbitov ve stylu Graveyard Keeper), žebříček + cloud save + přezdívka/PIN, hosting na GitHub Pages, joystick ve 3 režimech + multitouch, čitelnější písmo, plynulý šikmý pohyb (kamera), propracovaná poušť (chrám, oázy s léčením, kostra obra).
+Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, testovací režim, rytmická chiptune hudba, propracovaný pixel art (hřbitov ve stylu Graveyard Keeper), žebříček + cloud save + přezdívka/PIN, hosting na GitHub Pages, joystick ve 3 režimech + multitouch, čitelnější písmo, plynulý šikmý pohyb (kamera), propracovaná poušť (chrám, oázy s léčením, kostra obra), propracované doly (koleje, rozjeté vozíky, těžní věž).
 
 ## Nápady / plán
 - Online co-op pro 2 hráče: host-authoritative, host simuluje a posílá snapshoty ~15–20/s přes Supabase Realtime broadcast, druhý telefon posílá jen vstupy; kód místnosti, sdílený level-up, odpojení, interpolace, balanc pro 2. Odhad: pár hodin práce.
 - Alternativa: lokální co-op na jednom telefonu (dva joysticky) – cca čtvrtina práce.
-- Třetí mapa (Lávové doly) ještě používá jednoduchý generátor `buildMap` – kandidát na stejné zpracování.
 - Čekáme na feedback k balancu a ovládání od testerů.
 
 ## Údržba tohoto souboru
