@@ -1,6 +1,11 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Šťavnatější boj a nové věže":"Juicier combat and new towers",
+"Nepřátelé se při zásahu <b>prohnou</b> a po smrti se <b>rozpadnou na kousky</b>, kritické zásahy jsou větší a s vykřičníkem.":"Enemies <b>flinch</b> when hit and <b>shatter into pieces</b> when they die, critical hits are bigger and get an exclamation mark.",
+"<b>Výbuchy</b> mají záblesk, ohnivou kouli, kouř, žhavé uhlíky a spálenou zem. Ohnivé koule táhnou plamen, hořící zem opravdu hoří.":"<b>Explosions</b> have a flash, a fireball, smoke, glowing embers and scorched ground. Fireballs trail flames and burning ground really burns.",
+"Blesky se větví a blikají, čepele a sekery nechávají stopu, šípy svítí a mráz sype jinovatku. Ultimátky mají na začátku fráze rázovou vlnu.":"Lightning branches and flickers, blades and axes leave trails, arrows streak and frost scatters rime. Ultimates send a shockwave at the start of each phrase.",
+"<b>Nové věže</b>: kuše, která míří na cíl, pánev s plameny, vznášející se ledový krystal a cívka s jiskrami. Vylepšená věž má zlatý pás a prapory, při stavění vyroste ze země.":"<b>New towers</b>: a crossbow that aims at its target, a flaming brazier, a floating ice crystal and a sparking coil. Upgraded towers get a gold band and banners, and new ones rise out of the ground.",
 "Hra v angličtině":"The game in English",
 "Celá hra je teď i <b>anglicky</b>, ať si ji můžeš poslat i kamarádům ze zahraničí. Jazyk se vybere podle telefonu a přepneš ho v menu pod tlačítky Zvuk a Hudba.":"The whole game is now in <b>English</b> too. The language follows your phone and you can switch it in the menu below the Sound and Music buttons.",
 " % odměn":" % rewards",

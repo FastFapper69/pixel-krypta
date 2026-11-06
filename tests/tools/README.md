@@ -15,6 +15,7 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `chestanim.js`, `menushot.js`, `thumbs.js` – screenshoty animace truhly, menu, pohlednic map
 - `qtest.js <mapa>`, `qover.js` – úkoly, hledaní, svíčky, konec běhu
 - `i18n.js` (`static` = jen kontrola kódu), `en_shots.js` – anglická lokalizace (vedle `off.html` musí ležet kopie `lang-en.js`)
+- `vfx.js`, `vfx2.js`, `vfxperf.js` – efekty a věže (screenshoty, detailní snímky, fps v těžkém boji)
 - `mines.js`, `desert.js`, `cart.js` – mapy a vozíky
 
 Co-op testy jsou o úroveň výš (`tests/coop-test.js`, viz CLAUDE.md).
