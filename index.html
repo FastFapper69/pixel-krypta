@@ -28,8 +28,8 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
-html{height:100%}
-body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;font-weight:500;-webkit-font-smoothing:antialiased;
+html{height:var(--appH,100%);background:var(--bg)}
+body{height:var(--appH,100%);margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;font-weight:500;-webkit-font-smoothing:antialiased;
   overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 button{font-family:inherit}
 #app{position:fixed;left:0;top:0;width:100%;height:var(--appH,100%);overflow:hidden;background:var(--bg)}
@@ -76,6 +76,7 @@ button{font-family:inherit}
   opacity:0;transition:opacity .25s;padding:0 16px}
 #toast.on{opacity:1}
 #tut{position:absolute;left:14px;right:14px;top:calc(178px + var(--sat,0px));background:#130f1ce6;box-shadow:inset 0 0 0 3px var(--gold);clip-path:var(--px);padding:10px 14px;font-size:15px;font-weight:600;text-align:center;color:var(--fg);pointer-events:none;animation:rvIn .3s steps(3)}
+#mVer{font-size:11px;opacity:.6;margin-top:-6px}
 #mNews{position:relative}#mNews.has::after{content:'';position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);box-shadow:0 0 0 2px #2a0a10}
 .shareimg{width:100%;max-height:58vh;object-fit:contain;image-rendering:auto;box-shadow:0 0 0 3px var(--line)}
 #note{position:absolute;left:50%;bottom:calc(22px + var(--sab,0px));transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--fg);padding:10px 16px;
@@ -403,6 +404,7 @@ table.res td:last-child{text-align:right;font-weight:700}
         <button class="btn alt sm" id="mGold" hidden>+1000 zlata</button>
       </div>
       <p class="hint">Táhni prstem kamkoli na obrazovce a postava se rozběhne. Útočí sama.<br>Na počítači: WASD nebo šipky, Esc je pauza.</p>
+      <p class="hint ver" id="mVer"></p>
     </div>
   </section>
 
@@ -1587,8 +1589,9 @@ addEventListener('resize',resize);
 // strip at the bottom: size the app from the real screen there, elsewhere from the window
 function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches;
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
-  if(sa&&/iPhone|iPad|iPod/.test(navigator.userAgent||'')){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
-  document.documentElement.style.setProperty('--appH',h+'px');}catch(_){}}
+  if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
+  document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
+const GAME_VER='2026-11-06f';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -2660,6 +2663,7 @@ function refreshMenu(){
   setLbl('#mSound','Zvuk',!save.sound);
   setLbl('#mMusic','Hudba',!save.music);stickLabels();
   $('#mWarn').hidden=!/Instagram|FBAN|FBAV|FB_IAB|Messenger|TikTok|Snapchat/i.test(navigator.userAgent||'');
+  {const I=fitApp.info||{};$('#mVer').textContent='verze '+GAME_VER+' · '+(I.sa?'aplikace':'prohlížeč')+' · '+(I.ih||0)+'/'+(I.sh||0)+'/'+(I.h||0);}
   $('#mInstall').hidden=!pwaCan();$('#mNews').classList.toggle('has',newsUnseen().length>0);
   $('#mNick').hidden=!ON.ready;$('#mNick').textContent='Hráč: '+(save.nick||'bez přezdívky')+(titleOf(save)?' · '+titleOf(save):'')+' · změnit';
   if(save.cheat&&!isDev()){save.cheat=false;persist();}
