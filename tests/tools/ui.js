@@ -14,6 +14,7 @@ await p.evaluate(()=>{document.querySelectorAll('#chestList .card')[3].querySele
 await p.click('#rvOk');await p.evaluate(()=>document.querySelector('#scr-chests').scrollTop=900);await p.waitForTimeout(150);await p.screenshot({path:'ui_forge.png'});
 // merge ritual with perfect taps
 await p.evaluate(()=>{[...document.querySelectorAll('#forgeList .card')][0].querySelector('button').click();});
+await p.waitForTimeout(200);await p.click('[data-s="ring"]');await p.click('#mGo');
 const res=await p.evaluate(()=>new Promise(r=>{const K=window.__krypta;const loop=()=>{const F=K.FZ;if(!F){r('none');return;}const b=K.audioBeat(),i=F.res.findIndex(x=>x===null);
   if(i>=0&&b>=F.targets[i])K.fuseTap();if(F.done){r(F.res.join(''));return;}requestAnimationFrame(loop);};requestAnimationFrame(loop);}));
 await p.waitForTimeout(1500);console.log('sloučení:',res,'stav',await p.evaluate(()=>window.__krypta.state));await p.screenshot({path:'ui_merge.png'});

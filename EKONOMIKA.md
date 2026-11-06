@@ -10,6 +10,12 @@ Stav: **fáze 1–5 jsou hotové a nasazené** (listopad 2026). Zbývá: servero
 - Odchylky od návrhu: denní výzva nemá pevný seed ani vlastní žebříček (hra používá `Math.random`). Mapa a modifikátor jsou ale pro všechny stejné podle data. Materiál z bosse se připisuje rovnou do odměny (výhra ukončí běh dřív, než by se dal sebrat).
 - **Známé riziko:** cloud save pořád vyhrává jako celek podle `updated`, takže při hraní na dvou zařízeních zároveň se může ztratit předmět. Řeší to až fáze 6.
 
+### Revize 11/2026 (smysl materiálů)
+- Hrdina 1→20 stojí 900 Kostního prachu, 540 Jantaru, 300 Magmatitu a 3 800 zlata (dřív 1 140 / 540 / 100). Úrovně 15–19 mají pevně 54 Kostního prachu a Magmatit `12·(L−12)`, takže nejtěžší mapa má podíl i na hrdinech.
+- Vylepšení předmětu +0→+10: 220 materiálu (běžná) až 1 100 (legendární), 1 650 až 8 250 zlata. Poměr zlato : materiál ≈ 7,5 odpovídá příjmu z běhů, nic se nehromadí.
+- `upInvest(it)` = co šlo do vylepšení. Rozebrání vrací základ + 50 % vylepšení (dřív ~3 %). Sloučení vrátí 50 % vylepšení všech tří předmětů a hráč si vybere slot výsledku (`openMerge`, `doMerge(r,q,slot)`).
+- Ťuknutí na materiál v liště nebo v ceně ukáže `matInfo(m)` (kde padá, na co je), chybějící materiál má pod cenou nápovědu `missHint`.
+
 ## 1. Proč a co je dnes špatně
 - Dnes dá běh cca 100–400 zlata. Meta vylepšení stojí dohromady cca 4 900 zlata a hrdinové 700, takže se **všechno dá vykoupit za 20–40 běhů**. Pak hráč nemá důvod se vracet.
 - Cíl: hra, která je **opakovatelná a pořád zábavná**. Každý běh má přinést něco, co hráče posune, a každá mapa musí mít vlastní důvod se na ni vracet.
