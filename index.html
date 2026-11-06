@@ -1131,8 +1131,15 @@ function audioInit(){
       M.sfxBus=ac.createGain();M.sfxBus.gain.value=save.sound?.5:0;
       M.musicBus.connect(M.filter);M.filter.connect(comp);M.sfxBus.connect(comp);comp.connect(master);master.connect(ac.destination);
       const len=ac.sampleRate,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;M.noise=buf;}
-    if(ac.state==='suspended')ac.resume();}catch(e){}
+    // iOS leaves the context 'interrupted' (not 'suspended') after the phone was locked, and sometimes reports
+    // 'running' while staying silent: resume from any state, and rebuild the context on the next tap if the clock is stuck
+    if(M.dead){M.dead=false;try{ac.close();}catch(e){}ac=null;M.lastAudio=0;audioInit();return;}
+    if(ac.state!=='running'){const p=ac.resume();if(p&&p.catch)p.catch(()=>{});}
+    audioWatch();}catch(e){}
 }
+let awT=0;
+function audioWatch(){if(!ac||document.hidden)return;const t0=ac.currentTime;clearTimeout(awT);
+  awT=setTimeout(()=>{if(!ac||document.hidden)return;if(ac.state!=='running'||ac.currentTime===t0)M.dead=true;},800);}
 function setBuses(){if(!M.musicBus)return;M.musicBus.gain.setTargetAtTime(save.music?.3:0,ac.currentTime,.05);M.sfxBus.gain.setTargetAtTime(save.sound?.5:0,ac.currentTime,.05);}
 function muffle(on){if(!M.filter)return;try{M.filter.frequency.setTargetAtTime(on?650:18000,ac.currentTime,.08);}catch(e){}}
 function env(g,t,a,d,v){g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,v),t+a);g.gain.exponentialRampToValueAtTime(.0001,t+a+d);}
@@ -1146,7 +1153,7 @@ function setSong(id){M.song=SONGS[id];M.stepDur=60/M.song.bpm/4;M.step=0;M.acc=0
 function chordAt(step){const S=M.song,bar=Math.floor(Math.max(0,step)/16),c=S.prog[bar%S.prog.length];return{root:S.root+c[0],tones:c[1]==='m'?[0,3,7]:[0,4,7]};}
 function chordNote(i,oct){const c=chordAt(M.step-1),k=((i%3)+3)%3,o=Math.floor(i/3);return c.root+c.tones[k]+12*(o+(oct||0));}
 function playStep(s,t){
-  if(!ac||!save.music||!M.musicBus)return;
+  if(!ac||!save.music||!M.musicBus||ac.state!=='running')return;
   const S=M.song,s16=s%16,bar=Math.floor(s/16),c=chordAt(s),I=M.int,B=M.musicBus,sd=M.stepDur;
   try{
   if(s16%4===0&&(I>=2||s16%8===0))osc('sine',150,t,.16,.9,B,42);                                        // kick
@@ -1182,7 +1189,7 @@ function conductor(dt){
 // schedule an event sound on the next grid line so hits and pickups land in time with the music
 function qTime(div){if(!ac)return 0;const g=M.stepDur*div,now=ac.currentTime+.015,base=M.lastAudio||now;return base+Math.max(0,Math.ceil((now-base)/g))*g;}
 function sfx(k,arg){
-  if(!save.sound||!ac||!M.sfxBus||!M.song)return;
+  if(!save.sound||!ac||!M.sfxBus||!M.song||ac.state!=='running')return;
   const now=performance.now(),gap={hit:40,shoot:50,gem:30,kill:35,zap:50,boom:70,coin:60}[k]||0;if(sfxT[k]&&now-sfxT[k]<gap)return;sfxT[k]=now;
   const B=M.sfxBus,T=ac.currentTime,sd=M.stepDur;
   try{switch(k){
@@ -1240,7 +1247,9 @@ addEventListener('keydown',e=>{if(e.target&&e.target.tagName==='INPUT')return;ke
   if(!e.repeat&&state==='play'&&run){const i=['Digit1','Digit2','Digit3','Digit4'].indexOf(e.code);if(i>=0)buildTower(T_IDS[i]);if(e.code==='KeyE')upgradeTower();if(e.code==='KeyR')repairCrystal();}
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();});
 addEventListener('keyup',e=>{keys[e.code]=false;});
-document.addEventListener('pointerdown',()=>audioInit(),{passive:true});addEventListener('keydown',()=>audioInit());
+for(const ev of ['pointerdown','touchend','click'])document.addEventListener(ev,()=>audioInit(),{passive:true,capture:true});addEventListener('keydown',()=>audioInit());
+// coming back to the app: try to wake the audio straight away (a tap will finish the job where the OS insists on one)
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ac)audioInit();});addEventListener('pageshow',()=>{if(ac)audioInit();});
 function getInput(){
   if(window.__krypta&&window.__krypta.force)return window.__krypta.force;
   let x=0,y=0;if(keys.KeyA||keys.ArrowLeft)x--;if(keys.KeyD||keys.ArrowRight)x++;if(keys.KeyW||keys.ArrowUp)y--;if(keys.KeyS||keys.ArrowDown)y++;
@@ -2684,7 +2693,7 @@ onlineInit();
 {const m=/[?&]hra=([A-Za-z0-9]{4})/.exec(location.search);if(m){try{history.replaceState(null,'',location.pathname);}catch(e){}setTimeout(()=>openCoop(m[1].toUpperCase()),300);}}
 
 /* debug / test hooks */
-window.__krypta={get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
+window.__krypta={get ac(){return ac},get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
   openMenu,ON,onlineInit,CO,NET,LO,openCoop,coHostStart,coJoin,coHostGo,withPl,players,openBoard,saveNick,fusable,startFuse,fuseTap,audioBeat,FUSIONS,get FZ(){return FZ},buildTower,upgradeTower,repairCrystal,force:null,god:false,MAPS,WEAPONS,PASSIVES,ENEMY_DEFS,setSel:(h,m)=>{sel.hero=h;sel.map=m;}};
 })();
 </script>
