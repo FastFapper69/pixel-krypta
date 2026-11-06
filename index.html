@@ -210,7 +210,7 @@ html,body,#stage{touch-action:none}
 .co-join input{flex:1;min-width:0;font:inherit;font-size:24px;font-weight:700;letter-spacing:.3em;text-align:center;text-transform:uppercase;background:var(--panel);color:var(--fg);border:0;box-shadow:inset 0 0 0 3px var(--line);padding:8px}
 .co-join input:focus{outline:none;box-shadow:inset 0 0 0 3px var(--gold)}
 .co-err{color:#ff8a7a;text-align:center;min-height:20px;font-size:15px}
-.co-code{font-family:var(--font-px);font-size:56px;font-weight:700;letter-spacing:.18em;text-align:center;color:var(--gold);text-shadow:0 4px 0 #0008}
+.co-code{font-family:var(--font);font-variant-numeric:tabular-nums;font-size:60px;font-weight:700;letter-spacing:.22em;text-align:center;color:var(--gold);text-shadow:0 4px 0 #0008}
 .co-status{text-align:center;color:var(--fg);font-weight:600;min-height:22px}
 .co-picks{display:flex;flex-wrap:wrap;gap:8px}
 .co-pick{flex:1 1 30%;min-width:90px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;background:var(--panel);color:var(--fg);border:0;box-shadow:inset 0 0 0 3px var(--line);font:inherit;font-weight:600;font-size:14px}
@@ -337,7 +337,7 @@ table.res td:last-child{text-align:right;font-weight:700}
       <div class="stack" id="coStartBox">
         <p class="hint">Hrajete spolu na stejné mapě, každý na svém telefonu. Mezi vámi je rytmické pouto, které kosí nepřátele. Kdo padne, toho kamarád oživí.</p>
         <button class="btn" id="coHost">Založit hru</button>
-        <div class="co-join"><input id="coCode" maxlength="4" placeholder="KÓD" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="btn alt" id="coJoin">Připojit</button></div>
+        <div class="co-join"><input id="coCode" maxlength="4" placeholder="0000" inputmode="numeric" pattern="[0-9]*" autocomplete="off" spellcheck="false"><button class="btn alt" id="coJoin">Připojit</button></div>
         <p class="co-err" id="coErr"></p>
       </div>
       <div class="stack" id="coRoom" hidden>
@@ -2801,14 +2801,14 @@ function coRoomUi(){$('#coStartBox').hidden=true;$('#coRoom').hidden=false;$('#c
     b.innerHTML='<span>'+(t?'NM '+ROMAN_NM[t]:'Normální')+'</span>';b.onclick=()=>{LO.nm=t;sfx('ui');coRoomUi();netSend({t:'map',map:LO.map,nm:t});};nb.appendChild(b);}
   $('#coGo').disabled=!NET.open;
 }
-function coCode(){let s='';for(let i=0;i<4;i++)s+=CO_ABC[(Math.random()*CO_ABC.length)|0];return s;}
+function coCode(){let s='';for(let i=0;i<4;i++)s+=(Math.random()*10)|0;return s;}
 async function coHostStart(){
   sfx('ui');CO.role='host';const code=coCode();
   try{coStatus('Zakládám hru…');await netOpen('host',code);coRoomUi();coStatus('Čekám na kamaráda… Pošli mu kód.');}
   catch(e){$('#coErr').textContent=errText(e);CO.role=null;}
 }
 async function coJoin(code){
-  code=String(code||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,4);if(code.length!==4){$('#coErr').textContent='Kód má 4 znaky.';return;}
+  code=String(code||'').replace(/\D/g,'').slice(0,4);if(code.length!==4){$('#coErr').textContent='Kód má 4 číslice.';return;}
   sfx('ui');CO.role='guest';$('#coErr').textContent='';
   try{await netOpen('guest',code);coRoomUi();coStatus('Hledám hru '+code+'…');}
   catch(e){$('#coErr').textContent=errText(e);CO.role=null;}
@@ -3043,7 +3043,7 @@ refreshMenu();setState('menu');resize();
 new ResizeObserver(resize).observe(stage);
 requestAnimationFrame(frame);
 onlineInit();
-{const m=/[?&]hra=([A-Za-z0-9]{4})/.exec(location.search);if(m){try{history.replaceState(null,'',location.pathname);}catch(e){}setTimeout(()=>openCoop(m[1].toUpperCase()),300);}}
+{const m=/[?&]hra=(\d{4})/.exec(location.search);if(m){try{history.replaceState(null,'',location.pathname);}catch(e){}setTimeout(()=>openCoop(m[1]),300);}}
 
 /* debug / test hooks */
 window.__krypta={get ac(){return ac},get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
