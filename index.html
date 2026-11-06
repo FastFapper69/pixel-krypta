@@ -160,8 +160,9 @@ table.res td:last-child{text-align:right;font-weight:700}
 .brow .nm strong{font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .brow .nm small{color:var(--muted);font-size:12px}
 .brow .val{font-weight:700;font-size:13px;text-align:right;flex:none;max-width:45%}
-#nickInput{font:inherit;font-size:20px;padding:12px;background:var(--panel);color:var(--fg);border:0;box-shadow:inset 0 0 0 3px var(--line);width:100%;-webkit-user-select:text;user-select:text}
-#nickInput:focus-visible{outline:3px solid #fff}
+#nickInput,#pinInput{font:inherit;font-size:20px;padding:12px;background:var(--panel);color:var(--fg);border:0;box-shadow:inset 0 0 0 3px var(--line);width:100%;-webkit-user-select:text;user-select:text}
+#nickInput:focus-visible,#pinInput:focus-visible{outline:3px solid #fff}
+.fl{display:flex;flex-direction:column;gap:6px;font-weight:700;color:var(--muted);font-size:14px}
 </style>
 
 <style>html{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);background:#130f1c}</style>
@@ -195,6 +196,7 @@ table.res td:last-child{text-align:right;font-weight:700}
       <div class="parade" id="parade"></div>
       <div class="coins"><img id="menuCoin" alt=""><span id="menuCoins">0</span></div>
       <button class="btn alt sm" id="mNick" hidden></button>
+      <p class="hint" id="mWarn" hidden>Hraješ v prohlížeči uvnitř aplikace. Otevři hru v Safari nebo Chrome (tři tečky → Otevřít v prohlížeči), ať se ti postup pamatuje.</p>
       <div class="stack">
         <button class="btn" id="mPlay">Hrát</button>
         <button class="btn alt" id="mBoard">Žebříček</button>
@@ -271,9 +273,11 @@ table.res td:last-child{text-align:right;font-weight:700}
 
   <section class="scr" id="scr-nick" hidden>
     <div class="wrap">
-      <div class="head"><h2>Přezdívka</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="head"><h2 id="nickTitle">Hráč</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="tabs" id="nickTabs"><button data-m="new">Nový hráč</button><button data-m="login">Mám přezdívku</button></div>
       <p class="hint" id="nickMsg"></p>
-      <input id="nickInput" maxlength="16" autocomplete="off" spellcheck="false" placeholder="Tvoje přezdívka" aria-label="Přezdívka">
+      <label class="fl" id="nickWrap">Přezdívka<input id="nickInput" maxlength="16" autocomplete="off" spellcheck="false" placeholder="Tvoje přezdívka"></label>
+      <label class="fl" id="pinWrap">PIN (4 až 8 číslic)<input id="pinInput" type="password" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="••••"></label>
       <button class="btn" id="nickSave">Uložit</button>
     </div>
   </section>
@@ -304,7 +308,7 @@ const SAVE_KEY='pixel-krypta-v1';
 let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false};
 function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(s.cheat)save.cheat=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;}}catch(e){}}
+  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(s.cheat)save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;}}catch(e){}}
 function persist(){save.updated=Date.now();try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
 
@@ -1582,6 +1586,7 @@ function refreshMenu(){
   $('#menuCoins').textContent=money();
   $('#mSound').textContent='Zvuk: '+(save.sound?'zap':'vyp');
   $('#mMusic').textContent='Hudba: '+(save.music?'zap':'vyp');
+  $('#mWarn').hidden=!/Instagram|FBAN|FBAV|FB_IAB|Messenger|TikTok|Snapchat/i.test(navigator.userAgent||'');
   $('#mNick').hidden=!ON.ready;$('#mNick').textContent='Hráč: '+(save.nick||'bez přezdívky')+' · změnit';
   $('#mCheat').textContent='Testovací režim: '+(save.cheat?'zap':'vyp');$('#mGold').hidden=!save.cheat;
 }
@@ -1631,7 +1636,9 @@ function bindUi(){
   const par=$('#parade');[SPR.hero.knight,SPR.enemy.slime,SPR.enemy.skeleton,SPR.enemy.bat,SPR.enemy.zombie,SPR.enemy.ghost].forEach(sp=>{const i=document.createElement('img');i.alt='';i.src=dataUrl(sp);par.appendChild(i);});
   $('#mPlay').onclick=()=>{audioInit();sfx('ui');renderSelect();setState('select');};
   $('#mBoard').onclick=()=>{audioInit();sfx('ui');openBoard();};
-  $('#mNick').onclick=()=>{sfx('ui');openNick(false);};
+  $('#mNick').onclick=()=>{sfx('ui');openNick(save.pinSet?'rename':'pin');};
+  document.querySelectorAll('#nickTabs button').forEach(b=>b.onclick=()=>{sfx('ui');openNick(b.dataset.m);});
+  $('#pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveNick();});
   $('#nickSave').onclick=()=>saveNick();
   $('#nickInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveNick();});
   $('#boardRefresh').onclick=()=>{sfx('ui');openBoard();};
@@ -1659,41 +1666,69 @@ function onlineConfigured(){const c=window.KRYPTA_ONLINE;return !!(c&&c.url&&c.k
 const errText=e=>String((e&&(e.message||e.error_description))||e||'neznámá chyba');
 async function onlineInit(){
   if(!onlineConfigured()){refreshMenu();return;}
+  try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});}catch(e){}
   try{
-    const c=window.KRYPTA_ONLINE;ON.sb=window.supabase.createClient(c.url,c.key);
+    const c=window.KRYPTA_ONLINE;
+    // in-app browsers (Instagram, Facebook) may refuse storage: keep the login in memory too, so requests stay signed in
+    const mem={},store={getItem:k=>{if(k in mem)return mem[k];try{return localStorage.getItem(k)}catch(e){return null}},
+      setItem:(k,v)=>{mem[k]=v;try{localStorage.setItem(k,v)}catch(e){}},removeItem:k=>{delete mem[k];try{localStorage.removeItem(k)}catch(e){}}};
+    ON.sb=window.supabase.createClient(c.url,c.key,{auth:{storage:store,persistSession:true,autoRefreshToken:true}});
     let {data:{session}}=await ON.sb.auth.getSession();
     if(!session){const r=await ON.sb.auth.signInAnonymously();if(r.error)throw r.error;session=r.data.session;}
     ON.me=session.user;
     const {data,error}=await ON.sb.from('profiles').select('nick,save,updated_at').eq('id',ON.me.id).maybeSingle();
     if(error)throw error;
-    if(data){save.nick=data.nick;const rs=data.save||{};
+    if(data){save.nick=data.nick;const rs=data.save||{};if(rs.pinSet)save.pinSet=true;
       // the newer of the two saves wins, so playing on a second device never loses progress
       if((rs.updated||0)>(save.updated||0)){for(const k of ['coins','heroes','cleared','best','meta','stats','updated'])if(rs[k]!==undefined&&rs[k]!==null)save[k]=rs[k];
         if(!save.heroes.knight)save.heroes.knight=true;try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}}
       else if((save.updated||0)>(rs.updated||0))ON.dirty=true;}
     ON.ready=true;ON.err='';refreshMenu();
-    if(!data&&state==='menu')openNick(true);else if(ON.dirty)cloudSave();
+    if(!data){if(state==='menu')openNick('new');}else if(!save.pinSet){if(state==='menu')openNick('pin');}else if(ON.dirty)cloudSave();
   }catch(e){ON.err=errText(e);ON.ready=false;refreshMenu();}
 }
 let cloudT=null;
 function cloudSave(){if(!ON.ready||!save.nick)return;ON.dirty=true;clearTimeout(cloudT);cloudT=setTimeout(cloudFlush,1500);}
 async function cloudFlush(){
   if(!ON.ready||!ON.dirty||ON.busy||!save.nick)return;ON.busy=true;ON.dirty=false;
-  const payload={coins:save.coins,heroes:save.heroes,cleared:save.cleared,best:save.best,meta:save.meta,stats:save.stats||null,updated:save.updated||Date.now()};
+  const payload={coins:save.coins,heroes:save.heroes,cleared:save.cleared,best:save.best,meta:save.meta,stats:save.stats||null,pinSet:!!save.pinSet,updated:save.updated||Date.now()};
   let err=null;
   try{const {error}=await ON.sb.from('profiles').upsert({id:ON.me.id,nick:save.nick,save:payload,stats:save.stats||{},updated_at:new Date().toISOString()});if(error)throw error;ON.err='';}
   catch(e){err=e;ON.err=errText(e);if(!(e&&e.code==='23505'))ON.dirty=true;}
   ON.busy=false;if(ON.dirty){clearTimeout(cloudT);cloudT=setTimeout(cloudFlush,5000);}
   return err;
 }
-function openNick(first){$('#nickInput').value=save.nick||'';$('#nickMsg').textContent=first?'Vyber si přezdívku, pod kterou tě kamarádi uvidí v žebříčku.':'Přezdívku můžeš kdykoli změnit.';setState('nick');}
+let nickMode='new';
+const NICK_TXT={new:['Nový hráč','Vyber si přezdívku a PIN. PINem se přihlásíš na jiném zařízení, nebo když prohlížeč smaže data.'],
+  login:['Přihlášení','Zadej svou přezdívku a PIN a vrátí se ti postup.'],rename:['Změna přezdívky','Nová přezdívka se ukáže v žebříčku.'],
+  pin:['Nastav si PIN','Bez PINu bys o postup mohl přijít. Zvol 4 až 8 číslic.']};
+function openNick(mode){nickMode=mode===true?'new':mode===false?'rename':mode;const T=NICK_TXT[nickMode];
+  $('#nickTitle').textContent=T[0];$('#nickMsg').textContent=T[1];
+  $('#nickTabs').hidden=!(nickMode==='new'||nickMode==='login');
+  document.querySelectorAll('#nickTabs button').forEach(b=>b.classList.toggle('on',b.dataset.m===nickMode));
+  $('#nickWrap').hidden=nickMode==='pin';$('#pinWrap').hidden=nickMode==='rename';
+  $('#nickInput').value=nickMode==='rename'?(save.nick||''):'';$('#pinInput').value='';setState('nick');}
 async function saveNick(){
-  const v=$('#nickInput').value.trim().replace(/\s+/g,' ');
-  if(v.length<2||v.length>16){$('#nickMsg').textContent='Přezdívka musí mít 2 až 16 znaků.';return;}
-  const prev=save.nick;save.nick=v;
-  if(ON.ready){$('#nickMsg').textContent='Ukládám…';ON.dirty=true;clearTimeout(cloudT);const e=await cloudFlush();
-    if(e){save.nick=prev;$('#nickMsg').textContent=e.code==='23505'?'Tuhle přezdívku už někdo má. Zkus jinou.':'Uložení se nepovedlo: '+errText(e);return;}}
-  persist();refreshMenu();note('Hraješ jako '+v);setState('menu');
+  const msg=$('#nickMsg'),v=$('#nickInput').value.trim().replace(/\s+/g,' '),pin=$('#pinInput').value.trim();
+  if(nickMode!=='pin'&&(v.length<2||v.length>16)){msg.textContent='Přezdívka musí mít 2 až 16 znaků.';return;}
+  if(nickMode!=='rename'&&!/^\d{4,8}$/.test(pin)){msg.textContent='PIN musí mít 4 až 8 číslic.';return;}
+  if(!ON.ready){msg.textContent='Nejsi připojený k serveru. Zkus to za chvíli znovu.';return;}
+  msg.textContent='Ukládám…';
+  try{
+    if(nickMode==='login'){
+      const {error}=await ON.sb.rpc('claim_profile',{p_nick:v,p_pin:pin});if(error)throw error;
+      const {data,error:e2}=await ON.sb.from('profiles').select('nick,save').eq('id',ON.me.id).maybeSingle();if(e2)throw e2;
+      if(data){save.nick=data.nick;const rs=data.save||{};for(const k of ['coins','heroes','cleared','best','meta','stats','updated'])if(rs[k]!==undefined&&rs[k]!==null)save[k]=rs[k];
+        if(!save.heroes.knight)save.heroes.knight=true;}
+      save.pinSet=true;persist();
+    }else{
+      if(nickMode!=='pin'){const prev=save.nick;save.nick=v;ON.dirty=true;clearTimeout(cloudT);const e=await cloudFlush();
+        if(e){save.nick=prev;msg.textContent=e.code==='23505'?(nickMode==='new'?'Tahle přezdívka už existuje. Jestli je tvoje, přepni na „Mám přezdívku“ a zadej PIN.':'Tuhle přezdívku už někdo má.'):'Uložení se nepovedlo: '+errText(e);return;}}
+      if(nickMode!=='rename'){const {error}=await ON.sb.rpc('set_pin',{p_pin:pin});if(error)throw error;save.pinSet=true;}
+      persist();
+    }
+  }catch(e){msg.textContent=nickMode==='login'?'Špatná přezdívka nebo PIN.':'Nepovedlo se: '+errText(e);return;}
+  refreshMenu();note('Hraješ jako '+save.nick);setState('menu');
 }
 function recordRun(won){
   if(save.cheat)return; // test-mode runs never reach the leaderboard
