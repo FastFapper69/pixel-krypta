@@ -66,7 +66,7 @@ for(const map of maps)for(const hero of heroes)for(let i=0;i<N;i++){
     if(st==='over')break;
     if(st!=='run'&&st!=='play'&&st!=='levelup'&&st!=='fuse'){await p.waitForTimeout(50);}
   }
-  const r=await p.evaluate(()=>{const K=window.__krypta,R=K.run;if(window.DBG)console.log(R.p.x,R.p.y,K.state);if(!R.over)K.finish(false);return K.lastRun||K.tmRow('death');});
+  const r=await p.evaluate(()=>{const K=window.__krypta,R=K.run;if(window.DBG)console.log(R.p.x,R.p.y,K.state);if(!R.over)K.finish(false);return Object.assign({},K.lastRun||K.tmRow('death'),{gain:R.gain,rw:R.rw&&R.rw.mat?R.rw.mat[1]:0});});
   rows.push(r);process.stdout.write('.');if(process.env.DBG)console.log(await p.evaluate(()=>window.__dbg.slice(0,12).join('\n')));
 }
 console.log('\nprofil: '+PROF+(NM?' · Noční můra '+NM:'')+' · '+rows.length+' běhů za '+Math.round((Date.now()-t0)/1000)+' s');
