@@ -1,11 +1,11 @@
-// New main menu: screenshots of the menu, Settings, Shop and Hall of Fame tabs. node menu_shots.js <prefix> [cs|en] [iphone]
+// New main menu: screenshots of the menu, Settings, Shop and Hall of Fame tabs. node menu_shots.js <prefix> [cs|en] [iphone] (env F=soubor.html, BIG=1 = velké částky)
 // iphone = 393x852 with simulated safe areas (59/34 px), Dynamic Island and status bar drawn on top.
 const {chromium}=require('playwright');const pre=process.argv[2]||'mn',lang=process.argv[3]||'cs',IP=process.argv[4]==='iphone';
 (async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:IP?{width:393,height:852}:{width:390,height:800},deviceScaleFactor:2,hasTouch:true,isMobile:true});
- await c.addInitScript(l=>localStorage.setItem('pixel-krypta-lang',l),lang);
+ await c.addInitScript(l=>localStorage.setItem('pixel-krypta-lang',l),lang);if(process.env.BIG)await c.addInitScript(()=>{window.__C=52340;window.__M={bone:1240,amber:860,magma:312};});
  const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
  await p.goto('file://'+__dirname+'/off.html');await p.waitForTimeout(500);
- await p.evaluate(IP=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;K.save.newsSeen='2000';K.save.coins=1240;K.econInit();K.save.mats={bone:36,amber:12,magma:4};
+ await p.evaluate(IP=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;K.save.newsSeen='2000';K.save.coins=+(window.__C||1240);K.econInit();K.save.mats=window.__M||{bone:36,amber:12,magma:4};
   if(IP){const R=document.documentElement.style;R.setProperty('--sat','59px');R.setProperty('--sab','34px');
    const sb=document.createElement('div');sb.style.cssText='position:fixed;z-index:99;left:0;right:0;top:0;height:54px;display:flex;align-items:center;justify-content:space-between;padding:4px 34px 0 52px;font:600 17px -apple-system,system-ui,sans-serif;color:#fff;pointer-events:none';
    sb.innerHTML='<span>9:41</span><span>▮▮▮ ◗ ▭</span>';document.body.appendChild(sb);

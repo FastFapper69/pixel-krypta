@@ -1,4 +1,5 @@
 // Bot, který hraje celé běhy a vypíše statistiky (míra výher, čas, co zabíjí, které zbraně vyhrávají).
+// env F=jiný soubor hry místo off.html
 // Spuštění (vedle leží off.html, viz README):  node bot.js [počet_běhů=6] [hrdinové=all] [mapy=all] [nm=0] [novy|zkuseny|max]
 //   např.  node bot.js 10 knight,bard hrbitov
 // Bot je „průměrně rozumný hráč“: utíká před hordou a střelami, sbírá krystaly, brání krystal v poušti,
@@ -11,7 +12,7 @@ const PROF=process.argv[6]||'novy';
 (async()=>{
 const b=await chromium.launch();const c=await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true});
 const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
-await p.goto('file://'+process.cwd()+'/off.html');await p.waitForTimeout(500);
+await p.goto('file://'+process.cwd()+'/'+(process.env.F||'off.html'));await p.waitForTimeout(500);
 const ids=await p.evaluate(()=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;
   return {heroes:Object.keys(K.save.heroes&&Object.keys(K.save.heroes).length?{knight:1,archer:1,mage:1,builder:1,bard:1}:{}),maps:['hrbitov','poust','doly']};});
 const heroes=HERO==='all'?['knight','archer','mage','builder','bard']:HERO.split(',');
