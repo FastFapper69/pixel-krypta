@@ -18,6 +18,7 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `vfx.js`, `vfx2.js`, `vfxperf.js` – efekty a věže (screenshoty, detailní snímky, fps v těžkém boji)
 - `guide_shots.js <prefix> [cs|en]` – screenshoty menu a všech záložek Průvodce
 - `menu_mock.js <prefix>` – návrh nového menu (spodní lišta, Nastavení) vykreslený ve hře, zatím jen maketa
+- `menu_mock2.js <prefix> [iphone]` – návrh 2 menu: původní tlačítka, jen 6 + horní lišta s ikonami (Novinky, Průvodce, Nastavení)
 - `mines.js`, `desert.js`, `cart.js` – mapy a vozíky
 - `bot.js [běhů] [hrdinové|all] [mapy|all] [nm] [novy|zkuseny|max]` – bot odehraje celé běhy a vypíše míru výher, medián času, příčiny smrti, úspěšnost zbraní a kdo dává poškození (60 běhů ≈ 30 s). Profil: `novy` = čerstvý účet, `zkuseny` = hrdina 10 + obchod napůl, `max` = hrdina 20 + obchod naplno (vždy bez výbavy). Řádky jsou ve stejném formátu jako telemetrie (`bot-results.json`). Bot je „průměrný hráč“ – věř hlavně **rozdílům** mezi hrdiny/mapami, ne absolutním číslům.
 
