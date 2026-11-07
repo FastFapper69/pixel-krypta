@@ -1,6 +1,9 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Ladění podle dat":"Tuning by data",
+"Po každém běhu hra anonymně uloží <b>krátkou statistiku</b> (hrdina, mapa, čas, zbraně, co tě zabilo). Podle ní budu ladit obtížnost a zbraně, místo hádání.":"After every run the game anonymously saves a <b>short summary</b> (hero, map, time, weapons, what killed you). I'll use it to tune difficulty and weapons instead of guessing.",
+"Neukládá se nic osobního a statistiky nikdo jiný ve hře nevidí.":"Nothing personal is stored and no other player can see these stats.",
 "Šťavnatější boj a nové věže":"Juicier combat and new towers",
 "Nepřátelé se při zásahu <b>prohnou</b> a po smrti se <b>rozpadnou na kousky</b>, kritické zásahy jsou větší a s vykřičníkem.":"Enemies <b>flinch</b> when hit and <b>shatter into pieces</b> when they die, critical hits are bigger and get an exclamation mark.",
 "<b>Výbuchy</b> mají záblesk, ohnivou kouli, kouř, žhavé uhlíky a spálenou zem. Ohnivé koule táhnou plamen, hořící zem opravdu hoří.":"<b>Explosions</b> have a flash, a fireball, smoke, glowing embers and scorched ground. Fireballs trail flames and burning ground really burns.",

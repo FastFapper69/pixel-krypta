@@ -17,6 +17,7 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `i18n.js` (`static` = jen kontrola kódu), `en_shots.js` – anglická lokalizace (vedle `off.html` musí ležet kopie `lang-en.js`)
 - `vfx.js`, `vfx2.js`, `vfxperf.js` – efekty a věže (screenshoty, detailní snímky, fps v těžkém boji)
 - `mines.js`, `desert.js`, `cart.js` – mapy a vozíky
+- `bot.js [běhů] [hrdinové|all] [mapy|all] [nm] [novy|zkuseny|max]` – bot odehraje celé běhy a vypíše míru výher, medián času, příčiny smrti, úspěšnost zbraní a kdo dává poškození (60 běhů ≈ 30 s). Profil: `novy` = čerstvý účet, `zkuseny` = hrdina 10 + obchod napůl, `max` = hrdina 20 + obchod naplno (vždy bez výbavy). Řádky jsou ve stejném formátu jako telemetrie (`bot-results.json`). Bot je „průměrný hráč“ – věř hlavně **rozdílům** mezi hrdiny/mapami, ne absolutním číslům.
 
 Co-op testy jsou o úroveň výš (`tests/coop-test.js`, viz CLAUDE.md).
 Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav podle potřeby.
