@@ -427,14 +427,22 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 .bmgrid button .n{position:absolute;left:3px;top:2px;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 0 #000,0 0 3px #000}
 .bmname{text-align:center;font-weight:700;font-size:15px}.bmname small{display:block;font-weight:600;font-size:12px;color:var(--muted)}
 .bmaps .chbar{margin:0}.bmaps .chh h3{font-size:18px}
-/* podium for the top three, own row pinned at the bottom */
-.podium{display:grid;grid-template-columns:1fr 1.12fr 1fr;align-items:end;gap:6px;margin-top:4px}
-.pod{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;text-align:center}
-.pod>img{width:40px;height:40px;image-rendering:pixelated}.pod.p1>img{width:48px;height:48px}
-.pod strong{font-size:14px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pod .ttl{margin:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pod small{font-size:12px;color:var(--muted);line-height:1.25}
-.pod .stand{width:100%;margin-top:4px;display:flex;justify-content:center;padding-top:6px;font:700 22px var(--font-px);color:var(--mc);background:var(--panel);box-shadow:inset 0 3px 0 var(--mc),inset 0 0 0 3px var(--line);clip-path:var(--px)}
-.pod.p1 .stand{height:70px}.pod.p2 .stand{height:52px}.pod.p3 .stand{height:40px}.pod.me strong{color:var(--gold)}
+/* top three: a champion card across the width, 2nd and 3rd side by side; own row pinned at the bottom */
+.podium{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
+.tc{position:relative;display:flex;flex-direction:column;gap:6px;min-width:0;padding:10px 10px 10px;background:var(--panel);background-image:var(--tex);background-size:32px 32px;clip-path:var(--px);box-shadow:inset 0 0 0 3px var(--mc),inset 0 4px 0 3px var(--mc)}
+.tc.p1{grid-column:1/-1;padding:12px;background-color:var(--panel-hi);box-shadow:inset 0 0 0 3px var(--mc),inset 0 0 26px #f6c74430}
+.tc .tt{display:flex;align-items:center;gap:10px;min-width:0}
+.tc .av{position:relative;flex:none;width:44px;height:44px;display:grid;place-items:center;background:#0c0912;clip-path:var(--px);box-shadow:inset 0 0 0 2px var(--mc)}
+.tc .av img{width:34px;height:34px;image-rendering:pixelated}.tc.p1 .av{width:56px;height:56px}.tc.p1 .av img{width:44px;height:44px}
+.tc .rk{position:absolute;left:-2px;bottom:-2px;min-width:18px;height:18px;display:grid;place-items:center;font:700 12px var(--font);color:#1a1423;background:var(--mc);clip-path:var(--px)}.tc.p1 .rk{min-width:22px;height:22px;font-size:14px}
+.tc .who{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.tc strong{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tc.p1 strong{font-size:18px}.tc.me strong{color:var(--gold)}
+.tc .ttl{margin:0;align-self:flex-start;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tc .big{font-weight:700;font-size:14px;color:var(--mc)}.tc.p1 .big{font-size:17px}
+.tc .crown{position:absolute;right:10px;top:8px;width:26px;height:26px;image-rendering:pixelated;opacity:.9}
+.chips{display:flex;flex-wrap:wrap;gap:4px 6px}.tc:not(.p1) .chips{gap:4px;flex-wrap:nowrap}.tc:not(.p1) .chip{padding:3px 4px;gap:3px}.tc:not(.p1) .chip img{width:12px;height:12px}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--fg);background:#0c0912a0;padding:3px 6px;clip-path:var(--px);white-space:nowrap}
+.chip img{width:14px;height:14px;image-rendering:pixelated}.chip span{color:var(--muted);font-weight:600}
 .bme{padding-top:8px;background:linear-gradient(#130f1c00,#130f1c 8px)}.bme .brow{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}.bme .none{text-align:center;font-size:13px;color:var(--muted);padding:10px;background:var(--panel);clip-path:var(--px)}
 .brow{display:flex;align-items:center;gap:10px;background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:8px 10px}
 .brow.me{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}
@@ -2645,7 +2653,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07n';
+const GAME_VER='2026-11-07o';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4371,6 +4379,11 @@ function boardRow(r,i){const el=document.createElement('div');el.className='brow
   const val=document.createElement('div');val.className='val';const v1=document.createElement('span'),v2=document.createElement('small');v1.textContent=boardVal(r,true);v2.textContent=boardSub(r);val.append(v1,v2);el.append(rk,nm,val);return el;}
 // main result (wins, or NM · win · time) and the line under it (kills, hero of the daily run)
 function boardVal(r){if(boardTab==='celkem')return (r.st.wins||0)+_t(' výher');const b=r.b;return (b.nm?_t('NM ')+b.nm+' · ':'')+(b.won?_t('Výhra · '):'')+fmtTime(b.t);}
+// small stat chips: kills, maps cleared, heroes (wins too on the overall tab when there is room)
+function boardChips(r,wide){const sv=r.sv||{},cl=MAP_IDS.filter(m=>(sv.cleared||{})[m]).length,hc=Object.keys(sv.heroes||{}).filter(k=>HEROES[k]&&sv.heroes[k]).length,
+  kills=boardTab==='celkem'?(r.st.kills||0):r.b.kills,c=(ic,v,lab)=>'<span class="chip"><img alt="" src="'+dataUrl(ic)+'">'+v+(lab?'<span>'+lab+'</span>':'')+'</span>';
+  const kf=wide||kills<1000?kills.toLocaleString(EN?'en':'cs'):(Math.round(kills/100)/10).toLocaleString(EN?'en':'cs')+'k';
+  return c(SPR.icon.skull,kf,wide?_t('zabití'):'')+c(SPR.icon.scroll,cl+'/'+MAP_IDS.length,wide?_t('map'):'')+c(SPR.hero.knight,hc+'/'+HERO_IDS.length,wide?_t('hrdinů'):'');}
 function boardSub(r){if(boardTab==='celkem')return (r.st.kills||0)+_t(' zabití');const b=r.b;return (boardTab==='dnes'&&HEROES[b.hero]?HEROES[b.hero].name+' · ':'')+b.kills+_t(' zabití');}
 function renderBoard(){
   document.querySelectorAll('#boardTabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===boardTab||(b.dataset.t==='map'&&!!MAPS[boardTab])));
@@ -4396,14 +4409,16 @@ function renderBoard(){
   const di=dailyInfo();
   msg.textContent=boardTab==='celkem'?'':boardTab==='dnes'?_t('Dnešní výzva: ')+MAPS[di.map].name+' · '+di.mod.name+_t('. Všichni hrají stejný běh, počítá se tvůj nejlepší pokus dne.'):_t('Výš je vyšší Noční můra, pak výhra. Výhry se řadí podle nejrychlejšího času.');
   if(!rows.length){msg.textContent=(msg.textContent?msg.textContent+' ':'')+_t('Zatím tu nikdo nemá výsledek. Buď první!');}
-  // podium: 2nd, 1st, 3rd
+  // top three: champion card, then 2nd and 3rd side by side, each with its numbers as chips
   if(rows.length){pod.hidden=false;const MC=['#f6c744','#c8ccd8','#d08850'];
-    for(const i of [1,0,2]){const r=rows[i],d=document.createElement('div');if(!r){pod.appendChild(d);continue;}
-      d.className='pod p'+(i+1)+(ON.me&&r.id===ON.me.id?' me':'');d.style.setProperty('--mc',MC[i]);
-      const hero=r.b&&HEROES[r.b.hero]?r.b.hero:null,im=document.createElement('img');im.alt='';im.src=dataUrl(hero?SPR.hero[hero]:i?SPR.icon.medal:SPR.icon.trophy);
-      const n=document.createElement('strong');n.textContent=r.nick;const v=document.createElement('small');v.textContent=boardVal(r);d.append(im,n);
-      const tl=titleOf(r.sv);if(tl){const t=document.createElement('span');t.className='ttl';t.textContent=tl;d.append(t);}
-      const sd=document.createElement('div');sd.className='stand';sd.textContent=i+1;d.append(v,sd);pod.appendChild(d);}}
+    for(let i=0;i<Math.min(3,rows.length);i++){const r=rows[i],d=document.createElement('div');
+      d.className='tc p'+(i+1)+(ON.me&&r.id===ON.me.id?' me':'');d.style.setProperty('--mc',MC[i]);
+      const hero=r.b&&HEROES[r.b.hero]?r.b.hero:null,tl=titleOf(r.sv);
+      d.innerHTML='<div class="tt"><div class="av"><img alt="" src="'+dataUrl(hero?SPR.hero[hero]:i?SPR.icon.medal:SPR.icon.trophy)+'"><b class="rk">'+(i+1)+'</b></div>'+
+        '<div class="who"><strong></strong>'+(tl?'<span class="ttl"></span>':'')+'<span class="big"></span></div></div><div class="chips">'+boardChips(r,!i)+'</div>';
+      d.querySelector('strong').textContent=r.nick;if(tl)d.querySelector('.ttl').textContent=tl;d.querySelector('.big').textContent=boardVal(r);
+      if(!i&&hero){const cr=document.createElement('img');cr.className='crown';cr.alt='';cr.src=dataUrl(SPR.icon.trophy);d.appendChild(cr);}
+      pod.appendChild(d);}}
   rows.slice(3,100).forEach((r,k)=>list.appendChild(boardRow(r,k+3)));
   // your own place, always in sight
   if(boardIO){boardIO.disconnect();boardIO=null;}
@@ -5323,7 +5338,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
- {v:'2026-11-07n',d:'7. 11. 2026',t:_t('Podle vašich názorů'),items:[_t('Žebříček: náhledy map při přepínání neblikají a tvůj řádek se dole připne, jen když tvoje místo není vidět.'),_t('Před prvním <b>rituálem</b> (fúze zbraní, sloučení v kovárně) se ukáže krátké vysvětlení a rituál začne, až ťukneš na Začít.'),_t('U vylepšení hrdiny i předmětů vidíš vedle ceny, <b>kolik suroviny máš</b> (třeba 90/1240).')]},
+ {v:'2026-11-07o',d:'7. 11. 2026',t:_t('Podle vašich názorů'),items:[_t('Žebříček: první tři mají vlastní karty se zabitími, mapami a hrdiny. Náhledy map při přepínání neblikají a tvůj řádek se dole připne, jen když tvoje místo není vidět.'),_t('Před prvním <b>rituálem</b> (fúze zbraní, sloučení v kovárně) se ukáže krátké vysvětlení a rituál začne, až ťukneš na Začít.'),_t('U vylepšení hrdiny i předmětů vidíš vedle ceny, <b>kolik suroviny máš</b> (třeba 90/1240).')]},
  {v:'2026-11-07l',d:'7. 11. 2026',t:_t('Přehlednější menu a Síň slávy'),items:[_t('Tlačítko <b>Zpět</b> zůstává nahoře i při posouvání. Zpátky se dostaneš i systémovým zpět na Androidu nebo swipem od levého okraje (v aplikaci z plochy na iPhonu).'),_t('Hrdinové jsou v <b>Přípravě</b> i v <b>Hrdinovi</b> v jedné řadě, pod nimi detail vybraného. Kampaň se vejde na obrazovku a <b>Vyrazit</b> už nic nepřekrývá.'),_t('<b>Síň slávy</b> má stupně vítězů pro první tři, tvoje umístění je vždy vidět dole a mapy vybíráš po kapitolách.')]},
  {v:'2026-11-07k',d:'7. 11. 2026',t:_t('Opravy: bouře, titul, smrt'),items:[_t('<b>Písečná bouře</b> v Kaňonu větrů je pořádně vidět. Šipka u hrdiny ukazuje směr větru a <b>závětří</b> za skalami je vyznačené na zemi. Kolem tábora přibyly skály, za které se dá schovat.'),_t('<b>Titul</b> si teď vybereš v profilu u přezdívky nebo tlačítkem <b>Nosit</b> v Mistrovství.'),_t('<b>Smrt</b> má svůj moment: hrdina se rozletí na kusy, hudba ztichne a čas se zpomalí.'),_t('Náhledy map se načtou hned při startu, výběr mapy už na ně nečeká.')]},
  {v:'2026-11-07i',d:'7. 11. 2026',t:_t('Napiš mi svůj názor'),items:[_t('V <b>Nastavení</b> je nové tlačítko <b>Napsat názor na hru</b>. Napiš, co tě baví, co ne, co nefunguje nebo co bys přidal. Všechno si přečtu.'),_t('Jednou denně za názor dostaneš <b>60 zlata a svíčku</b> na Nástěnku. Kdo pošle názor ve 3 různých dnech, získá v Mistrovství titul <b>Rádce</b>.')]},
