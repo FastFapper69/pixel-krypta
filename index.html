@@ -95,6 +95,9 @@ button{font-family:inherit}
 .scr.clear{background:#130f1ccc;justify-content:center}
 .wrap{width:100%;max-width:520px;display:flex;flex-direction:column;gap:14px;margin:auto 0}
 .scr:not(.clear):not(#scr-menu)>.wrap{margin:0 0 auto}
+/* the header with Back stays at the top while a screen scrolls */
+.scr:not(.clear)>.wrap>.head{position:sticky;z-index:5;top:calc(-22px - var(--sat,0px));margin:calc(-22px - var(--sat,0px)) -16px 0;padding:calc(18px + var(--sat,0px)) 16px 10px;
+  background:linear-gradient(90deg,var(--gold) 0 26%,var(--line) 26% 100%) 16px 100%/calc(100% - 32px) 3px no-repeat,linear-gradient(#130f1c,#130f1cf0)}
 /* main menu: top bar (currencies + icon buttons), logo centred in the free space, six buttons at the bottom within thumb reach */
 #scr-menu{padding-top:calc(66px + var(--sat,0px))}
 #scr-menu>.wrap{min-height:100%;margin:0}#scr-menu>.wrap>.sp{flex:1 1 0;min-height:4px}
@@ -252,7 +255,7 @@ html,body,#stage{touch-action:none}
 .pips{display:flex;gap:3px;margin-top:4px}
 .pips i{width:12px;height:8px;background:#0c0912;box-shadow:inset 0 0 0 1px var(--line)}
 .pips i.on{background:var(--gold)}
-.sticky{position:sticky;bottom:calc(-22px - var(--sab,0px));padding:12px 0 calc(22px + var(--sab,0px));background:linear-gradient(#130f1c00,#130f1cf2 30%)}
+.sticky{position:sticky;z-index:4;bottom:calc(-22px - var(--sab,0px));padding:12px 0 calc(22px + var(--sab,0px));background:linear-gradient(#130f1c00,#130f1cf2 30%)}
 .lvl{display:flex;flex-direction:column;gap:10px;width:100%}
 .lvl .card{flex-direction:row;align-items:center;gap:12px;padding:12px}
 .lvl .card img{width:48px;height:48px;image-rendering:pixelated;flex:none}
@@ -380,6 +383,15 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .co-code{font-family:var(--font);font-variant-numeric:tabular-nums;font-size:60px;font-weight:700;letter-spacing:.22em;text-align:center;color:var(--gold);text-shadow:0 4px 0 #0008}
 .co-status{text-align:center;color:var(--fg);font-weight:600;min-height:22px}
 .co-picks{display:flex;flex-wrap:wrap;gap:8px}
+/* hero strip: equal portraits in one row; with more heroes than fit it scrolls sideways */
+.hstrip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -16px;padding:0 16px 2px;scroll-padding:0 16px}
+.hstrip::-webkit-scrollbar{display:none}
+.hstrip .co-pick{flex:1 0 62px;min-width:62px;scroll-snap-align:start;padding:8px 2px 6px;gap:3px;position:relative}
+.hstrip .co-pick span{font-size:12px;line-height:1.15;white-space:nowrap}
+.hstrip .co-pick small{font-size:11px;line-height:1;color:var(--muted)}.hstrip .co-pick.on small{color:var(--gold)}
+.hstrip .co-pick.lock img{filter:grayscale(1) brightness(.55)}.hstrip .co-pick.lock small{display:flex;align-items:center;gap:3px;color:var(--gold)}.hstrip .co-pick.lock small img{width:12px;height:12px;filter:none}
+.hinfo{gap:4px;padding:10px 12px}.hinfo .hi-t{display:flex;align-items:baseline;justify-content:space-between;gap:8px}.hinfo h3{font-size:16px}.hinfo .hi-t small{font-size:12px;color:var(--muted);white-space:nowrap}
+.hinfo p{font-size:13px;color:var(--muted);margin:0}
 .co-pick{flex:1 1 30%;min-width:90px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px;background:var(--panel);color:var(--fg);border:0;box-shadow:inset 0 0 0 3px var(--line);font:inherit;font-weight:600;font-size:14px}
 .co-pick img{width:36px;height:36px;image-rendering:pixelated}
 .co-pick.on{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}
@@ -405,16 +417,31 @@ table.res td:last-child{text-align:right;font-weight:700}
 .langsw button{font-size:13px;padding:6px}
 html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #boardTabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}#boardTabs button{min-width:0;font-size:13px;padding:8px 2px}
-.bmaps{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.bmaps::-webkit-scrollbar{display:none}
-.bmaps button{flex:none;font:inherit;font-weight:700;font-size:12px;padding:6px 10px;background:var(--panel);color:var(--muted);border:0;box-shadow:inset 0 0 0 2px var(--line);cursor:pointer;white-space:nowrap}
-.bmaps button.on{color:var(--ink);background:var(--chc,var(--gold));box-shadow:none}.bmaps i{font-style:normal;color:var(--chc,var(--gold));padding:6px 2px 6px 6px;font-weight:700;font-size:12px;align-self:center}
+.bmaps{display:flex;flex-direction:column;gap:8px}
+.bmgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.bmgrid button{position:relative;aspect-ratio:1;padding:0;border:0;background:#0c0912;cursor:pointer;clip-path:var(--px);box-shadow:inset 0 0 0 3px var(--line)}
+.bmgrid button img{width:100%;height:100%;display:block;image-rendering:pixelated;opacity:.75}
+.bmgrid button.on{box-shadow:none}.bmgrid button.on img{opacity:1}.bmgrid button.on::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 3px var(--chc,var(--gold))}
+.bmgrid button .n{position:absolute;left:3px;top:2px;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 0 #000,0 0 3px #000}
+.bmname{text-align:center;font-weight:700;font-size:15px}.bmname small{display:block;font-weight:600;font-size:12px;color:var(--muted)}
+.bmaps .chbar{margin:0}.bmaps .chh h3{font-size:18px}
+/* podium for the top three, own row pinned at the bottom */
+.podium{display:grid;grid-template-columns:1fr 1.12fr 1fr;align-items:end;gap:6px;margin-top:4px}
+.pod{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0;text-align:center}
+.pod>img{width:40px;height:40px;image-rendering:pixelated}.pod.p1>img{width:48px;height:48px}
+.pod strong{font-size:14px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pod .ttl{margin:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pod small{font-size:12px;color:var(--muted);line-height:1.25}
+.pod .stand{width:100%;margin-top:4px;display:flex;justify-content:center;padding-top:6px;font:700 22px var(--font-px);color:var(--mc);background:var(--panel);box-shadow:inset 0 3px 0 var(--mc),inset 0 0 0 3px var(--line);clip-path:var(--px)}
+.pod.p1 .stand{height:70px}.pod.p2 .stand{height:52px}.pod.p3 .stand{height:40px}.pod.me strong{color:var(--gold)}
+.bme{padding-top:8px;background:linear-gradient(#130f1c00,#130f1c 8px)}.bme .brow{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}.bme .none{text-align:center;font-size:13px;color:var(--muted);padding:10px;background:var(--panel);clip-path:var(--px)}
 .brow{display:flex;align-items:center;gap:10px;background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:8px 10px}
 .brow.me{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}
 .brow .rk{width:32px;flex:none;font-size:18px;color:var(--gold);font-variant-numeric:tabular-nums}
 .brow .nm{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .brow .nm strong{font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .brow .nm small{color:var(--muted);font-size:12px}
-.brow .val{font-weight:700;font-size:13px;text-align:right;flex:none;max-width:45%}
+.brow .val{font-weight:700;font-size:13px;text-align:right;flex:none;max-width:45%;display:flex;flex-direction:column;gap:1px}.brow .val small{font-weight:600;font-size:12px;color:var(--muted)}
+.brow .nm small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #nickInput,#pinInput{font:inherit;font-size:20px;padding:12px;background:var(--panel);color:var(--fg);border:0;box-shadow:inset 0 0 0 3px var(--line);width:100%;-webkit-user-select:text;user-select:text}
 #nickInput:focus-visible,#pinInput:focus-visible{outline:3px solid #fff}
 .fl{display:flex;flex-direction:column;gap:6px;font-weight:700;color:var(--muted);font-size:14px}
@@ -484,7 +511,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <div class="mats" id="selMats"></div>
       <div id="dailyBox"></div>
       <div class="sec">Hrdina</div>
-      <div class="grid2" id="heroList"></div>
+      <div class="hstrip" id="heroList"></div>
+      <div class="card hinfo" id="heroInfo"></div>
       <div class="sec">Kampaň</div>
       <div id="mapList"></div>
       <div class="sec">Obtížnost</div>
@@ -553,7 +581,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
     <div class="wrap">
       <div class="head"><h2>Hrdina</h2><button class="btn alt sm" data-back>Zpět</button></div>
       <div class="mats" id="hMats"></div>
-      <div class="co-picks" id="hTabs"></div>
+      <div class="hstrip" id="hTabs"></div>
       <div class="card hcard" id="hCard"></div>
       <div class="sec">Výbava</div>
       <div class="slots" id="hSlots"></div>
@@ -650,8 +678,10 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <div class="tabs" id="boardTabs"><button data-t="celkem">Celkem</button><button data-t="dnes">Dnes</button><button data-t="map">Mapy</button></div>
       <div class="bmaps" id="boardMaps" hidden></div>
       <p class="hint" id="boardMsg"></p>
+      <div class="podium" id="boardPod" hidden></div>
       <div class="stack" id="boardList"></div>
       <button class="btn alt sm" id="boardRefresh">Obnovit</button>
+      <div class="sticky bme" id="boardMe" hidden></div>
     </div>
   </section>
 
@@ -2612,7 +2642,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07k';
+const GAME_VER='2026-11-07l';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -2631,6 +2661,7 @@ function setState(s){if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}
   if(s!=='play'){const tt=$('#toast');if(tt)tt.classList.remove('on');}{const tu=$('#tut');if(tu)tu.style.visibility=s==='play'?'':'hidden';}
   showScreen(s==='play'?null:s);document.querySelectorAll('.sectabs button').forEach(b=>b.classList.toggle('on',b.dataset.to===s));if(s!=='menu')setSheet(false);try{showStickRest();}catch(_){}
   muffle(s==='pause'||s==='levelup'||s==='over');
+  try{if(s!=='menu')navArm();}catch(_){}
 }
 function note(msg,ms){if(CO.ctxMate&&run&&run.pls){netSend({t:'note',m:msg});return;}const n=$('#note');n.textContent=msg;n.classList.add('on');clearTimeout(note.t);note.t=setTimeout(()=>n.classList.remove('on'),ms||1800);}
 function toast(msg,ms){if(run&&run.pls){if(CO.ctxMate){netSend({t:'toast',m:msg});return;}if(!/Oáza|postavíš|Hrajete/.test(msg))netSend({t:'toast',m:msg});}toast0(msg,ms);}
@@ -3967,7 +3998,30 @@ function frame(ts){
 
 /* ============ menus ============ */
 function money(){return save.coins;}
-function setSheet(on){const sp=$('#setPop');if(!sp)return;sp.classList.toggle('open',!!on);if(on)sp.removeAttribute('inert');else sp.setAttribute('inert','');}
+function setSheet(on){const sp=$('#setPop');if(!sp)return;sp.classList.toggle('open',!!on);if(on){sp.removeAttribute('inert');navArm();}else sp.setAttribute('inert','');}
+// ----- back navigation: one place decides what "back" means (system back on Android, browser swipe/back, edge swipe in the iPhone app) -----
+// returns true when something was closed or left, false at the bare main menu
+function goBack(){const np=$('#newsPop');
+  if(np&&!np.hidden){np.hidden=true;sfx('ui');return true;}
+  if(state==='menu'){const sp=$('#setPop');if(sp&&sp.classList.contains('open')){setSheet(false);sfx('ui');return true;}return false;}
+  if(state==='play'||state==='pause'){if(run&&!run.over)togglePause();return true;}
+  const sc=screens[state];if(!sc||sc.classList.contains('clear'))return true; // level-up, rituals, end of run: back does nothing
+  const b=sc.querySelector('.head button');if(b){b.click();return true;}return false;}
+// keep one extra history entry while anything but the bare menu is open, so system back lands in goBack instead of leaving the game
+let navArmed=false;
+function navArm(){if(navArmed)return;try{history.pushState({pk:1},'');navArmed=true;}catch(_){}}
+// a back press at the bare main menu (our entry left over after returning by a button) passes on, so one press leaves the game as expected
+addEventListener('popstate',()=>{navArmed=false;if(!goBack()&&state==='menu'){try{history.back();}catch(_){}return;}const np=$('#newsPop'),sp=$('#setPop');if(state!=='menu'||(np&&!np.hidden)||(sp&&sp.classList.contains('open')))navArm();});
+// edge swipe: only in the iPhone home-screen app, which has no back gesture of its own (browsers and Android have system back)
+{const SA=navigator.standalone===true;let sw=null;
+  if(SA){addEventListener('touchstart',e=>{if(e.touches.length!==1||state==='menu')return;const sc=screens[state];if(!sc||sc.classList.contains('clear'))return;const t=e.touches[0];if(t.clientX>24)return;sw={x:t.clientX,y:t.clientY,el:sc,dx:0,lock:0};},{passive:true});
+    addEventListener('touchmove',e=>{if(!sw)return;const t=e.touches[0],dx=t.clientX-sw.x,dy=t.clientY-sw.y;
+      if(!sw.lock){if(Math.abs(dy)>14&&Math.abs(dy)>dx){sw=null;return;}if(dx>10)sw.lock=1;}
+      if(sw.lock){sw.dx=Math.max(0,dx);sw.el.style.transition='none';sw.el.style.transform='translateX('+Math.round(sw.dx*.8)+'px)';sw.el.style.opacity=String(1-Math.min(.5,sw.dx/600));}},{passive:true});
+    const end=()=>{if(!sw)return;const el=sw.el,go=sw.dx>80;sw=null;el.style.transition='transform .18s ease-out,opacity .18s';
+      if(go){el.style.transform='translateX(100%)';el.style.opacity='0';setTimeout(()=>{el.style.transition=el.style.transform=el.style.opacity='';goBack();},150);}
+      else{el.style.transform='';el.style.opacity='';setTimeout(()=>{el.style.transition='';},200);}};
+    addEventListener('touchend',end,{passive:true});addEventListener('touchcancel',end,{passive:true});}}
 function refreshSettings(){setLbl('#mSound',_t('Zvuk'),!save.sound);setLbl('#mMusic',_t('Hudba'),!save.music);stickLabels();
   {const I=fitApp.info||{};$('#mVer').textContent=_t('verze ')+GAME_VER;$('#mVer').title=(I.sa?_t('aplikace'):_t('prohlížeč'))+' '+(I.ih||0)+'/'+(I.sh||0)+'/'+(I.h||0);}
   setLbl('#mFb',fbRewardToday()?_t('Napsat názor · +60 zlata'):_t('Napsat názor na hru'));
@@ -4079,19 +4133,21 @@ function renderCampaign(){
   $('#chPrev').onclick=()=>{if(chSel>0){chSel--;sfx('ui');renderCampaign();}};
   $('#chNext').onclick=()=>{if(chSel<CHAPTERS.length-1){chSel++;sfx('ui');renderCampaign();}};
 }
+// one row of hero portraits (Prep and Hero screens); keeps the chosen one in view
+function heroStrip(box,ids,cur,label,pick){box.innerHTML='';let on=null;
+  for(const id of ids){const own=heroOwned(id),h=HEROES[id],b=document.createElement('button');b.className='co-pick'+(id===cur&&own?' on':'')+(own?'':' lock');
+    b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><span>'+h.name+'</span><small>'+label(id,own)+'</small>';b.onclick=()=>pick(id,own);box.appendChild(b);if(id===cur)on=b;}
+  if(on)requestAnimationFrame(()=>{const L=on.offsetLeft-16,R2=on.offsetLeft+on.offsetWidth-box.clientWidth+16;if(box.scrollLeft>L)box.scrollLeft=L;else if(box.scrollLeft<R2)box.scrollLeft=R2;});}
 function renderSelect(){
   $('#selMats').innerHTML=matsHtml();
-  const hl=$('#heroList');hl.innerHTML='';
-  HERO_IDS.forEach(id=>{const h=HEROES[id],own=heroOwned(id);
-    const b=document.createElement('button');b.className='card hero'+(sel.hero===id&&own?' sel':'')+(own?'':' lock');
-    b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><h3>'+h.name+'</h3><small>'+h.desc+'</small>'+
-      _t('<small>Start: ')+WEAPONS[h.start].name+'</small>'+(own?'':h.ach?'<span class="cost"><img alt="" src="'+dataUrl(SPR.icon.medal)+_t('">Mistrovství</span>'):'<span class="cost"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+h.cost+'</span>');
-    b.addEventListener('click',()=>{
-      if(own){sel.hero=id;sfx('ui');renderSelect();}
+  const hl=$('#heroList');
+  heroStrip(hl,HERO_IDS,sel.hero,(id,own)=>{const h=HEROES[id];return own?_t('úr. ')+heroLv(id):h.ach?'<img alt="" src="'+dataUrl(SPR.icon.medal)+'">':'<img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+h.cost;},(id,own)=>{const h=HEROES[id];
+      if(own){if(sel.hero!==id){sel.hero=id;sfx('ui');renderSelect();}}
       else if(h.ach){const A=ACHM[h.ach];note(achDone(A)?_t('Vyzvedni si ho v Mistrovství'):_t('Odemkni v Mistrovství: ')+A.desc);}
       else if(save.coins>=h.cost){sfx('ui');confirmHero(id);}
       else{note(_t('Chybí ti ')+(h.cost-save.coins)+_t(' zlata'));}});
-    hl.appendChild(b);});
+  {const id=heroOwned(sel.hero)?sel.hero:'knight',h=HEROES[id];
+   $('#heroInfo').innerHTML='<div class="hi-t"><h3>'+h.name+'</h3><small>'+_t('Start: ')+WEAPONS[h.start].name+'</small></div><p>'+h.desc+'</p>';}
   renderCampaign();
   const tiers=nmTiers(sel.map);sel.nm=Math.min(sel.nm||0,tiers);const nl=$('#nmList');nl.innerHTML='';
   for(let t=0;t<=5;t++){const b=document.createElement('button');b.className='co-pick'+(sel.nm===t?' on':'');b.disabled=t>tiers;
@@ -4297,29 +4353,50 @@ async function openBoard(){
   catch(e){$('#boardMsg').textContent=_t('Žebříček se nepodařilo načíst: ')+errText(e);}
   renderBoard();
 }
+let boardCh=null;
+// one leaderboard row: rank, nick + title, what they reached
+function boardRow(r,i){const el=document.createElement('div');el.className='brow'+(ON.me&&r.id===ON.me.id?' me':'');
+  const rk=document.createElement('b');rk.className='rk';rk.textContent=(i+1)+'.';
+  const nm=document.createElement('div');nm.className='nm';const n1=document.createElement('strong');n1.textContent=r.nick;const tl=titleOf(r.sv);if(tl){const t=document.createElement('span');t.className='ttl';t.textContent=tl;n1.appendChild(t);}
+  const n2=document.createElement('small');const hc=Object.keys(r.sv.heroes||{}).filter(k=>HEROES[k]&&r.sv.heroes[k]).length,cl=MAP_IDS.filter(m=>(r.sv.cleared||{})[m]).length;
+  n2.textContent=_t('Mapy ')+cl+'/'+MAP_IDS.length+_t(' · Hrdinové ')+hc+'/'+HERO_IDS.length;nm.append(n1,n2);
+  const val=document.createElement('div');val.className='val';const v1=document.createElement('span'),v2=document.createElement('small');v1.textContent=boardVal(r,true);v2.textContent=boardSub(r);val.append(v1,v2);el.append(rk,nm,val);return el;}
+// main result (wins, or NM · win · time) and the line under it (kills, hero of the daily run)
+function boardVal(r){if(boardTab==='celkem')return (r.st.wins||0)+_t(' výher');const b=r.b;return (b.nm?_t('NM ')+b.nm+' · ':'')+(b.won?_t('Výhra · '):'')+fmtTime(b.t);}
+function boardSub(r){if(boardTab==='celkem')return (r.st.kills||0)+_t(' zabití');const b=r.b;return (boardTab==='dnes'&&HEROES[b.hero]?HEROES[b.hero].name+' · ':'')+b.kills+_t(' zabití');}
 function renderBoard(){
   document.querySelectorAll('#boardTabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===boardTab||(b.dataset.t==='map'&&!!MAPS[boardTab])));
-  {const bm=$('#boardMaps');bm.hidden=!MAPS[boardTab];if(MAPS[boardTab]){bm.innerHTML=CHAPTERS.map(C=>'<i style="--chc:'+C.col+'">'+ROMAN_CH[C.i]+'</i>'+C.maps.map(id=>'<button style="--chc:'+C.col+'" data-m="'+id+'" class="'+(id===boardTab?'on':'')+'">'+MAPS[id].name+'</button>').join('')).join('');
-    bm.querySelectorAll('button').forEach(b=>b.onclick=()=>{boardTab=b.dataset.m;sfx('ui');renderBoard();});const on=bm.querySelector('.on');if(on)on.scrollIntoView({block:'nearest',inline:'center'});}}
-  const list=$('#boardList'),msg=$('#boardMsg');list.textContent='';
+  // map picker: one chapter at a time, its maps as postcards
+  {const bm=$('#boardMaps');bm.hidden=!MAPS[boardTab];if(MAPS[boardTab]){if(boardCh==null||!CHAPTERS[boardCh]||!CHAPTERS[boardCh].maps.includes(boardTab))boardCh=(CH_OF[boardTab]||CHAPTERS[0]).i;
+    const C=CHAPTERS[boardCh],m=MAPS[boardTab];bm.style.setProperty('--chc',C.col);
+    bm.innerHTML='<div class="chbar"><button class="btn alt sm" data-d="-1"'+(boardCh?'':' disabled')+' aria-label="'+_t('Předchozí kapitola')+'">‹</button><div class="chh"><small>'+_t('KAPITOLA ')+ROMAN_CH[boardCh]+'</small><h3>'+C.name+'</h3></div>'+
+      '<button class="btn alt sm" data-d="1"'+(boardCh<CHAPTERS.length-1?'':' disabled')+' aria-label="'+_t('Další kapitola')+'">›</button></div>'+
+      '<div class="bmgrid">'+C.maps.map((id,k)=>{const sr=thumbSrc(id);return '<button data-m="'+id+'" class="'+(id===boardTab?'on':'')+'" aria-label="'+MAPS[id].name+'"><img alt="" src="'+(sr?(sr.toDataURL?sr.toDataURL():sr.src):thumbUrl(id))+'"><span class="n">'+(k+1)+'</span></button>';}).join('')+'</div>'+
+      (C.maps.includes(boardTab)?'<div class="bmname">'+m.name+'</div>':'<div class="bmname"><small>'+_t('Vyber mapu')+'</small></div>');
+    bm.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{boardTab=b.dataset.m;sfx('ui');renderBoard();});
+    bm.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{boardCh=Math.max(0,Math.min(CHAPTERS.length-1,boardCh+ +b.dataset.d));sfx('ui');const M2=CHAPTERS[boardCh].maps;boardTab=M2.includes(sel.map)?sel.map:M2[0];renderBoard();});}}
+  const list=$('#boardList'),msg=$('#boardMsg'),pod=$('#boardPod'),me=$('#boardMe');list.textContent='';pod.hidden=true;pod.textContent='';me.hidden=true;
   if(!onlineConfigured()){msg.textContent=_t('Žebříček zatím není připojený k serveru. Tahle verze hraje offline a postup se ukládá jen v tomhle prohlížeči.');return;}
   if(!ON.ready){msg.textContent=ON.err?_t('Připojení k serveru se nezdařilo: ')+ON.err:_t('Připojuji se…');return;}
   if(!boardRows)return;
   const rows=boardRows.map(r=>{const st=r.stats||{},sv=r.save||{},b=boardTab==='celkem'?null:boardTab==='dnes'?(st.daily&&st.daily.d===today()?st.daily:null):(st.best||{})[boardTab];
     return{id:r.id,nick:r.nick||'?',st,sv,b,score:boardTab==='celkem'?((st.runs||0)?(st.wins||0)*1e6+(st.kills||0):-1):mapScore(b)};})
     .filter(r=>r.score>=0).sort((a,b)=>b.score-a.score);
-  if(!rows.length){msg.textContent=_t('Zatím tu nikdo nemá výsledek. Buď první!');return;}
   const di=dailyInfo();
   msg.textContent=boardTab==='celkem'?'':boardTab==='dnes'?_t('Dnešní výzva: ')+MAPS[di.map].name+' · '+di.mod.name+_t('. Všichni hrají stejný běh, počítá se tvůj nejlepší pokus dne.'):_t('Výš je vyšší Noční můra, pak výhra. Výhry se řadí podle nejrychlejšího času.');
-  rows.forEach((r,i)=>{const el=document.createElement('div');el.className='brow'+(ON.me&&r.id===ON.me.id?' me':'');
-    const rk=document.createElement('b');rk.className='rk';rk.textContent=(i+1)+'.';
-    const nm=document.createElement('div');nm.className='nm';const n1=document.createElement('strong');n1.textContent=r.nick;const tl=titleOf(r.sv);if(tl){const t=document.createElement('span');t.className='ttl';t.textContent=tl;n1.appendChild(t);}
-    const n2=document.createElement('small');const cl=MAP_IDS.map(m=>(r.sv.cleared||{})[m]?'●':'○').join('');
-    const hc=Object.keys(r.sv.heroes||{}).filter(k=>HEROES[k]&&r.sv.heroes[k]).length;
-    n2.textContent=_t('Mapy ')+cl+_t(' · Hrdinové ')+hc+'/'+HERO_IDS.length;nm.append(n1,n2);
-    const val=document.createElement('div');val.className='val';
-    val.textContent=boardTab==='celkem'?(r.st.wins||0)+_t(' výher · ')+(r.st.kills||0)+_t(' zabití'):boardTab==='dnes'?(r.b.won?_t('Výhra · '):'')+fmtTime(r.b.t)+' · '+(HEROES[r.b.hero]?HEROES[r.b.hero].name:'')+' · '+r.b.kills+_t(' zabití'):(r.b.nm?NM_NAME[r.b.nm]+' · ':'')+(r.b.won?_t('Výhra · '):'')+fmtTime(r.b.t)+' · '+r.b.kills+_t(' zabití');
-    el.append(rk,nm,val);list.appendChild(el);});
+  if(!rows.length){msg.textContent=(msg.textContent?msg.textContent+' ':'')+_t('Zatím tu nikdo nemá výsledek. Buď první!');}
+  // podium: 2nd, 1st, 3rd
+  if(rows.length){pod.hidden=false;const MC=['#f6c744','#c8ccd8','#d08850'];
+    for(const i of [1,0,2]){const r=rows[i],d=document.createElement('div');if(!r){pod.appendChild(d);continue;}
+      d.className='pod p'+(i+1)+(ON.me&&r.id===ON.me.id?' me':'');d.style.setProperty('--mc',MC[i]);
+      const hero=r.b&&HEROES[r.b.hero]?r.b.hero:null,im=document.createElement('img');im.alt='';im.src=dataUrl(hero?SPR.hero[hero]:i?SPR.icon.medal:SPR.icon.trophy);
+      const n=document.createElement('strong');n.textContent=r.nick;const v=document.createElement('small');v.textContent=boardVal(r);d.append(im,n);
+      const tl=titleOf(r.sv);if(tl){const t=document.createElement('span');t.className='ttl';t.textContent=tl;d.append(t);}
+      const sd=document.createElement('div');sd.className='stand';sd.textContent=i+1;d.append(v,sd);pod.appendChild(d);}}
+  rows.slice(3,100).forEach((r,k)=>list.appendChild(boardRow(r,k+3)));
+  // your own place, always in sight
+  if(ON.me){const i=rows.findIndex(r=>r.id===ON.me.id);me.hidden=false;me.textContent='';
+    if(i>=0)me.appendChild(boardRow(rows[i],i));else{const n=document.createElement('div');n.className='none';n.textContent=_t('Tady zatím nemáš výsledek. Zahraj si a objevíš se v žebříčku.');me.appendChild(n);}}
 }
 
 /* ============ progression: map materials, hero levels, gear, chests, forge, nightmares, codex, daily ============
@@ -4496,9 +4573,7 @@ function bonusLines(B){const out=[];const add=(n,v)=>{if(v)out.push([n,v]);};
   for(const k of ['dmg','crit','fuse','cd','spd','mag','xp','gold'])add(STATS[k].name,B[k]?'+'+cz(Math.round(B[k]*1000)/10)+' %':'');return out;}
 function renderHero(){
   $('#hMats').innerHTML=matsHtml();
-  const tb=$('#hTabs');tb.innerHTML='';
-  for(const id of HERO_IDS){if(!heroOwned(id))continue;const b=document.createElement('button');b.className='co-pick'+(heroSel===id?' on':'');
-    b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><span>'+HEROES[id].name+' · '+heroLv(id)+'</span>';b.onclick=()=>{heroSel=id;sfx('ui');renderHero();};tb.appendChild(b);}
+  heroStrip($('#hTabs'),HERO_IDS.filter(heroOwned),heroSel,id=>_t('úr. ')+heroLv(id),id=>{if(heroSel!==id){heroSel=id;sfx('ui');renderHero();}});
   const h=heroSel,L=heroLv(h),B=heroBonus(h),c=heroUpCost(h),T=TALENTS[h]||[];
   const lines=bonusLines(B);
   $('#hCard').innerHTML='<div class="hc-top"><img alt="" src="'+dataUrl(SPR.hero[h])+'"><div><h3>'+HEROES[h].name+_t('</h3><small>Úroveň ')+L+' / '+HERO_MAX+'</small>'+
@@ -5232,6 +5307,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07l',d:'7. 11. 2026',t:_t('Přehlednější menu a Síň slávy'),items:[_t('Tlačítko <b>Zpět</b> zůstává nahoře i při posouvání. Zpátky se dostaneš i systémovým zpět na Androidu nebo swipem od levého okraje (v aplikaci z plochy na iPhonu).'),_t('Hrdinové jsou v <b>Přípravě</b> i v <b>Hrdinovi</b> v jedné řadě, pod nimi detail vybraného. Kampaň se vejde na obrazovku a <b>Vyrazit</b> už nic nepřekrývá.'),_t('<b>Síň slávy</b> má stupně vítězů pro první tři, tvoje umístění je vždy vidět dole a mapy vybíráš po kapitolách.')]},
  {v:'2026-11-07k',d:'7. 11. 2026',t:_t('Opravy: bouře, titul, smrt'),items:[_t('<b>Písečná bouře</b> v Kaňonu větrů je pořádně vidět. Šipka u hrdiny ukazuje směr větru a <b>závětří</b> za skalami je vyznačené na zemi. Kolem tábora přibyly skály, za které se dá schovat.'),_t('<b>Titul</b> si teď vybereš v profilu u přezdívky nebo tlačítkem <b>Nosit</b> v Mistrovství.'),_t('<b>Smrt</b> má svůj moment: hrdina se rozletí na kusy, hudba ztichne a čas se zpomalí.'),_t('Náhledy map se načtou hned při startu, výběr mapy už na ně nečeká.')]},
  {v:'2026-11-07i',d:'7. 11. 2026',t:_t('Napiš mi svůj názor'),items:[_t('V <b>Nastavení</b> je nové tlačítko <b>Napsat názor na hru</b>. Napiš, co tě baví, co ne, co nefunguje nebo co bys přidal. Všechno si přečtu.'),_t('Jednou denně za názor dostaneš <b>60 zlata a svíčku</b> na Nástěnku. Kdo pošle názor ve 3 různých dnech, získá v Mistrovství titul <b>Rádce</b>.')]},
  {v:'2026-11-07h',d:'7. 11. 2026',t:_t('Plynulejší menu'),items:[_t('<b>Nastavení</b> se plynule vysouvá a zase zasouvá, okna a obrazovky měkce najedou.'),_t('Výběr mapy už nezamrzá: náhledy map jsou připravené předem a pozadí menu se kvůli výběru nepřestavuje.')]},
@@ -5381,6 +5457,7 @@ econInit();initSprites();bindUi();setSong('menu');
 // previous heroes/maps must exist in the saved selection
 if(!save.heroes.knight)save.heroes.knight=true;
 refreshMenu();setState('menu');resize();newsBoot();
+new MutationObserver(()=>{if(!$('#newsPop').hidden)navArm();}).observe($('#newsPop'),{attributes:true,attributeFilter:['hidden']});
 // postcards are small files: fetch and decode them all right after start, so the map selection never waits for a picture
 setTimeout(()=>{for(const C of CHAPTERS)for(const id of C.maps)thumbSrc(id);},700);
 new ResizeObserver(resize).observe(stage);
@@ -5390,7 +5467,7 @@ onlineInit();
 
 /* debug / test hooks */
 window.__krypta={guestStartRun,SPR,MAPS,CHAPTERS,mapsBuilt,buildMap,mapThumb,mapUnlocked,renderSelect,renderCampaign,get MF(){return MF},openGuide,renderGuide,finishFuse,afterOption,tmRow,explode,spawnEnemy,hurtEnemy,killEnemy,get run2(){return run},upInvest,mergeRefund,openMerge,matInfo,musicRender,get musicErr(){return M.err},finish,ACH,achTrack,achClaim,achProg,openMaster,openNews,NEWS,shareImage,shareResult,seedRng,tutTick,titleOf,get ac(){return ac},get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
-  openMenu,ON,onlineInit,CO,NET,LO,econInit,makeItem,openChest,heroBonus,heroUp,upgradeItem,doMerge,dismantleItem,mergeCandidates,openHero,openChestShop,openCodex,openQuests,qEnsure,qCommit,qClaim,qClaimMs,qClaimWanted,qReroll,qSnap,spawnWanted,qNewDay,dailyInfo,runRewards,itemById,ECON,openCoop,coHostStart,coJoin,coHostGo,withPl,players,openBoard,saveNick,fusable,startFuse,fuseTap,audioBeat,FUSIONS,get FZ(){return FZ},buildTower,upgradeTower,repairCrystal,force:null,god:false,MAPS,WEAPONS,PASSIVES,ENEMY_DEFS,setSel:(h,m)=>{sel.hero=h;sel.map=m;}};
+  openMenu,ON,onlineInit,setBoardRows:r=>{boardRows=r;renderBoard();},CO,NET,LO,econInit,makeItem,openChest,heroBonus,heroUp,upgradeItem,doMerge,dismantleItem,mergeCandidates,openHero,openChestShop,openCodex,openQuests,qEnsure,qCommit,qClaim,qClaimMs,qClaimWanted,qReroll,qSnap,spawnWanted,qNewDay,dailyInfo,runRewards,itemById,ECON,openCoop,coHostStart,coJoin,coHostGo,withPl,players,openBoard,saveNick,fusable,startFuse,fuseTap,audioBeat,FUSIONS,get FZ(){return FZ},buildTower,upgradeTower,repairCrystal,force:null,god:false,MAPS,WEAPONS,PASSIVES,ENEMY_DEFS,setSel:(h,m)=>{sel.hero=h;sel.map=m;}};
 })();
 </script>
 
