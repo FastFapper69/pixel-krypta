@@ -1,5 +1,7 @@
 # Pixel Krypta – návrh dlouhodobé progrese: materiály, výbava, obchod, rarity
 
+> **Aktualizace 07w (2026-11-07 večer):** čísla níže jsou starší. Platí: po běhu se ze zlata z běhu bere jen část (`keepGold`: 30 % z prvních 2000, 10 % nad), kombo max 40 zlata každých 25, materiál z komba každých 200, za minutu 2, elita 2–3, výhra 10 / finále 25, finále ×1,25; truhly 250/750/2000, Věžová 700. Noční můry od 07x jen I–III (`NM_HP` .75, `NM_DMG` .3). Detaily v `CLAUDE.md` (sekce Menu a ekonomika 07w).
+
 Stav: **fáze 1–5 jsou hotové a nasazené** (listopad 2026). Zbývá: serverový inventář (fáze 6) a monetizace (fáze 7). Zatím jen herní měna pro kamarády a testery.
 
 ### Jak je to postavené

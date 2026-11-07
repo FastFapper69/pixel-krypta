@@ -7,6 +7,28 @@ UI je česky + anglická lokalizace (viz níže), s uživatelem se komunikuje č
   **Po pushi vždy ověř, že nasazení doběhlo:** `gh api repos/FastFapper69/pixel-krypta/actions/runs` → workflow „pages build and deployment“ pro daný commit `completed success`. GitHub občas nasazení zruší („Deployment failed, try again later“) – pak pomůže prázdný commit a push.
 - Commity: autor `Claude <noreply@anthropic.com>`, na konci zprávy řádky `Co-Authored-By` / `Claude-Session` podle aktuální session.
 
+## Předávka – čti jako první (nový chat / jiný účet)
+Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nimi nepřenáší, **tento soubor je jediný zdroj pravdy**. Všechno potřebné je v repu.
+- **Kdo je uživatel:** autor hry, je na iPhonu (hraje i jako aplikace z plochy), terminál nemá. Většinu práce dělá Claude. Komunikuj **česky**, stručně, po každé dávce řekni číslo verze.
+- **Cíl hry:** návykový survivors-like („opakovatelný, ale pořád zábavný“), časem vydání na Google Play / App Store s monetizací (prodej truhel/kosmetiky, viz `VYDANI.md`). Zatím jen herní měna mezi kamarády-testery.
+- **Preference (dodržuj):**
+  - Po každém návrhu UI/designu ho **sám důkladně zkontroluj na screenshotu** (iPhone viewport 393×852 se simulovanými okraji): je řešení elegantní, jednoduché, dobře využité, **bez divných prázdných mezer a tmavých pruhů**? Teprve pak posílej.
+  - Nemá rád přeplněné obrazovky. Preferuje ikonová tlačítka v menu před spodním dockem. Výběr hrdiny patří do Vybavení a Přípravy, ne do hlavního menu.
+  - Animace menu musí být plynulé (žádné sekání).
+  - Speciální mechanika nemusí být na každé mapě. Každá kapitola přidá jen pár nových nepřátel.
+  - Odměny za zpětnou vazbu skromné, ne přehnané.
+- **Jak pracovat:** před velkou změnou krátce shrň návrh a zeptej se; po „udělej“ dělej celý balík najednou, ověř (testy + screenshoty), nasaď, ověř Pages, řekni verzi. Když uživatel řekne „zastav po tomhle“, dál nepokračuj. Dlouhé simulace drž krátké.
+- **Záloha:** když uživatel řekne „zálohuj se“, aktualizuj tenhle soubor (Hotovo, Plán, Předávka) a pushni. Nic důležitého nesmí zůstat jen v paměti účtu.
+- **Skilly projektu** jsou v `.claude/skills/` (html5-mobile-game-dev, survivors-design-balance, mobile-store-launch). Když je session nenačte sama, přečti si příslušný `SKILL.md` ručně.
+- **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
+- **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak v kořeni `sed "s#url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'[^']*'#url:'',key:''#" index.html > tests/tools/off.html`, `cp lang-en.js tests/tools/`, `ln -s ../../thumbs tests/tools/thumbs`. Playwright je předinstalovaný.
+- **Stav k 2026-11-07 večer (verze 07y):** hotové kapitoly I–III (15 map), Noční můry I–III jako obtížnost kapitoly, karty věží, sety, ekonomika přepočítaná, optimalizace výkonu. Uživatel řekl, ať se po kapitole III zatím nepokračuje.
+- **Další na řadě (schválené přání uživatele, zatím nezačaté):**
+  1. **Mazlíčci:** běhají za hrdinou a útočí, dávají bonusy, mají být **vtipně vymyšlení**; rarity/tiery; vlastní **truhla za zlato + materiál další kapitoly** (Magmatit). Totéž (zlato + materiál) má stát i Věžová truhla. Návrhy, které uživatel viděl: Kostík (kostěný pes, aportuje mince a drahokamy), Žvejka (sliz, sní drahokam a vyplivne dva), Babička duch (hází pantofel = krit), Kleopatra (mumie kočka, ignoruje tě, ale jednou za běh zachrání), Skarabeus (krade nepřátelům zlato).
+  2. **Kapitoly IV–VI** se všemi mapami (hrdinové Šamanka mrazu, Námořnice, Hvězdářka už čekají zamčení, viz `HEROES[..].soon`).
+  - Raid pro víc hráčů a 1v1 aréna: uživatel řekl „zatím se na to vyprdni“. Kdyby se vrátil: reálné 1v1 je těžké (síťová vrstva, výhoda hosta), schůdnější je asynchronní aréna proti uloženému buildu ovládanému botem.
+- **Historie rozhodnutí (stručně):** co-op jen jako extra režim, sólo beze změny; materiál jeden na kapitolu; finále každé kapitoly má speciálního bosse; sety kapitol (poklad + 3 stupně NM = celý set); věže jako karty s raritou + samostatná Věžová truhla; Oáza (léčivý paprsek) je nápad uživatele; současných 5 hrdinů zůstává základ, noví hrdinové nesou tematickou zbraň (všem od úrovně hrdiny 8).
+
 ## Soubory
 - `index.html` – celá hra v jednom souboru (~330 kB, jedno IIFE). Obsahuje konfiguraci Supabase:
   `window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_publishable_…'}` (publishable klíč je veřejný, to je v pořádku).
