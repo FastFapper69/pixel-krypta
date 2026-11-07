@@ -21,6 +21,11 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `menu_mock2.js <prefix> [iphone]` – návrh 2 menu: původní tlačítka, jen 6 + horní lišta s ikonami (Novinky, Průvodce, Nastavení)
 - `menu_shots.js <prefix> [cs|en] [iphone]` – hlavní menu, Nastavení, záložky Obchodu a Síně slávy
 - `mines.js`, `desert.js`, `cart.js` – mapy a vozíky
+- `mapview.js <mapa> <prefix> [x,y;…]` – celá mapa shora (`-over.png`) + snímky ve hře na zadaných místech
+- `chap.js [mapy] [složka]` – každá mapa kampaně: běh, boss, chvíle boje (nesmrtelnost), chyby, snímek bosse
+- `sprites.js <png> [id,…]` – zvětšené sprity nepřátel a bossů
+- `camp.js <prefix> [cs|en]` – obrazovka kampaně v Přípravě (kapitola I a II)
+- `coopmaps.js [mapy]` – co-op snímky (host s virtuálním kamarádem → guest) na nových mapách
 - `bot.js [běhů] [hrdinové|all] [mapy|all] [nm] [novy|zkuseny|max]` – bot odehraje celé běhy a vypíše míru výher, medián času, příčiny smrti, úspěšnost zbraní a kdo dává poškození (60 běhů ≈ 30 s). Profil: `novy` = čerstvý účet, `zkuseny` = hrdina 10 + obchod napůl, `max` = hrdina 20 + obchod naplno (vždy bez výbavy). Řádky jsou ve stejném formátu jako telemetrie (`bot-results.json`). Bot je „průměrný hráč“ – věř hlavně **rozdílům** mezi hrdiny/mapami, ne absolutním číslům.
 
 Co-op testy jsou o úroveň výš (`tests/coop-test.js`, viz CLAUDE.md).
