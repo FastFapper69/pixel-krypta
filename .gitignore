@@ -1,3 +1,4 @@
 tests/tools/off.html
 tests/tools/lang-en.js
 tests/tools/bot-results.json
+tests/tools/*.png
