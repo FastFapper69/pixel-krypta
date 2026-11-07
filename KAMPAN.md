@@ -1,12 +1,12 @@
 # Pixel Krypta – kampaň a kapitoly
 
-Stav: **kapitoly I a II hotové a nasazené (verze 2026-11-07g)**. Kapitola III (Hlubiny) má zatím jen Lávové doly.
+Stav: **kapitoly I, II a III hotové (III od verze 2026-11-07y)**. Další kapitoly IV–VI čekají (hrdinové Šamanka, Námořnice, Hvězdářka už jsou připravení).
 Návrh pro uživatele je i v dokumentu „Pixel Krypta – kampaň a kapitoly“ (Claude Docs).
 
 ## Systém
 - `CHAPTERS` = kapitoly: `{id, name, mat, col, maps:[5 map], soon?}`. `MAP_IDS` se skládá z kapitol, `CH_OF[mapa]` = kapitola, `MAT_OF` se odvozuje z kapitoly (žádné nové materiály).
 - Kapitola I Říše mrtvých (Kostní prach): hrbitov, bazina, kostnice, zvonice, **trun** (finále).
-  Kapitola II Písečná říše (Jantar): poust, kanon, karavana, hrobka, **brana** (finále). Kapitola III Hlubiny (Magmatit): doly.
+  Kapitola II Písečná říše (Jantar): poust, kanon, karavana, hrobka, **brana** (finále). Kapitola III Hlubiny (Magmatit): doly, kovarna, reka, krystaly, **srdce** (finále).
 - Odemykání `mapUnlocked`: další mapa v kapitole po výhře na předchozí, první mapa kapitoly po finále předchozí. Staré savy: `chMigrate` jednou zapíše `save.unl` (poušť/doly podle starých pravidel), příznak `save.ch`. Cloud save bez `ch` migraci spustí znovu.
 - Obtížnost mapy `MAP_TIER[mapa]=[HP ×, spawn navíc, zlato za výhru]` → `map.hpm/spx/gb` (nahradilo `run.idx`).
 - Finále (`map.finale`): materiál ×2, boss 40 místo 15, první výhra zlatá truhla (`save.fin`), od NM III 25 % na legendárku kapitoly (`FIN_LEG`: trun → `skull` Morvanova lebka, brana → `sphinx` Oko Sfingy; `LEGS[..].fin` = nepadají z truhel).
@@ -33,8 +33,13 @@ Generátory `MAP_BUILD[styl]`; společné pomocníky `paintGround`, `pathMask`, 
 | kanon Kaňon větrů | canyon | písečná bouře každých 55 s na 12 s tlačí hrdinu i nepřátele, závětří za skalami (`built.shelters`) |
 | karavana Karavanní stezka | caravan | `run.crystal` = velbloud na trase (`routePos`), jde jen když je hrdina do 70, u něj se léčí, půlka nepřátel jde na hrdinu |
 | hrobka Hrobka faraona | tomb | pasti 3×3 (`built.traps`) vyjedou na první dobu taktu, varování na 4. dobu |
+| kovarna Kovárny trpaslíků | deep (`deep:'forge'`) | bez zvláštní mechaniky: dlaždice, výhně (`furnace`), kovadliny, kaluže lávy |
+| reka Podzemní řeka | deep (`river`) | řeka `built.wet` (1 voda zpomaluje ×0,62 / nepřátelé ×0,7, letci ne; 2 = 3 kamenné mosty), svítící houby |
+| krystaly Krystalové jeskyně | deep (`crystal`) | bez zvláštní mechaniky: tma 0,8, světlo dávají jen krystaly (`cluster*`, velké) |
+| srdce Srdce hory | deep (`core`) | finále: magmové srdce (`built.heart`, láva), **erupce** `run.erupt` (`eruptUpdate`): od 45 s každý druhý takt (pod 50 % titána každý) varovné kruhy u hrdinů, za 1 takt bouchnou (16 × NM, zraní i nepřátele) a nechají magma |
 | brana Brána slunce | sun | rotující paprsek (`run.beam`, dosah `SUN_L`), stín obelisků (`run.obs`), Sfinga je potápí a ve 3. fázi jsou paprsky dva |
 
+Nepřátelé kapitoly III: imp Ohnivý skřet (rychlý letec), magslime Magmový sliz (po smrti `fx magma` = pálí 3/0,45 s), miner Duch horníka (střílí). Bossové: forgelord Mistr výhně (`forge`), eel Jeskynní úhoř (`worm` s `puff`), colossus Krystalový kolos (`colossus`), titan Magmový titán (`titan`, finále). Generátor `buildDeep` + háčky `MF.deep`, sprity `DP_PROPS`. Set kapitoly `forge` (2 kusy: poškození +10 %, brnění +1; 4 kusy `lg.sf4` = `anvilStrike` každý 2. takt), legendárka `mheart` (finále srdce, výbuch lávy při zásahu). Věže `forge` Výheň (kovarna) a `ram` Parní beran (krystaly). Kovářka (`HEROES.smith.need:'doly'`) se kupuje za 1500 po odemčení kapitoly III.
 Nepřátelé: drowned (louže po smrti), bonearcher, digger (vykopává kostlivce), scorp (jed `p.psn`), mummy (zpomalení `p.slw`), cultist (vějíř nožů, `ranged3`), phyl (statická). Chování v `BEH`, bossové priest, warden, ringer, morvan, scorpking, worm, priestess (kletba `run.curse` obrací ovládání), sphinx.
 Hudba: každá mapa vlastní skladba v `SONGS` (styl kapitoly), zvuky `bell`, `trap`, `wind`.
 
@@ -43,6 +48,6 @@ Profil `zkuseny` (hrdina 10): hřbitov 93 %, kapitola I 87–93 %, Trůn kostí 
 Profil `novy`: hřbitov 83 %, bažina 50 %, zvonice 16 %, Trůn 0 % (postup vyžaduje úrovně hrdiny). Bot je průměrný hráč, ladit podle telemetrie (`runs`).
 
 ## Zbývá / nápady
-- Kapitola III Hlubiny: 4 nové mapy k Lávovým dolům (oheň, kovárny, podzemní řeka, finále).
+- Kapitola IV–VI (Šamanka mrazu, Námořnice, Hvězdářka): podle stejného rámce, mechanika jen u některých map, 2–3 noví nepřátelé na kapitolu.
 - Úkoly a Mistrovství pro nové mechaniky (zapálené pochodně `run.qc.torch`, zvony `bell`, pasti `trap` se už počítají).
 - Ověřit na telefonu výkon tmy v Kostnici a mlhy v bažině.
