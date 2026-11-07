@@ -258,6 +258,11 @@ html,body,#stage{touch-action:none}
 .sticky{position:sticky;z-index:4;bottom:calc(-22px - var(--sab,0px));padding:12px 0 calc(22px + var(--sab,0px));background:linear-gradient(#130f1c00,#130f1cf2 30%)}
 .lvl{display:flex;flex-direction:column;gap:10px;width:100%}
 .lvl .card{flex-direction:row;align-items:center;gap:12px;padding:12px}
+.lutime{width:100%;height:8px;background:#0c0912;clip-path:var(--px);box-shadow:inset 0 0 0 2px var(--line);overflow:hidden;margin-top:-6px}
+.lutime i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#ffe58a);transform-origin:left center}
+.lutime.hot i{background:linear-gradient(90deg,#e8453c,#ff8a6a);animation:luHot .5s steps(2) infinite}
+@keyframes luHot{50%{opacity:.6}}
+.lvl .card.auto{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}
 .lvl .card img{width:48px;height:48px;image-rendering:pixelated;flex:none}
 .lvl .card h3{font-size:19px}
 .lvl .card .k{font-size:12px;color:var(--ink);background:var(--gold);padding:0 6px;font-weight:700;margin-left:6px;vertical-align:2px}
@@ -576,6 +581,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
   <section class="scr clear" id="scr-levelup" hidden>
     <div class="wrap">
       <h2 class="title" id="luTitle">Nová úroveň!</h2>
+      <div class="lutime" id="luTime" hidden><i></i></div>
       <div class="lvl" id="luList"></div>
     </div>
   </section>
@@ -2685,7 +2691,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07p';
+const GAME_VER='2026-11-07q';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3486,13 +3492,20 @@ function openLevelUp(){
     b.innerHTML='<img alt="" src="'+dataUrl(SPR.icon[i.icon])+'"><div><h3>'+i.name+(i.tag?'<span class="k">'+i.tag+'</span>':'')+'</h3><p>'+i.desc+'</p></div>';
     b.addEventListener('click',()=>{applyOption(o);});list.appendChild(b);});
   if(run.pls)coLevelOpen(chest);
+  // light time pressure: 10 s to choose, then a random card (not in the first run, not in co-op – that has its own wait)
+  run.luT=!run.pls&&!run.tut&&save.stats&&save.stats.runs>0?LU_TIME:0;run.luTick=3;$('#luTime').hidden=!run.luT;$('#luTime').className='lutime';luBar();
   sfx('level');setState('levelup');
 }
+const LU_TIME=10;
+function luBar(){const b=$('#luTime i');if(b)b.style.transform='scaleX('+Math.max(0,run.luT/LU_TIME).toFixed(3)+')';}
+function luTick(dt){if(!run||!run.luT||state!=='levelup')return;run.luT=Math.max(0,run.luT-dt);luBar();
+  if(run.luT<3){$('#luTime').classList.add('hot');if(run.luT<run.luTick){run.luTick--;sfx('ui');}}
+  if(run.luT<=0){const B=[...$('#luList').children],nf=B.filter(b=>!b.classList.contains('fuse')),b=pick(nf.length?nf:B);if(b){b.classList.add('auto');setTimeout(()=>b.click(),180);}run.luT=0;}}
 function fuseApply(f,mul){mul*=1+((st&&st.fuse)||0);if(!CO.ctxMate&&save.codex)save.codex.f[f.id]=true;delete run.W[f.a];delete run.W[f.b];run.fused=run.fused||{};run.fused[f.a]=run.fused[f.b]=true;
   run.W[f.id]={lv:1,cd:.4,ang:0,tick:0,mul,r:0,pulse:0};}
 function fusable(){return FUSIONS.filter(f=>run.W[f.a]&&run.W[f.b]&&run.W[f.a].lv>=5&&run.W[f.b].lv>=5);}
 function applyOption(o){
-  if(state!=='levelup')return;
+  if(state!=='levelup')return;run.luT=0;
   if(o.k==='fuse'){sfx('ui');startFuse(o.f);return;}
   applyOptCore(o);
   afterOption();
@@ -4054,7 +4067,7 @@ function render(){
 let last=0,frameDt=0;
 const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 function step(dt){if(run&&state==='play'&&!run.over){if(isGuest())guestUpdate(dt);else update(dt);}if(run)updateHud();}
-function tick(dt){conductor(dt);step(dt);if(state==='fuse')fuseTick();if(CO.on)coNetTick(dt);}
+function tick(dt){conductor(dt);step(dt);if(state==='levelup')luTick(dt);if(state==='fuse')fuseTick();if(CO.on)coNetTick(dt);}
 function menuDance(){if(RM)return;const imgs=$('#parade').children;
   for(let i=0;i<imgs.length;i++){const f=((M.beatPos+i*.25)%1+1)%1,k=f<.1?'translateY(2px) scaleY(.88)':f<.26?'translateY(-5px)':'none';if(imgs[i]._k!==k){imgs[i]._k=k;imgs[i].style.transform=k;}}
   const lg=$('.logo'),sc=(1+M.pulse*.035).toFixed(3);if(lg._k!==sc){lg._k=sc;lg.style.transform='scale('+sc+')';}}
@@ -5462,6 +5475,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07q',d:'7. 11. 2026',t:_t('Rychlejší rozhodování'),items:[_t('Na výběr vylepšení máš <b>10 sekund</b>, ukazuje je zlatý proužek. Když nevybereš, vybere se karta sama. V prvním běhu a v co-opu limit není.')]},
  {v:'2026-11-07p',d:'7. 11. 2026',t:_t('Sety kapitol a nová výbava'),items:[_t('Každá kapitola má <b>set 4 kusů</b>: Výstroj pána kostí (kapitola I) a Faraonův odkaz (kapitola II). Kusy padají z finále kapitoly a nejpozději 4. výhra jeden kus zaručeně dá.'),_t('<b>2 kusy</b> dají bonus, <b>4 kusy</b> schopnost do rytmu: Tanec kostí (kostěné hroty, padlí vstanou jako tví kostlivci) a Sluneční disk (paprsky do kříže a do X).'),_t('<b>Poklad kapitoly</b>: po poražení finále ho najdeš v Přípravě na konci kapitoly. Uvnitř je kus setu, 300 zlata a materiál. Kdo už finále porazil, poklad na něj čeká.'),_t('Všechny předměty mají <b>nový vzhled</b>: každý stupeň vlastní obrázek, drahokam má barvu rarity. Sety najdeš i ve Sbírce.'),_t('Za přežité minuty padá dvakrát víc materiálu, takže i prohraný běh tě posune.')]},
  {v:'2026-11-07o',d:'7. 11. 2026',t:_t('Podle vašich názorů'),items:[_t('Žebříček: první tři mají vlastní karty se zabitími, mapami a hrdiny. Náhledy map při přepínání neblikají a tvůj řádek se dole připne, jen když tvoje místo není vidět.'),_t('Před prvním <b>rituálem</b> (fúze zbraní, sloučení v kovárně) se ukáže krátké vysvětlení a rituál začne, až ťukneš na Začít.'),_t('U vylepšení hrdiny i předmětů vidíš vedle ceny, <b>kolik suroviny máš</b> (třeba 90/1240).')]},
  {v:'2026-11-07l',d:'7. 11. 2026',t:_t('Přehlednější menu a Síň slávy'),items:[_t('Tlačítko <b>Zpět</b> zůstává nahoře i při posouvání. Zpátky se dostaneš i systémovým zpět na Androidu nebo swipem od levého okraje (v aplikaci z plochy na iPhonu).'),_t('Hrdinové jsou v <b>Přípravě</b> i v <b>Hrdinovi</b> v jedné řadě, pod nimi detail vybraného. Kampaň se vejde na obrazovku a <b>Vyrazit</b> už nic nepřekrývá.'),_t('<b>Síň slávy</b> má stupně vítězů pro první tři, tvoje umístění je vždy vidět dole a mapy vybíráš po kapitolách.')]},

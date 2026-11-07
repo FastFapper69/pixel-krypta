@@ -253,6 +253,8 @@ window.KRYPTA_EN={
 "<b>Poklad kapitoly</b>: po poražení finále ho najdeš v Přípravě na konci kapitoly. Uvnitř je kus setu, 300 zlata a materiál. Kdo už finále porazil, poklad na něj čeká.":"<b>Chapter treasure</b>: once you beat the finale you will find it in Preparation at the end of the chapter. Inside is a set piece, 300 gold and material. If you already beat the finale, it is waiting for you.",
 "Všechny předměty mají <b>nový vzhled</b>: každý stupeň vlastní obrázek, drahokam má barvu rarity. Sety najdeš i ve Sbírce.":"All items have a <b>new look</b>: every tier has its own picture and the gem shows the rarity colour. You will also find the sets in the Collection.",
 "Za přežité minuty padá dvakrát víc materiálu, takže i prohraný běh tě posune.":"Surviving minutes give twice as much material, so even a lost run moves you forward.",
+"Rychlejší rozhodování":"Quicker decisions",
+"Na výběr vylepšení máš <b>10 sekund</b>, ukazuje je zlatý proužek. Když nevybereš, vybere se karta sama. V prvním běhu a v co-opu limit není.":"You have <b>10 seconds</b> to pick an upgrade, shown by a golden bar. If you do not choose, a card is picked for you. There is no limit in your first run or in co-op.",
 "Bez titulu":"No title",
 "Titul vidí ostatní v žebříčku.":"Others see your title on the leaderboard.",
 "Tituly získáš za splněná Mistrovství v Síni slávy.":"Earn titles by completing Masteries in the Hall of Fame.",
