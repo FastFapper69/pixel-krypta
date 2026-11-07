@@ -2579,7 +2579,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07i';
+const GAME_VER='2026-11-07j';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -2606,7 +2606,9 @@ function toast0(msg,ms){const t=$('#toast');t.textContent=msg;t.classList.add('o
 /* ============ input ============ */
 const keys={};const stick={active:false,id:null,ox:0,oy:0,x:0,y:0};
 const stickEl=$('#stick'),knob=$('#knob');
-addEventListener('keydown',e=>{if(e.target&&e.target.tagName==='INPUT')return;keys[e.code]=true;
+// typing in a text field must not steer the game (space, P, arrows…)
+const typing=t=>!!t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable);
+addEventListener('keydown',e=>{if(typing(e.target))return;keys[e.code]=true;
   if((e.code==='Escape'||e.code==='KeyP')&&!e.repeat)togglePause();
   if(!e.repeat&&state==='play'&&run){const i=['Digit1','Digit2','Digit3','Digit4'].indexOf(e.code);if(i>=0)buildTower(T_IDS[i]);if(e.code==='KeyE')upgradeTower();if(e.code==='KeyR')repairCrystal();}
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();});
