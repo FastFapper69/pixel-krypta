@@ -2645,7 +2645,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07m';
+const GAME_VER='2026-11-07n';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4361,7 +4361,7 @@ async function openBoard(){
   catch(e){$('#boardMsg').textContent=_t('Žebříček se nepodařilo načíst: ')+errText(e);}
   renderBoard();
 }
-let boardCh=null;
+let boardCh=null,boardIO=null;
 // one leaderboard row: rank, nick + title, what they reached
 function boardRow(r,i){const el=document.createElement('div');el.className='brow'+(ON.me&&r.id===ON.me.id?' me':'');
   const rk=document.createElement('b');rk.className='rk';rk.textContent=(i+1)+'.';
@@ -4377,12 +4377,15 @@ function renderBoard(){
   // map picker: one chapter at a time, its maps as postcards
   {const bm=$('#boardMaps');bm.hidden=!MAPS[boardTab];if(MAPS[boardTab]){if(boardCh==null||!CHAPTERS[boardCh]||!CHAPTERS[boardCh].maps.includes(boardTab))boardCh=(CH_OF[boardTab]||CHAPTERS[0]).i;
     const C=CHAPTERS[boardCh],m=MAPS[boardTab];bm.style.setProperty('--chc',C.col);
+    const nameHtml=C.maps.includes(boardTab)?m.name:'<small>'+_t('Vyber mapu')+'</small>';
+    if(bm.dataset.ch===String(boardCh)){bm.querySelectorAll('[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===boardTab));bm.querySelector('.bmname').innerHTML=nameHtml;}
+    else{bm.dataset.ch=boardCh;
     bm.innerHTML='<div class="chbar"><button class="btn alt sm" data-d="-1"'+(boardCh?'':' disabled')+' aria-label="'+_t('Předchozí kapitola')+'">‹</button><div class="chh"><small>'+_t('KAPITOLA ')+ROMAN_CH[boardCh]+'</small><h3>'+C.name+'</h3></div>'+
       '<button class="btn alt sm" data-d="1"'+(boardCh<CHAPTERS.length-1?'':' disabled')+' aria-label="'+_t('Další kapitola')+'">›</button></div>'+
       '<div class="bmgrid">'+C.maps.map((id,k)=>{const sr=thumbSrc(id);return '<button data-m="'+id+'" class="'+(id===boardTab?'on':'')+'" aria-label="'+MAPS[id].name+'"><img alt="" src="'+(sr?(sr.toDataURL?sr.toDataURL():sr.src):thumbUrl(id))+'"><span class="n">'+(k+1)+'</span></button>';}).join('')+'</div>'+
-      (C.maps.includes(boardTab)?'<div class="bmname">'+m.name+'</div>':'<div class="bmname"><small>'+_t('Vyber mapu')+'</small></div>');
+      '<div class="bmname">'+nameHtml+'</div>';
     bm.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{boardTab=b.dataset.m;sfx('ui');renderBoard();});
-    bm.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{boardCh=Math.max(0,Math.min(CHAPTERS.length-1,boardCh+ +b.dataset.d));sfx('ui');const M2=CHAPTERS[boardCh].maps;boardTab=M2.includes(sel.map)?sel.map:M2[0];renderBoard();});}}
+    bm.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{boardCh=Math.max(0,Math.min(CHAPTERS.length-1,boardCh+ +b.dataset.d));sfx('ui');const M2=CHAPTERS[boardCh].maps;boardTab=M2.includes(sel.map)?sel.map:M2[0];renderBoard();});}}else $('#boardMaps').dataset.ch='';}
   const list=$('#boardList'),msg=$('#boardMsg'),pod=$('#boardPod'),me=$('#boardMe');list.textContent='';pod.hidden=true;pod.textContent='';me.hidden=true;
   if(!onlineConfigured()){msg.textContent=_t('Žebříček zatím není připojený k serveru. Tahle verze hraje offline a postup se ukládá jen v tomhle prohlížeči.');return;}
   if(!ON.ready){msg.textContent=ON.err?_t('Připojení k serveru se nezdařilo: ')+ON.err:_t('Připojuji se…');return;}
@@ -4403,8 +4406,11 @@ function renderBoard(){
       const sd=document.createElement('div');sd.className='stand';sd.textContent=i+1;d.append(v,sd);pod.appendChild(d);}}
   rows.slice(3,100).forEach((r,k)=>list.appendChild(boardRow(r,k+3)));
   // your own place, always in sight
-  if(ON.me){const i=rows.findIndex(r=>r.id===ON.me.id);me.hidden=false;me.textContent='';
-    if(i>=0)me.appendChild(boardRow(rows[i],i));else{const n=document.createElement('div');n.className='none';n.textContent=_t('Tady zatím nemáš výsledek. Zahraj si a objevíš se v žebříčku.');me.appendChild(n);}}
+  if(boardIO){boardIO.disconnect();boardIO=null;}
+  if(ON.me){const i=rows.findIndex(r=>r.id===ON.me.id);me.textContent='';
+    if(i<0){if(rows.length){const n=document.createElement('div');n.className='none';n.textContent=_t('Tady zatím nemáš výsledek. Zahraj si a objevíš se v žebříčku.');me.appendChild(n);me.hidden=false;}}
+    else{me.appendChild(boardRow(rows[i],i));const own=pod.querySelector('.pod.me')||list.querySelector('.brow.me');me.hidden=true;
+      if(own&&'IntersectionObserver' in window){boardIO=new IntersectionObserver(E=>{me.hidden=E[0].isIntersecting;},{root:$('#scr-board'),threshold:.6});boardIO.observe(own);}}}
 }
 
 /* ============ progression: map materials, hero levels, gear, chests, forge, nightmares, codex, daily ============
@@ -5317,7 +5323,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
- {v:'2026-11-07m',d:'7. 11. 2026',t:_t('Podle vašich názorů'),items:[_t('Před prvním <b>rituálem</b> (fúze zbraní, sloučení v kovárně) se ukáže krátké vysvětlení a rituál začne, až ťukneš na Začít.'),_t('U vylepšení hrdiny i předmětů vidíš vedle ceny, <b>kolik suroviny máš</b> (třeba 90/1240).')]},
+ {v:'2026-11-07n',d:'7. 11. 2026',t:_t('Podle vašich názorů'),items:[_t('Žebříček: náhledy map při přepínání neblikají a tvůj řádek se dole připne, jen když tvoje místo není vidět.'),_t('Před prvním <b>rituálem</b> (fúze zbraní, sloučení v kovárně) se ukáže krátké vysvětlení a rituál začne, až ťukneš na Začít.'),_t('U vylepšení hrdiny i předmětů vidíš vedle ceny, <b>kolik suroviny máš</b> (třeba 90/1240).')]},
  {v:'2026-11-07l',d:'7. 11. 2026',t:_t('Přehlednější menu a Síň slávy'),items:[_t('Tlačítko <b>Zpět</b> zůstává nahoře i při posouvání. Zpátky se dostaneš i systémovým zpět na Androidu nebo swipem od levého okraje (v aplikaci z plochy na iPhonu).'),_t('Hrdinové jsou v <b>Přípravě</b> i v <b>Hrdinovi</b> v jedné řadě, pod nimi detail vybraného. Kampaň se vejde na obrazovku a <b>Vyrazit</b> už nic nepřekrývá.'),_t('<b>Síň slávy</b> má stupně vítězů pro první tři, tvoje umístění je vždy vidět dole a mapy vybíráš po kapitolách.')]},
  {v:'2026-11-07k',d:'7. 11. 2026',t:_t('Opravy: bouře, titul, smrt'),items:[_t('<b>Písečná bouře</b> v Kaňonu větrů je pořádně vidět. Šipka u hrdiny ukazuje směr větru a <b>závětří</b> za skalami je vyznačené na zemi. Kolem tábora přibyly skály, za které se dá schovat.'),_t('<b>Titul</b> si teď vybereš v profilu u přezdívky nebo tlačítkem <b>Nosit</b> v Mistrovství.'),_t('<b>Smrt</b> má svůj moment: hrdina se rozletí na kusy, hudba ztichne a čas se zpomalí.'),_t('Náhledy map se načtou hned při startu, výběr mapy už na ně nečeká.')]},
  {v:'2026-11-07i',d:'7. 11. 2026',t:_t('Napiš mi svůj názor'),items:[_t('V <b>Nastavení</b> je nové tlačítko <b>Napsat názor na hru</b>. Napiš, co tě baví, co ne, co nefunguje nebo co bys přidal. Všechno si přečtu.'),_t('Jednou denně za názor dostaneš <b>60 zlata a svíčku</b> na Nástěnku. Kdo pošle názor ve 3 různých dnech, získá v Mistrovství titul <b>Rádce</b>.')]},

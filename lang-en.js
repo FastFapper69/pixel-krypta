@@ -211,6 +211,7 @@ window.KRYPTA_EN={
 "Podle vašich názorů":"Based on your feedback",
 "Před prvním <b>rituálem</b> (fúze zbraní, sloučení v kovárně) se ukáže krátké vysvětlení a rituál začne, až ťukneš na Začít.":"Before your first <b>ritual</b> (weapon fusion, forge merge) a short explanation shows up and the ritual starts when you tap Start.",
 "U vylepšení hrdiny i předmětů vidíš vedle ceny, <b>kolik suroviny máš</b> (třeba 90/1240).":"Hero and item upgrades now show <b>how much you have</b> next to the price (e.g. 90/1240).",
+"Žebříček: náhledy map při přepínání neblikají a tvůj řádek se dole připne, jen když tvoje místo není vidět.":"Leaderboard: map previews no longer flash when switching, and your row is pinned at the bottom only when your place is out of sight.",
 "Bez titulu":"No title",
 "Titul vidí ostatní v žebříčku.":"Others see your title on the leaderboard.",
 "Tituly získáš za splněná Mistrovství v Síni slávy.":"Earn titles by completing Masteries in the Hall of Fame.",
