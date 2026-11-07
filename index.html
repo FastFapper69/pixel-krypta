@@ -268,6 +268,10 @@ html,body,#stage{touch-action:none}
 .card.chest{flex-direction:row;align-items:center;gap:12px;cursor:default}.card.chest>img{width:44px;height:44px;image-rendering:pixelated;flex:none}.card.chest .t{flex:1;display:flex;flex-direction:column;gap:3px}
 .odds{display:flex;gap:8px;font-size:13px;font-weight:700;flex-wrap:wrap}.pity{color:var(--muted)}
 .cxgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#gdTabs button{min-width:0;font-size:13px;padding:8px 2px}
+.gd{display:flex;gap:10px;align-items:center;background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:8px 12px 8px 10px}
+.gd img{width:36px;height:36px;image-rendering:pixelated;object-fit:contain;flex:none}
+.gd b{display:block;font-size:15px}.gd small{display:block;color:var(--muted);font-size:13px;line-height:1.3}
 #qPin{display:flex;align-items:center;gap:6px;align-self:flex-start;font-size:13px;font-weight:700;color:#ffe9a8;background:#0c0912b0;padding:3px 8px 3px 5px;box-shadow:inset 0 0 0 2px #ffffff22;text-shadow:0 1px 0 #000;max-width:72%}
 #qPin[hidden]{display:none}#qPin img{width:16px;height:16px;image-rendering:pixelated;flex:none}#qPin span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #qPin.hot{color:#ffd0c8;box-shadow:inset 0 0 0 2px var(--red);animation:qhot .5s steps(2) infinite alternate}@keyframes qhot{to{background:#3a0c12c0}}
@@ -401,7 +405,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
         <div class="row2"><button class="btn alt" id="mHero">Hrdina</button><button class="btn alt" id="mChest">Obchod</button></div>
         <div class="row2"><button class="btn alt" id="mShop">Vylepšení</button><button class="btn alt" id="mCodex">Sbírka</button></div>
         <div class="row2"><button class="btn alt" id="mQuest">Nástěnka</button><button class="btn alt" id="mBoard">Žebříček</button></div>
-        <div class="row2"><button class="btn alt" id="mMaster">Mistrovství</button><button class="btn alt" id="mNews">Novinky</button></div>
+        <div class="row2"><button class="btn alt" id="mMaster">Mistrovství</button><button class="btn alt" id="mGuide">Průvodce</button></div>
+        <button class="btn alt sm" id="mNews">Novinky</button>
         <button class="btn alt sm" id="mInstall" hidden>Přidat hru na plochu</button>
         <div class="row3"><button class="btn alt sm" id="mSound">Zvuk</button><button class="btn alt sm" id="mMusic">Hudba</button><button class="btn alt sm" id="mStick">Ovládání</button></div>
         <div class="tabs langsw" id="mLang"><button data-l="cs">Čeština</button><button data-l="en">English</button></div>
@@ -524,6 +529,14 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <p class="hint">Dlouhodobé cíle. Za každý dostaneš odměnu a titul, který se ukáže u tvé přezdívky v žebříčku. Splněno <b id="maCount"></b></p>
       <div id="maTitle" class="matitle"></div>
       <div class="stack" id="maList"></div>
+    </div>
+  </section>
+
+  <section class="scr" id="scr-guide" hidden>
+    <div class="wrap">
+      <div class="head"><h2>Průvodce</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="tabs" id="gdTabs"><button data-g="basics">Základy</button><button data-g="weapons">Zbraně</button><button data-g="towers">Věže</button><button data-g="world">Svět</button><button data-g="progress">Postup</button></div>
+      <div class="stack" id="gdList"></div>
     </div>
   </section>
 
@@ -801,6 +814,7 @@ const ICONS={
  eye:{pal:{w:'#ffffff',u:'#4aa3e8',k:'#14101c'},rows:['........','..wwww..','.wuuuuw.','wuukkuuw','wuukkuuw','.wuuuuw.','..wwww..','........']},
  greed:{pal:{n:'#8a5a3a',y:'#f6c744',o:'#c28a10'},rows:['...nn...','..n..n..','...nn...','.yyyyyy.','yyoyyoyy','yyyooyyy','yyoyyoyy','.yyyyyy.']},
  medal:{pal:{r:'#e8453c',u:'#4aa3e8',y:'#f6c744',o:'#c28a10'},rows:['.rr..uu.','..rr.u..','...ru...','..yyyy..','.yyooyy.','.yoyyoy.','.yyooyy.','..yyyy..']},
+ book:{pal:{B:'#8a5ad0',b:'#5a3a9a',p:'#ecdcae',y:'#f6c744'},rows:['.BBBBBB.','Bbbbbbbp','Bbyyyybp','Bbybbybp','Bbyyyybp','Bbbbbbbp','Bbbbbbbp','.pppppp.']},
  news:{pal:{y:'#f6c744',w:'#fff6c8'},rows:['...y....','...y....','..ywy..y','yywwwyy.','..ywy...','...y....','.y.y....','........']},
  share:{pal:{s:'#cfcfe0',u:'#7fcaff'},rows:['.....uu.','....uuuu','...s.uu.','..s.....','uu.s....','uuuu.s..','.uu...s.','........']},
  phone:{pal:{s:'#cfcfe0',k:'#3a2c52',y:'#f6c744'},rows:['.ssssss.','.skkkks.','.skyyks.','.skyyks.','.skkkks.','.skkkks.','.ssssss.','..s..s..']}
@@ -1615,7 +1629,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07d';
+const GAME_VER='2026-11-07e';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -1627,7 +1641,7 @@ const isGuest=()=>CO.role==='guest'&&!!run&&!!run.coop;
 function withPl(pl,fn){const K=['p','W','P','hero','heroId','fused','fuseMiss','revived','meta','bonus','revT'],sv={};for(const k of K)sv[k]=run[k];const s0=st,c0=CO.ctxMate;
   for(const k of K)run[k]=pl[k];st=pl.st;CO.ctxMate=true;
   try{return fn();}finally{for(const k of K)pl[k]=run[k];pl.st=st;for(const k of K)run[k]=sv[k];st=s0;CO.ctxMate=c0;}}
-const screens={menu:$('#scr-menu'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),codex:$('#scr-codex'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master')};
+const screens={menu:$('#scr-menu'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),codex:$('#scr-codex'),guide:$('#scr-guide'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master')};
 function showScreen(n){for(const k in screens)screens[k].hidden=(k!==n);}
 function setState(s){if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
   $('#hud').hidden=!(run&&(s==='play'||s==='levelup'||s==='fuse'||s==='wait'||s==='pause'||s==='over'));
@@ -2950,7 +2964,7 @@ function bindUi(){
   const ico=(q,srcs)=>{const b=$(q);if(!b)return;const lbl=b.querySelector('.lbl')||(()=>{const l=document.createElement('span');l.className='lbl';l.textContent=b.textContent;b.textContent='';b.appendChild(l);return l;})();
     const w=document.createElement('span');w.className='bi';for(const s of srcs){const i=document.createElement('img');i.alt='';i.src=s;w.appendChild(i);}b.insertBefore(w,lbl);};
   ico('#mPlay',[dataUrl(SPR.icon.blade)]);ico('#mCoop',[dataUrl(SPR.hero.knight),dataUrl(SPR.hero.mage)]);ico('#mHero',[dataUrl(SPR.hero.knight)]);
-  ico('#mChest',[dataUrl(SPR.icon.chest_gold)]);ico('#mShop',[dataUrl(SPR.icon.power)]);ico('#mCodex',[dataUrl(itemSpr('amulet',4))]);ico('#mBoard',[dataUrl(SPR.icon.trophy)]);ico('#mQuest',[dataUrl(SPR.icon.scroll)]);ico('#mMaster',[dataUrl(SPR.icon.medal)]);ico('#ovShare',[dataUrl(SPR.icon.share)]);ico('#mNews',[dataUrl(SPR.icon.news)]);ico('#mInstall',[dataUrl(SPR.icon.phone)]);
+  ico('#mChest',[dataUrl(SPR.icon.chest_gold)]);ico('#mShop',[dataUrl(SPR.icon.power)]);ico('#mCodex',[dataUrl(itemSpr('amulet',4))]);ico('#mBoard',[dataUrl(SPR.icon.trophy)]);ico('#mQuest',[dataUrl(SPR.icon.scroll)]);ico('#mMaster',[dataUrl(SPR.icon.medal)]);ico('#ovShare',[dataUrl(SPR.icon.share)]);ico('#mNews',[dataUrl(SPR.icon.news)]);ico('#mGuide',[dataUrl(SPR.icon.book)]);ico('#mInstall',[dataUrl(SPR.icon.phone)]);
   ico('#mSound',[dataUrl(SPR.icon.sound)]);ico('#mMusic',[dataUrl(SPR.icon.music)]);ico('#mStick',[dataUrl(SPR.icon.stick)]);
   $('#crest').src=dataUrl(SPR.icon.skull);
   pic('#icoCoin',SPR.icon.coin);pic('#icoSkull',SPR.icon.skull);pic('#menuCoin',SPR.icon.coin);
@@ -2981,6 +2995,8 @@ function bindUi(){
   $('#mHero').onclick=()=>{audioInit();sfx('ui');openHero();};
   $('#mChest').onclick=()=>{audioInit();sfx('ui');openChestShop();};
   $('#mCodex').onclick=()=>{audioInit();sfx('ui');openCodex();};
+  $('#mGuide').onclick=()=>{audioInit();sfx('ui');openGuide();};
+  document.querySelectorAll('#gdTabs button').forEach(b=>b.onclick=()=>{sfx('ui');renderGuide(b.dataset.g);});
   $('#mQuest').onclick=()=>{audioInit();sfx('ui');openQuests();};
   $('#mMaster').onclick=()=>{audioInit();sfx('ui');openMaster();};
   $('#mNews').onclick=()=>{audioInit();sfx('ui');openNews(true);};
@@ -3430,6 +3446,55 @@ function revealItem(it,chest,title,opts){const pop=(opts&&opts.pop)||$('#chestPo
   $('#rvOk').onclick=e=>{e.stopPropagation();done=true;pop.hidden=true;pop.onpointerdown=null;sfx('ui');if(opts&&opts.done)opts.done();else renderChests();};}
 
 // ----- Codex -----
+/* ============ guide: a short illustrated overview of how the game works (menu → Průvodce) ============
+   Tabs: basics, weapons (from WEAPONS/PASSIVES/FUSIONS), towers, world (heroes, maps, enemies, bosses), progress. One icon + one line per entry. */
+let gdTab='basics';
+function gdRow(img,title,txt){const imgs=String(img).split('|').map(s=>'<img alt="" src="'+s+'">').join('');return '<div class="gd">'+imgs+'<div><b>'+title+'</b><small>'+txt+'</small></div></div>';}
+function gdSec(t){return '<div class="sec">'+t+'</div>';}
+function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]?dataUrl(SPR.icon[k]):'';let h='';
+  document.querySelectorAll('#gdTabs button').forEach(b=>b.classList.toggle('on',b.dataset.g===tab));
+  if(tab==='basics'){h=[
+   [I('stick'),_t('Pohyb'),_t('Táhni prstem kamkoli po obrazovce. Hrdina útočí sám.')],
+   [I('power'),_t('Úrovně'),_t('Sbírej krystaly z nepřátel. S každou úrovní vybereš novou zbraň nebo vylepšení.')],
+   [I('music'),_t('Rytmus'),_t('Zbraně a věže střílí do rytmu hudby. Zabíjej bez zásahu a poroste ti kombo.')],
+   [I('vortex'),_t('Fúze'),_t('Dvě zbraně na úrovni 5 spojíš v silnou ultimátku. Při rituálu ťukej do rytmu.')],
+   [I('tower'),_t('Věže'),_t('Za zlato z běhu stavíš věže tlačítky vpravo dole.')],
+   [I('potion'),_t('Předměty na zemi'),_t('Lektvar léčí, magnet přitáhne krystaly, truhla dá vylepšení navíc.')],
+   [I('skull'),_t('Boss'),_t('Přežij do konce a poraz bosse. Když ho nezabiješ do 2 minut, začne zuřit.')],
+   [I('trophy'),_t('Výhra'),_t('Poražený boss odemkne další mapu a Noční můry.')],
+   [dataUrl(SPR.hero.knight)+'|'+dataUrl(SPR.hero.mage),_t('S kamarádem'),_t('Hrajte ve dvou, každý na svém telefonu. Padlého kamaráda oživíš, když u něj postojíš.')]].map(r=>gdRow(...r)).join('');}
+  else if(tab==='weapons'){
+    h=gdSec(_t('Zbraně'))+W_IDS.map(id=>gdRow(I(id),WEAPONS[id].name,WEAPONS[id].desc)).join('')
+     +gdSec(_t('Pasivky'))+P_IDS.map(id=>gdRow(I(id),PASSIVES[id].name,PASSIVES[id].txt)).join('')
+     +gdSec(_t('Fúze'))+FUSIONS.map(F=>{const hid=WEAPONS[F.id].secret&&!save.codex.f[F.id];
+        return gdRow(I(F.id),hid?'???':WEAPONS[F.id].name,hid?_t('Tajný recept: oheň a led…'):WEAPONS[F.a].name+' + '+WEAPONS[F.b].name+_t(' (obě na úrovni 5)'));}).join('');}
+  else if(tab==='towers'){const D={'arrow':_t('Rychle střílí šípy na jednoho nepřítele.'),'fire':_t('Hází ohnivé koule, které vybuchnou.'),'frost':_t('Mrazivá vlna zraní a zpomalí nepřátele kolem.'),'tesla':_t('Blesk přeskakuje mezi několika nepřáteli.')};
+    h=T_IDS.map(k=>gdRow(dataUrl(SPR.tower[k]),TOWERS[k].name+' · '+TOWERS[k].cost+' '+_t('zl.'),D[k]||'')).join('')+gdSec(_t('Jak na věže'))+[
+   [I('coin'),_t('Stavění'),_t('Ťukni na věž vpravo dole a postaví se tam, kde stojíš.')],
+   [I('power'),_t('Vylepšení věže'),_t('Stoupni si k věži a ťukni na Vylepšit. Maximum je úroveň 3.')],
+   [I('heart'),_t('Oprava'),_t('Nepřátelé věže ničí. Plně vylepšenou věž opravíš stejným tlačítkem.')],
+   [dataUrl(SPR.hero.builder),HEROES.builder.name,HEROES.builder.desc]].map(r=>gdRow(...r)).join('');}
+  else if(tab==='world'){const N={'slime':_t('Pomalý, chodí v houfech.'),'bat':_t('Rychlý, létá v kličkách.'),'skeleton':_t('Jde rovnou po tobě.'),'ghost':_t('Pomalu kličkuje k tobě.'),'spider':_t('Malý a hodně rychlý.'),'zombie':_t('Pomalý, ale hodně vydrží.'),'mage':_t('Drží si odstup a střílí.'),'golem':_t('Obr, vydrží hodně a tvrdě bije.'),'wolf':_t('Rozběhne se proti tobě.'),'flameskull':_t('Řítí se na tebe v plamenech.')},B={'slimeking':_t('Svolává další slizy.'),'lich':_t('Střílí kruhy střel.'),'demon':_t('Vrhá se na tebe a pálí kruhy střel.')};
+    h=gdSec(_t('Hrdinové'))+Object.keys(HEROES).map(id=>gdRow(dataUrl(SPR.hero[id]),HEROES[id].name,HEROES[id].desc)).join('')
+     +gdSec(_t('Mapy'))+MAP_IDS.map(id=>gdRow(mapsBuilt[id]?mapThumb(id).toDataURL():dataUrl(SPR.boss[MAPS[id].boss]),MAPS[id].name,MAPS[id].desc)).join('')
+     +gdSec(_t('Nepřátelé'))+ENEMY_IDS.map(id=>gdRow(dataUrl(SPR.enemy[id]),ENEMY_DEFS[id].name,N[id]||'')).join('')
+     +gdRow(dataUrl(eliteSprite('golem')),_t('Elita'),_t('Větší a silnější. Padá z ní materiál.'))
+     +gdRow(I('scroll'),_t('Hledaný'),_t('Silná elita z plakátu na Nástěnce. Když ji nechytíš do 80 s, uteče.'))
+     +gdSec(_t('Bossové'))+Object.keys(BOSS_DEFS).map(id=>gdRow(dataUrl(SPR.boss[id]),BOSS_DEFS[id].name,B[id]||'')).join('');}
+  else{h=[
+   [I('coin'),_t('Zlato'),_t('Dostaneš ho za každý běh. Kupuješ za něj truhly a Vylepšení.')],
+   [I('bone'),_t('Materiály'),_t('Každá mapa má svůj: Kostní prach, Jantar, Magmatit. Padají hlavně z elit.')],
+   [dataUrl(SPR.hero.knight),_t('Úroveň hrdiny'),_t('Za zlato a materiály. Přidá zdraví a poškození, na úrovni 5, 10, 15 a 20 talent.')],
+   [I('chest_iron'),_t('Výbava'),_t('Z truhel v Obchodu. Helma, zbroj, amulet a prsten v pěti raritách.')],
+   [I('shield'),_t('Kovárna'),_t('Tři předměty stejné rarity sloučíš v jeden vzácnější.')],
+   [I('haste'),_t('Vylepšení'),_t('Trvalé bonusy pro všechny hrdiny a běhy.')],
+   [I('skull'),_t('Noční můry'),_t('Těžší verze mapy s lepší odměnou. Odemknou se po výhře.')],
+   [I('scroll'),_t('Nástěnka'),_t('Denní úkoly a hledané elity za svíčky a truhly.')],
+   [I('candle'),_t('Denní výzva'),_t('Stejný běh pro všechny hráče a vlastní žebříček Dnes.')],
+   [I('medal'),_t('Mistrovství'),_t('Dlouhodobé cíle. Za splnění dostaneš zlato a titul.')],
+   [dataUrl(itemSpr('amulet',4)),_t('Sbírka'),_t('Objevené fúze a legendární předměty.')]].map(r=>gdRow(...r)).join('');}
+  const L=$('#gdList');L.innerHTML=h;const sc=L.closest('.scr');if(sc)sc.scrollTop=0;}
+function openGuide(){renderGuide(gdTab);setState('guide');}
 function openCodex(){econInit();const f=$('#cxFus'),l=$('#cxLeg');
   f.innerHTML=FUSIONS.map(F=>{const has=save.codex.f[F.id];return '<div class="cx'+(has?' on':'')+'"><img alt="" src="'+dataUrl(SPR.icon[F.id])+'"><b>'+(has?WEAPONS[F.id].name:'???')+'</b><small>'+(has?WEAPONS[F.a].name+' + '+WEAPONS[F.b].name:WEAPONS[F.id].secret?_t('Tajný recept: oheň a led…'):_t('Spoj dvě zbraně na úrovni 5…'))+'</small></div>';}).join('');
   l.innerHTML=LEG_IDS.map(id=>{const has=save.codex.l[id],L=LEGS[id];return '<div class="cx'+(has?' on':'')+'"><img alt="" src="'+dataUrl(itemSpr(L.slot,4))+'"><b>'+(has?L.name:'???')+'</b><small>'+(has?L.desc:SLOTS[L.slot].name+' · '+L.hint)+'</small></div>';}).join('');
@@ -3984,6 +4049,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07e',d:'7. 11. 2026',t:_t('Průvodce hrou'),items:[_t('V menu přibyl <b>Průvodce</b>: na jednom místě vidíš, co dělají zbraně, věže, nepřátelé a jak funguje postup.')]},
  {v:'2026-11-07d',d:'7. 11. 2026',t:_t('Efektní ultimátky'),items:[_t('Ultimátky po fúzi mají <b>nový vzhled</b>: Vír ostří táhne zelené stopy a při dropu vymrští tornádo čepelí, Řetězová bouře šlehá tlusté rozvětvené blesky a na dropu setmí oblohu.'),_t('<b>Ledová smršť</b> uzavře nepřátele do ledového krunýře a drop nechá vyrůst pole ledových krystalů s vánicí. <b>Meteorit</b> vrhá stín a nechává kráter a <b>Ozvěna</b> hraje duhovými notami.'),_t('S ultimátkou kolem hrdiny svítí aura v její barvě a velký drop na začátku fráze má pořádný náraz.')]},
  {v:'2026-11-07c',d:'7. 11. 2026',t:_t('Nákup hrdinů'),items:[_t('Ve výběru hrdiny a mapy teď vidíš své <b>zlato a materiály</b>.'),_t('Koupě hrdiny se musí <b>potvrdit</b>, aby se nedal koupit omylem.')]},
  {v:'2026-11-07b',d:'7. 11. 2026',t:_t('Vyladěná obtížnost'),items:[_t('<b>Poušť</b>: krystal vydrží víc, rychleji se v klidu léčí a jeho obranná vlna s časem sílí.'),_t('<b>Doly a poušť</b> mají mírnější nástup – nepřátelé tam mají méně zdraví a chodí jich méně najednou. Golem v dolech přichází až od 2. minuty a bije slaběji.'),_t('<b>Stavitel</b> má +15 zdraví. <b>Bard</b> přišel o bonus k poškození a jeho Noty jsou o něco slabší.'),_t('<b>Noční můry</b> přitvrzují rychleji a nepřátel je v nich víc.')]},
@@ -4091,7 +4157,7 @@ onlineInit();
 {const m=/[?&]hra=(\d{4})/.exec(location.search);if(m){try{history.replaceState(null,'',location.pathname);}catch(e){}setTimeout(()=>openCoop(m[1]),300);}}
 
 /* debug / test hooks */
-window.__krypta={finishFuse,afterOption,tmRow,explode,spawnEnemy,hurtEnemy,killEnemy,get run2(){return run},upInvest,mergeRefund,openMerge,matInfo,musicRender,get musicErr(){return M.err},finish,ACH,achTrack,achClaim,achProg,openMaster,openNews,NEWS,shareImage,shareResult,seedRng,tutTick,titleOf,get ac(){return ac},get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
+window.__krypta={openGuide,renderGuide,finishFuse,afterOption,tmRow,explode,spawnEnemy,hurtEnemy,killEnemy,get run2(){return run},upInvest,mergeRefund,openMerge,matInfo,musicRender,get musicErr(){return M.err},finish,ACH,achTrack,achClaim,achProg,openMaster,openNews,NEWS,shareImage,shareResult,seedRng,tutTick,titleOf,get ac(){return ac},get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
   openMenu,ON,onlineInit,CO,NET,LO,econInit,makeItem,openChest,heroBonus,heroUp,upgradeItem,doMerge,dismantleItem,mergeCandidates,openHero,openChestShop,openCodex,openQuests,qEnsure,qCommit,qClaim,qClaimMs,qClaimWanted,qReroll,qSnap,spawnWanted,qNewDay,dailyInfo,runRewards,itemById,ECON,openCoop,coHostStart,coJoin,coHostGo,withPl,players,openBoard,saveNick,fusable,startFuse,fuseTap,audioBeat,FUSIONS,get FZ(){return FZ},buildTower,upgradeTower,repairCrystal,force:null,god:false,MAPS,WEAPONS,PASSIVES,ENEMY_DEFS,setSel:(h,m)=>{sel.hero=h;sel.map=m;}};
 })();
 </script>
