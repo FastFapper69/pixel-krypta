@@ -22,6 +22,7 @@ Bot (`bot.js` teď zapisuje i `gain` = zlato a `rw` = materiál za běh), 2 hrdi
 
 Ceny: obchod vylepšení celkem 4 900 zl (≈ 10 běhů na hřbitově), hrdina 1→10 = 900 zl + 270 Kostního prachu (≈ 5 běhů), 10→20 = 2 900 zl + 630 / 510 / 300 materiálů, vzácný předmět +10 = 4 950 zl + 540 materiálu slotu, legendární 8 250 zl + 900. Mistrovství dá celkem 7 650 zl.
 Závěr: zlato má dost výdajů a začátek je rychlý (dobře). Slabé místo je **prohra = skoro nic** (poušť 14 Jantaru proti 82 při výhře), takže hráč zaseknutý na kapitole II sbírá Jantar na úrovně 10–20 desítky běhů; doly dávají na maximu 2× víc zlata/min než ostatní mapy; Magmatit má jen 1 mapu. Čeká se na skutečná data z `runs` (tabulka založena 2026-11-07).
+**Úprava 07p:** materiál za přežitou minutu 4 místo 2 (bot: prohra v poušti ~20 místo 14, výhra ~104). Sety kapitol (kusy na epické úrovni z finále + poklad kapitoly) jsou nový cíl pro opakované hraní finále.
 
 ### Revize 11/2026 (smysl materiálů)
 - Hrdina 1→20 stojí 900 Kostního prachu, 540 Jantaru, 300 Magmatitu a 3 800 zlata (dřív 1 140 / 540 / 100). Úrovně 15–19 mají pevně 54 Kostního prachu a Magmatit `12·(L−12)`, takže nejtěžší mapa má podíl i na hrdinech.
