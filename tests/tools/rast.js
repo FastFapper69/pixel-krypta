@@ -1,0 +1,19 @@
+// deterministický čas vykreslení snímku (JS + rasterizace, CPU canvas, bez zpomalení): node rast.js file.html [map] [ults=1]
+const {chromium}=require('playwright');const fs=require('fs');const file=process.argv[2]||'off.html',map=process.argv[3]||'doly',ults=+(process.argv[4]??1);
+let src=fs.readFileSync(__dirname+'/'+file,'utf8').replace("const c=DISKS.get(col+'|'+r,()=>","const c=DISKS.get(col+'|'+r,()=>(window.__dk&&__dk(col,r)),").replace("const c=DISKS.get(col+'|'+r,()=>(window.__dk&&__dk(col,r)),","const c=DISKS.get(col+'|'+r,()=>{window.__dk&&__dk(col,r);return sprCv(2*r+1,2*r+1,q=>{q.fillStyle=col;rowsCircle(q,r,r,r);})});if(0)DISKS.get(0,()=>").replace('function render(){','window.__rend=()=>render();function render(){');fs.writeFileSync(__dirname+'/_r.html',src);
+(async()=>{const b=await chromium.launch({args:['--disable-accelerated-2d-canvas','--disable-gpu']});const c=await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true,deviceScaleFactor:3});
+ const p=await c.newPage();p.on('pageerror',e=>console.log('ERR',e.message));
+ await p.addInitScript('window.__PQ='+(process.env.PQ||0));await p.goto('file://'+__dirname+'/_r.html');await p.waitForTimeout(500);
+ const cdp=await c.newCDPSession(p);if(process.env.PROF){await cdp.send('Profiler.enable');await cdp.send('Profiler.setSamplingInterval',{interval:100});await cdp.send('Profiler.start');}
+ const r=await p.evaluate(([map,ults,NN])=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;K.god=true;K.save.tut=1;K.seedRng('bench');if(K.PQ)K.PQ.lv=+(window.__PQ||0);K.startRun('builder',map);const r=K.run;r.coins=99999;r.t=200;
+   for(const k of ['arrow','fire','frost','tesla','fire','tesla'])try{K.buildTower(k)}catch(e){}
+   const W=ults?['vortex','storm','meteor','blizzard','note','rang']:['fireball','lightning','blade','arrows','axe','aura'];for(const id of W)if(!r.W[id])r.W[id]={lv:ults?3:6,ang:0,mul:1};
+   const ids=['skeleton','zombie','bat','slime','ghost','spider'];let nn=0;
+   const fill=()=>{let n=0;while(r.enemies.length<180&&n++<40){const a=Math.random()*6.283,d=60+Math.random()*120;const e=K.makeEnemy(ids[nn++%6],r.p.x+Math.cos(a)*d,r.p.y+Math.sin(a)*d*1.6);if(nn%25===0)e.elite=true;r.enemies.push(e);}};
+   for(let i=0;i<300;i++){fill();K.step(1/60);}
+   const oc=document.createElement.bind(document);let made=0;window.__miss={};window.__dkm={};window.__dk=(c,r)=>{const k=r>40?'r>40':r>16?'r17-40':'r<=16';window.__dkm[k]=(window.__dkm[k]||0)+1;window.__dkm[c]=(window.__dkm[c]||0)+1;};document.createElement=t=>{if(t==='canvas'){made++;const st=(new Error().stack||'').split('\n').slice(2,6).map(x=>x.trim().split(' ')[1]).join('<');window.__miss[st]=(window.__miss[st]||0)+1;}return oc(t);};const cv=document.getElementById('cv'),g=cv.getContext('2d');let js=0,tot=0,up=0;const N=NN;
+   for(let i=0;i<N;i++){fill();const a=performance.now();K.step(1/60);const b0=performance.now();window.__rend();const b1=performance.now();g.getImageData(0,0,1,1);const b2=performance.now();up+=b0-a;js+=b1-b0;tot+=b2-b0;}
+   return {update:+(up/N).toFixed(2),renderJS:+(js/N).toFixed(2),renderTotal:+(tot/N).toFixed(2),parts:r.parts.length,canvasesPerFrame:+(made/N).toFixed(2),dk:window.__dkm,miss:Object.entries(window.__miss).sort((a,b)=>b[1]-a[1]).slice(0,8),fx:r.fx.length};},[map,ults,+(process.env.N||120)]);
+ if(process.env.PROF){const {profile}=await cdp.send('Profiler.stop');const byId={};for(const nd of profile.nodes)byId[nd.id]=nd;const cnt={};for(const x of profile.samples)cnt[x]=(cnt[x]||0)+1;let tot=0;const self={};for(const id in cnt){const nd=byId[id];const k=nd.callFrame.functionName+':'+nd.callFrame.lineNumber;self[k]=(self[k]||0)+cnt[id];tot+=cnt[id];}
+  console.log(Object.entries(self).sort((a,b)=>b[1]-a[1]).slice(0,+process.env.PROF).map(([k,v])=>(100*v/tot).toFixed(1).padStart(5)+'% '+k).join('\n'));}
+ console.log(file.padEnd(10),map,'ults='+ults,JSON.stringify(r));await b.close();})();

@@ -3,3 +3,6 @@ tests/tools/lang-en.js
 tests/tools/bot-results.json
 tests/tools/*.png
 tests/tools/thumbs
+tests/tools/_*.html
+tests/tools/new.html
+tests/tools/cc.html

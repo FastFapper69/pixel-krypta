@@ -32,5 +32,12 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `coopmaps.js [mapy]` – co-op snímky (host s virtuálním kamarádem → guest) na nových mapách
 - `bot.js [běhů] [hrdinové|all] [mapy|all] [nm] [novy|zkuseny|max]` – bot odehraje celé běhy a vypíše míru výher, medián času, příčiny smrti, úspěšnost zbraní a kdo dává poškození (60 běhů ≈ 30 s). Profil: `novy` = čerstvý účet, `zkuseny` = hrdina 10 + obchod napůl, `max` = hrdina 20 + obchod naplno (vždy bez výbavy). Řádky jsou ve stejném formátu jako telemetrie (`bot-results.json`). Bot je „průměrný hráč“ – věř hlavně **rozdílům** mezi hrdiny/mapami, ne absolutním číslům.
 
+- **Výkon v boji (11/2026, verze 07v):**
+  - `rast.js <file> [mapa] [ults=1]` – **hlavní měřítko**: deterministický čas snímku (update + render + rasterizace, CPU canvas jako Safari na iPhonu), nepřátelé umírají a doplňují se; env `N=snímků`, `PQ=0|1|2` (úroveň kvality), `PROF=30` (profil JS). Vypisuje i počet nových canvasů za snímek (= mrskání cache spritů).
+  - `secTime.js <file> [mapa] [ults]` – čas po sekcích `render()` (mezi sekcemi flush, absolutní čísla jsou nafouknutá, ber jen poměry)
+  - `callcount.js [mapa] [file]` – počet volání canvasu na snímek po sekcích
+  - `heavy.js <file> [mapa] [zpomalení] [ults]` – fps ve skutečné smyčce rAF se zpomaleným CPU (v headless hodně šumí, kvůli SwiftShaderu)
+  - `prof.js` – CPU profil těžkého boje; `shotcmp.js <file> <out.png> [mapa] [ults]`, `darkshot.js <file> <out.png> [mapa]` – snímky pro porovnání vzhledu před/po
+
 Co-op testy jsou o úroveň výš (`tests/coop-test.js`, viz CLAUDE.md).
 Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav podle potřeby.
