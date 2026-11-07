@@ -79,6 +79,10 @@ for(const map of maps)for(const hero of heroes){const R=rows.filter(r=>r.map===m
   const w=R.filter(r=>r.won).length,cs={};R.filter(r=>!r.won).forEach(r=>cs[r.cause]=(cs[r.cause]||0)+1);
   const top=Object.entries(cs).sort((a,b)=>b[1]-a[1]).slice(0,2).map(([k,v])=>k+' ×'+v).join(', ');
   console.log(pad(map,9)+pad(hero,9)+pad(Math.round(w/R.length*100)+' %',8)+pad(fmt(med(R.map(r=>r.t))),8)+pad(Math.round(R.reduce((a,r)=>a+r.lv,0)/R.length),8)+top);}
+// ekonomika: průměrný zisk zlata a materiálu za běh
+console.log('\n'+pad('mapa',9)+pad('zlato/běh',11)+'materiál/běh   (výhry | prohry)');
+for(const map of maps){const R=rows.filter(r=>r.map===map);if(!R.length)continue;const av=(a,k)=>a.length?Math.round(a.reduce((x,r)=>x+(r[k]||0),0)/a.length):0;
+  const W=R.filter(r=>r.won),L=R.filter(r=>!r.won);console.log(pad(map,9)+pad(av(R,'gain'),11)+av(R,'rw')+'   ('+av(W,'gain')+'/'+av(W,'rw')+' | '+av(L,'gain')+'/'+av(L,'rw')+')');}
 // zbraně: v kolika výhrách vs. prohrách se vyskytly
 const W={};for(const r of rows)for(const k in r.weapons){const o=W[k]||(W[k]={n:0,w:0});o.n++;if(r.won)o.w++;}
 const all=rows.filter(r=>r.won).length/rows.length;

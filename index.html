@@ -14,7 +14,8 @@
 <title>Pixel Krypta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet">
+<!-- fonts load without blocking the first paint (a slow connection used to keep the screen black) -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Pixelify+Sans:wght@500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <style>
 /* Layout: one-screen app. Canvas stage fills the frame, HUD and menus are HTML layers above it.
    Look: dusk-violet dungeon, gold as the reward colour, hard pixel edges, no rounding. */
@@ -96,15 +97,24 @@ button{font-family:inherit}
 .wrap{width:100%;max-width:520px;display:flex;flex-direction:column;gap:14px;margin:auto 0}
 .scr:not(.clear):not(#scr-menu)>.wrap{margin:0 0 auto}
 /* the header with Back stays at the top while a screen scrolls */
-.scr:not(.clear)>.wrap>.head{position:sticky;z-index:5;top:calc(-22px - var(--sat,0px));margin:calc(-22px - var(--sat,0px)) -16px 0;padding:calc(18px + var(--sat,0px)) 16px 10px;
-  background:linear-gradient(90deg,var(--gold) 0 26%,var(--line) 26% 100%) 16px 100%/calc(100% - 32px) 3px no-repeat,linear-gradient(#130f1c,#130f1cf0)}
+.scr:not(.clear)>.wrap>.head{flex-wrap:wrap;row-gap:6px;position:sticky;z-index:5;top:calc(-22px - var(--sat,0px));margin:calc(-22px - var(--sat,0px)) -16px 0;padding:calc(18px + var(--sat,0px)) 16px 10px;
+  background:linear-gradient(90deg,var(--gold) 0 26%,var(--line) 26% 100%) 16px 100%/calc(100% - 32px) 3px no-repeat,#130f1c;box-shadow:0 8px 10px -6px #0009}
+/* "new" markers */
+#mPlay,#mHero,#mChest{position:relative}
+#mPlay.new::after,#mHero.new::after,#mChest.new::after{content:attr(data-new);position:absolute;top:5px;right:7px;font:700 10px/1 var(--font);letter-spacing:.06em;color:#1a1020;background:var(--gold);padding:3px 5px 2px;box-shadow:0 0 0 2px #2a1430;animation:qdot 1.6s ease-in-out infinite}
+.nw{position:absolute;top:3px;right:3px;width:8px;height:8px;background:var(--gold);box-shadow:0 0 0 2px #2a1430;pointer-events:none}
+.co-pick .nw{top:4px;right:4px}
+.newtag{display:inline-block;margin-left:6px;font:700 10px/1 var(--font);letter-spacing:.06em;color:#1a1020;background:var(--gold);padding:3px 5px 2px;vertical-align:middle}
+/* currencies as a second row of the sticky head: always visible while scrolling */
+.head>.mats{flex:1 0 100%;order:3;margin:0;padding:0;background:none;box-shadow:none;clip-path:none;justify-content:flex-start;gap:4px 14px;font-size:14px}
+.head>.mats .mt:first-child{color:var(--gold)}
 /* main menu: top bar (currencies + icon buttons), logo centred in the free space, six buttons at the bottom within thumb reach */
 #scr-menu{padding-top:calc(66px + var(--sat,0px))}
 #scr-menu>.wrap{min-height:100%;margin:0}#scr-menu>.wrap>.sp{flex:1 1 0;min-height:4px}
-#mTop{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:center;gap:8px;padding:calc(8px + var(--sat,0px)) 12px 16px;background:linear-gradient(#0c0912d0,#0c091280 60%,#0c091200)}
-#mCur{margin-right:auto;padding:5px 10px;gap:4px 10px;font-size:14px;box-shadow:inset 0 0 0 2px var(--line);background:#0c0912c0;justify-content:flex-start}
-#mCur .mt:first-child{color:var(--gold)}
-#mTop .btn.ic{width:42px;height:42px;min-height:0;padding:0;flex:none;position:relative}#mTop .btn.ic img{width:24px;height:24px;image-rendering:pixelated}
+#mTop{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:center;gap:6px;padding:calc(8px + var(--sat,0px)) 10px 22px;background:linear-gradient(#0c0912d8,#0c0912a0 calc(100% - 22px),#0c091200)}
+#mCur{margin-right:auto;padding:5px 7px;gap:4px 7px;font-size:13px;flex-wrap:nowrap;overflow:hidden;min-width:0;white-space:nowrap;box-shadow:inset 0 0 0 2px var(--line);background:#0c0912c0;justify-content:flex-start}
+#mCur .mt:first-child{color:var(--gold)}#mCur .mt{gap:3px}#mCur .mt img{width:16px;height:16px}
+#mTop .btn.ic{width:38px;height:38px;min-height:0;padding:0;flex:none;position:relative}#mTop .btn.ic img{width:24px;height:24px;image-rendering:pixelated}
 #mSet.has::after,#mGuide.has::after{content:'';position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);box-shadow:0 0 0 2px #2a0a10}
 #mStack .btn{min-height:60px}#mPlay{font-size:23px}#mStack .row2 .btn{font-size:18px;white-space:nowrap;padding:10px 8px}#mStack .row2 .lbl{letter-spacing:.02em}
 #mStack .bi img{width:28px;height:28px}#mStack .row2 .bi{margin-right:8px}
@@ -206,6 +216,14 @@ h1,h2,h3,p{margin:0}
 .bb,#upBtn,#repBtn,#btnPause{touch-action:none;-webkit-user-select:none;user-select:none}
 #stick.rest{opacity:.5}
 html,body,#stage{touch-action:none}
+/* splash: painted with the first HTML, before any script runs, so the start is never a black screen */
+#splash{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#130f1c;transition:opacity .35s}
+#splash img{width:96px;height:96px;image-rendering:pixelated}
+#splash b{font:700 22px/1 system-ui,sans-serif;letter-spacing:.14em;color:#f6c744;text-shadow:0 3px 0 #000a}
+#splash i{width:120px;height:4px;background:#2a2236;overflow:hidden;position:relative}
+#splash i::after{content:'';position:absolute;inset:0;width:40%;background:#f6c744;animation:spl 1s ease-in-out infinite alternate}
+@keyframes spl{to{transform:translateX(150%)}}
+#splash.gone{opacity:0;pointer-events:none}
 .scr{touch-action:pan-y}
 #upBtn{position:absolute;right:80px;bottom:calc(10px + var(--sab,0px));pointer-events:auto;white-space:nowrap}
 #repBtn{position:absolute;right:80px;bottom:calc(60px + var(--sab,0px));pointer-events:auto;white-space:nowrap}
@@ -459,7 +477,7 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .hstrip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 -16px;padding:0 16px 2px;scroll-padding:0 16px}
 .hstrip::-webkit-scrollbar{display:none}
 .hstrip .co-pick{flex:1 0 62px;min-width:62px;scroll-snap-align:start;padding:8px 2px 6px;gap:3px;position:relative}
-.hstrip .co-pick span{font-size:12px;line-height:1.15;white-space:nowrap}
+.hstrip .co-pick span{font-size:12px;line-height:1.15;white-space:nowrap;max-width:100%;overflow:hidden}
 .hstrip .co-pick small{font-size:11px;line-height:1;color:var(--muted)}.hstrip .co-pick.on small{color:var(--gold)}
 .hstrip .co-pick.lock img{filter:grayscale(1) brightness(.55)}.hstrip .co-pick.lock small{display:flex;align-items:center;gap:3px;color:var(--gold)}.hstrip .co-pick.lock small img{width:12px;height:12px;filter:none}
 .hinfo{gap:4px;padding:10px 12px}.hinfo .hi-t{display:flex;align-items:baseline;justify-content:space-between;gap:8px}.hinfo h3{font-size:16px}.hinfo .hi-t small{font-size:12px;color:var(--muted);white-space:nowrap}
@@ -532,6 +550,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 :root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}</style>
 </head>
 <body>
+<div id="splash"><img src="icon-192.png" alt=""><b>PIXEL KRYPTA</b><i></i></div>
 <div id="app">
   <div id="stage"><canvas id="cv"></canvas><div id="stick" hidden><b></b><i id="knob"></i></div></div>
 
@@ -587,8 +606,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 
   <section class="scr" id="scr-select" hidden>
     <div class="wrap">
-      <div class="head"><h2>Příprava</h2><button class="btn alt sm" data-back>Zpět</button></div>
-      <div class="mats" id="selMats"></div>
+      <div class="head"><h2>Příprava</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="selMats"></div></div>
       <div id="dailyBox"></div>
       <div class="sec">Hrdina</div>
       <div class="hstrip" id="heroList"></div>
@@ -605,9 +623,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 
   <section class="scr" id="scr-shop" hidden>
     <div class="wrap">
-      <div class="head"><h2>Obchod</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="head"><h2>Obchod</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="shopMats"></div></div>
       <div class="tabs sectabs" data-sec="shop"><button data-to="chests">Truhly</button><button data-to="shop">Vylepšení</button></div>
-      <div class="mats" id="shopMats"></div>
       <p class="hint">Trvalé bonusy, které platí v každém dalším běhu.</p>
       <div class="stack" id="shopList"></div>
     </div>
@@ -662,9 +679,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 
   <section class="scr" id="scr-hero" hidden>
     <div class="wrap">
-      <div class="head"><h2>Vybavení</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="head"><h2>Vybavení</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="hMats"></div></div>
       <div class="tabs sectabs" data-sec="gear"><button data-to="hero">Hrdina</button><button data-to="towers">Věže</button></div>
-      <div class="mats" id="hMats"></div>
       <div class="hstrip" id="hTabs"></div>
       <div class="card hcard" id="hCard"></div>
       <div class="sec">Výbava</div>
@@ -677,9 +693,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 
   <section class="scr" id="scr-towers" hidden>
     <div class="wrap">
-      <div class="head"><h2>Vybavení</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="head"><h2>Vybavení</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="twMats"></div></div>
       <div class="tabs sectabs" data-sec="gear"><button data-to="hero">Hrdina</button><button data-to="towers">Věže</button></div>
-      <div class="mats" id="twMats"></div>
       <div class="sec">Arzenál do běhu</div>
       <div class="tdeck" id="twDeck"></div>
       <p class="hint" id="twHint"></p>
@@ -691,9 +706,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
   </section>
   <section class="scr" id="scr-chests" hidden>
     <div class="wrap">
-      <div class="head"><h2>Obchod</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="head"><h2>Obchod</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="cMats"></div></div>
       <div class="tabs sectabs" data-sec="shop"><button data-to="chests">Truhly</button><button data-to="shop">Vylepšení</button></div>
-      <div class="mats" id="cMats"></div>
       <p class="hint">Truhly obsahují výbavu pro hrdiny. Šance na raritu jsou vidět u každé truhly.</p>
       <div class="stack" id="chestList"></div>
       <div class="sec">Kovárna · sloučení</div>
@@ -806,7 +820,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_publishable_X7rB8j45EHq79TnlzSxxsw_slxNAD8G'};
 </script>
 <script src="lang-en.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script id="sbjs" async src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 (()=>{
 'use strict';
@@ -844,8 +858,8 @@ const STICK_MODES=['touch','fixed','follow'],STICK_TXT={touch:_t('pevný v míst
 let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false,stick:'touch'};
 function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw','metaV'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
-const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw','metaV'];
+  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw','metaV','seen'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
+const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw','metaV','seen'];
 function persist(){save.updated=Date.now();try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
 
@@ -996,7 +1010,7 @@ const HEROES={
  // heroes of future chapters: locked until their chapter exists (soon), each brings its weapon to everyone at hero level 8
  smith:{name:_t('Kovářka'),desc:_t('Pevná ruka. +20 zdraví, brnění +1.'),start:'hammer',hp:20,armor:1,dmg:0,spd:0,soon:'c3',pal:{r:'#c8502a',a:'#7a4a2a',c:'#a87048'},rows:[
   '...rrr','..rrrr','.rrfff','.rfpff','..ffff','.ssccc','sscaaa','sscaaa','.ccaaa','..a..a','..n..n']},
- shaman:{name:_t('Šamanka mrazu'),desc:_t('Vidí daleko. +20 % dosah sbírání, +8 % poškození.'),start:'icicle',hp:0,armor:0,dmg:.08,spd:0,soon:'c4',pal:{a:'#e8f4ff',c:'#3ac8c0',e:'#2a7a8a'},rows:[
+ shaman:{name:_t('Šamanka mrazu'),sname:_t('Šamanka'),desc:_t('Vidí daleko. +20 % dosah sbírání, +8 % poškození.'),start:'icicle',hp:0,armor:0,dmg:.08,spd:0,soon:'c4',pal:{a:'#e8f4ff',c:'#3ac8c0',e:'#2a7a8a'},rows:[
   '...aaa','..aaaa','.aaffu','.afpfu','.aafff','.ccccc','cceccc','ccecce','.ccccc','..c..c','..i..i']},
  sailor:{name:_t('Námořnice'),desc:_t('Mořské nohy. +12 % rychlost.'),start:'anchor',hp:5,armor:0,dmg:0,spd:.12,soon:'c5',pal:{r:'#e8453c',a:'#ffffff',c:'#3a5ab8',d:'#2a2036'},rows:[
   '...rrr','.rrrrr','.dffff','.dfpff','..ffff','.aaaaa','acccca','aaaaaa','.cccca','..d..d','..n..n']},
@@ -2778,8 +2792,8 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07v';
-fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
+const GAME_VER='2026-11-07w';
+fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
 let state='menu',run=null,st=null;
@@ -2792,9 +2806,11 @@ function withPl(pl,fn){const K=['p','W','P','hero','heroId','fused','fuseMiss','
   try{return fn();}finally{for(const k of K)pl[k]=run[k];pl.st=st;for(const k of K)run[k]=sv[k];st=s0;CO.ctxMate=c0;}}
 const screens={menu:$('#scr-menu'),towers:$('#scr-towers'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),codex:$('#scr-codex'),guide:$('#scr-guide'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master')};
 function showScreen(n){for(const k in screens)screens[k].hidden=(k!==n);}
-function setState(s){if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
+function setState(s){const prevS=state;if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
   $('#hud').hidden=!(run&&(s==='play'||s==='levelup'||s==='fuse'||s==='wait'||s==='pause'||s==='over'));
   if(s!=='play'){const tt=$('#toast');if(tt)tt.classList.remove('on');}{const tu=$('#tut');if(tu)tu.style.visibility=s==='play'?'':'hidden';}
+  {const NO={select:['map','hero'],hero:['item','hero'],towers:['tw'],shop:['rank']}[s];if(NO&&s!==prevS){seeNew(...NO);try{({select:renderSelect,hero:renderHero,towers:renderTowers,shop:renderShop})[s]();}catch(_){}}}
+  try{refreshNew();}catch(_){}
   showScreen(s==='play'?null:s);document.querySelectorAll('.sectabs button').forEach(b=>b.classList.toggle('on',b.dataset.to===s));if(s!=='menu')setSheet(false);try{showStickRest();}catch(_){}
   muffle(s==='pause'||s==='levelup'||s==='over');
   try{if(s!=='menu')navArm();}catch(_){}
@@ -2996,9 +3012,10 @@ function killEnemy(e){
   e.dead=true;if(run.pls){(CO.kills||(CO.kills=[])).push(e.nid||0);}run.kills++;run.combo++;run.comboT=st&&st.tal&&st.tal.d5?2.4:1.6;sfx('kill');
   const Q=run.qc;if(Q){Q.k[e.id]=(Q.k[e.id]||0)+1;if(e.elite)Q.el++;if(e.boss)Q.boss++;if(run.combo>Q.combo)Q.combo=run.combo;
     if(e.want){Q.want=e.want;run.wanted=null;toast(_t('Hledaný dopaden! Odměna čeká na nástěnce'),2800);run.items.push({x:e.x-6,y:e.y,k:'mat',v:8});for(let i=0;i<3;i++)run.items.push({x:e.x+rnd(-8,8),y:e.y+rnd(-8,8),k:'coin'});}}
-  // combo milestones pay more the longer the combo lasts: 25 → 5, 50 → 10 … up to 60 gold; every 100 also drops material
-  if(run.combo%25===0){const g=Math.min(60,5*(run.combo/25));run.coins+=g;const big=run.combo%100===0;
-    if(big&&MAT_OF[run.mapId])run.items.push({x:run.p.x+rnd(-14,14),y:run.p.y+rnd(-14,14),k:'mat',v:3+Math.min(7,run.combo/100)});
+  // combo milestones pay more the longer the combo lasts: 25 → 5, 50 → 10 … up to 40 gold (spent in the run on towers; only
+  // part of the run's gold is kept afterwards, see endCoins); every 200 also drops material
+  if(run.combo%25===0){const g=Math.min(40,5*(run.combo/25));run.coins+=g;const big=run.combo%200===0;
+    if(big&&MAT_OF[run.mapId])run.items.push({x:run.p.x+rnd(-14,14),y:run.p.y+rnd(-14,14),k:'mat',v:2+Math.min(3,Math.floor(run.combo/300))});
     toast(_t('Kombo ')+run.combo+'! +'+g+_t(' zlata')+(big&&MAT_OF[run.mapId]?_t(' a materiál'):''),big?1600:1000);sfx(big?'level':'coin');
     if(st&&st.tal&&st.tal.d20){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:110,dmg:20+run.level*2,hit:new Set(),life:1,noslow:true,col:'#7fe0c8'});}}
   const pal=e.d.pal||{},pa=pal.a||'#c869e0',cols=[pa,pal.b||mixHex(pa,SHADOW_HUE,.4),pal.c||mixHex(pa,LIGHT_HUE,.4),mixHex(pa,'#120c1a',.6)];
@@ -3012,7 +3029,7 @@ function killEnemy(e){
   const v=e.xp;
   if(run.gems.length>220){const g=pick(run.gems);g.v+=v;}else run.gems.push({x:e.x,y:e.y,v});
   if(e.elite||e.boss)run.items.push({x:e.x,y:e.y,k:'chest'});
-  if(MAT_OF[run.mapId]){if(e.boss){}else if(e.elite)run.items.push({x:e.x+6,y:e.y,k:'mat',v:rndi(3,5)});else if(Math.random()<.01)run.items.push({x:e.x,y:e.y,k:'mat',v:1});}
+  if(MAT_OF[run.mapId]){if(e.boss){}else if(e.elite)run.items.push({x:e.x+6,y:e.y,k:'mat',v:rndi(2,3)});else if(Math.random()<.01)run.items.push({x:e.x,y:e.y,k:'mat',v:1});}
   else{const r=Math.random();
     if(r<.10)run.items.push({x:e.x,y:e.y,k:'coin'});
     else if(r<.106)run.items.push({x:e.x,y:e.y,k:'heart'});
@@ -3767,7 +3784,10 @@ function finishFuse(){
 // time counted for rewards: past the boss window nothing more is earned (raging boss ends kiting anyway)
 const rewT=()=>Math.min(run.t,run.map.dur+BOSS_RAGE+60);
 // gold = everything picked up (tower spending does not cut the reward) + a share for time survived + win bonus
-function endCoins(won){return Math.round((Math.max(0,run.coins+(run.spent||0)-run.startCoins)+Math.floor(rewT()/4)+(won?100+(run.map.gb||0):0))*(1+((st&&st.gold)||0)+.3*(run.nm||0)));}
+// gold kept after a run: part of the gold collected in it (the rest is meant for towers and repairs) – 30 % of the first
+// 2000, 10 % above that, so very long fights don't pay thousands – plus time and the win bonus
+const keepGold=c=>.3*Math.min(c,2000)+.1*Math.max(0,c-2000);
+function endCoins(won){return Math.round((keepGold(Math.max(0,run.coins+(run.spent||0)-run.startCoins))+Math.floor(rewT()/4)+(won?100+(run.map.gb||0):0))*(1+((st&&st.gold)||0)+.3*(run.nm||0)));}
 function finish(won){
   if(run.over)return;run.over=true;run.won=won;seedRng(null);if(run.tut){save.tut=1;$('#tut').hidden=true;}
   tmSend(won?'win':run.crystalDead?'crystal':'death');if(!run.coop)recordRun(won);
@@ -3976,12 +3996,26 @@ function zap(g,pts,col,al,core){const G=new Path2D(),B=new Path2D(),W=new Path2D
     for(let k=0;k<n;k++){const px=RZ(ax+(bx-ax)*k/n),py=RZ(ay+(by-ay)*k/n);G.rect(px-2,py-1,5,2);B.rect(px-bo,py,bw,.5);W.rect(px,py,.5,.5);}}
   g.fillStyle=col;g.globalAlpha=al*ZAP_GLOW;g.fill(G);g.globalAlpha=al;g.fill(B);g.fillStyle='#ffffff';g.fill(W);g.globalAlpha=1;}
 let ZAP_GLOW=.6;
+// towers must read clearly in a crowd: a coloured base plate on the ground + a light outline that shows through enemies
+const OUTL=new WeakMap();
+function outlineOf(img,col){let m=OUTL.get(img);if(!m)OUTL.set(img,m={});if(m[col])return m[col];
+  const t=document.createElement('canvas');t.width=img.width;t.height=img.height;const tx=t.getContext('2d');tx.drawImage(img,0,0);tx.globalCompositeOperation='source-in';tx.fillStyle=col;tx.fillRect(0,0,t.width,t.height);
+  const c=document.createElement('canvas');c.width=img.width+4;c.height=img.height+4;const q=c.getContext('2d');for(const [dx,dy] of [[0,2],[4,2],[2,0],[2,4],[1,1],[3,1],[1,3],[3,3]])q.drawImage(t,dx,dy);
+  q.globalCompositeOperation='destination-out';q.drawImage(img,2,2);return m[col]=c;}
+const TPLATE=sprCache(30);
+function towerPlate(g,u,x,y){const s=u.spr,w=Math.round(s.w*.5)+4,col=TW_FLAG[u.k]||'#f6c744',yy=RZ(y+(s.h>>1)-3);
+  const c=TPLATE.get(u.k+'|'+w,()=>sprCv(w*2+3,9,q=>{const ry=3.5;q.translate(w+1.5,4.5);
+    q.fillStyle='#0c0912';q.globalAlpha=.55;q.beginPath();q.ellipse(0,0,w,ry,0,0,6.283);q.fill();q.globalAlpha=1;
+    for(let i=0;i<64;i++){const a=i/64*6.283;q.fillStyle=i%8<5?col:mixHex(col,'#ffffff',.5);q.fillRect(Math.round(Math.cos(a)*w*2)/2-.25,Math.round(Math.sin(a)*ry*2)/2-.25,.75,.75);}}));
+  g.globalAlpha=.75+.25*M.pulse;g.drawImage(c,x-w-1.5,yy-4.5,c.width/Z,c.height/Z);g.globalAlpha=1;}
+function towerXray(g,u,x,y){const s=u.spr,o=outlineOf(s.c,'#fff6d8'),top=y-s.h/2;g.globalAlpha=.5;g.drawImage(o,RZ(x-s.w/2)-1,RZ(top)-1,s.w+2,s.h+2);g.globalAlpha=1;}
 const TW_FLAG={arrow:'#4aa3e8',fire:'#e8453c',frost:'#3ac8c0',tesla:'#c869e0',crypt:'#8affa0',bell:'#f0c870',obelisk:'#3a6ad8',sandpit:'#e0c080',oasis:'#3ac8c0'};
 function drawTower(g,u,x,y){const s=u.spr,top=y-s.h/2,sq=u.kick>.45,k=u.kick||0,lv=u.lv||1,t=run.t;
   shadow(g,x,y+(s.h>>1)-4,s.w-2);
   const img=sq?(u.flash>0?s.f2:s.c2):(u.flash>0?s.f:s.c),bt=u.born===undefined?1:clamp((t-u.born)/.45,0,1);
   if(bt<1){const e=1-(1-bt)*(1-bt),hh=s.h*e,ih=img.height*e;g.drawImage(img,0,0,img.width,ih,RZ(x-s.w/2),RZ(y+s.h/2-hh+Math.sin(bt*20)*(1-bt)),s.w,RZ(hh));
     if(Math.random()<.5)addP({k:'smoke',x:u.x+rnd(-8,8),y:u.y+s.h/2-3,vx:rnd(-20,20),vy:rnd(-10,-2),life:.4,max:.4,sz:1.5,grow:4,drag:3,g:0,col:'#a89878',a:.45});return;}
+  {const o=outlineOf(s.c,'#fff6d8');g.globalAlpha=.85;g.drawImage(o,RZ(x-s.w/2)-1,RZ(top)-1,s.w+2,s.h+2);g.globalAlpha=1;}
   g.drawImage(img,RZ(x-s.w/2),RZ(top),s.w,s.h);
   // level look: a gold band from level 2, banners from level 2/3
   if(lv>=2){g.fillStyle='#f6c744';g.fillRect(RZ(x-s.w*.28),RZ(top+s.h*.62),RZ(s.w*.56),.5);g.fillStyle='#a8781e';g.fillRect(RZ(x-s.w*.28),RZ(top+s.h*.62)+.5,RZ(s.w*.56),.5);}
@@ -4118,6 +4152,7 @@ function render(){
     if(it.k==='chest'){const s=SPR.misc.chest;shadow(g,x,y+s.h/2-3,s.w-2);blit(g,bob?s.c2:s.c,s,x,y-s.h/2);}
     else{const s=SPR.icon[it.k==='coin'?'coin':it.k==='mat'?(MAT_OF[run.mapId]||'coin'):it.k==='heart'?'heart':'magnet'];shadow(g,x,y+4,6);
       const nar=it.k==='coin'&&Math.floor(M.beatPos*2+it.x)%2?2:0;g.drawImage(s.c,RZ(x-s.w/2+nar/2),RZ(y-s.h/2-bob),s.w-nar,s.h);}}
+  for(const t of run.towers){if(!inView(t,24)||(t.born!==undefined&&run.t-t.born<.45))continue;towerPlate(g,t,RZ(t.x+ox),RZ(t.y+oy));}
   // ground effects below units
   for(const f of run.fx){if(f.k!=='scorch')continue;const x=f.x+ox,y=f.y+oy;if(x<-f.r||y<-f.r||x>VW+f.r||y>VH+f.r)continue;const a=clamp(f.life/f.max*1.5,0,1)*.22;
     const r=Math.max(2,Math.round(f.r)),sv=(f.seed*3|0)%6,c=SCORCH.get(r+'|'+sv,()=>{const R=r+2;return sprCv(R*2,R*2,q=>{const sd=sv/3;circ(q,R,R,r*.8,'#140a12',.45);
@@ -4202,6 +4237,9 @@ function render(){
     if(e.elite&&e.hp<e.max){const bw=Math.round(s.w*.8);g.fillStyle='#000';g.fillRect(x-(bw>>1)-1,y-(s.h>>1)-5,bw+2,4);g.fillStyle='#e8453c';g.fillRect(x-(bw>>1),y-(s.h>>1)-4,Math.round(bw*e.hp/e.max),2);}
     if(e.want){const my=y-(s.h>>1)-15+(M.pulse>.5?-1:0);g.fillStyle='#14101c';g.fillRect(x-5,my-1,11,11);g.fillStyle='#e8453c';g.fillRect(x-4,my,9,9);g.drawImage(SPR.icon.skull.c,x-3,my+1,7,7);}
   }
+  // tower outlines again on top, faint, so a tower buried in a horde is still easy to spot
+  for(const t of run.towers){if(!inView(t,24)||(t.born!==undefined&&run.t-t.born<.45))continue;const x=RZ(t.x+ox),y=RZ(t.y+oy);let hid=false;
+    for(const e of run.enemies){if(e.y>t.y&&Math.abs(e.x-t.x)<t.spr.w*.6&&e.y-t.y<20){hid=true;break;}}if(hid)towerXray(g,t,x,y);}
   // blades (for each hero)
   for(const [p,W] of plWeapons()){
   const bl=W.blade;if(bl){const P=wP('blade',bl),s=SPR.icon.blade;
@@ -4362,7 +4400,7 @@ function refreshSettings(){setLbl('#mSound',_t('Zvuk'),!save.sound);setLbl('#mMu
   $('#mInstall').hidden=!pwaCan();$('#mNick').hidden=!ON.ready;$('#mNick').textContent=_t('Hráč: ')+(save.nick||_t('bez přezdívky'))+(titleOf(save)?' · '+titleOf(save):'')+_t(' · změnit');
   $('#mCheat').hidden=!isDev();$('#mCheat').textContent=_t('Testovací režim: ')+onOff(save.cheat);$('#mGold').hidden=!save.cheat;}
 function refreshMenu(){
-  $('#mCur').innerHTML=matsHtml();
+  fitMenuCur();
   setLbl('#mSound',_t('Zvuk'),!save.sound);
   setLbl('#mMusic',_t('Hudba'),!save.music);stickLabels();
   $('#mWarn').hidden=!/Instagram|FBAN|FBAV|FB_IAB|Messenger|TikTok|Snapchat/i.test(navigator.userAgent||'');
@@ -4460,6 +4498,7 @@ function renderCampaign(){
     const d=document.createElement('div');
     d.innerHTML='<h3><span class="num">'+(k+1)+'</span>'+m.name+(m.finale?'<span class="badge fin">'+_t('Finále')+'</span>':'')+(ok?'':_t('<span class="badge lk">Zamčeno</span>'))+'</h3>'+
       (st?'<small>'+st+'</small>':'')+(on?'<p>'+m.desc+'</p>':'');
+    if(ok&&isFresh('map','m'+id))d.querySelector('h3').insertAdjacentHTML('beforeend',NEW_TAG());
     b.appendChild(cv);b.appendChild(d);
     b.addEventListener('click',()=>{if(ok){sel.picked=1;if(sel.map!==id){sel.map=id;sfx('ui');renderSelect();}}else note(st);});
     path.appendChild(b);});
@@ -4473,10 +4512,36 @@ function renderCampaign(){
   $('#chPrev').onclick=()=>{if(chSel>0){chSel--;sfx('ui');renderCampaign();}};
   $('#chNext').onclick=()=>{if(chSel<CHAPTERS.length-1){chSel++;sfx('ui');renderCampaign();}};
 }
+// ----- "new" markers: things the player has unlocked or got but not looked at yet -----
+// keys: i<uid> item, t<uid> tower card, m<map> map, h<hero> hero, r<rank> shop rank. Shown as NOVÉ on the menu button,
+// a dot on the tab and a badge on the thing itself; a screen marks its things seen when opened (badges stay until it closes)
+function newAll(kind){const o=[];
+  if(kind==='item')for(const it of save.inv||[])o.push('i'+it.u);
+  if(kind==='tw')for(const c of (save.tw&&save.tw.cards)||[])o.push('t'+c.u);
+  if(kind==='map')for(const id in MAPS)if(mapUnlocked(id))o.push('m'+id);
+  if(kind==='hero')for(const id of HERO_IDS)if(save.heroes[id])o.push('h'+id);
+  if(kind==='rank')for(let r=1;r<META_RANKS.length;r++)if(metaOpen(r))o.push('r'+r);
+  return o;}
+const NEW_KINDS=['item','tw','map','hero','rank'],FRESH={};
+function seenInit(){if(!save.seen||typeof save.seen!=='object'){save.seen={};for(const k of NEW_KINDS)for(const x of newAll(k))save.seen[x]=1;return;}
+  const keep=new Set([...newAll('item'),...newAll('tw')]);for(const k in save.seen)if((k[0]==='i'||k[0]==='t')&&!keep.has(k))delete save.seen[k];}
+const newOf=kind=>{seenInit();return newAll(kind).filter(k=>!save.seen[k]);};
+// a screen opens: remember what is new there for its badges, then count it as seen
+function seeNew(...kinds){let ch=false;for(const k of kinds){const n=newOf(k);FRESH[k]=new Set(n);for(const x of n){save.seen[x]=1;ch=true;}}if(ch)persist();}
+const isFresh=(kind,key)=>!!(FRESH[kind]&&FRESH[kind].has(key));
+const NEW_TAG=()=>'<b class="newtag">'+_t('NOVÉ')+'</b>';
+function refreshNew(){try{const it=newOf('item').length+newOf('hero').length,tw=newOf('tw').length,mp=newOf('map').length,rk=newOf('rank').length;
+  const T=(sel,on)=>{const e=$(sel);if(e){e.classList.toggle('new',!!on);e.dataset.new=_t('NOVÉ');}};
+  T('#mPlay',mp);T('#mHero',it||tw);T('#mChest',rk);
+  document.querySelectorAll('.sectabs [data-to=hero]').forEach(b=>b.classList.toggle('has',!!it));
+  document.querySelectorAll('.sectabs [data-to=towers]').forEach(b=>b.classList.toggle('has',!!tw));
+  document.querySelectorAll('.sectabs [data-to=shop]').forEach(b=>b.classList.toggle('has',!!rk));}catch(_){}}
 // one row of hero portraits (Prep and Hero screens); keeps the chosen one in view
 function heroStrip(box,ids,cur,label,pick){box.innerHTML='';let on=null;
   for(const id of ids){const own=heroOwned(id),h=HEROES[id],b=document.createElement('button');b.className='co-pick'+(id===cur&&own?' on':'')+(own?'':' lock');
-    b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><span>'+h.name+'</span><small>'+label(id,own)+'</small>';b.onclick=()=>pick(id,own);box.appendChild(b);if(id===cur)on=b;}
+    b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><span>'+(h.sname||h.name)+'</span><small>'+label(id,own)+'</small>'+(own&&isFresh('hero','h'+id)?'<i class="nw"></i>':'');b.onclick=()=>pick(id,own);box.appendChild(b);if(id===cur)on=b;}
+  // a long name shrinks to fit its tile instead of being cut off
+  requestAnimationFrame(()=>{for(const sp of box.querySelectorAll('.co-pick>span')){let f=12;while(sp.scrollWidth>sp.clientWidth+1&&f>9){f-=.5;sp.style.fontSize=f+'px';}}});
   if(on)requestAnimationFrame(()=>{const L=on.offsetLeft-16,R2=on.offsetLeft+on.offsetWidth-box.clientWidth+16;if(box.scrollLeft>L)box.scrollLeft=L;else if(box.scrollLeft<R2)box.scrollLeft=R2;});}
 function openTreasure(C){const sid=SET_OF_CH[C.id];if(!sid||save.chT[C.id])return;save.chT[C.id]=1;const it=makeSetItem(sid);addItem(it);save.coins+=300;save.mats[C.mat]=(save.mats[C.mat]||0)+50;persist();
   revealItem(it,'gold',_t('Poklad kapitoly!'),{pop:$('#selPop'),done:()=>{renderSelect();note('+300 '+_t('zlata')+' · +50 '+MAT_NAME[C.mat]);}});}
@@ -4505,6 +4570,7 @@ function renderSelect(){
 function renderShop(){metaInit();
   $('#shopMats').innerHTML=matsHtml();
   const box=$('#shopList');box.innerHTML='';
+  if(FRESH.rank&&FRESH.rank.size){const r=Math.max(...[...FRESH.rank].map(k=>+k.slice(1)));box.insertAdjacentHTML('beforeend','<p class="hint newrank">'+NEW_TAG()+' '+_t('Odemkla se hodnost ')+ROMAN_CH[r]+_t(' – vylepšení jdou dál.')+'</p>');}
   META.forEach(M=>{const L=save.meta[M.id]||0,c=document.createElement('div');c.className='card shop meta';let cost=metaCost(M,L),lock='',head,pips,txt;
     if(M.rev){const n=Math.min(3,L);head=n+' / 3';txt=n?_t('Po smrti vstaneš s ')+Math.round(REV_HP[n]*100)+_t(' % zdraví'):_t('Po smrti vstaneš s polovinou zdraví');
       pips='<div class="pips mp">'+[1,2,3].map(i=>'<i class="'+(i<=n?'on':'')+'" style="--rc:'+META_RANKS[i-1].col+'"></i>').join('')+'</div>';
@@ -4817,9 +4883,9 @@ function setCount(h,id){const eq=(save.eq&&save.eq[h])||{};let n=0;for(const k o
 function makeSetItem(id,slot){const S=SETS[id];if(!slot){const own=setOwned(id),miss=SLOT_IDS.filter(k=>!own[k]);slot=pick(miss.length?miss:SLOT_IDS);}
   const st={};for(const k of S.pieces[slot].st)st[k]=rollStat(k,3,.55+Math.random()*.45);return {u:newUid(),s:slot,r:3,lv:0,st,set:id};}
 const ECON={
- chests:[{id:'wood',name:_t('Dřevěná truhla'),cost:150,odds:[70,25,5,0,0]},
-         {id:'iron',name:_t('Železná truhla'),cost:450,odds:[35,40,20,5,0],pity:{r:3,n:10}},
-         {id:'gold',name:_t('Zlatá truhla'),cost:1200,odds:[0,30,45,20,5],pity:{r:4,n:30}}],
+ chests:[{id:'wood',name:_t('Dřevěná truhla'),cost:250,odds:[70,25,5,0,0]},
+         {id:'iron',name:_t('Železná truhla'),cost:750,odds:[35,40,20,5,0],pity:{r:3,n:10}},
+         {id:'gold',name:_t('Zlatá truhla'),cost:2000,odds:[0,30,45,20,5],pity:{r:4,n:30}}],
  upCost:it=>({gold:30*(it.lv+1)*(it.r+1),mat:4*(it.lv+1)*(it.r+1),matId:(it.lv||0)<4?'bone':SLOTS[it.s].mat}),
  refund:it=>{const v=upInvest(it),mid=SLOTS[it.s].mat,o={gold:15*(it.r+1)*(it.r+1)+Math.floor(v.gold/2),mat:3*(it.r+1)+Math.floor((v.m[mid]||0)/2),matId:mid,m:{}};
    for(const k in v.m)o.m[k]=Math.floor(v.m[k]/2);o.m[mid]=o.mat;return o;},
@@ -4924,8 +4990,8 @@ function dailyInfo(){const d=today();let h=0;for(const ch of d)h=(h*31+ch.charCo
 function runRewards(won){
   const R=run,out={};const mid=MAT_OF[R.mapId];if(!mid)return out;
   const fin=!!R.map.finale;
-  let m=(R.mat||0)+Math.floor(rewT()/60*4)+(won?(fin?40:15):0);if(won)m*=1.5; // the boss share is paid directly: a win ends the run before it could be picked up
-  m*=(1+.5*(R.nm||0))*(fin?2:1);m=Math.round(m);
+  let m=(R.mat||0)+Math.floor(rewT()/60*2)+(won?(fin?25:10):0);if(won)m*=1.5; // the boss share is paid directly: a win ends the run before it could be picked up
+  m*=(1+.5*(R.nm||0))*(fin?1.25:1);m=Math.round(m);
   save.mats[mid]=(save.mats[mid]||0)+m;out.mat=[mid,m];
   if(won){twInit();for(const k in TW_UNL)if(TW_UNL[k]===R.mapId&&!twOpen(k)){const c=twRoll(k,0);save.tw.cards.push(c);out.tw=c;}}
   if(won&&R.nm>0){let r=ECON.nmItem[R.nm];if(R.nm===5&&Math.random()<.25)r=4;const it=makeItem(r);addItem(it);out.item=it;
@@ -4978,11 +5044,17 @@ function itemSpr(sl,r,set){const k=set?set+'_'+sl:sl+Math.min(3,r),key=k+':'+r;i
   return itemSprCache[key]=buildSprite(A.rows,{pal:Object.assign({g:RAR[Math.max(1,r)].col},A.pal)});}
 const itIcon=it=>dataUrl(itemSpr(it.s,it.r,it.set));
 function matIcon(m){return dataUrl(SPR.icon[m]);}
-function matsHtml(){return '<span class="mt"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+save.coins+'</span>'+MAT_IDS.map(m=>'<span class="mt" data-mat="'+m+'" title="'+MAT_NAME[m]+'"><img alt="" src="'+matIcon(m)+'">'+(save.mats[m]||0)+'</span>').join('');}
+// big amounts shortened so the currency bars never grow: 9999, 12,3k, 456k, 1,2M
+function fmtN(n){n=Math.floor(n||0);if(n<10000)return String(n);const [v,u]=n<1e6?[n/1e3,'k']:[n/1e6,'M'];return (v<100?cz(Math.floor(v*10)/10):String(Math.floor(v)))+u;}
+// menu=true: only materials the player has, newest chapters first to stay when space runs out (see fitMenuCur)
+function matsHtml(menu){const ids=menu?MAT_IDS.filter(m=>(save.mats[m]||0)>0):MAT_IDS;
+  return '<span class="mt" title="'+save.coins+'"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+fmtN(save.coins)+'</span>'+ids.map(m=>'<span class="mt" data-mat="'+m+'" title="'+MAT_NAME[m]+' '+(save.mats[m]||0)+'"><img alt="" src="'+matIcon(m)+'">'+fmtN(save.mats[m])+'</span>').join('');}
+// the menu bar shares its row with three icon buttons: drop the oldest materials until it fits on one line
+function fitMenuCur(){const el=$('#mCur');if(!el)return;el.innerHTML=matsHtml(true);if(!el.clientWidth)return;let sp=[...el.querySelectorAll('.mt[data-mat]')];while(sp.length&&el.scrollWidth>el.clientWidth+1){sp.shift().remove();}}
 // one line telling where to get a material the player is short of
 function missHint(c){const m=MAT_IDS.find(k=>c[k]&&save.mats[k]<c[k]);return m?'<p class="hint miss">'+matInfo(m)+'</p>':'';}
 // a price; with have=true each part also shows how much the player has ("360/1240"), red when it is not enough
-function costHtml(c,have){const parts=[],H=n=>have?'<small class="have">/'+n+'</small>':'';
+function costHtml(c,have){const parts=[],H=n=>have?'<small class="have">/'+fmtN(n)+'</small>':'';
   if(c.gold)parts.push('<span class="mt'+(save.coins<c.gold?' no':'')+'"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+c.gold+H(save.coins)+'</span>');
   for(const m of MAT_IDS)if(c[m])parts.push('<span class="mt'+(save.mats[m]<c[m]?' no':'')+'" data-mat="'+m+'"><img alt="" src="'+matIcon(m)+'">'+c[m]+H(save.mats[m]||0)+'</span>');
   if(c.mat)parts.push('<span class="mt'+(save.mats[c.matId]<c.mat?' no':'')+'"><img alt="" src="'+matIcon(c.matId)+'">'+c.mat+H(save.mats[c.matId]||0)+'</span>');return parts.join('');}
@@ -4995,11 +5067,11 @@ function itemCardHtml(it){const S=itemStats(it),R=RAR[it.r],col=it.set?SETS[it.s
   return '<div class="ic-head"><img alt="" src="'+itIcon(it)+'"><div><h3 style="color:'+col+'">'+itemName(it)+(it.lv?' +'+it.lv:'')+'</h3><small>'+(it.set?_t('Set kapitoly ')+ROMAN_CH[CHAPTERS.findIndex(c=>c.id===SETS[it.set].ch)]:R.name)+' · '+SLOTS[it.s].name+'</small></div></div>'+
     '<ul class="ic-st">'+Object.keys(S).map(k=>'<li><span>'+STATS[k].name+'</span><b>'+fmtStat(k,S[k])+'</b></li>').join('')+'</ul>'+
     (it.lg?'<p class="ic-lg">'+LEGS[it.lg].desc+'</p>':'')+(it.set?setInfoHtml(it.set,state==='hero'||$('#itemPop')&&!$('#itemPop').hidden?heroSel:null):'');}
-function tileHtml(it,extra){return '<button class="itile r'+it.r+(it.set?' set set-'+it.set:'')+(extra||'')+'" data-u="'+it.u+'"><img alt="" src="'+itIcon(it)+'">'+(it.lv?'<em>+'+it.lv+'</em>':'')+(equippedBy(it.u)?'<i class="eqd"></i>':'')+'</button>';}
+function tileHtml(it,extra){return '<button class="itile r'+it.r+(it.set?' set set-'+it.set:'')+(extra||'')+'" data-u="'+it.u+'"><img alt="" src="'+itIcon(it)+'">'+(it.lv?'<em>+'+it.lv+'</em>':'')+(equippedBy(it.u)?'<i class="eqd"></i>':'')+(isFresh('item','i'+it.u)?'<i class="nw"></i>':'')+'</button>';}
 
 // ----- Towers screen: the arsenal (cards taken into a run) and the card collection -----
 let twPick=null;
-const twTile=(c,extra)=>'<button class="ttile r'+c.r+(extra||'')+'" data-u="'+c.u+'"><img alt="" src="'+dataUrl(SPR.tower[c.k])+'">'+(c.lv?'<em>+'+c.lv+'</em>':'')+'</button>';
+const twTile=(c,extra)=>'<button class="ttile r'+c.r+(extra||'')+'" data-u="'+c.u+'"><img alt="" src="'+dataUrl(SPR.tower[c.k])+'">'+(c.lv?'<em>+'+c.lv+'</em>':'')+(isFresh('tw','t'+c.u)?'<i class="nw"></i>':'')+'</button>';
 function twStats(c){const D=TOWERS[c.k],S=twStat(c);return [[_t('Poškození'),cz(Math.round(D.dmg*S.dm*10)/10)],[_t('Dosah'),Math.round(D.range*S.rm)],[_t('Zdraví'),Math.round(D.hp*S.hm)],[_t('Útok'),_t('každé ')+cz(Math.round(D.cd*S.cdm*100)/100)+' s'],[_t('Cena v běhu'),Math.round(D.cost*S.cm)+' '+_t('zl.')]];}
 function twLockText(k){const m=TW_UNL[k];return m?_t('Odemkneš výhrou na mapě ')+MAPS[m].name+'.':'';}
 function twCardHtml(c){const R=RAR[c.r],I=TW_INFO[c.k],C=TOWERS[c.k].ch?CHAPTERS.find(x=>x.id===TOWERS[c.k].ch):null;
@@ -5049,7 +5121,7 @@ function openTwCard(u){const c=twCard(u);if(!c)return;const pop=$('#twPop'),inD=
   $('#twClose').onclick=()=>{pop.hidden=true;sfx('ui');};
   pop.onclick=e=>{if(e.target===pop)pop.hidden=true;};}
 // Tower chest: a card of a tower type you have unlocked (base towers and chapter towers whose map you won); pity: Epic at the latest in 12
-const TW_CHEST={id:'tower',cost:400,odds:[50,32,13,4,1],pity:{r:3,n:12}};
+const TW_CHEST={id:'tower',cost:700,odds:[50,32,13,4,1],pity:{r:3,n:12}};
 function openTowerChest(){if(save.coins<TW_CHEST.cost)return null;save.coins-=TW_CHEST.cost;twInit();
   const pool=T_IDS.filter(k=>T_BASE.includes(k)||twMapWon(k)),k=pick(pool),r=rollRarity(TW_CHEST),c=twRoll(k,r);save.tw.cards.push(c);persist();return c;}
 
@@ -5202,7 +5274,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('stick'),_t('Pohyb'),_t('Táhni prstem kamkoli po obrazovce. Hrdina útočí sám.')],
    [I('power'),_t('Úrovně'),_t('Sbírej krystaly z nepřátel. S každou úrovní vybereš novou zbraň nebo vylepšení.')],
    [I('music'),_t('Rytmus'),_t('Zbraně a věže střílí do rytmu hudby. Zabíjej bez zásahu a poroste ti kombo.')],
-   [I('coin'),_t('Kombo'),_t('Každých 25 komba dostaneš zlato a čím delší kombo, tím víc (až 60). Každých 100 padne i materiál.')],
+   [I('coin'),_t('Kombo'),_t('Každých 25 komba dostaneš zlato a čím delší kombo, tím víc (až 40). Každých 200 padne i materiál. Po běhu si necháš asi třetinu zlata z běhu, zbytek je na věže.')],
    [I('vortex'),_t('Fúze'),_t('Dvě zbraně na úrovni 5 spojíš v silnou ultimátku. Při rituálu ťukej do rytmu.')],
    [I('tower'),_t('Věže'),_t('Za zlato z běhu stavíš věže tlačítky vpravo dole.')],
    [I('potion'),_t('Předměty na zemi'),_t('Lektvar léčí, magnet přitáhne krystaly, truhla dá vylepšení navíc.')],
@@ -5810,6 +5882,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07w',d:'7. 11. 2026',t:_t('Přehlednější menu a ekonomika'),items:[_t('Když získáš něco nového (mapu, předmět, kartu věže, hrdinu nebo hodnost Vylepšení), hlavní menu ukáže štítek <b>NOVÉ</b> přímo na tlačítku, kde to najdeš.'),_t('Lišta se zlatem a materiály zůstane nahoře i při posouvání a velká čísla se zkracují (52,3k), takže se už nerozjede.'),_t('<b>Věže</b> mají na zemi barevný podstavec a světlý obrys, který prosvítá i přes hordu.'),_t('<b>Ekonomika</b>: po běhu si necháš asi třetinu zlata z běhu (zbytek je na věže), materiálu padá méně a truhly jsou dražší. Dlouhé bitvy už nedávají tisíce zlata.'),_t('Hra se při spuštění ukáže hned s logem místo černé obrazovky a celá jména hrdinů jsou vidět.')]},
  {v:'2026-11-07v',d:'7. 11. 2026',t:_t('Plynulejší velké bitvy'),items:[_t('Když je na obrazovce hodně nepřátel, efektů a ultimátek, hra je teď <b>výrazně plynulejší</b>: plameny, střely, spáleniny a zamrzlí nepřátelé se kreslí úsporněji a světla mají lehčí výpočet.'),_t('Pokud telefon i tak nestíhá, hra si v nejdivočejší chvíli <b>sama ubere drobné detaily</b> (méně jisker a malých světýlek) a jakmile se to uklidní, vrátí je.')]},
  {v:'2026-11-07u',d:'7. 11. 2026',t:_t('Vylepšení na dlouho'),items:[_t('<b>Vylepšení</b> v Obchodu mají 30 úrovní ve 3 hodnostech. Hodnost I je za zlato, II navíc za Kostní prach (po poražení Trůnu kostí), III za Jantar (po Bráně slunce). Každá další hodnost dává menší přírůstek, takže je pořád na co šetřit.'),_t('<b>Druhá šance</b> má 3 úrovně: vstaneš s 50, 70 a nakonec 90 % zdraví. Dosavadní nákupy se převedly, nic jsi neztratil.')]},
  {v:'2026-11-07t',d:'7. 11. 2026',t:_t('Karty věží a větší odměny za kombo'),items:[_t('Věže jsou teď <b>karty s raritou</b> jako výbava: Běžná až Legendární. Vyšší rarita je silnější a má náhodné bonusy (dosah, rychlost, levnější stavba…). Epická a Legendární mají schopnost.'),_t('Nová <b>Věžová truhla</b> v Obchodu. Karty se vylepšují +1 až +10, 3 stejné karty se rituálem sloučí do vyšší rarity a nechtěné rozebereš. Tvoje dosavadní úrovně věží se převedly na raritu.'),_t('Zlato za <b>kombo</b> roste: každých 25 komba víc (až 60 zlata) a každých 100 padne i materiál.')]},
@@ -5957,6 +6030,8 @@ async function shareResult(){if(!run||!run.over)return;let c;try{c=await shareIm
   pop.hidden=false;$('#newsOk').onclick=()=>{pop.hidden=true;sfx('ui');};}
 
 /* ============ boot ============ */
+// heavy start (sprites, menu map) runs after the splash has been painted; the online library loads in parallel
+function boot(){
 econInit();initSprites();bindUi();setSong('menu');
 // the menu backdrop map is built once now, before the first frame (later it reuses whatever map is already built)
 {const lm=save.lastMap&&MAPS[save.lastMap]&&mapUnlocked(save.lastMap)?save.lastMap:'hrbitov';MB.id=lm;try{buildMap(lm);}catch(_){}}
@@ -5973,8 +6048,12 @@ new MutationObserver(()=>{if(!$('#newsPop').hidden)navArm();}).observe($('#newsP
 setTimeout(()=>{for(const C of CHAPTERS)for(const id of C.maps)thumbSrc(id);},700);
 new ResizeObserver(resize).observe(stage);
 requestAnimationFrame(frame);
-onlineInit();
+{const sb=document.getElementById('sbjs');if(window.supabase||!sb||!(window.KRYPTA_ONLINE&&window.KRYPTA_ONLINE.url))onlineInit();else{sb.addEventListener('load',()=>onlineInit());sb.addEventListener('error',()=>onlineInit());}}
 {const m=/[?&]hra=(\d{4})/.exec(location.search);if(m){try{history.replaceState(null,'',location.pathname);}catch(e){}setTimeout(()=>openCoop(m[1]),300);}}
+try{document.fonts.addEventListener('loadingdone',()=>{if(state==='menu')fitMenuCur();});}catch(_){}
+requestAnimationFrame(()=>{const sp=document.getElementById('splash');if(sp){sp.classList.add('gone');setTimeout(()=>sp.remove(),400);}});
+}
+requestAnimationFrame(()=>setTimeout(boot,0));
 
 /* debug / test hooks */
 window.__krypta={guestStartRun,makeEnemy,render,PQ,SPR,MAPS,CHAPTERS,mapsBuilt,buildMap,mapThumb,mapUnlocked,renderSelect,renderCampaign,get MF(){return MF},openGuide,renderGuide,finishFuse,afterOption,tmRow,explode,spawnEnemy,hurtEnemy,killEnemy,get run2(){return run},upInvest,mergeRefund,openMerge,matInfo,musicRender,get musicErr(){return M.err},finish,ACH,achTrack,achClaim,achProg,openMaster,openNews,NEWS,shareImage,shareResult,seedRng,tutTick,titleOf,get ac(){return ac},get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
