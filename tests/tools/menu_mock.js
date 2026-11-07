@@ -1,11 +1,11 @@
 // Mockup of the redesigned menu rendered inside the real game (live map background, real sprites).
 // node menu_mock.js <prefix>   (needs off.html made from index.html, see README)
-const {chromium}=require('playwright');const fs=require('fs');const pre=process.argv[2]||'mock';
+const {chromium}=require('playwright');const fs=require('fs');const pre=process.argv[2]||'mock',IP=process.argv[3]==='iphone';
 let html=fs.readFileSync(__dirname+'/off.html','utf8').replace('window.__krypta={','window.__krypta={SPR,dataUrl,buildSprite,itemSpr,mapThumb,buildMap,mapsBuilt,');
 fs.writeFileSync(__dirname+'/_mock.html',html);
 const CSS=`
 #mock{position:absolute;inset:0;display:flex;flex-direction:column;z-index:30;pointer-events:none;color:var(--fg)}
-#mock .top{display:flex;align-items:center;gap:8px;padding:8px 10px;background:linear-gradient(#0c0912ee,#130f1cd8);box-shadow:0 3px 0 #0c0912,0 4px 0 #4b3a6b55}
+#mock .top{display:flex;align-items:center;gap:8px;padding:calc(8px + var(--sat,0px)) 10px 8px;background:linear-gradient(#0c0912ee,#130f1cd8);box-shadow:0 3px 0 #0c0912,0 4px 0 #4b3a6b55}
 #mock .who{display:flex;flex-direction:column;line-height:1.1;min-width:0;flex:1}
 #mock .who b,#mock .who small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#mock .who b{font-size:14px}#mock .who small{font-size:11px;color:var(--gold);letter-spacing:.03em}
 #mock .cur{display:flex;gap:6px;font-size:13px;font-weight:700;white-space:nowrap;padding:4px 8px;clip-path:var(--px);background:#0c0912b0;box-shadow:inset 0 0 0 2px #4b3a6b}
@@ -61,7 +61,7 @@ const CSS=`
   background:linear-gradient(#433660,#2b2240);box-shadow:inset 0 3px 0 #ffffff2a,inset 0 -6px 0 #0c0912,inset 0 0 0 3px #5a4880;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 #mock .stone .two{display:flex}#mock .stone img{width:24px;height:24px;image-rendering:pixelated;margin:0 -3px}
 #mock .stw{filter:drop-shadow(0 6px 0 #0c0912)}
-#mock .dock{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:10px 8px 12px;background:linear-gradient(#211a30f2,#130f1cf8);
+#mock .dock{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:10px 8px calc(12px + var(--sab,0px));background:linear-gradient(#211a30f2,#130f1cf8);
   box-shadow:0 -3px 0 #0c0912,0 -6px 0 #a97a1466;position:relative}
 #mock .dk{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 #mock .sock{position:relative;width:52px;height:46px;display:grid;place-items:center;clip-path:var(--px);background:linear-gradient(#2d2342,#1a1426);
@@ -69,7 +69,7 @@ const CSS=`
 #mock .sock img{width:32px;height:32px;image-rendering:pixelated;filter:drop-shadow(0 2px 0 #0008)}
 #mock .dk.hot{color:var(--gold)}#mock .dk.hot .sock{box-shadow:inset 0 -3px 0 #ffffff14,inset 0 3px 0 #0c0912,inset 0 0 0 2px var(--gold)}
 #mock .sheetbg{position:absolute;inset:0;background:#0c0912b0;display:flex;align-items:flex-end}
-#mock .sheet{width:100%;padding:16px 16px 20px;background:var(--panel) var(--tex);background-size:32px 32px;clip-path:polygon(0 8px,8px 8px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 8px,100% 8px,100% 100%,0 100%);
+#mock .sheet{width:100%;padding:16px 16px calc(20px + var(--sab,0px));background:var(--panel) var(--tex);background-size:32px 32px;clip-path:polygon(0 8px,8px 8px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 8px,100% 8px,100% 100%,0 100%);
   box-shadow:inset 0 3px 0 var(--gold-dk),inset 0 6px 0 #0c0912;display:flex;flex-direction:column;gap:8px}
 #mock .sheet h3{margin:4px 0 4px;font:700 26px var(--font-px);color:var(--gold);display:flex;align-items:center;gap:10px}
 #mock .sheet h3 img{width:28px;height:28px;image-rendering:pixelated}
@@ -80,11 +80,11 @@ const CSS=`
 #mock .tg.on{background:#2f5a2a;box-shadow:inset 0 0 0 2px var(--green)}#mock .tg.on i{left:30px;background:var(--gold)}
 #mock .seg{margin-left:auto;display:flex;gap:4px}#mock .seg b{padding:4px 10px;font-size:13px;clip-path:var(--px);background:#2d2342;color:var(--muted)}#mock .seg b.on{background:var(--gold);color:var(--ink)}
 `;
-(async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:390,height:800},deviceScaleFactor:2});
+(async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:IP?{width:393,height:852}:{width:390,height:800},deviceScaleFactor:2});
  const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
  await p.goto('file://'+__dirname+'/_mock.html');await p.waitForTimeout(500);
  for(const sheet of [0,1]){
- await p.evaluate(([CSS,sheet])=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;K.save.newsSeen='2099';K.openMenu();
+ await p.evaluate(([CSS,sheet,IP])=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;K.save.newsSeen='2099';K.openMenu();
   const S=K.SPR,D=K.dataUrl,bs=K.buildSprite;
   const gear=bs(['.s.ss.s.','.ssssss.','ssSSSSss','.sS..Ss.','.sS..Ss.','ssSSSSss','.ssssss.','.s.ss.s.'],{mirror:false,pal:{s:'#c8c4d8',S:'#7a7690'},shade:false});
   const bell=bs(['...yy...','..yyyy..','.yywyyy.','.ywyyyy.','.yyyyyy.','yyyyyyyy','oooooooo','...oo...'],{mirror:false,pal:{y:'#f6c744',w:'#fff6c8',o:'#a97a14'},shade:false});
@@ -111,6 +111,9 @@ const CSS=`
    <div class="sr"><img src="${I('news')}">Jazyk<span class="seg"><b class="on">Čeština</b><b>English</b></span></div>
    <div class="sr"><img src="${I('phone')}">Přidat hru na plochu<span class="v">›</span></div>
    <div class="sr" style="background:transparent;box-shadow:none;justify-content:center;color:var(--muted);font-size:12px;font-weight:500">verze 2026-11-07f</div></div></div>`:'');
-  document.getElementById('scr-menu').appendChild(m);},[CSS,sheet]);
+  document.getElementById('scr-menu').appendChild(m);
+  if(IP){const R=document.documentElement.style;R.setProperty('--sat','59px');R.setProperty('--sab','34px');
+   if(!document.getElementById('isl')){const d=document.createElement('div');d.id='isl';d.style.cssText='position:fixed;z-index:99;left:50%;top:11px;width:126px;height:37px;margin-left:-63px;border-radius:20px;background:#000';document.body.appendChild(d);
+   const h=document.createElement('div');h.style.cssText='position:fixed;z-index:99;left:50%;bottom:8px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#fff';document.body.appendChild(h);}}},[CSS,sheet,IP]);
  await p.waitForTimeout(400);await p.screenshot({path:pre+'_'+sheet+'.png'});}
  console.log(errs);await b.close();fs.unlinkSync(__dirname+'/_mock.html');})();
