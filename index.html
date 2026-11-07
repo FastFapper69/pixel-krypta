@@ -335,11 +335,20 @@ html,body,#stage{touch-action:none}
 .tcard.in{box-shadow:inset 0 0 0 3px var(--gold)}.tcard.in::after{content:'';position:absolute;right:7px;top:7px;width:7px;height:7px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 5px var(--gold)}
 .tcard.lock>img{filter:brightness(0);opacity:.45}.tcard.lock b{color:var(--muted)}
 .tcard .tsil{width:26px;height:52px;flex:none;background:#0c0912;clip-path:polygon(30% 0,70% 0,80% 30%,80% 100%,20% 100%,20% 30%);opacity:.6}
-.tpop .ic-head img{width:40px;height:80px;object-fit:contain}.tpop .ic-head h3{color:var(--tc)}.tpop .tstars{margin-top:3px}
+.tpop .ic-head img{width:40px;height:80px;object-fit:contain}
+.ttile{position:relative;aspect-ratio:1;background:var(--panel);border:0;display:flex;align-items:center;justify-content:center;padding:0;clip-path:var(--px);cursor:pointer}
+.ttile img{height:78%;width:auto;image-rendering:pixelated}.ttile em{position:absolute;right:4px;bottom:2px;font-style:normal;font-weight:700;font-size:11px;color:#fff;text-shadow:0 1px 0 #000}
+.ttile.r0{box-shadow:inset 0 0 0 3px #b4b4c4}.ttile.r1{box-shadow:inset 0 0 0 3px #5cc45c}.ttile.r2{box-shadow:inset 0 0 0 3px #4aa3e8}.ttile.r3{box-shadow:inset 0 0 0 3px #c869e0}.ttile.r4{box-shadow:inset 0 0 0 3px #f6c744,0 0 12px #f6c74466}
+.ttile.in::after{content:'';position:absolute;left:5px;top:5px;width:7px;height:7px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 5px var(--gold)}
+.tslot.r0{box-shadow:inset 0 0 0 3px #b4b4c4}.tslot.r1{box-shadow:inset 0 0 0 3px #5cc45c}.tslot.r2{box-shadow:inset 0 0 0 3px #4aa3e8}.tslot.r3{box-shadow:inset 0 0 0 3px #c869e0}.tslot.r4{box-shadow:inset 0 0 0 3px #f6c744,0 0 10px #f6c74455}
+.tslot .rr{font-size:9px;font-weight:700;line-height:1}
+.ic-st li.bon span{color:#bfeaff}
+.tperk p i{background:#5a4e70}.tperk p.on i{background:var(--rc)}
+#twLocked:empty{display:none}
 .tdesc{font-size:14px;margin:0;color:var(--fg)}
 .tperk{display:flex;flex-direction:column;gap:5px;padding:9px 10px;background:#0c0912a8;clip-path:var(--px)}
 .tperk p{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin:0;color:var(--muted);line-height:1.35}.tperk p.on{color:var(--fg)}
-.tperk p i{flex:none;font-style:normal;font-weight:700;font-size:12px;width:18px;height:18px;display:grid;place-items:center;color:#1a1423;background:#5a4e70;clip-path:var(--px)}.tperk p.on i{background:var(--gold)}
+.tperk p i{flex:none;font-style:normal;font-weight:700;font-size:12px;width:18px;height:18px;display:grid;place-items:center;color:#1a1423;clip-path:var(--px)}
 /* chapter sets: their own colour on tiles, cards and slots */
 .set-bone{--sc:#9affc0}.set-sun{--sc:#ffd060}
 .itile.set,.pop-card.set,.slot.set{box-shadow:inset 0 0 0 3px var(--sc),0 0 10px color-mix(in srgb,var(--sc) 35%,transparent)}
@@ -669,8 +678,9 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <div class="sec">Arzenál do běhu</div>
       <div class="tdeck" id="twDeck"></div>
       <p class="hint" id="twHint"></p>
-      <div class="sec">Všechny věže</div>
-      <div class="tgrid" id="twGrid"></div>
+      <div class="sec">Tvoje věže · <span id="twCount"></span></div>
+      <div class="inv" id="twGrid"></div>
+      <div class="tgrid" id="twLocked"></div>
     </div>
     <div class="popwrap" id="twPop" hidden></div>
   </section>
@@ -992,7 +1002,8 @@ const HERO_IDS=Object.keys(HEROES),HERO_LIVE=HERO_IDS.filter(h=>!HEROES[h].soon)
 const CHEST_ROWS=['...nnnnn','..nlllll','.nnnnnnn','.mmmmmmm','.nnnnnnn','.ddddddd','.mmmmmmy','.nnnnnyy','.nlnnnyY','.nnnnnyy','.mmmmmmm','.nnnnnnn','.ddddddd'];
 const CHEST_PAL={wood:{n:'#8a5a32',l:'#b07a48',d:'#5a3a1e',m:'#6a6a78',y:'#e0b040',Y:'#3a2010'},
   iron:{n:'#6a6e80',l:'#9aa0b4',d:'#3e4252',m:'#2a2c38',y:'#cfd4e8',Y:'#1a1a24'},
-  gold:{n:'#d89a28',l:'#ffd86a',d:'#8a5a10',m:'#7a3ab0',y:'#ffffff',Y:'#5a2a80'}};
+  gold:{n:'#d89a28',l:'#ffd86a',d:'#8a5a10',m:'#7a3ab0',y:'#ffffff',Y:'#5a2a80'},
+  tower:{n:'#5a6a7a',l:'#8a9aaa',d:'#34404c',m:'#2a8a8a',y:'#7af0d0',Y:'#14404a'}};
 const HERO_DAT={knight:_t('Rytíři'),mage:_t('Mágovi'),archer:_t('Lučištníkovi'),builder:_t('Staviteli'),bard:_t('Bardovi'),smith:_t('Kovářce'),shaman:_t('Šamance'),sailor:_t('Námořnici'),astro:_t('Hvězdářce')};
 const SOON_CH={c3:'III',c4:'IV',c5:'V',c6:'VI'};
 
@@ -2752,7 +2763,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07s';
+const GAME_VER='2026-11-07t';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -2859,9 +2870,9 @@ function startRun(heroId,mapId,o){
   $('#icoMat').src=matIcon(MAT_OF[mapId]);$('#hudMat').hidden=false;
   if(map.crystal){run.crystal={isCrystal:true,x:map.size/2,y:map.size/2,hp:1300,max:1300,r:9,flash:0,hit:false,calm:0,warn:0,pulse:5,spr:SPR.misc.crystal};run.p.y+=30;run.p.face={x:0,y:1};}
   run.allies=[];mfCall('init');
-  run.deck=runDeck(!!hero.builder);buildBarInit();
+  run.deck=runDeck(!!hero.builder);run.tws=runTwStats(!!hero.builder);buildBarInit();
   addWeapon(hero.start);
-  if(hero.builder)addTower(run.deck[0],run.p.x+24,run.p.y,twLv(run.deck[0]));
+  if(hero.builder)addTower(run.deck[0],run.p.x+24,run.p.y,run.tws[run.deck[0]]);
   for(let i=0;i<6;i++)spawnEnemy(chooseEnemy());
   $('#bossbar').hidden=true;$('#toast').classList.remove('on');$('#crbar').hidden=!run.crystal;$('#repBtn').hidden=true;
   buildItemsHud();setState('play');updateHud(true);
@@ -2970,7 +2981,10 @@ function killEnemy(e){
   e.dead=true;if(run.pls){(CO.kills||(CO.kills=[])).push(e.nid||0);}run.kills++;run.combo++;run.comboT=st&&st.tal&&st.tal.d5?2.4:1.6;sfx('kill');
   const Q=run.qc;if(Q){Q.k[e.id]=(Q.k[e.id]||0)+1;if(e.elite)Q.el++;if(e.boss)Q.boss++;if(run.combo>Q.combo)Q.combo=run.combo;
     if(e.want){Q.want=e.want;run.wanted=null;toast(_t('Hledaný dopaden! Odměna čeká na nástěnce'),2800);run.items.push({x:e.x-6,y:e.y,k:'mat',v:8});for(let i=0;i<3;i++)run.items.push({x:e.x+rnd(-8,8),y:e.y+rnd(-8,8),k:'coin'});}}
-  if(run.combo%25===0){run.coins+=5;toast(_t('Kombo ')+run.combo+_t('! +5 zlata'),1000);sfx('coin');
+  // combo milestones pay more the longer the combo lasts: 25 → 5, 50 → 10 … up to 60 gold; every 100 also drops material
+  if(run.combo%25===0){const g=Math.min(60,5*(run.combo/25));run.coins+=g;const big=run.combo%100===0;
+    if(big&&MAT_OF[run.mapId])run.items.push({x:run.p.x+rnd(-14,14),y:run.p.y+rnd(-14,14),k:'mat',v:3+Math.min(7,run.combo/100)});
+    toast(_t('Kombo ')+run.combo+'! +'+g+_t(' zlata')+(big&&MAT_OF[run.mapId]?_t(' a materiál'):''),big?1600:1000);sfx(big?'level':'coin');
     if(st&&st.tal&&st.tal.d20){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:110,dmg:20+run.level*2,hit:new Set(),life:1,noslow:true,col:'#7fe0c8'});}}
   const pal=e.d.pal||{},pa=pal.a||'#c869e0',cols=[pa,pal.b||mixHex(pa,SHADOW_HUE,.4),pal.c||mixHex(pa,LIGHT_HUE,.4),mixHex(pa,'#120c1a',.6)];
   const gy=e.y+e.h/2-4,n=e.boss?30:e.elite?12:5;
@@ -3150,7 +3164,7 @@ function gameStep(s){
   run.beatNow=run.beatNow||s%4===0;run.barNow=run.barNow||s%16===0;
   if(!run.p.down)fireAll(s);
   if(run.pls){if(!run.pls[1].p.down)withPl(run.pls[1],()=>fireAll(s));coopBeat(s);}
-  for(const t of run.towers){if(t.dead)continue;const D=TOWERS[t.k];if((s+t.off)%qsteps(D.cd*(1-.12*(t.lv-1))*st.cdMul)===0)towerFire(t);}
+  for(const t of run.towers){if(t.dead)continue;const D=TOWERS[t.k];if((s+t.off)%qsteps(D.cd*(1-.12*(t.lv-1))*(t.ts?t.ts.cdm:1)*st.cdMul)===0)towerFire(t);}
 }
 function explode(x,y,rad,dmg){if(isGuest())return;
   run.fx.push({k:'scorch',x,y,r:rad*.75,life:3,max:3,seed:Math.random()*99});
@@ -3269,44 +3283,65 @@ const TW_INFO={arrow:[_t('Rychle střílí šípy na jednoho nepřítele.'),_t('
  obelisk:[_t('Otáčivý sluneční paprsek pálí vše v cestě.'),_t('Dva paprsky proti sobě.'),_t('Paprsek dosáhne o 40 % dál.')],
  sandpit:[_t('Stahuje nepřátele do středu a zpomaluje je.'),_t('Dvojnásobné poškození.'),_t('Dosah o 30 % větší.')],
  oasis:[_t('Posílá na tebe léčivý paprsek. Co jím projde, dostane malé poškození.'),_t('Léčí o 30 % víc.'),_t('Paprsek opravuje i věže v dosahu.')]};
-const TW_MAX=5,twMat=k=>{const c=TOWERS[k].ch;return c?CHAPTERS.find(x=>x.id===c).mat:'bone';};
-const twCost=(k,L)=>({gold:[150,350,700,1200][L-1],[twMat(k)]:[12,30,60,100][L-1]});
-function twInit(){save.tw=save.tw||{};save.tw.lv=save.tw.lv||{};if(!Array.isArray(save.tw.deck))save.tw.deck=T_BASE.slice();}
-const twLv=k=>Math.max(1,Math.min(TW_MAX,(save.tw&&save.tw.lv&&save.tw.lv[k])||1));
-const twOpen=k=>!TW_UNL[k]||!!(save.cleared&&save.cleared[TW_UNL[k]]);
-// the towers of this run: the saved arsenal, only unlocked ones, the Builder's 5th slot only for him
-function runDeck(builder){twInit();const d=save.tw.deck.slice(0,builder?5:4).filter(k=>TOWERS[k]&&twOpen(k));const out=[...new Set(d)];return out.length?out:T_BASE.slice();}
-const twM=t=>1+.15*((t.ml||1)-1); // damage from the menu level
+// Tower cards (like gear): type + rarity (0–4) + random bonuses + upgrade +0..+10. Rarity: power ×1/1.15/1.3/1.5/1.75,
+// bonuses 0/1/2/2/2, perk 1 from Epic, perk 2 at Legendary. Cards come from the Tower chest; a win on a tower's unlock map gives a Common one.
+const TW_RAR=[1,1.15,1.3,1.5,1.75],TW_NB=[0,1,2,2,2],TW_UPMAX=10;
+const TW_BON={dmg:{name:_t('Poškození'),r:[[5,8],[6,10],[8,12],[10,15]]},hp:{name:_t('Zdraví'),r:[[8,14],[10,18],[14,22],[18,28]]},range:{name:_t('Dosah'),r:[[5,8],[6,10],[8,12],[10,15]]},
+  rate:{name:_t('Rychlost útoků'),r:[[4,7],[5,9],[7,11],[9,14]]},cost:{name:_t('Levnější stavba'),r:[[6,10],[8,13],[10,16],[12,20]]}};
+const twMat=k=>{const c=TOWERS[k].ch;return c?CHAPTERS.find(x=>x.id===c).mat:'bone';};
+const twUpCost=c=>({gold:25*(c.lv+1)*(c.r+1),[twMat(c.k)]:3*(c.lv+1)*(c.r+1)});
+function twRoll(k,r,q){const c={u:newUid(),k,r,lv:0,b:{}},pool=Object.keys(TW_BON);for(let i=0;i<TW_NB[r]&&pool.length;i++){const id=pool.splice((Math.random()*pool.length)|0,1)[0],R=TW_BON[id].r[Math.max(0,r-1)];
+  c.b[id]=Math.round((R[0]+(R[1]-R[0])*(q==null?Math.random():clamp(q*.6+Math.random()*.4,0,1))))/100;}return c;}
+// effective numbers of a card in a run
+function twStat(c){if(!c)return{dm:1,hm:1,rm:1,cdm:1,cm:1,p3:false,p5:false};const m=TW_RAR[c.r]*(1+.06*(c.lv||0)),b=c.b||{};
+  return{dm:m*(1+(b.dmg||0)),hm:m*(1+(b.hp||0)),rm:1+(b.range||0),cdm:1-(b.rate||0),cm:1-(b.cost||0),p3:c.r>=3,p5:c.r>=4};}
+const twCardName=c=>TOWERS[c.k].name+(c.lv?' +'+c.lv:'');
+// save.tw = {cards:[…], deck:[uid ×5], v:2}; old saves (menu levels 1–5) become one card per tower: 1–2 Common, 3 Rare, 4 Epic, 5 Legendary
+function twInit(){const T=save.tw=save.tw||{};
+  if(T.v!==2){const lv=T.lv||{},old=Array.isArray(T.deck)?T.deck:T_BASE.slice(),cards=[];
+    for(const k of T_IDS){if(!(T_BASE.includes(k)||lv[k]||old.includes(k)||twMapWon(k)))continue;const L=lv[k]||1;cards.push(twRoll(k,L>=5?4:L>=4?3:L>=3?2:0,.6));}
+    save.tw={v:2,cards,deck:old.map(k=>{const c=cards.find(x=>x.k===k);return c?c.u:null;})};}
+  const S=save.tw;S.cards=S.cards||[];if(!Array.isArray(S.deck))S.deck=[];
+  for(const k of T_IDS)if(twMapWon(k)&&!S.cards.some(c=>c.k===k)){S.cards.push(twRoll(k,0));}}
+const twMapWon=k=>!!(TW_UNL[k]&&save.cleared&&save.cleared[TW_UNL[k]]);
+const twCard=u=>(save.tw&&save.tw.cards||[]).find(c=>c.u===u)||null;
+const twOpen=k=>!!(save.tw&&save.tw.cards&&save.tw.cards.some(c=>c.k===k));
+const twBest=k=>(save.tw.cards||[]).filter(c=>c.k===k).sort((a,b)=>(b.r-a.r)||(b.lv-a.lv))[0]||null;
+// the towers of this run: the cards in the arsenal (Builder 5), one per tower type
+function runDeck(builder){twInit();const out=[],seen=new Set();for(const u of save.tw.deck.slice(0,builder?5:4)){const c=twCard(u);if(!c||seen.has(c.k))continue;seen.add(c.k);out.push(c.k);}
+  if(!out.length)for(const k of T_BASE)if(twBest(k)){out.push(k);if(out.length>=4)break;}return out.length?out:T_BASE.slice();}
+function runTwStats(builder){const o={};for(const u of save.tw.deck.slice(0,builder?5:4)){const c=twCard(u);if(c&&!o[c.k])o[c.k]=twStat(c);}return o;}
+const twM=t=>t.ts?t.ts.dm:1; // damage from the tower card
 const MAX_T=8;
 const NM_HP=.55,NM_DMG=.25; // per Nightmare tier (enemies, boss, crystal pulse)
 const metaBuild=()=>1-.05*(save.meta.build||0);
 const maxTowers=()=>MAX_T+(run.hero.builder?2:0)+((st&&st.tmax)||0);
-const towerCost=k=>Math.max(5,Math.round(TOWERS[k].cost*(1+.15*run.towers.length)*(run.hero.builder?.6:1)*metaBuild()*(1-((st&&st.tcost)||0))));
+const towerCost=k=>Math.max(5,Math.round(TOWERS[k].cost*((run.tws&&run.tws[k]&&run.tws[k].cm)||1)*(1+.15*run.towers.length)*(run.hero.builder?.6:1)*metaBuild()*(1-((st&&st.tcost)||0))));
 const towerUpCost=t=>Math.round(TOWERS[t.k].cost*.9*t.lv*(run.hero.builder?.7:1)*metaBuild());
-const towerRange=t=>TOWERS[t.k].range*(1+.08*(t.lv-1))*(1+.04*((t.ml||1)-1));
+const towerRange=t=>TOWERS[t.k].range*(1+.08*(t.lv-1))*(t.ts?t.ts.rm:1);
 function canBuildAt(x,y){
   const sz=run.map.size;if(x<26||y<26||x>sz-26||y>sz-26)return false;
   for(const t of run.towers)if(Math.hypot(t.x-x,t.y-y)<18)return false;
   for(const pl of run.built.pools)if(Math.hypot(pl.x-x,pl.y-y)<pl.r+9)return false;
   return true;
 }
-function addTower(k,x,y,ml){
-  const D=TOWERS[k],t={isTower:true,k,x,y,lv:1,hp:D.hp,max:D.hp,cd:.6,off:pick([0,2,4,6]),kick:0,show:2.5,flash:0,spr:SPR.tower[k],dead:false,born:run.t,aim:-Math.PI/2,ml:ml||1};
+function addTower(k,x,y,ts){
+  const D=TOWERS[k],t={isTower:true,k,x,y,lv:1,hp:D.hp,max:D.hp,cd:.6,off:pick([0,2,4,6]),kick:0,show:2.5,flash:0,spr:SPR.tower[k],dead:false,born:run.t,aim:-Math.PI/2,ts:ts||null};
   for(let i=0;i<10;i++)addP({k:'smoke',x:x+rnd(-8,8),y:y+rnd(2,6),vx:rnd(-30,30),vy:rnd(-14,-2),life:rnd(.5,.8),max:.8,sz:rnd(2,3.5),grow:3,drag:3,g:0,col:'#a89878',a:.5});
-  if(st&&st.tal&&st.tal.b10)t.lv=2;t.max=Math.round(D.hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0))*(1+.12*(t.ml-1)));t.hp=t.max;
+  if(st&&st.tal&&st.tal.b10)t.lv=2;t.max=Math.round(D.hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0))*(t.ts?t.ts.hm:1));t.hp=t.max;
   run.towers.push(t);
   for(let i=0;i<10;i++)run.parts.push({x,y,vx:rnd(-40,40),vy:rnd(-50,-10),life:.4,col:'#cfcfe0',sz:2});
   return t;
 }
-function buildTower(k,ml){
+function buildTower(k,ts){
   if(state!=='play'||!run||run.over)return;
-  if(isGuest()){netSend({t:'build',k,ml:twLv(k)});return;}
-  ml=ml||(CO.ctxMate?1:twLv(k));
+  if(isGuest()){netSend({t:'build',k,ts:run.tws&&run.tws[k]});return;}
+  ts=ts||(CO.ctxMate?null:run.tws&&run.tws[k]);
   if(run.towers.length>=maxTowers()){note(_t('Víc než ')+maxTowers()+_t(' věží se nevejde'));return;}
   const c=towerCost(k);if(run.coins<c){note(_t('Chybí ti ')+(c-run.coins)+_t(' zlata'));return;}
   const p=run.p,base=Math.atan2(p.face.y,p.face.x);
   for(const rad of [18,30])for(const da of [0,.8,-.8,1.6,-1.6,2.4,-2.4,3.14]){const a=base+da,x=p.x+Math.cos(a)*rad,y=p.y+Math.sin(a)*rad;
-    if(canBuildAt(x,y)){run.coins-=c;run.spent=(run.spent||0)+c;addTower(k,x,y,ml);sfx('level');if(run.qc)run.qc.tw[k]=(run.qc.tw[k]||0)+1;return;}}
+    if(canBuildAt(x,y)){run.coins-=c;run.spent=(run.spent||0)+c;addTower(k,x,y,ts);sfx('level');if(run.qc)run.qc.tw[k]=(run.qc.tw[k]||0)+1;return;}}
   note(_t('Tady není místo'));
 }
 function upgradeTower(){
@@ -3314,11 +3349,11 @@ function upgradeTower(){
   if(isGuest()){netSend({t:'upg'});return;}
   if(t.lv>=3){if(t.hp<t.max){t.hp=t.max;sfx('ui');note(_t('Věž opravena'));}return;}
   const c=towerUpCost(t);if(run.coins<c){note(_t('Chybí ti ')+(c-run.coins)+_t(' zlata'));return;}
-  run.coins-=c;run.spent=(run.spent||0)+c;t.lv++;t.max=Math.round(TOWERS[t.k].hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0))*(1+.12*((t.ml||1)-1)));t.hp=t.max;t.show=2.5;sfx('level');
+  run.coins-=c;run.spent=(run.spent||0)+c;t.lv++;t.max=Math.round(TOWERS[t.k].hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0))*(t.ts?t.ts.hm:1));t.hp=t.max;t.show=2.5;sfx('level');
 }
 function enemiesNear(x,y,r){const out=[];for(const e of run.enemies){if(e.dead)continue;if(Math.abs(e.x-x)>r||Math.abs(e.y-y)>r)continue;if(Math.hypot(e.x-x,e.y-y)<=r)out.push(e);}return out;}
 function towerFire(t){
-  const D=TOWERS[t.k],lv=t.lv,range=towerRange(t),dmg=D.dmg*(1+.5*(lv-1))*twM(t),p3=(t.ml||1)>=3,p5=(t.ml||1)>=5;
+  const D=TOWERS[t.k],lv=t.lv,range=towerRange(t),dmg=D.dmg*(1+.5*(lv-1))*twM(t),p3=!!(t.ts&&t.ts.p3),p5=!!(t.ts&&t.ts.p5);
   switch(t.k){
     case'arrow':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;
       let e=c[0],bd=1e9;for(const q of c){const d=(q.x-t.x)**2+(q.y-t.y)**2;if(d<bd){bd=d;e=q;}}
@@ -3349,7 +3384,7 @@ function towerFire(t){
         for(const e of run.enemies){if(e.dead||e.bur)continue;const rx=e.x-t.x,ry=e.y-t.y,al=rx*fx+ry*fy;if(al<0||al>L)continue;if(Math.abs(rx*fy-ry*fx)<e.r+4)hurtEnemy(e,dmg,fx*20,fy*20);}
         run.fx.push({k:'sunray',x:t.x,y:ty,fx,fy,len:L,life:.25,max:.25});}sfx('zap');break;}
     case'oasis':{const ty=t.y-t.spr.h/2+2,P=run.pls?players():[run.p];let q=null,qd=range;for(const u of P){if(!u||u.down||u.dead)continue;const d=Math.hypot(u.x-t.x,u.y-t.y);if(d<qd){qd=d;q=u;}}
-      if(!q)return;t.kick=.6;t.hacc=(t.hacc||0)+.8*(1+.2*((t.ml||1)-1))*(1+.15*(lv-1))*(p3?1.3:1);const h=Math.floor(t.hacc);t.hacc-=h;
+      if(!q)return;t.kick=.6;t.hacc=(t.hacc||0)+.8*(1+.5*(twM(t)-1))*(1+.15*(lv-1))*(p3?1.3:1);const h=Math.floor(t.hacc);t.hacc-=h;
       if(h>0&&q.hp<q.max){q.hp=Math.min(q.max,q.hp+h);if(Math.random()<.35)run.nums.push({x:q.x,y:q.y-10,txt:'+'+h,life:.6,col:'#7af0d0'});}
       const dx=q.x-t.x,dy=(q.y-4)-ty,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L;
       for(const e of run.enemies){if(e.dead||e.bur)continue;const rx=e.x-t.x,ry=e.y-ty,al=rx*ux+ry*uy;if(al<0||al>L)continue;if(Math.abs(rx*uy-ry*ux)<e.r+3)hurtEnemy(e,dmg,0,0);}
@@ -3755,6 +3790,7 @@ function showOver(){
   if(W.item)rows.push([_t('Kořist z bosse'),'<b style="color:'+RAR[W.item.r].col+'">'+itemName(W.item)+'</b>']);
   if(W.fin)rows.push([_t('Poklad finále'),'<b style="color:'+RAR[W.fin.r].col+'">'+itemName(W.fin)+'</b>']);
   if(W.leg)rows.push([_t('Legendárka kapitoly'),'<b style="color:'+RAR[4].col+'">'+itemName(W.leg)+'</b>']);
+  if(W.tw)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.tower[W.tw.k])+'"> '+_t('Nová věž'),'<b style="color:var(--gold)">'+TOWERS[W.tw.k].name+'</b>']);
   if(W.set)rows.push(['<img class="cdl" alt="" src="'+itIcon(W.set)+'"> '+_t('Kus setu'),'<b style="color:'+SETS[W.set.set].col+'">'+itemName(W.set)+'</b>']);
   if(W.tre)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"> '+_t('Poklad kapitoly'),_t('<b style="color:var(--gold)">Čeká na tebe v Přípravě!</b>')]);
   if(W.daily)rows.push([_t('Denní výzva'),'<b style="color:'+RAR[W.daily.r].col+'">'+itemName(W.daily)+'</b>']);
@@ -4739,7 +4775,7 @@ const DAILY_MODS=[{id:'fast',name:_t('Zběsilí'),desc:_t('Nepřátelé jsou o 3
 
 // ----- save helpers -----
 function econInit(){chMigrate();twInit();save.fin=save.fin||{};save.mats=Object.assign({bone:0,amber:0,magma:0},save.mats||{});save.hlv=save.hlv||{};save.inv=save.inv||[];save.eq=save.eq||{};
-  save.nm=save.nm||{};save.pity=Object.assign({iron:0,gold:0},save.pity||{});save.daily=save.daily||{};save.codex=save.codex||{f:{},l:{}};save.codex.f=save.codex.f||{};save.codex.l=save.codex.l||{};save.codex.s=save.codex.s||{};save.setP=save.setP||{};save.chT=save.chT||{};save.uidc=save.uidc||0;}
+  save.nm=save.nm||{};save.pity=Object.assign({iron:0,gold:0,tower:0},save.pity||{});save.daily=save.daily||{};save.codex=save.codex||{f:{},l:{}};save.codex.f=save.codex.f||{};save.codex.l=save.codex.l||{};save.codex.s=save.codex.s||{};save.setP=save.setP||{};save.chT=save.chT||{};save.uidc=save.uidc||0;}
 const heroLv=h=>Math.max(1,Math.min(HERO_MAX,(save.hlv&&save.hlv[h])||1));
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 function newUid(){save.uidc=(save.uidc||0)+1;return Date.now().toString(36)+'-'+save.uidc.toString(36)+'-'+Math.random().toString(36).slice(2,6);}
@@ -4821,6 +4857,7 @@ function runRewards(won){
   let m=(R.mat||0)+Math.floor(rewT()/60*4)+(won?(fin?40:15):0);if(won)m*=1.5; // the boss share is paid directly: a win ends the run before it could be picked up
   m*=(1+.5*(R.nm||0))*(fin?2:1);m=Math.round(m);
   save.mats[mid]=(save.mats[mid]||0)+m;out.mat=[mid,m];
+  if(won){twInit();for(const k in TW_UNL)if(TW_UNL[k]===R.mapId&&!twOpen(k)){const c=twRoll(k,0);save.tw.cards.push(c);out.tw=c;}}
   if(won&&R.nm>0){let r=ECON.nmItem[R.nm];if(R.nm===5&&Math.random()<.25)r=4;const it=makeItem(r);addItem(it);out.item=it;
     save.nm[R.mapId]=Math.max(save.nm[R.mapId]||1,Math.min(5,R.nm+1));}
   else if(won&&!R.nm)save.nm[R.mapId]=Math.max(save.nm[R.mapId]||1,1);
@@ -4890,37 +4927,61 @@ function itemCardHtml(it){const S=itemStats(it),R=RAR[it.r],col=it.set?SETS[it.s
     (it.lg?'<p class="ic-lg">'+LEGS[it.lg].desc+'</p>':'')+(it.set?setInfoHtml(it.set,state==='hero'||$('#itemPop')&&!$('#itemPop').hidden?heroSel:null):'');}
 function tileHtml(it,extra){return '<button class="itile r'+it.r+(it.set?' set set-'+it.set:'')+(extra||'')+'" data-u="'+it.u+'"><img alt="" src="'+itIcon(it)+'">'+(it.lv?'<em>+'+it.lv+'</em>':'')+(equippedBy(it.u)?'<i class="eqd"></i>':'')+'</button>';}
 
-// ----- Towers screen: the arsenal (towers taken into a run) and menu levels -----
+// ----- Towers screen: the arsenal (cards taken into a run) and the card collection -----
 let twPick=null;
-function twStars(L){return '<span class="tstars">'+[1,2,3,4,5].map(i=>'<i class="'+(i<=L?'on':'')+(i===3||i===5?' pk':'')+'"></i>').join('')+'</span>';}
-function twStats(k,L){const D=TOWERS[k];return [[_t('Poškození'),Math.round(D.dmg*(1+.15*(L-1))*10)/10],[_t('Dosah'),Math.round(D.range*(1+.04*(L-1)))],[_t('Zdraví'),Math.round(D.hp*(1+.12*(L-1)))],[_t('Útok'),_t('každé ')+cz(D.cd)+' s'],[_t('Cena v běhu'),D.cost+' '+_t('zl.')]];}
-function twLockText(k){const m=TW_UNL[k];return _t('Odemkneš výhrou na mapě ')+MAPS[m].name+'.';}
+const twTile=(c,extra)=>'<button class="ttile r'+c.r+(extra||'')+'" data-u="'+c.u+'"><img alt="" src="'+dataUrl(SPR.tower[c.k])+'">'+(c.lv?'<em>+'+c.lv+'</em>':'')+'</button>';
+function twStats(c){const D=TOWERS[c.k],S=twStat(c);return [[_t('Poškození'),cz(Math.round(D.dmg*S.dm*10)/10)],[_t('Dosah'),Math.round(D.range*S.rm)],[_t('Zdraví'),Math.round(D.hp*S.hm)],[_t('Útok'),_t('každé ')+cz(Math.round(D.cd*S.cdm*100)/100)+' s'],[_t('Cena v běhu'),Math.round(D.cost*S.cm)+' '+_t('zl.')]];}
+function twLockText(k){const m=TW_UNL[k];return m?_t('Odemkneš výhrou na mapě ')+MAPS[m].name+'.':'';}
+function twCardHtml(c){const R=RAR[c.r],I=TW_INFO[c.k],C=TOWERS[c.k].ch?CHAPTERS.find(x=>x.id===TOWERS[c.k].ch):null;
+  return '<div class="ic-head tic"><img alt="" src="'+dataUrl(SPR.tower[c.k])+'"><div><h3 style="color:'+R.col+'">'+twCardName(c)+'</h3><small>'+R.name+' · '+(C?_t('Kapitola ')+ROMAN_CH[C.i]:_t('Základní'))+'</small></div></div>'+
+    '<p class="tdesc">'+I[0]+'</p><ul class="ic-st">'+twStats(c).map(r=>'<li><span>'+r[0]+'</span><b>'+r[1]+'</b></li>').join('')+
+    Object.keys(c.b||{}).map(k=>'<li class="bon"><span>'+TW_BON[k].name+'</span><b>+'+cz(Math.round(c.b[k]*1000)/10)+' %</b></li>').join('')+'</ul>'+
+    '<div class="tperk"><p class="'+(c.r>=3?'on':'')+'"><i style="--rc:'+RAR[3].col+'">E</i><span>'+I[1]+'</span></p><p class="'+(c.r>=4?'on':'')+'"><i style="--rc:'+RAR[4].col+'">L</i><span>'+I[2]+'</span></p></div>';}
 function openTowers(){econInit();twPick=null;renderTowers();setState('towers');}
-function renderTowers(){twInit();$('#twMats').innerHTML=matsHtml();const d=save.tw.deck;
-  $('#twDeck').innerHTML=[0,1,2,3,4].map(i=>{const k=d[i]&&TOWERS[d[i]]&&twOpen(d[i])?d[i]:null,b=i===4;
-    return '<button class="tslot'+(b?' bld':'')+(twPick?' pick':'')+(k?'':' empty')+'" data-i="'+i+'">'+(k?'<img alt="" src="'+dataUrl(SPR.tower[k])+'"><b>'+TOWERS[k].name+'</b>'+twStars(twLv(k)):'<span class="plus">+</span>')+
+function renderTowers(){twInit();$('#twMats').innerHTML=matsHtml();const T=save.tw,d=T.deck;
+  $('#twDeck').innerHTML=[0,1,2,3,4].map(i=>{const c=twCard(d[i]),b=i===4;
+    return '<button class="tslot'+(b?' bld':'')+(twPick?' pick':'')+(c?' r'+c.r:' empty')+'" data-i="'+i+'">'+(c?'<img alt="" src="'+dataUrl(SPR.tower[c.k])+'"><b>'+TOWERS[c.k].name+'</b><small class="rr" style="color:'+RAR[c.r].col+'">'+RAR[c.r].name+(c.lv?' +'+c.lv:'')+'</small>':'<span class="plus">+</span>')+
       (b?'<small class="bt"><img alt="" src="'+dataUrl(SPR.hero.builder)+'">'+_t('jen Stavitel')+'</small>':'')+'</button>';}).join('');
-  $('#twHint').textContent=twPick?_t('Ťukni na místo, kam dáš věž ')+TOWERS[twPick].name+'.':_t('Do běhu si bereš 4 věže, Stavitel 5. Ťukni na věž dole a vylepši ji nebo ji dej do arzenálu.');
+  $('#twHint').textContent=twPick?_t('Ťukni na místo, kam dáš věž ')+TOWERS[twCard(twPick).k].name+'.':_t('Do běhu si bereš 4 věže, Stavitel 5. Nové věže a lepší rarity jsou ve Věžové truhle v Obchodu.');
   $('#twHint').classList.toggle('on',!!twPick);
-  $('#twGrid').innerHTML=T_IDS.map(k=>{const open=twOpen(k),inD=d.slice(0,5).includes(k),C=TOWERS[k].ch?CHAPTERS.find(c=>c.id===TOWERS[k].ch):null;
-      return '<button class="tcard'+(open?'':' lock')+(inD?' in':'')+'" data-k="'+k+'"><img alt="" src="'+dataUrl(SPR.tower[k])+'"><div><b>'+TOWERS[k].name+'</b><small>'+(C?_t('Kapitola ')+ROMAN_CH[C.i]:_t('Základní'))+'</small>'+(open?twStars(twLv(k)):'<small class="lk">'+twLockText(k)+'</small>')+'</div></button>';}).join('')+
-    TW_SOON.map(T=>'<div class="tcard lock soon"><div class="tsil"></div><div><b>'+T.name+'</b><small>'+_t('Kapitola ')+ROMAN_CH[CHAPTERS.find(c=>c.id===T.ch).i]+'</small><small class="lk">'+_t('Přijde s novými mapami kapitoly.')+'</small></div></div>').join('');
+  const cards=T.cards.slice().sort((a,b)=>T_IDS.indexOf(a.k)-T_IDS.indexOf(b.k)||(b.r-a.r)||(b.lv-a.lv));
+  $('#twCount').textContent=cards.length;
+  $('#twGrid').innerHTML=cards.map(c=>twTile(c,d.slice(0,5).includes(c.u)?' in':'')).join('');
+  const miss=T_IDS.filter(k=>!twOpen(k));
+  $('#twLocked').innerHTML=miss.map(k=>{const C=TOWERS[k].ch?CHAPTERS.find(x=>x.id===TOWERS[k].ch):null;return '<div class="tcard lock"><img alt="" src="'+dataUrl(SPR.tower[k])+'"><div><b>'+TOWERS[k].name+'</b><small>'+(C?_t('Kapitola ')+ROMAN_CH[C.i]:'')+'</small><small class="lk">'+(twLockText(k)||_t('Padá z Věžové truhly.'))+'</small></div></div>';}).join('')+
+    TW_SOON.map(S=>'<div class="tcard lock soon"><div class="tsil"></div><div><b>'+S.name+'</b><small>'+_t('Kapitola ')+ROMAN_CH[CHAPTERS.find(c=>c.id===S.ch).i]+'</small><small class="lk">'+_t('Přijde s novými mapami kapitoly.')+'</small></div></div>').join('');
   $('#twDeck').querySelectorAll('.tslot').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;
-    if(twPick){const j=d.indexOf(twPick);if(j>=0&&j<5){d[j]=d[i];}d[i]=twPick;save.tw.deck=d.map(x=>x||null);while(save.tw.deck.length&&!save.tw.deck[save.tw.deck.length-1])save.tw.deck.pop();twPick=null;persist();sfx('level');renderTowers();}
-    else if(d[i]&&TOWERS[d[i]])openTw(d[i]);else note(_t('Vyber dole věž a dej ji sem'));});
-  $('#twGrid').querySelectorAll('.tcard[data-k]').forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(!twOpen(k)){note(twLockText(k));return;}sfx('ui');openTw(k);});}
-function openTw(k){const pop=$('#twPop'),L=twLv(k),I=TW_INFO[k],c=L<TW_MAX?twCost(k,L):null,inD=save.tw.deck.slice(0,5).includes(k),ok=c&&save.coins>=c.gold&&MAT_IDS.every(m=>!c[m]||save.mats[m]>=c[m]);
-  pop.innerHTML='<div class="pop-card tpop" style="--tc:'+TW_FLAG[k]+'"><div class="ic-head"><img alt="" src="'+dataUrl(SPR.tower[k])+'"><div><h3>'+TOWERS[k].name+'</h3><small>'+_t('Úroveň ')+L+' / '+TW_MAX+'</small>'+twStars(L)+'</div></div>'+
-    '<p class="tdesc">'+I[0]+'</p><ul class="ic-st">'+twStats(k,L).map(r=>'<li><span>'+r[0]+'</span><b>'+r[1]+'</b></li>').join('')+'</ul>'+
-    '<div class="tperk"><p class="'+(L>=3?'on':'')+'"><i>3</i><span>'+I[1]+'</span></p><p class="'+(L>=5?'on':'')+'"><i>5</i><span>'+I[2]+'</span></p></div>'+
-    '<div class="pop-btns">'+(c?'<button class="btn sm" id="twUp"'+(ok?'':' disabled')+'>'+_t('Vylepšit na ')+(L+1)+' <span class="costs">'+costHtml(c,1)+'</span></button>'+missHint(c):'<p class="hint">'+_t('Věž má maximální úroveň.')+'</p>')+
-    '<button class="btn alt sm" id="twDeckBtn"'+(inD?' disabled':'')+'>'+(inD?_t('Je v arzenálu'):_t('Dát do arzenálu'))+'</button><button class="btn alt sm" id="twClose">'+_t('Zavřít')+'</button></div></div>';
+    if(twPick){const pk=twCard(twPick);for(let j=0;j<5;j++){const o=twCard(d[j]);if(j!==i&&o&&(o.u===twPick||o.k===pk.k))d[j]=j===d.indexOf(twPick)?d[i]:null;}d[i]=twPick;
+      while(d.length<5)d.push(null);T.deck=d.slice(0,5);twPick=null;persist();sfx('level');renderTowers();}
+    else if(twCard(d[i]))openTwCard(d[i]);else note(_t('Vyber dole věž a dej ji sem'));});
+  $('#twGrid').querySelectorAll('.ttile').forEach(b=>b.onclick=()=>{sfx('ui');openTwCard(b.dataset.u);});}
+// card detail: upgrade +1, put into the arsenal, merge 3 into the next rarity, dismantle
+function twMergeSet(c){return save.tw.cards.filter(x=>x.k===c.k&&x.r===c.r&&!save.tw.deck.slice(0,5).includes(x.u)).sort((a,b)=>(a.u===c.u?-1:b.u===c.u?1:a.lv-b.lv)).slice(0,3);}
+const twRefund=c=>{let g=0,m=0;for(let l=0;l<c.lv;l++){const k=twUpCost({k:c.k,r:c.r,lv:l});g+=k.gold;m+=k[twMat(c.k)];}return{gold:15*(c.r+1)*(c.r+1)+Math.floor(g/2),[twMat(c.k)]:3*(c.r+1)+Math.floor(m/2)};};
+function openTwCard(u){const c=twCard(u);if(!c)return;const pop=$('#twPop'),inD=save.tw.deck.slice(0,5).includes(u),up=c.lv<TW_UPMAX?twUpCost(c):null,ok=up&&save.coins>=up.gold&&MAT_IDS.every(m=>!up[m]||save.mats[m]>=up[m]);
+  const ms=c.r<4?twMergeSet(c):[],rf=twRefund(c);
+  pop.innerHTML='<div class="pop-card tpop r'+c.r+'">'+twCardHtml(c)+'<div class="pop-btns">'+
+    '<button class="btn sm" id="twDeckBtn"'+(inD?' disabled':'')+'>'+(inD?_t('Je v arzenálu'):_t('Dát do arzenálu'))+'</button>'+
+    (up?'<button class="btn alt sm" id="twUp"'+(ok?'':' disabled')+'>'+_t('Vylepšit +')+(c.lv+1)+' <span class="costs">'+costHtml(up,1)+'</span></button>'+missHint(up):'<p class="hint">'+_t('Maximální vylepšení.')+'</p>')+
+    (c.r<4?'<button class="btn alt sm" id="twMerge"'+(ms.length<3?' disabled':'')+'>'+_t('Sloučit 3× → ')+'<span style="color:'+RAR[c.r+1].col+'">'+RAR[c.r+1].name+'</span> ('+ms.length+'/3)</button>':'')+
+    (inD?'':'<button class="btn alt sm" id="twDel">'+_t('Rozebrat ')+'<span class="costs">'+costHtml(rf).replace(/ no/g,'')+'</span></button>')+
+    '<button class="btn alt sm" id="twClose">'+_t('Zavřít')+'</button></div></div>';
   pop.hidden=false;
-  const up=$('#twUp');if(up)up.onclick=()=>{const C=twCost(k,twLv(k));if(save.coins<C.gold||MAT_IDS.some(m=>C[m]&&save.mats[m]<C[m]))return;save.coins-=C.gold;for(const m of MAT_IDS)if(C[m])save.mats[m]-=C[m];
-    save.tw.lv[k]=twLv(k)+1;persist();sfx('level');note(TOWERS[k].name+_t(': úroveň ')+save.tw.lv[k]);openTw(k);renderTowers();};
-  $('#twDeckBtn').onclick=()=>{pop.hidden=true;twPick=k;sfx('ui');renderTowers();};
+  $('#twDeckBtn').onclick=()=>{pop.hidden=true;twPick=u;sfx('ui');renderTowers();};
+  const ub=$('#twUp');if(ub)ub.onclick=()=>{const C=twUpCost(c);if(save.coins<C.gold||MAT_IDS.some(m=>C[m]&&save.mats[m]<C[m]))return;save.coins-=C.gold;for(const m of MAT_IDS)if(C[m])save.mats[m]-=C[m];c.lv++;persist();sfx('level');openTwCard(u);renderTowers();};
+  const mb=$('#twMerge');if(mb)mb.onclick=()=>{const S=twMergeSet(c);if(S.length<3)return;pop.hidden=true;
+    startFuse(null,0,{title:_t('Sloučení věží!'),sub:'3× '+TOWERS[c.k].name+' → '+RAR[c.r+1].name,icon:dataUrl(SPR.tower[c.k]),done:(per,good)=>{
+      const back={gold:0};for(const x of S){const r2=twRefund(x);back.gold+=r2.gold-15*(x.r+1)*(x.r+1);}
+      save.tw.cards=save.tw.cards.filter(x=>!S.includes(x));const n=twRoll(c.k,c.r+1,Math.min(1,.35+per*.15+good*.06));save.tw.cards.push(n);save.coins+=back.gold;persist();
+      openTowers();revealItem(n,null,per===4?_t('Perfektní sloučení!'):_t('Sloučeno!'),{pop:$('#twPop'),done:()=>renderTowers()});}});};
+  const db=$('#twDel');if(db)db.onclick=()=>{if(save.tw.cards.filter(x=>x.k===c.k).length<=1&&T_BASE.includes(c.k)){note(_t('Poslední kartu základní věže si nech'));return;}
+    save.tw.cards=save.tw.cards.filter(x=>x!==c);save.coins+=rf.gold;const m=twMat(c.k);save.mats[m]=(save.mats[m]||0)+rf[m];persist();sfx('coin');pop.hidden=true;renderTowers();};
   $('#twClose').onclick=()=>{pop.hidden=true;sfx('ui');};
   pop.onclick=e=>{if(e.target===pop)pop.hidden=true;};}
+// Tower chest: a card of a tower type you have unlocked (base towers and chapter towers whose map you won); pity: Epic at the latest in 12
+const TW_CHEST={id:'tower',cost:400,odds:[50,32,13,4,1],pity:{r:3,n:12}};
+function openTowerChest(){if(save.coins<TW_CHEST.cost)return null;save.coins-=TW_CHEST.cost;twInit();
+  const pool=T_IDS.filter(k=>T_BASE.includes(k)||twMapWon(k)),k=pick(pool),r=rollRarity(TW_CHEST),c=twRoll(k,r);save.tw.cards.push(c);persist();return c;}
 
 // ----- Hero screen -----
 let heroSel='knight',invFilter=null;
@@ -4978,6 +5039,10 @@ function renderChests(){
     const b=document.createElement('button');b.className='btn sm';b.innerHTML='<span class="cost" style="color:inherit">'+C.cost+'</span>';b.disabled=save.coins<C.cost;
     b.onclick=()=>{const it=openChest(C.id);if(!it){note(save.inv.length>=INV_MAX?_t('Inventář je plný, rozeber nějaké předměty'):_t('Chybí ti zlato'));return;}sfx('coin');revealItem(it,C.id);renderChests();};
     c.appendChild(b);box.appendChild(c);}
+  {const C=TW_CHEST,c=document.createElement('div');c.className='card chest tw';
+    c.innerHTML='<img alt="" src="'+dataUrl(SPR.icon.chest_tower)+'"><div class="t"><h3>'+_t('Věžová truhla')+'</h3><small>'+_t('Karta věže pro tvůj arzenál.')+'</small><div class="odds">'+C.odds.map((o,i)=>o?'<span style="color:'+RAR[i].col+'">'+o+' %</span>':'').join('')+'</div><small class="pity">'+RAR[C.pity.r].name+_t(' nejpozději za ')+(C.pity.n-(save.pity.tower||0))+_t(' truhel</small>')+'</div>';
+    const b=document.createElement('button');b.className='btn sm';b.innerHTML='<span class="cost" style="color:inherit">'+C.cost+'</span>';b.disabled=save.coins<C.cost;
+    b.onclick=()=>{const c2=openTowerChest();if(!c2){note(_t('Chybí ti zlato'));return;}sfx('coin');revealItem(c2,'tower');renderChests();};c.appendChild(b);box.appendChild(c);}
   // forge: merge 3 of a kind into the next rarity, by a rhythm ritual
   const fb=$('#forgeList');fb.innerHTML='';
   for(let r=0;r<4;r++){const n=mergeCandidates(r).length,row=document.createElement('div');row.className='card chest';
@@ -5004,12 +5069,12 @@ function openMerge(r){const used=mergeUsed(r),back=mergeRefund(used),pop=$('#new
 // chest opening: the chest shakes and hops three times with the rarity glowing through the seam,
 // then the lid flies off in a burst of light and the item rises out of it; tap to skip
 function revealItem(it,chest,title,opts){const pop=(opts&&opts.pop)||$('#chestPop');if(!it)return;const R=RAR[it.r];
-  pop.innerHTML='<div class="rv"><canvas id="rvCv"></canvas><div class="rv-card pop-card r'+it.r+(it.set?' set set-'+it.set:'')+'"><h2 class="title" style="color:'+(it.set?SETS[it.set].col:R.col)+'">'+(title||(it.set?_t('Kus setu!'):R.name+'!'))+'</h2>'+itemCardHtml(it)+
+  pop.innerHTML='<div class="rv"><canvas id="rvCv"></canvas><div class="rv-card pop-card r'+it.r+(it.set?' set set-'+it.set:'')+(it.k?' tpop':'')+'"><h2 class="title" style="color:'+(it.set?SETS[it.set].col:R.col)+'">'+(title||(it.set?_t('Kus setu!'):R.name+'!'))+'</h2>'+(it.k?twCardHtml(it):itemCardHtml(it))+
     _t('<div class="pop-btns"><button class="btn sm" id="rvOk">Super</button></div></div><p class="rv-skip" id="rvSkip">Ťukni pro přeskočení</p></div>');
   pop.className='popwrap rvwrap';pop.hidden=false;
   if(!opts&&state!=='chests'){renderChests();setState('chests');}
   const cv=$('#rvCv'),dpr=Math.min(3,window.devicePixelRatio||1),W=260,H=240;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
-  const g=cv.getContext('2d'),spr=chest?SPR.icon['chest_'+chest]:null,isp=itemSpr(it.s,it.r,it.set),col=it.set?SETS[it.set].col:R.col,dk=R.dk;
+  const g=cv.getContext('2d'),spr=chest?SPR.icon['chest_'+chest]:null,isp=it.k?SPR.tower[it.k]:itemSpr(it.s,it.r,it.set),col=it.set?SETS[it.set].col:R.col,dk=R.dk;
   const T_OPEN=spr?1.55:0,parts=[];let t=0,last=performance.now(),opened=false,shown=false,hops=0,done=false;
   const card=pop.querySelector('.rv-card'),ease=x=>1-Math.pow(1-x,3);
   const burst=()=>{opened=true;sfx(it.r>=3?'win':it.r>=1?'level':'coin');try{navigator.vibrate&&navigator.vibrate(it.r>=3?[30,40,60]:25);}catch(e){}
@@ -5049,7 +5114,7 @@ function revealItem(it,chest,title,opts){const pop=(opts&&opts.pop)||$('#chestPo
     // the item rises out of the chest
     if(opened){const d=t-T_OPEN,f=ease(clamp(d/.7,0,1)),sz=(24+44*f)*(1+.06*Math.sin(t*5)*(d>.7)),iy=cy-12-f*84;
       const gr2=g.createRadialGradient(cx,iy,2,cx,iy,sz);gr2.addColorStop(0,'#ffffff');gr2.addColorStop(.35,col);gr2.addColorStop(1,'rgba(0,0,0,0)');g.globalAlpha=.55*f;g.fillStyle=gr2;g.fillRect(cx-sz,iy-sz,sz*2,sz*2);g.globalAlpha=1;
-      g.drawImage(isp.c,cx-sz/2,iy-sz/2,sz,sz);
+      {const aw=isp.w/isp.h;g.drawImage(isp.c,cx-sz*aw/2,iy-sz/2,sz*aw,sz);}
       if(d>.55&&!shown){shown=true;card.classList.add('show');$('#rvSkip').style.opacity=0;}}
     requestAnimationFrame(draw);};
   if(!spr){t=0;}requestAnimationFrame(draw);
@@ -5067,6 +5132,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('stick'),_t('Pohyb'),_t('Táhni prstem kamkoli po obrazovce. Hrdina útočí sám.')],
    [I('power'),_t('Úrovně'),_t('Sbírej krystaly z nepřátel. S každou úrovní vybereš novou zbraň nebo vylepšení.')],
    [I('music'),_t('Rytmus'),_t('Zbraně a věže střílí do rytmu hudby. Zabíjej bez zásahu a poroste ti kombo.')],
+   [I('coin'),_t('Kombo'),_t('Každých 25 komba dostaneš zlato a čím delší kombo, tím víc (až 60). Každých 100 padne i materiál.')],
    [I('vortex'),_t('Fúze'),_t('Dvě zbraně na úrovni 5 spojíš v silnou ultimátku. Při rituálu ťukej do rytmu.')],
    [I('tower'),_t('Věže'),_t('Za zlato z běhu stavíš věže tlačítky vpravo dole.')],
    [I('potion'),_t('Předměty na zemi'),_t('Lektvar léčí, magnet přitáhne krystaly, truhla dá vylepšení navíc.')],
@@ -5080,7 +5146,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
         return gdRow(I(F.id),hid?'???':WEAPONS[F.id].name,hid?_t('Tajný recept: oheň a led…'):WEAPONS[F.a].name+' + '+WEAPONS[F.b].name+_t(' (obě na úrovni 5)'));}).join('');}
   else if(tab==='towers'){
     h=T_IDS.map(k=>gdRow(dataUrl(SPR.tower[k]),TOWERS[k].name+' · '+TOWERS[k].cost+' '+_t('zl.'),TW_INFO[k][0]+(twOpen(k)?'':' '+twLockText(k)))).join('')+gdSec(_t('Jak na věže'))+[
-   [I('tower'),_t('Arzenál'),_t('Ve Vybavení na záložce Věže vybereš 4 věže, které si bereš do běhu, a vylepšíš je až na úroveň 5. Na úrovni 3 a 5 získají schopnost.')],
+   [I('tower'),_t('Arzenál'),_t('Ve Vybavení na záložce Věže dáš do arzenálu 4 karty věží. Karty mají raritu jako výbava, Epická a Legendární mají schopnost. Nové karty jsou ve Věžové truhle, 3 stejné se sloučí ve vzácnější.')],
    [I('coin'),_t('Stavění'),_t('Ťukni na věž vpravo dole a postaví se tam, kde stojíš.')],
    [I('power'),_t('Vylepšení věže'),_t('Stoupni si k věži a ťukni na Vylepšit. Maximum je úroveň 3.')],
    [I('heart'),_t('Oprava'),_t('Nepřátelé věže ničí. Plně vylepšenou věž opravíš stejným tlačítkem.')],
@@ -5504,7 +5570,8 @@ function coApplyMate(opt,mul){const pl=run.pls&&run.pls[1];if(!pl)return;clearTi
   if(opt)withPl(pl,()=>{if(opt.k==='fuse')fuseApply(opt.f,mul||1);else applyOptCore(opt);recalc();run.p.max=st.max;run.p.hp=Math.min(run.p.hp,run.p.max);});
   run.lv.guest=true;if(run.lv.host)afterOption();}
 NET.h.pause=o=>{if(!run||run.over)return;if(o.on&&state==='play')togglePause(false,true);else if(!o.on&&state==='pause')togglePause(false,true);};
-NET.h.build=o=>{if(!run||!run.pls||!TOWERS[o.k])return;CO.ctxMate=true;try{withPl(run.pls[1],()=>buildTower(o.k,Math.max(1,Math.min(TW_MAX,o.ml|0))));}finally{CO.ctxMate=false;}};
+NET.h.build=o=>{if(!run||!run.pls||!TOWERS[o.k])return;const q=o.ts||{},cl=(v,a,b)=>clamp(+v||1,a,b),ts={dm:cl(q.dm,1,3),hm:cl(q.hm,1,3),rm:cl(q.rm,1,1.2),cdm:cl(q.cdm,.8,1),cm:cl(q.cm,.75,1),p3:!!q.p3,p5:!!q.p5};
+  CO.ctxMate=true;try{withPl(run.pls[1],()=>buildTower(o.k,ts));}finally{CO.ctxMate=false;}};
 NET.h.upg=()=>{if(!run||!run.pls)return;const q=run.pls[1].p;let nt=null,nd=26;for(const t of run.towers){const d=Math.hypot(t.x-q.x,t.y-q.y);if(d<nd){nd=d;nt=t;}}
   if(!nt)return;const sv=run.nearTower;run.nearTower=nt;CO.ctxMate=true;try{withPl(run.pls[1],()=>upgradeTower());}finally{CO.ctxMate=false;run.nearTower=sv;}};
 NET.h.rep=()=>{if(!run||!run.pls||!run.crystal)return;const q=run.pls[1].p,c=run.crystal;if(Math.hypot(c.x-q.x,c.y-q.y)>=30)return;
@@ -5558,7 +5625,7 @@ function guestStartRun(o){
     W:{},P:{},enemies:[],shots:[],eshots:[],gems:[],items:[],fx:[],parts:[],nums:[],amb:[],combo:0,comboT:0,hitstop:0,flashScr:0,boss:null,shake:0,over:false,won:false,
     cam:{x:0,y:0},lastHud:{},mate:{isMate:true,heroId:o.hh,x:map.size/2,y:map.size/2,hp:1,max:1,face:{x:0,y:1},moving:false,down:false,rev:0,inv:0,flash:0},mateW:{},
     eMap:new Map(),sMap:new Map(),gst:[58,120],crystal:map.crystal?{isCrystal:true,x:map.size/2,y:map.size/2,hp:1300,max:1300,r:9,flash:0,spr:SPR.misc.crystal}:null};
-  run.deck=runDeck(!!(hero&&hero.builder));buildBarInit();
+  run.deck=runDeck(!!(hero&&hero.builder));run.tws=runTwStats(!!(hero&&hero.builder));buildBarInit();
   {const B=heroBonus(o.gh);st={speed:58,mag:30,dmg:1,cdMul:1,armor:0,regen:0,max:120,xpMul:1,crit:.1,gold:B.gold,lg:B.lg,tal:B.tal,tcost:B.tcost,tmax:B.tmax,thp:B.thp};}
   $('#icoMat').src=matIcon(MAT_OF[o.map]);$('#hudMat').hidden=false;
   $('#bossbar').hidden=true;$('#crbar').hidden=!run.crystal;$('#repBtn').hidden=true;
@@ -5673,6 +5740,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07t',d:'7. 11. 2026',t:_t('Karty věží a větší odměny za kombo'),items:[_t('Věže jsou teď <b>karty s raritou</b> jako výbava: Běžná až Legendární. Vyšší rarita je silnější a má náhodné bonusy (dosah, rychlost, levnější stavba…). Epická a Legendární mají schopnost.'),_t('Nová <b>Věžová truhla</b> v Obchodu. Karty se vylepšují +1 až +10, 3 stejné karty se rituálem sloučí do vyšší rarity a nechtěné rozebereš. Tvoje dosavadní úrovně věží se převedly na raritu.'),_t('Zlato za <b>kombo</b> roste: každých 25 komba víc (až 60 zlata) a každých 100 padne i materiál.')]},
  {v:'2026-11-07s',d:'7. 11. 2026',t:_t('Léčivá Oáza a noví hrdinové na obzoru'),items:[_t('Nová věž <b>Oáza</b> z kapitoly II: posílá na tebe léčivý paprsek a co jím projde, dostane poškození. Odemkne se po poražení Brány slunce.'),_t('V Přípravě uvidíš 4 budoucí hrdiny: <b>Kovářku, Šamanku mrazu, Námořnici a Hvězdářku</b>. Přijdou s novými kapitolami a každá přinese vlastní zbraň (Roztavené kladivo, Krápníky, Kotva na řetězu, Souhvězdí).')]},
  {v:'2026-11-07r',d:'7. 11. 2026',t:_t('Arzenál věží'),items:[_t('Tlačítko <b>Hrdina</b> se jmenuje <b>Vybavení</b> a má novou záložku <b>Věže</b>.'),_t('Vybereš si <b>arzenál</b>: 4 věže, které si bereš do běhu (Stavitel 5). Každou věž vylepšíš za zlato a materiál až na úroveň 5. Na úrovni 3 a 5 získá schopnost, třeba dva šípy naráz nebo zmrazení.'),_t('<b>4 nové věže</b> z kapitol: Kostěná krypta (vyvolává kostlivce) a Zvon (rázová vlna) z kapitoly I, Obelisk (otáčivý paprsek) a Písečný vír (stahuje a zpomaluje) z kapitoly II. Odemkneš je výhrou na 2. a 4. mapě kapitoly.')]},
  {v:'2026-11-07q',d:'7. 11. 2026',t:_t('Rychlejší rozhodování'),items:[_t('Na výběr vylepšení máš <b>10 sekund</b>, ukazuje je zlatý proužek. Když nevybereš, vybere se karta sama. V prvním běhu a v co-opu limit není.')]},
