@@ -5,11 +5,12 @@ let html=fs.readFileSync(__dirname+'/off.html','utf8').replace('window.__krypta=
 fs.writeFileSync(__dirname+'/_mock.html',html);
 const CSS=`
 #mock{position:absolute;inset:0;display:flex;flex-direction:column;z-index:30;pointer-events:none;color:var(--fg)}
-#mock .top{display:flex;align-items:center;gap:8px;padding:calc(8px + var(--sat,0px)) 10px 8px;background:linear-gradient(#0c0912ee,#130f1cd8);box-shadow:0 3px 0 #0c0912,0 4px 0 #4b3a6b55}
+#mock .top{display:flex;align-items:center;gap:8px;padding:calc(8px + var(--sat,0px)) 10px 18px;background:linear-gradient(#0c0912d0,#0c091290 55%,#0c091200)}
+#mock .who b,#mock .who small{text-shadow:0 2px 0 #000c}
 #mock .who{display:flex;flex-direction:column;line-height:1.1;min-width:0;flex:1}
 #mock .who b,#mock .who small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#mock .who b{font-size:14px}#mock .who small{font-size:11px;color:var(--gold);letter-spacing:.03em}
-#mock .cur{display:flex;gap:6px;font-size:13px;font-weight:700;white-space:nowrap;padding:4px 8px;clip-path:var(--px);background:#0c0912b0;box-shadow:inset 0 0 0 2px #4b3a6b}
-#mock .cur span{display:flex;align-items:center;gap:3px}#mock .cur img{width:16px;height:16px;image-rendering:pixelated}
+#mock .cur{display:flex;gap:10px;margin-right:auto;font-size:13px;font-weight:700;white-space:nowrap;padding:4px 8px;clip-path:var(--px);background:#0c0912b0;box-shadow:inset 0 0 0 2px #4b3a6b}
+#mock .cur span{display:flex;align-items:center;gap:3px}#mock .cur img{width:18px;height:18px;image-rendering:pixelated}
 #mock .ib{position:relative;width:34px;height:34px;display:grid;place-items:center;clip-path:var(--px);
   background:linear-gradient(#3a2f56,#251d38);box-shadow:inset 0 2px 0 #ffffff26,inset 0 -3px 0 #0c0912,inset 0 0 0 2px #4b3a6b}
 #mock .ib img{width:22px;height:22px;image-rendering:pixelated}
@@ -61,7 +62,7 @@ const CSS=`
   background:linear-gradient(#433660,#2b2240);box-shadow:inset 0 3px 0 #ffffff2a,inset 0 -6px 0 #0c0912,inset 0 0 0 3px #5a4880;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 #mock .stone .two{display:flex}#mock .stone img{width:24px;height:24px;image-rendering:pixelated;margin:0 -3px}
 #mock .stw{filter:drop-shadow(0 6px 0 #0c0912)}
-#mock .dock{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:10px 8px calc(12px + var(--sab,0px));background:linear-gradient(#211a30f2,#130f1cf8);
+#mock .dock{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:10px 8px max(12px,calc(var(--sab,0px) - 4px));background:linear-gradient(#211a30f2,#130f1cf8);
   box-shadow:0 -3px 0 #0c0912,0 -6px 0 #a97a1466;position:relative}
 #mock .dk{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
 #mock .sock{position:relative;width:52px;height:46px;display:grid;place-items:center;clip-path:var(--px);background:linear-gradient(#2d2342,#1a1426);
@@ -92,19 +93,20 @@ const CSS=`
   document.querySelector('#scr-menu .wrap').style.visibility='hidden';
   let m=document.getElementById('mock');if(m)m.remove();m=document.createElement('div');m.id='mock';
   const I=k=>D(S.icon[k]);for(const id of ['hrbitov','poust','doly'])if(!K.mapsBuilt[id])K.buildMap(id);const TH={};for(const id of ['hrbitov','poust','doly'])TH[id]=K.mapThumb(id).toDataURL();
-  m.innerHTML=`<div class="top"><div class="who"><b>FastFapper</b><small>Dobyvatel krypty</small></div>
+  m.innerHTML=`<div class="top">
    <div class="cur"><span><img src="${I('coin')}">1240</span><span><img src="${I('bone')}">36</span><span><img src="${I('amber')}">12</span><span><img src="${I('magma')}">4</span></div>
    <div class="ib"><img src="${D(bell)}"><i class="dot"></i></div><div class="ib"><img src="${I('book')}"></div><div class="ib"><img src="${D(gear)}"></div></div>
-  <div class="mid"><div class="gap" style="flex:.6"></div><h1 class="logo">PIXEL<br>KRYPTA</h1><div class="gap" style="flex:.4"></div>
+  <div class="mid"><div class="gap" style="flex:.55"></div><h1 class="logo">PIXEL<br>KRYPTA</h1><div class="gap" style="flex:.45"></div>
    <div class="stage"><div class="glow"></div><img class="hero" src="${D(S.hero.knight)}"><div class="ped"></div></div>
    <div class="plate"><span class="arr">‹</span><span class="nm">Rytíř<small>úr. 7</small></span><span class="arr">›</span></div>
    <div class="parade2">${["slime","skeleton","bat","zombie","ghost"].map((e,k)=>`<img style="animation-delay:-${k*.3}s" src="${D(S.enemy[e])}">`).join("")}</div>
-   <p class="tag">Přežij vlny nepřátel, posiluj se a poraz bosse.</p><div class="gap"></div>
+   <p class="tag">Přežij vlny nepřátel, posiluj se a poraz bosse.</p><div class="gap" style="flex:.55"></div>
    <div class="daily"><img src="${I('candle')}"><span><b>Denní výzva</b> · Prašná poušť</span><em>Hrát ›</em></div><div class="play"><div class="sw" style="flex:1;display:flex"><div class="gold"><i></i><img src="${I('blade')}">HRÁT<i></i></div></div>
     <div class="stw"><div class="stone"><span class="two"><img src="${D(S.hero.knight)}"><img src="${D(S.hero.mage)}"></span>Ve dvou</div></div></div></div>
   <div class="dock"><div class="dk"><span class="sock"><img src="${D(S.hero.knight)}"></span>Hrdina</div><div class="dk"><span class="sock"><img src="${I('chest_gold')}"></span>Obchod</div>
    <div class="dk"><span class="sock"><img src="${I('scroll')}"><i class="dot"></i></span>Nástěnka</div><div class="dk"><span class="sock"><img src="${I('trophy')}"></span>Síň slávy</div></div>`
   +(sheet?`<div class="sheetbg"><div class="sheet"><h3><img src="${D(gear)}">Nastavení</h3>
+   <div class="sr"><img src="${D(S.hero.knight)}">FastFapper<small style="color:var(--gold);font-size:12px;margin-left:2px">Dobyvatel krypty</small><span class="v">Změnit ›</span></div>
    <div class="sr"><img src="${I('sound')}">Zvuk<span class="tg on"><i></i></span></div>
    <div class="sr"><img src="${I('music')}">Hudba<span class="tg on"><i></i></span></div>
    <div class="sr"><img src="${I('stick')}">Ovládání<span class="v">V místě dotyku ›</span></div>
@@ -114,6 +116,8 @@ const CSS=`
   document.getElementById('scr-menu').appendChild(m);
   if(IP){const R=document.documentElement.style;R.setProperty('--sat','59px');R.setProperty('--sab','34px');
    if(!document.getElementById('isl')){const d=document.createElement('div');d.id='isl';d.style.cssText='position:fixed;z-index:99;left:50%;top:11px;width:126px;height:37px;margin-left:-63px;border-radius:20px;background:#000';document.body.appendChild(d);
+   const sb=document.createElement('div');sb.style.cssText='position:fixed;z-index:99;left:0;right:0;top:0;height:54px;display:flex;align-items:center;justify-content:space-between;padding:4px 34px 0 52px;font:600 17px -apple-system,system-ui,sans-serif;color:#fff';
+   sb.innerHTML='<span>9:41</span><span style="display:flex;gap:6px;align-items:center"><i style="display:inline-block;width:18px;height:11px;background:linear-gradient(90deg,#fff 0 3px,transparent 3px 5px,#fff 5px 8px,transparent 8px 10px,#fff 10px 13px,transparent 13px 15px,#fff 15px)"></i><i style="display:inline-block;width:16px;height:11px;border-radius:8px 8px 2px 2px;background:#fff"></i><i style="display:inline-block;width:25px;height:12px;border:2px solid #ffffffaa;border-radius:4px;box-shadow:inset 0 0 0 1px #000,inset 17px 0 0 #fff"></i></span>';document.body.appendChild(sb);
    const h=document.createElement('div');h.style.cssText='position:fixed;z-index:99;left:50%;bottom:8px;width:134px;height:5px;margin-left:-67px;border-radius:3px;background:#fff';document.body.appendChild(h);}}},[CSS,sheet,IP]);
  await p.waitForTimeout(400);await p.screenshot({path:pre+'_'+sheet+'.png'});}
  console.log(errs);await b.close();fs.unlinkSync(__dirname+'/_mock.html');})();
