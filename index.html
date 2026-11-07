@@ -112,6 +112,13 @@ button{font-family:inherit}
   clip-path:polygon(0 8px,8px 8px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 8px,100% 8px,100% 100%,0 100%);box-shadow:inset 0 3px 0 var(--gold-dk),inset 0 6px 0 #0c0912;
   transform:translateY(102%);transition:transform .26s cubic-bezier(.4,0,.6,1);will-change:transform}
 .sheetwrap.open .sheet{transform:none;transition:transform .32s cubic-bezier(.16,1,.3,1)}
+.fbk{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.fbk button{min-width:0;font-size:13px;padding:8px 2px}
+.fbs{display:flex;align-items:center;justify-content:space-between;gap:8px}.fbs small{color:var(--muted)}
+.fbs .st{display:flex;gap:2px}.fbs .st button{font:inherit;font-size:24px;line-height:1;width:34px;height:34px;padding:0;border:0;background:none;color:#4a3e5a;cursor:pointer;text-shadow:0 2px 0 #0008;transition:transform .12s ease,color .12s ease}
+.fbs .st button.on{color:var(--gold)}.fbs .st button:active{transform:scale(.88)}
+#fbText{width:100%;min-height:118px;resize:none;font:inherit;font-size:16px;line-height:1.35;color:var(--fg);background:#0c0912;border:0;box-shadow:inset 0 0 0 3px var(--line);padding:10px 12px;outline:0}
+#fbText:focus{box-shadow:inset 0 0 0 3px var(--gold)}
+.fbmeta{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}.fbmeta .rw{display:inline-flex;align-items:center;gap:4px;color:var(--gold);font-weight:700}.fbmeta .rw img{width:14px;height:14px;image-rendering:pixelated}
 .sheet .head{margin:0}.sheet .langsw button{font-size:14px;padding:8px}
 /* section tabs (Obchod: Truhly | Vylepšení, Síň slávy: Žebříček | Mistrovství | Sbírka) */
 .tabs.sectabs{display:flex;flex-wrap:nowrap;gap:0;box-shadow:inset 0 -3px 0 var(--line);margin-top:-4px}
@@ -461,6 +468,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <button class="btn alt sm" id="mNick" hidden></button>
       <div class="row3"><button class="btn alt sm" id="mSound">Zvuk</button><button class="btn alt sm" id="mMusic">Hudba</button><button class="btn alt sm" id="mStick">Ovládání</button></div>
       <div class="tabs langsw" id="mLang"><button data-l="cs">Čeština</button><button data-l="en">English</button></div>
+      <button class="btn alt sm" id="mFb">Napsat názor na hru</button>
       <button class="btn alt sm" id="mInstall" hidden>Přidat hru na plochu</button>
       <button class="btn alt sm" id="mCheat" hidden>Testovací režim: vyp</button>
       <button class="btn alt sm" id="mGold" hidden>+1000 zlata</button>
@@ -705,8 +713,8 @@ const STICK_MODES=['touch','fixed','follow'],STICK_TXT={touch:_t('pevný v míst
 let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false,stick:'touch'};
 function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
-const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin'];
+  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
+const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb'];
 function persist(){save.updated=Date.now();try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
 
@@ -2571,7 +2579,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07h';
+const GAME_VER='2026-11-07i';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3921,6 +3929,7 @@ function money(){return save.coins;}
 function setSheet(on){const sp=$('#setPop');if(!sp)return;sp.classList.toggle('open',!!on);if(on)sp.removeAttribute('inert');else sp.setAttribute('inert','');}
 function refreshSettings(){setLbl('#mSound',_t('Zvuk'),!save.sound);setLbl('#mMusic',_t('Hudba'),!save.music);stickLabels();
   {const I=fitApp.info||{};$('#mVer').textContent=_t('verze ')+GAME_VER;$('#mVer').title=(I.sa?_t('aplikace'):_t('prohlížeč'))+' '+(I.ih||0)+'/'+(I.sh||0)+'/'+(I.h||0);}
+  setLbl('#mFb',fbRewardToday()?_t('Napsat názor · +60 zlata'):_t('Napsat názor na hru'));
   $('#mInstall').hidden=!pwaCan();$('#mNick').hidden=!ON.ready;$('#mNick').textContent=_t('Hráč: ')+(save.nick||_t('bez přezdívky'))+(titleOf(save)?' · '+titleOf(save):'')+_t(' · změnit');
   $('#mCheat').hidden=!isDev();$('#mCheat').textContent=_t('Testovací režim: ')+onOff(save.cheat);$('#mGold').hidden=!save.cheat;}
 function refreshMenu(){
@@ -4074,7 +4083,7 @@ function bindUi(){
     const w=document.createElement('span');w.className='bi';for(const s of srcs){const i=document.createElement('img');i.alt='';i.src=s;w.appendChild(i);}b.insertBefore(w,lbl);};
   ico('#mPlay',[dataUrl(SPR.icon.blade)]);ico('#mCoop',[dataUrl(SPR.hero.knight),dataUrl(SPR.hero.mage)]);ico('#mHero',[dataUrl(SPR.hero.knight)]);
   ico('#mChest',[dataUrl(SPR.icon.chest_gold)]);ico('#mBoard',[dataUrl(SPR.icon.trophy)]);ico('#mQuest',[dataUrl(SPR.icon.scroll)]);ico('#ovShare',[dataUrl(SPR.icon.share)]);$('#icNews').src=dataUrl(SPR.icon.bell);$('#icGuide').src=dataUrl(SPR.icon.book);$('#icSet').src=dataUrl(SPR.icon.gear);ico('#mInstall',[dataUrl(SPR.icon.phone)]);
-  ico('#mSound',[dataUrl(SPR.icon.sound)]);ico('#mMusic',[dataUrl(SPR.icon.music)]);ico('#mStick',[dataUrl(SPR.icon.stick)]);
+  ico('#mSound',[dataUrl(SPR.icon.sound)]);ico('#mMusic',[dataUrl(SPR.icon.music)]);ico('#mStick',[dataUrl(SPR.icon.stick)]);ico('#mFb',[dataUrl(SPR.icon.scroll)]);
   $('#crest').src=dataUrl(SPR.icon.skull);
   pic('#icoCoin',SPR.icon.coin);pic('#icoSkull',SPR.icon.skull);
   const par=$('#parade');[SPR.hero.knight,SPR.enemy.slime,SPR.enemy.skeleton,SPR.enemy.bat,SPR.enemy.zombie,SPR.enemy.ghost].forEach(sp=>{const i=document.createElement('img');i.alt='';i.src=dataUrl(sp);par.appendChild(i);});
@@ -4091,6 +4100,7 @@ function bindUi(){
   document.querySelectorAll('.sectabs button').forEach(b=>b.onclick=()=>{if(b.classList.contains('on'))return;audioInit();sfx('ui');SEC_OPEN[b.dataset.to]();});
   $('#mSet').onclick=()=>{audioInit();sfx('ui');setSheet(true);requestAnimationFrame(()=>setTimeout(refreshSettings,0));};
   $('#setClose').onclick=()=>{sfx('ui');setSheet(false);};
+  $('#mFb').onclick=()=>{audioInit();sfx('ui');openFeedback();};
   $('#setPop').onclick=e=>{if(e.target.id==='setPop'){sfx('ui');setSheet(false);}};
   $('#mSound').onclick=()=>{audioInit();save.sound=!save.sound;persist();setBuses();refreshMenu();sfx('ui');};
   {const mb=$('#mMusic');let lpT=0,lpDone=false;
@@ -4643,6 +4653,7 @@ const ACH=[
  {id:'heroes',ic:'shield',name:_t('Všestranný'),desc:_t('Vyhraj s každým hrdinou.'),title:_t('Všestranný'),n:0,v:S=>HERO_IDS.filter(h=>S.hw[h]).length,g:500},
  {id:'lvl20',ic:'heart',name:_t('Mistr'),desc:_t('Vylepši hrdinu na úroveň 20.'),title:_t('Mistr'),n:20,v:()=>Math.max(...HERO_IDS.map(heroLv)),g:800},
  {id:'legend',ic:'chest_gold',name:_t('Pokladník'),desc:_t('Získej legendární předmět.'),title:_t('Pokladník'),n:1,v:()=>Object.keys((save.codex&&save.codex.l)||{}).length,g:200},
+ {id:'fb',ic:'scroll',name:_t('Rádce'),desc:_t('Pošli názor na hru ve 3 různých dnech.'),title:_t('Rádce'),n:3,v:()=>(save.fb&&save.fb.n)||0,g:150},
  {id:'want',ic:'scroll',name:_t('Lovec odměn'),desc:_t('Dopadni 10 hledaných.'),title:_t('Lovec odměn'),n:10,v:S=>S.tot.want,g:300},
  {id:'daily',ic:'candle',name:_t('Vytrvalec'),desc:_t('Splň 7 denních výzev.'),title:_t('Vytrvalec'),n:7,v:S=>S.tot.dc,g:300},
  {id:'cart',ic:'magma',name:_t('Výpravčí'),desc:_t('Rozjeď vozíkem 200 nepřátel v Lávových dolech.'),title:_t('Výpravčí'),n:200,v:S=>S.tot.cart,g:200},
@@ -5173,6 +5184,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07i',d:'7. 11. 2026',t:_t('Napiš mi svůj názor'),items:[_t('V <b>Nastavení</b> je nové tlačítko <b>Napsat názor na hru</b>. Napiš, co tě baví, co ne, co nefunguje nebo co bys přidal. Všechno si přečtu.'),_t('Jednou denně za názor dostaneš <b>60 zlata a svíčku</b> na Nástěnku. Kdo pošle názor ve 3 různých dnech, získá v Mistrovství titul <b>Rádce</b>.')]},
  {v:'2026-11-07h',d:'7. 11. 2026',t:_t('Plynulejší menu'),items:[_t('<b>Nastavení</b> se plynule vysouvá a zase zasouvá, okna a obrazovky měkce najedou.'),_t('Výběr mapy už nezamrzá: náhledy map jsou připravené předem a pozadí menu se kvůli výběru nepřestavuje.')]},
  {v:'2026-11-07g',d:'7. 11. 2026',t:_t('Kampaň: dvě kapitoly a 8 nových map'),items:[_t('Mapy jsou teď v <b>kapitolách</b> po pěti. Každá kapitola má jedno téma a jeden materiál, pátá mapa je <b>finále</b> se speciálním bossem.'),
    _t('<b>Kapitola I · Říše mrtvých:</b> Utopené hroby (bažina a mlha), Kostnice (tma, pochodně zapaluješ dotykem), Zvonice (stůj u zvonu, když udeří) a finále Trůn kostí s Morvanem.'),
@@ -5219,6 +5231,41 @@ const NEWS=[
  {v:'2026-11-06a',d:'6. 11. 2026',t:_t('Nástěnka'),items:[_t('Denní úkoly, svíčky s odměnami a hledaní elitní nepřátelé na plakátech.')]}
 ];
 const newsUnseen=()=>NEWS.filter(n=>!save.newsSeen||n.v>save.newsSeen);
+/* ----- feedback: players write what they think; it goes to Supabase (insert only), a small daily reward ----- */
+const FB_KINDS=[['napad',_t('Nápad')],['chyba',_t('Chyba')],['balanc',_t('Obtížnost')],['jine',_t('Jiné')]],FB_MIN=15,FB_MAX=800,FB_GOLD=60,FB_DRAFT='pixel-krypta-fb';
+const fbRewardToday=()=>!(save.fb&&save.fb.d===today());
+function openFeedback(){const pop=$('#newsPop');const F={kind:'napad',rate:0,text:''};try{const d=JSON.parse(localStorage.getItem(FB_DRAFT)||'null');if(d){Object.assign(F,d);}}catch(_){}
+  const coin='<img alt="" src="'+dataUrl(SPR.icon.coin)+'">',rw=fbRewardToday();
+  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Tvůj názor')+'</h2>'+
+    '<small>'+_t('Co tě baví, co ne, co bys přidal nebo co nefunguje? Čte to vývojář a podle toho hru ladí.')+'</small>'+
+    '<div class="tabs fbk" id="fbKind">'+FB_KINDS.map(k=>'<button data-k="'+k[0]+'">'+k[1]+'</button>').join('')+'</div>'+
+    '<div class="fbs"><small>'+_t('Jak tě hra baví?')+'</small><div class="st" id="fbStars">'+[1,2,3,4,5].map(i=>'<button data-r="'+i+'" aria-label="'+i+'">★</button>').join('')+'</div></div>'+
+    '<textarea id="fbText" maxlength="'+FB_MAX+'" placeholder="'+_t('Napiš sem…')+'"></textarea>'+
+    '<div class="fbmeta"><span class="rw">'+(rw?coin+'+'+FB_GOLD+_t(' zlata a svíčka · 1× denně'):_t('Dnešní odměnu už máš, zítra zase'))+'</span><span id="fbLen"></span></div>'+
+    '<p class="hint" id="fbMsg" hidden></p>'+
+    '<div class="pop-btns"><button class="btn" id="fbSend">'+_t('Odeslat')+'</button><button class="btn alt sm" id="fbBack">'+_t('Zpět')+'</button></div></div>';
+  pop.hidden=false;const ta=$('#fbText');ta.value=F.text||'';
+  const save0=()=>{try{localStorage.setItem(FB_DRAFT,JSON.stringify({kind:F.kind,rate:F.rate,text:ta.value}));}catch(_){}};
+  const upd=()=>{F.text=ta.value;const n=ta.value.trim().length;$('#fbLen').textContent=n+' / '+FB_MAX;$('#fbSend').disabled=n<FB_MIN;
+    pop.querySelectorAll('#fbKind button').forEach(b=>b.classList.toggle('on',b.dataset.k===F.kind));pop.querySelectorAll('#fbStars button').forEach(b=>b.classList.toggle('on',+b.dataset.r<=F.rate));};
+  pop.querySelectorAll('#fbKind button').forEach(b=>b.onclick=()=>{F.kind=b.dataset.k;sfx('ui');upd();save0();});
+  pop.querySelectorAll('#fbStars button').forEach(b=>b.onclick=()=>{F.rate=+b.dataset.r;sfx('ui');upd();save0();});
+  ta.oninput=()=>{upd();save0();};upd();
+  const msg=t=>{const m=$('#fbMsg');m.textContent=t;m.hidden=!t;};
+  $('#fbBack').onclick=()=>{sfx('ui');save0();pop.hidden=true;};
+  $('#fbSend').onclick=async()=>{const text=ta.value.trim();if(text.length<FB_MIN){msg(_t('Napiš aspoň pár slov.'));return;}
+    if(!ON.ready||!ON.sb||!ON.me){msg(_t('Teď nejsi připojený k serveru. Text zůstane uložený, zkus to později.'));save0();return;}
+    const b=$('#fbSend');b.disabled=true;b.textContent=_t('Odesílám…');
+    const ctx={ua:(navigator.userAgent||'').slice(0,160),app:!!(fitApp.info&&fitApp.info.sa),runs:(save.stats&&save.stats.runs)||0,cleared:Object.keys(save.cleared||{}).filter(k=>MAPS[k]).length,
+      last:save.lastMap||null,hlv:Math.max(1,...HERO_IDS.map(heroLv)),coop:!!save.coopPlayed,state:state};
+    try{const {error}=await ON.sb.from('feedback').insert({uid:ON.me.id,nick:save.nick||null,kind:F.kind,rating:F.rate||null,msg:text.slice(0,FB_MAX),ver:GAME_VER,lang:LANG,ctx});
+      if(error)throw error;
+      try{localStorage.removeItem(FB_DRAFT);}catch(_){}
+      let got='';if(fbRewardToday()){save.coins+=FB_GOLD;try{qEnsure();qAddCandles(1);}catch(_){}save.fb={d:today(),n:((save.fb&&save.fb.n)||0)+1};persist();got=' +'+FB_GOLD+_t(' zlata a svíčka');}
+      sfx(got?'coin':'level');pop.hidden=true;note(_t('Díky za názor!')+got,3000);refreshMenu();refreshSettings();}
+    catch(e){const t=errText(e);b.disabled=false;b.textContent=_t('Odeslat');save0();
+      msg(/feedback_limit/.test(t)?_t('Dnes už jsi poslal dost zpráv, díky! Další pošli zítra.'):/relation|does not exist|schema cache/i.test(t)?_t('Zpětná vazba se zatím nedá odeslat. Text zůstane uložený.'):_t('Nepodařilo se odeslat: ')+t);}};
+}
 function openNews(all){const list=all?NEWS:newsUnseen().slice(0,3);if(!list.length)return;const pop=$('#newsPop');
   pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font-size:28px">Novinky</h2><div class="nl">')+list.map(n=>'<div><h3>'+n.t+'</h3><small>'+n.d+'</small><ul>'+n.items.map(i=>'<li>'+i+'</li>').join('')+'</ul></div>').join('')+
     _t('</div><button class="btn" id="newsOk">Jdu hrát!</button></div>');
