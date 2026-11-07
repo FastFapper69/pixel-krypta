@@ -104,6 +104,8 @@ Klíčové koncepty:
 
 - **Limit výběru (07q):** `LU_TIME`=10 s v `openLevelUp` (`run.luT`, ne v prvním běhu/tutoriálu ani v co-opu), `luTick(dt)` v `tick`, proužek `#luTime` (`.hot` posledních 3 s + tikání), po vypršení náhodná karta mimo fúzi (`.auto`).
 
+- **Arzenál věží (07r):** menu `#mHero` = **Vybavení** se záložkami Hrdina | Věže (`.sectabs data-sec="gear"`, stav `towers`, `#scr-towers`, `openTowers`/`renderTowers`/`openTw`). `save.tw={lv:{věž:1–5},deck:[až 5]}` (`twInit`, synchronizuje se), `runDeck(builder)` = 4 věže (Stavitel 5) jen odemčené → `run.deck`, `buildBarInit()` se volá při startu běhu (i guest). Úroveň z menu `t.ml` (poškození +15 %, zdraví +12 %, dosah +4 % za úroveň, `twM`), schopnosti na 3/5 v `towerFire` (`p3`/`p5`, popisy `TW_INFO`). Cena `twCost` (zlato 150/350/700/1200 + materiál kapitoly věže 12/30/60/100, základní věže Kostní prach). Nové věže `crypt` (kostlivci `allySpawn` s `a.tw`/`a.dm`, drží se u věže), `bell` (odhození, `shock`), `obelisk` (otáčivý `sunray`), `sandpit` (stahuje, `slowT`); odemčení `TW_UNL` (bazina, zvonice, kanon, hrobka), `TW_SOON` = Výheň a Parní beran (jen karta). Co-op: guest posílá `ml` ve zprávě `build`.
+
 ## Efekty a věže (11/2026)
 - Částice `run.parts` mají druhy `k`: bez = čtvereček, `chunk` (kus spritu z `shatter(img,cx,top,gy,n,pow)` – rozpad nepřítele/věže), `smoke` (roste, `grow`, `drag`, `a`), `streak` (jiskra se stopou, `sparks()`), `ember` (blikající uhlík, světlo). Přidávat přes `addP()` (limit `P_MAX`=520). `smokePuff()`.
 - Zásah: `e.sq` = squash při vykreslení, čísla mají oblouk (`vx/vy`), krit má `!` (glyf v `DIG`). Smrt: kousky spritu + kouř + jiskry + `pop`.

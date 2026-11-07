@@ -319,6 +319,27 @@ html,body,#stage{touch-action:none}
 .pop-card{width:100%;max-width:420px;background:var(--panel);padding:16px;display:flex;flex-direction:column;gap:10px}
 .ic-head{display:flex;gap:12px;align-items:center}.ic-head img{width:56px;height:56px;image-rendering:pixelated}.ic-head h3{font-size:19px}.ic-head small{color:var(--muted)}
 .ic-lg{color:#ffe9a8;font-size:14px;background:#3a2a10;padding:8px;box-shadow:inset 0 0 0 2px #a97a14}
+/* towers: arsenal slots and the collection */
+.tdeck{display:grid;grid-template-columns:repeat(4,1fr) .82fr;gap:6px}
+.tslot{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;min-width:0;padding:8px 2px 6px;background:var(--panel);background-image:var(--tex);background-size:32px 32px;border:0;clip-path:var(--px);box-shadow:inset 0 0 0 3px var(--gold);color:var(--fg);font:inherit;cursor:pointer}
+.tslot img{width:30px;height:60px;object-fit:contain;image-rendering:pixelated}.tslot b{font-size:11px;line-height:1.1;text-align:center;min-height:2.2em;display:flex;align-items:center}
+.tslot.bld{box-shadow:inset 0 0 0 3px #6a5a8a}.tslot.empty{box-shadow:inset 0 0 0 3px var(--line);justify-content:center}.tslot .plus{font-size:26px;color:var(--muted);line-height:1}
+.tslot .bt{display:flex;align-items:center;gap:2px;font-size:9px;color:var(--muted);line-height:1.1;text-align:center}.tslot .bt img{width:12px;height:12px;flex:none}
+.tslot.pick{animation:tPick .7s ease-in-out infinite alternate}@keyframes tPick{to{box-shadow:inset 0 0 0 3px #ffe58a,0 0 14px #f6c74488;background-color:var(--panel-hi)}}
+#twHint.on{color:var(--gold);font-weight:700}
+.tstars{display:flex;gap:2px}.tstars i{width:7px;height:7px;background:#2a2238;box-shadow:inset 0 0 0 1px #4a3e60}.tstars i.pk{transform:rotate(45deg) scale(.9)}.tstars i.on{background:var(--gold);box-shadow:none}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tcard{position:relative;display:flex;gap:8px;align-items:center;min-width:0;padding:8px;background:var(--panel);background-image:var(--tex);background-size:32px 32px;border:0;clip-path:var(--px);box-shadow:inset 0 0 0 3px var(--line);color:var(--fg);font:inherit;text-align:left;cursor:pointer}
+.tcard>img{width:26px;height:52px;object-fit:contain;image-rendering:pixelated;flex:none}.tcard>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.tcard b{font-size:14px;line-height:1.15}.tcard small{font-size:11px;color:var(--muted);line-height:1.2}.tcard small.lk{color:#c8a8a8}
+.tcard.in{box-shadow:inset 0 0 0 3px var(--gold)}.tcard.in::after{content:'';position:absolute;right:7px;top:7px;width:7px;height:7px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 5px var(--gold)}
+.tcard.lock>img{filter:brightness(0);opacity:.45}.tcard.lock b{color:var(--muted)}
+.tcard .tsil{width:26px;height:52px;flex:none;background:#0c0912;clip-path:polygon(30% 0,70% 0,80% 30%,80% 100%,20% 100%,20% 30%);opacity:.6}
+.tpop .ic-head img{width:40px;height:80px;object-fit:contain}.tpop .ic-head h3{color:var(--tc)}.tpop .tstars{margin-top:3px}
+.tdesc{font-size:14px;margin:0;color:var(--fg)}
+.tperk{display:flex;flex-direction:column;gap:5px;padding:9px 10px;background:#0c0912a8;clip-path:var(--px)}
+.tperk p{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin:0;color:var(--muted);line-height:1.35}.tperk p.on{color:var(--fg)}
+.tperk p i{flex:none;font-style:normal;font-weight:700;font-size:12px;width:18px;height:18px;display:grid;place-items:center;color:#1a1423;background:#5a4e70;clip-path:var(--px)}.tperk p.on i{background:var(--gold)}
 /* chapter sets: their own colour on tiles, cards and slots */
 .set-bone{--sc:#9affc0}.set-sun{--sc:#ffd060}
 .itile.set,.pop-card.set,.slot.set{box-shadow:inset 0 0 0 3px var(--sc),0 0 10px color-mix(in srgb,var(--sc) 35%,transparent)}
@@ -532,7 +553,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <div class="stack" id="mStack">
         <button class="btn" id="mPlay">Hrát</button>
         <button class="btn alt" id="mCoop">Hrát s kamarádem</button>
-        <div class="row2"><button class="btn alt" id="mHero">Hrdina</button><button class="btn alt" id="mChest">Obchod</button></div>
+        <div class="row2"><button class="btn alt" id="mHero">Vybavení</button><button class="btn alt" id="mChest">Obchod</button></div>
         <div class="row2"><button class="btn alt" id="mQuest">Nástěnka</button><button class="btn alt" id="mBoard">Síň slávy</button></div>
       </div>
     </div>
@@ -627,7 +648,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 
   <section class="scr" id="scr-hero" hidden>
     <div class="wrap">
-      <div class="head"><h2>Hrdina</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="head"><h2>Vybavení</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="tabs sectabs" data-sec="gear"><button data-to="hero">Hrdina</button><button data-to="towers">Věže</button></div>
       <div class="mats" id="hMats"></div>
       <div class="hstrip" id="hTabs"></div>
       <div class="card hcard" id="hCard"></div>
@@ -639,6 +661,19 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
     <div class="popwrap" id="itemPop" hidden></div>
   </section>
 
+  <section class="scr" id="scr-towers" hidden>
+    <div class="wrap">
+      <div class="head"><h2>Vybavení</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="tabs sectabs" data-sec="gear"><button data-to="hero">Hrdina</button><button data-to="towers">Věže</button></div>
+      <div class="mats" id="twMats"></div>
+      <div class="sec">Arzenál do běhu</div>
+      <div class="tdeck" id="twDeck"></div>
+      <p class="hint" id="twHint"></p>
+      <div class="sec">Všechny věže</div>
+      <div class="tgrid" id="twGrid"></div>
+    </div>
+    <div class="popwrap" id="twPop" hidden></div>
+  </section>
   <section class="scr" id="scr-chests" hidden>
     <div class="wrap">
       <div class="head"><h2>Obchod</h2><button class="btn alt sm" data-back>Zpět</button></div>
@@ -794,8 +829,8 @@ const STICK_MODES=['touch','fixed','follow'],STICK_TXT={touch:_t('pevný v míst
 let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false,stick:'touch'};
 function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
-const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT'];
+  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
+const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw'];
 function persist(){save.updated=Date.now();try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
 
@@ -2691,7 +2726,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07q';
+const GAME_VER='2026-11-07r';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -2703,7 +2738,7 @@ const isGuest=()=>CO.role==='guest'&&!!run&&!!run.coop;
 function withPl(pl,fn){const K=['p','W','P','hero','heroId','fused','fuseMiss','revived','meta','bonus','revT'],sv={};for(const k of K)sv[k]=run[k];const s0=st,c0=CO.ctxMate;
   for(const k of K)run[k]=pl[k];st=pl.st;CO.ctxMate=true;
   try{return fn();}finally{for(const k of K)pl[k]=run[k];pl.st=st;for(const k of K)run[k]=sv[k];st=s0;CO.ctxMate=c0;}}
-const screens={menu:$('#scr-menu'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),codex:$('#scr-codex'),guide:$('#scr-guide'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master')};
+const screens={menu:$('#scr-menu'),towers:$('#scr-towers'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),codex:$('#scr-codex'),guide:$('#scr-guide'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master')};
 function showScreen(n){for(const k in screens)screens[k].hidden=(k!==n);}
 function setState(s){if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
   $('#hud').hidden=!(run&&(s==='play'||s==='levelup'||s==='fuse'||s==='wait'||s==='pause'||s==='over'));
@@ -2723,7 +2758,7 @@ const stickEl=$('#stick'),knob=$('#knob');
 const typing=t=>!!t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable);
 addEventListener('keydown',e=>{if(typing(e.target))return;keys[e.code]=true;
   if((e.code==='Escape'||e.code==='KeyP')&&!e.repeat)togglePause();
-  if(!e.repeat&&state==='play'&&run){const i=['Digit1','Digit2','Digit3','Digit4'].indexOf(e.code);if(i>=0)buildTower(T_IDS[i]);if(e.code==='KeyE')upgradeTower();if(e.code==='KeyR')repairCrystal();}
+  if(!e.repeat&&state==='play'&&run){const i=['Digit1','Digit2','Digit3','Digit4','Digit5'].indexOf(e.code);if(i>=0&&run.deck&&run.deck[i])buildTower(run.deck[i]);if(e.code==='KeyE')upgradeTower();if(e.code==='KeyR')repairCrystal();}
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();});
 addEventListener('keyup',e=>{keys[e.code]=false;});
 for(const ev of ['pointerdown','touchend','click'])document.addEventListener(ev,()=>audioInit(),{passive:true,capture:true});addEventListener('keydown',()=>audioInit());
@@ -2798,8 +2833,9 @@ function startRun(heroId,mapId,o){
   $('#icoMat').src=matIcon(MAT_OF[mapId]);$('#hudMat').hidden=false;
   if(map.crystal){run.crystal={isCrystal:true,x:map.size/2,y:map.size/2,hp:1300,max:1300,r:9,flash:0,hit:false,calm:0,warn:0,pulse:5,spr:SPR.misc.crystal};run.p.y+=30;run.p.face={x:0,y:1};}
   run.allies=[];mfCall('init');
+  run.deck=runDeck(!!hero.builder);buildBarInit();
   addWeapon(hero.start);
-  if(hero.builder)addTower('arrow',run.p.x+24,run.p.y);
+  if(hero.builder)addTower(run.deck[0],run.p.x+24,run.p.y,twLv(run.deck[0]));
   for(let i=0;i<6;i++)spawnEnemy(chooseEnemy());
   $('#bossbar').hidden=true;$('#toast').classList.remove('on');$('#crbar').hidden=!run.crystal;$('#repBtn').hidden=true;
   buildItemsHud();setState('play');updateHud(true);
@@ -2929,7 +2965,7 @@ function killEnemy(e){
   if(e.d.die==='puddle')run.fx.push({k:'puddle',x:e.x,y:e.y+2,r:11,life:5,max:5,seed:Math.random()*9});
   if(e.elite&&st&&st.lg&&st.lg.skull&&!isGuest())allySpawn(e.x,e.y);
   if(st&&st.lg&&!isGuest()){if(e.elite&&st.lg.sb2){const p=run.p,h=Math.ceil(p.max*.1);if(!p.down&&p.hp<p.max){p.hp=Math.min(p.max,p.hp+h);run.nums.push({x:p.x,y:p.y-10,txt:'+'+h,life:.8,col:'#8affa0'});}}
-    if(st.lg.sb4&&e.bm&&run.t-e.bm<.3&&(run.allies||[]).length<3)allySpawn(e.x,e.y);}
+    if(st.lg.sb4&&e.bm&&run.t-e.bm<.3&&(run.allies||[]).filter(a=>!a.tw).length<3)allySpawn(e.x,e.y);}
   if(e.id==='phyl'){mfCall('jarBroken',e);}
   if(e.boss){run.boss=null;$('#bossbar').hidden=true;run.flashScr=.5;winRun();}
 }
@@ -3159,38 +3195,66 @@ const TOWERS={
  frost:{name:_t('Mrazivá věž'),cost:30,range:72,dmg:4,cd:2,hp:80,flag:'#bfeaff',pal:{a:'#8a9ab8',b:'#4a5a7a',c:'#c8d8f0',u:'#4aa3e8'},
   rows:['....u...','....ui..','....uii.','....aaaa','.....aac','.....aaa','....aaca','....aaau','....aaau','....acaa','...aaaaa','...abaaa','..aaacaa','.aaaaaaa','aaaaaaaa','bbbbbbbb']},
  tesla:{name:_t('Bleskový sloup'),cost:45,range:85,dmg:11,cd:1.3,chain:2,hp:80,flag:'#c869e0',pal:{a:'#8a8698',b:'#4e4a62',c:'#bcb8cc',n:'#b87333',d:'#6a3a18',q:'#e8b070'},
-  rows:['......uu','.....uui','......uu','......dd','....nnnn','......dn','....qnnn','......dn','....nnnn','......dn','...aaaaa','...acaaa','..aaaaca','.aaaaaaa','aaaacaaa','bbbbbbbb']}
+  rows:['......uu','.....uui','......uu','......dd','....nnnn','......dn','....qnnn','......dn','....nnnn','......dn','...aaaaa','...acaaa','..aaaaca','.aaaaaaa','aaaacaaa','bbbbbbbb']},
+ // chapter towers: unlocked by a win on a map of their chapter (TW_UNL), upgraded with that chapter's material
+ crypt:{name:_t('Kostěná krypta'),cost:40,range:76,dmg:10,cd:3,hp:110,ch:'c1',pal:{a:'#8a9488',b:'#545e56',c:'#6a7a6a',k:'#1a1423',w:'#e8dcc4',e:'#8affa0'},
+  rows:['.......c','......cc','.....ccc','....cccc','...ccccc','..cccccc','..aaaaaa','..abaaaa','..abakkk','..abakww','..abakwe','..abakww','..abakkk','.aaaaaaa','aaaaaaaa','bbbbbbbb']},
+ bell:{name:_t('Zvon'),cost:35,range:62,dmg:12,cd:3.5,hp:90,ch:'c1',pal:{n:'#8a5a3a',d:'#5a3822',o:'#c8903a',y:'#f0c870',a:'#9a8a78',b:'#5e5446',c:'#b8a890'},
+  rows:['nnnnnnnn','.n.....d','.n....yy','.n...yoo','.n...ooo','.n..oooo','.n..oooo','.n.ooooo','.n.ddddd','.n.....d','.n......','.n......','aaaaaaaa','aacaaaca','aaaaaaaa','bbbbbbbb']},
+ obelisk:{name:_t('Obelisk'),cost:45,range:110,dmg:9,cd:1.1,hp:80,ch:'c2',pal:{a:'#dcb87c',y:'#f6c744',u:'#3a6ad8',c:'#b89058',b:'#7a5a30'},
+  rows:['.......y','......yy','......aa','......aa','.....aaa','.....aau','.....aaa','.....aua','.....aaa','....aaua','....aaaa','....aaaa','...ccccc','..cccccc','cccccccc','bbbbbbbb']},
+ sandpit:{name:_t('Písečný vír'),cost:30,range:66,dmg:3,cd:1,hp:100,ch:'c2',pal:{a:'#9a8a6a',c:'#7a6a4a',s:'#e0c080',d:'#b8904a',b:'#5e5036'},
+  rows:['........','........','........','........','........','........','........','...aaaaa','..accccc','.acssdss','.acsdsss','.acssdds','..accccc','..aaaaaa','.aaaaaaa','bbbbbbbb']}
 };
-const T_IDS=Object.keys(TOWERS);
+const T_IDS=Object.keys(TOWERS),T_BASE=['arrow','fire','frost','tesla'];
+// Arsenal: towers you take into a run (4, the Builder 5), each with a menu level 1–5 (gold + material); levels 3 and 5 add a perk
+const TW_UNL={crypt:'bazina',bell:'zvonice',obelisk:'kanon',sandpit:'hrobka'},TW_SOON=[{id:'forge',name:_t('Výheň'),ch:'c3',d:_t('Kolem sebe rozlévá lávu, která pálí.')},{id:'ram',name:_t('Parní beran'),ch:'c3',d:_t('Vystřelí beran, který prorazí celou řadu nepřátel.')}];
+const TW_INFO={arrow:[_t('Rychle střílí šípy na jednoho nepřítele.'),_t('Dva šípy naráz.'),_t('Šípy prorazí o nepřítele víc.')],
+ fire:[_t('Hází ohnivé koule, které vybuchnou.'),_t('Výbuch o 30 % větší.'),_t('Dvě koule naráz.')],
+ frost:[_t('Mrazivá vlna zraní a zpomalí nepřátele kolem.'),_t('Vlna dosáhne o 15 % dál.'),_t('Vlna nepřátele na chvíli zmrazí.')],
+ tesla:[_t('Blesk přeskakuje mezi několika nepřáteli.'),_t('Blesk přeskočí o 1 nepřítele víc.'),_t('O další 2 skoky víc a skoro bez oslabení.')],
+ crypt:[_t('Vyvolává kostlivce, kteří brání okolí věže.'),_t('Dva kostlivci naráz.'),_t('Kostlivci jsou dvakrát silnější.')],
+ bell:[_t('Úder zvonu zraní a odhodí nepřátele kolem.'),_t('Úder nepřátele i zpomalí.'),_t('Úder nepřátele na chvíli omráčí.')],
+ obelisk:[_t('Otáčivý sluneční paprsek pálí vše v cestě.'),_t('Dva paprsky proti sobě.'),_t('Paprsek dosáhne o 40 % dál.')],
+ sandpit:[_t('Stahuje nepřátele do středu a zpomaluje je.'),_t('Dvojnásobné poškození.'),_t('Dosah o 30 % větší.')]};
+const TW_MAX=5,twMat=k=>{const c=TOWERS[k].ch;return c?CHAPTERS.find(x=>x.id===c).mat:'bone';};
+const twCost=(k,L)=>({gold:[150,350,700,1200][L-1],[twMat(k)]:[12,30,60,100][L-1]});
+function twInit(){save.tw=save.tw||{};save.tw.lv=save.tw.lv||{};if(!Array.isArray(save.tw.deck))save.tw.deck=T_BASE.slice();}
+const twLv=k=>Math.max(1,Math.min(TW_MAX,(save.tw&&save.tw.lv&&save.tw.lv[k])||1));
+const twOpen=k=>!TW_UNL[k]||!!(save.cleared&&save.cleared[TW_UNL[k]]);
+// the towers of this run: the saved arsenal, only unlocked ones, the Builder's 5th slot only for him
+function runDeck(builder){twInit();const d=save.tw.deck.slice(0,builder?5:4).filter(k=>TOWERS[k]&&twOpen(k));const out=[...new Set(d)];return out.length?out:T_BASE.slice();}
+const twM=t=>1+.15*((t.ml||1)-1); // damage from the menu level
 const MAX_T=8;
 const NM_HP=.55,NM_DMG=.25; // per Nightmare tier (enemies, boss, crystal pulse)
 const metaBuild=()=>1-.05*(save.meta.build||0);
 const maxTowers=()=>MAX_T+(run.hero.builder?2:0)+((st&&st.tmax)||0);
 const towerCost=k=>Math.max(5,Math.round(TOWERS[k].cost*(1+.15*run.towers.length)*(run.hero.builder?.6:1)*metaBuild()*(1-((st&&st.tcost)||0))));
 const towerUpCost=t=>Math.round(TOWERS[t.k].cost*.9*t.lv*(run.hero.builder?.7:1)*metaBuild());
-const towerRange=t=>TOWERS[t.k].range*(1+.08*(t.lv-1));
+const towerRange=t=>TOWERS[t.k].range*(1+.08*(t.lv-1))*(1+.04*((t.ml||1)-1));
 function canBuildAt(x,y){
   const sz=run.map.size;if(x<26||y<26||x>sz-26||y>sz-26)return false;
   for(const t of run.towers)if(Math.hypot(t.x-x,t.y-y)<18)return false;
   for(const pl of run.built.pools)if(Math.hypot(pl.x-x,pl.y-y)<pl.r+9)return false;
   return true;
 }
-function addTower(k,x,y){
-  const D=TOWERS[k],t={isTower:true,k,x,y,lv:1,hp:D.hp,max:D.hp,cd:.6,off:pick([0,2,4,6]),kick:0,show:2.5,flash:0,spr:SPR.tower[k],dead:false,born:run.t,aim:-Math.PI/2};
+function addTower(k,x,y,ml){
+  const D=TOWERS[k],t={isTower:true,k,x,y,lv:1,hp:D.hp,max:D.hp,cd:.6,off:pick([0,2,4,6]),kick:0,show:2.5,flash:0,spr:SPR.tower[k],dead:false,born:run.t,aim:-Math.PI/2,ml:ml||1};
   for(let i=0;i<10;i++)addP({k:'smoke',x:x+rnd(-8,8),y:y+rnd(2,6),vx:rnd(-30,30),vy:rnd(-14,-2),life:rnd(.5,.8),max:.8,sz:rnd(2,3.5),grow:3,drag:3,g:0,col:'#a89878',a:.5});
-  if(st&&st.tal&&st.tal.b10)t.lv=2;t.max=Math.round(D.hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0)));t.hp=t.max;
+  if(st&&st.tal&&st.tal.b10)t.lv=2;t.max=Math.round(D.hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0))*(1+.12*(t.ml-1)));t.hp=t.max;
   run.towers.push(t);
   for(let i=0;i<10;i++)run.parts.push({x,y,vx:rnd(-40,40),vy:rnd(-50,-10),life:.4,col:'#cfcfe0',sz:2});
   return t;
 }
-function buildTower(k){
+function buildTower(k,ml){
   if(state!=='play'||!run||run.over)return;
-  if(isGuest()){netSend({t:'build',k});return;}
+  if(isGuest()){netSend({t:'build',k,ml:twLv(k)});return;}
+  ml=ml||(CO.ctxMate?1:twLv(k));
   if(run.towers.length>=maxTowers()){note(_t('Víc než ')+maxTowers()+_t(' věží se nevejde'));return;}
   const c=towerCost(k);if(run.coins<c){note(_t('Chybí ti ')+(c-run.coins)+_t(' zlata'));return;}
   const p=run.p,base=Math.atan2(p.face.y,p.face.x);
   for(const rad of [18,30])for(const da of [0,.8,-.8,1.6,-1.6,2.4,-2.4,3.14]){const a=base+da,x=p.x+Math.cos(a)*rad,y=p.y+Math.sin(a)*rad;
-    if(canBuildAt(x,y)){run.coins-=c;run.spent=(run.spent||0)+c;addTower(k,x,y);sfx('level');if(run.qc)run.qc.tw[k]=(run.qc.tw[k]||0)+1;return;}}
+    if(canBuildAt(x,y)){run.coins-=c;run.spent=(run.spent||0)+c;addTower(k,x,y,ml);sfx('level');if(run.qc)run.qc.tw[k]=(run.qc.tw[k]||0)+1;return;}}
   note(_t('Tady není místo'));
 }
 function upgradeTower(){
@@ -3198,30 +3262,42 @@ function upgradeTower(){
   if(isGuest()){netSend({t:'upg'});return;}
   if(t.lv>=3){if(t.hp<t.max){t.hp=t.max;sfx('ui');note(_t('Věž opravena'));}return;}
   const c=towerUpCost(t);if(run.coins<c){note(_t('Chybí ti ')+(c-run.coins)+_t(' zlata'));return;}
-  run.coins-=c;run.spent=(run.spent||0)+c;t.lv++;t.max=Math.round(TOWERS[t.k].hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0)));t.hp=t.max;t.show=2.5;sfx('level');
+  run.coins-=c;run.spent=(run.spent||0)+c;t.lv++;t.max=Math.round(TOWERS[t.k].hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0))*(1+.12*((t.ml||1)-1)));t.hp=t.max;t.show=2.5;sfx('level');
 }
 function enemiesNear(x,y,r){const out=[];for(const e of run.enemies){if(e.dead)continue;if(Math.abs(e.x-x)>r||Math.abs(e.y-y)>r)continue;if(Math.hypot(e.x-x,e.y-y)<=r)out.push(e);}return out;}
 function towerFire(t){
-  const D=TOWERS[t.k],lv=t.lv,range=towerRange(t),dmg=D.dmg*(1+.5*(lv-1));
+  const D=TOWERS[t.k],lv=t.lv,range=towerRange(t),dmg=D.dmg*(1+.5*(lv-1))*twM(t),p3=(t.ml||1)>=3,p5=(t.ml||1)>=5;
   switch(t.k){
     case'arrow':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;
       let e=c[0],bd=1e9;for(const q of c){const d=(q.x-t.x)**2+(q.y-t.y)**2;if(d<bd){bd=d;e=q;}}
       const ty=t.y-t.spr.h/2+1,a=Math.atan2(e.y-ty,e.x-t.x);t.kick=1;t.aim=a;
-      fire({x:t.x+Math.cos(a)*5,y:ty+Math.sin(a)*5,vx:Math.cos(a)*200,vy:Math.sin(a)*200,dmg,r:2.5,pierce:lv>=3?1:0,life:.9,kind:'arrow',kb:30});sfx('shoot',1);break;}
-    case'fire':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;const e=pick(c);t.kick=1;
-      const ty=t.y-t.spr.h/2,a=Math.atan2(e.y-ty,e.x-t.x);t.aim=a;
+      for(const da of p3?[-.09,.09]:[0])fire({x:t.x+Math.cos(a)*5,y:ty+Math.sin(a)*5,vx:Math.cos(a+da)*200,vy:Math.sin(a+da)*200,dmg,r:2.5,pierce:(lv>=3?1:0)+(p5?1:0),life:.9,kind:'arrow',kb:30});sfx('shoot',1);break;}
+    case'fire':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;t.kick=1;const ty=t.y-t.spr.h/2;
+      for(let n=0;n<(p5?2:1);n++){const e=pick(c),a=Math.atan2(e.y-ty,e.x-t.x);t.aim=a;
       for(let i=0;i<6;i++)addP({k:'ember',x:t.x+rnd(-3,3),y:ty,vx:rnd(-30,30),vy:rnd(-70,-30),life:rnd(.3,.6),col:pick(['#f6c744','#f08a3c','#fff6c8']),sz:1,g:120});
-      fire({x:t.x,y:ty,vx:Math.cos(a)*105,vy:Math.sin(a)*105,dmg,r:4,pierce:0,life:1.6,kind:'fire',rad:D.rad+(lv-1)*4,kb:0});sfx('shoot',2);break;}
+      fire({x:t.x,y:ty,vx:Math.cos(a)*105,vy:Math.sin(a)*105,dmg,r:4,pierce:0,life:1.6,kind:'fire',rad:(D.rad+(lv-1)*4)*(p3?1.3:1),kb:0});}sfx('shoot',2);break;}
     case'frost':{if(!enemiesNear(t.x,t.y,range).length)return;t.kick=1;
-      run.fx.push({k:'ring',x:t.x,y:t.y,r:2,max:range*.9,dmg,hit:new Set(),life:1});sfx('zap');break;}
+      run.fx.push({k:'ring',x:t.x,y:t.y,r:2,max:range*.9*(p3?1.15:1),dmg,hit:new Set(),life:1});
+      if(p5)for(const e of enemiesNear(t.x,t.y,range*(p3?1.04:.9)))if(!e.boss)e.frz=Math.max(e.frz||0,.8);sfx('zap');break;}
     case'tesla':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;t.kick=1;
       c.sort((a,b)=>(a.x-t.x)**2+(a.y-t.y)**2-((b.x-t.x)**2+(b.y-t.y)**2));
       let cur=c[0],d=dmg;const pts=[{x:t.x,y:t.y-t.spr.h/2+1},{x:cur.x,y:cur.y}],hit=new Set([cur]);
       hurtEnemy(cur,d,0,0);
-      for(let i=0;i<D.chain+(lv-1);i++){let nx=null,nd=48;
+      for(let i=0;i<D.chain+(lv-1)+(p3?1:0)+(p5?2:0);i++){let nx=null,nd=48;
         for(const e of run.enemies){if(e.dead||hit.has(e))continue;const dd=Math.hypot(e.x-cur.x,e.y-cur.y);if(dd<nd){nd=dd;nx=e;}}
-        if(!nx)break;hit.add(nx);d*=.85;hurtEnemy(nx,d,0,0);pts.push({x:nx.x,y:nx.y});cur=nx;}
+        if(!nx)break;hit.add(nx);d*=p5?.95:.85;hurtEnemy(nx,d,0,0);pts.push({x:nx.x,y:nx.y});cur=nx;}
       run.fx.push({k:'arc',pts,life:.16,seed:Math.random()*99});sfx('zap');break;}
+    case'crypt':{if(!enemiesNear(t.x,t.y,range).length)return;const mine=(run.allies||[]).filter(a=>a.tw===t).length;if(mine>=(p3?2:1))return;
+      t.kick=1;for(let n=mine;n<(p3?2:1);n++){allySpawn(t.x+rnd(-8,8),t.y+8);const a=run.allies[run.allies.length-1];a.tw=t;a.t=10;a.dm=(p5?2:1)*dmg/10;}sfx('hit');break;}
+    case'bell':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;t.kick=1;
+      for(const e of c){const dx=e.x-t.x,dy=e.y-t.y,d=Math.hypot(dx,dy)||1;hurtEnemy(e,dmg,dx/d*(e.boss?20:110),dy/d*(e.boss?20:110));if(p3)e.slowT=Math.max(e.slowT||0,1.5);if(p5&&!e.boss)e.frz=Math.max(e.frz||0,.6);}
+      run.fx.push({k:'shock',x:t.x,y:t.y-6,r:4,t:0,life:.45,max:range,col:'#f0c870'});sfx('bell');break;}
+    case'obelisk':{if(!enemiesNear(t.x,t.y,range*1.4).length)return;t.kick=1;t.ang=(t.ang||0)+.7;const L=range*(p5?1.4:1),ty=t.y-t.spr.h/2+2;
+      for(const a of p3?[t.ang,t.ang+Math.PI]:[t.ang]){const fx=Math.cos(a),fy=Math.sin(a);
+        for(const e of run.enemies){if(e.dead||e.bur)continue;const rx=e.x-t.x,ry=e.y-t.y,al=rx*fx+ry*fy;if(al<0||al>L)continue;if(Math.abs(rx*fy-ry*fx)<e.r+4)hurtEnemy(e,dmg,fx*20,fy*20);}
+        run.fx.push({k:'sunray',x:t.x,y:ty,fx,fy,len:L,life:.25,max:.25});}sfx('zap');break;}
+    case'sandpit':{const R=range*(p5?1.3:1),c=enemiesNear(t.x,t.y,R);if(!c.length)return;t.kick=1;
+      for(const e of c){if(!e.boss){e.x+=(t.x-e.x)*.16;e.y+=(t.y-e.y)*.16;}e.slowT=Math.max(e.slowT||0,1.2);hurtEnemy(e,dmg*(p3?2:1),0,0);}break;}
   }
 }
 function updateTowers(dt){
@@ -3335,8 +3411,8 @@ const plSpdMul=p=>(p.slw>0?.62:1)*(mfCall('psp',p)||1);
 function allySpawn(x,y){(run.allies||(run.allies=[])).push({isAlly:true,x,y,t:12,hitT:0,face:1,born:run.t});dirtPuff(x,y,'#8affa0');run.fx.push({k:'pop',x,y,r:2,max:12,life:.2,t:0,col:'#8affa0'});}
 function allyUpdate(dt){const A=run.allies;if(!A||!A.length)return;
   for(const a of A){a.t-=dt;a.hitT-=dt;let best=null,bd=140;for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit)continue;const d=Math.hypot(e.x-a.x,e.y-a.y);if(d<bd){bd=d;best=e;}}
-    const p=run.p,tx=best?best.x:p.x+12,ty=best?best.y:p.y,dx=tx-a.x,dy=ty-a.y,d=Math.hypot(dx,dy)||1;if(d>8){a.x+=dx/d*64*dt;a.y+=dy/d*64*dt;a.face=dx<0?-1:1;}
-    if(best&&bd<12&&a.hitT<=0){a.hitT=.45;hurtEnemy(best,10+run.level*1.2,dx/d*40,dy/d*40);}}
+    const p=run.p,home=a.tw&&!a.tw.dead?a.tw:p,tx=best?best.x:home.x+12,ty=best?best.y:home.y+(a.tw?10:0),dx=tx-a.x,dy=ty-a.y,d=Math.hypot(dx,dy)||1;if(d>8){a.x+=dx/d*64*dt;a.y+=dy/d*64*dt;a.face=dx<0?-1:1;}
+    if(best&&bd<12&&a.hitT<=0){a.hitT=.45;hurtEnemy(best,(10+run.level*1.2)*(a.dm||1),dx/d*40,dy/d*40);}}
   run.allies=A.filter(a=>{if(a.t>0)return true;dirtPuff(a.x,a.y,'#8affa0');return false;});}
 // Eye of the Sphinx (legendary amulet): every second bar a sun ray along your heading
 function sunEyeUpdate(){if(!st||!st.lg||!st.lg.sphinx||!run.barNow||(Math.floor(M.step/16)%2))return;const p=run.p,fx=p.face.x,fy=p.face.y,L=170;
@@ -3661,13 +3737,13 @@ function buildItemsHud(){
 const bbRef={};
 function buildBarInit(){
   const box=$('#buildbar');box.innerHTML='';
-  T_IDS.forEach(k=>{const b=document.createElement('button');b.className='bb';b.setAttribute('aria-label',TOWERS[k].name);
+  for(const k in bbRef)delete bbRef[k];((run&&run.deck)||T_BASE).forEach(k=>{const b=document.createElement('button');b.className='bb';b.setAttribute('aria-label',TOWERS[k].name);
     b.innerHTML='<img alt="" src="'+dataUrl(SPR.tower[k])+'"><span class="c"><img alt="" src="'+dataUrl(SPR.icon.coin)+'"><b></b></span>';
     onTap(b,()=>buildTower(k));box.appendChild(b);bbRef[k]={b,c:b.querySelector('b')};});
 }
 function updateBuildUi(force){
   const L=run.lastHud;
-  for(const k of T_IDS){const c=towerCost(k),no=run.coins<c||run.towers.length>=maxTowers(),key=c+(no?'n':'y');
+  for(const k of run.deck||T_BASE){if(!bbRef[k])continue;const c=towerCost(k),no=run.coins<c||run.towers.length>=maxTowers(),key=c+(no?'n':'y');
     if(force||L['bb'+k]!==key){L['bb'+k]=key;bbRef[k].c.textContent=c;bbRef[k].b.classList.toggle('no',no);}}
   const t=run.nearTower,u=$('#upBtn');let txt='',no=false;
   if(t){if(t.lv<3){const c=towerUpCost(t);txt=_t('Vylepšit na úr. ')+(t.lv+1)+' · '+c;no=run.coins<c;}else if(t.hp<t.max)txt=_t('Opravit věž');}
@@ -3739,7 +3815,7 @@ function flame(g,x,y,h,w,seed){h=Math.max(1,h);const sw=Math.sin(run.t*9+seed*2.
 function zap(g,pts,col,al,core){for(let pass=0;pass<2;pass++){g.globalAlpha=pass?al:al*.3;g.fillStyle=pass?col:col;
   for(let i=1;i<pts.length;i++){const [ax,ay]=pts[i-1],[bx,by]=pts[i],n=Math.max(1,Math.ceil(Math.hypot(bx-ax,by-ay)*2));
     for(let k=0;k<n;k++){const px=ax+(bx-ax)*k/n,py=ay+(by-ay)*k/n;if(pass){g.fillStyle=col;g.fillRect(RZ(px)-(core?1:.5),RZ(py),core?2.5:1.5,.5);g.fillStyle='#ffffff';g.fillRect(RZ(px),RZ(py),.5,.5);}else g.fillRect(RZ(px)-2,RZ(py)-1,5,2);}}}g.globalAlpha=1;}
-const TW_FLAG={arrow:'#4aa3e8',fire:'#e8453c',frost:'#3ac8c0',tesla:'#c869e0'};
+const TW_FLAG={arrow:'#4aa3e8',fire:'#e8453c',frost:'#3ac8c0',tesla:'#c869e0',crypt:'#8affa0',bell:'#f0c870',obelisk:'#3a6ad8',sandpit:'#e0c080'};
 function drawTower(g,u,x,y){const s=u.spr,top=y-s.h/2,sq=u.kick>.45,k=u.kick||0,lv=u.lv||1,t=run.t;
   shadow(g,x,y+(s.h>>1)-4,s.w-2);
   const img=sq?(u.flash>0?s.f2:s.c2):(u.flash>0?s.f:s.c),bt=u.born===undefined?1:clamp((t-u.born)/.45,0,1);
@@ -3762,6 +3838,10 @@ function drawTower(g,u,x,y){const s=u.spr,top=y-s.h/2,sq=u.kick>.45,k=u.kick||0,
   else if(u.k==='tesla'){const cx=x,cy=top+1.5;circ(g,cx,cy,2.5+k*2,'#ffffff',.25+k*.5);
     if(Math.random()<.35+k){const n=2+lv,pts=[[cx,cy]];let px=cx,py=cy;const a=Math.random()*6.283;for(let i=0;i<n;i++){px+=Math.cos(a)*2.2+rnd(-1.5,1.5);py+=Math.sin(a)*2.2+rnd(-1.5,1.5);pts.push([px,py]);}zap(g,pts,'#9ab4ff',.9,0);}
     if(k>.5)ringPix(g,cx,cy,4+(1-k)*8,'#bfeaff',k);}
+  else if(u.k==='crypt'){circ(g,x,top+s.h*.66,3+k*2,'#8affa0',.25+.15*M.pulse+k*.3);if(Math.random()<.08)addP({x:u.x+rnd(-3,3),y:u.y-4,vx:rnd(-3,3),vy:rnd(-14,-6),life:.8,col:'#8affa0',sz:1,g:0});}
+  else if(u.k==='bell'){if(k>.2)for(let j=0;j<2;j++)ringPix(g,x,top+s.h*.35,5+(1-k)*14+j*4,'#f0c870',k*.6);}
+  else if(u.k==='obelisk'){const cy=top+1;circ(g,x,cy,2.5+M.pulse*1.5+k*3,'#ffd060',.35+k*.4);circ(g,x,cy,1,'#fff6c8');}
+  else if(u.k==='sandpit'){const cy=y+s.h*.18,R0=s.w*.38;g.fillStyle='#e0c080';for(let i=0;i<10;i++){const a=t*(2.4+k*3)+i*.628,r=R0*(.35+.65*((i*.37+t*.4)%1));g.globalAlpha=.75;g.fillRect(RZ(x+Math.cos(a)*r),RZ(cy+Math.sin(a)*r*.45),1,.5);}g.globalAlpha=1;}
   for(let i=0;i<lv-1;i++){g.fillStyle='#14101c';g.fillRect(x-3.5+i*4,y+(s.h>>1)+1.5,3,3);g.fillStyle='#f6c744';g.fillRect(x-3+i*4,y+(s.h>>1)+2,2,2);}
 }
 function buildVignette(){const W2=VW*Z,H2=VH*Z;vig.width=W2;vig.height=H2;const v=vig.getContext('2d');
@@ -4087,6 +4167,8 @@ function goBack(){const np=$('#newsPop');
   if(state==='menu'){const sp=$('#setPop');if(sp&&sp.classList.contains('open')){setSheet(false);sfx('ui');return true;}return false;}
   if(state==='play'||state==='pause'){if(run&&!run.over)togglePause();return true;}
   const sc=screens[state];if(!sc||sc.classList.contains('clear'))return true; // level-up, rituals, end of run: back does nothing
+  {const pw=sc.querySelector('.popwrap:not([hidden])');if(pw){pw.hidden=true;sfx('ui');return true;}}
+  if(state==='towers'&&twPick){twPick=null;renderTowers();return true;}
   const b=sc.querySelector('.head button');if(b){b.click();return true;}return false;}
 // keep one extra history entry while anything but the bare menu is open, so system back lands in goBack instead of leaving the game
 let navArmed=false;
@@ -4282,7 +4364,7 @@ function bindUi(){
   $('#nickInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveNick();});
   $('#boardRefresh').onclick=()=>{sfx('ui');openBoard();};
   document.querySelectorAll('#boardTabs button').forEach(b=>b.onclick=()=>{boardTab=b.dataset.t==='map'?(MAPS[boardTab]?boardTab:(mapUnlocked(sel.map)?sel.map:'hrbitov')):b.dataset.t;sfx('ui');renderBoard();});
-  const SEC_OPEN={chests:()=>openChestShop(),shop:()=>{renderShop();setState('shop');},board:()=>openBoard(),master:()=>openMaster(),codex:()=>openCodex()};
+  const SEC_OPEN={hero:()=>openHero(),towers:()=>openTowers(),chests:()=>openChestShop(),shop:()=>{renderShop();setState('shop');},board:()=>openBoard(),master:()=>openMaster(),codex:()=>openCodex()};
   document.querySelectorAll('.sectabs button').forEach(b=>b.onclick=()=>{if(b.classList.contains('on'))return;audioInit();sfx('ui');SEC_OPEN[b.dataset.to]();});
   $('#mSet').onclick=()=>{audioInit();sfx('ui');setSheet(true);requestAnimationFrame(()=>setTimeout(refreshSettings,0));};
   $('#setClose').onclick=()=>{sfx('ui');setSheet(false);};
@@ -4577,7 +4659,7 @@ const DAILY_MODS=[{id:'fast',name:_t('Zběsilí'),desc:_t('Nepřátelé jsou o 3
   {id:'horde',name:_t('Horda'),desc:_t('O 60 % víc nepřátel, ale i o 30 % víc zkušeností.')},{id:'noheal',name:_t('Bez léčení'),desc:_t('Žádná regenerace, srdce ani oázy.')}];
 
 // ----- save helpers -----
-function econInit(){chMigrate();save.fin=save.fin||{};save.mats=Object.assign({bone:0,amber:0,magma:0},save.mats||{});save.hlv=save.hlv||{};save.inv=save.inv||[];save.eq=save.eq||{};
+function econInit(){chMigrate();twInit();save.fin=save.fin||{};save.mats=Object.assign({bone:0,amber:0,magma:0},save.mats||{});save.hlv=save.hlv||{};save.inv=save.inv||[];save.eq=save.eq||{};
   save.nm=save.nm||{};save.pity=Object.assign({iron:0,gold:0},save.pity||{});save.daily=save.daily||{};save.codex=save.codex||{f:{},l:{}};save.codex.f=save.codex.f||{};save.codex.l=save.codex.l||{};save.codex.s=save.codex.s||{};save.setP=save.setP||{};save.chT=save.chT||{};save.uidc=save.uidc||0;}
 const heroLv=h=>Math.max(1,Math.min(HERO_MAX,(save.hlv&&save.hlv[h])||1));
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
@@ -4725,6 +4807,38 @@ function itemCardHtml(it){const S=itemStats(it),R=RAR[it.r],col=it.set?SETS[it.s
     '<ul class="ic-st">'+Object.keys(S).map(k=>'<li><span>'+STATS[k].name+'</span><b>'+fmtStat(k,S[k])+'</b></li>').join('')+'</ul>'+
     (it.lg?'<p class="ic-lg">'+LEGS[it.lg].desc+'</p>':'')+(it.set?setInfoHtml(it.set,state==='hero'||$('#itemPop')&&!$('#itemPop').hidden?heroSel:null):'');}
 function tileHtml(it,extra){return '<button class="itile r'+it.r+(it.set?' set set-'+it.set:'')+(extra||'')+'" data-u="'+it.u+'"><img alt="" src="'+itIcon(it)+'">'+(it.lv?'<em>+'+it.lv+'</em>':'')+(equippedBy(it.u)?'<i class="eqd"></i>':'')+'</button>';}
+
+// ----- Towers screen: the arsenal (towers taken into a run) and menu levels -----
+let twPick=null;
+function twStars(L){return '<span class="tstars">'+[1,2,3,4,5].map(i=>'<i class="'+(i<=L?'on':'')+(i===3||i===5?' pk':'')+'"></i>').join('')+'</span>';}
+function twStats(k,L){const D=TOWERS[k];return [[_t('Poškození'),Math.round(D.dmg*(1+.15*(L-1))*10)/10],[_t('Dosah'),Math.round(D.range*(1+.04*(L-1)))],[_t('Zdraví'),Math.round(D.hp*(1+.12*(L-1)))],[_t('Útok'),_t('každé ')+cz(D.cd)+' s'],[_t('Cena v běhu'),D.cost+' '+_t('zl.')]];}
+function twLockText(k){const m=TW_UNL[k];return _t('Odemkneš výhrou na mapě ')+MAPS[m].name+'.';}
+function openTowers(){econInit();twPick=null;renderTowers();setState('towers');}
+function renderTowers(){twInit();$('#twMats').innerHTML=matsHtml();const d=save.tw.deck;
+  $('#twDeck').innerHTML=[0,1,2,3,4].map(i=>{const k=d[i]&&TOWERS[d[i]]&&twOpen(d[i])?d[i]:null,b=i===4;
+    return '<button class="tslot'+(b?' bld':'')+(twPick?' pick':'')+(k?'':' empty')+'" data-i="'+i+'">'+(k?'<img alt="" src="'+dataUrl(SPR.tower[k])+'"><b>'+TOWERS[k].name+'</b>'+twStars(twLv(k)):'<span class="plus">+</span>')+
+      (b?'<small class="bt"><img alt="" src="'+dataUrl(SPR.hero.builder)+'">'+_t('jen Stavitel')+'</small>':'')+'</button>';}).join('');
+  $('#twHint').textContent=twPick?_t('Ťukni na místo, kam dáš věž ')+TOWERS[twPick].name+'.':_t('Do běhu si bereš 4 věže, Stavitel 5. Ťukni na věž dole a vylepši ji nebo ji dej do arzenálu.');
+  $('#twHint').classList.toggle('on',!!twPick);
+  $('#twGrid').innerHTML=T_IDS.map(k=>{const open=twOpen(k),inD=d.slice(0,5).includes(k),C=TOWERS[k].ch?CHAPTERS.find(c=>c.id===TOWERS[k].ch):null;
+      return '<button class="tcard'+(open?'':' lock')+(inD?' in':'')+'" data-k="'+k+'"><img alt="" src="'+dataUrl(SPR.tower[k])+'"><div><b>'+TOWERS[k].name+'</b><small>'+(C?_t('Kapitola ')+ROMAN_CH[C.i]:_t('Základní'))+'</small>'+(open?twStars(twLv(k)):'<small class="lk">'+twLockText(k)+'</small>')+'</div></button>';}).join('')+
+    TW_SOON.map(T=>'<div class="tcard lock soon"><div class="tsil"></div><div><b>'+T.name+'</b><small>'+_t('Kapitola ')+ROMAN_CH[CHAPTERS.find(c=>c.id===T.ch).i]+'</small><small class="lk">'+_t('Přijde s novými mapami kapitoly.')+'</small></div></div>').join('');
+  $('#twDeck').querySelectorAll('.tslot').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;
+    if(twPick){const j=d.indexOf(twPick);if(j>=0&&j<5){d[j]=d[i];}d[i]=twPick;save.tw.deck=d.map(x=>x||null);while(save.tw.deck.length&&!save.tw.deck[save.tw.deck.length-1])save.tw.deck.pop();twPick=null;persist();sfx('level');renderTowers();}
+    else if(d[i]&&TOWERS[d[i]])openTw(d[i]);else note(_t('Vyber dole věž a dej ji sem'));});
+  $('#twGrid').querySelectorAll('.tcard[data-k]').forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(!twOpen(k)){note(twLockText(k));return;}sfx('ui');openTw(k);});}
+function openTw(k){const pop=$('#twPop'),L=twLv(k),I=TW_INFO[k],c=L<TW_MAX?twCost(k,L):null,inD=save.tw.deck.slice(0,5).includes(k),ok=c&&save.coins>=c.gold&&MAT_IDS.every(m=>!c[m]||save.mats[m]>=c[m]);
+  pop.innerHTML='<div class="pop-card tpop" style="--tc:'+TW_FLAG[k]+'"><div class="ic-head"><img alt="" src="'+dataUrl(SPR.tower[k])+'"><div><h3>'+TOWERS[k].name+'</h3><small>'+_t('Úroveň ')+L+' / '+TW_MAX+'</small>'+twStars(L)+'</div></div>'+
+    '<p class="tdesc">'+I[0]+'</p><ul class="ic-st">'+twStats(k,L).map(r=>'<li><span>'+r[0]+'</span><b>'+r[1]+'</b></li>').join('')+'</ul>'+
+    '<div class="tperk"><p class="'+(L>=3?'on':'')+'"><i>3</i><span>'+I[1]+'</span></p><p class="'+(L>=5?'on':'')+'"><i>5</i><span>'+I[2]+'</span></p></div>'+
+    '<div class="pop-btns">'+(c?'<button class="btn sm" id="twUp"'+(ok?'':' disabled')+'>'+_t('Vylepšit na ')+(L+1)+' <span class="costs">'+costHtml(c,1)+'</span></button>'+missHint(c):'<p class="hint">'+_t('Věž má maximální úroveň.')+'</p>')+
+    '<button class="btn alt sm" id="twDeckBtn"'+(inD?' disabled':'')+'>'+(inD?_t('Je v arzenálu'):_t('Dát do arzenálu'))+'</button><button class="btn alt sm" id="twClose">'+_t('Zavřít')+'</button></div></div>';
+  pop.hidden=false;
+  const up=$('#twUp');if(up)up.onclick=()=>{const C=twCost(k,twLv(k));if(save.coins<C.gold||MAT_IDS.some(m=>C[m]&&save.mats[m]<C[m]))return;save.coins-=C.gold;for(const m of MAT_IDS)if(C[m])save.mats[m]-=C[m];
+    save.tw.lv[k]=twLv(k)+1;persist();sfx('level');note(TOWERS[k].name+_t(': úroveň ')+save.tw.lv[k]);openTw(k);renderTowers();};
+  $('#twDeckBtn').onclick=()=>{pop.hidden=true;twPick=k;sfx('ui');renderTowers();};
+  $('#twClose').onclick=()=>{pop.hidden=true;sfx('ui');};
+  pop.onclick=e=>{if(e.target===pop)pop.hidden=true;};}
 
 // ----- Hero screen -----
 let heroSel='knight',invFilter=null;
@@ -4882,8 +4996,9 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
      +gdSec(_t('Pasivky'))+P_IDS.map(id=>gdRow(I(id),PASSIVES[id].name,PASSIVES[id].txt)).join('')
      +gdSec(_t('Fúze'))+FUSIONS.map(F=>{const hid=WEAPONS[F.id].secret&&!save.codex.f[F.id];
         return gdRow(I(F.id),hid?'???':WEAPONS[F.id].name,hid?_t('Tajný recept: oheň a led…'):WEAPONS[F.a].name+' + '+WEAPONS[F.b].name+_t(' (obě na úrovni 5)'));}).join('');}
-  else if(tab==='towers'){const D={'arrow':_t('Rychle střílí šípy na jednoho nepřítele.'),'fire':_t('Hází ohnivé koule, které vybuchnou.'),'frost':_t('Mrazivá vlna zraní a zpomalí nepřátele kolem.'),'tesla':_t('Blesk přeskakuje mezi několika nepřáteli.')};
-    h=T_IDS.map(k=>gdRow(dataUrl(SPR.tower[k]),TOWERS[k].name+' · '+TOWERS[k].cost+' '+_t('zl.'),D[k]||'')).join('')+gdSec(_t('Jak na věže'))+[
+  else if(tab==='towers'){
+    h=T_IDS.map(k=>gdRow(dataUrl(SPR.tower[k]),TOWERS[k].name+' · '+TOWERS[k].cost+' '+_t('zl.'),TW_INFO[k][0]+(twOpen(k)?'':' '+twLockText(k)))).join('')+gdSec(_t('Jak na věže'))+[
+   [I('tower'),_t('Arzenál'),_t('Ve Vybavení na záložce Věže vybereš 4 věže, které si bereš do běhu, a vylepšíš je až na úroveň 5. Na úrovni 3 a 5 získají schopnost.')],
    [I('coin'),_t('Stavění'),_t('Ťukni na věž vpravo dole a postaví se tam, kde stojíš.')],
    [I('power'),_t('Vylepšení věže'),_t('Stoupni si k věži a ťukni na Vylepšit. Maximum je úroveň 3.')],
    [I('heart'),_t('Oprava'),_t('Nepřátelé věže ničí. Plně vylepšenou věž opravíš stejným tlačítkem.')],
@@ -4988,7 +5103,7 @@ const Q_TPL=[
  {id:'elite',gen(r,c,d){const n=[3,5,8][d];return{n,ico:['elite','zombie'],t:_t('Na elitu'),x:_t('Poraz ')+n+(n<5?_t(' elitní nepřátele'):_t(' elitních nepřátel'))};},val:(q,C)=>C.el||0},
  {id:'cart',grp:'map',ok:c=>c.maps.includes('doly'),gen(r,c,d){const n=[15,30,50][d];return{n,ico:'magma',mat:'magma',t:_t('Pozor, vozík!'),x:_t('Nech důlní vozíky rozdrtit ')+n+_t(' nepřátel')};},val:(q,C)=>C.cart||0},
  {id:'oasis',grp:'map',ok:c=>c.maps.includes('poust'),gen(r,c,d){const n=[25,50,80][d];return{n,ico:'regen',mat:'amber',t:_t('Živá voda'),x:_t('Vyléč se v oázách o ')+n+_t(' zdraví')};},val:(q,C)=>C.oas||0},
- {id:'tower',max:1,gen(r,c,d){const k=T_IDS[Math.floor(r()*T_IDS.length)],n=[2,2,3][d];return{p:{k},n,ico:['tower',k],t:_t('Stavitel'),x:_t('Postav v jednom běhu ')+n+'× '+TOWERS[k].name};},val:(q,C)=>(C.tw&&C.tw[q.p.k])||0},
+ {id:'tower',max:1,gen(r,c,d){const TD=runDeck(false),k=TD[Math.floor(r()*TD.length)],n=[2,2,3][d];return{p:{k},n,ico:['tower',k],t:_t('Stavitel'),x:_t('Postav v jednom běhu ')+n+'× '+TOWERS[k].name};},val:(q,C)=>(C.tw&&C.tw[q.p.k])||0},
  {id:'combo',max:1,gen(r,c,d){const n=[25,45,70][d];return{n,ico:'music',t:_t('V rytmu'),x:_t('Dosáhni komba ')+n};},val:(q,C)=>C.combo||0},
  {id:'survive',grp:'map',max:1,fmt:1,gen(r,c,d){const m=c.maps[Math.floor(r()*c.maps.length)],n=Math.min([120,180,240][d],MAPS[m].dur);
    return{p:{m},n,ico:'haste',mat:MAT_OF[m],t:_t('Přežití'),x:_t('Přežij ')+qMin(n)+_t(' na mapě ')+MAPS[m].name};},val:(q,C)=>C.map===q.p.m?Math.floor(C.t||0):0},
@@ -5307,7 +5422,7 @@ function coApplyMate(opt,mul){const pl=run.pls&&run.pls[1];if(!pl)return;clearTi
   if(opt)withPl(pl,()=>{if(opt.k==='fuse')fuseApply(opt.f,mul||1);else applyOptCore(opt);recalc();run.p.max=st.max;run.p.hp=Math.min(run.p.hp,run.p.max);});
   run.lv.guest=true;if(run.lv.host)afterOption();}
 NET.h.pause=o=>{if(!run||run.over)return;if(o.on&&state==='play')togglePause(false,true);else if(!o.on&&state==='pause')togglePause(false,true);};
-NET.h.build=o=>{if(!run||!run.pls)return;CO.ctxMate=true;try{withPl(run.pls[1],()=>buildTower(o.k));}finally{CO.ctxMate=false;}};
+NET.h.build=o=>{if(!run||!run.pls||!TOWERS[o.k])return;CO.ctxMate=true;try{withPl(run.pls[1],()=>buildTower(o.k,Math.max(1,Math.min(TW_MAX,o.ml|0))));}finally{CO.ctxMate=false;}};
 NET.h.upg=()=>{if(!run||!run.pls)return;const q=run.pls[1].p;let nt=null,nd=26;for(const t of run.towers){const d=Math.hypot(t.x-q.x,t.y-q.y);if(d<nd){nd=d;nt=t;}}
   if(!nt)return;const sv=run.nearTower;run.nearTower=nt;CO.ctxMate=true;try{withPl(run.pls[1],()=>upgradeTower());}finally{CO.ctxMate=false;run.nearTower=sv;}};
 NET.h.rep=()=>{if(!run||!run.pls||!run.crystal)return;const q=run.pls[1].p,c=run.crystal;if(Math.hypot(c.x-q.x,c.y-q.y)>=30)return;
@@ -5361,6 +5476,7 @@ function guestStartRun(o){
     W:{},P:{},enemies:[],shots:[],eshots:[],gems:[],items:[],fx:[],parts:[],nums:[],amb:[],combo:0,comboT:0,hitstop:0,flashScr:0,boss:null,shake:0,over:false,won:false,
     cam:{x:0,y:0},lastHud:{},mate:{isMate:true,heroId:o.hh,x:map.size/2,y:map.size/2,hp:1,max:1,face:{x:0,y:1},moving:false,down:false,rev:0,inv:0,flash:0},mateW:{},
     eMap:new Map(),sMap:new Map(),gst:[58,120],crystal:map.crystal?{isCrystal:true,x:map.size/2,y:map.size/2,hp:1300,max:1300,r:9,flash:0,spr:SPR.misc.crystal}:null};
+  run.deck=runDeck(!!(hero&&hero.builder));buildBarInit();
   {const B=heroBonus(o.gh);st={speed:58,mag:30,dmg:1,cdMul:1,armor:0,regen:0,max:120,xpMul:1,crit:.1,gold:B.gold,lg:B.lg,tal:B.tal,tcost:B.tcost,tmax:B.tmax,thp:B.thp};}
   $('#icoMat').src=matIcon(MAT_OF[o.map]);$('#hudMat').hidden=false;
   $('#bossbar').hidden=true;$('#crbar').hidden=!run.crystal;$('#repBtn').hidden=true;
@@ -5475,6 +5591,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07r',d:'7. 11. 2026',t:_t('Arzenál věží'),items:[_t('Tlačítko <b>Hrdina</b> se jmenuje <b>Vybavení</b> a má novou záložku <b>Věže</b>.'),_t('Vybereš si <b>arzenál</b>: 4 věže, které si bereš do běhu (Stavitel 5). Každou věž vylepšíš za zlato a materiál až na úroveň 5. Na úrovni 3 a 5 získá schopnost, třeba dva šípy naráz nebo zmrazení.'),_t('<b>4 nové věže</b> z kapitol: Kostěná krypta (vyvolává kostlivce) a Zvon (rázová vlna) z kapitoly I, Obelisk (otáčivý paprsek) a Písečný vír (stahuje a zpomaluje) z kapitoly II. Odemkneš je výhrou na 2. a 4. mapě kapitoly.')]},
  {v:'2026-11-07q',d:'7. 11. 2026',t:_t('Rychlejší rozhodování'),items:[_t('Na výběr vylepšení máš <b>10 sekund</b>, ukazuje je zlatý proužek. Když nevybereš, vybere se karta sama. V prvním běhu a v co-opu limit není.')]},
  {v:'2026-11-07p',d:'7. 11. 2026',t:_t('Sety kapitol a nová výbava'),items:[_t('Každá kapitola má <b>set 4 kusů</b>: Výstroj pána kostí (kapitola I) a Faraonův odkaz (kapitola II). Kusy padají z finále kapitoly a nejpozději 4. výhra jeden kus zaručeně dá.'),_t('<b>2 kusy</b> dají bonus, <b>4 kusy</b> schopnost do rytmu: Tanec kostí (kostěné hroty, padlí vstanou jako tví kostlivci) a Sluneční disk (paprsky do kříže a do X).'),_t('<b>Poklad kapitoly</b>: po poražení finále ho najdeš v Přípravě na konci kapitoly. Uvnitř je kus setu, 300 zlata a materiál. Kdo už finále porazil, poklad na něj čeká.'),_t('Všechny předměty mají <b>nový vzhled</b>: každý stupeň vlastní obrázek, drahokam má barvu rarity. Sety najdeš i ve Sbírce.'),_t('Za přežité minuty padá dvakrát víc materiálu, takže i prohraný běh tě posune.')]},
  {v:'2026-11-07o',d:'7. 11. 2026',t:_t('Podle vašich názorů'),items:[_t('Žebříček: první tři mají vlastní karty se zabitími, mapami a hrdiny. Náhledy map při přepínání neblikají a tvůj řádek se dole připne, jen když tvoje místo není vidět.'),_t('Před prvním <b>rituálem</b> (fúze zbraní, sloučení v kovárně) se ukáže krátké vysvětlení a rituál začne, až ťukneš na Začít.'),_t('U vylepšení hrdiny i předmětů vidíš vedle ceny, <b>kolik suroviny máš</b> (třeba 90/1240).')]},
