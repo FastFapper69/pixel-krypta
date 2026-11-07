@@ -255,6 +255,11 @@ html,body,#stage{touch-action:none}
 .pips{display:flex;gap:3px;margin-top:4px}
 .pips i{width:12px;height:8px;background:#0c0912;box-shadow:inset 0 0 0 1px var(--line)}
 .pips i.on{background:var(--gold)}
+.card.shop.meta h3{display:flex;align-items:center;gap:8px}.card.shop.meta h3 .lv{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:13px;color:var(--muted);font-weight:700}
+.card.shop.meta .rk{display:inline-grid;place-items:center;min-width:20px;height:18px;padding:0 4px;font-size:11px;font-weight:700;color:#1a1423;background:var(--rc);clip-path:var(--px)}
+.pips.mp{gap:2px}.pips.mp i{flex:1;max-width:16px;height:7px}.pips.mp i.on{background:var(--rc)}
+.card.shop.meta .costs{margin-top:5px;font-size:13px}.card.shop.meta small.lk{display:block;margin-top:5px;color:#c8a8a8}
+.card.shop.meta .t{flex:1;min-width:0}
 .sticky{position:sticky;z-index:4;bottom:calc(-22px - var(--sab,0px));padding:12px 0 calc(22px + var(--sab,0px));background:linear-gradient(#130f1c00,#130f1cf2 30%)}
 .lvl{display:flex;flex-direction:column;gap:10px;width:100%}
 .lvl .card{flex-direction:row;align-items:center;gap:12px;padding:12px}
@@ -839,8 +844,8 @@ const STICK_MODES=['touch','fixed','follow'],STICK_TXT={touch:_t('pevný v míst
 let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false,stick:'touch'};
 function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
-const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw'];
+  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw','metaV'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
+const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw','metaV'];
 function persist(){save.updated=Date.now();try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
 
@@ -2465,15 +2470,25 @@ function weaponDiff(id,lv){ // text for upgrading to level lv (1-based, lv>=2)
 }
 
 /* ============ meta shop ============ */
+// Permanent upgrades: 3 ranks of 10 levels (I gold, II + Bone Dust after the chapter I finale, III + Amber after the chapter II finale).
+// Each rank gives half the bonus per level of the one before, prices grow ~13 % a level – a long-term goal. "Second chance" has 3 levels.
 const META=[
- {id:'hp',name:_t('Odolnost'),txt:_t('+10 max. zdraví za stupeň'),max:5,cost:r=>40*(r+1),icon:'heart'},
- {id:'dmg',name:_t('Síla'),txt:_t('+5 % poškození za stupeň'),max:5,cost:r=>60*(r+1),icon:'power'},
- {id:'spd',name:_t('Hbitost'),txt:_t('+4 % rychlost za stupeň'),max:5,cost:r=>50*(r+1),icon:'boots'},
- {id:'mag',name:_t('Magnetismus'),txt:_t('+10 % dosah sbírání za stupeň'),max:5,cost:r=>40*(r+1),icon:'magnet'},
- {id:'xp',name:_t('Moudrost'),txt:_t('+8 % zkušeností za stupeň'),max:5,cost:r=>70*(r+1),icon:'haste'},
- {id:'revive',name:_t('Druhá šance'),txt:_t('Po smrti vstaneš s polovinou zdraví'),max:1,cost:()=>400,icon:'potion'},
- {id:'build',name:_t('Dílna'),txt:_t('−5 % cena věží za stupeň'),max:4,cost:r=>60*(r+1),icon:'tower'}
-];
+ {id:'hp',name:_t('Odolnost'),per:5,fmt:v=>'+'+cz(Math.round(v*10)/10)+_t(' zdraví'),base:30,icon:'heart'},
+ {id:'dmg',name:_t('Síla'),per:.025,fmt:v=>'+'+cz(Math.round(v*1000)/10)+_t(' % poškození'),base:45,icon:'power'},
+ {id:'spd',name:_t('Hbitost'),per:.02,fmt:v=>'+'+cz(Math.round(v*1000)/10)+_t(' % rychlost'),base:35,icon:'boots'},
+ {id:'mag',name:_t('Magnetismus'),per:.05,fmt:v=>'+'+cz(Math.round(v*1000)/10)+_t(' % dosah sbírání'),base:25,icon:'magnet'},
+ {id:'xp',name:_t('Moudrost'),per:.04,fmt:v=>'+'+cz(Math.round(v*1000)/10)+_t(' % zkušeností'),base:40,icon:'haste'},
+ {id:'build',name:_t('Dílna'),per:.025,fmt:v=>'−'+cz(Math.round(v*1000)/10)+_t(' % cena věží'),base:40,icon:'tower'},
+ {id:'revive',name:_t('Druhá šance'),rev:1,icon:'potion'}];
+const META_RANKS=[{to:10,col:'#d08850'},{to:20,col:'#c8d0dc',mat:'bone',need:'trun'},{to:30,col:'#f6c744',mat:'amber',need:'brana'}],META_MAX=30;
+const REV_HP=[0,.5,.7,.9],REV_COST=[{gold:400},{gold:1500,bone:40},{gold:4000,amber:40}];
+const metaRank=L=>L<10?0:L<20?1:2;
+const metaOpen=r=>!META_RANKS[r].need||!!(save.cleared&&save.cleared[META_RANKS[r].need]);
+function mB(id,L){const M=META.find(m=>m.id===id);if(!M||!M.per)return 0;L=L||0;return M.per*(Math.min(L,10)+.5*clamp(L-10,0,10)+.25*clamp(L-20,0,10));}
+function metaCost(M,L){if(M.rev)return REV_COST[L]||null;if(L>=META_MAX)return null;const r=metaRank(L),c={gold:Math.round(M.base*Math.pow(1.13,L))};
+  if(r===1)c.bone=4+(L-10);if(r===2)c.amber=6+Math.round((L-20)*1.5);return c;}
+// old saves had 5 levels (build 4) with the full bonus each: twice the levels keeps the same strength
+function metaInit(){if(save.metaV===2)return;const m=save.meta||{};for(const k of ['hp','dmg','spd','mag','xp','build'])m[k]=Math.min(10,(m[k]||0)*2);save.meta=m;save.metaV=2;}
 
 /* ============ audio: music + rhythm ============ */
 let ac=null;const sfxT={};
@@ -2763,7 +2778,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07t';
+const GAME_VER='2026-11-07u';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -2849,15 +2864,15 @@ const needXP=l=>5+Math.floor(l*3.2+l*l*.25);
 function recalc(){
   const h=run.hero,m=run.meta||save.meta,P=run.P;const L=id=>P[id]||0;
   const B=run.bonus||ZERO_B;
-  st={max:Math.round((120+h.hp+m.hp*10+L('heart')*20+B.hp)*(1+B.hpPct)),speed:58*(1+h.spd+m.spd*.04+L('boots')*.08+B.spd),dmg:1+h.dmg+m.dmg*.05+L('power')*.12+B.dmg,
-    cdMul:Math.max(.4,(1-L('haste')*.08)*(1-B.cd)),mag:30*(1+m.mag*.1+L('magnet')*.25+B.mag),armor:h.armor+L('shield')+B.armor,regen:L('regen')*.4+B.regen,xpMul:1+m.xp*.08+B.xp,
+  st={max:Math.round((120+h.hp+mB('hp',m.hp)+L('heart')*20+B.hp)*(1+B.hpPct)),speed:58*(1+h.spd+mB('spd',m.spd)+L('boots')*.08+B.spd),dmg:1+h.dmg+mB('dmg',m.dmg)+L('power')*.12+B.dmg,
+    cdMul:Math.max(.4,(1-L('haste')*.08)*(1-B.cd)),mag:30*(1+mB('mag',m.mag)+L('magnet')*.25+B.mag),armor:h.armor+L('shield')+B.armor,regen:L('regen')*.4+B.regen,xpMul:1+mB('xp',m.xp)+B.xp,
     crit:.1+B.crit+L('eye')*.06,fuse:B.fuse,gold:B.gold+L('greed')*.1,tcost:B.tcost,thp:B.thp,tmax:B.tmax,lg:B.lg,tal:B.tal};
   if(run.mod==='glass'){st.dmg*=1.5;st.max=Math.round(st.max*.5);}if(run.mod==='horde')st.xpMul+=.3;if(run.mod==='noheal')st.regen=0;
   for(const id in run.W)run.W[id].xn=talentW(id),run.W[id]._p=null;
 }
 // the daily challenge runs on a seed of the day (map, spawns and level-up offers start out the same for everyone)
 const RNG0=Math.random;function seedRng(seed){Math.random=seed==null?RNG0:mulberry32(qHash(seed));}
-function startRun(heroId,mapId,o){
+function startRun(heroId,mapId,o){metaInit();
   o=o||{};seedRng(o.mod?'daily|'+today():null);audioInit();setSong(mapId);
   const hero=HEROES[heroId],map=MAPS[mapId],built=buildMap(mapId);for(const k in mapsBuilt)if(k!==mapId)delete mapsBuilt[k];save.lastMap=mapId;MB.id=mapId;
   run={heroId,hero,mapId,map,built,idx:MAP_IDS.indexOf(mapId),t:0,kills:0,coins:25,startCoins:25,towers:[],nearTower:null,tip:false,level:1,xp:0,need:needXP(1),pending:0,
@@ -3016,7 +3031,7 @@ function hurtPlayer(d,src){
   p.hp-=amt;p.inv=st.tal&&st.tal.k20?1.1:.6;p.flash=.15;run.shake=3;run.combo=run.hero&&run.hero.ach==='combo'?run.combo>>1:0;sfx('hurt');
   run.nums.push({x:p.x,y:p.y-8,txt:String(amt),life:.7,col:'#ff6a5a'});
   if(p.hp<=0){
-    if(((run.meta||save.meta).revive>0||(st.lg&&st.lg.heart))&&!run.revived){run.revived=true;p.hp=Math.ceil(p.max*.5);p.inv=2.5;toast(_t('Druhá šance!'),1800);sfx('level');
+    const rv=Math.min(3,(run.meta||save.meta).revive||0);if((rv>0||(st.lg&&st.lg.heart))&&!run.revived){run.revived=true;p.hp=Math.ceil(p.max*(REV_HP[rv]||.5));p.inv=2.5;toast(_t('Druhá šance!'),1800);sfx('level');
       run.enemies.forEach(e=>{if(!e.boss&&Math.hypot(e.x-p.x,e.y-p.y)<90){e.kx+=(e.x-p.x)*5;e.ky+=(e.y-p.y)*5;}});
       run.eshots.length=0;}
     else if(run.pls)downPlayer(p);
@@ -3314,7 +3329,7 @@ function runTwStats(builder){const o={};for(const u of save.tw.deck.slice(0,buil
 const twM=t=>t.ts?t.ts.dm:1; // damage from the tower card
 const MAX_T=8;
 const NM_HP=.55,NM_DMG=.25; // per Nightmare tier (enemies, boss, crystal pulse)
-const metaBuild=()=>1-.05*(save.meta.build||0);
+const metaBuild=()=>1-mB('build',save.meta.build||0);
 const maxTowers=()=>MAX_T+(run.hero.builder?2:0)+((st&&st.tmax)||0);
 const towerCost=k=>Math.max(5,Math.round(TOWERS[k].cost*((run.tws&&run.tws[k]&&run.tws[k].cm)||1)*(1+.15*run.towers.length)*(run.hero.builder?.6:1)*metaBuild()*(1-((st&&st.tcost)||0))));
 const towerUpCost=t=>Math.round(TOWERS[t.k].cost*.9*t.lv*(run.hero.builder?.7:1)*metaBuild());
@@ -4441,15 +4456,24 @@ function renderSelect(){
   db.innerHTML='<div class="card daily'+(di.done?' done':'')+_t('"><div class="t"><h3>Denní výzva · ')+MAPS[di.map].name+'</h3><small><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small>'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 3 minuty → truhla s předmětem + 20 ')+MAT_NAME[MAT_OF[di.map]]+'.')+_t('</small><small>Stejný běh pro všechny · žebříček Dnes')+(mapUnlocked(di.map)?'':_t(' · mapu si tak vyzkoušíš, i když ji ještě nemáš'))+_t('</small></div><button class="btn sm" id="dailyGo">Hrát</button></div>');
   $('#dailyGo').onclick=()=>{sfx('ui');startRun(heroOwned(sel.hero)?sel.hero:'knight',di.map,{mod:di.mod.id});};
 }
-function renderShop(){
+function renderShop(){metaInit();
   $('#shopMats').innerHTML=matsHtml();
   const box=$('#shopList');box.innerHTML='';
-  META.forEach(m=>{const r=save.meta[m.id]||0,maxed=r>=m.max,cost=m.cost(r);
-    const c=document.createElement('div');c.className='card shop';
-    c.innerHTML='<img alt="" src="'+dataUrl(SPR.icon[m.icon])+'"><div class="t"><h3>'+m.name+'</h3><small>'+m.txt+'</small><div class="pips">'+
-      Array.from({length:m.max},(_,i)=>'<i class="'+(i<r?'on':'')+'"></i>').join('')+'</div></div>';
-    const b=document.createElement('button');b.className='btn sm';b.innerHTML=maxed?_t('Max'):'<span class="cost" style="color:inherit">'+cost+'</span>';b.disabled=maxed||save.coins<cost;
-    b.addEventListener('click',()=>{if(save.coins>=cost&&!maxed){save.coins-=cost;save.meta[m.id]=r+1;persist();sfx('coin');renderShop();refreshMenu();}});
+  META.forEach(M=>{const L=save.meta[M.id]||0,c=document.createElement('div');c.className='card shop meta';let cost=metaCost(M,L),lock='',head,pips,txt;
+    if(M.rev){const n=Math.min(3,L);head=n+' / 3';txt=n?_t('Po smrti vstaneš s ')+Math.round(REV_HP[n]*100)+_t(' % zdraví'):_t('Po smrti vstaneš s polovinou zdraví');
+      pips='<div class="pips mp">'+[1,2,3].map(i=>'<i class="'+(i<=n?'on':'')+'" style="--rc:'+META_RANKS[i-1].col+'"></i>').join('')+'</div>';
+      if(cost&&n>=1&&!metaOpen(n)){lock=META_RANKS[n].need;}}
+    else{const r=metaRank(Math.min(L,META_MAX-1)),RK=META_RANKS[r],inR=L>=META_MAX?10:L-r*10,per=M.per*[1,.5,.25][r];
+      head='<span class="rk" style="--rc:'+RK.col+'">'+ROMAN_CH[r]+'</span>'+L+' / '+META_MAX;
+      txt=(L?_t('Celkem ')+M.fmt(mB(M.id,L)):M.fmt(0))+(L<META_MAX?' · '+_t('další ')+M.fmt(per):'');
+      pips='<div class="pips mp" style="--rc:'+RK.col+'">'+Array.from({length:10},(_,i)=>'<i class="'+(i<inR?'on':'')+'"></i>').join('')+'</div>';
+      if(cost&&!metaOpen(r))lock=RK.need;}
+    c.innerHTML='<img alt="" src="'+dataUrl(SPR.icon[M.icon])+'"><div class="t"><h3>'+M.name+'<small class="lv">'+head+'</small></h3><small>'+txt+'</small>'+pips+
+      (lock?'<small class="lk">'+_t('Další hodnost odemkne poražení mapy ')+MAPS[lock].name+'.</small>':cost?'<span class="costs">'+costHtml(cost,1)+'</span>':'')+'</div>';
+    const ok=cost&&!lock&&save.coins>=cost.gold&&MAT_IDS.every(k=>!cost[k]||(save.mats[k]||0)>=cost[k]);
+    const b=document.createElement('button');b.className='btn sm';b.textContent=!cost?_t('Max'):lock?_t('Zamčeno'):_t('Koupit');b.disabled=!ok;
+    b.addEventListener('click',()=>{const C=metaCost(M,save.meta[M.id]||0);if(!C||lock)return;if(save.coins<C.gold||MAT_IDS.some(k=>C[k]&&(save.mats[k]||0)<C[k]))return;
+      save.coins-=C.gold;for(const k of MAT_IDS)if(C[k])save.mats[k]-=C[k];save.meta[M.id]=(save.meta[M.id]||0)+1;persist();sfx('coin');renderShop();refreshMenu();});
     c.appendChild(b);box.appendChild(c);});
 }
 function openMenu(){seedRng(null);$('#tut').hidden=true;if(NET.ch||CO.on){netClose();CO.on=false;CO.role=null;}run=null;setSong('menu');stick.active=false;stickEl.hidden=true;refreshMenu();setState('menu');}
@@ -4774,7 +4798,7 @@ const DAILY_MODS=[{id:'fast',name:_t('Zběsilí'),desc:_t('Nepřátelé jsou o 3
   {id:'horde',name:_t('Horda'),desc:_t('O 60 % víc nepřátel, ale i o 30 % víc zkušeností.')},{id:'noheal',name:_t('Bez léčení'),desc:_t('Žádná regenerace, srdce ani oázy.')}];
 
 // ----- save helpers -----
-function econInit(){chMigrate();twInit();save.fin=save.fin||{};save.mats=Object.assign({bone:0,amber:0,magma:0},save.mats||{});save.hlv=save.hlv||{};save.inv=save.inv||[];save.eq=save.eq||{};
+function econInit(){chMigrate();twInit();metaInit();save.fin=save.fin||{};save.mats=Object.assign({bone:0,amber:0,magma:0},save.mats||{});save.hlv=save.hlv||{};save.inv=save.inv||[];save.eq=save.eq||{};
   save.nm=save.nm||{};save.pity=Object.assign({iron:0,gold:0,tower:0},save.pity||{});save.daily=save.daily||{};save.codex=save.codex||{f:{},l:{}};save.codex.f=save.codex.f||{};save.codex.l=save.codex.l||{};save.codex.s=save.codex.s||{};save.setP=save.setP||{};save.chT=save.chT||{};save.uidc=save.uidc||0;}
 const heroLv=h=>Math.max(1,Math.min(HERO_MAX,(save.hlv&&save.hlv[h])||1));
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
@@ -5740,6 +5764,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07u',d:'7. 11. 2026',t:_t('Vylepšení na dlouho'),items:[_t('<b>Vylepšení</b> v Obchodu mají 30 úrovní ve 3 hodnostech. Hodnost I je za zlato, II navíc za Kostní prach (po poražení Trůnu kostí), III za Jantar (po Bráně slunce). Každá další hodnost dává menší přírůstek, takže je pořád na co šetřit.'),_t('<b>Druhá šance</b> má 3 úrovně: vstaneš s 50, 70 a nakonec 90 % zdraví. Dosavadní nákupy se převedly, nic jsi neztratil.')]},
  {v:'2026-11-07t',d:'7. 11. 2026',t:_t('Karty věží a větší odměny za kombo'),items:[_t('Věže jsou teď <b>karty s raritou</b> jako výbava: Běžná až Legendární. Vyšší rarita je silnější a má náhodné bonusy (dosah, rychlost, levnější stavba…). Epická a Legendární mají schopnost.'),_t('Nová <b>Věžová truhla</b> v Obchodu. Karty se vylepšují +1 až +10, 3 stejné karty se rituálem sloučí do vyšší rarity a nechtěné rozebereš. Tvoje dosavadní úrovně věží se převedly na raritu.'),_t('Zlato za <b>kombo</b> roste: každých 25 komba víc (až 60 zlata) a každých 100 padne i materiál.')]},
  {v:'2026-11-07s',d:'7. 11. 2026',t:_t('Léčivá Oáza a noví hrdinové na obzoru'),items:[_t('Nová věž <b>Oáza</b> z kapitoly II: posílá na tebe léčivý paprsek a co jím projde, dostane poškození. Odemkne se po poražení Brány slunce.'),_t('V Přípravě uvidíš 4 budoucí hrdiny: <b>Kovářku, Šamanku mrazu, Námořnici a Hvězdářku</b>. Přijdou s novými kapitolami a každá přinese vlastní zbraň (Roztavené kladivo, Krápníky, Kotva na řetězu, Souhvězdí).')]},
  {v:'2026-11-07r',d:'7. 11. 2026',t:_t('Arzenál věží'),items:[_t('Tlačítko <b>Hrdina</b> se jmenuje <b>Vybavení</b> a má novou záložku <b>Věže</b>.'),_t('Vybereš si <b>arzenál</b>: 4 věže, které si bereš do běhu (Stavitel 5). Každou věž vylepšíš za zlato a materiál až na úroveň 5. Na úrovni 3 a 5 získá schopnost, třeba dva šípy naráz nebo zmrazení.'),_t('<b>4 nové věže</b> z kapitol: Kostěná krypta (vyvolává kostlivce) a Zvon (rázová vlna) z kapitoly I, Obelisk (otáčivý paprsek) a Písečný vír (stahuje a zpomaluje) z kapitoly II. Odemkneš je výhrou na 2. a 4. mapě kapitoly.')]},
