@@ -1,6 +1,14 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Nastavení":"Settings",
+"Zavřít":"Close",
+"Síň slávy":"Hall of Fame",
+"Truhly":"Chests",
+"Přehlednější menu":"A cleaner menu",
+"Menu má jen 6 velkých tlačítek a jsou dole, kam dosáhneš palcem.":"The menu now has just 6 big buttons, at the bottom within thumb reach.",
+"<b>Obchod</b> má záložky Truhly a Vylepšení. <b>Síň slávy</b> spojuje Žebříček, Mistrovství a Sbírku.":"The <b>Shop</b> has Chests and Upgrades tabs. The <b>Hall of Fame</b> combines the Leaderboard, Mastery and Collection.",
+"Nahoře vidíš zlato a materiály, vpravo Novinky, Průvodce a <b>Nastavení</b> (zvuk, hudba, ovládání, jazyk, přezdívka).":"Gold and materials are at the top, with What's new, the Guide and <b>Settings</b> (sound, music, controls, language, nickname) on the right.",
 "Průvodce":"Guide",
 "Základy":"Basics",
 "Svět":"World",

@@ -95,6 +95,27 @@ button{font-family:inherit}
 .scr.clear{background:#130f1ccc;justify-content:center}
 .wrap{width:100%;max-width:520px;display:flex;flex-direction:column;gap:14px;margin:auto 0}
 .scr:not(.clear):not(#scr-menu)>.wrap{margin:0 0 auto}
+/* main menu: top bar (currencies + icon buttons), logo centred in the free space, six buttons at the bottom within thumb reach */
+#scr-menu{padding-top:calc(66px + var(--sat,0px))}
+#scr-menu>.wrap{min-height:100%;margin:0}#scr-menu>.wrap>.sp{flex:1 1 0;min-height:4px}
+#mTop{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:center;gap:8px;padding:calc(8px + var(--sat,0px)) 12px 16px;background:linear-gradient(#0c0912d0,#0c091280 60%,#0c091200)}
+#mCur{margin-right:auto;padding:5px 10px;gap:4px 10px;font-size:14px;box-shadow:inset 0 0 0 2px var(--line);background:#0c0912c0;justify-content:flex-start}
+#mCur .mt:first-child{color:var(--gold)}
+#mTop .btn.ic{width:42px;height:42px;min-height:0;padding:0;flex:none;position:relative}#mTop .btn.ic img{width:24px;height:24px;image-rendering:pixelated}
+#mSet.has::after,#mGuide.has::after{content:'';position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);box-shadow:0 0 0 2px #2a0a10}
+#mStack .btn{min-height:60px}#mPlay{font-size:23px}#mStack .row2 .btn{font-size:18px;white-space:nowrap;padding:10px 8px}#mStack .row2 .lbl{letter-spacing:.02em}
+#mStack .bi img{width:28px;height:28px}#mStack .row2 .bi{margin-right:8px}
+#mBoard{position:relative}#mBoard.has::after{content:'';position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);box-shadow:0 0 0 2px #2a0a10}
+.sheetwrap{position:fixed;inset:0;z-index:28;background:#0c0912b8;display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:560px;padding:14px 16px calc(18px + var(--sab,0px));background:var(--panel) var(--tex);background-size:32px 32px;display:flex;flex-direction:column;gap:10px;
+  clip-path:polygon(0 8px,8px 8px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 8px,100% 8px,100% 100%,0 100%);box-shadow:inset 0 3px 0 var(--gold-dk),inset 0 6px 0 #0c0912;animation:sheetUp .18s steps(4)}
+@keyframes sheetUp{from{transform:translateY(40%)}to{transform:none}}
+.sheet .head{margin:0}.sheet .langsw button{font-size:14px;padding:8px}
+/* section tabs (Obchod: Truhly | Vylepšení, Síň slávy: Žebříček | Mistrovství | Sbírka) */
+.tabs.sectabs{display:flex;flex-wrap:nowrap;gap:0;box-shadow:inset 0 -3px 0 var(--line);margin-top:-4px}
+.tabs.sectabs button{flex:1;min-width:0;position:relative;font:inherit;font-weight:700;font-size:16px;padding:8px 4px 12px;background:none;border:0;box-shadow:none;color:var(--muted);cursor:pointer;letter-spacing:.03em;text-shadow:0 2px 0 #0009}
+.tabs.sectabs button.on{color:var(--gold);background:none;box-shadow:inset 0 -3px 0 var(--gold)}
+.tabs.sectabs button.has::after{content:'';position:absolute;top:6px;right:8px;width:7px;height:7px;background:var(--red);box-shadow:0 0 0 2px #2a0a10}
 h1,h2,h3,p{margin:0}
 .logo{font-family:var(--font-px);font-size:clamp(44px,14vw,76px);line-height:.95;font-weight:700;color:var(--gold);letter-spacing:.02em;text-align:center;
   text-shadow:0 4px 0 #6b4a0f,0 8px 0 #0008;text-wrap:balance}
@@ -110,7 +131,7 @@ h1,h2,h3,p{margin:0}
 .scr:not(.clear){background:linear-gradient(180deg,#0c0912c0 0%,#130f1c60 26%,#130f1c70 70%,#0c0912d8 100%)}
 #scr-menu{background:linear-gradient(180deg,#0c091290 0%,#130f1c10 28%,#130f1c30 58%,#0c0912c0 100%)}
 /* pixel-cut corners, stone and gold slabs */
-.btn,.card,.slot,.co-pick,.itile,.brow,.pop-card,.cx,.tabs button,.co-join input,.coins.pill,.mats{clip-path:var(--px)}
+.btn,.card,.slot,.co-pick,.itile,.brow,.pop-card,.cx,.tabs:not(.sectabs) button,.co-join input,.coins.pill,.mats{clip-path:var(--px)}
 .btn{box-shadow:inset 0 3px 0 #fff2b0,inset 0 -5px 0 var(--gold-dk),inset 3px 0 0 #ffe27a,inset -3px 0 0 #d8a52a;text-shadow:0 1px 0 #fff4c0}
 .btn:active{transform:translateY(2px);box-shadow:inset 0 3px 0 #ffe9a0,inset 0 -2px 0 var(--gold-dk),inset 3px 0 0 #ffe27a,inset -3px 0 0 #d8a52a}
 .btn.alt{background:var(--panel-hi) var(--tex);background-size:32px 32px;image-rendering:pixelated;text-shadow:0 2px 0 #0008;
@@ -392,30 +413,32 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
   </div>
 
   <section class="scr" id="scr-menu">
+    <div id="mTop"><div class="mats" id="mCur"></div><button class="btn alt ic" id="mNews" aria-label="Novinky"><img alt="" id="icNews"></button><button class="btn alt ic" id="mGuide" aria-label="Průvodce"><img alt="" id="icGuide"></button><button class="btn alt ic" id="mSet" aria-label="Nastavení"><img alt="" id="icSet"></button></div>
     <div class="wrap">
+      <div class="sp"></div>
       <div class="logobox"><img class="crest" id="crest" alt=""><h1 class="logo">PIXEL<br>KRYPTA</h1><i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i></div>
       <p class="tag">Přežij vlny nepřátel, posiluj se a poraz bosse.</p>
       <div class="paradebox"><div class="parade" id="parade"></div></div>
-      <div class="coins pill"><img id="menuCoin" alt=""><span id="menuCoins">0</span></div>
-      <button class="btn alt sm" id="mNick" hidden></button>
+      <div class="sp"></div>
       <p class="hint" id="mWarn" hidden>Hraješ v prohlížeči uvnitř aplikace. Otevři hru v Safari nebo Chrome (tři tečky → Otevřít v prohlížeči), ať se ti postup pamatuje.</p>
-      <div class="stack">
+      <div class="stack" id="mStack">
         <button class="btn" id="mPlay">Hrát</button>
         <button class="btn alt" id="mCoop">Hrát s kamarádem</button>
         <div class="row2"><button class="btn alt" id="mHero">Hrdina</button><button class="btn alt" id="mChest">Obchod</button></div>
-        <div class="row2"><button class="btn alt" id="mShop">Vylepšení</button><button class="btn alt" id="mCodex">Sbírka</button></div>
-        <div class="row2"><button class="btn alt" id="mQuest">Nástěnka</button><button class="btn alt" id="mBoard">Žebříček</button></div>
-        <div class="row2"><button class="btn alt" id="mMaster">Mistrovství</button><button class="btn alt" id="mGuide">Průvodce</button></div>
-        <button class="btn alt sm" id="mNews">Novinky</button>
-        <button class="btn alt sm" id="mInstall" hidden>Přidat hru na plochu</button>
-        <div class="row3"><button class="btn alt sm" id="mSound">Zvuk</button><button class="btn alt sm" id="mMusic">Hudba</button><button class="btn alt sm" id="mStick">Ovládání</button></div>
-        <div class="tabs langsw" id="mLang"><button data-l="cs">Čeština</button><button data-l="en">English</button></div>
-        <button class="btn alt sm" id="mCheat" hidden>Testovací režim: vyp</button>
-        <button class="btn alt sm" id="mGold" hidden>+1000 zlata</button>
+        <div class="row2"><button class="btn alt" id="mQuest">Nástěnka</button><button class="btn alt" id="mBoard">Síň slávy</button></div>
       </div>
-      <p class="hint">Táhni prstem kamkoli na obrazovce a postava se rozběhne. Útočí sama.<br>Na počítači: WASD nebo šipky, Esc je pauza.</p>
-      <p class="hint ver" id="mVer"></p>
     </div>
+    <div class="sheetwrap" id="setPop" hidden><div class="sheet">
+      <div class="head"><h2>Nastavení</h2><button class="btn alt sm" id="setClose">Zavřít</button></div>
+      <button class="btn alt sm" id="mNick" hidden></button>
+      <div class="row3"><button class="btn alt sm" id="mSound">Zvuk</button><button class="btn alt sm" id="mMusic">Hudba</button><button class="btn alt sm" id="mStick">Ovládání</button></div>
+      <div class="tabs langsw" id="mLang"><button data-l="cs">Čeština</button><button data-l="en">English</button></div>
+      <button class="btn alt sm" id="mInstall" hidden>Přidat hru na plochu</button>
+      <button class="btn alt sm" id="mCheat" hidden>Testovací režim: vyp</button>
+      <button class="btn alt sm" id="mGold" hidden>+1000 zlata</button>
+      <p class="hint">Na počítači: WASD nebo šipky, Esc je pauza.</p>
+      <p class="hint ver" id="mVer"></p>
+    </div></div>
   </section>
 
   <section class="scr" id="scr-select" hidden>
@@ -436,7 +459,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 
   <section class="scr" id="scr-shop" hidden>
     <div class="wrap">
-      <div class="head"><h2>Vylepšení</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="head"><h2>Obchod</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="tabs sectabs" data-sec="shop"><button data-to="chests">Truhly</button><button data-to="shop">Vylepšení</button></div>
       <div class="mats" id="shopMats"></div>
       <p class="hint">Trvalé bonusy, které platí v každém dalším běhu.</p>
       <div class="stack" id="shopList"></div>
@@ -505,6 +529,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
   <section class="scr" id="scr-chests" hidden>
     <div class="wrap">
       <div class="head"><h2>Obchod</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="tabs sectabs" data-sec="shop"><button data-to="chests">Truhly</button><button data-to="shop">Vylepšení</button></div>
       <div class="mats" id="cMats"></div>
       <p class="hint">Truhly obsahují výbavu pro hrdiny. Šance na raritu jsou vidět u každé truhly.</p>
       <div class="stack" id="chestList"></div>
@@ -525,7 +550,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 
   <section class="scr" id="scr-master" hidden>
     <div class="wrap">
-      <div class="head"><h2>Mistrovství</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="head"><h2>Síň slávy</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="tabs sectabs" data-sec="hall"><button data-to="board">Žebříček</button><button data-to="master">Mistrovství</button><button data-to="codex">Sbírka</button></div>
       <p class="hint">Dlouhodobé cíle. Za každý dostaneš odměnu a titul, který se ukáže u tvé přezdívky v žebříčku. Splněno <b id="maCount"></b></p>
       <div id="maTitle" class="matitle"></div>
       <div class="stack" id="maList"></div>
@@ -542,7 +568,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 
   <section class="scr" id="scr-codex" hidden>
     <div class="wrap">
-      <div class="head"><h2>Sbírka</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="head"><h2>Síň slávy</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="tabs sectabs" data-sec="hall"><button data-to="board">Žebříček</button><button data-to="master">Mistrovství</button><button data-to="codex">Sbírka</button></div>
       <p class="hint">Objeveno <b id="cxCount"></b></p>
       <div class="sec">Fúze zbraní</div><div class="cxgrid" id="cxFus"></div>
       <div class="sec">Legendární předměty</div><div class="cxgrid" id="cxLeg"></div>
@@ -581,7 +608,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 
   <section class="scr" id="scr-board" hidden>
     <div class="wrap">
-      <div class="head"><h2>Žebříček</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="head"><h2>Síň slávy</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="tabs sectabs" data-sec="hall"><button data-to="board">Žebříček</button><button data-to="master">Mistrovství</button><button data-to="codex">Sbírka</button></div>
       <div class="tabs" id="boardTabs"><button data-t="celkem">Celkem</button><button data-t="dnes">Dnes</button><button data-t="hrbitov">Hřbitov</button><button data-t="poust">Poušť</button><button data-t="doly">Doly</button></div>
       <p class="hint" id="boardMsg"></p>
       <div class="stack" id="boardList"></div>
@@ -814,6 +842,8 @@ const ICONS={
  eye:{pal:{w:'#ffffff',u:'#4aa3e8',k:'#14101c'},rows:['........','..wwww..','.wuuuuw.','wuukkuuw','wuukkuuw','.wuuuuw.','..wwww..','........']},
  greed:{pal:{n:'#8a5a3a',y:'#f6c744',o:'#c28a10'},rows:['...nn...','..n..n..','...nn...','.yyyyyy.','yyoyyoyy','yyyooyyy','yyoyyoyy','.yyyyyy.']},
  medal:{pal:{r:'#e8453c',u:'#4aa3e8',y:'#f6c744',o:'#c28a10'},rows:['.rr..uu.','..rr.u..','...ru...','..yyyy..','.yyooyy.','.yoyyoy.','.yyooyy.','..yyyy..']},
+ gear:{pal:{s:'#d8d4e8',S:'#8a86a0'},rows:['.s.ss.s.','.ssssss.','ssSSSSss','.sS..Ss.','.sS..Ss.','ssSSSSss','.ssssss.','.s.ss.s.']},
+ bell:{pal:{y:'#f6c744',w:'#fff6c8',o:'#a97a14'},rows:['...yy...','..yyyy..','.yywyyy.','.ywyyyy.','.yyyyyy.','yyyyyyyy','oooooooo','...oo...']},
  book:{pal:{B:'#8a5ad0',b:'#5a3a9a',p:'#ecdcae',y:'#f6c744'},rows:['.BBBBBB.','Bbbbbbbp','Bbyyyybp','Bbybbybp','Bbyyyybp','Bbbbbbbp','Bbbbbbbp','.pppppp.']},
  news:{pal:{y:'#f6c744',w:'#fff6c8'},rows:['...y....','...y....','..ywy..y','yywwwyy.','..ywy...','...y....','.y.y....','........']},
  share:{pal:{s:'#cfcfe0',u:'#7fcaff'},rows:['.....uu.','....uuuu','...s.uu.','..s.....','uu.s....','uuuu.s..','.uu...s.','........']},
@@ -1629,7 +1659,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07e';
+const GAME_VER='2026-11-07f';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -1646,7 +1676,7 @@ function showScreen(n){for(const k in screens)screens[k].hidden=(k!==n);}
 function setState(s){if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
   $('#hud').hidden=!(run&&(s==='play'||s==='levelup'||s==='fuse'||s==='wait'||s==='pause'||s==='over'));
   if(s!=='play'){const tt=$('#toast');if(tt)tt.classList.remove('on');}{const tu=$('#tut');if(tu)tu.style.visibility=s==='play'?'':'hidden';}
-  showScreen(s==='play'?null:s);try{showStickRest();}catch(_){}
+  showScreen(s==='play'?null:s);document.querySelectorAll('.sectabs button').forEach(b=>b.classList.toggle('on',b.dataset.to===s));if(s!=='menu'){const sp=$('#setPop');if(sp)sp.hidden=true;}try{showStickRest();}catch(_){}
   muffle(s==='pause'||s==='levelup'||s==='over');
 }
 function note(msg,ms){if(CO.ctxMate&&run&&run.pls){netSend({t:'note',m:msg});return;}const n=$('#note');n.textContent=msg;n.classList.add('on');clearTimeout(note.t);note.t=setTimeout(()=>n.classList.remove('on'),ms||1800);}
@@ -2853,7 +2883,7 @@ function frame(ts){
 /* ============ menus ============ */
 function money(){return save.coins;}
 function refreshMenu(){
-  $('#menuCoins').textContent=money();
+  $('#mCur').innerHTML=matsHtml();
   setLbl('#mSound',_t('Zvuk'),!save.sound);
   setLbl('#mMusic',_t('Hudba'),!save.music);stickLabels();
   $('#mWarn').hidden=!/Instagram|FBAN|FBAV|FB_IAB|Messenger|TikTok|Snapchat/i.test(navigator.userAgent||'');
@@ -2861,7 +2891,7 @@ function refreshMenu(){
   $('#mInstall').hidden=!pwaCan();$('#mNews').classList.toggle('has',newsUnseen().length>0);
   $('#mNick').hidden=!ON.ready;$('#mNick').textContent=_t('Hráč: ')+(save.nick||_t('bez přezdívky'))+(titleOf(save)?' · '+titleOf(save):'')+_t(' · změnit');
   if(save.cheat&&!isDev()){save.cheat=false;persist();}
-  try{econInit();$('#mQuest').classList.toggle('has',qClaimable());$('#mMaster').classList.toggle('has',achClaimable());}catch(_){}
+  try{econInit();$('#mQuest').classList.toggle('has',qClaimable());{const a=achClaimable();$('#mBoard').classList.toggle('has',a);document.querySelectorAll('.sectabs [data-to=master]').forEach(b=>b.classList.toggle('has',a));}}catch(_){}
   $('#mCheat').hidden=!isDev();$('#mCheat').textContent=_t('Testovací režim: ')+onOff(save.cheat);$('#mGold').hidden=!save.cheat;
 }
 let sel={hero:'knight',map:'hrbitov'};
@@ -2964,10 +2994,10 @@ function bindUi(){
   const ico=(q,srcs)=>{const b=$(q);if(!b)return;const lbl=b.querySelector('.lbl')||(()=>{const l=document.createElement('span');l.className='lbl';l.textContent=b.textContent;b.textContent='';b.appendChild(l);return l;})();
     const w=document.createElement('span');w.className='bi';for(const s of srcs){const i=document.createElement('img');i.alt='';i.src=s;w.appendChild(i);}b.insertBefore(w,lbl);};
   ico('#mPlay',[dataUrl(SPR.icon.blade)]);ico('#mCoop',[dataUrl(SPR.hero.knight),dataUrl(SPR.hero.mage)]);ico('#mHero',[dataUrl(SPR.hero.knight)]);
-  ico('#mChest',[dataUrl(SPR.icon.chest_gold)]);ico('#mShop',[dataUrl(SPR.icon.power)]);ico('#mCodex',[dataUrl(itemSpr('amulet',4))]);ico('#mBoard',[dataUrl(SPR.icon.trophy)]);ico('#mQuest',[dataUrl(SPR.icon.scroll)]);ico('#mMaster',[dataUrl(SPR.icon.medal)]);ico('#ovShare',[dataUrl(SPR.icon.share)]);ico('#mNews',[dataUrl(SPR.icon.news)]);ico('#mGuide',[dataUrl(SPR.icon.book)]);ico('#mInstall',[dataUrl(SPR.icon.phone)]);
+  ico('#mChest',[dataUrl(SPR.icon.chest_gold)]);ico('#mBoard',[dataUrl(SPR.icon.trophy)]);ico('#mQuest',[dataUrl(SPR.icon.scroll)]);ico('#ovShare',[dataUrl(SPR.icon.share)]);$('#icNews').src=dataUrl(SPR.icon.bell);$('#icGuide').src=dataUrl(SPR.icon.book);$('#icSet').src=dataUrl(SPR.icon.gear);ico('#mInstall',[dataUrl(SPR.icon.phone)]);
   ico('#mSound',[dataUrl(SPR.icon.sound)]);ico('#mMusic',[dataUrl(SPR.icon.music)]);ico('#mStick',[dataUrl(SPR.icon.stick)]);
   $('#crest').src=dataUrl(SPR.icon.skull);
-  pic('#icoCoin',SPR.icon.coin);pic('#icoSkull',SPR.icon.skull);pic('#menuCoin',SPR.icon.coin);
+  pic('#icoCoin',SPR.icon.coin);pic('#icoSkull',SPR.icon.skull);
   const par=$('#parade');[SPR.hero.knight,SPR.enemy.slime,SPR.enemy.skeleton,SPR.enemy.bat,SPR.enemy.zombie,SPR.enemy.ghost].forEach(sp=>{const i=document.createElement('img');i.alt='';i.src=dataUrl(sp);par.appendChild(i);});
   $('#mPlay').onclick=()=>{audioInit();sfx('ui');renderSelect();setState('select');};
   $('#mBoard').onclick=()=>{audioInit();sfx('ui');openBoard();};
@@ -2978,7 +3008,11 @@ function bindUi(){
   $('#nickInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveNick();});
   $('#boardRefresh').onclick=()=>{sfx('ui');openBoard();};
   document.querySelectorAll('#boardTabs button').forEach(b=>b.onclick=()=>{boardTab=b.dataset.t;sfx('ui');renderBoard();});
-  $('#mShop').onclick=()=>{audioInit();sfx('ui');renderShop();setState('shop');};
+  const SEC_OPEN={chests:()=>openChestShop(),shop:()=>{renderShop();setState('shop');},board:()=>openBoard(),master:()=>openMaster(),codex:()=>openCodex()};
+  document.querySelectorAll('.sectabs button').forEach(b=>b.onclick=()=>{if(b.classList.contains('on'))return;audioInit();sfx('ui');SEC_OPEN[b.dataset.to]();});
+  $('#mSet').onclick=()=>{audioInit();sfx('ui');refreshMenu();$('#setPop').hidden=false;};
+  $('#setClose').onclick=()=>{sfx('ui');$('#setPop').hidden=true;};
+  $('#setPop').onclick=e=>{if(e.target.id==='setPop'){sfx('ui');$('#setPop').hidden=true;}};
   $('#mSound').onclick=()=>{audioInit();save.sound=!save.sound;persist();setBuses();refreshMenu();sfx('ui');};
   {const mb=$('#mMusic');let lpT=0,lpDone=false;
    const lpStop=()=>{clearTimeout(lpT);lpT=0;};
@@ -2994,11 +3028,9 @@ function bindUi(){
   $('#mCoop').onclick=()=>{sfx('ui');openCoop();};
   $('#mHero').onclick=()=>{audioInit();sfx('ui');openHero();};
   $('#mChest').onclick=()=>{audioInit();sfx('ui');openChestShop();};
-  $('#mCodex').onclick=()=>{audioInit();sfx('ui');openCodex();};
   $('#mGuide').onclick=()=>{audioInit();sfx('ui');openGuide();};
   document.querySelectorAll('#gdTabs button').forEach(b=>b.onclick=()=>{sfx('ui');renderGuide(b.dataset.g);});
   $('#mQuest').onclick=()=>{audioInit();sfx('ui');openQuests();};
-  $('#mMaster').onclick=()=>{audioInit();sfx('ui');openMaster();};
   $('#mNews').onclick=()=>{audioInit();sfx('ui');openNews(true);};
   $('#mInstall').onclick=()=>{audioInit();sfx('ui');pwaInstall();};
   $('#coHost').onclick=()=>coHostStart();
@@ -4049,6 +4081,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07f',d:'7. 11. 2026',t:_t('Přehlednější menu'),items:[_t('Menu má jen 6 velkých tlačítek a jsou dole, kam dosáhneš palcem.'),_t('<b>Obchod</b> má záložky Truhly a Vylepšení. <b>Síň slávy</b> spojuje Žebříček, Mistrovství a Sbírku.'),_t('Nahoře vidíš zlato a materiály, vpravo Novinky, Průvodce a <b>Nastavení</b> (zvuk, hudba, ovládání, jazyk, přezdívka).')]},
  {v:'2026-11-07e',d:'7. 11. 2026',t:_t('Průvodce hrou'),items:[_t('V menu přibyl <b>Průvodce</b>: na jednom místě vidíš, co dělají zbraně, věže, nepřátelé a jak funguje postup.')]},
  {v:'2026-11-07d',d:'7. 11. 2026',t:_t('Efektní ultimátky'),items:[_t('Ultimátky po fúzi mají <b>nový vzhled</b>: Vír ostří táhne zelené stopy a při dropu vymrští tornádo čepelí, Řetězová bouře šlehá tlusté rozvětvené blesky a na dropu setmí oblohu.'),_t('<b>Ledová smršť</b> uzavře nepřátele do ledového krunýře a drop nechá vyrůst pole ledových krystalů s vánicí. <b>Meteorit</b> vrhá stín a nechává kráter a <b>Ozvěna</b> hraje duhovými notami.'),_t('S ultimátkou kolem hrdiny svítí aura v její barvě a velký drop na začátku fráze má pořádný náraz.')]},
  {v:'2026-11-07c',d:'7. 11. 2026',t:_t('Nákup hrdinů'),items:[_t('Ve výběru hrdiny a mapy teď vidíš své <b>zlato a materiály</b>.'),_t('Koupě hrdiny se musí <b>potvrdit</b>, aby se nedal koupit omylem.')]},
