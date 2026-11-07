@@ -106,10 +106,12 @@ button{font-family:inherit}
 #mStack .btn{min-height:60px}#mPlay{font-size:23px}#mStack .row2 .btn{font-size:18px;white-space:nowrap;padding:10px 8px}#mStack .row2 .lbl{letter-spacing:.02em}
 #mStack .bi img{width:28px;height:28px}#mStack .row2 .bi{margin-right:8px}
 #mBoard{position:relative}#mBoard.has::after{content:'';position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--red);box-shadow:0 0 0 2px #2a0a10}
-.sheetwrap{position:fixed;inset:0;z-index:28;background:#0c0912b8;display:flex;align-items:flex-end;justify-content:center}
+.sheetwrap{position:fixed;inset:0;z-index:28;background:#0c0912b8;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s ease;will-change:opacity}
+.sheetwrap.open{opacity:1;pointer-events:auto;transition:opacity .2s ease}
 .sheet{width:100%;max-width:560px;padding:14px 16px calc(18px + var(--sab,0px));background:var(--panel) var(--tex);background-size:32px 32px;display:flex;flex-direction:column;gap:10px;
-  clip-path:polygon(0 8px,8px 8px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 8px,100% 8px,100% 100%,0 100%);box-shadow:inset 0 3px 0 var(--gold-dk),inset 0 6px 0 #0c0912;animation:sheetUp .18s steps(4)}
-@keyframes sheetUp{from{transform:translateY(40%)}to{transform:none}}
+  clip-path:polygon(0 8px,8px 8px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 8px,100% 8px,100% 100%,0 100%);box-shadow:inset 0 3px 0 var(--gold-dk),inset 0 6px 0 #0c0912;
+  transform:translateY(102%);transition:transform .26s cubic-bezier(.4,0,.6,1);will-change:transform}
+.sheetwrap.open .sheet{transform:none;transition:transform .32s cubic-bezier(.16,1,.3,1)}
 .sheet .head{margin:0}.sheet .langsw button{font-size:14px;padding:8px}
 /* section tabs (Obchod: Truhly | Vylepšení, Síň slávy: Žebříček | Mistrovství | Sbírka) */
 .tabs.sectabs{display:flex;flex-wrap:nowrap;gap:0;box-shadow:inset 0 -3px 0 var(--line);margin-top:-4px}
@@ -123,7 +125,7 @@ h1,h2,h3,p{margin:0}
 .parade{display:flex;align-items:flex-end;justify-content:center;gap:10px;flex-wrap:wrap;min-height:56px}
 .parade img{height:42px;image-rendering:pixelated}
 .parade img:first-child{height:54px}
-.parade img{transform-origin:50% 100%}
+.parade img{transform-origin:50% 100%;transition:transform .09s ease-out;will-change:transform}
 .logo{transform-origin:50% 50%}
 :root{--px:polygon(0 4px,4px 4px,4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px));
   --px2:polygon(0 2px,2px 2px,2px 0,calc(100% - 2px) 0,calc(100% - 2px) 2px,100% 2px,100% calc(100% - 2px),calc(100% - 2px) calc(100% - 2px),calc(100% - 2px) 100%,2px 100%,2px calc(100% - 2px),0 calc(100% - 2px))}
@@ -146,10 +148,10 @@ h1,h2,h3,p{margin:0}
 .row3 .btn.off .bi img{opacity:.45}.row3 .btn.off .lbl{text-decoration:line-through;text-decoration-thickness:2px}
 /* logo: dark pixel outline, gold depth, a skull crest and twinkles on the beat */
 .logobox{position:relative;display:flex;flex-direction:column;align-items:center;padding-top:6px}
-.crest{width:44px;height:44px;image-rendering:pixelated;filter:drop-shadow(0 0 10px #c869e088) drop-shadow(0 3px 0 #0008);margin-bottom:-4px;animation:bob 2.2s steps(4) infinite}
+.crest{width:44px;height:44px;image-rendering:pixelated;filter:drop-shadow(0 0 10px #c869e088) drop-shadow(0 3px 0 #0008);margin-bottom:-4px;animation:bob 2.2s ease-in-out infinite}
 .logo{text-shadow:3px 0 0 #2a1430,-3px 0 0 #2a1430,0 3px 0 #2a1430,0 -3px 0 #2a1430,3px 3px 0 #2a1430,-3px 3px 0 #2a1430,3px -3px 0 #2a1430,-3px -3px 0 #2a1430,
   0 7px 0 #a97a14,3px 7px 0 #2a1430,-3px 7px 0 #2a1430,0 10px 0 #2a1430,0 0 34px #f6c74455}
-.spark{position:absolute;width:6px;height:6px;background:#fff6c8;box-shadow:0 0 6px #f6c744;animation:twk 1.6s steps(4) infinite}
+.spark{position:absolute;width:6px;height:6px;background:#fff6c8;box-shadow:0 0 6px #f6c744;animation:twk 1.6s ease-in-out infinite;will-change:transform,opacity}
 .spark::before,.spark::after{content:'';position:absolute;background:#fff6c8}.spark::before{left:2px;top:-4px;width:2px;height:14px}.spark::after{left:-4px;top:2px;width:14px;height:2px}
 .spark.s1{left:12%;top:38%}.spark.s2{right:10%;top:62%;animation-delay:.5s}.spark.s3{right:24%;top:20%;animation-delay:1s}
 @keyframes twk{0%,100%{transform:scale(0);opacity:0}25%{transform:scale(1);opacity:1}50%{transform:scale(.5);opacity:.6}75%{transform:scale(0);opacity:0}}
@@ -294,18 +296,21 @@ html,body,#stage{touch-action:none}
 .itile img{width:70%;height:70%;image-rendering:pixelated}.itile em{position:absolute;right:3px;bottom:1px;font-style:normal;font-size:12px;font-weight:700;color:var(--gold);text-shadow:0 1px 0 #000}
 .itile .eqd{position:absolute;left:4px;top:4px;width:7px;height:7px;background:var(--green)}
 .popwrap{position:fixed;inset:0;z-index:30;background:#0c0912d8;display:flex;align-items:center;justify-content:center;padding:16px}
+.popwrap:not([hidden]){animation:popFade .18s ease-out}.popwrap:not([hidden])>.pop-card:not(.reveal){animation:popIn .26s cubic-bezier(.16,1,.3,1);will-change:transform,opacity}
+@keyframes popFade{from{opacity:0}to{opacity:1}}@keyframes popIn{from{transform:translateY(14px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+.scr:not([hidden]):not(#scr-levelup):not(#scr-fuse){animation:scrIn .2s ease-out}@keyframes scrIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .pop-card{width:100%;max-width:420px;background:var(--panel);padding:16px;display:flex;flex-direction:column;gap:10px}
 .ic-head{display:flex;gap:12px;align-items:center}.ic-head img{width:56px;height:56px;image-rendering:pixelated}.ic-head h3{font-size:19px}.ic-head small{color:var(--muted)}
 .ic-lg{color:#ffe9a8;font-size:14px;background:#3a2a10;padding:8px;box-shadow:inset 0 0 0 2px #a97a14}
 .pop-btns{display:flex;flex-direction:column;gap:8px}.pop-btns .btn{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
-.pop-card.reveal{animation:rvIn .45s steps(5)}.pop-card.reveal .title{font-size:30px}
+.pop-card.reveal{animation:rvIn .42s cubic-bezier(.2,1.3,.4,1)}.pop-card.reveal .title{font-size:30px}
 .rvwrap{flex-direction:column}
 .rv{display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px}
 .rv canvas{display:block;margin-bottom:-26px;pointer-events:none}
 .rv-card{opacity:0;transform:translateY(24px) scale(.96);transition:opacity .35s ease-out,transform .45s cubic-bezier(.2,1.4,.4,1);pointer-events:none}
 .rv-card.show{opacity:1;transform:none;pointer-events:auto}
 .rv-skip{color:var(--muted);font-size:13px;margin-top:10px;transition:opacity .3s}
-@keyframes rvIn{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes rvIn{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
 .card.chest{flex-direction:row;align-items:center;gap:12px;cursor:default}.card.chest>img{width:44px;height:44px;image-rendering:pixelated;flex:none}.card.chest .t{flex:1;display:flex;flex-direction:column;gap:3px}
 .odds{display:flex;gap:8px;font-size:13px;font-weight:700;flex-wrap:wrap}.pity{color:var(--muted)}
 .cxgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -325,7 +330,7 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .qt-node{position:absolute;top:6px;transform:translateX(-50%);width:38px;height:38px;border:0;padding:0;background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);clip-path:var(--px);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .qt-node img{width:24px;height:24px;image-rendering:pixelated;filter:grayscale(.7) brightness(.7)}
 .qt-node b{position:absolute;bottom:-1px;right:2px;font-size:11px;color:var(--muted);text-shadow:0 1px 0 #000}
-.qt-node.ready{box-shadow:inset 0 0 0 3px var(--gold);background:#4a3414;animation:qready .45s steps(2) infinite alternate}.qt-node.ready img{filter:none}.qt-node.ready b{color:var(--gold)}
+.qt-node.ready{box-shadow:inset 0 0 0 3px var(--gold);background:#4a3414;animation:qready .6s ease-in-out infinite alternate}.qt-node.ready img{filter:none}.qt-node.ready b{color:var(--gold)}
 @keyframes qready{to{transform:translateX(-50%) translateY(-3px)}}
 .qt-node.got{opacity:.55}.qt-node.got img{filter:grayscale(1)}.qt-node.got::after{content:'✓';position:absolute;color:var(--green);font-weight:700;font-size:20px;text-shadow:0 2px 0 #000}
 .qcard{cursor:default;display:flex;flex-direction:column;gap:8px}
@@ -386,7 +391,7 @@ table.res{width:100%;border-collapse:collapse;font-size:18px}
 .ovw{display:flex;justify-content:center;flex-wrap:wrap;gap:6px}.ovw .it{width:38px;height:38px}.ovw .it img{width:30px;height:30px}
 table.res td{padding:7px 4px;border-bottom:2px solid var(--line)}
 table.res td:last-child{text-align:right;font-weight:700}
-@media (prefers-reduced-motion:reduce){#toast,.bar i{transition:none}}
+@media (prefers-reduced-motion:reduce){#toast,.bar i{transition:none}.scr,.popwrap,.popwrap>.pop-card,.sheet,.spark,.crest{animation:none!important}.sheet{transition:none!important}}
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
 .tabs button{flex:1;min-width:70px;font:inherit;font-weight:700;font-size:14px;padding:8px 6px;background:var(--panel);color:var(--muted);border:0;box-shadow:inset 0 0 0 3px var(--line);cursor:pointer}
 .tabs button.on{color:var(--ink);background:var(--gold);box-shadow:none}
@@ -451,7 +456,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
         <div class="row2"><button class="btn alt" id="mQuest">Nástěnka</button><button class="btn alt" id="mBoard">Síň slávy</button></div>
       </div>
     </div>
-    <div class="sheetwrap" id="setPop" hidden><div class="sheet">
+    <div class="sheetwrap" id="setPop" inert><div class="sheet">
       <div class="head"><h2>Nastavení</h2><button class="btn alt sm" id="setClose">Zavřít</button></div>
       <button class="btn alt sm" id="mNick" hidden></button>
       <div class="row3"><button class="btn alt sm" id="mSound">Zvuk</button><button class="btn alt sm" id="mMusic">Hudba</button><button class="btn alt sm" id="mStick">Ovládání</button></div>
@@ -700,7 +705,7 @@ const STICK_MODES=['touch','fixed','follow'],STICK_TXT={touch:_t('pevný v míst
 let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false,stick:'touch'};
 function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
+  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
 const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin'];
 function persist(){save.updated=Date.now();try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
@@ -2566,7 +2571,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07g';
+const GAME_VER='2026-11-07h';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -2583,7 +2588,7 @@ function showScreen(n){for(const k in screens)screens[k].hidden=(k!==n);}
 function setState(s){if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
   $('#hud').hidden=!(run&&(s==='play'||s==='levelup'||s==='fuse'||s==='wait'||s==='pause'||s==='over'));
   if(s!=='play'){const tt=$('#toast');if(tt)tt.classList.remove('on');}{const tu=$('#tut');if(tu)tu.style.visibility=s==='play'?'':'hidden';}
-  showScreen(s==='play'?null:s);document.querySelectorAll('.sectabs button').forEach(b=>b.classList.toggle('on',b.dataset.to===s));if(s!=='menu'){const sp=$('#setPop');if(sp)sp.hidden=true;}try{showStickRest();}catch(_){}
+  showScreen(s==='play'?null:s);document.querySelectorAll('.sectabs button').forEach(b=>b.classList.toggle('on',b.dataset.to===s));if(s!=='menu')setSheet(false);try{showStickRest();}catch(_){}
   muffle(s==='pause'||s==='levelup'||s==='over');
 }
 function note(msg,ms){if(CO.ctxMate&&run&&run.pls){netSend({t:'note',m:msg});return;}const n=$('#note');n.textContent=msg;n.classList.add('on');clearTimeout(note.t);note.t=setTimeout(()=>n.classList.remove('on'),ms||1800);}
@@ -2659,7 +2664,7 @@ function recalc(){
 const RNG0=Math.random;function seedRng(seed){Math.random=seed==null?RNG0:mulberry32(qHash(seed));}
 function startRun(heroId,mapId,o){
   o=o||{};seedRng(o.mod?'daily|'+today():null);audioInit();setSong(mapId);
-  const hero=HEROES[heroId],map=MAPS[mapId],built=buildMap(mapId);for(const k in mapsBuilt)if(k!==mapId)delete mapsBuilt[k];
+  const hero=HEROES[heroId],map=MAPS[mapId],built=buildMap(mapId);for(const k in mapsBuilt)if(k!==mapId)delete mapsBuilt[k];save.lastMap=mapId;MB.id=mapId;
   run={heroId,hero,mapId,map,built,idx:MAP_IDS.indexOf(mapId),t:0,kills:0,coins:25,startCoins:25,towers:[],nearTower:null,tip:false,level:1,xp:0,need:needXP(1),pending:0,
     p:{x:map.size/2,y:map.size/2,hp:100,max:100,inv:0,r:4,face:{x:0,y:1},moving:false,anim:0,flash:0,haz:0,reg:0},
     W:{},P:{},enemies:[],shots:[],eshots:[],gems:[],items:[],fx:[],parts:[],nums:[],
@@ -3648,8 +3653,8 @@ const hopOf=par=>{const f=((M.beatPos+(par?.5:0))%1+1)%1;return f<.1?2:f<.24?1:0
 const MB={t:0,ff:[],req:0};
 function menuBg(g){
   g.fillStyle='#0c0912';g.fillRect(0,0,VW,VH);
-  const id=mapUnlocked(sel.map)?sel.map:'hrbitov',bm=mapsBuilt[id];
-  if(!bm){if(!MB.req){MB.req=1;setTimeout(()=>{try{buildMap(id);}catch(e){}MB.req=0;},80);}return;}
+  const id=mapsBuilt[sel.map]?sel.map:mapsBuilt[MB.id]?MB.id:Object.keys(mapsBuilt)[0],bm=id&&mapsBuilt[id];
+  if(!bm){if(!MB.req){MB.req=1;try{buildMap(MB.id||'hrbitov');}catch(e){}MB.req=0;}return;}MB.id=id;
   MB.t+=Math.min(.05,frameDt||0);const sz=bm.def.size,t=MB.t*(RM?0:1);
   const sx=RZ(clamp(sz/2+Math.cos(t*.045)*sz*.17-VW/2,0,Math.max(0,sz-VW))),sy=RZ(clamp(sz/2+Math.sin(t*.06)*sz*.13-VH/2,0,Math.max(0,sz-VH))),ox=-sx,oy=-sy;
   {const fw=Math.min(VW,sz-sx),fh=Math.min(VH,sz-sy);if(fw>0&&fh>0)g.drawImage(bm.canvas,sx*Z,sy*Z,fw*Z,fh*Z,0,0,fw,fh);}
@@ -3913,6 +3918,11 @@ function frame(ts){
 
 /* ============ menus ============ */
 function money(){return save.coins;}
+function setSheet(on){const sp=$('#setPop');if(!sp)return;sp.classList.toggle('open',!!on);if(on)sp.removeAttribute('inert');else sp.setAttribute('inert','');}
+function refreshSettings(){setLbl('#mSound',_t('Zvuk'),!save.sound);setLbl('#mMusic',_t('Hudba'),!save.music);stickLabels();
+  {const I=fitApp.info||{};$('#mVer').textContent=_t('verze ')+GAME_VER;$('#mVer').title=(I.sa?_t('aplikace'):_t('prohlížeč'))+' '+(I.ih||0)+'/'+(I.sh||0)+'/'+(I.h||0);}
+  $('#mInstall').hidden=!pwaCan();$('#mNick').hidden=!ON.ready;$('#mNick').textContent=_t('Hráč: ')+(save.nick||_t('bez přezdívky'))+(titleOf(save)?' · '+titleOf(save):'')+_t(' · změnit');
+  $('#mCheat').hidden=!isDev();$('#mCheat').textContent=_t('Testovací režim: ')+onOff(save.cheat);$('#mGold').hidden=!save.cheat;}
 function refreshMenu(){
   $('#mCur').innerHTML=matsHtml();
   setLbl('#mSound',_t('Zvuk'),!save.sound);
@@ -3977,17 +3987,21 @@ function confirmHero(id){const h=HEROES[id],pop=$('#newsPop'),coin='<img alt="" 
 // ----- campaign: one chapter at a time, its maps as a dotted path; postcards are built lazily and kept small -----
 let chSel=null;
 const thumbImg={};
-function thumbKey(id){return 'pk-th-'+id+'-'+GAME_VER;}
-// postcards of older versions are dropped once, so storage does not fill up over updates
-function thumbClean(){if(thumbClean.done)return;thumbClean.done=1;try{const rm=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('pk-th-')&&!k.endsWith('-'+GAME_VER))rm.push(k);}rm.forEach(k=>localStorage.removeItem(k));}catch(_){}}
-// a postcard as an <img>-like source: the cached one from storage, or a fresh render (the big map canvas is freed again)
-function thumbSrc(id){if(thumbs[id])return thumbs[id];if(thumbImg[id])return thumbImg[id].complete?thumbImg[id]:null;
-  try{const u=localStorage.getItem(thumbKey(id));if(u){const im=new Image();im.onload=()=>{if(state==='select')renderCampaign();};im.src=u;thumbImg[id]=im;return null;}}catch(_){}
-  return null;}
-function thumbQueue(ids){const need=ids.filter(id=>!thumbs[id]&&!thumbImg[id]&&!(()=>{try{return localStorage.getItem(thumbKey(id));}catch(_){return null;}})());
+// MAP_ART: bump when the look of any map changes, and regenerate thumbs/*.png (tests/tools/thumbgen.js)
+const MAP_ART='a1';
+function thumbKey(id){return 'pk-th-'+id+'-'+MAP_ART;}
+function thumbClean(){if(thumbClean.done)return;thumbClean.done=1;try{const rm=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('pk-th-')&&!k.endsWith('-'+MAP_ART))rm.push(k);}rm.forEach(k=>localStorage.removeItem(k));}catch(_){}}
+const thumbUrl=id=>'thumbs/'+id+'.png?v='+MAP_ART;
+// a postcard as an image source: the shipped file, else one rendered here earlier (memory or storage); null while loading
+function thumbSrc(id){if(thumbs[id])return thumbs[id];let im=thumbImg[id];
+  if(!im){im=new Image();thumbImg[id]=im;let ls=null;try{ls=localStorage.getItem(thumbKey(id));}catch(_){}
+    im.onload=()=>{if(state==='select')renderCampaign();};im.onerror=()=>{im.bad=1;if(!ls)thumbQueue([id]);};im.src=ls||thumbUrl(id);}
+  return im.complete&&!im.bad&&im.naturalWidth?im:null;}
+// fallback only (offline copy without the files): render one postcard per tick, cache it, free the big map canvas again
+function thumbQueue(ids){const need=ids.filter(id=>!thumbs[id]&&thumbImg[id]&&thumbImg[id].bad);
   if(!need.length||thumbQueue.busy)return;thumbQueue.busy=true;
-  setTimeout(()=>{const id=need[0];try{buildMap(id);const c=mapThumb(id);try{localStorage.setItem(thumbKey(id),c.toDataURL());}catch(_){}
-      if(id!==sel.map&&!(run&&run.mapId===id))delete mapsBuilt[id];}catch(e){console.error(e);}
+  setTimeout(()=>{const id=need[0];try{const had=!!mapsBuilt[id];buildMap(id);const c=mapThumb(id);try{localStorage.setItem(thumbKey(id),c.toDataURL());}catch(_){}
+      if(!had&&id!==MB.id&&!(run&&run.mapId===id))delete mapsBuilt[id];}catch(e){console.error(e);}
     thumbQueue.busy=false;if(state==='select'){renderCampaign();}},60);}
 function mapStatus(id){const b=[];if(save.cleared[id]){const n=save.nm&&save.nm[id]>1?save.nm[id]-1:0;b.push(n?_t('Splněno · NM ')+n:_t('Splněno'));}
   if(save.best[id])b.push(_t('rekord ')+fmtTime(save.best[id]));return b.join(' · ');}
@@ -4014,7 +4028,6 @@ function renderCampaign(){
   if(C.soon){const n=document.createElement('div');n.className='chsoon';n.textContent=_t('Další mapy kapitoly připravujeme.');path.appendChild(n);}
   $('#chPrev').onclick=()=>{if(chSel>0){chSel--;sfx('ui');renderCampaign();}};
   $('#chNext').onclick=()=>{if(chSel<CHAPTERS.length-1){chSel++;sfx('ui');renderCampaign();}};
-  thumbQueue(C.maps);
 }
 function renderSelect(){
   $('#selMats').innerHTML=matsHtml();
@@ -4076,9 +4089,9 @@ function bindUi(){
   document.querySelectorAll('#boardTabs button').forEach(b=>b.onclick=()=>{boardTab=b.dataset.t==='map'?(MAPS[boardTab]?boardTab:(mapUnlocked(sel.map)?sel.map:'hrbitov')):b.dataset.t;sfx('ui');renderBoard();});
   const SEC_OPEN={chests:()=>openChestShop(),shop:()=>{renderShop();setState('shop');},board:()=>openBoard(),master:()=>openMaster(),codex:()=>openCodex()};
   document.querySelectorAll('.sectabs button').forEach(b=>b.onclick=()=>{if(b.classList.contains('on'))return;audioInit();sfx('ui');SEC_OPEN[b.dataset.to]();});
-  $('#mSet').onclick=()=>{audioInit();sfx('ui');refreshMenu();$('#setPop').hidden=false;};
-  $('#setClose').onclick=()=>{sfx('ui');$('#setPop').hidden=true;};
-  $('#setPop').onclick=e=>{if(e.target.id==='setPop'){sfx('ui');$('#setPop').hidden=true;}};
+  $('#mSet').onclick=()=>{audioInit();sfx('ui');setSheet(true);requestAnimationFrame(()=>setTimeout(refreshSettings,0));};
+  $('#setClose').onclick=()=>{sfx('ui');setSheet(false);};
+  $('#setPop').onclick=e=>{if(e.target.id==='setPop'){sfx('ui');setSheet(false);}};
   $('#mSound').onclick=()=>{audioInit();save.sound=!save.sound;persist();setBuses();refreshMenu();sfx('ui');};
   {const mb=$('#mMusic');let lpT=0,lpDone=false;
    const lpStop=()=>{clearTimeout(lpT);lpT=0;};
@@ -4583,7 +4596,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [dataUrl(SPR.hero.builder),HEROES.builder.name,HEROES.builder.desc]].map(r=>gdRow(...r)).join('');}
   else if(tab==='world'){const N={'slime':_t('Pomalý, chodí v houfech.'),'bat':_t('Rychlý, létá v kličkách.'),'skeleton':_t('Jde rovnou po tobě.'),'ghost':_t('Pomalu kličkuje k tobě.'),'spider':_t('Malý a hodně rychlý.'),'zombie':_t('Pomalý, ale hodně vydrží.'),'mage':_t('Drží si odstup a střílí.'),'golem':_t('Obr, vydrží hodně a tvrdě bije.'),'wolf':_t('Rozběhne se proti tobě.'),'flameskull':_t('Řítí se na tebe v plamenech.'),'drowned':_t('Pomalý, ve vodě ho nic nezdrží. Po smrti nechá louži, která zpomaluje.'),'bonearcher':_t('Kostlivec s lukem, drží si odstup.'),'digger':_t('Každých pár taktů vykope z hrobu kostlivce.'),'scorp':_t('Vrhá se na tebe a jeho žihadlo otráví.'),'mummy':_t('Odolná. Když tě chytí, zpomalí tě.'),'cultist':_t('Hází vějíř tří nožů.')},B={'slimeking':_t('Svolává další slizy.'),'lich':_t('Střílí kruhy střel.'),'demon':_t('Vrhá se na tebe a pálí kruhy střel.'),'priest':_t('Volá utopence a pod nohy ti plive louže.'),'warden':_t('Vrhá se, dupe a zhasíná pochodně.'),'ringer':_t('Každý úder zvonu je kruh střel.'),'morvan':_t('Chrání ho tři fylaktérie. Pod polovinou zdraví uzavře arénu.'),'scorpking':_t('Vrhá se a nechává za sebou jed.'),'worm':_t('Plave pod pískem, kde je nezranitelný, a vyráží pod tebou.'),'priestess':_t('Kletbou ti na chvíli obrátí ovládání.'),'sphinx':_t('Hlídá paprsek slunce, potom loví, potápí obelisky a volá vojáky.')};
     h=gdSec(_t('Hrdinové'))+Object.keys(HEROES).map(id=>gdRow(dataUrl(SPR.hero[id]),HEROES[id].name,HEROES[id].desc)).join('')
-     +CHAPTERS.map(C=>gdSec(_t('Kapitola ')+ROMAN_CH[C.i]+' · '+C.name)+C.maps.map(id=>gdRow((()=>{try{const u=localStorage.getItem(thumbKey(id));if(u)return u;}catch(_){}return thumbs[id]?thumbs[id].toDataURL():dataUrl(SPR.boss[MAPS[id].boss]);})(),MAPS[id].name+(MAPS[id].finale?_t(' (finále)'):''),MAPS[id].desc)).join('')).join('')
+     +CHAPTERS.map(C=>gdSec(_t('Kapitola ')+ROMAN_CH[C.i]+' · '+C.name)+C.maps.map(id=>gdRow(thumbs[id]?thumbs[id].toDataURL():thumbUrl(id),MAPS[id].name+(MAPS[id].finale?_t(' (finále)'):''),MAPS[id].desc)).join('')).join('')
      +gdSec(_t('Nepřátelé'))+ENEMY_IDS.filter(id=>!ENEMY_DEFS[id].noHit).map(id=>gdRow(dataUrl(SPR.enemy[id]),ENEMY_DEFS[id].name,N[id]||'')).join('')
      +gdRow(dataUrl(eliteSprite('golem')),_t('Elita'),_t('Větší a silnější. Padá z ní materiál.'))
      +gdRow(I('scroll'),_t('Hledaný'),_t('Silná elita z plakátu na Nástěnce. Když ji nechytíš do 80 s, uteče.'))
@@ -5160,6 +5173,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07h',d:'7. 11. 2026',t:_t('Plynulejší menu'),items:[_t('<b>Nastavení</b> se plynule vysouvá a zase zasouvá, okna a obrazovky měkce najedou.'),_t('Výběr mapy už nezamrzá: náhledy map jsou připravené předem a pozadí menu se kvůli výběru nepřestavuje.')]},
  {v:'2026-11-07g',d:'7. 11. 2026',t:_t('Kampaň: dvě kapitoly a 8 nových map'),items:[_t('Mapy jsou teď v <b>kapitolách</b> po pěti. Každá kapitola má jedno téma a jeden materiál, pátá mapa je <b>finále</b> se speciálním bossem.'),
    _t('<b>Kapitola I · Říše mrtvých:</b> Utopené hroby (bažina a mlha), Kostnice (tma, pochodně zapaluješ dotykem), Zvonice (stůj u zvonu, když udeří) a finále Trůn kostí s Morvanem.'),
    _t('<b>Kapitola II · Písečná říše:</b> Kaňon větrů (písečné bouře), Karavanní stezka (doprovoď velblouda), Hrobka faraona (bodce do rytmu) a finále Brána slunce se Sfingou.'),
@@ -5261,6 +5275,8 @@ async function shareResult(){if(!run||!run.over)return;let c;try{c=await shareIm
 
 /* ============ boot ============ */
 econInit();initSprites();bindUi();setSong('menu');
+// the menu backdrop map is built once now, before the first frame (later it reuses whatever map is already built)
+{const lm=save.lastMap&&MAPS[save.lastMap]&&mapUnlocked(save.lastMap)?save.lastMap:'hrbitov';MB.id=lm;try{buildMap(lm);}catch(_){}}
 {const mk=(w,h,fn)=>{const c=document.createElement('canvas');c.width=w;c.height=h;fn(c.getContext('2d'),w,h);return c.toDataURL();},R=document.documentElement.style;
   R.setProperty('--tex','url('+mk(16,16,(g,w,h)=>{for(let y=0;y<h;y++)for(let x=0;x<w;x++){const v=hashN(x,y,41);if(v>.86){g.fillStyle='rgba(255,255,255,.05)';g.fillRect(x,y,1,1);}else if(v<.12){g.fillStyle='rgba(0,0,0,.16)';g.fillRect(x,y,1,1);}}})+')');
   R.setProperty('--ground','url('+mk(32,14,(g,w,h)=>{g.fillStyle='#4a3424';g.fillRect(0,6,w,h-6);g.fillStyle='#5e4430';for(let x=0;x<w;x++)if(hashN(x,1,7)>.5)g.fillRect(x,8+((hashN(x,2,7)*4)|0),1,1);

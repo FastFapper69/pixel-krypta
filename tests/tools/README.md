@@ -25,6 +25,8 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `chap.js [mapy] [složka]` – každá mapa kampaně: běh, boss, chvíle boje (nesmrtelnost), chyby, snímek bosse
 - `sprites.js <png> [id,…]` – zvětšené sprity nepřátel a bossů
 - `camp.js <prefix> [cs|en]` – obrazovka kampaně v Přípravě (kapitola I a II)
+- `thumbgen.js` – vyrenderuje pohlednice map do `thumbs/*.png` (po změně vzhledu mapy spusť a zvyš `MAP_ART`; pro testy `ln -s ../../thumbs tests/tools/thumbs`)
+- `menuperf.js [zpomalení=4]` – plynulost menu: časy snímků při otevírání obrazovek se zpomaleným CPU jako na telefonu
 - `coopmaps.js [mapy]` – co-op snímky (host s virtuálním kamarádem → guest) na nových mapách
 - `bot.js [běhů] [hrdinové|all] [mapy|all] [nm] [novy|zkuseny|max]` – bot odehraje celé běhy a vypíše míru výher, medián času, příčiny smrti, úspěšnost zbraní a kdo dává poškození (60 běhů ≈ 30 s). Profil: `novy` = čerstvý účet, `zkuseny` = hrdina 10 + obchod napůl, `max` = hrdina 20 + obchod naplno (vždy bez výbavy). Řádky jsou ve stejném formátu jako telemetrie (`bot-results.json`). Bot je „průměrný hráč“ – věř hlavně **rozdílům** mezi hrdiny/mapami, ne absolutním číslům.
 

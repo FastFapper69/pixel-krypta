@@ -16,7 +16,8 @@ Návrh pro uživatele je i v dokumentu „Pixel Krypta – kampaň a kapitoly“
 
 ## Obrazovka kampaně (Příprava)
 `renderCampaign`: přepínač kapitol (‹ ›), stezka 5 karet map (`.mnode`, finále `.fin`), popis jen u vybrané mapy.
-Pohlednice se generují líně po jedné (`thumbQueue`), ukládají do `localStorage` (`pk-th-<mapa>-<GAME_VER>`, staré mazání `thumbClean`) a velké plátno mapy se hned uvolní (paměť na iPhonu). `startRun` uvolní plátna ostatních map.
+Pohlednice jsou statické soubory `thumbs/<mapa>.png` (generuje `tests/tools/thumbgen.js`, verze `MAP_ART` v URL – **po změně vzhledu mapy přegenerovat a zvýšit `MAP_ART`**). Jen když soubor chybí (offline kopie), vyrenderuje se ve hře (`thumbQueue`) a uloží do `localStorage`. `startRun` uvolní plátna ostatních map.
+Pozadí menu (`menuBg`) nikdy nestaví mapu kvůli výběru: ukazuje už postavenou mapu (`MB.id` = poslední hraná `save.lastMap`, postavená jednou při startu). Stavba mapy trvá na telefonu 1–2 s a sekala menu.
 Žebříček: záložky Celkem / Dnes / Mapy + vodorovný výběr mapy po kapitolách (`#boardMaps`).
 
 ## Rámec map (MF)

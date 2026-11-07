@@ -950,4 +950,7 @@ window.KRYPTA_EN={
 "Noví nepřátelé: utopenec, kostěný lučištník, hrobník, štír, mumie a kultista. Každá mapa má vlastní hudbu.":"New enemies: the drowned, bone archers, gravediggers, scorpions, mummies and cultists. Every map has its own music.",
 "První výhra ve finále dá <b>zlatou truhlu</b>, na Noční můře III a výš může padnout legendárka kapitoly. Vylepšení předmětů do +4 teď stojí Kostní prach.":"Your first finale win gives a <b>gold chest</b>, and on Nightmare III or higher a chapter legendary can drop. Item upgrades up to +4 now cost Bone Dust.",
 "Lávové doly jsou nově začátek kapitoly III. Kdo už je měl odemčené, má je dál.":"The Lava Mines now open chapter III. If you had them unlocked, you still do.",
-"Kampaň":"Campaign"};
+"Kampaň":"Campaign",
+"Plynulejší menu":"Smoother menu",
+"<b>Nastavení</b> se plynule vysouvá a zase zasouvá, okna a obrazovky měkce najedou.":"<b>Settings</b> slide in and out smoothly, and windows and screens fade in softly.",
+"Výběr mapy už nezamrzá: náhledy map jsou připravené předem a pozadí menu se kvůli výběru nepřestavuje.":"Picking a map no longer freezes: map previews are prepared in advance and the menu background is not rebuilt when you choose."};
