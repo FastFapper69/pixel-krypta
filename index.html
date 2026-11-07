@@ -416,6 +416,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
   <section class="scr" id="scr-select" hidden>
     <div class="wrap">
       <div class="head"><h2>Příprava</h2><button class="btn alt sm" data-back>Zpět</button></div>
+      <div class="mats" id="selMats"></div>
       <div id="dailyBox"></div>
       <div class="sec">Hrdina</div>
       <div class="grid2" id="heroList"></div>
@@ -1614,7 +1615,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07b';
+const GAME_VER='2026-11-07c';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -2823,7 +2824,17 @@ function mapThumb(id){if(thumbs[id])return thumbs[id];
     g.fillStyle='rgba(0,0,0,.45)';g.fillRect(Math.round(bx+bw*.15),Math.round(TH-3),Math.round(bw*.7),2);g.drawImage(b.c,Math.round(bx),Math.round(by),Math.round(bw),Math.round(bh));}
   g.fillStyle='#0c0912';g.fillRect(0,0,TH,2);g.fillRect(0,TH-2,TH,2);g.fillRect(0,0,2,TH);g.fillRect(TH-2,0,2,TH);g.fillStyle='rgba(255,255,255,.12)';g.fillRect(2,2,TH-4,1);
   return thumbs[id]=c;}
+function confirmHero(id){const h=HEROES[id],pop=$('#newsPop'),coin='<img alt="" src="'+dataUrl(SPR.icon.coin)+'" style="width:14px;vertical-align:-2px">';
+  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Koupit hrdinu?')+'</h2>'+
+    '<div style="text-align:center"><img alt="" src="'+dataUrl(SPR.hero[id])+'" style="width:64px;image-rendering:pixelated"><h3>'+h.name+'</h3><small>'+h.desc+'</small></div>'+
+    '<ul><li>'+_t('Cena: ')+coin+' <b>'+h.cost+'</b></li><li>'+_t('Máš: ')+coin+' '+save.coins+'</li><li>'+_t('Zbude ti: ')+coin+' <b>'+(save.coins-h.cost)+'</b></li></ul>'+
+    '<div class="stack"><button class="btn" id="buyYes">'+_t('Koupit')+'</button><button class="btn alt" id="buyNo">'+_t('Zpět')+'</button></div></div>';
+  pop.hidden=false;
+  $('#buyNo').onclick=()=>{pop.hidden=true;sfx('ui');};
+  $('#buyYes').onclick=()=>{pop.hidden=true;if(heroOwned(id)||save.coins<h.cost)return renderSelect();
+    save.coins-=h.cost;save.heroes[id]=true;sel.hero=id;persist();sfx('coin');note(_t('Odemčeno: ')+h.name);renderSelect();};}
 function renderSelect(){
+  $('#selMats').innerHTML=matsHtml();
   const hl=$('#heroList');hl.innerHTML='';
   HERO_IDS.forEach(id=>{const h=HEROES[id],own=heroOwned(id);
     const b=document.createElement('button');b.className='card hero'+(sel.hero===id&&own?' sel':'')+(own?'':' lock');
@@ -2832,7 +2843,7 @@ function renderSelect(){
     b.addEventListener('click',()=>{
       if(own){sel.hero=id;sfx('ui');renderSelect();}
       else if(h.ach){const A=ACHM[h.ach];note(achDone(A)?_t('Vyzvedni si ho v Mistrovství'):_t('Odemkni v Mistrovství: ')+A.desc);}
-      else if(save.coins>=h.cost){save.coins-=h.cost;save.heroes[id]=true;sel.hero=id;persist();sfx('coin');note(_t('Odemčeno: ')+h.name);renderSelect();}
+      else if(save.coins>=h.cost){sfx('ui');confirmHero(id);}
       else{note(_t('Chybí ti ')+(h.cost-save.coins)+_t(' zlata'));}});
     hl.appendChild(b);});
   const ml=$('#mapList');ml.innerHTML='';
@@ -3911,6 +3922,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07c',d:'7. 11. 2026',t:_t('Nákup hrdinů'),items:[_t('Ve výběru hrdiny a mapy teď vidíš své <b>zlato a materiály</b>.'),_t('Koupě hrdiny se musí <b>potvrdit</b>, aby se nedal koupit omylem.')]},
  {v:'2026-11-07b',d:'7. 11. 2026',t:_t('Vyladěná obtížnost'),items:[_t('<b>Poušť</b>: krystal vydrží víc, rychleji se v klidu léčí a jeho obranná vlna s časem sílí.'),_t('<b>Doly a poušť</b> mají mírnější nástup – nepřátelé tam mají méně zdraví a chodí jich méně najednou. Golem v dolech přichází až od 2. minuty a bije slaběji.'),_t('<b>Stavitel</b> má +15 zdraví. <b>Bard</b> přišel o bonus k poškození a jeho Noty jsou o něco slabší.'),_t('<b>Noční můry</b> přitvrzují rychleji a nepřátel je v nich víc.')]},
  {v:'2026-11-07a',d:'7. 11. 2026',t:_t('Ladění podle dat'),items:[_t('Po každém běhu hra anonymně uloží <b>krátkou statistiku</b> (hrdina, mapa, čas, zbraně, co tě zabilo). Podle ní budu ladit obtížnost a zbraně, místo hádání.'),_t('Neukládá se nic osobního a statistiky nikdo jiný ve hře nevidí.')]},
  {v:'2026-11-06j',d:'6. 11. 2026',t:_t('Šťavnatější boj a nové věže'),items:[_t('Nepřátelé se při zásahu <b>prohnou</b> a po smrti se <b>rozpadnou na kousky</b>, kritické zásahy jsou větší a s vykřičníkem.'),_t('<b>Výbuchy</b> mají záblesk, ohnivou kouli, kouř, žhavé uhlíky a spálenou zem. Ohnivé koule táhnou plamen, hořící zem opravdu hoří.'),_t('Blesky se větví a blikají, čepele a sekery nechávají stopu, šípy svítí a mráz sype jinovatku. Ultimátky mají na začátku fráze rázovou vlnu.'),_t('<b>Nové věže</b>: kuše, která míří na cíl, pánev s plameny, vznášející se ledový krystal a cívka s jiskrami. Vylepšená věž má zlatý pás a prapory, při stavění vyroste ze země.')]},

@@ -1,6 +1,14 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Koupit hrdinu?":"Buy hero?",
+"Cena: ":"Price: ",
+"Máš: ":"You have: ",
+"Zbude ti: ":"Left after: ",
+"Koupit":"Buy",
+"Nákup hrdinů":"Buying heroes",
+"Ve výběru hrdiny a mapy teď vidíš své <b>zlato a materiály</b>.":"The hero and map selection now shows your <b>gold and materials</b>.",
+"Koupě hrdiny se musí <b>potvrdit</b>, aby se nedal koupit omylem.":"Buying a hero now needs <b>confirmation</b>, so you can't buy one by accident.",
 "Vyladěná obtížnost":"Tuned difficulty",
 "<b>Poušť</b>: krystal vydrží víc, rychleji se v klidu léčí a jeho obranná vlna s časem sílí.":"<b>Desert</b>: the crystal is tougher, heals faster when left alone and its defensive pulse grows stronger over time.",
 "<b>Doly a poušť</b> mají mírnější nástup – nepřátelé tam mají méně zdraví a chodí jich méně najednou. Golem v dolech přichází až od 2. minuty a bije slaběji.":"<b>Mines and Desert</b> ramp up more gently – enemies there have less health and come in smaller groups. The Golem in the mines shows up from minute 2 and hits softer.",
