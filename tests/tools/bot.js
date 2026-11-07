@@ -58,7 +58,8 @@ for(const map of maps)for(const hero of heroes)for(let i=0;i<N;i++){
         const cx=map.size/2-p.x,cy=map.size/2-p.y,cd=Math.hypot(cx,cy);if(cd>map.size*.38){fx+=cx/cd*1.5;fy+=cy/cd*1.5;}
         const L=Math.hypot(fx,fy);K.force=L>.12?{x:fx/L,y:fy/L}:{x:0,y:0};
         if(R.t>map.dur+400){K.finish(false);return 'over';} // pojistka: nekonečný běh
-        if(n%40===0&&R.coins>=(R.crystal?90:60)&&R.towers.length<3&&!(R.crystal&&R.crystal.hp<R.crystal.max*.7))K.buildTower(R.heroId==='builder'||R.crystal?'arrow':['arrow','fire','frost'][R.towers.length%3]);
+        if(n%40===0&&R.coins>=(R.crystal?90:60)&&R.towers.length<(R.hero&&R.hero.builder?6:3)&&!(R.crystal&&R.crystal.hp<R.crystal.max*.7))K.buildTower(R.heroId==='builder'||R.crystal?'arrow':['arrow','fire','frost'][R.towers.length%3]);
+        if(n%40===0&&R.hero&&R.hero.builder&&R.nearTower&&R.nearTower.lv<3&&R.coins>=120)K.upgradeTower();
         if(n%40===0&&R.crystal&&R.nearCrystal&&R.crystal.hp<R.crystal.max*.75)K.repairCrystal();
         K.step(DT);
       }return 'run';});

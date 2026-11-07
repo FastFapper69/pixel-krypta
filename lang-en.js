@@ -1,6 +1,11 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Vyladěná obtížnost":"Tuned difficulty",
+"<b>Poušť</b>: krystal vydrží víc, rychleji se v klidu léčí a jeho obranná vlna s časem sílí.":"<b>Desert</b>: the crystal is tougher, heals faster when left alone and its defensive pulse grows stronger over time.",
+"<b>Doly a poušť</b> mají mírnější nástup – nepřátelé tam mají méně zdraví a chodí jich méně najednou. Golem v dolech přichází až od 2. minuty a bije slaběji.":"<b>Mines and Desert</b> ramp up more gently – enemies there have less health and come in smaller groups. The Golem in the mines shows up from minute 2 and hits softer.",
+"<b>Stavitel</b> má +15 zdraví. <b>Bard</b> přišel o bonus k poškození a jeho Noty jsou o něco slabší.":"<b>Builder</b> gets +15 health. <b>Bard</b> lost his damage bonus and his Notes are a bit weaker.",
+"<b>Noční můry</b> přitvrzují rychleji a nepřátel je v nich víc.":"<b>Nightmares</b> get harder faster and bring more enemies.",
 "Ladění podle dat":"Tuning by data",
 "Po každém běhu hra anonymně uloží <b>krátkou statistiku</b> (hrdina, mapa, čas, zbraně, co tě zabilo). Podle ní budu ladit obtížnost a zbraně, místo hádání.":"After every run the game anonymously saves a <b>short summary</b> (hero, map, time, weapons, what killed you). I'll use it to tune difficulty and weapons instead of guessing.",
 "Neukládá se nic osobního a statistiky nikdo jiný ve hře nevidí.":"Nothing personal is stored and no other player can see these stats.",
