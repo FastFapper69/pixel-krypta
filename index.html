@@ -316,7 +316,10 @@ html,body,#stage{touch-action:none}
 .mats{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-weight:700}
 .mt{display:inline-flex;align-items:center;gap:4px;font-weight:700;white-space:nowrap}.mt img{width:18px;height:18px;image-rendering:pixelated}.mt.no{color:#ff8a7a}.mt .have{font-size:.82em;font-weight:600;color:var(--muted);margin-left:1px}.mt.no .have{color:#ff8a7a;opacity:.8}
 .costs{display:inline-flex;gap:8px;flex-wrap:wrap;font-size:14px}
-.co-picks.nm .co-pick{flex:1 1 30%;min-width:80px;padding:6px}.co-pick small{font-size:11px;color:var(--muted)}
+.co-picks.nm .co-pick{flex:1 1 30%;min-width:80px;padding:6px}
+.nmtabs{display:flex;gap:6px;margin:8px 0 2px}.nmtabs button{flex:1;min-width:0;font:700 13px/1 var(--font);padding:9px 2px;border:0;background:#211a2e;box-shadow:inset 0 0 0 2px var(--line);color:#c8bcdc;clip-path:var(--px);cursor:pointer}
+.nmtabs button.on{background:#3a1430;color:#ff9ab0;box-shadow:inset 0 0 0 2px #e8456a}.nmtabs button:first-child.on{background:var(--panel2,#2a2236);color:var(--gold);box-shadow:inset 0 0 0 2px var(--gold)}
+.nmtabs button.lk{opacity:.5}#goBtn.nm{background:#e8456a;color:#fff;box-shadow:inset 0 -4px 0 #8a1a3a}.hint.nmh{margin:6px 0 0;color:#ffb4c4}.co-pick small{font-size:11px;color:var(--muted)}
 .card.daily{flex-direction:row;align-items:center;gap:10px;box-shadow:inset 0 0 0 3px var(--gold);background:linear-gradient(90deg,#3a2a10,var(--panel) 70%);cursor:default}
 .card.daily.done{box-shadow:inset 0 0 0 3px var(--line);background:var(--panel);opacity:.8}.card.daily .t{flex:1;display:flex;flex-direction:column;gap:3px}
 .hcard{cursor:default;gap:10px}.hc-top{display:flex;gap:12px;align-items:center}.hc-top img{width:56px;height:56px;image-rendering:pixelated}.hc-top>div{flex:1}
@@ -613,9 +616,6 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <div class="card hinfo" id="heroInfo"></div>
       <div class="sec">Kampaň</div>
       <div id="mapList"></div>
-      <div class="sec">Obtížnost</div>
-      <div class="co-picks nm" id="nmList"></div>
-      <p class="hint" id="nmHint"></p>
       <div class="sticky"><button class="btn" id="goBtn" style="width:100%">Vyrazit</button></div>
     </div>
     <div class="popwrap" id="selPop" hidden></div>
@@ -858,8 +858,8 @@ const STICK_MODES=['touch','fixed','follow'],STICK_TXT={touch:_t('pevný v míst
 let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false,stick:'touch'};
 function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw','metaV','seen'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
-const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw','metaV','seen'];
+  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw','metaV','seen','nmw','nmV'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
+const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw','metaV','seen','nmw','nmV'];
 function persist(){save.updated=Date.now();try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
 
@@ -2792,7 +2792,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07w';
+const GAME_VER='2026-11-07x';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3345,7 +3345,7 @@ function runDeck(builder){twInit();const out=[],seen=new Set();for(const u of sa
 function runTwStats(builder){const o={};for(const u of save.tw.deck.slice(0,builder?5:4)){const c=twCard(u);if(c&&!o[c.k])o[c.k]=twStat(c);}return o;}
 const twM=t=>t.ts?t.ts.dm:1; // damage from the tower card
 const MAX_T=8;
-const NM_HP=.55,NM_DMG=.25; // per Nightmare tier (enemies, boss, crystal pulse)
+const NM_HP=.75,NM_DMG=.3; // per Nightmare tier (3 tiers since 07x, each one steeper) (enemies, boss, crystal pulse)
 const metaBuild=()=>1-mB('build',save.meta.build||0);
 const maxTowers=()=>MAX_T+(run.hero.builder?2:0)+((st&&st.tmax)||0);
 const towerCost=k=>Math.max(5,Math.round(TOWERS[k].cost*((run.tws&&run.tws[k]&&run.tws[k].cm)||1)*(1+.15*run.towers.length)*(run.hero.builder?.6:1)*metaBuild()*(1-((st&&st.tcost)||0))));
@@ -3829,7 +3829,7 @@ function showOver(){
   if(W.set)rows.push(['<img class="cdl" alt="" src="'+itIcon(W.set)+'"> '+_t('Kus setu'),'<b style="color:'+SETS[W.set.set].col+'">'+itemName(W.set)+'</b>']);
   if(W.tre)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"> '+_t('Poklad kapitoly'),_t('<b style="color:var(--gold)">Čeká na tebe v Přípravě!</b>')]);
   if(W.daily)rows.push([_t('Denní výzva'),'<b style="color:'+RAR[W.daily.r].col+'">'+itemName(W.daily)+'</b>']);
-  if(run.won&&run.nm<5&&save.nm[run.mapId]>run.nm&&!run.coop)rows.push([_t('Odemčeno'),NM_NAME[Math.min(5,run.nm+1)]]);
+  if(run.won&&!run.coop&&run.map.finale&&(run.nm||0)<NM_MAX)rows.push([_t('Odemčeno'),NM_NAME[(run.nm||0)+1]+' · '+CH_OF[run.mapId].name]);
   for(const r of run.qres||[]){if(r.w){rows.push([_t('Hledaný'),_t('<b style="color:var(--gold)">Dopaden!</b> Odměna na nástěnce')]);continue;}const q=r.q;
     rows.push(['<img class="cdl" alt="" src="'+qIcon(q.ico)+'"> '+q.t,q.done?_t('<b style="color:var(--green)">Splněno!</b>'):qFmt(q,q.v)]);}
   for(const A of run.achNew||[])rows.push(['<img class="cdl" alt="" src="'+dataUrl(A.hero?SPR.hero[A.hero]:SPR.icon[A.ic]||SPR.icon.trophy)+'"> '+A.name,_t('<b style="color:var(--gold)">Mistrovství!</b>')]);
@@ -4479,26 +4479,35 @@ function thumbQueue(ids){const need=ids.filter(id=>!thumbs[id]&&thumbImg[id]&&th
   setTimeout(()=>{const id=need[0];try{const had=!!mapsBuilt[id];buildMap(id);const c=mapThumb(id);try{localStorage.setItem(thumbKey(id),c.toDataURL());}catch(_){}
       if(!had&&id!==MB.id&&!(run&&run.mapId===id))delete mapsBuilt[id];}catch(e){console.error(e);}
     thumbQueue.busy=false;if(state==='select'){renderCampaign();}},60);}
-function mapStatus(id){const b=[];if(save.cleared[id]){const n=save.nm&&save.nm[id]>1?save.nm[id]-1:0;b.push(n?_t('Splněno · NM ')+n:_t('Splněno'));}
-  if(save.best[id])b.push(_t('rekord ')+fmtTime(save.best[id]));return b.join(' · ');}
+function mapStatus(id,k){k=k||0;const b=[];if(nmWin(id,k))b.push(_t('Splněno'));
+  if(!k&&save.best[id])b.push(_t('rekord ')+fmtTime(save.best[id]));return b.join(' · ');}
 function renderCampaign(){
   thumbClean();
   const box=$('#mapList');if(chSel==null)chSel=(CH_OF[sel.map]||CHAPTERS[0]).i;
-  const C=CHAPTERS[chSel],done=C.maps.filter(m=>save.cleared[m]).length,open=mapUnlocked(C.maps[0]);
+  const C=CHAPTERS[chSel];
+  // chapter difficulty: the chosen tier must be open in this chapter, otherwise fall back to the highest one that is
+  {let k=Math.min(sel.nm||0,NM_MAX);while(k>0&&!nmChapterOpen(C,k))k--;sel.nm=k;}
+  const NK=sel.nm,done=C.maps.filter(m=>nmWin(m,NK)).length,open=mapOpenAt(C.maps[0],NK);
   box.style.setProperty('--chc',C.col);
   let h='<div class="chbar"><button class="btn alt sm" id="chPrev"'+(chSel?'':' disabled')+' aria-label="'+_t('Předchozí kapitola')+'">‹</button>'+
     '<div class="chh"><small>'+_t('KAPITOLA ')+ROMAN_CH[chSel]+'</small><h3>'+C.name+'</h3><span class="mt" data-mat="'+C.mat+'"><img alt="" src="'+matIcon(C.mat)+'">'+MAT_NAME[C.mat]+' · '+done+' / '+C.maps.length+'</span></div>'+
-    '<button class="btn alt sm" id="chNext"'+(chSel<CHAPTERS.length-1?'':' disabled')+' aria-label="'+_t('Další kapitola')+'">›</button></div><div class="mpath"></div>';
+    '<button class="btn alt sm" id="chNext"'+(chSel<CHAPTERS.length-1?'':' disabled')+' aria-label="'+_t('Další kapitola')+'">›</button></div>';
+  if(!C.soon){h+='<div class="nmtabs">';for(let k=0;k<=NM_MAX;k++){const ok=nmChapterOpen(C,k);h+='<button data-k="'+k+'" class="'+(k===NK?'on':'')+(ok?'':' lk')+'">'+NM_SHORT[k]+'</button>';}
+    h+='</div>'+(NK?'<p class="hint nmh">'+_t('Silnější nepřátelé, odměny +')+(50*NK)+_t(' %. Mapy jdeš znovu postupně, první výhra finále dá kus setu.')+'</p>':'');}
+  h+='<div class="mpath"></div>';
   box.innerHTML=h;const path=box.querySelector('.mpath');
-  C.maps.forEach((id,k)=>{const m=MAPS[id],ok=mapUnlocked(id),on=sel.map===id&&ok;
+  box.querySelectorAll('.nmtabs button').forEach(b=>b.onclick=()=>{const k=+b.dataset.k;
+    if(!nmChapterOpen(C,k)){note(k===1?_t('Odemkneš poražením finále kapitoly'):_t('Odemkneš výhrou finále kapitoly na stupni ')+NM_SHORT[k-1]);return;}
+    if(k===sel.nm)return;sel.nm=k;sfx('ui');if(!mapOpenAt(sel.map,k)||CH_OF[sel.map]!==C){const nx=C.maps.find(m=>mapOpenAt(m,k)&&!nmWin(m,k))||C.maps.filter(m=>mapOpenAt(m,k)).pop();if(nx)sel.map=nx;}renderSelect();});
+  C.maps.forEach((id,k)=>{const m=MAPS[id],ok=mapOpenAt(id,NK),on=sel.map===id&&ok;
     const b=document.createElement('button');b.className='card mnode'+(on?' sel':'')+(ok?'':' lock')+(m.finale?' fin':'');
     const cv=document.createElement('canvas');cv.width=cv.height=TH;const g2=cv.getContext('2d');g2.imageSmoothingEnabled=false;
     const src=thumbSrc(id);if(src)g2.drawImage(src,0,0,TH,TH);else{g2.fillStyle=m.c1||'#2a2236';g2.fillRect(0,0,TH,TH);}
-    const st=ok?mapStatus(id):(k?_t('Odemkneš výhrou na předchozí mapě'):_t('Odemkneš poražením finále kapitoly ')+ROMAN_CH[Math.max(0,chSel-1)]);
+    const st=ok?mapStatus(id,NK):(k?_t('Odemkneš výhrou na předchozí mapě'):NK>1?_t('Odemkneš výhrou finále kapitoly na stupni ')+NM_SHORT[NK-1]:NK?_t('Odemkneš poražením finále kapitoly'):_t('Odemkneš poražením finále kapitoly ')+ROMAN_CH[Math.max(0,chSel-1)]);
     const d=document.createElement('div');
     d.innerHTML='<h3><span class="num">'+(k+1)+'</span>'+m.name+(m.finale?'<span class="badge fin">'+_t('Finále')+'</span>':'')+(ok?'':_t('<span class="badge lk">Zamčeno</span>'))+'</h3>'+
       (st?'<small>'+st+'</small>':'')+(on?'<p>'+m.desc+'</p>':'');
-    if(ok&&isFresh('map','m'+id))d.querySelector('h3').insertAdjacentHTML('beforeend',NEW_TAG());
+    if(ok&&!NK&&isFresh('map','m'+id))d.querySelector('h3').insertAdjacentHTML('beforeend',NEW_TAG());
     b.appendChild(cv);b.appendChild(d);
     b.addEventListener('click',()=>{if(ok){sel.picked=1;if(sel.map!==id){sel.map=id;sfx('ui');renderSelect();}}else note(st);});
     path.appendChild(b);});
@@ -4557,12 +4566,7 @@ function renderSelect(){
   {const id=heroOwned(sel.hero)?sel.hero:'knight',h=HEROES[id];
    $('#heroInfo').innerHTML='<div class="hi-t"><h3>'+h.name+'</h3><small>'+_t('Start: ')+WEAPONS[h.start].name+'</small></div><p>'+h.desc+'</p>';}
   renderCampaign();
-  const tiers=nmTiers(sel.map);sel.nm=Math.min(sel.nm||0,tiers);const nl=$('#nmList');nl.innerHTML='';
-  for(let t=0;t<=5;t++){const b=document.createElement('button');b.className='co-pick'+(sel.nm===t?' on':'');b.disabled=t>tiers;
-    b.innerHTML='<span>'+NM_NAME[t]+'</span><small>'+(t>tiers?_t('Zamčeno'):t?'+'+(50*t)+_t(' % odměn'):_t('běžná hra'))+'</small>';
-    b.onclick=()=>{sel.nm=t;sfx('ui');renderSelect();};nl.appendChild(b);}
-  $('#nmHint').textContent=!tiers?_t('Noční můry odemkneš, když na této mapě porazíš bosse.')
-    :_t('Noční můra = silnější nepřátelé, ale víc materiálu a zlata a na konci předmět z bosse. Další stupeň odemkneš výhrou na tom předchozím.');
+  {const k=mapOpenAt(sel.map,sel.nm||0)?(sel.nm||0):0;$('#goBtn').textContent=_t('Vyrazit')+(k?' · '+NM_SHORT[k]:'');$('#goBtn').classList.toggle('nm',!!k);}
   const di=dailyInfo(),db=$('#dailyBox');db.hidden=!(save.stats&&save.stats.runs)&&!save.cheat; // newcomers start with a normal run
   db.innerHTML='<div class="card daily'+(di.done?' done':'')+_t('"><div class="t"><h3>Denní výzva · ')+MAPS[di.map].name+'</h3><small><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small>'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 3 minuty → truhla s předmětem + 20 ')+MAT_NAME[MAT_OF[di.map]]+'.')+_t('</small><small>Stejný běh pro všechny · žebříček Dnes')+(mapUnlocked(di.map)?'':_t(' · mapu si tak vyzkoušíš, i když ji ještě nemáš'))+_t('</small></div><button class="btn sm" id="dailyGo">Hrát</button></div>');
   $('#dailyGo').onclick=()=>{sfx('ui');startRun(heroOwned(sel.hero)?sel.hero:'knight',di.map,{mod:di.mod.id});};
@@ -4654,7 +4658,7 @@ function bindUi(){
   $('#pGod').onclick=()=>{const K=window.__krypta;K.god=!K.god;$('#pGod').textContent=_t('Test: nesmrtelnost ')+onOff(K.god);};
   document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('.mt[data-mat]');if(t&&!t.closest('button'))note(matInfo(t.dataset.mat),4200);});
   document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{sfx('ui');refreshMenu();setState('menu');});
-  $('#goBtn').onclick=()=>{if(!heroOwned(sel.hero))sel.hero='knight';if(!mapUnlocked(sel.map))sel.map='hrbitov';startRun(sel.hero,sel.map,{nm:Math.min(sel.nm||0,nmTiers(sel.map))});};
+  $('#goBtn').onclick=()=>{if(!heroOwned(sel.hero))sel.hero='knight';if(!mapUnlocked(sel.map))sel.map='hrbitov';startRun(sel.hero,sel.map,{nm:mapOpenAt(sel.map,sel.nm||0)?(sel.nm||0):0});};
   buildBarInit();onTap($('#upBtn'),()=>upgradeTower());onTap($('#repBtn'),()=>repairCrystal());
   onTap($('#btnPause'),()=>{sfx('ui');togglePause();});
   $('#mStick').onclick=()=>{audioInit();sfx('ui');openControls();};$('#pStick').onclick=()=>cycleStick();
@@ -4890,7 +4894,7 @@ const ECON={
  refund:it=>{const v=upInvest(it),mid=SLOTS[it.s].mat,o={gold:15*(it.r+1)*(it.r+1)+Math.floor(v.gold/2),mat:3*(it.r+1)+Math.floor((v.m[mid]||0)/2),matId:mid,m:{}};
    for(const k in v.m)o.m[k]=Math.floor(v.m[k]/2);o.m[mid]=o.mat;return o;},
  heroCost:L=>({bone:L>=15?54:6*L,amber:L>=8?6*(L-6):0,magma:L>=15?12*(L-12):0,gold:20*L}),
- nmItem:[null,1,2,3,3,3]};
+ nmItem:[null,1,2,3]};
 const HERO_MAX=20;
 // what was spent on an item's upgrades so far (sum of upCost for levels 0..lv-1)
 function upInvest(it){let gold=0,mat=0;const m={};for(let l=0;l<(it.lv||0);l++){const c=ECON.upCost({r:it.r,s:it.s,lv:l});gold+=c.gold;mat+=c.mat;m[c.matId]=(m[c.matId]||0)+c.mat;}return{gold,mat,m,matId:SLOTS[it.s].mat};}
@@ -4911,7 +4915,7 @@ const DAILY_MODS=[{id:'fast',name:_t('Zběsilí'),desc:_t('Nepřátelé jsou o 3
 
 // ----- save helpers -----
 function econInit(){chMigrate();twInit();metaInit();save.fin=save.fin||{};save.mats=Object.assign({bone:0,amber:0,magma:0},save.mats||{});save.hlv=save.hlv||{};save.inv=save.inv||[];save.eq=save.eq||{};
-  save.nm=save.nm||{};save.pity=Object.assign({iron:0,gold:0,tower:0},save.pity||{});save.daily=save.daily||{};save.codex=save.codex||{f:{},l:{}};save.codex.f=save.codex.f||{};save.codex.l=save.codex.l||{};save.codex.s=save.codex.s||{};save.setP=save.setP||{};save.chT=save.chT||{};save.uidc=save.uidc||0;}
+  save.nm=save.nm||{};nmMigrate();save.pity=Object.assign({iron:0,gold:0,tower:0},save.pity||{});save.daily=save.daily||{};save.codex=save.codex||{f:{},l:{}};save.codex.f=save.codex.f||{};save.codex.l=save.codex.l||{};save.codex.s=save.codex.s||{};save.setP=save.setP||{};save.chT=save.chT||{};save.uidc=save.uidc||0;}
 const heroLv=h=>Math.max(1,Math.min(HERO_MAX,(save.hlv&&save.hlv[h])||1));
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
 function newUid(){save.uidc=(save.uidc||0)+1;return Date.now().toString(36)+'-'+save.uidc.toString(36)+'-'+Math.random().toString(36).slice(2,6);}
@@ -4979,8 +4983,17 @@ function canHeroUp(h){const L=heroLv(h);if(L>=HERO_MAX)return false;const c=hero
 function heroUp(h){if(!canHeroUp(h))return false;const c=heroUpCost(h);save.coins-=c.gold;for(const m of MAT_IDS)save.mats[m]-=(c[m]||0);save.hlv[h]=heroLv(h)+1;persist();return true;}
 
 // ----- nightmares -----
-const NM_NAME=[_t('Normální'),_t('Noční můra 1'),_t('Noční můra 2'),_t('Noční můra 3'),_t('Noční můra 4'),_t('Noční můra 5')];
-function nmTiers(map){if(save.cheat)return 5;if(!save.cleared[map])return 0;return Math.min(5,Math.max(1,save.nm[map]||1));}
+// Nightmares are a chapter difficulty: tier k opens once the chapter finale is won on tier k-1, and the maps then
+// unlock one by one again up to the finale (whose first win on each tier gives a set piece). Wins: tier 0 = save.cleared,
+// tiers 1-3 = save.nmw['k|map'].
+const NM_MAX=3;
+const NM_NAME=[_t('Normální'),_t('Noční můra I'),_t('Noční můra II'),_t('Noční můra III')];
+const NM_SHORT=[_t('Normální'),'NM I','NM II','NM III'];
+const nmWin=(id,k)=>k?!!(save.nmw&&save.nmw[k+'|'+id]):!!save.cleared[id];
+function nmChapterOpen(C,k){if(!k||save.cheat)return true;if(!C||C.soon)return false;return nmWin(C.maps[C.maps.length-1],k-1);}
+function mapOpenAt(id,k){if(!k)return mapUnlocked(id);const C=CH_OF[id];if(!nmChapterOpen(C,k))return false;if(save.cheat)return true;const i=C.maps.indexOf(id);return i<=0||nmWin(C.maps[i-1],k);}
+function nmTiers(map){let t=0;for(let k=1;k<=NM_MAX;k++)if(mapOpenAt(map,k))t=k;return t;}
+function nmMigrate(){if(save.nmV===2)return;save.nmw=save.nmw||{};for(const id in save.nm||{}){const n=Math.min(NM_MAX,(save.nm[id]|0)-1);for(let k=1;k<=n;k++)save.nmw[k+'|'+id]=1;}save.nmV=2;}
 
 // ----- daily challenge: same map and modifier for everyone on the same day -----
 function dailyInfo(){const d=today();let h=0;for(const ch of d)h=(h*31+ch.charCodeAt(0))>>>0;
@@ -4994,13 +5007,14 @@ function runRewards(won){
   m*=(1+.5*(R.nm||0))*(fin?1.25:1);m=Math.round(m);
   save.mats[mid]=(save.mats[mid]||0)+m;out.mat=[mid,m];
   if(won){twInit();for(const k in TW_UNL)if(TW_UNL[k]===R.mapId&&!twOpen(k)){const c=twRoll(k,0);save.tw.cards.push(c);out.tw=c;}}
-  if(won&&R.nm>0){let r=ECON.nmItem[R.nm];if(R.nm===5&&Math.random()<.25)r=4;const it=makeItem(r);addItem(it);out.item=it;
-    save.nm[R.mapId]=Math.max(save.nm[R.mapId]||1,Math.min(5,R.nm+1));}
-  else if(won&&!R.nm)save.nm[R.mapId]=Math.max(save.nm[R.mapId]||1,1);
+  let nmFirst=false;
+  if(won&&R.nm>0){const k=Math.min(NM_MAX,R.nm);let r=ECON.nmItem[k];if(k===NM_MAX&&Math.random()<.25)r=4;const it=makeItem(r);addItem(it);out.item=it;
+    save.nmw=save.nmw||{};nmFirst=!save.nmw[k+'|'+R.mapId];save.nmw[k+'|'+R.mapId]=1;}
   if(won&&fin){save.fin=save.fin||{};if(!save.fin[R.mapId]){save.fin[R.mapId]=1;const it=makeItem(rollRarity(ECON.chests[2]));addItem(it);out.fin=it;}
     const lg=FIN_LEG[R.mapId];if(lg&&(R.nm||0)>=3&&Math.random()<.25){const it=makeItem(4,null,null,lg);addItem(it);out.leg=it;}
     const sid=SET_OF_CH[CH_OF[R.mapId].id];if(sid){save.setP=save.setP||{};const miss=save.setP[sid]||0;
-      if(miss>=SET_PITY||Math.random()<SET_DROP+.05*(R.nm||0)){const it=makeSetItem(sid);addItem(it);out.set=it;save.setP[sid]=0;}else save.setP[sid]=miss+1;
+      // the first win of a finale on each Nightmare tier always gives a piece; otherwise a chance with pity
+      if((nmFirst&&!R.coop)||miss>=SET_PITY||Math.random()<SET_DROP+.05*(R.nm||0)){const it=makeSetItem(sid);addItem(it);out.set=it;save.setP[sid]=0;}else save.setP[sid]=miss+1;
       save.chT=save.chT||{};if(!save.chT[CH_OF[R.mapId].id])out.tre=1;}}
   if(R.mod&&!R.coop&&(won||R.t>=180)&&save.daily.chal!==today()){save.daily.chal=today();achInit().tot.dc++;save.mats[mid]+=20;const it=makeItem(rollRarity(ECON.chests[1]));addItem(it);out.daily=it;}
   return out;}
@@ -5279,7 +5293,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('tower'),_t('Věže'),_t('Za zlato z běhu stavíš věže tlačítky vpravo dole.')],
    [I('potion'),_t('Předměty na zemi'),_t('Lektvar léčí, magnet přitáhne krystaly, truhla dá vylepšení navíc.')],
    [I('skull'),_t('Boss'),_t('Přežij do konce a poraz bosse. Když ho nezabiješ do 2 minut, začne zuřit.')],
-   [I('trophy'),_t('Výhra'),_t('Poražený boss odemkne další mapu kapitoly a Noční můry.')],
+   [I('trophy'),_t('Výhra'),_t('Poražený boss odemkne další mapu kapitoly. Finále kapitoly odemkne její Noční můru.')],
    [dataUrl(SPR.hero.knight)+'|'+dataUrl(SPR.hero.mage),_t('S kamarádem'),_t('Hrajte ve dvou, každý na svém telefonu. Padlého kamaráda oživíš, když u něj postojíš.')]].map(r=>gdRow(...r)).join('');}
   else if(tab==='weapons'){
     h=gdSec(_t('Zbraně'))+W_IDS.map(id=>gdRow(I(id),WEAPONS[id].name,WEAPONS[id].desc+(W_HERO[id]&&!wOpen(id)?' '+_t('Zbraň hrdiny ')+HERO_DAT[W_HERO[id]]+_t(', všem se odemkne na jeho úrovni 8.'):''))).join('')
@@ -5309,7 +5323,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [dataUrl(itemSpr('helm',3,'bone')),_t('Sety kapitol'),_t('Každá kapitola má set 4 kusů. Padají z finále, jeden je v pokladu kapitoly. 2 kusy dají bonus, 4 kusy schopnost.')],
    [I('shield'),_t('Kovárna'),_t('Tři předměty stejné rarity sloučíš v jeden vzácnější.')],
    [I('haste'),_t('Vylepšení'),_t('Trvalé bonusy pro všechny hrdiny a běhy.')],
-   [I('skull'),_t('Noční můry'),_t('Těžší verze mapy s lepší odměnou. Odemknou se po výhře.')],
+   [I('skull'),_t('Noční můry'),_t('Těžší obtížnost celé kapitoly (I–III). Mapy jdeš znovu postupně až k finále a jeho první výhra na každém stupni dá kus setu.')],
    [I('scroll'),_t('Nástěnka'),_t('Denní úkoly a hledané elity za svíčky a truhly.')],
    [I('candle'),_t('Denní výzva'),_t('Stejný běh pro všechny hráče a vlastní žebříček Dnes.')],
    [I('medal'),_t('Mistrovství'),_t('Dlouhodobé cíle. Za splnění dostaneš zlato a titul.')],
@@ -5332,7 +5346,7 @@ function openCodex(){econInit();const f=$('#cxFus'),l=$('#cxLeg');
    which achTrack() fills at the end of every run. Done goals are claimed by hand (gold + title, the combo goal also gives the Bard). */
 function achInit(){const S=save.stats||(save.stats={wins:0,kills:0,runs:0,best:{}});S.best=S.best||{};
   const T=S.tot||(S.tot={});for(const k of ['el','cart','pf','combo','want','dc','nmw','cw','ck'])T[k]=+T[k]||0;S.hw=S.hw||{};save.ach=save.ach||{};return S;}
-const nmWon=()=>{const S=achInit();return Math.max(S.tot.nmw||0,...Object.values(save.nm||{}).map(v=>(v|0)-1),0);};
+const nmWon=()=>{const S=achInit();return Math.min(NM_MAX,Math.max(S.tot.nmw||0,...Object.keys(save.nmw||{}).map(k=>+k.split('|')[0]),0));};
 const ACH=[
  {id:'win1',ic:'trophy',name:_t('První vítězství'),desc:_t('Vyhraj na libovolné mapě.'),title:_t('Přeživší'),n:1,v:S=>(S.wins||0)+S.tot.cw,g:100},
  {id:'maps',ic:'skull',name:_t('Přemožitel Morvana'),desc:_t('Poraz Morvana, pána kostí, ve finále kapitoly I.'),title:_t('Přemožitel Morvana'),n:1,v:()=>save.cleared.trun?1:0,g:300},
@@ -5343,8 +5357,8 @@ const ACH=[
  {id:'elite',ic:'power',name:_t('Lovec elit'),desc:_t('Poraz 100 elitních nepřátel.'),title:_t('Lovec elit'),n:100,v:S=>S.tot.el,g:300},
  {id:'fuse',ic:'vortex',name:_t('Alchymista'),desc:_t('Objev všechny fúze zbraní, i tu tajnou.'),title:_t('Alchymista'),n:0,v:()=>Object.keys((save.codex&&save.codex.f)||{}).filter(id=>ULTS[id]).length,g:500},
  {id:'pf',ic:'music',name:_t('Dirigent'),desc:_t('5× ťukni rituál fúze nebo sloučení na 4× Perfektní.'),title:_t('Dirigent'),n:5,v:S=>S.tot.pf,g:300},
- {id:'nm3',ic:'skull',name:_t('Noční můra'),desc:_t('Vyhraj na Noční můře III.'),title:_t('Noční můra'),n:3,v:()=>nmWon(),g:500},
- {id:'nm5',ic:'trophy',name:_t('Pán nočních můr'),desc:_t('Vyhraj na Noční můře V.'),title:_t('Pán nočních můr'),n:5,v:()=>nmWon(),g:1500},
+ {id:'nm3',ic:'skull',name:_t('Noční můra'),desc:_t('Vyhraj na Noční můře II.'),title:_t('Noční můra'),n:2,v:()=>nmWon(),g:500},
+ {id:'nm5',ic:'trophy',name:_t('Pán nočních můr'),desc:_t('Vyhraj na Noční můře III.'),title:_t('Pán nočních můr'),n:3,v:()=>nmWon(),g:1500},
  {id:'heroes',ic:'shield',name:_t('Všestranný'),desc:_t('Vyhraj s každým hrdinou.'),title:_t('Všestranný'),n:0,v:S=>HERO_LIVE.filter(h=>S.hw[h]).length,g:500},
  {id:'lvl20',ic:'heart',name:_t('Mistr'),desc:_t('Vylepši hrdinu na úroveň 20.'),title:_t('Mistr'),n:20,v:()=>Math.max(...HERO_IDS.map(heroLv)),g:800},
  {id:'legend',ic:'chest_gold',name:_t('Pokladník'),desc:_t('Získej legendární předmět.'),title:_t('Pokladník'),n:1,v:()=>Object.keys((save.codex&&save.codex.l)||{}).length,g:200},
@@ -5636,8 +5650,8 @@ function coRoomUi(){$('#coStartBox').hidden=true;$('#coRoom').hidden=false;$('#c
   for(const id of MAP_IDS){const own=host?mapUnlocked(id):LO.map===id;if(!own)continue;const b=document.createElement('button');
     b.className='co-pick map'+(LO.map===id?' on':'');b.disabled=!host;b.innerHTML='<span>'+MAPS[id].name+'</span>';
     b.onclick=()=>{LO.map=id;LO.nm=Math.min(LO.nm||0,nmTiers(id));sfx('ui');coRoomUi();netSend({t:'map',map:id,nm:LO.nm});};mb.appendChild(b);}
-  const nb=$('#coNm');nb.innerHTML='';const tiers=host?nmTiers(LO.map):5;
-  for(let t=0;t<=5;t++){if(!host&&t!==(LO.nm||0))continue;if(t>tiers)break;const b=document.createElement('button');b.className='co-pick'+((LO.nm||0)===t?' on':'');b.disabled=!host;
+  const nb=$('#coNm');nb.innerHTML='';const tiers=host?nmTiers(LO.map):NM_MAX;
+  for(let t=0;t<=NM_MAX;t++){if(!host&&t!==(LO.nm||0))continue;if(t>tiers)break;const b=document.createElement('button');b.className='co-pick'+((LO.nm||0)===t?' on':'');b.disabled=!host;
     b.innerHTML='<span>'+NM_NAME[t]+'</span>';b.onclick=()=>{LO.nm=t;sfx('ui');coRoomUi();netSend({t:'map',map:LO.map,nm:t});};nb.appendChild(b);}
   $('#coGo').disabled=!NET.open;
 }
@@ -5882,6 +5896,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07x',d:'7. 11. 2026',t:_t('Noční můry jako výzva celé kapitoly'),items:[_t('<b>Noční můry</b> jsou teď obtížnost celé kapitoly se 3 stupni. Vybereš ji v Přípravě nad mapami kapitoly.'),_t('Každý stupeň mapy znovu zamkne, takže jdeš postupně až k finálnímu bossovi. Další stupeň odemkne výhra finále na tom předchozím.'),_t('<b>První výhra finále</b> na každém stupni dá jistý kus setu kapitoly. S pokladem kapitoly tak složíš celý set.'),_t('Stupně jsou strmější než dřív. Tvůj dosavadní postup na Nočních můrách zůstal.')]},
  {v:'2026-11-07w',d:'7. 11. 2026',t:_t('Přehlednější menu a ekonomika'),items:[_t('Když získáš něco nového (mapu, předmět, kartu věže, hrdinu nebo hodnost Vylepšení), hlavní menu ukáže štítek <b>NOVÉ</b> přímo na tlačítku, kde to najdeš.'),_t('Lišta se zlatem a materiály zůstane nahoře i při posouvání a velká čísla se zkracují (52,3k), takže se už nerozjede.'),_t('<b>Věže</b> mají na zemi barevný podstavec a světlý obrys, který prosvítá i přes hordu.'),_t('<b>Ekonomika</b>: po běhu si necháš asi třetinu zlata z běhu (zbytek je na věže), materiálu padá méně a truhly jsou dražší. Dlouhé bitvy už nedávají tisíce zlata.'),_t('Hra se při spuštění ukáže hned s logem místo černé obrazovky a celá jména hrdinů jsou vidět.')]},
  {v:'2026-11-07v',d:'7. 11. 2026',t:_t('Plynulejší velké bitvy'),items:[_t('Když je na obrazovce hodně nepřátel, efektů a ultimátek, hra je teď <b>výrazně plynulejší</b>: plameny, střely, spáleniny a zamrzlí nepřátelé se kreslí úsporněji a světla mají lehčí výpočet.'),_t('Pokud telefon i tak nestíhá, hra si v nejdivočejší chvíli <b>sama ubere drobné detaily</b> (méně jisker a malých světýlek) a jakmile se to uklidní, vrátí je.')]},
  {v:'2026-11-07u',d:'7. 11. 2026',t:_t('Vylepšení na dlouho'),items:[_t('<b>Vylepšení</b> v Obchodu mají 30 úrovní ve 3 hodnostech. Hodnost I je za zlato, II navíc za Kostní prach (po poražení Trůnu kostí), III za Jantar (po Bráně slunce). Každá další hodnost dává menší přírůstek, takže je pořád na co šetřit.'),_t('<b>Druhá šance</b> má 3 úrovně: vstaneš s 50, 70 a nakonec 90 % zdraví. Dosavadní nákupy se převedly, nic jsi neztratil.')]},
@@ -6056,7 +6071,7 @@ requestAnimationFrame(()=>{const sp=document.getElementById('splash');if(sp){sp.
 requestAnimationFrame(()=>setTimeout(boot,0));
 
 /* debug / test hooks */
-window.__krypta={guestStartRun,makeEnemy,render,PQ,SPR,MAPS,CHAPTERS,mapsBuilt,buildMap,mapThumb,mapUnlocked,renderSelect,renderCampaign,get MF(){return MF},openGuide,renderGuide,finishFuse,afterOption,tmRow,explode,spawnEnemy,hurtEnemy,killEnemy,get run2(){return run},upInvest,mergeRefund,openMerge,matInfo,musicRender,get musicErr(){return M.err},finish,ACH,achTrack,achClaim,achProg,openMaster,openNews,NEWS,shareImage,shareResult,seedRng,tutTick,titleOf,get ac(){return ac},get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
+window.__krypta={guestStartRun,makeEnemy,render,PQ,mapOpenAt,nmWon,nmTiers,SPR,MAPS,CHAPTERS,mapsBuilt,buildMap,mapThumb,mapUnlocked,renderSelect,renderCampaign,get MF(){return MF},openGuide,renderGuide,finishFuse,afterOption,tmRow,explode,spawnEnemy,hurtEnemy,killEnemy,get run2(){return run},upInvest,mergeRefund,openMerge,matInfo,musicRender,get musicErr(){return M.err},finish,ACH,achTrack,achClaim,achProg,openMaster,openNews,NEWS,shareImage,shareResult,seedRng,tutTick,titleOf,get ac(){return ac},get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
   openMenu,ON,onlineInit,makeSetItem,addItem,SETS,renderSelect,setBoardRows:r=>{boardRows=r;renderBoard();},CO,NET,LO,econInit,makeItem,openChest,heroBonus,heroUp,upgradeItem,doMerge,dismantleItem,mergeCandidates,openHero,openChestShop,openCodex,openQuests,qEnsure,qCommit,qClaim,qClaimMs,qClaimWanted,qReroll,qSnap,spawnWanted,qNewDay,dailyInfo,runRewards,itemById,ECON,openCoop,coHostStart,coJoin,coHostGo,withPl,players,openBoard,saveNick,fusable,startFuse,fuseTap,audioBeat,FUSIONS,get FZ(){return FZ},buildTower,upgradeTower,repairCrystal,force:null,god:false,MAPS,WEAPONS,PASSIVES,ENEMY_DEFS,setSel:(h,m)=>{sel.hero=h;sel.map=m;}};
 })();
 </script>
