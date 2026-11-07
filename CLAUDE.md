@@ -98,6 +98,8 @@ Klíčové koncepty:
 
 - **Balík 2 menu (07l):** Pevná hlavička `.scr:not(.clear)>.wrap>.head` (sticky, přes bezpečný okraj). Zpět: `goBack()` = jedno místo (zavře `#newsPop`, Nastavení, ve hře pauza/pokračovat, jinak klikne na tlačítko v `.head` obrazovky; `.clear` obrazovky nic). Historie: `navArm()` drží jeden záznam navíc, když je otevřené cokoli kromě holého menu (`setState`, `setSheet`, MutationObserver na `#newsPop`); `popstate` → `goBack()`, v holém menu pustí zpět dál (odchod). Swipe od levého okraje jen v iPhone aplikaci z plochy (`navigator.standalone`), jinde to dělá systém. Pás hrdinů `heroStrip(box,ids,cur,label,pick)` (`.hstrip`, stejné dlaždice, při víc hrdinech se posouvá) v Přípravě (`#heroList` + `#heroInfo`) i v Hrdinovi (`#hTabs`). `.sticky` má z-index nad `.mnode`. Síň slávy: `renderBoard` = výběr map po kapitolách (`boardCh`, `.bmgrid` s pohlednicemi), stupně vítězů `#boardPod`, řádky od 4. místa `boardRow`, vlastní řádek připnutý dole `#boardMe`; `boardVal`/`boardSub` = hlavní výsledek a řádek pod ním. Test háček `setBoardRows`.
 
+- **Feedback Jakuba (07m):** první rituál (`startFuse`) čeká na vysvětlení `#fzIntro` (`FZ.intro`, `fuseIntroGo`, `save.fzIntro` synchronizovaný), `costHtml(c,have)` ukáže u ceny i kolik hráč má (Hrdina, detail předmětu).
+
 ## Efekty a věže (11/2026)
 - Částice `run.parts` mají druhy `k`: bez = čtvereček, `chunk` (kus spritu z `shatter(img,cx,top,gy,n,pow)` – rozpad nepřítele/věže), `smoke` (roste, `grow`, `drag`, `a`), `streak` (jiskra se stopou, `sparks()`), `ember` (blikající uhlík, světlo). Přidávat přes `addP()` (limit `P_MAX`=520). `smokePuff()`.
 - Zásah: `e.sq` = squash při vykreslení, čísla mají oblouk (`vx/vy`), krit má `!` (glyf v `DIG`). Smrt: kousky spritu + kouř + jiskry + `pop`.

@@ -266,6 +266,8 @@ html,body,#stage{touch-action:none}
 .lvl .card.fuse h3{color:var(--gold)}
 @keyframes fzGlow{to{box-shadow:inset 0 0 0 3px #fff6c8,0 0 22px #f6c74488}}
 #scr-fuse{touch-action:none;background:#130f1cdd}
+.fz-intro{display:flex;flex-direction:column;gap:8px;text-align:center;padding:14px}.fz-intro h3{font-size:17px;color:var(--gold)}.fz-intro p{font-size:14px;margin:0}.fz-intro b{color:var(--gold)}
+#scr-fuse.intro .fz-pips,#scr-fuse.intro .fz-judge,#scr-fuse.intro #fzHint{visibility:hidden}
 .fz-sub{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--muted);font-size:16px;font-weight:600;text-align:center}
 .fz-sub img{width:28px;height:28px;image-rendering:pixelated}
 .fz-stage{position:relative;width:200px;height:200px;margin:4px auto}
@@ -284,7 +286,7 @@ html,body,#stage{touch-action:none}
 @keyframes fzPop{from{transform:scale(1.4)}to{transform:scale(1)}}
 .row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .mats{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-weight:700}
-.mt{display:inline-flex;align-items:center;gap:4px;font-weight:700;white-space:nowrap}.mt img{width:18px;height:18px;image-rendering:pixelated}.mt.no{color:#ff8a7a}
+.mt{display:inline-flex;align-items:center;gap:4px;font-weight:700;white-space:nowrap}.mt img{width:18px;height:18px;image-rendering:pixelated}.mt.no{color:#ff8a7a}.mt .have{font-size:.82em;font-weight:600;color:var(--muted);margin-left:1px}.mt.no .have{color:#ff8a7a;opacity:.8}
 .costs{display:inline-flex;gap:8px;flex-wrap:wrap;font-size:14px}
 .co-picks.nm .co-pick{flex:1 1 30%;min-width:80px;padding:6px}.co-pick small{font-size:11px;color:var(--muted)}
 .card.daily{flex-direction:row;align-items:center;gap:10px;box-shadow:inset 0 0 0 3px var(--gold);background:linear-gradient(90deg,#3a2a10,var(--panel) 70%);cursor:default}
@@ -547,6 +549,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <div class="fz-pips" id="fzPips"><i></i><i></i><i></i><i></i></div>
       <p class="fz-judge" id="fzJudge"></p>
       <p class="hint" id="fzHint"></p>
+      <div class="pop-card fz-intro" id="fzIntro" hidden><h3>Jak na rituál</h3><p>Ťukni 4× kamkoliv do rytmu hudby – vždycky, když se zlatý rámeček stáhne do středu.</p><p>Povede se to vždycky, přesnost jen přidá bonus – u zbraní až +25 % síly.</p><button class="btn" id="fzGo">Rozumím, začít</button></div>
     </div>
   </section>
 
@@ -745,8 +748,8 @@ const STICK_MODES=['touch','fixed','follow'],STICK_TXT={touch:_t('pevný v míst
 let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false,stick:'touch'};
 function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
-const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb'];
+  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
+const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro'];
 function persist(){save.updated=Date.now();try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
 
@@ -2642,7 +2645,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07l';
+const GAME_VER='2026-11-07m';
 fitApp();addEventListener('resize',()=>{fitApp();resize();});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3466,13 +3469,16 @@ function startFuse(f,idx,opts){
   else{$('#fzA').hidden=$('#fzB').hidden=false;$('#fzTitle').textContent=_t('Fúze!');$('#fzSub').textContent=WEAPONS[f.a].name+' + '+WEAPONS[f.b].name;
   $('#fzIcon').src=dataUrl(SPR.icon[f.id]);$('#fzA').src=dataUrl(SPR.icon[f.a]);$('#fzB').src=dataUrl(SPR.icon[f.b]);}
   $('#fzJudge').textContent='';$('#fzHint').textContent=_t('Ťukni kamkoliv do rytmu');
+  const intro=!save.fzIntro;FZ.intro=intro;$('#fzIntro').hidden=!intro;$('#scr-fuse').classList.toggle('intro',intro);
   [...$('#fzPips').children].forEach(i=>i.className='');$('#scr-fuse').classList.remove('done','perfect');
   $('#toast').classList.remove('on');setState('fuse');fuseTick();
 }
 function fuseJudge(i,r){FZ.res[i]=r;const pip=$('#fzPips').children[i];pip.className=r==='p'?'p':r==='g'?'g':'m';
   const J=$('#fzJudge');J.textContent=r==='p'?_t('Perfektní!'):r==='g'?_t('Dobré'):_t('Vedle');J.className='fz-judge '+r;void J.offsetWidth;J.classList.add('pop');}
+// first ritual ever: the explanation is up, the beats start counting only after "start"
+function fuseIntroGo(){if(!FZ||!FZ.intro)return;FZ.intro=false;save.fzIntro=1;persist();const b0=Math.floor(audioBeat());FZ.targets=[2,3,4,5].map(i=>b0+i);$('#fzIntro').hidden=true;$('#scr-fuse').classList.remove('intro');sfx('ui');}
 function fuseTap(){
-  if(!FZ||FZ.done)return;const b=audioBeat();let bi=-1,bd=9;
+  if(!FZ||FZ.done||FZ.intro)return;const b=audioBeat();let bi=-1,bd=9;
   FZ.targets.forEach((t,i)=>{if(FZ.res[i]===null&&Math.abs(b-t)<bd){bd=Math.abs(b-t);bi=i;}});
   if(bi<0||bd>.45)return;
   const sec=bd*M.stepDur*4,w=FZ.wide?2:1,r=sec<.085*w?'p':sec<.17*w?'g':'m';fuseJudge(bi,r);
@@ -3480,6 +3486,7 @@ function fuseTap(){
 }
 function fuseTick(){
   if(!FZ||state!=='fuse')return;const b=audioBeat();
+  if(FZ.intro){$('#fzRing').style.opacity=0;$('#fzCore').style.transform='scale('+(1+M.pulse*.12).toFixed(3)+')';return;}
   FZ.res.forEach((r,i)=>{if(r===null&&b>FZ.targets[i]+.3)fuseJudge(i,'m');});
   const nx=FZ.targets.find((t,i)=>FZ.res[i]===null),ring=$('#fzRing');
   if(nx!==undefined&&!FZ.done){const d=nx-b;ring.style.opacity=d<1.3?1:0;ring.style.transform='scale('+(1+clamp(d,0,1.3)*1.7).toFixed(3)+')';
@@ -4210,7 +4217,8 @@ function bindUi(){
    mb.onclick=()=>{if(lpDone){lpDone=false;return;}audioInit();save.music=!save.music;persist();setBuses();refreshMenu();sfx('ui');};}
   $('#mCheat').onclick=()=>{audioInit();save.cheat=!save.cheat;persist();refreshMenu();sfx('ui');note(save.cheat?_t('Všechny postavy a mapy jsou odemčené'):_t('Testovací režim vypnut'));};
   $('#mGold').onclick=()=>{save.coins+=1000;persist();refreshMenu();sfx('coin');};
-  $('#scr-fuse').addEventListener('pointerdown',e=>{e.preventDefault();fuseTap();});
+  $('#scr-fuse').addEventListener('pointerdown',e=>{if(e.target.closest('#fzGo'))return;e.preventDefault();fuseTap();});
+  $('#fzGo').onclick=e=>{e.stopPropagation();fuseIntroGo();};
   $('#mCoop').onclick=()=>{sfx('ui');openCoop();};
   $('#mHero').onclick=()=>{audioInit();sfx('ui');openHero();};
   $('#mChest').onclick=()=>{audioInit();sfx('ui');openChestShop();};
@@ -4556,9 +4564,11 @@ function matIcon(m){return dataUrl(SPR.icon[m]);}
 function matsHtml(){return '<span class="mt"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+save.coins+'</span>'+MAT_IDS.map(m=>'<span class="mt" data-mat="'+m+'" title="'+MAT_NAME[m]+'"><img alt="" src="'+matIcon(m)+'">'+(save.mats[m]||0)+'</span>').join('');}
 // one line telling where to get a material the player is short of
 function missHint(c){const m=MAT_IDS.find(k=>c[k]&&save.mats[k]<c[k]);return m?'<p class="hint miss">'+matInfo(m)+'</p>':'';}
-function costHtml(c){const parts=[];if(c.gold)parts.push('<span class="mt'+(save.coins<c.gold?' no':'')+'"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+c.gold+'</span>');
-  for(const m of MAT_IDS)if(c[m])parts.push('<span class="mt'+(save.mats[m]<c[m]?' no':'')+'" data-mat="'+m+'"><img alt="" src="'+matIcon(m)+'">'+c[m]+'</span>');
-  if(c.mat)parts.push('<span class="mt'+(save.mats[c.matId]<c.mat?' no':'')+'"><img alt="" src="'+matIcon(c.matId)+'">'+c.mat+'</span>');return parts.join('');}
+// a price; with have=true each part also shows how much the player has ("360/1240"), red when it is not enough
+function costHtml(c,have){const parts=[],H=n=>have?'<small class="have">/'+n+'</small>':'';
+  if(c.gold)parts.push('<span class="mt'+(save.coins<c.gold?' no':'')+'"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+c.gold+H(save.coins)+'</span>');
+  for(const m of MAT_IDS)if(c[m])parts.push('<span class="mt'+(save.mats[m]<c[m]?' no':'')+'" data-mat="'+m+'"><img alt="" src="'+matIcon(m)+'">'+c[m]+H(save.mats[m]||0)+'</span>');
+  if(c.mat)parts.push('<span class="mt'+(save.mats[c.matId]<c.mat?' no':'')+'"><img alt="" src="'+matIcon(c.matId)+'">'+c.mat+H(save.mats[c.matId]||0)+'</span>');return parts.join('');}
 function itemCardHtml(it){const S=itemStats(it),R=RAR[it.r];
   return '<div class="ic-head"><img alt="" src="'+dataUrl(itemSpr(it.s,it.r))+'"><div><h3 style="color:'+R.col+'">'+itemName(it)+(it.lv?' +'+it.lv:'')+'</h3><small>'+R.name+' · '+SLOTS[it.s].name+'</small></div></div>'+
     '<ul class="ic-st">'+Object.keys(S).map(k=>'<li><span>'+STATS[k].name+'</span><b>'+fmtStat(k,S[k])+'</b></li>').join('')+'</ul>'+
@@ -4580,7 +4590,7 @@ function renderHero(){
     '<div class="lvbar"><i style="width:'+(L/HERO_MAX*100)+'%"></i></div></div></div>'+
     (lines.length?'<ul class="ic-st">'+lines.map(l=>'<li><span>'+l[0]+'</span><b>'+l[1]+'</b></li>').join('')+'</ul>':_t('<p class="hint">Zatím žádné bonusy. Vylepši hrdinu nebo mu nasaď výbavu.</p>'))+
     '<ul class="tal">'+T.map(t=>'<li class="'+(L>=t[0]?'on':'')+'"><b>'+t[0]+'</b>'+t[1]+'</li>').join('')+'</ul>'+
-    (L<HERO_MAX?'<div class="hc-up"><div class="costs">'+costHtml(c)+'</div><button class="btn sm" id="hUp"'+(canHeroUp(h)?'':' disabled')+_t('>Vylepšit na ')+(L+1)+'</button></div>'+missHint(c):_t('<p class="hint">Hrdina má maximální úroveň.</p>'));
+    (L<HERO_MAX?'<div class="hc-up"><div class="costs">'+costHtml(c,1)+'</div><button class="btn sm" id="hUp"'+(canHeroUp(h)?'':' disabled')+_t('>Vylepšit na ')+(L+1)+'</button></div>'+missHint(c):_t('<p class="hint">Hrdina má maximální úroveň.</p>'));
   const up=$('#hUp');if(up)up.onclick=()=>{if(heroUp(h)){sfx('level');note(HEROES[h].name+_t(': úroveň ')+heroLv(h));renderHero();}};
   const eq=save.eq[h]||{},sl=$('#hSlots');sl.innerHTML='';
   for(const s of SLOT_IDS){const it=eq[s]&&itemById(eq[s]);const b=document.createElement('button');b.className='slot'+(it?' r'+it.r:'')+(invFilter===s?' on':'');
@@ -4595,7 +4605,7 @@ function openItem(u){const it=itemById(u);if(!it)return;const pop=$('#itemPop'),
   pop.innerHTML='<div class="pop-card r'+it.r+'">'+itemCardHtml(it)+
     (who&&!on?_t('<p class="hint">Nosí ho ')+HEROES[who].name+'.</p>':'')+
     '<div class="pop-btns"><button class="btn sm" id="ipEq">'+(on?_t('Sundat'):_t('Nasadit ')+(HERO_DAT[h]||HEROES[h].name))+'</button>'+
-    (it.lv<10?_t('<button class="btn alt sm" id="ipUp">Vylepšit +')+(it.lv+1)+' <span class="costs">'+costHtml(c)+'</span></button>'+missHint({[c.matId]:c.mat}):_t('<p class="hint">Maximální vylepšení.</p>'))+
+    (it.lv<10?_t('<button class="btn alt sm" id="ipUp">Vylepšit +')+(it.lv+1)+' <span class="costs">'+costHtml(c,1)+'</span></button>'+missHint({[c.matId]:c.mat}):_t('<p class="hint">Maximální vylepšení.</p>'))+
     (who?'':_t('<button class="btn alt sm" id="ipDel">Rozebrat <span class="costs">+')+rf.gold+_t(' zl')+Object.keys(rf.m).filter(k=>rf.m[k]).map(k=>', +'+rf.m[k]+' '+MAT_NAME[k]).join('')+'</span></button>'+(it.lv?_t('<p class="hint">Rozebrání vrátí i polovinu vylepšení.</p>'):''))+
     _t('<button class="btn alt sm" id="ipClose">Zavřít</button></div></div>');
   pop.hidden=false;
@@ -5307,6 +5317,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-07m',d:'7. 11. 2026',t:_t('Podle vašich názorů'),items:[_t('Před prvním <b>rituálem</b> (fúze zbraní, sloučení v kovárně) se ukáže krátké vysvětlení a rituál začne, až ťukneš na Začít.'),_t('U vylepšení hrdiny i předmětů vidíš vedle ceny, <b>kolik suroviny máš</b> (třeba 90/1240).')]},
  {v:'2026-11-07l',d:'7. 11. 2026',t:_t('Přehlednější menu a Síň slávy'),items:[_t('Tlačítko <b>Zpět</b> zůstává nahoře i při posouvání. Zpátky se dostaneš i systémovým zpět na Androidu nebo swipem od levého okraje (v aplikaci z plochy na iPhonu).'),_t('Hrdinové jsou v <b>Přípravě</b> i v <b>Hrdinovi</b> v jedné řadě, pod nimi detail vybraného. Kampaň se vejde na obrazovku a <b>Vyrazit</b> už nic nepřekrývá.'),_t('<b>Síň slávy</b> má stupně vítězů pro první tři, tvoje umístění je vždy vidět dole a mapy vybíráš po kapitolách.')]},
  {v:'2026-11-07k',d:'7. 11. 2026',t:_t('Opravy: bouře, titul, smrt'),items:[_t('<b>Písečná bouře</b> v Kaňonu větrů je pořádně vidět. Šipka u hrdiny ukazuje směr větru a <b>závětří</b> za skalami je vyznačené na zemi. Kolem tábora přibyly skály, za které se dá schovat.'),_t('<b>Titul</b> si teď vybereš v profilu u přezdívky nebo tlačítkem <b>Nosit</b> v Mistrovství.'),_t('<b>Smrt</b> má svůj moment: hrdina se rozletí na kusy, hudba ztichne a čas se zpomalí.'),_t('Náhledy map se načtou hned při startu, výběr mapy už na ně nečeká.')]},
  {v:'2026-11-07i',d:'7. 11. 2026',t:_t('Napiš mi svůj názor'),items:[_t('V <b>Nastavení</b> je nové tlačítko <b>Napsat názor na hru</b>. Napiš, co tě baví, co ne, co nefunguje nebo co bys přidal. Všechno si přečtu.'),_t('Jednou denně za názor dostaneš <b>60 zlata a svíčku</b> na Nástěnku. Kdo pošle názor ve 3 různých dnech, získá v Mistrovství titul <b>Rádce</b>.')]},
