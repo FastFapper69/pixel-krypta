@@ -456,7 +456,7 @@ html,body,#stage{touch-action:none}
 .rv-card.show{opacity:1;transform:none;pointer-events:auto}
 .rv-skip{color:var(--muted);font-size:13px;margin-top:10px;transition:opacity .3s}
 @keyframes rvIn{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
-.card.chest{flex-direction:row;align-items:center;gap:12px;cursor:default}.card.chest>img{width:44px;height:44px;image-rendering:pixelated;flex:none}.card.chest .t{flex:1;display:flex;flex-direction:column;gap:3px}
+.card.chest{flex-direction:row;align-items:center;gap:12px;cursor:default}.card.chest.tw{flex-wrap:wrap}.card.chest.tw>.btn{flex:1 0 100%;margin-top:2px}.card.chest>img{width:58px;height:52px;image-rendering:pixelated;flex:none;object-fit:contain}.card.chest .t{flex:1;display:flex;flex-direction:column;gap:3px}
 .odds{display:flex;gap:8px;font-size:13px;font-weight:700;flex-wrap:wrap}.pity{color:var(--muted)}
 .cxgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 #gdTabs button{min-width:0;font-size:13px;padding:8px 2px}
@@ -1156,6 +1156,43 @@ const CHEST_PAL={wood:{n:'#8a5a32',l:'#b07a48',d:'#5a3a1e',m:'#6a6a78',y:'#e0b04
   gold:{n:'#d89a28',l:'#ffd86a',d:'#8a5a10',m:'#7a3ab0',y:'#ffffff',Y:'#5a2a80'},
   tower:{n:'#5a6a7a',l:'#8a9aaa',d:'#34404c',m:'#2a8a8a',y:'#7af0d0',Y:'#14404a'},
   pet:{n:'#4a7a4a',l:'#7ab87a',d:'#2a4a2a',m:'#8a5a2a',y:'#ffd27a',Y:'#4a2a10'}};
+// ----- chests (08r): painted pixel art, the lid is the top ~40 % (the reveal lifts it off) -----
+// three shop chests grow richer: plain planks → iron-bound → royal velvet and gold; the tower crate and the pet basket look different on purpose
+function chestArt(kind){const W=36,H=32;return artSprite(W,H,g=>{const R=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(x,y,w,h);},P=(x,y,c)=>R(x,y,1,1,c);
+  const lidRow=y=>y===4?[7,29]:y===5?[5,31]:y===6?[4,32]:[3,33];
+  const box=(lid,lidHi,lidDk,body,bodyDk,seam)=>{for(let y=4;y<14;y++){const [a,b]=lidRow(y);R(a,y,b-a,1,y<6?lidHi:y>11?lidDk:lid);}R(3,13,30,1,seam);for(let y=14;y<29;y++)R(3,y,30,1,y>26?bodyDk:body);R(4,29,28,1,bodyDk);};
+  const planks=(c,step)=>{for(let x=3+step;x<33;x+=step){for(let y=6;y<13;y++)P(x,y,c);for(let y=14;y<28;y++)P(x,y,c);}};
+  if(kind==='wood'){box('#8a5a32','#b07a48','#6a4424','#7a4e2a','#5a3a1e','#3a2412');planks('#5e3c1e',6);
+    for(const bx of [7,27]){R(bx,5,2,24,'#5a5a66');R(bx,5,1,24,'#7a7a88');}
+    R(15,11,6,7,'#6a6a78');R(16,12,4,5,'#8a8a98');R(17,14,2,2,'#1a1420');P(18,16,'#1a1420');}
+  else if(kind==='iron'){box('#5a3a24','#7a5232','#3e2818','#4e3220','#34200f','#1e140c');planks('#3e2818',5);
+    for(const bx of [4,15,27]){const w=bx===15?6:5;R(bx,5,w,25,'#5a6070');R(bx,5,w,1,'#aab0c4');R(bx,5,1,25,'#8a90a4');for(let y=8;y<29;y+=5){P(bx+1,y,'#cfd4e8');P(bx+w-2,y,'#cfd4e8');}}
+    R(3,20,30,3,'#5a6070');R(3,20,30,1,'#aab0c4');
+    R(14,10,8,9,'#2a2c38');R(15,11,6,7,'#9aa0b4');R(15,11,6,1,'#e8eef8');R(17,13,2,3,'#14101c');P(17,16,'#14101c');P(18,16,'#14101c');}
+  else if(kind==='gold'){box('#6a2a8a','#8a3ab0','#4a1a6a','#5a2278','#3a1050','#2a0a3a');
+    const gd='#f6c744',gl='#fff2a0',gk='#a8781a';
+    for(let y=4;y<14;y++){const [a,b]=lidRow(y);P(a,y,gd);P(b-1,y,gd);}R(7,4,22,1,gl);R(3,12,30,1,gd);R(3,14,30,2,gd);R(3,14,30,1,gl);R(3,27,30,2,gd);R(3,14,2,15,gd);R(31,14,2,15,gd);R(3,14,1,15,gl);
+    for(const [x,y] of [[3,14],[29,14],[3,25],[29,25]]){R(x,y,4,4,gd);P(x+1,y+1,gl);P(x+2,y+2,gk);}
+    R(12,9,12,3,gd);R(12,9,12,1,gl);R(12,11,12,1,gk);for(const [x,t] of [[12,6],[15,7],[17,5],[18,5],[20,7],[23,6]])R(x,t,1,9-t,gd);P(12,5,'#e8453c');P(23,5,'#e8453c');R(17,4,2,1,'#7fd0ff');P(15,6,gl);P(20,6,gl);P(14,10,'#e8453c');P(18,10,'#4aa3e8');P(21,10,'#e8453c');
+    R(14,16,8,9,gk);R(15,17,6,7,gd);R(15,17,6,1,gl);R(16,19,4,3,'#c8203a');R(16,19,2,1,'#ff8aa0');P(18,22,'#7a1020');
+    for(const [x,y] of [[8,20],[26,22],[10,25],[24,18]])P(x,y,'#b070e0');}
+  else if(kind==='tower'){// a builder's crate: flat slatted lid, cross brace, a blueprint roll and a cog
+    const wd='#a07a4a',wl='#c89a62',wk='#6a4a2a',br='#7a5632';
+    R(3,7,30,6,wd);R(3,7,30,1,wl);for(let x=3;x<33;x+=7)R(x,7,1,6,wk);R(3,12,30,1,wk);R(2,6,32,1,wk);
+    R(3,14,30,15,wd);for(let y=14;y<29;y+=5)R(3,y,30,1,wk);R(3,14,2,15,br);R(31,14,2,15,br);
+    for(let i=0;i<14;i++){R(5+i*2,15+i,2,1,br);R(29-i*2,15+i,2,1,br);}
+    R(4,29,28,1,wk);
+    R(20,2,12,4,'#4a7ad8');R(20,2,12,1,'#8ab4ff');R(31,2,1,4,'#2a4a98');for(const x of [22,25,28])P(x,4,'#e8f4ff');R(19,3,1,2,'#2a4a98');
+    const cx=18,cy=21;for(let k=0;k<8;k++){const a=k/8*6.283;R(Math.round(cx-1+Math.cos(a)*5),Math.round(cy-1+Math.sin(a)*5),2,2,'#2a8a8a');}for(let y=-4;y<=4;y++)for(let x=-4;x<=4;x++){const d=Math.hypot(x+.5,y+.5);if(d<4.6)P(cx+x,cy+y,d<2?'#14404a':d<3.4?'#7af0d0':'#3ab0a0');}}
+  else if(kind==='pet'){// a woven basket with a domed lid, a ribbon and a paw print
+    const wk=['#c8964a','#a8783a','#8a5a2a'];
+    for(let y=5;y<12;y++){const hw=Math.round(12*Math.sqrt(Math.max(0,1-Math.pow((11.5-y)/7.5,2))));for(let x=18-hw;x<18+hw;x++)P(x,y,y===5?'#d8a860':wk[((x>>1)+(y>>1))%2?0:1]);}
+    R(3,11,30,3,'#8a5a2a');R(3,11,30,1,'#e0b070');R(3,13,30,1,'#5a3a18');
+    for(let y=14;y<29;y++){const t=(y-14)/15,hw=Math.round(14-t*t*4);for(let x=18-hw;x<18+hw;x++)P(x,y,y%3===0?wk[2]:wk[((x>>1)+(y))%2?0:1]);}
+    R(6,28,24,1,'#6a4220');
+    R(15,4,6,3,'#e8607a');R(12,3,4,3,'#e8607a');R(20,3,4,3,'#e8607a');R(12,3,4,1,'#ff9ab0');R(20,3,4,1,'#ff9ab0');R(17,4,2,2,'#b83a5a');
+    const px=18,py=21;R(px-2,py,4,3,'#f4ecd8');R(px-3,py+1,6,1,'#f4ecd8');for(const [dx,dy] of [[-4,-2],[-2,-3],[1,-3],[3,-2]])R(px+dx,py+dy,1,2,'#f4ecd8');}
+ });}
 const HERO_DAT={knight:_t('Rytíři'),mage:_t('Mágovi'),archer:_t('Lučištníkovi'),builder:_t('Staviteli'),bard:_t('Bardovi'),warlord:_t('Zbrojmistrovi'),tamer:_t('Krotiteli'),smith:_t('Kovářce'),shaman:_t('Šamance'),sailor:_t('Námořnici'),astro:_t('Hvězdářce')};
 const SOON_CH={c3:'III',c4:'IV',c5:'V',c6:'VI'};
 
@@ -1226,7 +1263,7 @@ const SPR={enemy:{},boss:{},hero:{},icon:{},prop:{},misc:{},elite:{},tower:{},pe
 function initSprites(){
   ICONS.coin.pal=Object.assign({Y:'#c28a10'},ICONS.coin.pal);
   for(const id in ICONS)SPR.icon[id]=buildSprite(ICONS[id].rows,{mirror:false,pal:ICONS[id].pal,shade:false});
-  for(const k in CHEST_PAL)SPR.icon['chest_'+k]=buildSprite(CHEST_ROWS,{pal:CHEST_PAL[k]});
+  for(const k in CHEST_PAL)SPR.icon['chest_'+k]=chestArt(k);
   for(const id in ENEMY_DEFS)SPR.enemy[id]=buildSprite(ENEMY_DEFS[id].rows,{pal:ENEMY_DEFS[id].pal});
   for(const id in BOSS_DEFS)SPR.boss[id]=buildSprite(BOSS_DEFS[id].rows,{pal:BOSS_DEFS[id].pal,scale:2});
   for(const id in HEROES)SPR.hero[id]=buildSprite(HEROES[id].rows,{pal:HEROES[id].pal});
@@ -3611,7 +3648,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08q';
+const GAME_VER='2026-11-08r';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -6046,9 +6083,9 @@ const rfCost=n=>{const k=Math.pow(RF_GROW,Math.min(n||0,RF_MAX));return{gold:Mat
 function chLeft(id){const d=today();if(!save.chD||save.chD.d!==d)save.chD={d,n:{}};const L=CH_LIMIT[id];return L==null?99:Math.max(0,L-(save.chD.n[id]||0));}
 function chUse(id){chLeft(id);save.chD.n[id]=(save.chD.n[id]||0)+1;}
 const ECON={
- chests:[{id:'wood',name:_t('Dřevěná truhla'),cost:250,odds:[70,25,5,0,0]},
-         {id:'iron',name:_t('Železná truhla'),cost:750,odds:[35,40,20,5,0],pity:{r:3,n:10}},
-         {id:'gold',name:_t('Zlatá truhla'),cost:2000,odds:[0,30,45,20,5],pity:{r:4,n:30}}],
+ chests:[{id:'wood',name:_t('Truhla dobrodruha'),cost:250,odds:[70,25,5,0,0]},
+         {id:'iron',name:_t('Okovaná truhla'),cost:750,odds:[35,40,20,5,0],pity:{r:3,n:10}},
+         {id:'gold',name:_t('Královská truhla'),cost:2000,odds:[0,30,45,20,5],pity:{r:4,n:30}}],
  upCost:it=>upF(it.r,it.lv||0),
  refund:it=>refundF(it.r,it.lv||0),
  heroCost:L=>{const c={gold:45*L+(L>=10?90*(L-9):0),shard:10*L};if(L>=10)c.ess=2+(L-10)+((L+1)%5===0?10:0);return c;},
@@ -6303,14 +6340,14 @@ function renderTowers(){twInit();$('#twMats').innerHTML=matsHtml();const T=save.
   $('#twDeck').innerHTML=[0,1,2,3,4].map(i=>{const c=twCard(d[i]),b=i===4;
     return '<button class="tslot'+(b?' bld':'')+(twPick?' pick':'')+(c?' r'+c.r:' empty')+'" data-i="'+i+'">'+(c?'<img alt="" src="'+dataUrl(SPR.tower[c.k])+'"><b>'+TOWERS[c.k].name+'</b><small class="rp" style="--rc:'+RAR[c.r].col+'">'+RAR[c.r].name+(c.lv?' +'+c.lv:'')+'</small>':'<span class="plus">+</span>')+
       (b?'<i class="bt" title="'+_t('jen Stavitel')+'"><img alt="" src="'+dataUrl(SPR.hero.builder)+'"></i>':'')+'</button>';}).join('');
-  $('#twHint').textContent=twPick?_t('Ťukni na místo, kam dáš věž ')+TOWERS[twCard(twPick).k].name+'.':_t('Do běhu si bereš 4 věže, Stavitel 5. Nové věže a lepší rarity jsou ve Věžové truhle v Obchodu.');
+  $('#twHint').textContent=twPick?_t('Ťukni na místo, kam dáš věž ')+TOWERS[twCard(twPick).k].name+'.':_t('Do běhu si bereš 4 věže, Stavitel 5. Nové věže a lepší rarity jsou ve Stavitelově bedně v Obchodu.');
   $('#twHint').classList.toggle('on',!!twPick);
   const inD=c=>T.deck.slice(0,5).includes(c.u)?1:0;
   const cards=T.cards.slice().sort((a,b)=>(inD(b)-inD(a))||T_IDS.indexOf(a.k)-T_IDS.indexOf(b.k)||(b.r-a.r)||(b.lv-a.lv));
   $('#twCount').textContent=cards.length;
   $('#twGrid').innerHTML=cards.map(c=>twTile(c,d.slice(0,5).includes(c.u)?' in':'')).join('');
   const miss=T_IDS.filter(k=>!twOpen(k));
-  $('#twLocked').innerHTML=miss.map(k=>{const C=TOWERS[k].ch?CHAPTERS.find(x=>x.id===TOWERS[k].ch):null;return '<div class="tcard lock"><img alt="" src="'+dataUrl(SPR.tower[k])+'"><div><b>'+TOWERS[k].name+'</b><small>'+(C?_t('Kapitola ')+ROMAN_CH[C.i]:'')+'</small><small class="lk">'+(twLockText(k)||_t('Padá z Věžové truhly.'))+'</small></div></div>';}).join('')+
+  $('#twLocked').innerHTML=miss.map(k=>{const C=TOWERS[k].ch?CHAPTERS.find(x=>x.id===TOWERS[k].ch):null;return '<div class="tcard lock"><img alt="" src="'+dataUrl(SPR.tower[k])+'"><div><b>'+TOWERS[k].name+'</b><small>'+(C?_t('Kapitola ')+ROMAN_CH[C.i]:'')+'</small><small class="lk">'+(twLockText(k)||_t('Padá ze Stavitelovy bedny.'))+'</small></div></div>';}).join('')+
     TW_SOON.map(S=>'<div class="tcard lock soon"><div class="tsil"></div><div><b>'+S.name+'</b><small>'+_t('Kapitola ')+ROMAN_CH[CHAPTERS.find(c=>c.id===S.ch).i]+'</small><small class="lk">'+_t('Přijde s novými mapami kapitoly.')+'</small></div></div>').join('');
   $('#twDeck').querySelectorAll('.tslot').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;
     if(twPick){const pk=twCard(twPick);for(let j=0;j<5;j++){const o=twCard(d[j]);if(j!==i&&o&&(o.u===twPick||o.k===pk.k))d[j]=j===d.indexOf(twPick)?d[i]:null;}d[i]=twPick;
@@ -6481,11 +6518,11 @@ function openPets(){econInit();petInit();renderPets();setState('pets');}
 function renderPets(){petInit();$('#ptMats').innerHTML=matsHtml();const S=save.pets,cur=petCard(S.sel);
   const c2=save.heroes.tamer?petCard(S.sel2):null;
   $('#ptSlot').innerHTML=(cur?'<button class="tslot r'+cur.r+'" id="ptCur"><img alt="" src="'+dataUrl(SPR.pet[cur.k])+'"><b>'+PETS[cur.k].name+'</b><small class="rp" style="--rc:'+RAR[cur.r].col+'">'+RAR[cur.r].name+(cur.lv?' +'+cur.lv:'')+'</small></button>':'')+(save.heroes.tamer?(c2&&c2.u!==S.sel?'<button class="tslot r'+c2.r+'" id="ptCur2"><img alt="" src="'+dataUrl(SPR.pet[c2.k])+'"><b>'+PETS[c2.k].name+'</b><small class="rp" style="--rc:'+RAR[c2.r].col+'">'+RAR[c2.r].name+(c2.lv?' +'+c2.lv:'')+'</small><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>':'<button class="tslot empty" id="ptCur2"><span class="plus">+</span><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>'):'');
-  $('#ptHint').textContent=save.heroes.tamer?_t('Do běhu bereš jednoho mazlíčka, Krotitel dva. Nové a vzácnější najdeš v Mazlíčkově truhle v Obchodu.'):_t('Do běhu bereš jednoho mazlíčka. Nové a vzácnější najdeš v Mazlíčkově truhle v Obchodu.');
+  $('#ptHint').textContent=save.heroes.tamer?_t('Do běhu bereš jednoho mazlíčka, Krotitel dva. Nové a vzácnější najdeš v Kouzelném košíku v Obchodu.'):_t('Do běhu bereš jednoho mazlíčka. Nové a vzácnější najdeš v Kouzelném košíku v Obchodu.');
   const inR=c=>c.u===S.sel?2:(save.heroes.tamer&&c.u===S.sel2)?1:0;
   const cards=S.cards.slice().sort((a,b)=>(inR(b)-inR(a))||PET_IDS.indexOf(a.k)-PET_IDS.indexOf(b.k)||((b.st||0)-(a.st||0))||(b.lv-a.lv));
   $('#ptCount').textContent=cards.length;$('#ptGrid').innerHTML=cards.map(c=>petTile(c,c.u===S.sel||(save.heroes.tamer&&c.u===S.sel2)?' in':'')).join('');
-  $('#ptLocked').innerHTML=PET_IDS.filter(k=>!S.cards.some(c=>c.k===k)).map(k=>'<div class="tcard lock"><img alt="" src="'+dataUrl(SPR.pet[k])+'" style="filter:brightness(0) opacity(.5)"><div><b>???</b><small style="color:'+RAR[PETS[k].r].col+'">'+RAR[PETS[k].r].name+'</small><small class="lk">'+_t('Padá z Mazlíčkovy truhly.')+'</small></div></div>').join('');
+  $('#ptLocked').innerHTML=PET_IDS.filter(k=>!S.cards.some(c=>c.k===k)).map(k=>'<div class="tcard lock"><img alt="" src="'+dataUrl(SPR.pet[k])+'" style="filter:brightness(0) opacity(.5)"><div><b>???</b><small style="color:'+RAR[PETS[k].r].col+'">'+RAR[PETS[k].r].name+'</small><small class="lk">'+_t('Padá z Kouzelného košíku.')+'</small></div></div>').join('');
   const cb=$('#ptCur');if(cb)cb.onclick=()=>{sfx('ui');openPetCard(S.sel);};
   {const c2b=$('#ptCur2');if(c2b)c2b.onclick=()=>{sfx('ui');if(c2&&c2.u!==S.sel)openPetCard(S.sel2);else note(_t('Krotitel si bere druhého mazlíčka. Ťukni na mazlíčka níž a dej ho na druhé místo.'),2600);};}
   $('#ptGrid').querySelectorAll('.ttile').forEach(b=>b.onclick=()=>{sfx('ui');openPetCard(b.dataset.u);});}
@@ -6558,7 +6595,7 @@ function renderChests(){
   $('#cMats').innerHTML=matsHtml();
   const box=$('#chestList');box.innerHTML='';
   const day=document.createElement('div');day.className='card chest';const ready=dailyChestReady();
-  day.innerHTML='<img alt="" src="'+dataUrl(SPR.icon.chest_wood)+_t('"><div class="t"><h3>Denní truhla</h3><small>Dřevěná truhla zdarma každý den.</small></div>');
+  day.innerHTML='<img alt="" src="'+dataUrl(SPR.icon.chest_wood)+_t('"><div class="t"><h3>Denní truhla</h3><small>Truhla dobrodruha zdarma každý den.</small></div>');
   const db=document.createElement('button');db.className='btn sm';db.textContent=ready?_t('Otevřít'):_t('Zítra');db.disabled=!ready;
   db.onclick=()=>{if(!dailyChestReady())return;if(save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return;}save.daily.chest=today();const it=openChest('wood',true);sfx('coin');revealItem(it,'wood');renderChests();};day.appendChild(db);box.appendChild(day);
   for(const C of ECON.chests){const c=document.createElement('div');c.className='card chest';
@@ -6567,7 +6604,7 @@ function renderChests(){
     const b=document.createElement('button');b.className='btn sm';b.innerHTML='<span class="cost" style="color:inherit">'+C.cost+'</span>';b.disabled=save.coins<C.cost||chLeft(C.id)<=0;
     b.onclick=()=>{const it=openChest(C.id);if(!it){note(save.inv.length>=INV_MAX?_t('Inventář je plný, rozeber nějaké předměty'):chLeft(C.id)<=0?_t('Dnes už žádná, zítra zase'):_t('Chybí ti zlato'));return;}sfx('coin');revealItem(it,C.id);renderChests();};
     c.appendChild(b);box.appendChild(c);}
-  for(const [C,cost,spr,ttl,sub,pk,mk] of [[TW_CHEST,TW_CHEST_COST,'chest_tower',_t('Věžová truhla'),_t('Karta věže pro tvůj arzenál.'),'tower',openTowerChest],[PET_CHEST,PET_CHEST.cost,'chest_pet',_t('Mazlíčkova truhla'),_t('Nový mazlíček, od vlka po fénixe.'),'pet',openPetChest]]){const c=document.createElement('div');c.className='card chest tw';
+  for(const [C,cost,spr,ttl,sub,pk,mk] of [[TW_CHEST,TW_CHEST_COST,'chest_tower',_t('Stavitelova bedna'),_t('Karta věže pro tvůj arzenál.'),'tower',openTowerChest],[PET_CHEST,PET_CHEST.cost,'chest_pet',_t('Kouzelný košík'),_t('Nový mazlíček, od vlka po fénixe.'),'pet',openPetChest]]){const c=document.createElement('div');c.className='card chest tw';
     c.innerHTML='<img alt="" src="'+dataUrl(SPR.icon[spr])+'"><div class="t"><h3>'+ttl+'</h3><small>'+sub+'</small><div class="odds">'+C.odds.map((o,i)=>o?'<span style="color:'+RAR[i].col+'">'+o+' %</span>':'').join('')+'</div><small class="pity">'+RAR[C.pity.r].name+_t(' nejpozději za ')+(C.pity.n-(save.pity[pk]||0))+_t(' truhel')+'</small><small class="lim'+(chLeft(pk)?'':' no')+'">'+_t('Dnes zbývá ')+chLeft(pk)+' / '+CH_LIMIT[pk]+'</small>'+missHint(cost)+'</div>';
     const b=document.createElement('button');b.className='btn sm';b.innerHTML='<span class="costs">'+costHtml(cost)+'</span>';b.disabled=!petCan(cost)||chLeft(pk)<=0;
     b.onclick=()=>{const c2=mk();if(!c2){note(chLeft(pk)<=0?_t('Dnes už žádná, zítra zase'):_t('Chybí ti zlato nebo materiál'));return;}sfx('coin');revealItem(c2,pk);renderChests();};c.appendChild(b);box.appendChild(c);}
@@ -6698,7 +6735,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
         return gdRow(I(F.id),hid?'???':WEAPONS[F.id].name,hid?(WEAPONS[F.id].riddle||_t('Tajný recept: oheň a led…')):WEAPONS[F.a].name+' + '+WEAPONS[F.b].name+_t(' (obě na úrovni 5)'));}).join('');}
   else if(tab==='towers'){
     h=T_IDS.map(k=>gdRow(dataUrl(SPR.tower[k]),TOWERS[k].name+' · '+TOWERS[k].cost+' '+_t('zl.'),TW_INFO[k][0]+(twOpen(k)?'':' '+twLockText(k)))).join('')+gdSec(_t('Mazlíčci'))+PET_IDS.map(k=>gdRow(dataUrl(SPR.pet[k]),PETS[k].name+' · '+RAR[PETS[k].r].name,PETS[k].info+' '+PETS[k].ab)).join('')+gdSec(_t('Jak na věže'))+[
-   [I('tower'),_t('Arzenál'),_t('Ve Vybavení na záložce Věže dáš do arzenálu 4 karty věží. Karty mají raritu jako výbava, Epická a Legendární mají schopnost. Nové karty jsou ve Věžové truhle, 3 stejné se sloučí ve vzácnější.')],
+   [I('tower'),_t('Arzenál'),_t('Ve Vybavení na záložce Věže dáš do arzenálu 4 karty věží. Karty mají raritu jako výbava, Epická a Legendární mají schopnost. Nové karty jsou ve Stavitelově bedně, 3 stejné se sloučí ve vzácnější.')],
    [I('coin'),_t('Stavění'),_t('Ťukni na věž vpravo dole a postaví se tam, kde stojíš.')],
    [I('power'),_t('Vylepšení věže'),_t('Stoupni si k věži a ťukni na Vylepšit. Maximum je úroveň 3.')],
    [I('heart'),_t('Oprava'),_t('Nepřátelé věže ničí. Plně vylepšenou věž opravíš stejným tlačítkem.')],
@@ -7311,6 +7348,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08r',d:'8. 11. 2026',t:_t('Nové truhly v Obchodu'),hl:[
+  {ic:'chest_gold',t:_t('Nové truhly'),d:_t('Truhly mají nový vzhled a jména: <b>Truhla dobrodruha</b>, <b>Okovaná truhla</b> a <b>Královská truhla</b>. Čím dražší, tím honosnější.')},
+  {ic:'chest_tower',t:_t('Stavitelova bedna'),d:_t('Karty věží teď najdeš ve <b>Stavitelově bedně</b> s ozubeným kolem a plánkem.')},
+  {ic:'chest_pet',t:_t('Kouzelný košík'),d:_t('Mazlíčci se rodí v proutěném <b>Kouzelném košíku</b> s mašlí.')}]},
  {v:'2026-11-08q',d:'8. 11. 2026',t:_t('Krásnější Síň slávy'),hl:[
   {ic:'trophy',t:_t('Nová Síň slávy'),d:_t('Vítěz má velkou kartu se <b>statistikami v dlaždicích</b>, druhý a třetí vlastní karty a ostatní hráči ikonky s kombem, mapami a hrdiny. Nic už nepřetéká přes rámeček.')},
   {ic:'news',t:_t('Novinky s ikonami'),d:_t('Novinky ukazují <b>to hlavní nahoře</b> s ikonou, která k bodu patří, drobnosti jsou pod tím.')}]},
@@ -7343,7 +7384,7 @@ const NEWS=[
  {v:'2026-11-08e',d:'8. 11. 2026',t:_t('Kapitola IV: Ledová říše'),items:[_t('Nová kapitola s pěti mapami: <b>Zamrzlé jezero</b> (na ledu kloužeš), <b>Ledová pevnost</b>, <b>Tajga</b> (mráz tě zpomaluje, zahřeješ se u ohně), <b>Lavinová soutěska</b> (laviny smetou i nepřátele) a finále <b>Trůn zimy</b> se Zimní královnou.'),_t('Noví nepřátelé Yeti, Ledový přízrak a Sněhulák, pět nových bossů, věže <b>Ohniště</b> a <b>Rampouchová věž</b>, set <b>Mrazivá zbroj</b> a legendárka Srdce zimy.'),_t('Kapitola IV odemkne <b>Šamanku mrazu</b> (1 500 zlata).'),_t('Zbrojmistr má vlastní zbraň <b>Halapartnu</b> a Krotitel <b>Bič</b>, který označí nepřátele pro mazlíčky.'),_t('Výbava z kampaně: předmět dostaneš jen za <b>první výhru</b> mapy na každé Noční můře a kusy setů z finále. Opakované výhry dávají Úlomky. Truhly jsou teď jediný stálý zdroj výbavy a jediný zdroj legendárek (kromě legendárek kapitol).')]},
  {v:'2026-11-08d',d:'8. 11. 2026',t:_t('Drobné opravy výbavy'),items:[_t('Tlačítko <b>Vše</b> v kategoriích výbavy je čitelné a štítek NOVÉ už nepřečnívá z dlaždice.')]},
  {v:'2026-11-08c',d:'8. 11. 2026',t:_t('Dva noví hrdinové'),items:[_t('<b>Zbrojmistr</b> unese o zbraň víc (6 místo 5). Úrovně mu přidávají poškození a rychlost útoků, od úrovně 10 začíná se dvěma zbraněmi.'),_t('<b>Krotitel</b> si do běhu vezme dva mazlíčky. Úrovně posilují poškození, rychlost i schopnosti mazlíčků. Druhého mazlíčka vybereš ve Vybavení na záložce Mazlíčci.'),_t('Oba koupíš v Přípravě za 1 000 zlata po poražení Trůnu kostí.')]},
- {v:'2026-11-08b',d:'8. 11. 2026',t:_t('Nová ekonomika a Nekonečná krypta'),items:[_t('Místo materiálu každé kapitoly jsou jen dva: <b>Úlomky</b> padají na všech mapách a vzácná <b>Esence</b> jen z finálních bossů a z Nekonečné krypty. Tvůj Kostní prach, Jantar a Magmatit se převedly na Úlomky a za už poražená finále jsi dostal Esenci.'),_t('Ceny jsou přepočítané, aby ti nedocházelo jen zlato a nehromadil se materiál. Vylepšení, úrovně hrdinů i vylepšování výbavy chtějí zlato i Úlomky, vrchol navíc Esenci.'),_t('<b>Nekonečná krypta</b>: v Přípravě zapni ∞ a hraj dohranou mapu bez konce. Nepřátelé každou minutu sílí, od 5. minuty padá Esence (denně plně 20) a máš rekord na každou mapu.'),_t('<b>Přebroušení</b> v detailu předmětu, věže nebo mazlíčka znovu vylosuje jednu vlastnost.'),_t('Drahé truhly mají denní limit (Železná 4, Zlatá 2, Věžová a Mazlíčkova 3). Sklad Úlomků má strop 6 000, přebytek se změní na zlato.')]},
+ {v:'2026-11-08b',d:'8. 11. 2026',t:_t('Nová ekonomika a Nekonečná krypta'),items:[_t('Místo materiálu každé kapitoly jsou jen dva: <b>Úlomky</b> padají na všech mapách a vzácná <b>Esence</b> jen z finálních bossů a z Nekonečné krypty. Tvůj Kostní prach, Jantar a Magmatit se převedly na Úlomky a za už poražená finále jsi dostal Esenci.'),_t('Ceny jsou přepočítané, aby ti nedocházelo jen zlato a nehromadil se materiál. Vylepšení, úrovně hrdinů i vylepšování výbavy chtějí zlato i Úlomky, vrchol navíc Esenci.'),_t('<b>Nekonečná krypta</b>: v Přípravě zapni ∞ a hraj dohranou mapu bez konce. Nepřátelé každou minutu sílí, od 5. minuty padá Esence (denně plně 20) a máš rekord na každou mapu.'),_t('<b>Přebroušení</b> v detailu předmětu, věže nebo mazlíčka znovu vylosuje jednu vlastnost.'),_t('Drahé truhly mají denní limit (Okovaná 4, Královská 2, Stavitelova bedna a Kouzelný košík 3). Sklad Úlomků má strop 6 000, přebytek se změní na zlato.')]},
  {v:'2026-11-08a',d:'8. 11. 2026',t:_t('Kovárna a přehlednější výbava'),items:[_t('Nové tlačítko <b>Kovárna</b> v menu: sloučení předmětů a Vylepšení. Obchod má jen truhly, Síň slávy je nahoře u ikon.'),_t('Ve Vybavení přepínáš druh výbavy tlačítky nad inventářem. Nové předměty mají štítek <b>NOVÉ</b>, zmizí po prvním ťuknutí.'),_t('Barva předmětu vždy znamená raritu. Kusy setu padají v různých raritách (v Nočních můrách lepší) a každý hráč dostane z finále vlastní náhodný kus.'),_t('Sloučení: 3 stejné kusy stejné rarity dají jeden o raritu vyšší.'),_t('Po běhu je jen tlačítko <b>Pokračovat</b>, po výhře rovnou s další mapou. Poklad kapitoly je oddělený od map.')]},
  {v:'2026-11-07z',d:'7. 11. 2026',t:_t('Mazlíčci'),items:[_t('Do běhu si bereš <b>mazlíčka</b>: vlka, havrana, sovu, lišku, netopýra, salamandra, dráče, nebo dokonce fénixe. Běhá za tebou, sám útočí a má vlastní schopnost.'),_t('Vybereš ho ve <b>Vybavení</b> na nové záložce Mazlíčci. Nové najdeš v <b>Mazlíčkově truhle</b> v Obchodu, mazlíčky můžeš vylepšovat až na +10.'),_t('Věžová i Mazlíčkova truhla teď stojí zlato a <b>Magmatit</b>. V kooperaci mazlíčka zatím nemáš.')]},
  {v:'2026-11-07y',d:'7. 11. 2026',t:_t('Kapitola III: Hlubiny'),items:[_t('Kapitola <b>Hlubiny</b> je kompletní: po Lávových dolech přijdou Kovárny trpaslíků, Podzemní řeka, Krystalové jeskyně a finále <b>Srdce hory</b>, kde země vybuchuje a čeká Magmový titán.'),_t('Noví nepřátelé: Ohnivý skřet, Magmový sliz a Duch horníka. Čtyři noví bossové.'),_t('Nové věže <b>Výheň</b> (lije lávu pod nepřátele) a <b>Parní beran</b> (prorazí celou řadu). Set kapitoly <b>Výstroj kováře hor</b> a legendárka z finále.'),_t('Po vstupu do kapitoly III si můžeš koupit <b>Kovářku</b>.'),_t('<b>Karavana</b>: věže postavené u velblouda teď jedou s karavanou na vozech.'),_t('Spodní lišta s tlačítkem Vyrazit už nemá tmavý pruh.')]},
