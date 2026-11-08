@@ -1612,5 +1612,10 @@ window.KRYPTA_EN={
 "Okno koupě hrdiny ukazuje startovní zbraň a talenty, popisy hrdinů jsou jasnější.":"The hero purchase window shows the starting weapon and talents, hero descriptions are clearer.",
 "Opravená obrazovka výhry, která po Pokračovat zůstala na pozadí.":"Fixed the victory screen staying in the background after Continue.",
 "Prošli jsme texty ve hře: pravopis, skloňování a srozumitelnost.":"We went through the game's texts: spelling, grammar and clarity.",
-  'Přichází: ':'Incoming: '
+  'Přichází: ':'Incoming: ',
+  "<b>Nekonečná krypta kapitoly:</b> souboj s finálním bossem. Po každém zabití se vrátí <b>silnější a s novým útokem</b>. Esence za každého bosse, denně plně 20.":"<b>Chapter endless crypt:</b> a duel with the final boss. Every time you kill it, it comes back <b>stronger and with a new attack</b>. Essence for every boss, up to 20 a day at full rate.",
+  'Nekonečnou kryptu kapitoly odemkneš poražením jejího finále.':'Beat the chapter finale to unlock its endless crypt.',
+  "Každá kapitola má jednu: po poražení jejího finále si v Přípravě zapneš ∞. Bojuješ s finálním bossem kapitoly znovu a znovu: po každém zabití se vrátí silnější a s novým útokem. Za každého padne Esence (denně plně 20), rekord je počet poražených bossů.":"Every chapter has one: beat its finale and switch on ∞ in Prepare. You fight the chapter's final boss again and again: every time you kill it, it comes back stronger and with a new attack. Each kill drops Essence (up to 20 a day at full rate); your record is the number of bosses beaten.",
+  "Nekonečná krypta pro každou kapitolu":"An endless crypt for every chapter",
+  "Nekonečná krypta už není na každé mapě: <b>každá kapitola má jednu</b>, souboj s jejím finálním bossem. Odemkneš ji poražením finále kapitoly.":"The endless crypt is no longer on every map: <b>each chapter has one</b>, a duel with its final boss. Beat the chapter finale to unlock it."
 };

@@ -62,7 +62,7 @@ Kostní prach + Jantar + Magmatit → Úlomky 1 : 1. Za už poražená finále h
 ### Nekonečná krypta
 Odemkne se po prvním finále (Trůn): v Přípravě záložka ∞ vedle Nočních můr (`sel.endless`, `run.endless`). Hraje se na libovolné dohrané mapě, boss nepřijde, od 5. minuty každou minutu +8 % zdraví a +5 % poškození nepřátel navíc ke stávajícímu růstu. Konec jen smrtí. Odměny: zlato a Úlomky za celý čas (`rewT` bez stropu), Esence podle pravidel výše (`essGain`, `save.endD`). Rekord na mapu v `save.endB`, ukazuje se u map a na konci běhu.
 
-**Od 08l je to boss fight:** běžné vlny slabší (×0,6), boss přijde po 30 s a po každém poražení znovu za 12 s silnější a s novým útokem (evoluce II–VII). Poražení bosse: léčení 25 %, zlato, Esence 1 + 0,5 za každou další evoluci (v rámci denního stropu). Rekord evolucí v `save.endW`.
+**Od 08m jen jedna na kapitolu** – na jejím finále, odemkne ji první výhra finále. **Od 08l je to boss fight:** běžné vlny slabší (×0,6), boss přijde po 30 s a po každém poražení znovu za 12 s silnější a s novým útokem (evoluce II–VII). Poražení bosse: léčení 25 %, zlato, Esence 1 + 0,5 za každou další evoluci (v rámci denního stropu). Rekord evolucí v `save.endW`.
 
 ---
 

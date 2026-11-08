@@ -16,7 +16,7 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `tree.js <prefix>` – strom vylepšení: screenshoty (nový a pokročilý hráč, detail uzlu), nákup, účinky v běhu (zbraň úr. 2, štít, 4 karty)
 - `norf.js <png>` – v detailu předmětu, karty věže a mazlíčka není tlačítko Přebroušení (zrušeno 08i)
 - `coppets.js <prefix>` – mazlíčci v co-opu: host + virtuální kamarád (Krotitel s Dráčetem a Sovou), snímky → guest, screenshoty obou stran
-- `winbg.js` – po výhře a „Znovu“ nezůstane běh na pozadí; `forgeB.js` – Kovárna se sekcemi, sloučení mazlíčků na hvězdu + vrácení; `endless2.js` – Nekonečná krypta: příchody a evoluce bosse, rekord, Esence; `shot8l.js <prefix>` – screenshoty 08l (novinky s highlights, okno hrdiny, dlaždice „nasazeno“, žebříček Kombo)
+- `winbg.js` – po výhře a „Znovu“ nezůstane běh na pozadí; `forgeB.js` – Kovárna se sekcemi, sloučení mazlíčků na hvězdu + vrácení; `endless2.js` – Nekonečná krypta: příchody a evoluce bosse, rekord, Esence; `endless3.js <prefix>` – Nekonečná krypta jen na finále (výběr v Přípravě, boss fight na všech 4 finále vč. fylaktérií); `shot8l.js <prefix>` – screenshoty 08l (novinky s highlights, okno hrdiny, dlaždice „nasazeno“, žebříček Kombo)
 - `heroesC.js` – Zbrojmistr (6 slotů na zbraň, druhá zbraň od úrovně 10) a Krotitel (dva mazlíčci, talenty) + screenshoty
 - `shotA.js`, `scrollshot.js`, `mergeA.js` – screenshoty a test úprav UI z 8. 11. (Kovárna, kategorie, sloučení)
 - `audio.js` – obnova zvuku po zamčení

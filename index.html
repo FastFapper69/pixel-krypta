@@ -3320,7 +3320,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08l';
+const GAME_VER='2026-11-08m';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -5184,34 +5184,34 @@ function renderCampaign(){
   const C=CHAPTERS[chSel];
   // chapter difficulty: the chosen tier must be open in this chapter, otherwise fall back to the highest one that is
   {let k=Math.min(sel.nm||0,NM_MAX);while(k>0&&!nmChapterOpen(C,k))k--;sel.nm=k;}
-  const EN=!!sel.endless&&!!(save.fin&&save.fin.trun);if(!EN)sel.endless=false;
+  const FIN=C.maps[C.maps.length-1],ENok=!C.soon&&!!(save.fin&&save.fin[FIN]),EN=!!sel.endless&&ENok;if(!EN)sel.endless=false;else sel.map=FIN;
   const NK=sel.nm,done=C.maps.filter(m=>nmWin(m,NK)).length,open=mapOpenAt(C.maps[0],NK);
   box.style.setProperty('--chc',C.col);
   let h='<div class="chbar"><button class="btn alt sm" id="chPrev"'+(chSel?'':' disabled')+' aria-label="'+_t('Předchozí kapitola')+'">‹</button>'+
     '<div class="chh"><small>'+_t('KAPITOLA ')+ROMAN_CH[chSel]+'</small><h3>'+C.name+'</h3><span class="mt" data-mat="'+C.mat+'"><img alt="" src="'+matIcon(C.mat)+'">'+MAT_NAME[C.mat]+' · '+done+' / '+C.maps.length+'</span></div>'+
     '<button class="btn alt sm" id="chNext"'+(chSel<CHAPTERS.length-1?'':' disabled')+' aria-label="'+_t('Další kapitola')+'">›</button></div>';
   if(!C.soon){h+='<div class="nmtabs">';for(let k=0;k<=NM_MAX;k++){const ok=nmChapterOpen(C,k);h+='<button data-k="'+k+'" class="'+(k===NK&&!EN?'on':'')+(ok?'':' lk')+'">'+NM_SHORT[k]+'</button>';}
-    h+=(save.fin&&save.fin.trun?'<button data-k="e" class="endt'+(EN?' on':'')+'" aria-label="'+_t('Nekonečná krypta')+'">∞</button>':'')+'</div>'+(EN?'<p class="hint nmh">'+_t('<b>Nekonečná krypta:</b> souboj s bossem mapy. Po každém zabití se vrátí <b>silnější a s novým útokem</b>. Esence za každého bosse, denně plně 20.')+'</p>':NK?'<p class="hint nmh">'+_t('Silnější nepřátelé, odměny +')+(50*NK)+_t(' %. Mapy jdeš znovu postupně, první výhra finále dá kus setu.')+'</p>':'');}
+    h+=(save.fin&&Object.keys(save.fin).length?'<button data-k="e" class="endt'+(EN?' on':'')+(ENok?'':' lk')+'" aria-label="'+_t('Nekonečná krypta')+'">∞</button>':'')+'</div>'+(EN?'<p class="hint nmh">'+_t('<b>Nekonečná krypta kapitoly:</b> souboj s finálním bossem. Po každém zabití se vrátí <b>silnější a s novým útokem</b>. Esence za každého bosse, denně plně 20.')+'</p>':NK?'<p class="hint nmh">'+_t('Silnější nepřátelé, odměny +')+(50*NK)+_t(' %. Mapy jdeš znovu postupně, první výhra finále dá kus setu.')+'</p>':'');}
   h+='<div class="mpath"></div>';
   box.innerHTML=h;const path=box.querySelector('.mpath');
-  box.querySelectorAll('.nmtabs button').forEach(b=>b.onclick=()=>{if(b.dataset.k==='e'){sel.endless=!EN;sfx('ui');if(sel.endless&&!save.cleared[sel.map]){const c=C.maps.filter(m=>save.cleared[m]).pop();if(c)sel.map=c;}renderSelect();return;}const wasE=EN;sel.endless=false;const k=+b.dataset.k;if(wasE&&k===sel.nm){sfx('ui');renderSelect();return;}
+  box.querySelectorAll('.nmtabs button').forEach(b=>b.onclick=()=>{if(b.dataset.k==='e'){if(!ENok){note(_t('Nekonečnou kryptu kapitoly odemkneš poražením jejího finále.'));return;}sel.endless=!EN;sfx('ui');if(!sel.endless){const c=C.maps.find(m=>mapOpenAt(m,sel.nm||0)&&!nmWin(m,sel.nm||0))||FIN;sel.map=c;}renderSelect();return;}const wasE=EN;sel.endless=false;const k=+b.dataset.k;if(wasE&&k===sel.nm){sfx('ui');renderSelect();return;}
     if(!nmChapterOpen(C,k)){note(k===1?_t('Odemkneš poražením finále kapitoly'):_t('Odemkneš výhrou finále kapitoly na stupni ')+NM_SHORT[k-1]);return;}
     if(k===sel.nm)return;sel.nm=k;sfx('ui');if(!mapOpenAt(sel.map,k)||CH_OF[sel.map]!==C){const nx=C.maps.find(m=>mapOpenAt(m,k)&&!nmWin(m,k))||C.maps.filter(m=>mapOpenAt(m,k)).pop();if(nx)sel.map=nx;}renderSelect();});
-  C.maps.forEach((id,k)=>{const m=MAPS[id],ok=EN?!!save.cleared[id]:mapOpenAt(id,NK),on=sel.map===id&&ok;
+  C.maps.forEach((id,k)=>{if(EN&&id!==FIN)return;const m=MAPS[id],ok=EN?!!save.cleared[id]:mapOpenAt(id,NK),on=sel.map===id&&ok;
     const b=document.createElement('button');b.className='card mnode'+(on?' sel':'')+(ok?'':' lock')+(m.finale?' fin':'');
     const cv=document.createElement('canvas');cv.width=cv.height=TH;const g2=cv.getContext('2d');g2.imageSmoothingEnabled=false;
     const src=thumbSrc(id);if(src)g2.drawImage(src,0,0,TH,TH);else{g2.fillStyle=m.c1||'#2a2236';g2.fillRect(0,0,TH,TH);}
     const st=EN?(ok?((save.endW&&save.endW[id])?_t('Rekord: ')+save.endW[id]+' '+(save.endW[id]===1?_t('boss'):save.endW[id]<5?_t('bossové'):_t('bossů')):_t('Bez rekordu')):_t('Nejdřív mapu dohraj.')):ok?mapStatus(id,NK):(k?_t('Odemkneš výhrou na předchozí mapě'):NK>1?_t('Odemkneš výhrou finále kapitoly na stupni ')+NM_SHORT[NK-1]:NK?_t('Odemkneš poražením finále kapitoly'):_t('Odemkneš poražením finále kapitoly ')+ROMAN_CH[Math.max(0,chSel-1)]);
     const d=document.createElement('div');
     d.innerHTML='<h3><span class="num">'+(k+1)+'</span>'+m.name+(m.finale?'<span class="badge fin">'+_t('Finále')+'</span>':'')+(ok?'':_t('<span class="badge lk">Zamčeno</span>'))+'</h3>'+
-      (st?'<small>'+st+'</small>':'')+(on?'<p>'+m.desc+'</p>':'');
+      (st?'<small>'+st+'</small>':'')+(on&&!EN?'<p>'+m.desc+'</p>':'');
     if(ok&&!NK&&isFresh('map','m'+id))d.querySelector('h3').insertAdjacentHTML('beforeend',NEW_TAG());
     b.appendChild(cv);b.appendChild(d);
     b.addEventListener('click',()=>{if(ok){sel.picked=1;if(sel.map!==id){sel.map=id;sfx('ui');renderSelect();}}else note(st);});
     path.appendChild(b);});
   if(C.soon){const n=document.createElement('div');n.className='chsoon';n.textContent=_t('Další mapy kapitoly připravujeme.');path.appendChild(n);}
   // chapter treasure: opens once the finale is won, holds a piece of the chapter set
-  const sid=SET_OF_CH[C.id];if(sid){const S=SETS[sid],fin=C.maps[C.maps.length-1],won=!!(save.fin&&save.fin[fin]),got=!!(save.chT&&save.chT[C.id]),own=Object.keys(setOwned(sid)).length;
+  const sid=!EN&&SET_OF_CH[C.id];if(sid){const S=SETS[sid],fin=C.maps[C.maps.length-1],won=!!(save.fin&&save.fin[fin]),got=!!(save.chT&&save.chT[C.id]),own=Object.keys(setOwned(sid)).length;
     const b=document.createElement('button');b.className='card mnode tre'+(got?' got':won?' ready':' lock');{const sp=document.createElement('div');sp.className='tre-sep';sp.textContent=_t('ODMĚNA KAPITOLY');path.appendChild(sp);}
     b.innerHTML='<span class="tre-rb">'+(got?_t('OTEVŘENO'):won?_t('PŘIPRAVENO'):_t('ZAMČENO'))+'</span><div class="tre-ic"><img alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"></div><div><h3>'+_t('Poklad kapitoly')+'</h3><small>'+(got?_t('Otevřeno · ')+S.name+' '+own+'/4':won?_t('Otevři ho! Kus setu, 300 zlata, 50 Úlomků a 10 Esence.'):_t('Poraz finále a poklad je tvůj. Uvnitř je kus setu ')+S.name+'.')+'</small>'+
       '<span class="si-p">'+SLOT_IDS.map(k=>'<img class="'+(setOwned(sid)[k]?'on':'')+'" alt="" src="'+dataUrl(itemSpr(k,3,sid))+'">').join('')+'</span></div>';
@@ -5414,7 +5414,7 @@ function bindUi(){
   $('#pGod').onclick=()=>{const K=window.__krypta;K.god=!K.god;$('#pGod').textContent=_t('Test: nesmrtelnost ')+onOff(K.god);};
   document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('.mt[data-mat]');if(t&&!t.closest('button'))note(matInfo(t.dataset.mat),4200);});
   document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{sfx('ui');refreshMenu();setState('menu');});
-  $('#goBtn').onclick=()=>{if(!heroOwned(sel.hero))sel.hero='knight';if(sel.endless&&save.fin&&save.fin.trun){if(!save.cleared[sel.map]){note(_t('Nejdřív mapu dohraj.'));return;}startRun(sel.hero,sel.map,{endless:true});return;}if(!mapUnlocked(sel.map))sel.map='hrbitov';startRun(sel.hero,sel.map,{nm:mapOpenAt(sel.map,sel.nm||0)?(sel.nm||0):0});};
+  $('#goBtn').onclick=()=>{if(!heroOwned(sel.hero))sel.hero='knight';if(sel.endless){if(!(MAPS[sel.map].finale&&save.fin&&save.fin[sel.map])){note(_t('Nekonečnou kryptu kapitoly odemkneš poražením jejího finále.'));return;}startRun(sel.hero,sel.map,{endless:true});return;}if(!mapUnlocked(sel.map))sel.map='hrbitov';startRun(sel.hero,sel.map,{nm:mapOpenAt(sel.map,sel.nm||0)?(sel.nm||0):0});};
   buildBarInit();onTap($('#upBtn'),()=>upgradeTower());onTap($('#repBtn'),()=>repairCrystal());
   onTap($('#btnPause'),()=>{sfx('ui');togglePause();});
   $('#mStick').onclick=()=>{audioInit();sfx('ui');openControls();};$('#pStick').onclick=()=>cycleStick();
@@ -6322,7 +6322,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('skull'),_t('Kapitoly'),_t('Kampaň má kapitoly po pěti mapách. Pátá je finále se speciálním bossem a jeho porážka otevře další kapitolu.')],
    [I('shard'),_t('Úlomky'),_t('Padají na všech mapách, v pozdějších kapitolách víc. Potřebuješ je skoro na všechno: Vylepšení, úrovně hrdinů, vylepšování výbavy, věží a mazlíčků.')],
    [I('ess'),_t('Esence'),_t('Vzácná. Padá jen z finálních bossů (první výhra na každé obtížnosti dá nejvíc) a z Nekonečné krypty. Na úrovně hrdinů od 10, vylepšení od +6 a Vylepšení od úrovně 20.')],
-   [I('stars'),_t('Nekonečná krypta'),_t('Po poražení Trůnu kostí si v Přípravě zapneš ∞. Bojuješ s bossem dohrané mapy znovu a znovu: po každém zabití se vrátí silnější a s novým útokem. Za každého padne Esence (denně plně 20), rekord je počet poražených bossů.')],
+   [I('stars'),_t('Nekonečná krypta'),_t('Každá kapitola má jednu: po poražení jejího finále si v Přípravě zapneš ∞. Bojuješ s finálním bossem kapitoly znovu a znovu: po každém zabití se vrátí silnější a s novým útokem. Za každého padne Esence (denně plně 20), rekord je počet poražených bossů.')],
    [dataUrl(SPR.hero.knight),_t('Úroveň hrdiny'),_t('Za zlato a Úlomky (od úrovně 10 i Esenci). Přidá zdraví a poškození a na úrovni 5, 10, 15 a 20 dostaneš talent.')],
    [I('chest_iron'),_t('Výbava'),_t('Hlavně z truhel v Obchodu, jen tam padají i legendárky. Kampaň dá předmět jen za první výhru mapy na každé Noční můře a kusy setů z finále. Přilba, zbroj, amulet a prsten v pěti raritách.')],
    [dataUrl(itemSpr('helm',3,'bone')),_t('Sety kapitol'),_t('Každá kapitola má set 4 kusů. Padají z finále, jeden je v pokladu kapitoly. 2 kusy dají bonus, 4 kusy schopnost.')],
@@ -6913,6 +6913,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08m',d:'8. 11. 2026',t:_t('Nekonečná krypta pro každou kapitolu'),items:[_t('Nekonečná krypta už není na každé mapě: <b>každá kapitola má jednu</b>, souboj s jejím finálním bossem. Odemkneš ji poražením finále kapitoly.')]},
  {v:'2026-11-08l',d:'8. 11. 2026',t:_t('Velká aktualizace: bossové bez konce'),hl:[
   {ic:'stars',t:_t('Nová Nekonečná krypta'),d:_t('Souboj s bossem mapy: po každém zabití se vrátí <b>silnější a s novým útokem</b>. Rekord je počet poražených bossů, Esence padá za každého.')},
   {ic:'wolf',t:_t('Hvězdy mazlíčků'),d:_t('3 stejné mazlíčky sliješ v Kovárně v jednoho s <b>hvězdou navíc</b> (+15 % síly za hvězdu, max 5). Kování teď umí i <b>karty věží</b>.')},
