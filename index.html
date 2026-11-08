@@ -98,10 +98,10 @@ button{font-family:inherit}
 .scr:not(.clear):not(#scr-menu)>.wrap{margin:0 0 auto}
 /* the header with Back stays at the top while a screen scrolls */
 .scr:not(.clear)>.wrap>.head{flex-wrap:wrap;row-gap:6px;position:sticky;z-index:5;top:calc(-22px - var(--sat,0px));margin:calc(-22px - var(--sat,0px)) -16px 0;padding:calc(18px + var(--sat,0px)) 16px 10px;
-  background:linear-gradient(90deg,var(--gold) 0 26%,var(--line) 26% 100%) 16px 100%/calc(100% - 32px) 3px no-repeat,#130f1c;box-shadow:0 8px 10px -6px #0009}
+  background:linear-gradient(90deg,var(--gold) 0 26%,var(--line) 26% 100%) 16px 100%/calc(100% - 32px) 3px no-repeat,#130f1c}
 /* "new" markers */
-#mPlay,#mHero,#mChest{position:relative}
-#mPlay.new::after,#mHero.new::after,#mChest.new::after{content:attr(data-new);position:absolute;top:5px;right:7px;font:700 10px/1 var(--font);letter-spacing:.06em;color:#1a1020;background:var(--gold);padding:3px 5px 2px;box-shadow:0 0 0 2px #2a1430;animation:qdot 1.6s ease-in-out infinite}
+#mPlay,#mHero,#mChest,#mForge{position:relative}
+#mPlay.new::after,#mHero.new::after,#mChest.new::after,#mForge.new::after{content:attr(data-new);position:absolute;top:5px;right:7px;font:700 10px/1 var(--font);letter-spacing:.06em;color:#1a1020;background:var(--gold);padding:3px 5px 2px;box-shadow:0 0 0 2px #2a1430;animation:qdot 1.6s ease-in-out infinite}
 .nw{position:absolute;top:3px;right:3px;width:8px;height:8px;background:var(--gold);box-shadow:0 0 0 2px #2a1430;pointer-events:none}
 .co-pick .nw{top:4px;right:4px}
 .newtag{display:inline-block;margin-left:6px;font:700 10px/1 var(--font);letter-spacing:.06em;color:#1a1020;background:var(--gold);padding:3px 5px 2px;vertical-align:middle}
@@ -111,7 +111,7 @@ button{font-family:inherit}
 /* main menu: top bar (currencies + icon buttons), logo centred in the free space, six buttons at the bottom within thumb reach */
 #scr-menu{padding-top:calc(66px + var(--sat,0px))}
 #scr-menu>.wrap{min-height:100%;margin:0}#scr-menu>.wrap>.sp{flex:1 1 0;min-height:4px}
-#mTop{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:center;gap:6px;padding:calc(8px + var(--sat,0px)) 10px 22px;background:linear-gradient(#0c0912d8,#0c0912a0 calc(100% - 22px),#0c091200)}
+#mTop{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:center;gap:6px;padding:calc(8px + var(--sat,0px)) 10px 8px;background:#130f1c;box-shadow:0 3px 0 var(--line)}
 #mCur{margin-right:auto;padding:5px 7px;gap:4px 7px;font-size:13px;flex-wrap:nowrap;overflow:hidden;min-width:0;white-space:nowrap;box-shadow:inset 0 0 0 2px var(--line);background:#0c0912c0;justify-content:flex-start}
 #mCur .mt:first-child{color:var(--gold)}#mCur .mt{gap:3px}#mCur .mt img{width:16px;height:16px}
 #mTop .btn.ic{width:38px;height:38px;min-height:0;padding:0;flex:none;position:relative}#mTop .btn.ic img{width:24px;height:24px;image-rendering:pixelated}
@@ -351,7 +351,7 @@ html,body,#stage{touch-action:none}
 .tslot{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;min-width:0;padding:8px 2px 6px;background:var(--panel);background-image:var(--tex);background-size:32px 32px;border:0;clip-path:var(--px);box-shadow:inset 0 0 0 3px var(--gold);color:var(--fg);font:inherit;cursor:pointer}
 .tslot img{width:30px;height:60px;object-fit:contain;image-rendering:pixelated}.tslot b{font-size:11px;line-height:1.1;text-align:center;min-height:2.2em;display:flex;align-items:center}
 .tslot.bld{box-shadow:inset 0 0 0 3px #6a5a8a}.tslot.empty{box-shadow:inset 0 0 0 3px var(--line);justify-content:center}.tslot .plus{font-size:26px;color:var(--muted);line-height:1}
-.tslot .bt{display:flex;align-items:center;gap:2px;font-size:9px;color:var(--muted);line-height:1.1;text-align:center}.tslot .bt img{width:12px;height:12px;flex:none}
+.tslot .bt{position:absolute;top:4px;right:4px;width:20px;height:20px;display:grid;place-items:center;background:#0c0912;box-shadow:0 0 0 2px var(--line)}.tslot .bt img{width:16px;height:16px;image-rendering:pixelated}
 .ptslot{display:flex;justify-content:center}.ptslot .tslot{width:112px}.ptslot .tslot img{height:60px;width:auto}
 .tslot.pick{animation:tPick .7s ease-in-out infinite alternate}@keyframes tPick{to{box-shadow:inset 0 0 0 3px #ffe58a,0 0 14px #f6c74488;background-color:var(--panel-hi)}}
 #twHint.on{color:var(--gold);font-weight:700}
@@ -378,10 +378,8 @@ html,body,#stage{touch-action:none}
 .tperk p{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin:0;color:var(--muted);line-height:1.35}.tperk p.on{color:var(--fg)}
 .tperk p i{flex:none;font-style:normal;font-weight:700;font-size:12px;width:18px;height:18px;display:grid;place-items:center;color:#1a1423;clip-path:var(--px)}
 /* chapter sets: their own colour on tiles, cards and slots */
-.set-bone{--sc:#9affc0}.set-sun{--sc:#ffd060}.set-forge{--sc:#ff8a3a}
-.itile.set,.pop-card.set,.slot.set{box-shadow:inset 0 0 0 3px var(--sc),0 0 10px color-mix(in srgb,var(--sc) 35%,transparent)}
-.itile.set::before{content:'';position:absolute;right:3px;top:3px;width:6px;height:6px;background:var(--sc);transform:rotate(45deg);box-shadow:0 0 4px var(--sc)}
-.pop-card.set{background-image:var(--tex),radial-gradient(circle at 50% 0,color-mix(in srgb,var(--sc) 18%,transparent),transparent 70%)}
+.set-bone,.set-sun,.set-forge{--sc:#e2dcef}
+.itile.set::before{content:'';position:absolute;left:4px;bottom:4px;width:6px;height:6px;background:#fff;transform:rotate(45deg);box-shadow:0 0 0 1px #1a1020}
 .setinfo{display:flex;flex-direction:column;gap:5px;padding:9px 10px;background:#0c0912a8;box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--sc) 55%,transparent);clip-path:var(--px)}
 .setinfo .si-h{display:flex;align-items:center;gap:8px}.setinfo .si-h b{color:var(--sc);font-size:14px;flex:1;min-width:0}.setinfo .si-h em{font-style:normal;font-weight:700;font-size:13px;color:var(--sc)}
 .si-p{display:flex;gap:2px}.si-p img{width:20px;height:20px;image-rendering:pixelated;filter:grayscale(1) brightness(.45);opacity:.7}.si-p img.on{filter:none;opacity:1}
@@ -549,6 +547,22 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #nickInput:focus-visible,#pinInput:focus-visible{outline:3px solid #fff}
 .fl{display:flex;flex-direction:column;gap:6px;font-weight:700;color:var(--muted);font-size:14px}
 #ttlWrap{margin-top:10px}#ttlList{display:grid;grid-template-columns:1fr 1fr;gap:6px}#ttlList button{min-height:44px}#ttlList:empty{display:none}#ttlWrap .hint{margin:2px 0 0}
+
+/* 08a: inventory categories, NEW ribbon, rarity pill, Kovárna, chapter reward */
+.cats{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:2px 0 10px}
+.cats button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:48px;padding:5px 2px;background:var(--panel);color:var(--ink);border:0;clip-path:var(--px);box-shadow:inset 0 0 0 2px var(--line);font:700 13px/1 var(--font);cursor:pointer}
+.cats button img{width:24px;height:24px;image-rendering:pixelated}.cats button small{font-size:11px;color:var(--muted);font-weight:700}
+.cats button.on{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}.cats button.on small{color:var(--gold)}
+.nwt{position:absolute;left:50%;top:-5px;transform:translateX(-50%);z-index:2;font:800 9px/1 var(--font);letter-spacing:.06em;color:#1a1020;background:var(--gold);padding:3px 4px 2px;box-shadow:0 0 0 2px #1a1020;pointer-events:none;white-space:nowrap}
+.itile,.ttile{position:relative;overflow:visible}
+.rp{display:inline-block;margin-top:2px;font:800 9px/1 var(--font);letter-spacing:.05em;text-transform:uppercase;color:#140f1c;background:var(--rc);padding:3px 5px 2px}
+.tslot{position:relative}
+.mnode.tre{position:relative;margin-top:10px;padding-right:12px;background:linear-gradient(90deg,#2e2210,var(--panel) 80%);box-shadow:inset 0 0 0 3px #6a5424}
+.mnode.tre .tre-rb{position:absolute;right:8px;top:8px;font:800 10px/1 var(--font);letter-spacing:.08em;color:#1a1020;background:var(--gold);padding:4px 6px 3px;box-shadow:0 0 0 2px #1a1020}
+.mnode.tre.got{background:var(--panel);box-shadow:inset 0 0 0 2px var(--line)}.mnode.tre.got .tre-rb{background:#8a809c}
+.mnode.tre.ready .tre-ic img{animation:treBob 1.1s ease-in-out infinite}@keyframes treBob{50%{transform:translateY(-4px) scale(1.06)}}
+.tre-sep{display:flex;align-items:center;gap:8px;margin:14px 0 0;color:var(--gold);font:800 11px/1 var(--font);letter-spacing:.12em}.tre-sep::before,.tre-sep::after{content:'';flex:1;height:2px;background:repeating-linear-gradient(90deg,#6a5424 0 6px,transparent 6px 10px)}
+.mrow .mi{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 </style>
 
 <style>/* safe areas (notch, home bar): the canvas runs edge to edge, HUD and screens pad themselves */
@@ -580,19 +594,18 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
   </div>
 
   <section class="scr" id="scr-menu">
-    <div id="mTop"><div class="mats" id="mCur"></div><button class="btn alt ic" id="mNews" aria-label="Novinky"><img alt="" id="icNews"></button><button class="btn alt ic" id="mGuide" aria-label="Průvodce"><img alt="" id="icGuide"></button><button class="btn alt ic" id="mSet" aria-label="Nastavení"><img alt="" id="icSet"></button></div>
+    <div id="mTop"><div class="mats" id="mCur"></div><button class="btn alt ic" id="mBoard" aria-label="Síň slávy"><img alt="" id="icBoard"></button><button class="btn alt ic" id="mNews" aria-label="Novinky"><img alt="" id="icNews"></button><button class="btn alt ic" id="mGuide" aria-label="Průvodce"><img alt="" id="icGuide"></button><button class="btn alt ic" id="mSet" aria-label="Nastavení"><img alt="" id="icSet"></button></div>
     <div class="wrap">
       <div class="sp"></div>
       <div class="logobox"><img class="crest" id="crest" alt=""><h1 class="logo">PIXEL<br>KRYPTA</h1><i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i></div>
-      <p class="tag">Přežij vlny nepřátel, posiluj se a poraz bosse.</p>
       <div class="paradebox"><div class="parade" id="parade"></div></div>
       <div class="sp"></div>
       <p class="hint" id="mWarn" hidden>Hraješ v prohlížeči uvnitř aplikace. Otevři hru v Safari nebo Chrome (tři tečky → Otevřít v prohlížeči), ať se ti postup pamatuje.</p>
       <div class="stack" id="mStack">
         <button class="btn" id="mPlay">Hrát</button>
         <button class="btn alt" id="mCoop">Hrát s kamarádem</button>
-        <div class="row2"><button class="btn alt" id="mHero">Vybavení</button><button class="btn alt" id="mChest">Obchod</button></div>
-        <div class="row2"><button class="btn alt" id="mQuest">Nástěnka</button><button class="btn alt" id="mBoard">Síň slávy</button></div>
+        <div class="row2"><button class="btn alt" id="mHero">Vybavení</button><button class="btn alt" id="mForge">Kovárna</button></div>
+        <div class="row2"><button class="btn alt" id="mChest">Obchod</button><button class="btn alt" id="mQuest">Nástěnka</button></div>
       </div>
     </div>
     <div class="sheetwrap" id="setPop" inert><div class="sheet">
@@ -625,8 +638,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 
   <section class="scr" id="scr-shop" hidden>
     <div class="wrap">
-      <div class="head"><h2>Obchod</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="shopMats"></div></div>
-      <div class="tabs sectabs" data-sec="shop"><button data-to="chests">Truhly</button><button data-to="shop">Vylepšení</button></div>
+      <div class="head"><h2>Kovárna</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="shopMats"></div></div>
+      <div class="tabs sectabs" data-sec="forge"><button data-to="forge">Kování</button><button data-to="shop">Vylepšení</button></div>
       <p class="hint">Trvalé bonusy, které platí v každém dalším běhu.</p>
       <div class="stack" id="shopList"></div>
     </div>
@@ -688,6 +701,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <div class="sec">Výbava</div>
       <div class="slots" id="hSlots"></div>
       <div class="sec">Inventář · <span id="invCount"></span></div>
+      <div class="cats" id="invCats"></div>
       <div class="inv" id="invGrid"></div>
     </div>
     <div class="popwrap" id="itemPop" hidden></div>
@@ -722,14 +736,21 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
   <section class="scr" id="scr-chests" hidden>
     <div class="wrap">
       <div class="head"><h2>Obchod</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="cMats"></div></div>
-      <div class="tabs sectabs" data-sec="shop"><button data-to="chests">Truhly</button><button data-to="shop">Vylepšení</button></div>
-      <p class="hint">Truhly obsahují výbavu pro hrdiny. Šance na raritu jsou vidět u každé truhly.</p>
+      <p class="hint">Truhly obsahují výbavu, věže a mazlíčky. Šance na raritu jsou vidět u každé truhly.</p>
       <div class="stack" id="chestList"></div>
-      <div class="sec">Kovárna · sloučení</div>
-      <p class="hint">3 předměty stejné rarity se slijí v jeden vzácnější. Ťukej do rytmu, Perfektní ťuknutí dají lepší hodnoty.</p>
-      <div class="stack" id="forgeList"></div>
     </div>
     <div class="popwrap" id="chestPop" hidden></div>
+  </section>
+
+  <section class="scr" id="scr-forge" hidden>
+    <div class="wrap">
+      <div class="head"><h2>Kovárna</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="fMats"></div></div>
+      <div class="tabs sectabs" data-sec="forge"><button data-to="forge">Kování</button><button data-to="shop">Vylepšení</button></div>
+      <div class="sec">Sloučení</div>
+      <p class="hint">3 stejné kusy stejné rarity, třeba 3 neobvyklé prsteny, se slijí v jeden o raritu vyšší. Ťukej do rytmu, Perfektní ťuknutí dají lepší hodnoty.</p>
+      <div class="stack" id="forgeList"></div>
+    </div>
+    <div class="popwrap" id="forgePop" hidden></div>
   </section>
 
   <section class="scr" id="scr-quests" hidden>
@@ -792,9 +813,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <div class="ovw" id="ovW"></div>
       <table class="res" id="ovTable"></table>
       <div class="stack">
-        <button class="btn" id="ovAgain">Znovu</button>
-        <button class="btn alt" id="ovShare">Sdílet výsledek</button>
-        <button class="btn alt" id="ovMenu">Menu</button>
+        <button class="btn" id="ovAgain">Pokračovat</button>
+        <div hidden><button class="btn alt" id="ovShare">Sdílet výsledek</button><button class="btn alt" id="ovMenu">Menu</button></div>
       </div>
     </div>
   </section>
@@ -2982,7 +3002,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-07z';
+const GAME_VER='2026-11-08a';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -2994,12 +3014,12 @@ const isGuest=()=>CO.role==='guest'&&!!run&&!!run.coop;
 function withPl(pl,fn){const K=['p','W','P','hero','heroId','fused','fuseMiss','revived','meta','bonus','revT'],sv={};for(const k of K)sv[k]=run[k];const s0=st,c0=CO.ctxMate;
   for(const k of K)run[k]=pl[k];st=pl.st;CO.ctxMate=true;
   try{return fn();}finally{for(const k of K)pl[k]=run[k];pl.st=st;for(const k of K)run[k]=sv[k];st=s0;CO.ctxMate=c0;}}
-const screens={menu:$('#scr-menu'),towers:$('#scr-towers'),pets:$('#scr-pets'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),codex:$('#scr-codex'),guide:$('#scr-guide'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master')};
+const screens={menu:$('#scr-menu'),towers:$('#scr-towers'),pets:$('#scr-pets'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),forge:$('#scr-forge'),codex:$('#scr-codex'),guide:$('#scr-guide'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master')};
 function showScreen(n){for(const k in screens)screens[k].hidden=(k!==n);}
 function setState(s){const prevS=state;if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
   $('#hud').hidden=!(run&&(s==='play'||s==='levelup'||s==='fuse'||s==='wait'||s==='pause'||s==='over'));
   if(s!=='play'){const tt=$('#toast');if(tt)tt.classList.remove('on');}{const tu=$('#tut');if(tu)tu.style.visibility=s==='play'?'':'hidden';}
-  {const NO={select:['map','hero'],hero:['item','hero'],towers:['tw'],shop:['rank']}[s];if(NO&&s!==prevS){seeNew(...NO);try{({select:renderSelect,hero:renderHero,towers:renderTowers,shop:renderShop})[s]();}catch(_){}}}
+  {const NO={select:['map','hero'],hero:['hero'],towers:[],shop:['rank'],forge:[]}[s];if(NO&&s!==prevS){seeNew(...NO);try{({select:renderSelect,hero:renderHero,towers:renderTowers,shop:renderShop,forge:renderForge})[s]();}catch(_){}}}
   try{refreshNew();}catch(_){}
   showScreen(s==='play'?null:s);document.querySelectorAll('.sectabs button').forEach(b=>b.classList.toggle('on',b.dataset.to===s));if(s!=='menu')setSheet(false);try{showStickRest();}catch(_){}
   muffle(s==='pause'||s==='levelup'||s==='over');
@@ -4750,8 +4770,8 @@ function renderCampaign(){
   if(C.soon){const n=document.createElement('div');n.className='chsoon';n.textContent=_t('Další mapy kapitoly připravujeme.');path.appendChild(n);}
   // chapter treasure: opens once the finale is won, holds a piece of the chapter set
   const sid=SET_OF_CH[C.id];if(sid){const S=SETS[sid],fin=C.maps[C.maps.length-1],won=!!(save.fin&&save.fin[fin]),got=!!(save.chT&&save.chT[C.id]),own=Object.keys(setOwned(sid)).length;
-    const b=document.createElement('button');b.className='card mnode tre'+(got?' got':won?' ready':' lock');b.style.setProperty('--sc',S.col);
-    b.innerHTML='<div class="tre-ic"><img alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"></div><div><h3>'+_t('Poklad kapitoly')+'</h3><small>'+(got?_t('Otevřeno · ')+S.name+' '+own+'/4':won?_t('Otevři ho! Kus setu, 300 zlata a ')+MAT_NAME[C.mat]+'.':_t('Poraz finále a poklad je tvůj. Uvnitř je kus setu ')+S.name+'.')+'</small>'+
+    const b=document.createElement('button');b.className='card mnode tre'+(got?' got':won?' ready':' lock');{const sp=document.createElement('div');sp.className='tre-sep';sp.textContent=_t('ODMĚNA KAPITOLY');path.appendChild(sp);}
+    b.innerHTML='<span class="tre-rb">'+(got?_t('OTEVŘENO'):won?_t('PŘIPRAVENO'):_t('ZAMČENO'))+'</span><div class="tre-ic"><img alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"></div><div><h3>'+_t('Poklad kapitoly')+'</h3><small>'+(got?_t('Otevřeno · ')+S.name+' '+own+'/4':won?_t('Otevři ho! Kus setu, 300 zlata a ')+MAT_NAME[C.mat]+'.':_t('Poraz finále a poklad je tvůj. Uvnitř je kus setu ')+S.name+'.')+'</small>'+
       '<span class="si-p">'+SLOT_IDS.map(k=>'<img class="'+(setOwned(sid)[k]?'on':'')+'" alt="" src="'+dataUrl(itemSpr(k,3,sid))+'">').join('')+'</span></div>';
     b.addEventListener('click',()=>{if(won&&!got)openTreasure(C);else if(!won)note(_t('Poraz finále kapitoly'));else note(S.name+': '+_t('kusy padají z finále kapitoly'));});path.appendChild(b);}
   $('#chPrev').onclick=()=>{if(chSel>0){chSel--;sfx('ui');renderCampaign();}};
@@ -4773,11 +4793,13 @@ function seenInit(){if(!save.seen||typeof save.seen!=='object'){save.seen={};for
 const newOf=kind=>{seenInit();return newAll(kind).filter(k=>!save.seen[k]);};
 // a screen opens: remember what is new there for its badges, then count it as seen
 function seeNew(...kinds){let ch=false;for(const k of kinds){const n=newOf(k);FRESH[k]=new Set(n);for(const x of n){save.seen[x]=1;ch=true;}}if(ch)persist();}
-const isFresh=(kind,key)=>!!(FRESH[kind]&&FRESH[kind].has(key));
+// items and tower cards stay NEW until the player taps them (08a); other kinds clear when their screen opens
+const isFresh=(kind,key)=>(kind==='item'||kind==='tw')?(seenInit(),!save.seen[key]):!!(FRESH[kind]&&FRESH[kind].has(key));
+function seeOne(key){seenInit();if(save.seen[key])return false;save.seen[key]=1;persist();try{refreshNew();}catch(_){}return true;}
 const NEW_TAG=()=>'<b class="newtag">'+_t('NOVÉ')+'</b>';
 function refreshNew(){try{const it=newOf('item').length+newOf('hero').length,tw=newOf('tw').length,mp=newOf('map').length,rk=newOf('rank').length;
   const T=(sel,on)=>{const e=$(sel);if(e){e.classList.toggle('new',!!on);e.dataset.new=_t('NOVÉ');}};
-  T('#mPlay',mp);T('#mHero',it||tw);T('#mChest',rk);
+  T('#mPlay',mp);T('#mHero',it||tw);T('#mForge',rk);
   document.querySelectorAll('.sectabs [data-to=hero]').forEach(b=>b.classList.toggle('has',!!it));
   document.querySelectorAll('.sectabs [data-to=towers]').forEach(b=>b.classList.toggle('has',!!tw));
   document.querySelectorAll('.sectabs [data-to=shop]').forEach(b=>b.classList.toggle('has',!!rk));}catch(_){}}
@@ -4788,7 +4810,7 @@ function heroStrip(box,ids,cur,label,pick){box.innerHTML='';let on=null;
   // a long name shrinks to fit its tile instead of being cut off
   requestAnimationFrame(()=>{for(const sp of box.querySelectorAll('.co-pick>span')){let f=12;while(sp.scrollWidth>sp.clientWidth+1&&f>9){f-=.5;sp.style.fontSize=f+'px';}}});
   if(on)requestAnimationFrame(()=>{const L=on.offsetLeft-16,R2=on.offsetLeft+on.offsetWidth-box.clientWidth+16;if(box.scrollLeft>L)box.scrollLeft=L;else if(box.scrollLeft<R2)box.scrollLeft=R2;});}
-function openTreasure(C){const sid=SET_OF_CH[C.id];if(!sid||save.chT[C.id])return;save.chT[C.id]=1;const it=makeSetItem(sid);addItem(it);save.coins+=300;save.mats[C.mat]=(save.mats[C.mat]||0)+50;persist();
+function openTreasure(C){const sid=SET_OF_CH[C.id];if(!sid||save.chT[C.id])return;save.chT[C.id]=1;const it=makeSetItem(sid,null,rollW(SET_TRE));addItem(it);save.coins+=300;save.mats[C.mat]=(save.mats[C.mat]||0)+50;persist();
   revealItem(it,'gold',_t('Poklad kapitoly!'),{pop:$('#selPop'),done:()=>{renderSelect();note('+300 '+_t('zlata')+' · +50 '+MAT_NAME[C.mat]);}});}
 function renderSelect(){
   $('#selMats').innerHTML=matsHtml();
@@ -4838,7 +4860,7 @@ function bindUi(){
   const ico=(q,srcs)=>{const b=$(q);if(!b)return;const lbl=b.querySelector('.lbl')||(()=>{const l=document.createElement('span');l.className='lbl';l.textContent=b.textContent;b.textContent='';b.appendChild(l);return l;})();
     const w=document.createElement('span');w.className='bi';for(const s of srcs){const i=document.createElement('img');i.alt='';i.src=s;w.appendChild(i);}b.insertBefore(w,lbl);};
   ico('#mPlay',[dataUrl(SPR.icon.blade)]);ico('#mCoop',[dataUrl(SPR.hero.knight),dataUrl(SPR.hero.mage)]);ico('#mHero',[dataUrl(SPR.hero.knight)]);
-  ico('#mChest',[dataUrl(SPR.icon.chest_gold)]);ico('#mBoard',[dataUrl(SPR.icon.trophy)]);ico('#mQuest',[dataUrl(SPR.icon.scroll)]);ico('#ovShare',[dataUrl(SPR.icon.share)]);$('#icNews').src=dataUrl(SPR.icon.bell);$('#icGuide').src=dataUrl(SPR.icon.book);$('#icSet').src=dataUrl(SPR.icon.gear);ico('#mInstall',[dataUrl(SPR.icon.phone)]);
+  ico('#mChest',[dataUrl(SPR.icon.chest_gold)]);ico('#mForge',[dataUrl(SPR.icon.hammer)]);$('#icBoard').src=dataUrl(SPR.icon.trophy);ico('#mQuest',[dataUrl(SPR.icon.scroll)]);ico('#ovShare',[dataUrl(SPR.icon.share)]);$('#icNews').src=dataUrl(SPR.icon.bell);$('#icGuide').src=dataUrl(SPR.icon.book);$('#icSet').src=dataUrl(SPR.icon.gear);ico('#mInstall',[dataUrl(SPR.icon.phone)]);
   ico('#mSound',[dataUrl(SPR.icon.sound)]);ico('#mMusic',[dataUrl(SPR.icon.music)]);ico('#mStick',[dataUrl(SPR.icon.stick)]);ico('#mFb',[dataUrl(SPR.icon.scroll)]);
   $('#crest').src=dataUrl(SPR.icon.skull);
   pic('#icoCoin',SPR.icon.coin);pic('#icoSkull',SPR.icon.skull);
@@ -4874,6 +4896,7 @@ function bindUi(){
   $('#mCoop').onclick=()=>{sfx('ui');openCoop();};
   $('#mHero').onclick=()=>{audioInit();sfx('ui');openHero();};
   $('#mChest').onclick=()=>{audioInit();sfx('ui');openChestShop();};
+  $('#mForge').onclick=()=>{audioInit();sfx('ui');openForge();};
   $('#mGuide').onclick=()=>{audioInit();sfx('ui');openGuide();};
   document.querySelectorAll('#gdTabs button').forEach(b=>b.onclick=()=>{sfx('ui');renderGuide(b.dataset.g);});
   $('#mQuest').onclick=()=>{audioInit();sfx('ui');openQuests();};
@@ -4902,7 +4925,7 @@ function bindUi(){
   $('#pResume').onclick=()=>{sfx('ui');togglePause();};
   $('#pQuit').onclick=()=>{if(run&&run.coop&&!run.over)netSend(CO.role==='guest'?{t:'quit'}:{t:'end',won:false});if(run&&!run.over){tmSend('quit');run.over=true;if(run.tut)save.tut=1;const gain=endCoins(false);save.coins+=gain;if(!isGuest())qCommit(qSnap());persist();}openMenu();};
   $('#ovShare').onclick=()=>{sfx('ui');shareResult();};
-  $('#ovAgain').onclick=()=>{sfx('ui');if(run.coop){openMenu();return;}startRun(run.heroId,run.mapId,{nm:run.nm,mod:run.mod});};
+  $('#ovAgain').onclick=()=>{sfx('ui');if(run.coop){openMenu();return;}if(run.won&&!run.mod){const nx=nextMap(run.mapId);sel.map=nx&&mapUnlocked(nx)?nx:run.mapId;}else sel.map=run.mapId;sel.picked=true;chSel=null;renderSelect();setState('select');};
   $('#ovMenu').onclick=()=>{sfx('ui');openMenu();};
 }
 
@@ -5125,8 +5148,12 @@ const SET_DROP=.25,SET_PITY=3; // finale win: 25 % (+5 % per Nightmare tier), th
 function setOwned(id){const o={};for(const it of save.inv||[])if(it.set===id)o[it.s]=1;return o;}
 function setCount(h,id){const eq=(save.eq&&save.eq[h])||{};let n=0;for(const k of SLOT_IDS){const it=eq[k]&&itemById(eq[k]);if(it&&it.set===id)n++;}return n;}
 // a set piece: a slot the player does not own yet if there is one, stats from the piece's own list at epic strength
-function makeSetItem(id,slot){const S=SETS[id];if(!slot){const own=setOwned(id),miss=SLOT_IDS.filter(k=>!own[k]);slot=pick(miss.length?miss:SLOT_IDS);}
-  const st={};for(const k of S.pieces[slot].st)st[k]=rollStat(k,3,.55+Math.random()*.45);return {u:newUid(),s:slot,r:3,lv:0,st,set:id};}
+// 08a: a set piece has its own rarity (by Nightmare tier) and is a random piece; colours follow the rarity like any item
+const SET_RAR=[[0,50,35,13,2],[0,30,40,25,5],[0,15,40,35,10],[0,5,30,45,20]],SET_TRE=[0,0,65,30,5];
+function rollW(w){let x=Math.random()*w.reduce((a,b)=>a+b,0);for(let i=0;i<w.length;i++){x-=w[i];if(x<0)return i;}return w.length-1;}
+const setRarity=nm=>rollW(SET_RAR[clamp(nm|0,0,3)]);
+function makeSetItem(id,slot,r,q){const S=SETS[id];if(!slot)slot=pick(SLOT_IDS);if(r==null)r=setRarity(0);
+  const st={};for(const k of S.pieces[slot].st)st[k]=rollStat(k,r,q!=null?q:.55+Math.random()*.45);return {u:newUid(),s:slot,r,lv:0,st,set:id};}
 const ECON={
  chests:[{id:'wood',name:_t('Dřevěná truhla'),cost:250,odds:[70,25,5,0,0]},
          {id:'iron',name:_t('Železná truhla'),cost:750,odds:[35,40,20,5,0],pity:{r:3,n:10}},
@@ -5211,12 +5238,15 @@ function upgradeItem(u){const it=itemById(u);if(!it||it.lv>=10)return false;cons
   if(save.coins<c.gold||save.mats[c.matId]<c.mat)return false;save.coins-=c.gold;save.mats[c.matId]-=c.mat;it.lv++;persist();return true;}
 function dismantleItem(u){const it=itemById(u);if(!it||equippedBy(u))return false;const c=ECON.refund(it);
   save.coins+=c.gold;for(const k in c.m)save.mats[k]=(save.mats[k]||0)+c.m[k];save.inv=save.inv.filter(i=>i.u!==u);persist();return c;}
-function mergeCandidates(r){return save.inv.filter(i=>i.r===r&&!i.lg&&!i.set&&!equippedBy(i.u)).sort((a,b)=>(a.lv-b.lv)||(Object.values(a.st).reduce((s,v)=>s+v,0)-Object.values(b.st).reduce((s,v)=>s+v,0)));}
-const mergeUsed=r=>mergeCandidates(r).slice(0,3);
+const stSum=i=>Object.values(i.st||{}).reduce((s,v)=>s+v,0);
+function mergeGroups(){const g={};for(const i of save.inv){if(i.lg||i.r>=4||equippedBy(i.u))continue;const k=i.s+'|'+i.r+'|'+(i.set||'');(g[k]=g[k]||[]).push(i);}
+  for(const k in g)g[k].sort((a,b)=>(a.lv-b.lv)||(stSum(a)-stSum(b)));return g;}
+function mergeCandidates(key){return mergeGroups()[key]||[];}
+const mergeUsed=key=>mergeCandidates(key).slice(0,3);
 function mergeRefund(used){const o={gold:0};for(const i of used){const v=upInvest(i);o.gold+=Math.floor(v.gold/2);for(const k in v.m)o[k]=(o[k]||0)+Math.floor(v.m[k]/2);}return o;}
-function doMerge(r,q,slot){const c=mergeCandidates(r);if(r>=4||c.length<3)return null;const used=c.slice(0,3);slot=SLOTS[slot]?slot:used[0].s;
+function doMerge(key,q){const c=mergeCandidates(key);const [slot,r0,set]=String(key).split('|'),r=+r0;if(!(r<4)||c.length<3)return null;const used=c.slice(0,3);
   const back=mergeRefund(used);save.coins+=back.gold;for(const m of MAT_IDS)if(back[m])save.mats[m]+=back[m];
-  save.inv=save.inv.filter(i=>!used.includes(i));const it=makeItem(r+1,slot,q);it.back=back.gold?back:null;addItem(it);persist();return it;}
+  save.inv=save.inv.filter(i=>!used.includes(i));const it=set?makeSetItem(set,slot,r+1,q):makeItem(r+1,slot,q);it.back=back.gold?back:null;addItem(it);persist();return it;}
 
 // ----- hero level -----
 function heroUpCost(h){return ECON.heroCost(heroLv(h));}
@@ -5255,7 +5285,7 @@ function runRewards(won){
     const lg=FIN_LEG[R.mapId];if(lg&&(R.nm||0)>=3&&Math.random()<.25){const it=makeItem(4,null,null,lg);addItem(it);out.leg=it;}
     const sid=SET_OF_CH[CH_OF[R.mapId].id];if(sid){save.setP=save.setP||{};const miss=save.setP[sid]||0;
       // the first win of a finale on each Nightmare tier always gives a piece; otherwise a chance with pity
-      if((nmFirst&&!R.coop)||miss>=SET_PITY||Math.random()<SET_DROP+.05*(R.nm||0)){const it=makeSetItem(sid);addItem(it);out.set=it;save.setP[sid]=0;}else save.setP[sid]=miss+1;
+      if((nmFirst&&!R.coop)||miss>=SET_PITY||Math.random()<SET_DROP+.05*(R.nm||0)){const it=makeSetItem(sid,null,setRarity(R.nm||0));addItem(it);out.set=it;save.setP[sid]=0;}else save.setP[sid]=miss+1;
       save.chT=save.chT||{};if(!save.chT[CH_OF[R.mapId].id])out.tre=1;}}
   if(R.mod&&!R.coop&&(won||R.t>=180)&&save.daily.chal!==today()){save.daily.chal=today();achInit().tot.dc++;save.mats[mid]+=20;const it=makeItem(rollRarity(ECON.chests[1]));addItem(it);out.daily=it;}
   return out;}
@@ -5300,7 +5330,7 @@ const ITEM_ART={
  sun_ring:{pal:{a:'#f6c744',c:'#c28a10',r:'#ff7a3a',y:'#fff0a0'},rows:['...r.r','....rr','...ryy','..rryy','...ryy','..aarr','.ca...','.a....','.a....','.c....','..cccc','......']}};
 // item picture: base items by slot and tier (the gem takes the rarity colour), set pieces have their own art
 function itemSpr(sl,r,set){const k=set?set+'_'+sl:sl+Math.min(3,r),key=k+':'+r;if(itemSprCache[key])return itemSprCache[key];const A=ITEM_ART[k]||ITEM_ART[sl+'0'];
-  return itemSprCache[key]=buildSprite(A.rows,{pal:Object.assign({g:RAR[Math.max(1,r)].col},A.pal)});}
+  const rc=RAR[Math.max(1,r)].col;return itemSprCache[key]=buildSprite(A.rows,{pal:set?Object.assign({},A.pal,{g:rc,e:rc}):Object.assign({g:rc},A.pal)});}
 const itIcon=it=>dataUrl(itemSpr(it.s,it.r,it.set));
 function matIcon(m){return dataUrl(SPR.icon[m]);}
 // big amounts shortened so the currency bars never grow: 9999, 12,3k, 456k, 1,2M
@@ -5326,11 +5356,11 @@ function itemCardHtml(it){const S=itemStats(it),R=RAR[it.r],col=it.set?SETS[it.s
   return '<div class="ic-head"><img alt="" src="'+itIcon(it)+'"><div><h3 style="color:'+col+'">'+itemName(it)+(it.lv?' +'+it.lv:'')+'</h3><small>'+(it.set?_t('Set kapitoly ')+ROMAN_CH[CHAPTERS.findIndex(c=>c.id===SETS[it.set].ch)]:R.name)+' · '+SLOTS[it.s].name+'</small></div></div>'+
     '<ul class="ic-st">'+Object.keys(S).map(k=>'<li><span>'+STATS[k].name+'</span><b>'+fmtStat(k,S[k])+'</b></li>').join('')+'</ul>'+
     (it.lg?'<p class="ic-lg">'+LEGS[it.lg].desc+'</p>':'')+(it.set?setInfoHtml(it.set,state==='hero'||$('#itemPop')&&!$('#itemPop').hidden?heroSel:null):'');}
-function tileHtml(it,extra){return '<button class="itile r'+it.r+(it.set?' set set-'+it.set:'')+(extra||'')+'" data-u="'+it.u+'"><img alt="" src="'+itIcon(it)+'">'+(it.lv?'<em>+'+it.lv+'</em>':'')+(equippedBy(it.u)?'<i class="eqd"></i>':'')+(isFresh('item','i'+it.u)?'<i class="nw"></i>':'')+'</button>';}
+function tileHtml(it,extra){return '<button class="itile r'+it.r+(it.set?' set set-'+it.set:'')+(extra||'')+'" data-u="'+it.u+'"><img alt="" src="'+itIcon(it)+'">'+(it.lv?'<em>+'+it.lv+'</em>':'')+(equippedBy(it.u)?'<i class="eqd"></i>':'')+(isFresh('item','i'+it.u)?'<b class="nwt">'+_t('NOVÉ')+'</b>':'')+'</button>';}
 
 // ----- Towers screen: the arsenal (cards taken into a run) and the card collection -----
 let twPick=null;
-const twTile=(c,extra)=>'<button class="ttile r'+c.r+(extra||'')+'" data-u="'+c.u+'"><img alt="" src="'+dataUrl(SPR.tower[c.k])+'">'+(c.lv?'<em>+'+c.lv+'</em>':'')+(isFresh('tw','t'+c.u)?'<i class="nw"></i>':'')+'</button>';
+const twTile=(c,extra)=>'<button class="ttile r'+c.r+(extra||'')+'" data-u="'+c.u+'"><img alt="" src="'+dataUrl(SPR.tower[c.k])+'">'+(c.lv?'<em>+'+c.lv+'</em>':'')+(isFresh('tw','t'+c.u)?'<b class="nwt">'+_t('NOVÉ')+'</b>':'')+'</button>';
 function twStats(c){const D=TOWERS[c.k],S=twStat(c);return [[_t('Poškození'),cz(Math.round(D.dmg*S.dm*10)/10)],[_t('Dosah'),Math.round(D.range*S.rm)],[_t('Zdraví'),Math.round(D.hp*S.hm)],[_t('Útok'),_t('každé ')+cz(Math.round(D.cd*S.cdm*100)/100)+' s'],[_t('Cena v běhu'),Math.round(D.cost*S.cm)+' '+_t('zl.')]];}
 function twLockText(k){const m=TW_UNL[k];return m?_t('Odemkneš výhrou na mapě ')+MAPS[m].name+'.':'';}
 function twCardHtml(c){const R=RAR[c.r],I=TW_INFO[c.k],C=TOWERS[c.k].ch?CHAPTERS.find(x=>x.id===TOWERS[c.k].ch):null;
@@ -5341,8 +5371,8 @@ function twCardHtml(c){const R=RAR[c.r],I=TW_INFO[c.k],C=TOWERS[c.k].ch?CHAPTERS
 function openTowers(){econInit();twPick=null;renderTowers();setState('towers');}
 function renderTowers(){twInit();$('#twMats').innerHTML=matsHtml();const T=save.tw,d=T.deck;
   $('#twDeck').innerHTML=[0,1,2,3,4].map(i=>{const c=twCard(d[i]),b=i===4;
-    return '<button class="tslot'+(b?' bld':'')+(twPick?' pick':'')+(c?' r'+c.r:' empty')+'" data-i="'+i+'">'+(c?'<img alt="" src="'+dataUrl(SPR.tower[c.k])+'"><b>'+TOWERS[c.k].name+'</b><small class="rr" style="color:'+RAR[c.r].col+'">'+RAR[c.r].name+(c.lv?' +'+c.lv:'')+'</small>':'<span class="plus">+</span>')+
-      (b?'<small class="bt"><img alt="" src="'+dataUrl(SPR.hero.builder)+'">'+_t('jen Stavitel')+'</small>':'')+'</button>';}).join('');
+    return '<button class="tslot'+(b?' bld':'')+(twPick?' pick':'')+(c?' r'+c.r:' empty')+'" data-i="'+i+'">'+(c?'<img alt="" src="'+dataUrl(SPR.tower[c.k])+'"><b>'+TOWERS[c.k].name+'</b><small class="rp" style="--rc:'+RAR[c.r].col+'">'+RAR[c.r].name+(c.lv?' +'+c.lv:'')+'</small>':'<span class="plus">+</span>')+
+      (b?'<i class="bt" title="'+_t('jen Stavitel')+'"><img alt="" src="'+dataUrl(SPR.hero.builder)+'"></i>':'')+'</button>';}).join('');
   $('#twHint').textContent=twPick?_t('Ťukni na místo, kam dáš věž ')+TOWERS[twCard(twPick).k].name+'.':_t('Do běhu si bereš 4 věže, Stavitel 5. Nové věže a lepší rarity jsou ve Věžové truhle v Obchodu.');
   $('#twHint').classList.toggle('on',!!twPick);
   const cards=T.cards.slice().sort((a,b)=>T_IDS.indexOf(a.k)-T_IDS.indexOf(b.k)||(b.r-a.r)||(b.lv-a.lv));
@@ -5359,7 +5389,7 @@ function renderTowers(){twInit();$('#twMats').innerHTML=matsHtml();const T=save.
 // card detail: upgrade +1, put into the arsenal, merge 3 into the next rarity, dismantle
 function twMergeSet(c){return save.tw.cards.filter(x=>x.k===c.k&&x.r===c.r&&!save.tw.deck.slice(0,5).includes(x.u)).sort((a,b)=>(a.u===c.u?-1:b.u===c.u?1:a.lv-b.lv)).slice(0,3);}
 const twRefund=c=>{let g=0,m=0;for(let l=0;l<c.lv;l++){const k=twUpCost({k:c.k,r:c.r,lv:l});g+=k.gold;m+=k[twMat(c.k)];}return{gold:15*(c.r+1)*(c.r+1)+Math.floor(g/2),[twMat(c.k)]:3*(c.r+1)+Math.floor(m/2)};};
-function openTwCard(u){const c=twCard(u);if(!c)return;const pop=$('#twPop'),inD=save.tw.deck.slice(0,5).includes(u),up=c.lv<TW_UPMAX?twUpCost(c):null,ok=up&&save.coins>=up.gold&&MAT_IDS.every(m=>!up[m]||save.mats[m]>=up[m]);
+function openTwCard(u){const c=twCard(u);if(!c)return;if(seeOne('t'+u)&&state==='towers')renderTowers();const pop=$('#twPop'),inD=save.tw.deck.slice(0,5).includes(u),up=c.lv<TW_UPMAX?twUpCost(c):null,ok=up&&save.coins>=up.gold&&MAT_IDS.every(m=>!up[m]||save.mats[m]>=up[m]);
   const ms=c.r<4?twMergeSet(c):[],rf=twRefund(c);
   pop.innerHTML='<div class="pop-card tpop r'+c.r+'">'+twCardHtml(c)+'<div class="pop-btns">'+
     '<button class="btn sm" id="twDeckBtn"'+(inD?' disabled':'')+'>'+(inD?_t('Je v arzenálu'):_t('Dát do arzenálu'))+'</button>'+
@@ -5496,7 +5526,7 @@ function petCardHtml(c){const R=RAR[c.r],D=PETS[c.k];
     '<div class="tperk"><p class="on"><i style="--rc:'+R.col+'">★</i><span>'+D.ab+'</span></p></div>';}
 function openPets(){econInit();petInit();renderPets();setState('pets');}
 function renderPets(){petInit();$('#ptMats').innerHTML=matsHtml();const S=save.pets,cur=petCard(S.sel);
-  $('#ptSlot').innerHTML=cur?'<button class="tslot r'+cur.r+'" id="ptCur"><img alt="" src="'+dataUrl(SPR.pet[cur.k])+'"><b>'+PETS[cur.k].name+'</b><small class="rr" style="color:'+RAR[cur.r].col+'">'+RAR[cur.r].name+(cur.lv?' +'+cur.lv:'')+'</small></button>':'';
+  $('#ptSlot').innerHTML=cur?'<button class="tslot r'+cur.r+'" id="ptCur"><img alt="" src="'+dataUrl(SPR.pet[cur.k])+'"><b>'+PETS[cur.k].name+'</b><small class="rp" style="--rc:'+RAR[cur.r].col+'">'+RAR[cur.r].name+(cur.lv?' +'+cur.lv:'')+'</small></button>':'';
   $('#ptHint').textContent=_t('Do běhu bereš jednoho mazlíčka. Nové a vzácnější najdeš v Mazlíčkově truhle v Obchodu.');
   const cards=S.cards.slice().sort((a,b)=>PET_IDS.indexOf(a.k)-PET_IDS.indexOf(b.k)||(b.lv-a.lv));
   $('#ptCount').textContent=cards.length;$('#ptGrid').innerHTML=cards.map(c=>petTile(c,c.u===S.sel?' in':'')).join('');
@@ -5535,13 +5565,15 @@ function renderHero(){
   const eq=save.eq[h]||{},sl=$('#hSlots');sl.innerHTML='';
   for(const s of SLOT_IDS){const it=eq[s]&&itemById(eq[s]);const b=document.createElement('button');b.className='slot'+(it?' r'+it.r+(it.set?' set set-'+it.set:''):'')+(invFilter===s?' on':'');
     b.innerHTML=it?'<img alt="" src="'+itIcon(it)+'"><span>'+itemName(it)+(it.lv?' +'+it.lv:'')+'</span>':'<img class="ghost" alt="" src="'+dataUrl(itemSpr(s,0))+'"><span>'+SLOTS[s].name+'</span>';
-    b.onclick=()=>{sfx('ui');if(it)openItem(it.u);else{invFilter=invFilter===s?null:s;renderHero();}};sl.appendChild(b);}
+    b.onclick=()=>{sfx('ui');invFilter=s;renderHero();if(it)openItem(it.u);};sl.appendChild(b);}
+  {const cnt=k=>save.inv.filter(i=>!k||i.s===k).length,cats=$('#invCats');cats.innerHTML=[null,...SLOT_IDS].map(k=>'<button class="'+((invFilter||null)===k?'on':'')+'" data-k="'+(k||'')+'" aria-label="'+(k?SLOTS[k].name:_t('Vše'))+'">'+(k?'<img alt="" src="'+dataUrl(itemSpr(k,1))+'">':'<b>'+_t('Vše')+'</b>')+'<small>'+cnt(k)+'</small></button>').join('');
+   cats.querySelectorAll('button').forEach(b=>b.onclick=()=>{const k=b.dataset.k||null;if(invFilter===k)return;invFilter=k;sfx('ui');renderHero();});}
   const list=save.inv.filter(i=>!invFilter||i.s===invFilter).sort((a,b)=>(b.r-a.r)||(b.lv-a.lv));
   $('#invCount').textContent=invFilter?SLOTS[invFilter].name+' · '+list.length:save.inv.length+' / '+INV_MAX+_t(' předmětů');
   const g=$('#invGrid');g.innerHTML=list.length?list.map(it=>tileHtml(it)).join(''):_t('<p class="hint">Inventář je prázdný. Truhly koupíš v Obchodě.</p>');
   g.querySelectorAll('.itile').forEach(b=>b.onclick=()=>{sfx('ui');openItem(b.dataset.u);});
 }
-function openItem(u){const it=itemById(u);if(!it)return;const pop=$('#itemPop'),h=heroSel,who=equippedBy(u),on=who===h,c=ECON.upCost(it),rf=ECON.refund(it);
+function openItem(u){const it=itemById(u);if(!it)return;if(seeOne('i'+u)&&state==='hero')renderHero();const pop=$('#itemPop'),h=heroSel,who=equippedBy(u),on=who===h,c=ECON.upCost(it),rf=ECON.refund(it);
   pop.innerHTML='<div class="pop-card r'+it.r+(it.set?' set set-'+it.set:'')+'">'+itemCardHtml(it)+
     (who&&!on?_t('<p class="hint">Nosí ho ')+HEROES[who].name+'.</p>':'')+
     '<div class="pop-btns"><button class="btn sm" id="ipEq">'+(on?_t('Sundat'):_t('Nasadit ')+(HERO_DAT[h]||HEROES[h].name))+'</button>'+
@@ -5574,38 +5606,35 @@ function renderChests(){
     c.innerHTML='<img alt="" src="'+dataUrl(SPR.icon[spr])+'"><div class="t"><h3>'+ttl+'</h3><small>'+sub+'</small><div class="odds">'+C.odds.map((o,i)=>o?'<span style="color:'+RAR[i].col+'">'+o+' %</span>':'').join('')+'</div><small class="pity">'+RAR[C.pity.r].name+_t(' nejpozději za ')+(C.pity.n-(save.pity[pk]||0))+_t(' truhel')+'</small>'+missHint(cost)+'</div>';
     const b=document.createElement('button');b.className='btn sm';b.innerHTML='<span class="costs">'+costHtml(cost)+'</span>';b.disabled=!petCan(cost);
     b.onclick=()=>{const c2=mk();if(!c2){note(_t('Chybí ti zlato nebo materiál'));return;}sfx('coin');revealItem(c2,pk);renderChests();};c.appendChild(b);box.appendChild(c);}
-  // forge: merge 3 of a kind into the next rarity, by a rhythm ritual
-  const fb=$('#forgeList');fb.innerHTML='';
-  for(let r=0;r<4;r++){const n=mergeCandidates(r).length,row=document.createElement('div');row.className='card chest';
-    row.innerHTML='<img alt="" src="'+dataUrl(itemSpr('amulet',r+1))+'"><div class="t"><h3><span style="color:'+RAR[r].col+'">3× '+RAR[r].name+'</span> → <span style="color:'+RAR[r+1].col+'">'+RAR[r+1].name+_t('</span></h3><small>Volných předmětů: ')+n+_t(' (nenasazené, bez legendárních)</small></div>');
-    const b=document.createElement('button');b.className='btn sm';b.textContent=_t('Sloučit');b.disabled=n<3;
-    b.onclick=()=>{if(mergeCandidates(r).length<3)return;sfx('ui');openMerge(r);};
-    row.appendChild(b);fb.appendChild(row);}
 }
-// merge dialog: which slot the new item should be, which 3 items go in, what comes back from their upgrades
-function openMerge(r){const used=mergeUsed(r),back=mergeRefund(used),pop=$('#newsPop');let slot=null;
-  const draw=()=>{pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font-size:26px">Sloučení</h2><small>Vyber, jaký předmět chceš dostat (')+RAR[r+1].name.toLowerCase()+'):</small>'+
-    '<div class="mslots">'+SLOT_IDS.map(k=>'<button class="card mslot'+(slot===k?' sel':'')+'" data-s="'+k+'"><img alt="" src="'+dataUrl(itemSpr(k,r+1))+'"><b>'+SLOTS[k].name+'</b></button>').join('')+'</div>'+
-    _t('<small>Použijí se: ')+used.map(i=>'<b style="color:'+RAR[i.r].col+'">'+itemName(i)+(i.lv?' +'+i.lv:'')+'</b>').join(', ')+'.</small>'+
-    (back.gold?_t('<p class="ic-lg">Tyhle předměty jsou vylepšené. Polovinu vylepšení dostaneš zpátky: ')+costHtml(back).replace(/ no/g,'')+'</p>':'')+
-    '<div class="pop-btns"><button class="btn" id="mGo"'+(slot?'':' disabled')+'>'+(slot?_t('Sloučit · ')+SLOTS[slot].name:_t('Vyber předmět'))+_t('</button><button class="btn alt sm" id="newsOk">Zpět</button></div></div>');
-    pop.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{slot=b.dataset.s;sfx('ui');draw();});
-    $('#newsOk').onclick=()=>{pop.hidden=true;sfx('ui');};
-    $('#mGo').onclick=()=>{if(!slot)return;pop.hidden=true;sfx('ui');startFuse({id:'amulet',a:null,b:null,merge:r},0,{
-      title:_t('Sloučení!'),sub:'3× '+RAR[r].name+' → '+RAR[r+1].name+' · '+SLOTS[slot].name,icon:dataUrl(itemSpr(slot,r+1)),
-      done:(per,good)=>{const q=Math.min(1,.25+per*.19+good*.08);const it=doMerge(r,q,slot);
-        if(it){const b=it.back;delete it.back;revealItem(it,null,per===4?_t('Perfektní sloučení!'):_t('Sloučeno!'));if(b)setTimeout(()=>note(_t('Z vylepšení zpět: +')+b.gold+_t(' zlata')+MAT_IDS.filter(m=>b[m]).map(m=>', +'+b[m]+' '+MAT_NAME[m]).join(''),3200),1600);}
-        else setState('chests');}});};};
-  draw();pop.hidden=false;}
+// ----- Kovárna (08a): merging 3 identical pieces (same slot, rarity, set) into one of the next rarity -----
+function openForge(){econInit();renderForge();setState('forge');}
+function renderForge(){$('#fMats').innerHTML=matsHtml();const fb=$('#forgeList'),G=mergeGroups();
+  const keys=Object.keys(G).filter(k=>G[k].length>=3).sort((a,b)=>(+b.split('|')[1])-(+a.split('|')[1])||a.localeCompare(b));
+  fb.innerHTML=keys.length?'':'<div class="card"><p class="hint" style="margin:0">'+_t('Zatím nemáš 3 stejné kusy. Potřebuješ 3 předměty stejného druhu a stejné rarity (kusy setu ze stejného setu). Nasazené a legendární předměty se neslučují.')+'</p></div>';
+  for(const k of keys){const [sl,r0,set]=k.split('|'),r=+r0,n=G[k].length,row=document.createElement('div');row.className='card chest';
+    row.innerHTML='<img alt="" src="'+dataUrl(itemSpr(sl,r+1,set||undefined))+'"><div class="t"><h3>3× <span style="color:'+RAR[r].col+'">'+RAR[r].name+'</span> → <span style="color:'+RAR[r+1].col+'">'+RAR[r+1].name+'</span></h3><small>'+(set?SETS[set].pieces[sl].name+' · '+SETS[set].name:SLOTS[sl].name)+' · '+_t('máš ')+n+_t(' ks')+'</small></div>';
+    const b=document.createElement('button');b.className='btn sm';b.textContent=_t('Sloučit');b.onclick=()=>{if(mergeCandidates(k).length<3)return;sfx('ui');openMerge(k);};row.appendChild(b);fb.appendChild(row);}}
+function openMerge(key){const used=mergeUsed(key),back=mergeRefund(used),pop=$('#newsPop'),[sl,r0,set]=key.split('|'),r=+r0,nm=set?SETS[set].pieces[sl].name:SLOTS[sl].name;
+  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Sloučení')+'</h2><div class="mslots"><div class="card mslot sel"><img alt="" src="'+dataUrl(itemSpr(sl,r+1,set||undefined))+'"><b style="color:'+RAR[r+1].col+'">'+nm+'</b><small>'+RAR[r+1].name+'</small></div></div>'+
+    '<small>'+_t('Použijí se: ')+used.map(i=>'<b style="color:'+RAR[i.r].col+'">'+itemName(i)+(i.lv?' +'+i.lv:'')+'</b>').join(', ')+'.</small>'+
+    (back.gold?'<p class="ic-lg">'+_t('Tyhle předměty jsou vylepšené. Polovinu vylepšení dostaneš zpátky: ')+costHtml(back).replace(/ no/g,'')+'</p>':'')+
+    '<div class="pop-btns"><button class="btn" id="mGo">'+_t('Sloučit')+'</button><button class="btn alt sm" id="newsOk">'+_t('Zpět')+'</button></div></div>';
+  $('#newsOk').onclick=()=>{pop.hidden=true;sfx('ui');};
+  $('#mGo').onclick=()=>{pop.hidden=true;sfx('ui');startFuse({id:'amulet',a:null,b:null,merge:r},0,{
+    title:_t('Sloučení!'),sub:'3× '+RAR[r].name+' → '+RAR[r+1].name+' · '+nm,icon:dataUrl(itemSpr(sl,r+1,set||undefined)),
+    done:(per,good)=>{const q=Math.min(1,.25+per*.19+good*.08);const it=doMerge(key,q);renderForge();setState('forge');
+      if(it){const b=it.back;delete it.back;revealItem(it,null,per===4?_t('Perfektní sloučení!'):_t('Sloučeno!'),{pop:$('#forgePop'),done:()=>renderForge()});if(b)setTimeout(()=>note(_t('Z vylepšení zpět: +')+b.gold+_t(' zlata')+MAT_IDS.filter(m=>b[m]).map(m=>', +'+b[m]+' '+MAT_NAME[m]).join(''),3200),1600);}}});};
+  pop.hidden=false;}
 // chest opening: the chest shakes and hops three times with the rarity glowing through the seam,
 // then the lid flies off in a burst of light and the item rises out of it; tap to skip
 function revealItem(it,chest,title,opts){const pop=(opts&&opts.pop)||$('#chestPop');if(!it)return;const R=RAR[it.r];
-  pop.innerHTML='<div class="rv"><canvas id="rvCv"></canvas><div class="rv-card pop-card r'+it.r+(it.set?' set set-'+it.set:'')+(it.k?' tpop':'')+'"><h2 class="title" style="color:'+(it.set?SETS[it.set].col:R.col)+'">'+(title||(it.set?_t('Kus setu!'):R.name+'!'))+'</h2>'+(it.k?(it.pet?petCardHtml(it):twCardHtml(it)):itemCardHtml(it))+
+  pop.innerHTML='<div class="rv"><canvas id="rvCv"></canvas><div class="rv-card pop-card r'+it.r+(it.set?' set set-'+it.set:'')+(it.k?' tpop':'')+'"><h2 class="title" style="color:'+R.col+'">'+(title||(it.set?_t('Kus setu!'):R.name+'!'))+'</h2>'+(it.k?(it.pet?petCardHtml(it):twCardHtml(it)):itemCardHtml(it))+
     _t('<div class="pop-btns"><button class="btn sm" id="rvOk">Super</button></div></div><p class="rv-skip" id="rvSkip">Ťukni pro přeskočení</p></div>');
   pop.className='popwrap rvwrap';pop.hidden=false;
   if(!opts&&state!=='chests'){renderChests();setState('chests');}
   const cv=$('#rvCv'),dpr=Math.min(3,window.devicePixelRatio||1),W=260,H=240;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
-  const g=cv.getContext('2d'),spr=chest?SPR.icon['chest_'+chest]:null,isp=it.pet?SPR.pet[it.k]:it.k?SPR.tower[it.k]:itemSpr(it.s,it.r,it.set),col=it.set?SETS[it.set].col:R.col,dk=R.dk;
+  const g=cv.getContext('2d'),spr=chest?SPR.icon['chest_'+chest]:null,isp=it.pet?SPR.pet[it.k]:it.k?SPR.tower[it.k]:itemSpr(it.s,it.r,it.set),col=R.col,dk=R.dk;
   const T_OPEN=spr?1.55:0,parts=[];let t=0,last=performance.now(),opened=false,shown=false,hops=0,done=false;
   const card=pop.querySelector('.rv-card'),ease=x=>1-Math.pow(1-x,3);
   const burst=()=>{opened=true;sfx(it.r>=3?'win':it.r>=1?'level':'coin');try{navigator.vibrate&&navigator.vibrate(it.r>=3?[30,40,60]:25);}catch(e){}
@@ -6272,6 +6301,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08a',d:'8. 11. 2026',t:_t('Kovárna a přehlednější výbava'),items:[_t('Nové tlačítko <b>Kovárna</b> v menu: sloučení předmětů a Vylepšení. Obchod má jen truhly, Síň slávy je nahoře u ikon.'),_t('Ve Vybavení přepínáš druh výbavy tlačítky nad inventářem. Nové předměty mají štítek <b>NOVÉ</b>, zmizí po prvním ťuknutí.'),_t('Barva předmětu vždy znamená raritu. Kusy setu padají v různých raritách (v Nočních můrách lepší) a každý hráč dostane z finále vlastní náhodný kus.'),_t('Sloučení: 3 stejné kusy stejné rarity dají jeden o raritu vyšší.'),_t('Po běhu je jen tlačítko <b>Pokračovat</b>, po výhře rovnou s další mapou. Poklad kapitoly je oddělený od map.')]},
  {v:'2026-11-07z',d:'7. 11. 2026',t:_t('Mazlíčci'),items:[_t('Do běhu si bereš <b>mazlíčka</b>: vlka, havrana, sovu, lišku, netopýra, salamandra, dráče, nebo dokonce fénixe. Běhá za tebou, sám útočí a má vlastní schopnost.'),_t('Vybereš ho ve <b>Vybavení</b> na nové záložce Mazlíčci. Nové najdeš v <b>Mazlíčkově truhle</b> v Obchodu, mazlíčky můžeš vylepšovat až na +10.'),_t('Věžová i Mazlíčkova truhla teď stojí zlato a <b>Magmatit</b>. V kooperaci mazlíčka zatím nemáš.')]},
  {v:'2026-11-07y',d:'7. 11. 2026',t:_t('Kapitola III: Hlubiny'),items:[_t('Kapitola <b>Hlubiny</b> je kompletní: po Lávových dolech přijdou Kovárny trpaslíků, Podzemní řeka, Krystalové jeskyně a finále <b>Srdce hory</b>, kde země vybuchuje a čeká Magmový titán.'),_t('Noví nepřátelé: Ohnivý skřet, Magmový sliz a Duch horníka. Čtyři noví bossové.'),_t('Nové věže <b>Výheň</b> (lije lávu pod nepřátele) a <b>Parní beran</b> (prorazí celou řadu). Set kapitoly <b>Výstroj kováře hor</b> a legendárka z finále.'),_t('Po vstupu do kapitoly III si můžeš koupit <b>Kovářku</b>.'),_t('<b>Karavana</b>: věže postavené u velblouda teď jedou s karavanou na vozech.'),_t('Spodní lišta s tlačítkem Vyrazit už nemá tmavý pruh.')]},
  {v:'2026-11-07x',d:'7. 11. 2026',t:_t('Noční můry jako výzva celé kapitoly'),items:[_t('<b>Noční můry</b> jsou teď obtížnost celé kapitoly se 3 stupni. Vybereš ji v Přípravě nad mapami kapitoly.'),_t('Každý stupeň mapy znovu zamkne, takže jdeš postupně až k finálnímu bossovi. Další stupeň odemkne výhra finále na tom předchozím.'),_t('<b>První výhra finále</b> na každém stupni dá jistý kus setu kapitoly. S pokladem kapitoly tak složíš celý set.'),_t('Stupně jsou strmější než dřív. Tvůj dosavadní postup na Nočních můrách zůstal.')]},
@@ -6449,7 +6479,7 @@ requestAnimationFrame(()=>{const sp=document.getElementById('splash');if(sp){sp.
 requestAnimationFrame(()=>setTimeout(boot,0));
 
 /* debug / test hooks */
-window.__krypta={PETS,PET_IDS,petRoll,petInit,openPets,renderPets,openPetCard,openChestShop,openPetChest,openTowerChest,petRevive,guestStartRun,makeEnemy,render,PQ,mapOpenAt,nmWon,nmTiers,SPR,MAPS,CHAPTERS,mapsBuilt,buildMap,mapThumb,mapUnlocked,renderSelect,renderCampaign,get MF(){return MF},openGuide,renderGuide,finishFuse,afterOption,tmRow,explode,spawnEnemy,hurtEnemy,killEnemy,get run2(){return run},upInvest,mergeRefund,openMerge,matInfo,musicRender,get musicErr(){return M.err},finish,ACH,achTrack,achClaim,achProg,openMaster,openNews,NEWS,shareImage,shareResult,seedRng,tutTick,titleOf,get ac(){return ac},get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
+window.__krypta={_ev:x=>eval(x),PETS,PET_IDS,petRoll,petInit,openPets,renderPets,openPetCard,openChestShop,openPetChest,openTowerChest,petRevive,guestStartRun,makeEnemy,render,PQ,mapOpenAt,nmWon,nmTiers,SPR,MAPS,CHAPTERS,mapsBuilt,buildMap,mapThumb,mapUnlocked,renderSelect,renderCampaign,get MF(){return MF},openGuide,renderGuide,finishFuse,afterOption,tmRow,explode,spawnEnemy,hurtEnemy,killEnemy,get run2(){return run},upInvest,mergeRefund,openMerge,matInfo,musicRender,get musicErr(){return M.err},finish,ACH,achTrack,achClaim,achProg,openMaster,openNews,NEWS,shareImage,shareResult,seedRng,tutTick,titleOf,get ac(){return ac},get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
   openMenu,ON,onlineInit,makeSetItem,addItem,SETS,renderSelect,setBoardRows:r=>{boardRows=r;renderBoard();},CO,NET,LO,econInit,makeItem,openChest,heroBonus,heroUp,upgradeItem,doMerge,dismantleItem,mergeCandidates,openHero,openChestShop,openCodex,openQuests,qEnsure,qCommit,qClaim,qClaimMs,qClaimWanted,qReroll,qSnap,spawnWanted,qNewDay,dailyInfo,runRewards,itemById,ECON,openCoop,coHostStart,coJoin,coHostGo,withPl,players,openBoard,saveNick,fusable,startFuse,fuseTap,audioBeat,FUSIONS,get FZ(){return FZ},buildTower,upgradeTower,repairCrystal,force:null,god:false,MAPS,WEAPONS,PASSIVES,ENEMY_DEFS,setSel:(h,m)=>{sel.hero=h;sel.map=m;}};
 })();
 </script>

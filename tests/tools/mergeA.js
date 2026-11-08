@@ -1,0 +1,13 @@
+const {chromium}=require('playwright');
+(async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:393,height:852},hasTouch:true,isMobile:true,deviceScaleFactor:2,locale:'cs-CZ'});
+const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));await p.goto('file://'+process.cwd()+'/off.html');await p.waitForTimeout(500);
+const E=x=>p.evaluate(x=>window.__krypta._ev(x),x);
+await E("save.sound=false;save.music=false;save.inv=[];save.eq={};for(let i=0;i<3;i++)addItem(makeItem(1,'ring'));for(let i=0;i<4;i++)addItem(makeSetItem('bone','helm',2));addItem(makeItem(2,'ring'));addItem(makeSetItem('sun',null,4));for(const C of CHAPTERS.slice(0,1))for(const m of C.maps)save.cleared[m]=true;save.fin={trun:1};save.chT={};persist();openForge()");
+await p.waitForTimeout(400);await p.screenshot({path:'/tmp/m-forge.png'});
+console.log('groups',await E("JSON.stringify(Object.fromEntries(Object.entries(mergeGroups()).map(([k,v])=>[k,v.length])))"));
+console.log('merge ring',await E("const it=doMerge('ring|1|',.6);JSON.stringify({s:it.s,r:it.r,set:it.set||null})"));
+console.log('merge set',await E("const it=doMerge('helm|2|bone',.6);JSON.stringify({s:it.s,r:it.r,set:it.set||null})"));
+const rs=await E("const o={};for(let i=0;i<4000;i++){const r=setRarity(3);o[r]=(o[r]||0)+1;}const sl={};for(let i=0;i<2000;i++){const it=makeSetItem('bone',null,setRarity(0));sl[it.s]=(sl[it.s]||0)+1;}JSON.stringify({nm3:o,slots:sl})");console.log(rs);
+await E("openHero()");await p.waitForTimeout(400);await p.screenshot({path:'/tmp/m-hero.png',fullPage:true});
+await E("chSel=0;renderSelect();setState('select')");await p.waitForTimeout(400);await p.screenshot({path:'/tmp/m-sel.png',fullPage:true});
+console.log(JSON.stringify(errs));await b.close();})();
