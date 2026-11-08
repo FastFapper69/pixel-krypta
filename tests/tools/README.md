@@ -12,6 +12,7 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `perf.js` – fps
 - `econB.js` – Ekonomika 2.0: převod staré pozice, ceny, odměny (Úlomky, Esence), denní limity truhel, Přebroušení, Nekonečná krypta; `shotB.js` – screenshoty jejích obrazovek; `econsim.py [param=hodnota]` – dlouhodobá simulace (Python)
 - `econ1.js`, `econ2.js` (stará ekonomika do 08a), `legs.js` – ekonomika, truhly, legendárky
+- `heroesC.js` – Zbrojmistr (6 slotů na zbraň, druhá zbraň od úrovně 10) a Krotitel (dva mazlíčci, talenty) + screenshoty
 - `shotA.js`, `scrollshot.js`, `mergeA.js` – screenshoty a test úprav UI z 8. 11. (Kovárna, kategorie, sloučení)
 - `audio.js` – obnova zvuku po zamčení
 - `chestanim.js`, `menushot.js`, `thumbs.js` – screenshoty animace truhly, menu, pohlednic map

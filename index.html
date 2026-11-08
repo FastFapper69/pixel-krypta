@@ -352,7 +352,7 @@ html,body,#stage{touch-action:none}
 .tslot img{width:30px;height:60px;object-fit:contain;image-rendering:pixelated}.tslot b{font-size:11px;line-height:1.1;text-align:center;min-height:2.2em;display:flex;align-items:center}
 .tslot.bld{box-shadow:inset 0 0 0 3px #6a5a8a}.tslot.empty{box-shadow:inset 0 0 0 3px var(--line);justify-content:center}.tslot .plus{font-size:26px;color:var(--muted);line-height:1}
 .tslot .bt{position:absolute;top:4px;right:4px;width:20px;height:20px;display:grid;place-items:center;background:#0c0912;box-shadow:0 0 0 2px var(--line)}.tslot .bt img{width:16px;height:16px;image-rendering:pixelated}
-.ptslot{display:flex;justify-content:center}.ptslot .tslot{width:112px}.ptslot .tslot img{height:60px;width:auto}
+.ptslot{display:flex;justify-content:center;gap:10px}.ptslot .tslot{width:112px}.ptslot .tslot img{height:60px;width:auto}
 .tslot.pick{animation:tPick .7s ease-in-out infinite alternate}@keyframes tPick{to{box-shadow:inset 0 0 0 3px #ffe58a,0 0 14px #f6c74488;background-color:var(--panel-hi)}}
 #twHint.on{color:var(--gold);font-weight:700}
 .tstars{display:flex;gap:2px}.tstars i{width:7px;height:7px;background:#2a2238;box-shadow:inset 0 0 0 1px #4a3e60}.tstars i.pk{transform:rotate(45deg) scale(.9)}.tstars i.on{background:var(--gold);box-shadow:none}
@@ -1058,6 +1058,11 @@ const HEROES={
   '.....c','....cc','...aaa','..aaaa','.aaaaa','.fffff','.fpfff','..ffff','.mmmmm','mmmymm','.mmmmm','..m..m','..n..n']},
  builder:{name:_t('Stavitel'),desc:_t('Věže za 60 % ceny, začíná s jednou.'),start:'axe',hp:15,armor:0,dmg:0,spd:0,cost:250,builder:true,pal:{},rows:[
   '..yyyy','.yyyyy','yyyyyy','.fffff','.fpfff','..ffff','.ooooo','oouuuu','ouuuuu','.uuuuu','..u..u','..n..n']},
+ // 08c: heroes built around a slot: one more weapon / a second pet; their talents strengthen exactly that
+ warlord:{name:_t('Zbrojmistr'),desc:_t('Unese o zbraň víc: 6 místo 5.'),start:'axe',hp:10,armor:0,dmg:0,spd:0,cost:1000,need:'trun',pal:{s:'#a8b0c0',a:'#8a2a2a',c:'#f6c744',S:'#5a6070'},rows:[
+  's....s','ss..ss','ssssss','.sffff','.sfpff','..ffff','.aaaaa','aacaaa','acaaSa','.aaaaa','..a..a','..n..n']},
+ tamer:{name:_t('Krotitel'),desc:_t('Do běhu si vezme dva mazlíčky.'),start:'rang',hp:15,armor:0,dmg:0,spd:.04,cost:1000,need:'trun',pal:{g:'#5c8a3c',G:'#3a5a24',n:'#8a5a32',b:'#f6c744',d:'#3a2a1a'},rows:[
+  '..gggg','.ggggg','gGgggg','.fffff','.fpfff','..ffff','.nnnnn','nnbnnn','.nnnnn','.nnnnn','..n..n','..d..d']},
  // heroes of future chapters: locked until their chapter exists (soon), each brings its weapon to everyone at hero level 8
  smith:{name:_t('Kovářka'),desc:_t('Pevná ruka. +20 zdraví, brnění +1.'),start:'hammer',hp:20,armor:1,dmg:0,spd:0,cost:1500,need:'doly',pal:{r:'#c8502a',a:'#7a4a2a',c:'#a87048'},rows:[
   '...rrr','..rrrr','.rrfff','.rfpff','..ffff','.ssccc','sscaaa','sscaaa','.ccaaa','..a..a','..n..n']},
@@ -1075,7 +1080,7 @@ const CHEST_PAL={wood:{n:'#8a5a32',l:'#b07a48',d:'#5a3a1e',m:'#6a6a78',y:'#e0b04
   gold:{n:'#d89a28',l:'#ffd86a',d:'#8a5a10',m:'#7a3ab0',y:'#ffffff',Y:'#5a2a80'},
   tower:{n:'#5a6a7a',l:'#8a9aaa',d:'#34404c',m:'#2a8a8a',y:'#7af0d0',Y:'#14404a'},
   pet:{n:'#4a7a4a',l:'#7ab87a',d:'#2a4a2a',m:'#8a5a2a',y:'#ffd27a',Y:'#4a2a10'}};
-const HERO_DAT={knight:_t('Rytíři'),mage:_t('Mágovi'),archer:_t('Lučištníkovi'),builder:_t('Staviteli'),bard:_t('Bardovi'),smith:_t('Kovářce'),shaman:_t('Šamance'),sailor:_t('Námořnici'),astro:_t('Hvězdářce')};
+const HERO_DAT={knight:_t('Rytíři'),mage:_t('Mágovi'),archer:_t('Lučištníkovi'),builder:_t('Staviteli'),bard:_t('Bardovi'),warlord:_t('Zbrojmistrovi'),tamer:_t('Krotiteli'),smith:_t('Kovářce'),shaman:_t('Šamance'),sailor:_t('Námořnici'),astro:_t('Hvězdářce')};
 const SOON_CH={c3:'III',c4:'IV',c5:'V',c6:'VI'};
 
 /* ----- art: icons (8x8, not mirrored) ----- */
@@ -2664,6 +2669,7 @@ const PASSIVES={
 };
 const P_IDS=Object.keys(PASSIVES);
 const MAX_W=5,MAX_P=5,MAX_LV=6,MAX_PLV=5;
+const maxW=()=>MAX_W+(run&&run.heroId==='warlord'?1:0);
 function weaponDiff(id,lv){ // text for upgrading to level lv (1-based, lv>=2)
   const W=WEAPONS[id],a=W.lv[lv-2],b=W.lv[lv-1],parts=[];
   for(const k in b){if(a[k]===b[k])continue;
@@ -3010,7 +3016,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08b';
+const GAME_VER='2026-11-08c';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3119,8 +3125,9 @@ function startRun(heroId,mapId,o){metaInit();
   $('#icoMat').src=matIcon(MAT_OF[mapId]);$('#hudMat').hidden=false;
   if(map.crystal){run.crystal={isCrystal:true,x:map.size/2,y:map.size/2,hp:1300,max:1300,r:9,flash:0,hit:false,calm:0,warn:0,pulse:5,spr:SPR.misc.crystal};run.p.y+=30;run.p.face={x:0,y:1};}
   run.allies=[];mfCall('init');
-  run.deck=runDeck(!!hero.builder);run.tws=runTwStats(!!hero.builder);buildBarInit();run.pet=petStart();
+  run.deck=runDeck(!!hero.builder);run.tws=runTwStats(!!hero.builder);buildBarInit();run.pet=petStart(1);run.pet2=petStart(2);
   addWeapon(hero.start);
+  if(run.heroId==='warlord'&&heroLv(run.heroId)>=10){const pool=['blade','bolt','arrows','fireball','frost','lightning','aura'].filter(w=>WEAPONS[w]&&w!==hero.start);addWeapon(pick(pool));}
   if(hero.builder)addTower(run.deck[0],run.p.x+24,run.p.y,run.tws[run.deck[0]]);
   for(let i=0;i<6;i++)spawnEnemy(chooseEnemy());
   $('#bossbar').hidden=true;$('#toast').classList.remove('on');$('#crbar').hidden=!run.crystal;$('#repBtn').hidden=true;
@@ -3925,7 +3932,7 @@ function levelOptions(){
   const fused=run.fused||{};
   for(const id of W_IDS.filter(wOpen).concat(Object.keys(run.W).filter(i=>WEAPONS[i].ult))){const w=run.W[id];
     if(w&&w.lv<WEAPONS[id].lv.length)opts.push({k:'w',id,lv:w.lv+1});
-    else if(!w&&!fused[id]&&nWeapons()<MAX_W)opts.push({k:'w',id,lv:1});}
+    else if(!w&&!fused[id]&&nWeapons()<maxW())opts.push({k:'w',id,lv:1});}
   for(const id of P_IDS){const l=run.P[id]||0;
     if(l>0&&l<MAX_PLV)opts.push({k:'p',id,lv:l+1});
     else if(!l&&nPassives()<MAX_P)opts.push({k:'p',id,lv:1});}
@@ -4113,7 +4120,7 @@ function renderPauseBuild(){const box=$('#pBuild');if(!box||!run)return;const p=
     (st&&st.dmg>1.005?_t('<span>Poškození <b>+')+pct(st.dmg-1)+'</b></span>':'')+'</div>';
   const row=(id,name,lv,max,sub,cls)=>'<div class="pr'+(cls||'')+'"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><span>'+name+(sub?'<small>'+sub+'</small>':'')+'</span><b>'+lv+(max?' / '+max:'')+'</b></div>';
   const known=(save.codex&&save.codex.f)||{};
-  h+=_t('<h4>Zbraně ')+nWeapons()+' / '+MAX_W+'</h4>';
+  h+=_t('<h4>Zbraně ')+nWeapons()+' / '+maxW()+'</h4>';
   for(const id in run.W){const W=WEAPONS[id],w=run.W[id];
     if(W.ult){h+=row(id,W.name,_t('Úr. ')+ROMAN[w.lv-1],'',w.mul>1?_t('síla z rytmu +')+Math.round((w.mul-1)*100)+' %':'',' ult');continue;}
     const f=FUSIONS.find(f=>f.a===id||f.b===id),mate=f&&(f.a===id?f.b:f.a);
@@ -4319,7 +4326,7 @@ function renderLight(g,ox,oy){
   const p=run.p;L(p.x,p.y-3,74+M.pulse*8,1);{const mt=coMate();if(mt)L(mt.x,mt.y-3,64+M.pulse*8,1);if(mt&&!mt.down&&!p.down){const d=Math.hypot(mt.x-p.x,mt.y-p.y),k=bondStr(d,run.bw);if(k>0)for(let i=1;i<6;i++){const t=i/6;L(p.x+(mt.x-p.x)*t,p.y+(mt.y-p.y)*t-4,14+k*10,.35*k);}}}
   for(const q of run.built.lights)L(q.x,q.y,q.r*(1+.06*M.pulse),q.a||1);
   mfCall('lights',L);if(run.allies)for(const a of run.allies)L(a.x,a.y-4,22,.6);
-  if(run.pet&&!run.pls&&['salamander','drake','phoenix'].includes(run.pet.k))L(run.pet.x,run.pet.y-4,26,.7);if(run.pfire)for(const f of run.pfire)L(f.x,f.y,f.r+8,.6);
+  if(!run.pls)for(const P of [run.pet,run.pet2])if(P&&['salamander','drake','phoenix'].includes(P.k))L(P.x,P.y-4,26,.7);if(run.pfire)for(const f of run.pfire)L(f.x,f.y,f.r+8,.6);
   for(const s of run.shots){if(s.kind==='bolt'||s.kind==='note')L(s.x,s.y,15,.8);else if(s.kind==='fire'||s.kind==='steam')L(s.x,s.y,24,1);}
   for(const s of run.eshots)L(s.x,s.y,10,.6);
   for(const f of run.fx){if(f.k==='boom')L(f.x,f.y,f.max*2,1);else if(f.k==='bolt')L(f.x,f.y,70,1);else if(f.k==='burn')L(f.x,f.y,f.r*1.6,.7);else if(f.k==='meteor'&&f.t>0)L(f.x,f.y,f.rad,.5);
@@ -4450,7 +4457,7 @@ function render(){
   if(run.crystal&&inView(run.crystal,30))list.push(run.crystal);
   for(const q of run.built.props){const hw=q.spr.w/2;if(q.x+hw>cam.x-8&&q.x-hw<cam.x+VW+8&&q.y>cam.y-8&&q.y-q.spr.h<cam.y+VH+8)list.push(q);}
   if(run.carts)for(const c of run.carts)list.push({isCart:true,x:c.x,y:c.y+3,c});
-  if(run.allies)for(const a of run.allies)list.push(a);if(run.pet&&!run.pls&&!isGuest())list.push(run.pet);mfCall('units',list);
+  if(run.allies)for(const a of run.allies)list.push(a);if(!run.pls&&!isGuest()){if(run.pet)list.push(run.pet);if(run.pet2)list.push(run.pet2);}mfCall('units',list);
   list.push(p);{const mt=coMate();if(mt)list.push(mt);}list.sort((a,b)=>a.y-b.y);
   for(const u of list){
     if(u.isCart){const s=mnSprite('cart'),x=RZ(u.x+ox),y=RZ(u.y+oy);shadow(g,x,y,22);blit(g,s.c,s,x,y-s.h+1);continue;}
@@ -4925,7 +4932,7 @@ function bindUi(){
   $('#pSkip').onclick=()=>{if(run&&!run.over&&!run.bossSpawned)run.t=Math.max(run.t,run.map.dur-1);togglePause();};
   $('#pFuse').onclick=()=>{if(!run||run.over)return;const fused=run.fused||{};
     const f=FUSIONS.find(f=>(run.W[f.a]||run.W[f.b])&&!fused[f.a])||FUSIONS.find(f=>!fused[f.a]);if(!f)return;
-    for(const id of [f.a,f.b]){if(!run.W[id]){if(nWeapons()>=MAX_W){const drop=Object.keys(run.W).find(k=>k!==f.a&&k!==f.b&&!WEAPONS[k].ult);if(drop)delete run.W[drop];}addWeapon(id);}run.W[id].lv=Math.max(5,run.W[id].lv);}
+    for(const id of [f.a,f.b]){if(!run.W[id]){if(nWeapons()>=maxW()){const drop=Object.keys(run.W).find(k=>k!==f.a&&k!==f.b&&!WEAPONS[k].ult);if(drop)delete run.W[drop];}addWeapon(id);}run.W[id].lv=Math.max(5,run.W[id].lv);}
     run.fuseMiss=2;run.pending++;buildItemsHud();togglePause();};
   $('#pGod').onclick=()=>{const K=window.__krypta;K.god=!K.god;$('#pGod').textContent=_t('Test: nesmrtelnost ')+onOff(K.god);};
   document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('.mt[data-mat]');if(t&&!t.closest('button'))note(matInfo(t.dataset.mat),4200);});
@@ -5199,6 +5206,8 @@ const TALENTS={knight:[[5,_t('Brnění +1')],[10,_t('Rotující čepele: +1 čep
   mage:[[5,_t('Kritický zásah +5 %')],[10,_t('Kouzelná střela: +1 střela')],[15,_t('Poškození +10 %')],[20,_t('Ultimátky +20 %')]],
   archer:[[5,_t('Rychlost pohybu +5 %')],[10,_t('Šípy: +2 šípy')],[15,_t('Šípy: průraz +1')],[20,_t('Kritické zásahy ×2')]],
   builder:[[5,_t('Věže o 10 % levnější')],[10,_t('Věže se staví na úrovni 2')],[15,_t('Věže +30 % zdraví')],[20,_t('+1 věž navíc')]],
+  warlord:[[5,_t('Poškození +5 %')],[10,_t('Začíná s druhou zbraní')],[15,_t('Rychlost útoků +10 %')],[20,_t('Poškození +10 %')]],
+  tamer:[[5,_t('Mazlíčci +15 % poškození')],[10,_t('Mazlíčci útočí o 15 % rychleji')],[15,_t('Schopnosti mazlíčků +20 %')],[20,_t('Mazlíčci +25 % poškození')]],
   bard:[[5,_t('Kombo vydrží o 50 % déle')],[10,_t('Noty: +1 nota')],[15,_t('Rychlost útoků +10 %')],[20,_t('Každých 25 komba rázová vlna')]],
   smith:[[5,_t('Brnění +1')],[10,_t('Kladivo: větší louže lávy')],[15,_t('Zdraví +15 %')],[20,_t('Kladivo udeří i za tebe')]],
   shaman:[[5,_t('Dosah sbírání +20 %')],[10,_t('Krápníky: +2 krápníky')],[15,_t('Poškození +10 %')],[20,_t('Zmrazení trvá déle')]],
@@ -5235,8 +5244,8 @@ function heroBonus(h){
   const sc={};for(const s of SLOT_IDS){const it=eq[s]&&itemById(eq[s]);if(!it)continue;const S=itemStats(it);for(const k in S)B[k]+=S[k];if(it.lg)B.lg[it.lg]=1;if(it.set)sc[it.set]=(sc[it.set]||0)+1;}
   if(sc.bone>=2){B.hpPct+=.10;B.lg.sb2=1;}if(sc.bone>=4)B.lg.sb4=1;if(sc.sun>=2){B.cd+=.08;B.spd+=.06;}if(sc.sun>=4)B.lg.ss4=1;if(sc.forge>=2){B.dmg+=.10;B.armor+=1;}if(sc.forge>=4)B.lg.sf4=1;B.sets=sc;
   const L=heroLv(h);B.hpPct+=.02*(L-1);B.dmg+=.02*(L-1);
-  const pre={knight:'k',mage:'m',archer:'a',builder:'b',bard:'d',smith:'s',shaman:'h',sailor:'n',astro:'z'}[h]||'x';for(const t of [5,10,15,20])if(L>=t)B.tal[pre+t]=1;
-  const T=B.tal;if(T.k5)B.armor+=1;if(T.k15)B.hpPct+=.15;if(T.m5)B.crit+=.05;if(T.m15)B.dmg+=.10;if(T.m20)B.fuse+=.20;if(T.a5)B.spd+=.05;
+  const pre={knight:'k',mage:'m',archer:'a',builder:'b',bard:'d',smith:'s',shaman:'h',sailor:'n',astro:'z',warlord:'w',tamer:'t'}[h]||'x';for(const t of [5,10,15,20])if(L>=t)B.tal[pre+t]=1;
+  const T=B.tal;if(T.w5)B.dmg+=.05;if(T.w15)B.cd+=.10;if(T.w20)B.dmg+=.10;B.petd=(T.t5?.15:0)+(T.t20?.25:0);B.petr=T.t10?.15:0;B.petp=T.t15?.20:0;if(T.k5)B.armor+=1;if(T.k15)B.hpPct+=.15;if(T.m5)B.crit+=.05;if(T.m15)B.dmg+=.10;if(T.m20)B.fuse+=.20;if(T.a5)B.spd+=.05;
   if(T.b5)B.tcost+=.10;if(T.b15)B.thp+=.30;if(T.b20)B.tmax+=1;if(T.d15)B.cd+=.10;
   if(T.s5)B.armor+=1;if(T.s15)B.hpPct+=.15;if(T.h5)B.mag+=.20;if(T.h15)B.dmg+=.10;if(T.n5)B.spd+=.05;if(T.n15)B.cd+=.10;if(T.z5)B.crit+=.05;if(T.z15)B.fuse+=.15;
   if(h==='shaman')B.mag+=.20;if(h==='astro')B.fuse+=.15;
@@ -5496,13 +5505,15 @@ function openPetChest(){if(!petCan(PET_CHEST.cost)||chLeft('pet')<=0)return null
 function openTowerChest(){if(!petCan(TW_CHEST_COST)||chLeft('tower')<=0)return null;chUse('tower');petPay(TW_CHEST_COST);twInit();
   const pool=T_IDS.filter(k=>T_BASE.includes(k)||twMapWon(k)),k=pick(pool),r=rollRarity(TW_CHEST),c=twRoll(k,r);save.tw.cards.push(c);persist();return c;}
 // --- in the run ---
-function petStart(){petInit();const c=petCard(save.pets.sel);if(!c)return null;const S=petStat(c),p=run.p;
-  return{isPet:true,k:c.k,x:p.x-14,y:p.y+4,face:1,cd:.6,t:0,anim:0,hits:0,rd:0,S,fc:0,mark:null,markT:0,dig:6,dbl:false,show:true,born:0};}
+function petStart(n){petInit();const two=n===2;if(two&&(run.heroId!=='tamer'||!save.pets.sel2||save.pets.sel2===save.pets.sel))return null;const c=petCard(two?save.pets.sel2:save.pets.sel);if(!c)return null;const S=petStat(c),p=run.p;
+  {const T=heroBonus(run.heroId);S.dm*=1+(T.petd||0);S.rt*=1+(T.petr||0);S.pw*=1+(T.petp||0);}
+  return{isPet:true,k:c.k,x:p.x+(two?14:-14),y:p.y+4,face:1,cd:.6,t:0,anim:0,hits:0,rd:0,S,fc:0,mark:null,markT:0,dig:6,dbl:false,show:true,born:0};}
 const PET_DK=.2; // pet damage is a helper, not a second weapon: ~10–15 % of a hero's damage (tests/tools/petbal.js)
 function petDmg(P){return PETS[P.k].dmg*PET_DK*P.S.dm*(1+.12*run.level);}
 function petHit(e,d,kx,ky){run.pdm=(run.pdm||0)+d;hurtEnemy(e,d,kx,ky);}
 function petFx(x,y,col,n){for(let i=0;i<n;i++)addP({x:x+rnd(-2,2),y:y+rnd(-3,1),vx:rnd(-40,40),vy:rnd(-60,-10),life:rnd(.25,.5),col,sz:1,g:0});}
-function petUpdate(dt){const P=run.pet;if(!P||run.pls||isGuest()||run.over)return;const p=run.p,D=PETS[P.k],S=P.S;
+function petUpdate(dt){if(run.pls||isGuest()||run.over)return;for(const P of [run.pet,run.pet2])if(P)petStep(P,dt);petFire(dt);}
+function petStep(P,dt){const p=run.p,D=PETS[P.k],S=P.S;
   P.t+=dt;P.cd-=dt;P.rd=Math.max(0,P.rd-dt);
   // target: nearest enemy to the pet that is still near the hero
   let tg=null,bd=1e9;const leash=D.kind==='chase'?115:95;
@@ -5535,15 +5546,16 @@ function petUpdate(dt){const P=run.pet;if(!P||run.pls||isGuest()||run.over)retur
       if(be){P.mark=be;P.markT=4;be.mk=run.t+4.2;be.mkm=1+.2*S.m*S.pw;}else P.mark=null;}
     else if(P.mark)P.mark.mk=run.t+.5;}
   if(P.k==='fox'){P.dig-=dt;if(P.dig<=0){P.dig=9/S.rt;run.items.push({x:P.x+rnd(-4,4),y:P.y+4,k:'coin'});petFx(P.x,P.y+3,'#f6c744',5);sfx('coin');}}
-  // fire patches
+}
+function petFire(dt){
   if(run.pfire){for(const f of run.pfire){f.life-=dt;f.t+=dt;if(f.t>=.4){f.t-=.4;for(const e of run.enemies)if(!e.dead&&!e.bur&&Math.hypot(e.x-f.x,e.y-f.y)<f.r+e.r)petHit(e,f.dmg,0,0);}}
     run.pfire=run.pfire.filter(f=>f.life>0);}}
 // the phoenix: a second life once per run (recharges), a blast throws the enemies back
-function petRevive(){const P=run.pet,p=run.p;if(!P||P.k!=='phoenix'||P.rd>0||run.pls)return false;
+function petRevive(){const P=[run.pet,run.pet2].find(x=>x&&x.k==='phoenix'&&!(x.rd>0)),p=run.p;if(!P||run.pls)return false;
   P.rd=150;p.hp=Math.ceil(p.max*.5);p.inv=2.5;toast(_t('Fénix tě oživil!'),1800);sfx('level');run.eshots.length=0;
   explode(p.x,p.y,70,(24+run.level*2)*P.S.pw);run.enemies.forEach(e=>{if(!e.boss&&Math.hypot(e.x-p.x,e.y-p.y)<110){e.kx+=(e.x-p.x)*5;e.ky+=(e.y-p.y)*5;}});
   for(let i=0;i<24;i++)addP({k:'ember',x:p.x,y:p.y-6,vx:rnd(-90,90),vy:rnd(-130,-20),life:rnd(.5,1),col:pick(['#fff6c8','#ffb040','#ff6a2a']),sz:1,g:0});return true;}
-function petGoldMul(){const P=run.pet;return P&&P.k==='fox'&&!run.pls?1+.1*P.S.m*P.S.pw:1;}
+function petGoldMul(){let g=1;if(!run.pls)for(const P of [run.pet,run.pet2])if(P&&P.k==='fox')g*=1+.1*P.S.m*P.S.pw;return g;}
 function drawPet(g,u,ox,oy){const s=SPR.pet[u.k],D=PETS[u.k],fl=D.kind==='fly',x=RZ(u.x+ox);let y=RZ(u.y+oy);
   const bob=fl?Math.round(Math.sin(u.t*5)*1.2):(u.anim>0&&Math.floor(u.anim)%2?-1:0);
   if(u.k==='phoenix'&&u.rd>0)g.globalAlpha=.55;
@@ -5568,22 +5580,26 @@ function petCardHtml(c){const R=RAR[c.r],D=PETS[c.k];
     '<div class="tperk"><p class="on"><i style="--rc:'+R.col+'">★</i><span>'+D.ab+'</span></p></div>';}
 function openPets(){econInit();petInit();renderPets();setState('pets');}
 function renderPets(){petInit();$('#ptMats').innerHTML=matsHtml();const S=save.pets,cur=petCard(S.sel);
-  $('#ptSlot').innerHTML=cur?'<button class="tslot r'+cur.r+'" id="ptCur"><img alt="" src="'+dataUrl(SPR.pet[cur.k])+'"><b>'+PETS[cur.k].name+'</b><small class="rp" style="--rc:'+RAR[cur.r].col+'">'+RAR[cur.r].name+(cur.lv?' +'+cur.lv:'')+'</small></button>':'';
-  $('#ptHint').textContent=_t('Do běhu bereš jednoho mazlíčka. Nové a vzácnější najdeš v Mazlíčkově truhle v Obchodu.');
+  const c2=save.heroes.tamer?petCard(S.sel2):null;
+  $('#ptSlot').innerHTML=(cur?'<button class="tslot r'+cur.r+'" id="ptCur"><img alt="" src="'+dataUrl(SPR.pet[cur.k])+'"><b>'+PETS[cur.k].name+'</b><small class="rp" style="--rc:'+RAR[cur.r].col+'">'+RAR[cur.r].name+(cur.lv?' +'+cur.lv:'')+'</small></button>':'')+(save.heroes.tamer?(c2&&c2.u!==S.sel?'<button class="tslot r'+c2.r+'" id="ptCur2"><img alt="" src="'+dataUrl(SPR.pet[c2.k])+'"><b>'+PETS[c2.k].name+'</b><small class="rp" style="--rc:'+RAR[c2.r].col+'">'+RAR[c2.r].name+(c2.lv?' +'+c2.lv:'')+'</small><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>':'<button class="tslot empty" id="ptCur2"><span class="plus">+</span><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>'):'');
+  $('#ptHint').textContent=save.heroes.tamer?_t('Do běhu bereš jednoho mazlíčka, Krotitel dva. Nové a vzácnější najdeš v Mazlíčkově truhle v Obchodu.'):_t('Do běhu bereš jednoho mazlíčka. Nové a vzácnější najdeš v Mazlíčkově truhle v Obchodu.');
   const cards=S.cards.slice().sort((a,b)=>PET_IDS.indexOf(a.k)-PET_IDS.indexOf(b.k)||(b.lv-a.lv));
-  $('#ptCount').textContent=cards.length;$('#ptGrid').innerHTML=cards.map(c=>petTile(c,c.u===S.sel?' in':'')).join('');
+  $('#ptCount').textContent=cards.length;$('#ptGrid').innerHTML=cards.map(c=>petTile(c,c.u===S.sel||(save.heroes.tamer&&c.u===S.sel2)?' in':'')).join('');
   $('#ptLocked').innerHTML=PET_IDS.filter(k=>!S.cards.some(c=>c.k===k)).map(k=>'<div class="tcard lock"><img alt="" src="'+dataUrl(SPR.pet[k])+'" style="filter:brightness(0) opacity(.5)"><div><b>???</b><small style="color:'+RAR[PETS[k].r].col+'">'+RAR[PETS[k].r].name+'</small><small class="lk">'+_t('Padá z Mazlíčkovy truhly.')+'</small></div></div>').join('');
   const cb=$('#ptCur');if(cb)cb.onclick=()=>{sfx('ui');openPetCard(S.sel);};
+  {const c2b=$('#ptCur2');if(c2b)c2b.onclick=()=>{sfx('ui');if(c2&&c2.u!==S.sel)openPetCard(S.sel2);else note(_t('Krotitel si bere druhého mazlíčka. Ťukni na mazlíčka níž a dej ho na druhé místo.'),2600);};}
   $('#ptGrid').querySelectorAll('.ttile').forEach(b=>b.onclick=()=>{sfx('ui');openPetCard(b.dataset.u);});}
-function openPetCard(u){const c=petCard(u);if(!c)return;const pop=$('#ptPop'),sel=save.pets.sel===u,up=c.lv<PET_UPMAX?petUpCost(c):null,rf=petRefund(c);
+function openPetCard(u){const c=petCard(u);if(!c)return;const pop=$('#ptPop'),sel=save.pets.sel===u,sel2=!!save.heroes.tamer&&save.pets.sel2===u&&!sel,up=c.lv<PET_UPMAX?petUpCost(c):null,rf=petRefund(c);
   pop.innerHTML='<div class="pop-card tpop r'+c.r+'">'+petCardHtml(c)+'<div class="pop-btns">'+
     '<button class="btn sm" id="ptTake"'+(sel?' disabled':'')+'>'+(sel?_t('Je v běhu'):_t('Vzít do běhu'))+'</button>'+
+    (save.heroes.tamer&&!sel?'<button class="btn alt sm" id="ptTake2"'+(sel2?' disabled':'')+'>'+(sel2?_t('Je druhý (Krotitel)'):_t('Jako druhý (Krotitel)'))+'</button>':'')+
     (up?'<button class="btn alt sm" id="ptUp"'+(petCan(up)?'':' disabled')+'>'+_t('Vylepšit +')+(c.lv+1)+' <span class="costs">'+costHtml(up,1)+'</span></button>'+missHint(up):'<p class="hint">'+_t('Maximální vylepšení.')+'</p>')+
-    (sel?'':'<button class="btn alt sm" id="ptDel">'+_t('Rozebrat ')+'<span class="costs">'+costHtml(rf).replace(/ no/g,'')+'</span></button>')+
+    (sel||sel2?'':'<button class="btn alt sm" id="ptDel">'+_t('Rozebrat ')+'<span class="costs">'+costHtml(rf).replace(/ no/g,'')+'</span></button>')+
     (Object.keys(c.b||{}).length?'<button class="btn alt sm" id="ptRf">'+_t('Přebrousit')+' <span class="costs">'+costHtml(rfCost(c.rf),1)+'</span></button>':'')+
     '<button class="btn alt sm" id="ptClose">'+_t('Zavřít')+'</button></div></div>';pop.hidden=false;
   {const rb=$('#ptRf');if(rb)rb.onclick=()=>{pop.hidden=true;sfx('ui');openReforge('pet',c,()=>{renderPets();openPetCard(u);});};}
-  $('#ptTake').onclick=()=>{save.pets.sel=u;persist();sfx('level');pop.hidden=true;renderPets();};
+  $('#ptTake').onclick=()=>{if(save.pets.sel2===u)save.pets.sel2=save.pets.sel;save.pets.sel=u;persist();sfx('level');pop.hidden=true;renderPets();};
+  {const t2=$('#ptTake2');if(t2)t2.onclick=()=>{save.pets.sel2=u;persist();sfx('level');pop.hidden=true;renderPets();};}
   const ub=$('#ptUp');if(ub)ub.onclick=()=>{if(!petCan(up))return;petPay(up);c.lv++;persist();sfx('level');openPetCard(u);renderPets();};
   const db=$('#ptDel');if(db)db.onclick=()=>{save.pets.cards=save.pets.cards.filter(x=>x!==c);gainC(rf);persist();sfx('coin');pop.hidden=true;renderPets();};
   $('#ptClose').onclick=()=>{pop.hidden=true;sfx('ui');};pop.onclick=e=>{if(e.target===pop)pop.hidden=true;};}
@@ -6361,6 +6377,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08c',d:'8. 11. 2026',t:_t('Dva noví hrdinové'),items:[_t('<b>Zbrojmistr</b> unese o zbraň víc (6 místo 5). Úrovně mu přidávají poškození a rychlost útoků, od úrovně 10 začíná se dvěma zbraněmi.'),_t('<b>Krotitel</b> si do běhu vezme dva mazlíčky. Úrovně posilují poškození, rychlost i schopnosti mazlíčků. Druhého mazlíčka vybereš ve Vybavení na záložce Mazlíčci.'),_t('Oba koupíš v Přípravě za 1 000 zlata po poražení Trůnu kostí.')]},
  {v:'2026-11-08b',d:'8. 11. 2026',t:_t('Nová ekonomika a Nekonečná krypta'),items:[_t('Místo materiálu každé kapitoly jsou jen dva: <b>Úlomky</b> padají na všech mapách a vzácná <b>Esence</b> jen z finálních bossů a z Nekonečné krypty. Tvůj Kostní prach, Jantar a Magmatit se převedly na Úlomky a za už poražená finále jsi dostal Esenci.'),_t('Ceny jsou přepočítané, aby ti nedocházelo jen zlato a nehromadil se materiál. Vylepšení, úrovně hrdinů i vylepšování výbavy chtějí zlato i Úlomky, vrchol navíc Esenci.'),_t('<b>Nekonečná krypta</b>: v Přípravě zapni ∞ a hraj dohranou mapu bez konce. Nepřátelé každou minutu sílí, od 5. minuty padá Esence (denně plně 20) a máš rekord na každou mapu.'),_t('<b>Přebroušení</b> v detailu předmětu, věže nebo mazlíčka znovu vylosuje jednu vlastnost.'),_t('Drahé truhly mají denní limit (Železná 4, Zlatá 2, Věžová a Mazlíčkova 3). Sklad Úlomků má strop 6 000, přebytek se změní na zlato.')]},
  {v:'2026-11-08a',d:'8. 11. 2026',t:_t('Kovárna a přehlednější výbava'),items:[_t('Nové tlačítko <b>Kovárna</b> v menu: sloučení předmětů a Vylepšení. Obchod má jen truhly, Síň slávy je nahoře u ikon.'),_t('Ve Vybavení přepínáš druh výbavy tlačítky nad inventářem. Nové předměty mají štítek <b>NOVÉ</b>, zmizí po prvním ťuknutí.'),_t('Barva předmětu vždy znamená raritu. Kusy setu padají v různých raritách (v Nočních můrách lepší) a každý hráč dostane z finále vlastní náhodný kus.'),_t('Sloučení: 3 stejné kusy stejné rarity dají jeden o raritu vyšší.'),_t('Po běhu je jen tlačítko <b>Pokračovat</b>, po výhře rovnou s další mapou. Poklad kapitoly je oddělený od map.')]},
  {v:'2026-11-07z',d:'7. 11. 2026',t:_t('Mazlíčci'),items:[_t('Do běhu si bereš <b>mazlíčka</b>: vlka, havrana, sovu, lišku, netopýra, salamandra, dráče, nebo dokonce fénixe. Běhá za tebou, sám útočí a má vlastní schopnost.'),_t('Vybereš ho ve <b>Vybavení</b> na nové záložce Mazlíčci. Nové najdeš v <b>Mazlíčkově truhle</b> v Obchodu, mazlíčky můžeš vylepšovat až na +10.'),_t('Věžová i Mazlíčkova truhla teď stojí zlato a <b>Magmatit</b>. V kooperaci mazlíčka zatím nemáš.')]},
