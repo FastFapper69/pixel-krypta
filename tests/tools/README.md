@@ -50,3 +50,8 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 
 Co-op testy jsou o úroveň výš (`tests/coop-test.js`, viz CLAUDE.md).
 Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav podle potřeby.
+
+- `chapcheck.js cN|hero:id|all` – kontrola kapitoly/hrdiny (všechna místa, překlady, pohlednice, set, Průvodce) + přehledový obrázek `cN_check.png`.
+- `kitdemo.js <prefix>` – zkouška stavebnice kapitol (3 zkušební mapy a boss jen v testu).
+- `bossintroall.js <prefix>` – snímek intra všech bossů; `bossintro.js`, `bossintrogif.js`, `introaudio.js` – náhledy intra.
+- `wgallery.js <prefix> [zbraně]` – každá zbraň zvlášť ve hře (env `N` nepřátel, `CLIP`).

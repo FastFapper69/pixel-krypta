@@ -3,6 +3,13 @@
 Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI čeká (hrdinka Hvězdářka je připravená). **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
 Návrh pro uživatele je i v dokumentu „Pixel Krypta – kampaň a kapitoly“ (Claude Docs).
 
+## Stavebnice kapitol (08y) – nové kapitoly dělej takhle
+Postup a kontrolní seznam: skill `.claude/skills/nova-kapitola/SKILL.md` (hrdina: `novy-hrdina`). Kód: oddíl **chapter kit (08y)** v `index.html`.
+- Mapa `style:'kit'` + `kit:{…}` → `buildKit` (palety, rozvržení paths/plaza/arena/open, rekvizity `KIT_PROPS`, zóna, tábor) a `MF.kit` s mechanikami `KIT_MECH` (`slow`, `strike`, `push`, `pull`; nové přidávat sem).
+- Boss `pat:'kit'` + `kit:{move, moves, ph2, own}` → `BEH.kit` (tahy na doby/takty, 2. fáze, vlastní útok `KIT_OWN`). Čísla `kitBoss(ci,mi,fin)`, nepřátelé `kitFoe(ci,role)`.
+- Hudba `songKit({…, motif})` z ručně psaného motivu. Obtížnost: mapa bez řádku v `MAP_TIER` dostane `kitTier` (schodiště 08p).
+- Kontrola `tests/tools/chapcheck.js cN|hero:id|all` (chyby + přehledový obrázek), zkouška dílů `kitdemo.js`.
+
 ## Systém
 - `CHAPTERS` = kapitoly: `{id, name, mat, col, maps:[5 map], soon?}`. `MAP_IDS` se skládá z kapitol, `CH_OF[mapa]` = kapitola, `MAT_OF` se odvozuje z kapitoly (žádné nové materiály).
 - Kapitola I Říše mrtvých (Kostní prach): hrbitov, bazina, kostnice, zvonice, **trun** (finále).

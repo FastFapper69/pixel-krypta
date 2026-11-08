@@ -1,6 +1,15 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Doplněné Prokleté pobřeží":"The Cursed Coast completed",
+"Nové obrázky setu":"New set pictures",
+"Klobouk, kabát, perla a prsten <b>Výstroje mořského vlka</b> mají vlastní obrázky.":"The hat, coat, pearl and ring of the <b>Sea Wolf's Gear</b> have their own pictures.",
+"Krab, utopený pirát, medúza a racek mají v Průvodci popis.":"The crab, drowned pirate, jellyfish and gull now have a description in the Guide.",
+"Pod kapotou: nová stavebnice pro další kapitoly, ať přibývají rychleji.":"Under the hood: a new toolkit for upcoming chapters, so they arrive faster.",
+"Na chvíli se zastaví a pak vyrazí přímo na tebe.":"Stops for a moment, then charges straight at you.",
+"Odolný a po smrti nechá louži, která zpomaluje.":"Tough, and leaves a slowing puddle when it dies.",
+"Na každou dobu poskočí k tobě, její dotek zpomaluje.":"Hops towards you on every beat, its touch slows.",
+"Krouží kolem a střemhlav se vrhá dolů.":"Circles around and dives at you.",
 "Každá kapitola má set 4 kusů (každý set v jiných slotech), každá pátá kapitola set 6 kusů s lepší kořistí a bonusem za celý set. Z finále padá truhla setu, kus si z ní vylosuješ, jeden je v pokladu kapitoly. 2 kusy dají bonus, 4 kusy schopnost.":"Each chapter has a 4-piece set (each set in different slots), every fifth chapter a 6-piece set with better loot and a full-set bonus. The finale drops a set chest you draw a piece from, one piece is in the chapter treasure. 2 pieces give a bonus, 4 pieces an ability.",
 "Sandály pouštního krále":"Sandals of the desert king",
 "Obvazy mumie":"Mummy wraps",
