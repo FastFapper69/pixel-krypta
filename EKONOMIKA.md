@@ -1,4 +1,61 @@
-# Pixel Krypta – návrh dlouhodobé progrese: materiály, výbava, obchod, rarity
+# Pixel Krypta – ekonomika
+
+## Ekonomika 2.0 (návrh 8. 11. 2026, nasazení ve verzi 08b) – PLATÍ
+Nahrazuje materiály kapitol. Starší text níže je historie.
+
+### Proč
+Skutečná data dvou hráčů (Supabase `profiles`, 8. 11.): za běh ~500–900 zlata a ~110 materiálu. Fappoleon (24 běhů) měl 560 zlata, ale 543 Kostního prachu a 518 Jantaru. Simulace starého systému (`tests/tools/econsim.py` má i starou logiku v historii) ukázala dvě chyby:
+1. **Materiál nemá výdaj bez velkého zlata.** Skoro všechno chce hodně zlata (Vylepšení rostou ×1,13 za úroveň, předměty 7,5 zlata na 1 materiál), materiál jde bez zlata jen do úrovní hrdinů. Když je hrdina vylepšený, materiál leží.
+2. **Materiály kapitol se navzájem blokují.** Kostní prach je potřeba na úrovně hrdinů i na první 4 stupně všech předmětů, Jantar jen na prsteny a Magmatit na amulety. V simulaci se progrese po 10 h zasekne na Kostním prachu, zatímco Jantar a Magmatit rostou donekonečna. Každá další kapitola by přidala další materiál a problém zhoršila.
+
+### Měny
+| Měna | Odkud | Na co |
+|---|---|---|
+| **Zlato** | každý běh (beze změny), úkoly, mistrovství | všechno, truhly jen za zlato |
+| **Úlomky** (běžný materiál) | běžné mapy všech kapitol: dosavadní vzorec materiálu ×0,65, pozdější kapitoly +15 % za kapitolu; úkoly, poklad kapitoly, denní výzva | Vylepšení od úrovně 10, úrovně hrdinů, vylepšování předmětů, věží a mazlíčků, Věžová a Mazlíčkova truhla, Přebroušení |
+| **Esence** (vzácná) | jen finální bossové kapitol a Nekonečná krypta | Vylepšení 20+, úrovně hrdinů 10+, vylepšení +6 až +10 |
+
+Žádná kapitola už nepřidá nový materiál. Pozdější kapitoly dávají víc Úlomků a Esence (silnější bossové).
+
+### Příjem
+- **Úlomky:** výhra na běžné mapě v kapitole I ≈ 70, v kapitole III ≈ 90. Prohra polovina (podle přežitých minut jako dřív).
+- **Esence z finále:** první výhra na každé obtížnosti (normál, NM I, II, III) **25 / 35 / 50 / 70**, opakovaná výhra **4 / 6 / 8 / 10**, ale jen **3 výhry finále denně** dávají Esenci.
+- **Nekonečná krypta:** 0,4 Esence za minutu od 5. minuty. Denně plně **20 Esence**, nad strop jen čtvrtina.
+- **Poklad kapitoly:** 50 Úlomků + 10 Esence (dřív 50 materiálu).
+
+### Výdaje (gold / Úlomky / Esence)
+- **Vylepšení (Kovárna):** zlato `base·1,115^L` (dřív 1,13). Úroveň 10–19 navíc Úlomky `(3+(L−10))·2·base/35`, úroveň 20–29 navíc Esence `2+(L−20)`. Druhá šance 400 / 1500 + 40 Úl. / 4000 + 40 Úl. + 10 Es.
+- **Úroveň hrdiny L→L+1:** zlato `45·L` (+`90·(L−9)` od 10), Úlomky `10·L`, Esence od úrovně 10 `2+(L−10)` a +10 při dosažení 15 a 20. Celkem 1→20: 13 500 zlata, 1 900 Úlomků, 85 Esence.
+- **Vylepšení předmětu, karty věže i mazlíčka** (stejný vzorec): zlato `24·(lv+1)·(r+1)`, Úlomky `6·(lv+1)·(r+1)`, od +6 navíc Esence `(lv−4)·(r+1)`.
+- **Rozebrání:** základ + 50 % vloženého (i Esence). **Sloučení:** 3 stejné kusy stejné rarity → 1 o raritu vyšší, vrací 50 % vylepšení.
+- **Truhly:** výbava jen za zlato (250 / 750 / 2000). Věžová 700 zl + 60 Úl., Mazlíčkova 600 zl + 60 Úl. **Denní limity:** Železná 4, Zlatá 2, Věžová 3, Mazlíčkova 3 (Dřevěná bez limitu). Tím nejde nahromaděné zlato utratit za nekonečně beden.
+- **Přebroušení (nekonečný výdaj):** přelosuje jeden bonus předmětu, věže nebo mazlíčka. 600 zl + 150 Úl., každé další přebroušení téhož kusu ×1,25 (strop po 12.).
+- **Strop skladu Úlomků 6 000.** Co přeteče, se změní na zlato 1 : 3 (horší než běžný poměr příjmu ~6 : 1, takže se nevyplatí farmit).
+
+### Výsledek simulace (`econsim.py`, 5 hrdinů, 2 hlavní, ~1,5 h hraní denně)
+| hodin | Vylepšení (průměr) | hlavní hrdina | hlavní výbava | sklad zlato / Úlomky / Esence |
+|---|---|---|---|---|
+| 3 | 11,7 | 6 | +4,9 | 470 / 2 / 33 |
+| 10 | 16,3 | 9 | +6,4 | 70 / 35 / 51 |
+| 20 | 21,8 | 10 | +7,4 Vzácná–Epická | 100 / 80 / 1 |
+| 40 | 22,3 | 14 | +7,5 | 3 900 / 2 300 / 0 |
+| 70 | 24,5 | 14 | +7,8 Epická | 8 500 / 8 / 0 |
+| 100 | 28,3 | 18 | +8,4 | 27 000 / 70 / 1 |
+| 150 | 30 (max) | 20 | +10 | 60 000 / 110 / 6 |
+
+- Zlato a Úlomky docházejí zhruba stejně rychle, nic se nehromadí do ~40 h. Esence je záměrně úzké hrdlo pro vrchol (úroveň hrdiny 10+, výbava +6+, Vylepšení 20+).
+- Hráč, který výbavu nevylepšuje, Úlomky hromadí (strop je zastaví), ale má na co je utratit.
+- Po ~100 h roste zlato (truhly mají denní limit). To pohltí kapitoly IV–VI a noví hrdinové; kdyby ne, přidat další výdaj za zlato.
+
+### Převod starých uložených pozic
+Kostní prach + Jantar + Magmatit → Úlomky 1 : 1. Esence za dosavadní postup: 10 za každé poražené finále + 15 za každou výhru finále v Noční můře (`save.nmw`). Úrovně hrdinů, Vylepšení i předměty zůstávají. `save.econV=2`.
+
+### Nekonečná krypta
+Odemkne se po prvním finále (Trůn). Hraje se na libovolné dohrané mapě, čas nekončí, od 5. minuty každou minutu +8 % zdraví a +5 % poškození nepřátel, elity častěji. Konec jen smrtí. Odměny: zlato a Úlomky jako běžný běh (prohra = poloviční Úlomky se nepočítá, běh vždy končí smrtí, takže plný vzorec), Esence podle pravidel výše. Rekord (čas) na mapu v Síni slávy.
+
+---
+
+# Historie: návrh dlouhodobé progrese (materiály kapitol, do verze 08a)
 
 > **Aktualizace 07w (2026-11-07 večer):** čísla níže jsou starší. Platí: po běhu se ze zlata z běhu bere jen část (`keepGold`: 30 % z prvních 2000, 10 % nad), kombo max 40 zlata každých 25, materiál z komba každých 200, za minutu 2, elita 2–3, výhra 10 / finále 25, finále ×1,25; truhly 250/750/2000, Věžová 700. Noční můry od 07x jen I–III (`NM_HP` .75, `NM_DMG` .3). Detaily v `CLAUDE.md` (sekce Menu a ekonomika 07w).
 
