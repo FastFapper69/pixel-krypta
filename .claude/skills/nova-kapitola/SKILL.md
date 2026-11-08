@@ -63,5 +63,10 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 - `node tests/tools/chapcheck.js cN` – vypíše chyby a udělá přehled `cN_check.png` (pohlednice, nepřátelé, bossové, set). Musí skončit „Vše v pořádku“.
 - `node tests/tools/bossintroall.js <prefix>` – intro všech bossů (dlouhá jména se vejdou).
 - `node tests/tools/c5shots.js <prefix> mapa,…` nebo `kitdemo.js` jako vzor pro snímky map ve hře.
-- Bot pro obtížnost: `node tests/tools/bot.js` (viz README), kapitola má být zeď (vstup kolem 0–50 % výher pro `zkuseny`).
+- **Hráči-boti s povahami** (`tests/tools/hraci.js`, 08z) – hlavní test obtížnosti:
+  - `node hraci.js kapitola:cN 3` – všech 5 map, 7 povah (Nováček, Opatrný, Agresor, Sběratel, Stavitel, Fúzní lovec, Expert), účet při vstupu i po grindu.
+  - Čekáme **zeď**: střední povahy při vstupu na první mapě ~10–60 %, na finále ~0–45 %; po grindu Nočních můr o 10+ bodů víc. Nováček může prohrávat, Expert má vyhrávat aspoň občas.
+  - Hlídej řádek **PODEZŘELE SNADNÁ STRATEGIE** (jedna povaha o 40+ bodů nad průměrem = mechanika jde obejít, např. kitování) a **CO ZABÍJÍ** (umírá se na novou mechaniku, nebo na nudné běžné nepřátele?).
+  - Účet nové kapitoly: přidej řádek do `UCTY` v `hraci.js` (vstup do kapitoly N+1 = o ~5 úrovní hrdiny, ~3 Vylepšení a 1 úroveň výbavy víc, set předchozí kapitoly). Mechaniky ze stavebnice (`kst`, `kp`) boti znají sami; vlastní nebezpečí finále doplň do `decide()` (vyhýbání) nebo jako cíl (bezpečná místa).
+  - Starý `bot.js` je jeden „průměrný“ hráč se zastaralými účty, nepoužívat pro nové kapitoly.
 - Smoke `shot.js`, `heavy.js` (výkon), `newsshot.js` (Novinky s ikonami), `i18n.js static`.

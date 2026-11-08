@@ -7,3 +7,4 @@ tests/tools/_*.html
 tests/tools/new.html
 tests/tools/cc.html
 tests/tools/base.html
+tests/tools/hraci-results.json

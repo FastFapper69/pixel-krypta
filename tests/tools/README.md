@@ -55,3 +55,4 @@ Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav 
 - `kitdemo.js <prefix>` – zkouška stavebnice kapitol (3 zkušební mapy a boss jen v testu).
 - `bossintroall.js <prefix>` – snímek intra všech bossů; `bossintro.js`, `bossintrogif.js`, `introaudio.js` – náhledy intra.
 - `wgallery.js <prefix> [zbraně]` – každá zbraň zvlášť ve hře (env `N` nepřátel, `CLIP`).
+- `hraci.js zed|kapitola:cN|mapa:id[:vstup|grind] [běhů] [povahy] [hrdinové]` – hráči-boti se 7 povahami a účty podle postupu (`UCTY`), tabulka výher, verdikt „zeď“, podezřele snadné strategie, co zabíjí. Nahrazuje `bot.js` pro balanc kapitol.
