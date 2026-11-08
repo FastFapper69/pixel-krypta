@@ -12,13 +12,13 @@ Skutečná data dvou hráčů (Supabase `profiles`, 8. 11.): za běh ~500–900 
 | Měna | Odkud | Na co |
 |---|---|---|
 | **Zlato** | každý běh (beze změny), úkoly, mistrovství | všechno, truhly jen za zlato |
-| **Úlomky** (běžný materiál) | běžné mapy všech kapitol: dosavadní vzorec materiálu ×0,65, pozdější kapitoly +15 % za kapitolu; úkoly, poklad kapitoly, denní výzva | Vylepšení od úrovně 10, úrovně hrdinů, vylepšování předmětů, věží a mazlíčků, Věžová a Mazlíčkova truhla, Přebroušení |
+| **Úlomky** (běžný materiál) | běžné mapy všech kapitol: dosavadní vzorec materiálu ×1,1 (`SH_K`), pozdější kapitoly +15 % za kapitolu; úkoly, poklad kapitoly, denní výzva | Vylepšení od úrovně 10, úrovně hrdinů, vylepšování předmětů, věží a mazlíčků, Věžová a Mazlíčkova truhla, Přebroušení |
 | **Esence** (vzácná) | jen finální bossové kapitol a Nekonečná krypta | Vylepšení 20+, úrovně hrdinů 10+, vylepšení +6 až +10 |
 
 Žádná kapitola už nepřidá nový materiál. Pozdější kapitoly dávají víc Úlomků a Esence (silnější bossové).
 
 ### Příjem
-- **Úlomky:** výhra na běžné mapě v kapitole I ≈ 70, v kapitole III ≈ 90. Prohra polovina (podle přežitých minut jako dřív).
+- **Úlomky:** výhra na běžné mapě v kapitole I ≈ 65–70, v kapitole II ≈ 100 (bot 8. 11.: hřbitov 510 zlata / 52 materiálu při násobku 0,85 → 1,1 dá ~67; poušť 768 / 80 → ~103). Prohra zhruba polovina (podle přežitých minut jako dřív).
 - **Esence z finále:** první výhra na každé obtížnosti (normál, NM I, II, III) **25 / 35 / 50 / 70**, opakovaná výhra **4 / 6 / 8 / 10**, ale jen **3 výhry finále denně** dávají Esenci.
 - **Nekonečná krypta:** 0,4 Esence za minutu od 5. minuty. Denně plně **20 Esence**, nad strop jen čtvrtina.
 - **Poklad kapitoly:** 50 Úlomků + 10 Esence (dřív 50 materiálu).
@@ -47,11 +47,11 @@ Skutečná data dvou hráčů (Supabase `profiles`, 8. 11.): za běh ~500–900 
 - Hráč, který výbavu nevylepšuje, Úlomky hromadí (strop je zastaví), ale má na co je utratit.
 - Po ~100 h roste zlato (truhly mají denní limit). To pohltí kapitoly IV–VI a noví hrdinové; kdyby ne, přidat další výdaj za zlato.
 
-### Převod starých uložených pozic
-Kostní prach + Jantar + Magmatit → Úlomky 1 : 1. Esence za dosavadní postup: 10 za každé poražené finále + 15 za každou výhru finále v Noční můře (`save.nmw`). Úrovně hrdinů, Vylepšení i předměty zůstávají. `save.econV=2`.
+### Převod starých uložených pozic (`econ2Migrate`)
+Kostní prach + Jantar + Magmatit → Úlomky 1 : 1. Za už poražená finále hráč dostane Esenci, jako by je vyhrál poprvé (normál 25, NM I 35, NM II 50, NM III 70) a ta se označí v `save.esF`, aby se nevyplatila dvakrát. Příklad: Fappoleon (Trůn a Brána na normál, Trůn na NM I) → 1 088 Úlomků a 85 Esence. Úrovně hrdinů, Vylepšení i předměty zůstávají. `save.econV=2`.
 
 ### Nekonečná krypta
-Odemkne se po prvním finále (Trůn). Hraje se na libovolné dohrané mapě, čas nekončí, od 5. minuty každou minutu +8 % zdraví a +5 % poškození nepřátel, elity častěji. Konec jen smrtí. Odměny: zlato a Úlomky jako běžný běh (prohra = poloviční Úlomky se nepočítá, běh vždy končí smrtí, takže plný vzorec), Esence podle pravidel výše. Rekord (čas) na mapu v Síni slávy.
+Odemkne se po prvním finále (Trůn): v Přípravě záložka ∞ vedle Nočních můr (`sel.endless`, `run.endless`). Hraje se na libovolné dohrané mapě, boss nepřijde, od 5. minuty každou minutu +8 % zdraví a +5 % poškození nepřátel navíc ke stávajícímu růstu. Konec jen smrtí. Odměny: zlato a Úlomky za celý čas (`rewT` bez stropu), Esence podle pravidel výše (`essGain`, `save.endD`). Rekord na mapu v `save.endB`, ukazuje se u map a na konci běhu.
 
 ---
 

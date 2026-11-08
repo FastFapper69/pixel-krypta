@@ -11,9 +11,9 @@ const res=await p.evaluate(()=>{const K=window.__krypta,out=[];K.save.sound=fals
 console.log(JSON.stringify(res));
 // screenshots with a few pets side by side in a run
 for(const k of ['wolf','drake','owl']){await p.evaluate(k=>{const K=window.__krypta;const c=K.petRoll(k,.5);K.save.pets={v:1,cards:[c],sel:c.u};K.startRun('knight','hrbitov');for(let i=0;i<60*25;i++)K.step(1/60);},k);await p.waitForTimeout(200);await p.screenshot({path:`/tmp/${pre}-run-${k}.png`});}
-await p.evaluate(()=>{const K=window.__krypta;K.save.coins=5000;K.save.mats.magma=300;K.save.pets={v:1,cards:[],sel:null};K.petInit();for(const k of K.PET_IDS)K.save.pets.cards.push(K.petRoll(k));K.openPets();});
+await p.evaluate(()=>{const K=window.__krypta;K.save.coins=5000;K.save.mats.shard=300;K.save.pets={v:1,cards:[],sel:null};K.petInit();for(const k of K.PET_IDS)K.save.pets.cards.push(K.petRoll(k));K.openPets();});
 await p.waitForTimeout(300);await p.screenshot({path:`/tmp/${pre}-screen.png`,fullPage:true});
 await p.evaluate(()=>{const K=window.__krypta;K.openPetCard(K.save.pets.cards[6].u);});await p.waitForTimeout(200);await p.screenshot({path:`/tmp/${pre}-card.png`});
 await p.evaluate(()=>{window.__krypta.openChestShop();});await p.waitForTimeout(300);await p.screenshot({path:`/tmp/${pre}-chests.png`,fullPage:true});
-await p.evaluate(()=>{const K=window.__krypta;K.save.coins=5000;K.save.mats.magma=300;const c=K.openPetChest();window.__c=c;});
+await p.evaluate(()=>{const K=window.__krypta;K.save.coins=5000;K.save.mats.shard=300;const c=K.openPetChest();window.__c=c;});
 console.log('chest ok',await p.evaluate(()=>window.__c&&window.__c.k),'errs',JSON.stringify(errs));await b.close();})();

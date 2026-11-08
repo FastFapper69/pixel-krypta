@@ -10,7 +10,9 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `dps.js` – DPS ultimátek vs. rodičů (balanc fúzí)
 - `fuse.js`, `chance.js` – rituál fúze a šance nabídky
 - `perf.js` – fps
-- `econ1.js`, `econ2.js`, `legs.js` – ekonomika, truhly, legendárky
+- `econB.js` – Ekonomika 2.0: převod staré pozice, ceny, odměny (Úlomky, Esence), denní limity truhel, Přebroušení, Nekonečná krypta; `shotB.js` – screenshoty jejích obrazovek; `econsim.py [param=hodnota]` – dlouhodobá simulace (Python)
+- `econ1.js`, `econ2.js` (stará ekonomika do 08a), `legs.js` – ekonomika, truhly, legendárky
+- `shotA.js`, `scrollshot.js`, `mergeA.js` – screenshoty a test úprav UI z 8. 11. (Kovárna, kategorie, sloučení)
 - `audio.js` – obnova zvuku po zamčení
 - `chestanim.js`, `menushot.js`, `thumbs.js` – screenshoty animace truhly, menu, pohlednic map
 - `qtest.js <mapa>`, `qover.js` – úkoly, hledaní, svíčky, konec běhu

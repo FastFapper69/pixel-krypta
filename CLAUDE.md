@@ -26,7 +26,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Skilly projektu** jsou v `.claude/skills/` (html5-mobile-game-dev, survivors-design-balance, mobile-store-launch). Když je session nenačte sama, přečti si příslušný `SKILL.md` ručně.
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak v kořeni `sed "s#url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'[^']*'#url:'',key:''#" index.html > tests/tools/off.html`, `cp lang-en.js tests/tools/`, `ln -s ../../thumbs tests/tools/thumbs`. Playwright je předinstalovaný.
-- **Stav k 2026-11-08 (verze 08a):** hotové kapitoly I–III (15 map), Noční můry I–III, karty věží, sety, mazlíčci (07z) a od 08a úpravy UI z feedbacku (viz sekce Feedback 8. 11.). **Rozpracované:** Ekonomika 2.0 (návrh v `EKONOMIKA.md`, nasazení 08b) a noví hrdinové Zbrojmistr a Krotitel (08c).
+- **Stav k 2026-11-08 (verze 08b):** hotové kapitoly I–III (15 map), Noční můry I–III, karty věží, sety, mazlíčci (07z), úpravy UI z feedbacku (08a) a **Ekonomika 2.0 s Nekonečnou kryptou** (08b, viz `EKONOMIKA.md` a sekce níže). **Rozpracované:** noví hrdinové Zbrojmistr a Krotitel (08c).
 - **Další na řadě (schválené přání uživatele, zatím nezačaté):**
   1. ~~Mazlíčci~~ **hotovo ve verzi 07z.** Uživatel nechtěl bláznivé návrhy (Kostík, Žvejka…), chtěl „normální“ zvířata. Zbývá doladit podle jeho dojmů a telemetrie; neřešená je kooperace (mazlíček tam zatím není).
   2. **Kapitoly IV–VI** se všemi mapami (hrdinové Šamanka mrazu, Námořnice, Hvězdářka už čekají zamčení, viz `HEROES[..].soon`).
@@ -145,6 +145,16 @@ Klíčové koncepty:
   Ekonomika: zlato z běhu se po běhu bere jen z části (`keepGold`: 30 % z prvních 2000, 10 % nad), kombo každých 25 max 40 zlata (v běhu na věže), materiál z komba každých 200, za minutu 2, elita 2–3, výhra 10 / finále 25, finále ×1,25; truhly 250/750/2000, Věžová 700. Bot (`bot.js` vypisuje zlato/materiál za běh): běžná výhra ~1100 zlata a ~130 materiálu, finále ~2100 / ~440 (dřív 5–15 tisíc / 2000).
 
 - **Kapitola III Hlubiny (07y):** viz `KAMPAN.md`. Generátor `buildDeep` (`def.deep` forge/river/crystal/core) + `MF.deep` (voda `built.wet`, erupce `eruptUpdate`/`run.erupt` jen ve finále, `snap/apply` pro co-op), sprity `DP_PROPS`/`dpSprite`, zem `fx` `magma` (pálí, `drawPuddle`). Bossové `forge`, `colossus`, `titan` v `BEH`, úhoř = `worm` s `e.d.puff`. Věže `forge`/`ram` (`TW_UNL` kovarna/krystaly, `TW_SOON` je prázdné). Set `forge` (`lg.sf4` → `anvilStrike` jako `meteor`), legendárka `mheart` (v `hurtPlayer`). Kovářka: `HEROES.smith.need:'doly'` + cena 1500 (místo `soon`). Karavana: věž postavená do 90 od velblouda dostane `t.cv` a jede s ním (`updateTowers`, kola v `towerPlate`).  Spodní lišta `.sticky` je přes celou šířku a sahá až k okraji (záporný spodní margin), test `tests/tools/goshot.js`. Pohlednice přegenerované, `MAP_ART`='a2'. Bot (`zkuseny`): kapitola III 0–50 %, finále srdce 0 %; (`max`) 50–100 %.
+
+## Ekonomika 2.0 (08b) – podrobnosti v `EKONOMIKA.md`
+- Měny: `MAT_IDS=['shard','ess']` (Úlomky, Esence). Kapitoly mají `mat:'shard'`, `MATX(m)` převádí staré klíče (úkoly v uložených pozicích) na `shard`. Staré pozice převádí `econ2Migrate()` v `econInit` (`save.econV=2`).
+- Ceny jedním vzorcem: `upF(r,lv)` (předměty, karty věží, mazlíčci), `investF`, `refundF`, `ECON.heroCost`, `metaCost`. Placení `canPay`/`payC`/`gainC`.
+- Příjem: `runRewards` (Úlomky ×`SH_K` a +15 % za kapitolu), `essGain` (první výhra finále na obtížnosti `ES_FIRST`, opakovaná `ES_REP` max `ES_FIN_DAY`× denně, Nekonečná krypta `EN_RATE` za minutu od `EN_T0`, denně plně `EN_CAP`). Strop `SH_CAP` 6 000, přebytek na zlato 1 : 3 (i v `persist`).
+- Truhly: denní limity `CH_LIMIT` (`chLeft`, `chUse`, `save.chD`). Věžová a Mazlíčkova chtějí zlato + 60 Úlomků.
+- Přebroušení: `openReforge(kind,o,back)` pro `item`/`tw`/`pet`, cena `rfCost(o.rf)`.
+- Nekonečná krypta: `sel.endless`, `run.endless` (bez bosse, `makeEnemy` škáluje, `rewT` bez stropu), rekordy `save.endB`.
+- Nové klíče v `SYNC_KEYS` a `loadSave`: `econV, esF, esD, endD, endB, chD`.
+- Testy: `econB.js` (převod, ceny, odměny, limity, Přebroušení, Nekonečná krypta), `shotB.js` (screenshoty), `econsim.py` (dlouhodobá simulace). `econ1.js` a `econ2.js` jsou ze staré ekonomiky.
 
 ## Feedback 8. 11. – balík A (08a)
 - **Kovárna** je samostatná obrazovka (`scr-forge`, `openForge`, `renderForge`) se záložkami Kování | Vylepšení (`scr-shop`, nadpis Kovárna). Obchod (`scr-chests`) má jen truhly. Menu: Vybavení | Kovárna, Obchod | Nástěnka; Síň slávy je ikona v `#mTop` (`#mBoard`, `#icBoard`). Odznak hodnosti Vylepšení je na `#mForge`.
