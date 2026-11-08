@@ -3283,7 +3283,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08i';
+const GAME_VER='2026-11-08j';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3292,7 +3292,7 @@ const ZERO_B={hp:0,hpPct:0,armor:0,regen:0,dmg:0,crit:0,fuse:0,cd:0,spd:0,mag:0,
 const CO={on:false,role:null,ctxMate:false};
 const isGuest=()=>CO.role==='guest'&&!!run&&!!run.coop;
 // run code written for one hero works on the partner by temporarily swapping the per-hero fields
-function withPl(pl,fn){const K=['p','W','P','hero','heroId','fused','fuseMiss','revived','meta','bonus','revT'],sv={};for(const k of K)sv[k]=run[k];const s0=st,c0=CO.ctxMate;
+function withPl(pl,fn){const K=['p','W','P','hero','heroId','fused','fuseMiss','revived','meta','bonus','revT','pet','pet2'],sv={};for(const k of K)sv[k]=run[k];const s0=st,c0=CO.ctxMate;
   for(const k of K)run[k]=pl[k];st=pl.st;CO.ctxMate=true;
   try{return fn();}finally{for(const k of K)pl[k]=run[k];pl.st=st;for(const k of K)run[k]=sv[k];st=s0;CO.ctxMate=c0;}}
 const screens={menu:$('#scr-menu'),towers:$('#scr-towers'),pets:$('#scr-pets'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),forge:$('#scr-forge'),codex:$('#scr-codex'),guide:$('#scr-guide'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master')};
@@ -4658,7 +4658,7 @@ function renderLight(g,ox,oy){
   const p=run.p;L(p.x,p.y-3,74+M.pulse*8,1);{const mt=coMate();if(mt)L(mt.x,mt.y-3,64+M.pulse*8,1);if(mt&&!mt.down&&!p.down){const d=Math.hypot(mt.x-p.x,mt.y-p.y),k=bondStr(d,run.bw);if(k>0)for(let i=1;i<6;i++){const t=i/6;L(p.x+(mt.x-p.x)*t,p.y+(mt.y-p.y)*t-4,14+k*10,.35*k);}}}
   for(const q of run.built.lights)L(q.x,q.y,q.r*(1+.06*M.pulse),q.a||1);
   mfCall('lights',L);if(run.allies)for(const a of run.allies)L(a.x,a.y-4,22,.6);
-  if(!run.pls)for(const P of [run.pet,run.pet2])if(P&&['salamander','drake','phoenix'].includes(P.k))L(P.x,P.y-4,26,.7);if(run.pfire)for(const f of run.pfire)L(f.x,f.y,f.r+8,.6);
+  for(const P of isGuest()?(run.gpets||[]):allPets())if(['salamander','drake','phoenix'].includes(P.k))L(P.x,P.y-4,26,.7);if(run.pfire)for(const f of run.pfire)L(f.x,f.y,f.r+8,.6);
   for(const s of run.shots){if(s.kind==='bolt'||s.kind==='note')L(s.x,s.y,15,.8);else if(s.kind==='fire'||s.kind==='steam')L(s.x,s.y,24,1);}
   for(const s of run.eshots)L(s.x,s.y,10,.6);
   for(const f of run.fx){if(f.k==='boom')L(f.x,f.y,f.max*2,1);else if(f.k==='bolt')L(f.x,f.y,70,1);else if(f.k==='burn')L(f.x,f.y,f.r*1.6,.7);else if(f.k==='meteor'&&f.t>0)L(f.x,f.y,f.rad,.5);
@@ -4789,7 +4789,7 @@ function render(){
   if(run.crystal&&inView(run.crystal,30))list.push(run.crystal);
   for(const q of run.built.props){const hw=q.spr.w/2;if(q.x+hw>cam.x-8&&q.x-hw<cam.x+VW+8&&q.y>cam.y-8&&q.y-q.spr.h<cam.y+VH+8)list.push(q);}
   if(run.carts)for(const c of run.carts)list.push({isCart:true,x:c.x,y:c.y+3,c});
-  if(run.allies)for(const a of run.allies)list.push(a);if(!run.pls&&!isGuest()){if(run.pet)list.push(run.pet);if(run.pet2)list.push(run.pet2);}mfCall('units',list);
+  if(run.allies)for(const a of run.allies)list.push(a);if(!isGuest()){for(const P of allPets())list.push(P);}else if(run.gpets)for(const P of run.gpets)list.push(P);mfCall('units',list);
   list.push(p);{const mt=coMate();if(mt)list.push(mt);}list.sort((a,b)=>a.y-b.y);
   for(const u of list){
     if(u.isCart){const s=mnSprite('cart'),x=RZ(u.x+ox),y=RZ(u.y+oy);shadow(g,x,y,22);blit(g,s.c,s,x,y-s.h+1);continue;}
@@ -5902,14 +5902,19 @@ function openPetChest(){if(!petCan(PET_CHEST.cost)||chLeft('pet')<=0)return null
 function openTowerChest(){if(!petCan(TW_CHEST_COST)||chLeft('tower')<=0)return null;chUse('tower');petPay(TW_CHEST_COST);twInit();
   const pool=T_IDS.filter(k=>T_BASE.includes(k)||twMapWon(k)),k=pick(pool),r=rollRarity(TW_CHEST),c=twRoll(k,r);save.tw.cards.push(c);persist();return c;}
 // --- in the run ---
-function petStart(n){petInit();const two=n===2;if(two&&(run.heroId!=='tamer'||!save.pets.sel2||save.pets.sel2===save.pets.sel))return null;const c=petCard(two?save.pets.sel2:save.pets.sel);if(!c)return null;const S=petStat(c),p=run.p;
-  {const T=heroBonus(run.heroId);S.dm*=1+(T.petd||0);S.rt*=1+(T.petr||0);S.pw*=1+(T.petp||0);}
+function petStart(n){petInit();const two=n===2;if(two&&(run.heroId!=='tamer'||!save.pets.sel2||save.pets.sel2===save.pets.sel))return null;const c=petCard(two?save.pets.sel2:save.pets.sel);if(!c)return null;return petMake(c,run.p,two,heroBonus(run.heroId));}
+// the cards of my pets for the co-op partner's host (sent in hello)
+function petsHello(h){petInit();const a=[petCard(save.pets.sel)];if(h==='tamer'&&save.pets.sel2&&save.pets.sel2!==save.pets.sel)a.push(petCard(save.pets.sel2));return a.filter(Boolean).map(c=>({k:c.k,r:c.r,lv:c.lv||0,b:c.b||{}}));}
+function petMake(c,p,two,T){if(!c||!PETS[c.k])return null;const S=petStat(c);T=T||{};S.dm*=1+(T.petd||0);S.rt*=1+(T.petr||0);S.pw*=1+(T.petp||0);
   return{isPet:true,k:c.k,x:p.x+(two?14:-14),y:p.y+4,face:1,cd:.6,t:0,anim:0,hits:0,rd:0,S,fc:0,mark:null,markT:0,dig:6,dbl:false,show:true,born:0};}
 const PET_DK=.2; // pet damage is a helper, not a second weapon: ~10–15 % of a hero's damage (tests/tools/petbal.js)
 function petDmg(P){return PETS[P.k].dmg*PET_DK*P.S.dm*(1+.12*run.level);}
 function petHit(e,d,kx,ky){if(e.wm>run.t)d*=1.3;run.pdm=(run.pdm||0)+d;hurtEnemy(e,d,kx,ky);}
 function petFx(x,y,col,n){for(let i=0;i<n;i++)addP({x:x+rnd(-2,2),y:y+rnd(-3,1),vx:rnd(-40,40),vy:rnd(-60,-10),life:rnd(.25,.5),col,sz:1,g:0});}
-function petUpdate(dt){if(run.pls||isGuest()||run.over)return;for(const P of [run.pet,run.pet2])if(P)petStep(P,dt);petFire(dt);}
+function petUpdate(dt){if(isGuest()||run.over)return;for(const P of [run.pet,run.pet2])if(P)petStep(P,dt);
+  if(run.pls)withPl(run.pls[1],()=>{for(const P of [run.pet,run.pet2])if(P)petStep(P,dt);});petFire(dt);}
+// every pet in the run (mine and, as co-op host, my partner's)
+function allPets(){const a=[run.pet,run.pet2];if(run.pls){const q=run.pls[1];a.push(q.pet,q.pet2);}return a.filter(Boolean);}
 function petStep(P,dt){const p=run.p,D=PETS[P.k],S=P.S;
   P.t+=dt;P.cd-=dt;P.rd=Math.max(0,P.rd-dt);
   // target: nearest enemy to the pet that is still near the hero
@@ -5948,7 +5953,7 @@ function petFire(dt){
   if(run.pfire){for(const f of run.pfire){f.life-=dt;f.t+=dt;if(f.t>=.4){f.t-=.4;for(const e of run.enemies)if(!e.dead&&!e.bur&&Math.hypot(e.x-f.x,e.y-f.y)<f.r+e.r)petHit(e,f.dmg,0,0);}}
     run.pfire=run.pfire.filter(f=>f.life>0);}}
 // the phoenix: a second life once per run (recharges), a blast throws the enemies back
-function petRevive(){const P=[run.pet,run.pet2].find(x=>x&&x.k==='phoenix'&&!(x.rd>0)),p=run.p;if(!P||run.pls)return false;
+function petRevive(){const P=[run.pet,run.pet2].find(x=>x&&x.k==='phoenix'&&!(x.rd>0)),p=run.p;if(!P||isGuest())return false;
   P.rd=150;p.hp=Math.ceil(p.max*.5);p.inv=2.5;toast(_t('Fénix tě oživil!'),1800);sfx('level');run.eshots.length=0;
   explode(p.x,p.y,70,(24+run.level*2)*P.S.pw);run.enemies.forEach(e=>{if(!e.boss&&Math.hypot(e.x-p.x,e.y-p.y)<110){e.kx+=(e.x-p.x)*5;e.ky+=(e.y-p.y)*5;}});
   for(let i=0;i<24;i++)addP({k:'ember',x:p.x,y:p.y-6,vx:rnd(-90,90),vy:rnd(-130,-20),life:rnd(.5,1),col:pick(['#fff6c8','#ffb040','#ff6a2a']),sz:1,g:0});return true;}
@@ -6528,7 +6533,7 @@ function coRoomUi(){$('#coStartBox').hidden=true;$('#coRoom').hidden=false;$('#c
   const hb=$('#coHeroes');hb.innerHTML='';
   for(const id in HEROES){if(!heroOwned(id))continue;const b=document.createElement('button');b.className='co-pick'+(LO.hero===id?' on':'');
     b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><span>'+HEROES[id].name+'</span>';
-    b.onclick=()=>{LO.hero=id;sfx('ui');coRoomUi();netSend({t:'hello',hero:id,meta:save.meta,nick:save.nick||'',bonus:heroBonus(id)});};hb.appendChild(b);}
+    b.onclick=()=>{LO.hero=id;sfx('ui');coRoomUi();netSend({t:'hello',hero:id,meta:save.meta,nick:save.nick||'',bonus:heroBonus(id),pets:petsHello(id)});};hb.appendChild(b);}
   const mb=$('#coMaps');mb.innerHTML='';
   for(const id of MAP_IDS){const own=host?mapUnlocked(id):LO.map===id;if(!own)continue;const b=document.createElement('button');
     b.className='co-pick map'+(LO.map===id?' on':'');b.disabled=!host;b.innerHTML='<span>'+MAPS[id].name+'</span>';
@@ -6551,9 +6556,9 @@ async function coJoin(code){
   catch(e){$('#coErr').textContent=errText(e);CO.role=null;}
 }
 function coLobbyOpen(){CO.on=true;coStatus(_t('Spojeno')+(NET.mode==='bc'?_t(' (pomalejší spojení)'):'')+' · ping '+Math.round(NET.rtt||0)+' ms');
-  netSend({t:'hello',hero:LO.hero,meta:save.meta,nick:save.nick||'',bonus:heroBonus(LO.hero)});if(NET.role==='host')netSend({t:'map',map:LO.map,nm:LO.nm||0});
+  netSend({t:'hello',hero:LO.hero,meta:save.meta,nick:save.nick||'',bonus:heroBonus(LO.hero),pets:petsHello(LO.hero)});if(NET.role==='host')netSend({t:'map',map:LO.map,nm:LO.nm||0});
   if(state==='coop')coRoomUi();sfx('level');}
-NET.h.hello=o=>{LO.mateHero=HEROES[o.hero]?o.hero:'knight';LO.mateMeta=o.meta||null;LO.mateBonus=o.bonus||null;LO.mateNick=o.nick||'';
+NET.h.hello=o=>{LO.mateHero=HEROES[o.hero]?o.hero:'knight';LO.mateMeta=o.meta||null;LO.mateBonus=o.bonus||null;LO.matePets=Array.isArray(o.pets)?o.pets.slice(0,2):[];LO.mateNick=o.nick||'';
   if(state==='coop')coStatus(_t('Spojeno s ')+(LO.mateNick||_t('kamarádem'))+' ('+HEROES[LO.mateHero].name+') · ping '+Math.round(NET.rtt||0)+' ms');};
 NET.h.map=o=>{if(MAPS[o.map]){LO.map=o.map;LO.nm=o.nm||0;if(state==='coop')coRoomUi();}};
 NET.h.start=o=>{if(CO.role==='guest')guestStartRun(o);};
@@ -6570,6 +6575,7 @@ function coHostGo(){
     p:{x:run.p.x+16,y:run.p.y,hp:100,max:100,inv:0,r:4,face:{x:0,y:1},moving:false,anim:0,flash:0,haz:0,reg:0,isMate:true,heroId:LO.mateHero,lock:0}};
   run.pls=[{p:run.p},pl];
   withPl(pl,()=>{recalc();run.p.max=st.max;run.p.hp=st.max;addWeapon(hero.start);if(hero.builder)addTower('arrow',run.p.x+24,run.p.y);});
+  {const mp=LO.matePets||[];pl.pet=petMake(mp[0],pl.p,false,pl.bonus);pl.pet2=LO.mateHero==='tamer'?petMake(mp[1],pl.p,true,pl.bonus):null;}
   run.lv={host:true,guest:true};CO.snapT=0;CO.lastState='';
   toast0(_t('Hrajete spolu! Mezi vámi je rytmické pouto'),2600);
 }
@@ -6641,7 +6647,8 @@ function coSnap(){
     E,S,ES:run.eshots.flatMap(s=>[r2(s.x),r2(s.y)]),G:run.gems.flatMap(g=>[r2(g.x),r2(g.y)]),I:run.items.flatMap(i=>[r2(i.x),r2(i.y),IKINDS.indexOf(i.k)]),
     T:run.towers.map(t=>[T_IDS.indexOf(t.k),r2(t.x),r2(t.y),t.lv,Math.ceil(t.hp),t.max,+(t.kick||0).toFixed(2),t.flash>0?1:0]),
     cr:run.crystal?[Math.ceil(run.crystal.hp),run.crystal.max,run.crystal.flash>0?1:0]:null,ca:run.carts?run.carts.map(c=>+c.s.toFixed(1)):null,
-    bo:run.boss?run.boss.nid||0:0,mt:run.mat||0,bw:!!run.bw,fx,n:nums,kd:K,fs:run.flashScr>.15?+run.flashScr.toFixed(2):0,cu:run.curse>0?1:0,mf:mfCall('snap')||null,al:(run.allies||[]).flatMap(a=>[r2(a.x),r2(a.y),Math.round(a.t)])};
+    bo:run.boss?run.boss.nid||0:0,mt:run.mat||0,bw:!!run.bw,fx,n:nums,kd:K,fs:run.flashScr>.15?+run.flashScr.toFixed(2):0,cu:run.curse>0?1:0,mf:mfCall('snap')||null,al:(run.allies||[]).flatMap(a=>[r2(a.x),r2(a.y),Math.round(a.t)]),
+    pt:allPets().flatMap(P=>[PET_IDS.indexOf(P.k),r2(P.x),r2(P.y),P.face<0?-1:1,(P.bit>0?1:0)|(P.rd>0?2:0)]),pf:(run.pfire||[]).map(f=>[r2(f.x),r2(f.y),f.r,+f.life.toFixed(1),f.max,+f.seed.toFixed(2)])};
   if(q.forced){o.gp=[q.x,q.y];q.forced=false;}
   netSend(o);
 }
@@ -6709,6 +6716,9 @@ function guestApply(o){
   if(R.crystal&&o.cr){R.crystal.hp=o.cr[0];R.crystal.max=o.cr[1];if(o.cr[2])R.crystal.flash=.12;}
   if(o.ca){R.carts=o.ca.map(s=>{const q=railPos(s);return{s,x:q.x,y:q.y};});}
   R.curse=o.cu?1:0;if(o.mf)mfCall('apply',o.mf);R.allies=[];if(o.al)for(let i=0;i<o.al.length;i+=3)R.allies.push({isAlly:true,x:h2(o.al[i]),y:h2(o.al[i+1]),t:o.al[i+2],face:1});
+  {const old=R.gpets||[],np=[];if(o.pt)for(let i=0,j=0;i<o.pt.length;i+=5,j++){const k=PET_IDS[o.pt[i]];if(!k)continue;const q=old[j]&&old[j].k===k?old[j]:{isPet:true,k,x:h2(o.pt[i+1]),y:h2(o.pt[i+2]),t:0,anim:0,face:1};
+      q.tx=h2(o.pt[i+1]);q.ty=h2(o.pt[i+2]);q.face=o.pt[i+3];q.bit=o.pt[i+4]&1?.12:0;q.rd=o.pt[i+4]&2?1:0;np.push(q);}R.gpets=np;
+    R.pfire=(o.pf||[]).map(a=>({x:h2(a[0]),y:h2(a[1]),r:a[2],life:a[3],max:a[4],seed:a[5],t:0}));}
   for(const f of o.fx){f.hit=new Set();R.fx.push(f);if(f.k==='boom')sfx('boom');else if(f.k==='bolt'||f.k==='arc')sfx('zap');}
   for(const n of o.n)if(R.nums.length<40)R.nums.push({x:h2(n[0]),y:h2(n[1]),txt:n[2],col:n[3],big:!!n[4],life:n[4]?.75:.6,t:0});
   if(o.n.length)sfx('hit');
@@ -6722,7 +6732,8 @@ function guestUpdate(dt){
     p.moving=mm>.05;if(p.moving){p.face.x=mx/Math.max(mm,.001);p.face.y=my/Math.max(mm,.001);p.anim+=dt*10;}
     const spd=st.speed*(p.down?.55:1);p.x=clamp(p.x+mx*spd*dt,14,sz-14);p.y=clamp(p.y+my*spd*dt,14,sz-14);mfCall('move',p,dt);}else p.moving=false;
   p.inv=Math.max(0,p.inv-dt);p.flash=Math.max(0,p.flash-dt);
-  const m=R.mate;if(m.tx!==undefined){const k=Math.min(1,dt*14);m.x+=(m.tx-m.x)*k;m.y+=(m.ty-m.y)*k;}m.flash=Math.max(0,m.flash-dt);m.inv=Math.max(0,m.inv-dt);
+  const m=R.mate;if(m.tx!==undefined){const k=Math.min(1,dt*14);m.x+=(m.tx-m.x)*k;m.y+=(m.ty-m.y)*k;}
+  for(const P of R.gpets||[]){P.t+=dt;if(P.tx!==undefined){const k=Math.min(1,dt*12),d=Math.hypot(P.tx-P.x,P.ty-P.y);if(d>120){P.x=P.tx;P.y=P.ty;}else{P.x+=(P.tx-P.x)*k;P.y+=(P.ty-P.y)*k;}if(d>1)P.anim+=dt*10;}}m.flash=Math.max(0,m.flash-dt);m.inv=Math.max(0,m.inv-dt);
   const k=Math.min(1,dt*12);
   for(const e of R.enemies){if(e.tx!==undefined){e.x+=(e.tx-e.x)*k;e.y+=(e.ty-e.y)*k;}e.flash=Math.max(0,e.flash-dt);}
   for(const s of R.shots){s.x+=s.vx*dt;s.y+=s.vy*dt;}
@@ -6779,6 +6790,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08j',d:'8. 11. 2026',t:_t('Mazlíčci v co-opu'),items:[_t('Při hře s kamarádem s vámi bojují mazlíčci obou hráčů (Krotitel si bere oba své). Fénix tě oživí i v co-opu.')]},
  {v:'2026-11-08i',d:'8. 11. 2026',t:_t('Bez Přebroušení'),items:[_t('Přebroušení předmětů, věží a mazlíčků je pryč. Detail kusu je přehlednější.')]},
  {v:'2026-11-08h',d:'8. 11. 2026',t:_t('Strom vylepšení předělaný'),items:[_t('Klíčové uzly mají teď 10 úrovní a sílí postupně, místo jednoho silného nákupu. Některé schopnosti jsou nové (Ostrost, Síla rituálu, Regenerace).'),_t('Další uzel se otevře poraženou kapitolou a 3 úrovněmi uzlu nad ním. Co jednou koupíš, už se nikdy nezamkne.'),_t('Mistrovství se otevře po 50 koupených úrovních ve větvi.'),_t('Za klíčové uzly koupené ve verzi 08g jsi dostal plnou cenu zpět.')]},
  {v:'2026-11-08g',d:'8. 11. 2026',t:_t('Strom vylepšení'),items:[_t('Vylepšení v Kovárně jsou teď <b>strom</b> se třemi větvemi: Útok, Obrana a Kořist. Tvoje dosavadní úrovně zůstaly.'),_t('Každá větev má pět <b>klíčových uzlů</b> s novou schopností, třeba štít, 4 karty při nové úrovni, dvě vylepšení z truhly nebo dvojitou Druhou šanci. Každá kapitola otevře další patro.'),_t('Když vymaxuješ bonusy větve, otevře se nekonečné <b>Mistrovství</b>, takže je pořád co vylepšovat.')]},

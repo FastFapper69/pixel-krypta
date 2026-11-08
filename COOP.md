@@ -136,3 +136,7 @@ Už dnes každá ultimátka přidává do hudby nástroj. V co-opu se vrstvy obo
   1. WebRTC přes mobilní sítě bez TURN serveru. Část dvojic se nemusí spojit napřímo; záloha přes broadcast je pomalejší a čerpá kvótu. Řešení: placený TURN nebo zdarma tier (např. Cloudflare/metered) až podle skutečných dat.
   2. Výkon hosta: jeho telefon počítá dva hrdiny a víc nepřátel. Hlídat fps na slabším Androidu.
   3. Instagram in-app prohlížeč (WebRTC, uspávání při přepnutí aplikace). Při přepnutí do DM se spojení může přerušit, proto je v plánu 30s návrat.
+
+
+## Mazlíčci (08j)
+Host simuluje mazlíčky obou hráčů (karty kamaráda přijdou v `hello.pets`), posílá je ve snímku (`pt`, `pf`), guest je jen kreslí. Detaily v `CLAUDE.md` (sekce Mazlíčci).

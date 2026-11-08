@@ -1539,4 +1539,6 @@ window.KRYPTA_EN={
 "padají na všech mapách, v pozdějších kapitolách víc. Na Vylepšení od úrovně 10, úrovně hrdinů a vylepšování výbavy, věží a mazlíčků. Sklad má strop 6 000, přebytek se změní na zlato.":"drop on all maps, more in later chapters. For Upgrades from level 10, hero levels and upgrading gear, towers and pets. Storage is capped at 6,000, the surplus turns into gold.",
 "Bez Přebroušení":"No more Reforging",
 "Přebroušení předmětů, věží a mazlíčků je pryč. Detail kusu je přehlednější.":"Reforging of items, towers and pets is gone. The item detail is tidier.",
+"Mazlíčci v co-opu":"Pets in co-op",
+"Při hře s kamarádem s vámi bojují mazlíčci obou hráčů (Krotitel si bere oba své). Fénix tě oživí i v co-opu.":"When playing with a friend, both players' pets fight with you (the Tamer brings both of his). The Phoenix revives you in co-op too.",
 };
