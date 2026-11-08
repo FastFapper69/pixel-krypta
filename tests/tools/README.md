@@ -13,6 +13,7 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `econB.js` – Ekonomika 2.0: převod staré pozice, ceny, odměny (Úlomky, Esence), denní limity truhel, Přebroušení, Nekonečná krypta; `shotB.js` – screenshoty jejích obrazovek; `econsim.py [param=hodnota]` – dlouhodobá simulace (Python)
 - `econ1.js`, `econ2.js` (stará ekonomika do 08a), `legs.js` – ekonomika, truhly, legendárky
 - `mech4.js` – kapitola IV: led (klouzání), mráz v Tajze, laviny, zamrzání arény, Halapartna a Bič; `shot4.js <prefix>` – snímky těchto mechanik, zbraní a věží Ohniště a Rampouchová věž; `camp4.js <png>` – kampaň s kapitolou IV; `drop8e.js` – výbava z kampaně jen za první výhru na NM
+- `tree.js <prefix>` – strom vylepšení: screenshoty (nový a pokročilý hráč, detail uzlu), nákup, účinky v běhu (zbraň úr. 2, štít, 4 karty)
 - `heroesC.js` – Zbrojmistr (6 slotů na zbraň, druhá zbraň od úrovně 10) a Krotitel (dva mazlíčci, talenty) + screenshoty
 - `shotA.js`, `scrollshot.js`, `mergeA.js` – screenshoty a test úprav UI z 8. 11. (Kovárna, kategorie, sloučení)
 - `audio.js` – obnova zvuku po zamčení
