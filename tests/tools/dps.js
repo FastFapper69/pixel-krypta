@@ -3,7 +3,7 @@ const {chromium}=require('playwright');
 const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message+' '+e.stack.split('\n')[1]));
 await p.goto('file://'+process.cwd()+'/off.html');await p.waitForTimeout(400);
 const out=[];
-for(const [ult,parents] of [['vortex',['blade','aura']],['storm',['bolt','lightning']],['meteor',['fireball','axe']],['blizzard',['arrows','frost']]]){
+for(const [ult,parents] of (process.argv[2]?JSON.parse(process.argv[2]):[['vortex',['blade','aura']],['storm',['bolt','lightning']],['meteor',['fireball','axe']],['blizzard',['arrows','frost']]])){
  const row={};
  for(const cfg of ['p5','p6','I','II','III']){
   row[cfg]=await p.evaluate(([ult,parents,cfg])=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;K.god=true;K.startRun('knight','hrbitov');const R=K.run;

@@ -7,7 +7,7 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 
 - `shot.js <mapa> <png>` – smoke test běhu (90 kroků, chyby, šířka dokumentu) + screenshot
 - `ui.js` – obrazovky menu, hrdina, obchod, kovárna
-- `dps.js` – DPS ultimátek vs. rodičů (balanc fúzí)
+- `dps.js ['[["ult",["a","b"]]]']` – DPS ultimátek vs. rodičů (balanc fúzí, bez argumentu původní 4); `fuse4.js <prefix>` – nové fúze 08k: nabídka z rodičů a snímky v boji
 - `fuse.js`, `chance.js` – rituál fúze a šance nabídky
 - `perf.js` – fps
 - `econB.js` – Ekonomika 2.0: převod staré pozice, ceny, odměny (Úlomky, Esence), denní limity truhel, Přebroušení, Nekonečná krypta; `shotB.js` – screenshoty jejích obrazovek; `econsim.py [param=hodnota]` – dlouhodobá simulace (Python)
