@@ -551,10 +551,10 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 /* 08a: inventory categories, NEW ribbon, rarity pill, Kovárna, chapter reward */
 .cats{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:2px 0 10px}
 .cats button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:48px;padding:5px 2px;background:var(--panel);color:var(--ink);border:0;clip-path:var(--px);box-shadow:inset 0 0 0 2px var(--line);font:700 13px/1 var(--font);cursor:pointer}
-.cats button img{width:24px;height:24px;image-rendering:pixelated}.cats button small{font-size:11px;color:var(--muted);font-weight:700}
+.cats button img{width:24px;height:24px;image-rendering:pixelated}.cats button b{display:block;height:24px;line-height:26px;font:800 15px/26px var(--font);color:#f2ecff;letter-spacing:.03em}.cats button.on b{color:var(--gold)}.cats button small{font-size:11px;color:var(--muted);font-weight:700}
 .cats button.on{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}.cats button.on small{color:var(--gold)}
-.nwt{position:absolute;left:50%;top:-5px;transform:translateX(-50%);z-index:2;font:800 9px/1 var(--font);letter-spacing:.06em;color:#1a1020;background:var(--gold);padding:3px 4px 2px;box-shadow:0 0 0 2px #1a1020;pointer-events:none;white-space:nowrap}
-.itile,.ttile{position:relative;overflow:visible}
+.nwt{position:absolute;right:3px;top:3px;z-index:2;font:800 8px/1 var(--font);letter-spacing:.04em;color:#1a1020;background:var(--gold);padding:2px 3px 1px;pointer-events:none;white-space:nowrap}
+.itile,.ttile{position:relative}
 .rp{display:inline-block;margin-top:2px;font:800 9px/1 var(--font);letter-spacing:.05em;text-transform:uppercase;color:#140f1c;background:var(--rc);padding:3px 5px 2px}
 .tslot{position:relative}
 .mnode.tre{position:relative;margin-top:10px;padding-right:12px;background:linear-gradient(90deg,#2e2210,var(--panel) 80%);box-shadow:inset 0 0 0 3px #6a5424}
@@ -3016,7 +3016,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08c';
+const GAME_VER='2026-11-08d';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -6377,6 +6377,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08d',d:'8. 11. 2026',t:_t('Drobné opravy výbavy'),items:[_t('Tlačítko <b>Vše</b> v kategoriích výbavy je čitelné a štítek NOVÉ už nepřečnívá z dlaždice.')]},
  {v:'2026-11-08c',d:'8. 11. 2026',t:_t('Dva noví hrdinové'),items:[_t('<b>Zbrojmistr</b> unese o zbraň víc (6 místo 5). Úrovně mu přidávají poškození a rychlost útoků, od úrovně 10 začíná se dvěma zbraněmi.'),_t('<b>Krotitel</b> si do běhu vezme dva mazlíčky. Úrovně posilují poškození, rychlost i schopnosti mazlíčků. Druhého mazlíčka vybereš ve Vybavení na záložce Mazlíčci.'),_t('Oba koupíš v Přípravě za 1 000 zlata po poražení Trůnu kostí.')]},
  {v:'2026-11-08b',d:'8. 11. 2026',t:_t('Nová ekonomika a Nekonečná krypta'),items:[_t('Místo materiálu každé kapitoly jsou jen dva: <b>Úlomky</b> padají na všech mapách a vzácná <b>Esence</b> jen z finálních bossů a z Nekonečné krypty. Tvůj Kostní prach, Jantar a Magmatit se převedly na Úlomky a za už poražená finále jsi dostal Esenci.'),_t('Ceny jsou přepočítané, aby ti nedocházelo jen zlato a nehromadil se materiál. Vylepšení, úrovně hrdinů i vylepšování výbavy chtějí zlato i Úlomky, vrchol navíc Esenci.'),_t('<b>Nekonečná krypta</b>: v Přípravě zapni ∞ a hraj dohranou mapu bez konce. Nepřátelé každou minutu sílí, od 5. minuty padá Esence (denně plně 20) a máš rekord na každou mapu.'),_t('<b>Přebroušení</b> v detailu předmětu, věže nebo mazlíčka znovu vylosuje jednu vlastnost.'),_t('Drahé truhly mají denní limit (Železná 4, Zlatá 2, Věžová a Mazlíčkova 3). Sklad Úlomků má strop 6 000, přebytek se změní na zlato.')]},
  {v:'2026-11-08a',d:'8. 11. 2026',t:_t('Kovárna a přehlednější výbava'),items:[_t('Nové tlačítko <b>Kovárna</b> v menu: sloučení předmětů a Vylepšení. Obchod má jen truhly, Síň slávy je nahoře u ikon.'),_t('Ve Vybavení přepínáš druh výbavy tlačítky nad inventářem. Nové předměty mají štítek <b>NOVÉ</b>, zmizí po prvním ťuknutí.'),_t('Barva předmětu vždy znamená raritu. Kusy setu padají v různých raritách (v Nočních můrách lepší) a každý hráč dostane z finále vlastní náhodný kus.'),_t('Sloučení: 3 stejné kusy stejné rarity dají jeden o raritu vyšší.'),_t('Po běhu je jen tlačítko <b>Pokračovat</b>, po výhře rovnou s další mapou. Poklad kapitoly je oddělený od map.')]},

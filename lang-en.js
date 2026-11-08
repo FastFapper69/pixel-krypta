@@ -1367,4 +1367,6 @@ window.KRYPTA_EN={
 "<b>Zbrojmistr</b> unese o zbraň víc (6 místo 5). Úrovně mu přidávají poškození a rychlost útoků, od úrovně 10 začíná se dvěma zbraněmi.":"The <b>Weaponmaster</b> carries one more weapon (6 instead of 5). Levels add damage and attack speed, and from level 10 he starts with two weapons.",
 "<b>Krotitel</b> si do běhu vezme dva mazlíčky. Úrovně posilují poškození, rychlost i schopnosti mazlíčků. Druhého mazlíčka vybereš ve Vybavení na záložce Mazlíčci.":"The <b>Tamer</b> takes two pets into a run. Levels strengthen the pets' damage, speed and abilities. You pick the second pet in Loadout on the Pets tab.",
 "Oba koupíš v Přípravě za 1 000 zlata po poražení Trůnu kostí.":"Buy either in Preparation for 1,000 gold after beating the Bone Throne.",
+"Drobné opravy výbavy":"Small loadout fixes",
+"Tlačítko <b>Vše</b> v kategoriích výbavy je čitelné a štítek NOVÉ už nepřečnívá z dlaždice.":"The <b>All</b> button in the gear categories is readable and the NEW tag no longer sticks out of the tile.",
 };
