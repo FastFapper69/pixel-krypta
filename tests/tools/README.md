@@ -30,6 +30,7 @@ Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:
 - `fbtest.js <prefix> [cs|en]` – okno zpětné vazby (odeslání se stubem serveru, odměna 1× denně)
 - `fbread.js [feedback|runs|done id,id] [dní] [all]` – **čtení zpětné vazby a telemetrie ze Supabase** (potřebuje `KRYPTA_DEV_KEY` a povolenou doménu Supabase v nastavení claude.ai)
 - `coopmaps.js [mapy]` – co-op snímky (host s virtuálním kamarádem → guest) na nových mapách
+- `pets.js [prefix]` – všech 8 mazlíčků v běhu (chyby, zásahy) + screenshoty obrazovky Mazlíčci, karty a truhel; `petshot.js` – detailní snímky mazlíčků v boji; `petbal.js`, `petbal2.js [sekund]` – podíl poškození mazlíčka (petbal2 po minutách)
 - `bot.js [běhů] [hrdinové|all] [mapy|all] [nm] [novy|zkuseny|max]` – bot odehraje celé běhy a vypíše míru výher, medián času, příčiny smrti, úspěšnost zbraní a kdo dává poškození (60 běhů ≈ 30 s). Profil: `novy` = čerstvý účet, `zkuseny` = hrdina 10 + obchod napůl, `max` = hrdina 20 + obchod naplno (vždy bez výbavy). Řádky jsou ve stejném formátu jako telemetrie (`bot-results.json`). Bot je „průměrný hráč“ – věř hlavně **rozdílům** mezi hrdiny/mapami, ne absolutním číslům.
 
 - **Výkon v boji (11/2026, verze 07v):**
