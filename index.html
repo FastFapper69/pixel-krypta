@@ -507,7 +507,7 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .matitle{background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:10px 12px;margin-bottom:12px;font-size:14px}.matitle b{color:var(--gold)}
 .ttl{display:inline-block;font-size:11px;font-weight:700;color:#1a1423;background:var(--gold);padding:0 5px;margin-left:6px;vertical-align:2px}
 .nhl{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;margin:8px 0;background:#ffffff10;clip-path:var(--px);box-shadow:inset 3px 0 0 var(--gold)}
-.nhl img{width:32px;height:32px;image-rendering:pixelated;flex:none}.nhl b{display:block;font-size:16px;color:#fff;margin-bottom:2px}.nhl span{font-size:13px;line-height:1.4;color:var(--fg)}.nhl span b{display:inline;font-size:inherit;color:var(--gold)}
+.nhl img{width:32px;height:32px;image-rendering:pixelated;flex:none;object-fit:contain}.nhl img.map{object-fit:cover;clip-path:var(--px);box-shadow:inset 0 0 0 2px var(--line)}.nhl b{display:block;font-size:16px;color:#fff;margin-bottom:2px}.nhl span{font-size:13px;line-height:1.4;color:var(--fg)}.nhl span b{display:inline;font-size:inherit;color:var(--gold)}
 .nsm{margin:10px 0 0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.news ul.small{font-size:12.5px;color:var(--muted);line-height:1.4}
 .news h3{font-size:16px;color:var(--gold)}.news small{color:var(--muted);font-size:12px}.news ul{margin:6px 0 4px 18px;font-size:14px;line-height:1.45}.news li{margin:3px 0}
 .mslots{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.mslot{align-items:center;text-align:center;padding:8px 4px;gap:4px}.mslot img{width:36px;height:36px;image-rendering:pixelated}.mslot b{font-size:12px}
@@ -565,28 +565,30 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 .bmaps .chbar{margin:0}.bmaps .chh h3{font-size:18px}
 /* top three: a champion card across the width, 2nd and 3rd side by side; own row pinned at the bottom */
 .podium{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
-.tc{position:relative;display:flex;flex-direction:column;gap:6px;min-width:0;padding:10px 10px 10px;background:var(--panel);background-image:var(--tex);background-size:32px 32px;clip-path:var(--px);box-shadow:inset 0 0 0 3px var(--mc),inset 0 4px 0 3px var(--mc)}
-.tc.p1{grid-column:1/-1;padding:12px;background-color:var(--panel-hi);box-shadow:inset 0 0 0 3px var(--mc),inset 0 0 26px #f6c74430}
+.tc{position:relative;display:flex;flex-direction:column;gap:10px;min-width:0;padding:12px;background:var(--panel);background-image:var(--tex);background-size:32px 32px;clip-path:var(--px);box-shadow:inset 0 0 0 3px var(--mc)}
+.tc.p1{grid-column:1/-1;padding:14px;background-color:var(--panel-hi);box-shadow:inset 0 0 0 3px var(--mc),inset 0 0 30px #f6c74428}
 .tc .tt{display:flex;align-items:center;gap:10px;min-width:0}
-.tc .av{position:relative;flex:none;width:44px;height:44px;display:grid;place-items:center;background:#0c0912;clip-path:var(--px);box-shadow:inset 0 0 0 2px var(--mc)}
-.tc .av img{width:34px;height:34px;image-rendering:pixelated}.tc.p1 .av{width:56px;height:56px}.tc.p1 .av img{width:44px;height:44px}
-.tc .rk{position:absolute;left:-2px;bottom:-2px;min-width:18px;height:18px;display:grid;place-items:center;font:700 12px var(--font);color:#1a1423;background:var(--mc);clip-path:var(--px)}.tc.p1 .rk{min-width:22px;height:22px;font-size:14px}
-.tc .who{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.tc strong{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tc.p1 strong{font-size:18px}.tc.me strong{color:var(--gold)}
+.tc .av{position:relative;flex:none;width:42px;height:42px;display:grid;place-items:center;background:#0c0912;clip-path:var(--px);box-shadow:inset 0 0 0 2px var(--mc)}
+.tc .av img{width:30px;height:30px;image-rendering:pixelated}.tc.p1 .av{width:58px;height:58px}.tc.p1 .av img{width:42px;height:42px}
+.tc .rk{position:absolute;right:0;bottom:0;min-width:16px;height:16px;padding:0 2px;display:grid;place-items:center;font:800 11px var(--font);color:#1a1423;background:var(--mc);clip-path:var(--px)}.tc.p1 .rk{min-width:20px;height:20px;font-size:13px}
+.tc .who{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.tc strong{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tc.p1 strong{font-size:19px}.tc.me strong{color:var(--gold)}
 .tc .ttl{margin:0;align-self:flex-start;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tc .big{font-weight:700;font-size:14px;color:var(--mc)}.tc.p1 .big{font-size:17px}
-.tc .crown{position:absolute;right:10px;top:8px;width:26px;height:26px;image-rendering:pixelated;opacity:.9}
-.chips{display:flex;flex-wrap:wrap;gap:4px 6px}.tc:not(.p1) .chips{gap:4px;flex-wrap:nowrap}.tc:not(.p1) .chip{padding:3px 4px;gap:3px}.tc:not(.p1) .chip img{width:12px;height:12px}
-.chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--fg);background:#0c0912a0;padding:3px 6px;clip-path:var(--px);white-space:nowrap}
-.chip img{width:14px;height:14px;image-rendering:pixelated}.chip span{color:var(--muted);font-weight:600}
+.tc .big{font-weight:800;font-size:14px;color:var(--mc)}.tc.p1 .big{font-size:18px}
+.tc .crown{position:absolute;right:14px;top:12px;width:26px;height:26px;image-rendering:pixelated;opacity:.9}
+.stg{display:grid;grid-template-columns:1fr 1fr;gap:4px}.stg.n3:not(.big)>div:first-child{grid-column:1/-1}.tc:not(.p1) .big{font-size:13px}.stg.big{grid-template-columns:repeat(4,1fr);gap:6px}.stg.big.n3{grid-template-columns:repeat(3,1fr)}
+.stg>div{min-width:0;display:flex;align-items:center;gap:5px;padding:5px 6px;background:#0c0912a8;clip-path:var(--px)}
+.stg img{width:13px;height:13px;flex:none;image-rendering:pixelated}.stg b{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.stg.big>div{flex-direction:column;gap:3px;padding:7px 4px 6px}.stg.big img{width:18px;height:18px}.stg.big b{font-size:14px}.stg small{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
 .bme{padding-top:8px;background:linear-gradient(#130f1c00,#130f1c 8px)}.bme .brow{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}.bme .none{text-align:center;font-size:13px;color:var(--muted);padding:10px;background:var(--panel);clip-path:var(--px)}
-.brow{display:flex;align-items:center;gap:10px;background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:8px 10px}
+.brow{display:flex;align-items:center;gap:10px;background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:10px 12px}
 .brow.me{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}
-.brow .rk{width:32px;flex:none;font-size:18px;color:var(--gold);font-variant-numeric:tabular-nums}
+.brow .rk{min-width:30px;height:30px;flex:none;display:grid;place-items:center;font:800 14px var(--font);color:var(--gold);background:#0c0912a8;clip-path:var(--px);font-variant-numeric:tabular-nums}
+.brow .mini{display:flex;gap:10px;font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden}.brow .mini span{display:inline-flex;align-items:center;gap:4px}.brow .mini img{width:12px;height:12px;image-rendering:pixelated}
 .brow .nm{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .brow .nm strong{font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .brow .nm small{color:var(--muted);font-size:12px}
-.brow .val{font-weight:700;font-size:13px;text-align:right;flex:none;max-width:45%;display:flex;flex-direction:column;gap:1px}.brow .val small{font-weight:600;font-size:12px;color:var(--muted)}
+.brow .val{font-weight:800;font-size:14px;color:var(--fg);text-align:right;flex:none;max-width:45%;display:flex;flex-direction:column;gap:2px}.brow .val small{font-weight:600;font-size:12px;color:var(--muted)}
 .brow .nm small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #nickInput,#pinInput{font:inherit;font-size:20px;padding:12px;background:var(--panel);color:var(--fg);border:0;box-shadow:inset 0 0 0 3px var(--line);width:100%;-webkit-user-select:text;user-select:text}
 #nickInput:focus-visible,#pinInput:focus-visible{outline:3px solid #fff}
@@ -3609,7 +3611,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08p';
+const GAME_VER='2026-11-08q';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -5879,18 +5881,19 @@ let boardCh=null,boardIO=null;
 function boardRow(r,i){const el=document.createElement('div');el.className='brow'+(ON.me&&r.id===ON.me.id?' me':'');
   const rk=document.createElement('b');rk.className='rk';rk.textContent=(i+1)+'.';
   const nm=document.createElement('div');nm.className='nm';const n1=document.createElement('strong');n1.textContent=r.nick;const tl=titleOf(r.sv);if(tl){const t=document.createElement('span');t.className='ttl';t.textContent=tl;n1.appendChild(t);}
-  const n2=document.createElement('small');const hc=Object.keys(r.sv.heroes||{}).filter(k=>HEROES[k]&&r.sv.heroes[k]).length,cl=MAP_IDS.filter(m=>(r.sv.cleared||{})[m]).length;
-  n2.textContent=_t('Mapy ')+cl+'/'+MAP_IDS.length+_t(' · Hrdinové ')+hc+'/'+HERO_LIVE.length;nm.append(n1,n2);
+  const n2=document.createElement('div');n2.className='mini';n2.innerHTML=boardFacts(r).filter(f=>!f.n).map(f=>'<span><img alt="" src="'+dataUrl(f.ic)+'">'+f.v+'</span>').join('');nm.append(n1,n2);
   const val=document.createElement('div');val.className='val';const v1=document.createElement('span'),v2=document.createElement('small');v1.textContent=boardVal(r,true);v2.textContent=boardSub(r);val.append(v1,v2);el.append(rk,nm,val);return el;}
 // main result (wins, or NM · win · time) and the line under it (kills, hero of the daily run)
 const bCombo=st=>(st&&st.tot&&+st.tot.combo)||0;
 function boardVal(r){if(boardTab==='celkem')return (r.st.wins||0)+_t(' výher');if(boardTab==='kombo')return '×'+bCombo(r.st).toLocaleString(EN?'en':'cs');const b=r.b;return (b.nm?_t('NM ')+b.nm+' · ':'')+(b.won?_t('Výhra · '):'')+fmtTime(b.t);}
-// small stat chips: kills, maps cleared, heroes (wins too on the overall tab when there is room)
-function boardChips(r,wide){const sv=r.sv||{},cl=MAP_IDS.filter(m=>(sv.cleared||{})[m]).length,hc=Object.keys(sv.heroes||{}).filter(k=>HEROES[k]&&sv.heroes[k]).length,
-  kills=boardTab==='celkem'||boardTab==='kombo'?(r.st.kills||0):r.b.kills,c=(ic,v,lab)=>'<span class="chip"><img alt="" src="'+dataUrl(ic)+'">'+v+(lab?'<span>'+lab+'</span>':'')+'</span>';
-  const kf=wide||kills<1000?kills.toLocaleString(EN?'en':'cs'):(Math.round(kills/100)/10).toLocaleString(EN?'en':'cs')+'k';
-  return (boardTab==='celkem'?c(SPR.icon.note,'×'+bCombo(r.st),wide?_t('kombo'):''):'')+c(SPR.icon.skull,kf,wide?_t('zabití'):'')+c(SPR.icon.scroll,cl+'/'+MAP_IDS.length,wide?_t('map'):'')+c(SPR.hero.knight,hc+'/'+HERO_LIVE.length,wide?_t('hrdinů'):'');}
-function boardSub(r){if(boardTab==='celkem')return (r.st.kills||0)+_t(' zabití');if(boardTab==='kombo')return _t('nejvyšší kombo v jednom běhu');const b=r.b;return (boardTab==='dnes'&&HEROES[b.hero]?HEROES[b.hero].name+' · ':'')+b.kills+_t(' zabití');}
+// the numbers of a player as even tiles: icon, value and (on the champion card) a label; the list rows use a compact inline form
+const bNum=(n,short)=>{n=+n||0;return short&&n>=10000?(Math.round(n/100)/10).toLocaleString(EN?'en':'cs')+'k':n.toLocaleString(EN?'en':'cs');};
+function boardFacts(r){const sv=r.sv||{},cl=MAP_IDS.filter(m=>(sv.cleared||{})[m]).length,hc=Object.keys(sv.heroes||{}).filter(k=>HEROES[k]&&sv.heroes[k]).length,
+  kills=boardTab==='celkem'||boardTab==='kombo'?(r.st.kills||0):r.b.kills;
+  return [boardTab!=='kombo'&&(boardTab==='celkem')?{ic:SPR.icon.note,v:'×'+bNum(bCombo(r.st),1),l:_t('kombo')}:null,{ic:SPR.icon.skull,v:kills,l:_t('zabití'),n:1},
+    {ic:SPR.icon.scroll,v:cl+'/'+MAP_IDS.length,l:_t('mapy')},{ic:SPR.hero.knight,v:hc+'/'+HERO_LIVE.length,l:_t('hrdinů')}].filter(Boolean);}
+function boardStats(r,big){const F=boardFacts(r);return '<div class="stg n'+F.length+(big?' big':'')+'">'+F.map(f=>'<div><img alt="" src="'+dataUrl(f.ic)+'"><b>'+(f.n?bNum(f.v,!big):f.v)+'</b>'+(big?'<small>'+f.l+'</small>':'')+'</div>').join('')+'</div>';}
+function boardSub(r){if(boardTab==='celkem')return bNum(r.st.kills||0)+_t(' zabití');if(boardTab==='kombo')return bNum(r.st.kills||0)+_t(' zabití');const b=r.b;return (boardTab==='dnes'&&HEROES[b.hero]?HEROES[b.hero].name+' · ':'')+bNum(b.kills)+_t(' zabití');}
 function renderBoard(){
   document.querySelectorAll('#boardTabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===boardTab||(b.dataset.t==='map'&&!!MAPS[boardTab])));
   // map picker: one chapter at a time, its maps as postcards
@@ -5921,7 +5924,7 @@ function renderBoard(){
       d.className='tc p'+(i+1)+(ON.me&&r.id===ON.me.id?' me':'');d.style.setProperty('--mc',MC[i]);
       const hero=r.b&&HEROES[r.b.hero]?r.b.hero:null,tl=titleOf(r.sv);
       d.innerHTML='<div class="tt"><div class="av"><img alt="" src="'+dataUrl(hero?SPR.hero[hero]:i?SPR.icon.medal:SPR.icon.trophy)+'"><b class="rk">'+(i+1)+'</b></div>'+
-        '<div class="who"><strong></strong>'+(tl?'<span class="ttl"></span>':'')+'<span class="big"></span></div></div><div class="chips">'+boardChips(r,!i)+'</div>';
+        '<div class="who"><strong></strong>'+(tl?'<span class="ttl"></span>':'')+'<span class="big"></span></div></div>'+boardStats(r,!i);
       d.querySelector('strong').textContent=r.nick;if(tl)d.querySelector('.ttl').textContent=tl;d.querySelector('.big').textContent=boardVal(r);
       if(!i&&hero){const cr=document.createElement('img');cr.className='crown';cr.alt='';cr.src=dataUrl(SPR.icon.trophy);d.appendChild(cr);}
       pod.appendChild(d);}}
@@ -7308,10 +7311,23 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
- {v:'2026-11-08p',d:'8. 11. 2026',t:_t('Nová výbava a těžší pobřeží'),items:[_t('Dva nové sloty: <b>Boty</b> (rychlost, dosah sbírání a nový <b>Úhyb</b>) a <b>Rukavice</b> (rychlost útoků, kritické zásahy, poškození).'),_t('Každý slot má víc druhů předmětů s vlastním zaměřením: třeba <b>Kápě</b> na regeneraci a zkušenosti, <b>Kabátec</b> s úhybem, <b>Pečeť</b> na poškození nebo <b>Stavitelský znak</b> pro věže.'),_t('Epické a legendární předměty mají <b>zvláštní vlastnost</b> (označenou ★): Upíří hlad, Trny, Rytmus, Hrabivost, Vítr v zádech nebo Lovec. Stejné vlastnosti se sčítají.'),_t('Nové legendárky <b>Sedmimílové boty</b> a <b>Hromové pěsti</b>.'),_t('Každá další kapitola je teď <b>opravdová zkouška</b>: silnější nepřátelé i bossové, od kapitoly II i tvrdší zásahy. Když tě zastaví, vrať se na Noční můry předchozích kapitol pro lepší výbavu a úrovně.')]},
- {v:'2026-11-08o',d:'8. 11. 2026',t:_t('Kapitola V: Prokleté pobřeží'),items:[_t('Nová kapitola s pěti mapami: <b>Vrakoviště</b> (příliv zaplavuje pláž), <b>Pirátský přístav</b>, <b>Mlžný maják</b> (paprsek majáku ukazuje nepřátele a zesiluje tvoje zásahy), <b>Oko víru</b> (vír vtahuje tebe i nepřátele) a finále <b>Paluba v bouři</b> s Krakenem.'),_t('Noví nepřátelé Krab, Utopený pirát, Medúza a Racek, pět nových bossů, set <b>Výstroj mořského vlka</b> a legendárka Oko krakena.'),_t('Kapitola V odemkne <b>Námořnici</b> (1 500 zlata) s Kotvou na řetězu.')]},
- {v:'2026-11-08n',d:'8. 11. 2026',t:_t('Čitelnější popisy map'),items:[_t('V popisu každé mapy jsou teď <b>zlatě zvýrazněné mechaniky</b>, na které si dát pozor. V Průvodci se navíc zvýraznění v popisech hrdinů už neláme na samostatné řádky.')]},
- {v:'2026-11-08m',d:'8. 11. 2026',t:_t('Nekonečná krypta pro každou kapitolu'),items:[_t('Nekonečná krypta už není na každé mapě: <b>každá kapitola má jednu</b>, souboj s jejím finálním bossem. Odemkneš ji poražením finále kapitoly.')]},
+ {v:'2026-11-08q',d:'8. 11. 2026',t:_t('Krásnější Síň slávy'),hl:[
+  {ic:'trophy',t:_t('Nová Síň slávy'),d:_t('Vítěz má velkou kartu se <b>statistikami v dlaždicích</b>, druhý a třetí vlastní karty a ostatní hráči ikonky s kombem, mapami a hrdiny. Nic už nepřetéká přes rámeček.')},
+  {ic:'news',t:_t('Novinky s ikonami'),d:_t('Novinky ukazují <b>to hlavní nahoře</b> s ikonou, která k bodu patří, drobnosti jsou pod tím.')}]},
+ {v:'2026-11-08p',d:'8. 11. 2026',t:_t('Nová výbava a těžší kapitoly'),hl:[
+  {ic:'item:boots:3',t:_t('Boty a rukavice'),d:_t('Dva nové sloty výbavy. Boty dávají rychlost, dosah sbírání a nový <b>Úhyb</b>, rukavice rychlost útoků, kritické zásahy a poškození.')},
+  {ic:'base:coat',t:_t('Víc druhů výbavy'),d:_t('Každý slot má víc druhů s vlastním zaměřením: <b>Kápě</b> na regeneraci, <b>Kabátec</b> s úhybem, <b>Pečeť</b> na poškození, <b>Stavitelský znak</b> pro věže a další.')},
+  {ic:'item:amulet:3',t:_t('Vlastnosti ★'),d:_t('Epické a legendární předměty mají <b>zvláštní vlastnost</b>: Upíří hlad, Trny, Rytmus, Hrabivost, Vítr v zádech nebo Lovec. Stejné se sčítají.')},
+  {ic:'boss:titan',t:_t('Každá kapitola je výzva'),d:_t('Další kapitola tě <b>pořádně zastaví</b> a bossové jsou mnohem silnější. Vrať se na Noční můry předchozích kapitol pro lepší výbavu a úrovně.')}],items:[_t('Nové legendárky <b>Sedmimílové boty</b> (dlouhý krok do rytmu) a <b>Hromové pěsti</b> (kritické zásahy vybuchují).'),_t('Nepřátelé z pobřeží mají víc zdraví a silnější útoky.')]},
+ {v:'2026-11-08o',d:'8. 11. 2026',t:_t('Kapitola V: Prokleté pobřeží'),hl:[
+  {ic:'map:vrakoviste',t:_t('Čtyři nové mapy'),d:_t('<b>Vrakoviště</b> s přílivem, <b>Pirátský přístav</b>, <b>Mlžný maják</b> s paprskem, který zesiluje tvoje zásahy, a <b>Oko víru</b>, které vtahuje tebe i nepřátele.')},
+  {ic:'boss:kraken',t:_t('Finále s Krakenem'),d:_t('Na <b>Palubě v bouři</b> se loď kolébá do rytmu a všechno klouže. Kraken útočí chapadly a v bouři láme palubu.')},
+  {ic:'hero:sailor',t:_t('Námořnice'),d:_t('Nová hrdinka s <b>Kotvou na řetězu</b>. Odemkne se ve Vrakovišti za 1 500 zlata.')},
+  {ic:'enemy:crab',t:_t('Noví nepřátelé'),d:_t('Krab, Utopený pirát, Medúza, která pluje do rytmu, a Racek, co se střemhlav vrhá. K tomu pět nových bossů.')}],items:[_t('Set kapitoly <b>Výstroj mořského vlka</b> a legendárka Oko krakena z finále.'),_t('Na Nástěnce může být hledaný Mořský vlk.')]},
+ {v:'2026-11-08n',d:'8. 11. 2026',t:_t('Čitelnější popisy map'),hl:[
+  {ic:'book',t:_t('Zvýrazněné mechaniky'),d:_t('V popisu každé mapy je <b>zlatě</b> to, na co si dát pozor.')}],items:[_t('V Průvodci se zvýraznění v popisech hrdinů už neláme na samostatné řádky.')]},
+ {v:'2026-11-08m',d:'8. 11. 2026',t:_t('Nekonečná krypta pro každou kapitolu'),hl:[
+  {ic:'boss:morvan',t:_t('Jedna krypta na kapitolu'),d:_t('Nekonečná krypta už není na každé mapě: <b>každá kapitola má jednu</b>, souboj s bossem jejího finále. Odemkneš ji poražením finále.')}]},
  {v:'2026-11-08l',d:'8. 11. 2026',t:_t('Velká aktualizace: bossové bez konce'),hl:[
   {ic:'stars',t:_t('Nová Nekonečná krypta'),d:_t('Souboj s bossem mapy: po každém zabití se vrátí <b>silnější a s novým útokem</b>. Rekord je počet poražených bossů, Esence padá za každého.')},
   {ic:'wolf',t:_t('Hvězdy mazlíčků'),d:_t('3 stejné mazlíčky sliješ v Kovárně v jednoho s <b>hvězdou navíc</b> (+15 % síly za hvězdu, max 5). Kování teď umí i <b>karty věží</b>.')},
@@ -7425,10 +7441,15 @@ function openFeedback(){const pop=$('#newsPop');const F={kind:'napad',rate:0,tex
     catch(e){const t=errText(e);b.disabled=false;b.textContent=_t('Odeslat');save0();
       msg(/feedback_limit/.test(t)?_t('Dnes už jsi poslal dost zpráv, díky! Další pošli zítra.'):/relation|does not exist|schema cache/i.test(t)?_t('Zpětná vazba se zatím nedá odeslat. Text zůstane uložený.'):_t('Nepodařilo se odeslat: ')+t);}};
 }
+function newsIcon(ic){const [k,a,b]=String(ic).split(':');
+  try{if(k==='boss'&&SPR.boss[a])return dataUrl(SPR.boss[a]);if(k==='enemy'&&SPR.enemy[a])return dataUrl(SPR.enemy[a]);if(k==='hero'&&SPR.hero[a])return dataUrl(SPR.hero[a]);
+    if(k==='tower'&&SPR.tower[a])return dataUrl(SPR.tower[a]);if(k==='map'&&MAPS[a])return thumbUrl(a);if(k==='item'&&SLOTS[a])return dataUrl(itemSpr(a,+b||1));
+    if(k==='base'&&BASES[a])return dataUrl(itemSpr(BASES[a].s,3,null,a));if(k==='leg'&&LEGS[a])return dataUrl(itemSpr(LEGS[a].slot,4));if(k==='set'&&SETS[a])return dataUrl(itemSpr('helm',3,a));}catch(e){}
+  return dataUrl(SPR.icon[ic]||(SPR.pet&&SPR.pet[ic])||SPR.icon.skull);}
 function openNews(all){const list=all?NEWS:newsUnseen().slice(0,3);if(!list.length)return;const pop=$('#newsPop');
   pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font-size:28px">Novinky</h2><div class="nl">')+list.map(n=>'<div><h3>'+n.t+'</h3><small>'+n.d+'</small>'+
       // highlights big with an icon, the small stuff as a quiet list under them
-      (n.hl||[]).map(h=>'<div class="nhl"><img alt="" src="'+dataUrl(SPR.icon[h.ic]||(SPR.pet&&SPR.pet[h.ic])||SPR.icon.skull)+'"><div><b>'+h.t+'</b><span>'+h.d+'</span></div></div>').join('')+
+      (n.hl||[]).map(h=>'<div class="nhl"><img alt="" class="'+(String(h.ic).startsWith('map:')?'map':'')+'" src="'+newsIcon(h.ic)+'"><div><b>'+h.t+'</b><span>'+h.d+'</span></div></div>').join('')+
       ((n.items||[]).length?(n.hl?'<p class="nsm">'+_t('Drobnosti')+'</p>':'')+'<ul'+(n.hl?' class="small"':'')+'>'+n.items.map(i=>'<li>'+i+'</li>').join('')+'</ul>':'')+'</div>').join('')+
     _t('</div><button class="btn" id="newsOk">Jdu hrát!</button></div>');
   pop.hidden=false;$('#newsOk').onclick=()=>{pop.hidden=true;save.newsSeen=NEWS[0].v;persist();sfx('ui');refreshMenu();};}
