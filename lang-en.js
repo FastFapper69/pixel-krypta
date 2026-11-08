@@ -1,6 +1,22 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Ultimátky duní, nová Aura a truhla setu":"Ultimates rumble, a new Aura and the set chest",
+"Ultimátky duní":"Ultimates rumble",
+"Každý drop ultimátky má <b>vlastní těžký zvuk</b> přesně do rytmu a takt předem ho ohlásí náběh.":"Every ultimate drop has its <b>own heavy sound</b> right on the beat, announced by a riser one bar before.",
+"Nová Aura":"New Aura",
+"Aura je teď <b>kruh s runami</b>, které se točí do taktu, a při každém zásahu z tebe vyjde vlna.":"The Aura is now a <b>circle of runes</b> turning to the beat, and every hit sends a wave out from you.",
+"Truhla setu":"Set chest",
+"Kus setu z finále už nepadá rovnou do batohu. Dostaneš <b>truhlu setu</b> a kus si z ní vylosuješ sám.":"A set piece from the finale no longer drops straight into your bag. You get a <b>set chest</b> and draw the piece from it yourself.",
+"Souhvězdí má zářivější hvězdy a paprsek mezi nimi běží jiskra.":"Constellation has brighter stars and a spark runs along the beams between them.",
+"Síň slávy: statistiky 2. a 3. místa sedí stejně, i když jeden z hráčů nemá titul.":"Hall of Fame: the stats of 2nd and 3rd place line up even when one player has no title.",
+"Otevřít truhlu setu":"Open the set chest",
+"Z finále. Otevři ji a vylosuj si kus setu ":"From the finale. Open it and draw a piece of the set ",
+"Těžší obtížnost celé kapitoly (I–III). Mapy jdeš znovu postupně až k finále a jeho první výhra na každém stupni dá truhlu setu, ze které si kus vylosuješ.":"A harder difficulty for the whole chapter (I–III). You go through the maps one by one again up to the finale, and its first win on each tier gives a set chest to draw a piece from.",
+"Vládne bažině. Koruna mu klouže.":"Rules the swamp. His crown keeps slipping.",
+"Hlavu ztratil. Nervy ne.":"Lost his head. Not his nerve.",
+"Kostí má dost. Ale ty tvoje mu chybí.":"He has plenty of bones. Yours are missing.",
+"FINÁLE KAPITOLY":"CHAPTER FINALE",
 "Čitelnější ikony":"Clearer icons",
 "Nové obrázky výbavy":"New gear pictures",
 "Boty, rukavice, kovářské rukavice, sandály a talisman mají <b>nové obrázky</b>, ze kterých hned poznáš, co to je.":"Boots, gloves, smith's gloves, sandals and the talisman have <b>new pictures</b>, so you can tell at a glance what they are.",
