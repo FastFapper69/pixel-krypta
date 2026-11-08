@@ -358,12 +358,18 @@ html,body,#stage{touch-action:none}
 .nmtabs button.lk{opacity:.5}#goBtn.nm{background:#e8456a;color:#fff;box-shadow:inset 0 -4px 0 #8a1a3a}.hint.nmh{margin:6px 0 0;color:#ffb4c4}.co-pick small{font-size:11px;color:var(--muted)}
 .card.daily{flex-direction:row;align-items:center;gap:10px;box-shadow:inset 0 0 0 3px var(--gold);background:linear-gradient(90deg,#3a2a10,var(--panel) 70%);cursor:default}
 .card.daily.done{box-shadow:inset 0 0 0 3px var(--line);background:var(--panel);opacity:.8}.card.daily .t{flex:1;display:flex;flex-direction:column;gap:3px}
-.hcard{cursor:default;gap:10px}.hc-top{display:flex;gap:12px;align-items:center}.hc-top img{width:56px;height:56px;image-rendering:pixelated}.hc-top>div{flex:1}
+.hcard{cursor:default;gap:10px}.hcard>ul{margin:2px 0}.hc-top{display:flex;gap:12px;align-items:center}.hc-top img{width:56px;height:56px;image-rendering:pixelated}.hc-top>div{flex:1}
 .lvbar{position:relative;height:12px;background:var(--ink);box-shadow:inset 0 0 0 2px var(--line);margin-top:6px}.lvbar i{position:absolute;left:2px;top:2px;bottom:2px;max-width:calc(100% - 4px);background:var(--gold)}
 .ic-st{list-style:none;display:flex;flex-direction:column;gap:3px;font-size:15px}.ic-st li{display:flex;justify-content:space-between;gap:10px}.ic-st b{color:var(--gold)}
 .tal{list-style:none;display:flex;flex-direction:column;gap:4px;font-size:14px;color:var(--muted)}.tal li{display:flex;gap:8px;align-items:center}
 .tal li b{min-width:28px;text-align:center;background:#0c0912;box-shadow:inset 0 0 0 2px var(--line);font-size:12px;padding:1px 0}
 .tal li.on{color:var(--fg)}.tal li.on b{background:var(--gold);color:var(--ink);box-shadow:none}
+.tchs{display:flex;flex-direction:column;gap:6px}.tchs>small{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+.tch{display:grid;grid-template-columns:28px 1fr 1fr;gap:6px;align-items:stretch}.tch>b{display:grid;place-items:center;background:#0c0912;box-shadow:inset 0 0 0 2px var(--line);font-size:12px}
+.tch.on>b{background:var(--gold);color:var(--ink);box-shadow:none}.tch button{display:flex;gap:6px;align-items:center;text-align:left;padding:6px;min-height:0;font:600 12px/1.25 var(--font);color:var(--muted);background:#0c0912a8;border:0;clip-path:var(--px);box-shadow:inset 0 0 0 2px var(--line)}
+.tch button img{width:20px;height:20px;flex:none;image-rendering:pixelated}.tch button span{display:flex;flex-direction:column;min-width:0}.tch button em{font-style:normal;font-weight:800;font-size:13px;color:var(--fg)}
+.tch button.pick{color:var(--fg);box-shadow:inset 0 0 0 2px var(--gold);background:#3a2c14b0}.tch button.pick em{color:var(--gold)}.tch.lock button{opacity:.45}.tch.ask button{box-shadow:inset 0 0 0 2px var(--gold);animation:ovsetP 1.4s ease-in-out infinite}
+.prs{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--gold)}.prs img{width:20px;height:20px;image-rendering:pixelated}
 .hc-up{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .slots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .slot{display:flex;align-items:center;gap:8px;padding:8px;background:var(--panel);border:0;color:var(--fg);font:inherit;font-size:14px;font-weight:600;text-align:left;box-shadow:inset 0 0 0 3px var(--line)}
@@ -596,6 +602,10 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #nickInput,#pinInput{font:inherit;font-size:20px;padding:12px;background:var(--panel);color:var(--fg);border:0;box-shadow:inset 0 0 0 3px var(--line);width:100%;-webkit-user-select:text;user-select:text}
 #nickInput:focus-visible,#pinInput:focus-visible{outline:3px solid #fff}
 .fl{display:flex;flex-direction:column;gap:6px;font-weight:700;color:var(--muted);font-size:14px}
+#avWrap{margin-top:6px}#avList{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-top:6px}#avList button{aspect-ratio:1;min-height:0;padding:4px;display:grid;place-items:center;background:#0c0912;border:0;clip-path:var(--px);box-shadow:inset 0 0 0 2px var(--line)}
+#avList button img{width:80%;height:80%;object-fit:contain;image-rendering:pixelated}#avList button.on{box-shadow:inset 0 0 0 3px var(--gold);background:#3a2c14}#avList button.lk img{filter:brightness(0) opacity(.45)}
+#avList .avsec{grid-column:1/-1;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+#mAv{margin-right:6px;flex:none}#mAv img{width:26px;height:26px}.brow .bav{width:28px;height:28px;flex:none;image-rendering:pixelated;object-fit:contain}
 #ttlWrap{margin-top:10px}#ttlList{display:grid;grid-template-columns:1fr 1fr;gap:6px}#ttlList button{min-height:44px}#ttlList:empty{display:none}#ttlWrap .hint{margin:2px 0 0}
 
 /* 08a: inventory categories, NEW ribbon, rarity pill, Kovárna, chapter reward */
@@ -651,7 +661,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
   </div>
 
   <section class="scr" id="scr-menu">
-    <div id="mTop"><div class="mats" id="mCur"></div><button class="btn alt ic" id="mBoard" aria-label="Síň slávy"><img alt="" id="icBoard"></button><button class="btn alt ic" id="mNews" aria-label="Novinky"><img alt="" id="icNews"></button><button class="btn alt ic" id="mGuide" aria-label="Průvodce"><img alt="" id="icGuide"></button><button class="btn alt ic" id="mSet" aria-label="Nastavení"><img alt="" id="icSet"></button></div>
+    <div id="mTop"><button class="btn alt ic" id="mAv" aria-label="Profil"><img alt="" id="icAv"></button><div class="mats" id="mCur"></div><button class="btn alt ic" id="mBoard" aria-label="Síň slávy"><img alt="" id="icBoard"></button><button class="btn alt ic" id="mNews" aria-label="Novinky"><img alt="" id="icNews"></button><button class="btn alt ic" id="mGuide" aria-label="Průvodce"><img alt="" id="icGuide"></button><button class="btn alt ic" id="mSet" aria-label="Nastavení"><img alt="" id="icSet"></button></div>
     <div class="wrap">
       <div class="sp"></div>
       <div class="logobox"><img class="crest" id="crest" alt=""><h1 class="logo">PIXEL<br>KRYPTA</h1><i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i></div>
@@ -899,6 +909,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <p class="hint" id="nickMsg"></p>
       <label class="fl" id="nickWrap">Přezdívka<input id="nickInput" maxlength="16" autocomplete="off" spellcheck="false" placeholder="Tvoje přezdívka"></label>
       <label class="fl" id="pinWrap">PIN (4 až 8 číslic)<input id="pinInput" type="password" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="••••"></label>
+      <div class="fl" id="avWrap">Profilový obrázek<div id="avList"></div><p class="hint" id="avHint"></p></div>
       <button class="btn" id="nickSave">Uložit</button>
       <div class="fl" id="ttlWrap">Titul u přezdívky<div class="tabs" id="ttlList"></div><p class="hint" id="ttlHint"></p></div>
     </div>
@@ -952,8 +963,8 @@ const STICK_MODES=['touch','fixed','follow'],STICK_TXT={touch:_t('pevný v míst
 let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false,stick:'touch'};
 function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw','pets','metaV','seen','nmw','nmV','econV','esF','esD','endD','endB','chD','endW'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
-const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw','pets','metaV','seen','nmw','nmV','econV','esF','esD','endD','endB','chD','endW'];
+  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw','pets','metaV','seen','nmw','nmV','econV','esF','esD','endD','endB','chD','endW','setCh','htal','hpr','av'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
+const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw','pets','metaV','seen','nmw','nmV','econV','esF','esD','endD','endB','chD','endW','setCh','htal','hpr','av'];
 function persist(){save.updated=Date.now();if(save.mats&&save.mats.shard>6000){const x=save.mats.shard-6000;save.mats.shard=6000;save.coins=(save.coins||0)+Math.floor(x/3);}try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
 
@@ -3605,7 +3616,7 @@ function conductor(dt){
       if(M.int===3&&M.bossBar==null)M.bossBar=Math.floor(s/16);else if(!run.boss&&M.bossBar!=null&&!run.over)M.bossBar=null;}
     const when=ac?ac.currentTime+.05-M.acc:0;M.lastAudio=when;
     playStep(s,when);
-    if(state==='play'&&run&&!run.over&&!isGuest())gameStep(s);
+    if(state==='play'&&run&&!run.over&&!isGuest()&&!BI)gameStep(s);
     if(s%4===0)M.pulse=s%16===0?1:.65;}
   M.beatPos=(M.step-1+M.acc/M.stepDur)/4;
   M.pulse=Math.max(0,M.pulse-dt*3.5);
@@ -3687,7 +3698,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08t';
+const GAME_VER='2026-11-08u';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3755,7 +3766,7 @@ function cycleStick(){save.stick=STICK_MODES[(STICK_MODES.indexOf(save.stick)+1)
 function moveStick(px,py){const R=46;let dx=px-stick.ox,dy=py-stick.oy;const m=Math.hypot(dx,dy);
   if(m>R){if(save.stick==='follow')stickPlace(stick.ox+dx/m*(m-R),stick.oy+dy/m*(m-R));dx=dx/m*R;dy=dy/m*R;}
   stick.x=dx/R;stick.y=dy/R;knob.style.transform='translate('+dx+'px,'+dy+'px)';}
-stage.addEventListener('pointerdown',e=>{audioInit();if(state!=='play'||stick.active)return;
+stage.addEventListener('pointerdown',e=>{audioInit();if(BI&&state==='play'){bossIntroSkip();return;}if(state!=='play'||stick.active)return;
   const r=stage.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top;
   if(save.stick==='fixed'){if(px>r.width*.6)return;const h=stickHome();stickPlace(h.x,h.y);}else stickPlace(px,py);
   stick.active=true;stick.id=e.pointerId;stick.x=stick.y=0;stickEl.classList.remove('rest');stickEl.hidden=false;moveStick(px,py);
@@ -3785,7 +3796,7 @@ function recalc(){
 }
 // the daily challenge runs on a seed of the day (map, spawns and level-up offers start out the same for everyone)
 const RNG0=Math.random;function seedRng(seed){Math.random=seed==null?RNG0:mulberry32(qHash(seed));}
-function startRun(heroId,mapId,o){metaInit();treeMigrate();
+function startRun(heroId,mapId,o){metaInit();treeMigrate();if(BI){BI=null;$('#hud').classList.remove('bi');}
   o=o||{};seedRng(o.mod?'daily|'+today():null);audioInit();setSong(mapId);
   const hero=HEROES[heroId],map=MAPS[mapId],built=buildMap(mapId);for(const k in mapsBuilt)if(k!==mapId)delete mapsBuilt[k];save.lastMap=mapId;MB.id=mapId;
   run={heroId,hero,mapId,map,built,idx:MAP_IDS.indexOf(mapId),t:0,kills:0,coins:25,startCoins:25,towers:[],nearTower:null,tip:false,level:1,xp:0,need:needXP(1),pending:0,
@@ -3837,17 +3848,43 @@ function spawnBoss(){
   if(run.endless){const w=run.enW||0;e.evo=w+1;e.hp=e.max=e.max*(1+.5*w);e.dmg*=1+.15*w;e.spd*=(1+.04*w)*(e.evo>=4?1.2:1);e.bc=0;}
   e.born=run.t;run.boss=e;run.enemies.push(e);run.bossSpawned=true;mfCall('boss',e);
   $('#bossbar').hidden=false;$('#bossbar').classList.remove('rage');$('#bossName').textContent=d.name+(e.evo>1?' · '+romanN(e.evo):'');
-  if(e.evo>1)toast(d.name+' '+romanN(e.evo)+'! '+(EVO_TXT[Math.min(e.evo,EVO_TXT.length-1)]||_t('Ještě silnější.')),3000);else toast(_t('Přichází: ')+d.name+'!',2600);sfx('boss');run.shake=6;
+  if(e.evo>1)toast(d.name+' '+romanN(e.evo)+'! '+(EVO_TXT[Math.min(e.evo,EVO_TXT.length-1)]||_t('Ještě silnější.')),3000);
+  else if(!run.endless&&!run.pls&&SPR.boss[id]){bossIntroStart(e);return;}
+  else toast(_t('Přichází: ')+d.name+'!',2600);sfx('boss');run.shake=6;
 }
 // ----- boss intro (návrh 08t): flash, silhouette, a slanted card with the boss, a big pixel title and a one-liner -----
 // timeline in beats so it lands on the music; finale bosses get a longer, darker and heavier version
 const BOSS_INTRO={
- slimeking:{line:_t('Vládne bažině. Koruna mu klouže.'),bg:['#0e2a2c','#1c5a4a','#3a9a6a'],acc:'#8ab4ff'},
- captain:{line:_t('Hlavu ztratil. Nervy ne.'),bg:['#0c1a2e','#1a3a5a','#2a6a8a'],acc:'#f6c744'},
- morvan:{line:_t('Kostí má dost. Ale ty tvoje mu chybí.'),bg:['#12081c','#3a1650','#6a2a8a'],acc:'#7aff9a'}
+ slimeking:{line:_t('Vládne bažině. Koruna mu klouže.'),acc:'#8ab4ff'},
+ lich:{line:_t('Umřel už dvakrát. Pořád ho to baví.'),acc:'#d8d0ff'},
+ demon:{line:_t('Horká hlava. Doslova.'),acc:'#ff8a3a'},
+ priest:{line:_t('Káže bahnu. Bahno poslouchá.'),acc:'#c8fff0'},
+ warden:{line:_t('Hlídá kosti. I ty tvoje.'),acc:'#ff5a3a'},
+ ringer:{line:_t('Zvoní hrana. Tobě.'),acc:'#e0a848'},
+ morvan:{line:_t('Kostí má dost. Ale ty tvoje mu chybí.'),acc:'#7aff9a'},
+ scorpking:{line:_t('Klepeta na tebe, žihadlo na dezert.'),acc:'#ffd040'},
+ worm:{line:_t('Z písku leze jen s hladem.'),acc:'#f0dca0'},
+ priestess:{line:_t('Zabalená na věčnost. Ty brzy taky.'),acc:'#7affd0'},
+ sphinx:{line:_t('Hádanka: kdo tu dneska padne?'),acc:'#7affff'},
+ forgelord:{line:_t('Kuje železo, dokud jsi žhavý.'),acc:'#e8702c'},
+ eel:{line:_t('Mokrý, kluzký a hrozně naštvaný.'),acc:'#5a9ac8'},
+ colossus:{line:_t('Krásně se třpytí. Zuby ti vyrazí.'),acc:'#c8b8ff'},
+ titan:{line:_t('Teplota: ano.'),acc:'#ffd040'},
+ serpent:{line:_t('Pod ledem je tma. A on.'),acc:'#8ac8e8'},
+ fknight:{line:_t('Chladný profesionál.'),acc:'#8af0ff'},
+ wendigo:{line:_t('Hladový od pravěku.'),acc:'#8affff'},
+ yetiking:{line:_t('Vládne sněhu. Nesnáší návštěvy.'),acc:'#f6c744'},
+ queen:{line:_t('Srdce z ledu. Ruce taky.'),acc:'#8af0ff'},
+ crabking:{line:_t('Chodí bokem. Bije zpříma.'),acc:'#f0a070'},
+ captain:{line:_t('Hlavu ztratil. Nervy ne.'),acc:'#f6c744'},
+ seawitch:{line:_t('Koupí ti duši. Za tvoji.'),acc:'#ffd060'},
+ seasnake:{line:_t('Dlouhý jako seznam tvých chyb.'),acc:'#fff060'},
+ kraken:{line:_t('Osm rukou. Žádné objetí.'),acc:'#ffe060'},
 };
+// card colours by chapter (dark, mid, light); slime king keeps his swampy green
+const CH_BG=[['#12081c','#2a1640','#4a2a6a'],['#2a1408','#6a3a14','#a8682a'],['#1a0808','#5a1a10','#9a3a14'],['#081428','#1a3a5a','#3a6a9a'],['#0c1a2e','#1a3a5a','#2a6a8a']];
 let BI=null;
-function biTheme(id){const T=BOSS_INTRO[id];if(T)return T;const P=BOSS_DEFS[id].pal,a=P.a||'#8a7a9a';return{line:'',bg:[mixHex(a,'#000000',.85),mixHex(a,'#000000',.6),mixHex(a,'#000000',.3)],acc:P.y||P.c||'#f6c744'};}
+function biTheme(id){const T=BOSS_INTRO[id]||{line:'',acc:BOSS_DEFS[id].pal.y||'#f6c744'},ci=run?Math.max(0,CHAPTERS.indexOf(CH_OF[run.mapId])):0;return{line:T.line,acc:T.acc,bg:id==='slimeking'?['#0e2a2c','#1c5a4a','#3a9a6a']:CH_BG[ci%CH_BG.length]};}
 // pixel text: drawn small, alpha thresholded, filled with a gradient, outlined and shadowed -> crisp chunky letters
 function biText(txt,size,cols,rot){const pad=6,f='700 '+size+'px '+getComputedStyle(document.documentElement).getPropertyValue('--font-px');
   const m=document.createElement('canvas').getContext('2d');m.font=f;const w=Math.ceil(m.measureText(txt).width)+pad*2,h=Math.ceil(size*1.25)+pad*2;
@@ -3887,7 +3924,7 @@ function biCard(T,fin,W,H){const c=document.createElement('canvas');c.width=W;c.
 function bossIntroStart(e){const id=e.id,fin=!!run.map.finale,T=biTheme(id),sp=SPR.boss[id];
   const nm=BOSS_DEFS[id].name,cm=nm.indexOf(','),main=(cm>0?nm.slice(0,cm):nm.split(' ').length>2&&nm.length>12?nm.split(' ')[0]:nm).toUpperCase(),sub=cm>0?nm.slice(cm+1).trim():main.length<nm.length?nm.slice(main.length).trim():'';
   let size=fin?30:26;const m=document.createElement('canvas').getContext('2d');m.font='700 '+size+'px '+getComputedStyle(document.documentElement).getPropertyValue('--font-px');
-  while(size>14&&m.measureText(main).width>VW*.8){size--;m.font='700 '+size+'px '+getComputedStyle(document.documentElement).getPropertyValue('--font-px');}
+  while(size>14&&m.measureText(main).width>VW*.78){size--;m.font='700 '+size+'px '+getComputedStyle(document.documentElement).getPropertyValue('--font-px');}
   const gold=['#fff6c8','#ffe27a','#f6c744','#d89a2a','#a8641e'];
   BI={id,e,fin,t:0,beat:M.stepDur*4,beats:fin?7:5,T,card:biCard(T,fin,VW,VH),sp,sil:biTint(sp,'#000000'),glow:biTint(sp,fin?'#ff5a3a':T.acc),
     title:biText(main,size,gold,-.16),sub:sub?biText(sub.toUpperCase(),Math.max(10,Math.round(size*.42)),['#ffffff','#e8e4dc','#bfb8c8'],-.16):null,
@@ -3912,7 +3949,7 @@ function drawBossIntro(g){const B=BI;if(!B)return;const k=B.t/B.beat,N=B.beats,o
     const rev=clamp((k1-.35)/.3,0,1);g.drawImage(B.sp.c,bx,by,bw,bh);if(rev<1){g.globalAlpha=1-rev;g.drawImage(B.sil,bx,by,bw,bh);g.globalAlpha=1;}
     if(k1>.35&&k1<.5){g.globalAlpha=.7*(1-(k1-.35)/.15);g.fillStyle='#ffffff';g.fillRect(0,0,VW,VH);g.globalAlpha=1;}
     // title slams in with an overshoot (second beat), the sub-title under it, then the one-liner types out
-    const tk=k1-1;if(tk>0){const s2=tk<.25?2.2-1.3*ease(tk/.25):tk<.4?.9+.1*ease((tk-.25)/.15):1,tw=B.title.width,th=B.title.height,tx=Math.round(VW*.4)-gone,ty=Math.round(VH*.52);
+    const tk=k1-1;if(tk>0){const s2=tk<.25?2.2-1.3*ease(tk/.25):tk<.4?.9+.1*ease((tk-.25)/.15):1,tw=B.title.width,th=B.title.height,tx=Math.round(clamp(VW*.4,tw/2+4,VW-tw/2-4))-gone,ty=Math.round(VH*.52);
       g.drawImage(B.title,Math.round(tx-tw*s2/2),Math.round(ty-th*s2/2),Math.round(tw*s2),Math.round(th*s2));
       if(B.sub&&tk>.3)g.drawImage(B.sub,Math.round(tx-B.sub.width/2+th*.12),Math.round(ty+th*.46));
       if(B.line&&tk>.5){const n=Math.min(B.line.length,Math.floor((tk-.5)*40));if(n!==B.typed){B.typed=n;B.lineC=biText(B.line.slice(0,n),10,['#ffffff','#ffffff','#d8d0e0'],0);}
@@ -3920,7 +3957,10 @@ function drawBossIntro(g){const B=BI;if(!B)return;const k=B.t/B.beat,N=B.beats,o
         g.fillStyle='#140c1c';g.fillRect(lx-5,ly-4,lw+10,full.height+8);g.fillStyle=B.fin?'#8a1a1a':B.T.bg[1];g.fillRect(lx-4,ly-3,lw+8,full.height+6);g.fillStyle=B.T.acc;g.fillRect(lx-4,ly-3,lw+8,1);
         if(B.lineC)g.drawImage(B.lineC,lx,ly);}}}
   g.restore();}
-function bossIntroTick(dt){if(!BI)return false;BI.t+=dt;if(BI.t>=BI.beat*BI.beats){BI=null;$('#hud').classList.remove('bi');return false;}return true;}
+function bossIntroTick(dt){if(!BI)return false;BI.t+=dt;if(BI.t>=BI.beat*BI.beats){bossIntroEnd();return false;}return true;}
+function bossIntroEnd(){if(!BI)return;BI=null;$('#hud').classList.remove('bi');if(run){run.shake=6;run.flashScr=Math.max(run.flashScr||0,.15);}}
+// a tap skips to the slide-out
+function bossIntroSkip(){if(BI){const out=BI.beat*(BI.beats-.6);if(BI.t<out)BI.t=out;}}
 // sound: two clicks for the flashes, a whoosh for the card, a slam with a metal clang on the beat; finale adds a low choir and thunder
 function bossIntroSfx(fin){if(!save.sound||!ac||!M.sfxBus||!M.song||(ac.state!=='running'&&!M.offline))return;const B=M.sfxBus,sd=M.stepDur,t=Math.max(ac.currentTime+.01,M.lastAudio||ac.currentTime),c=chordAt(Math.max(0,M.step-1));
   try{noiz(t,.04,.3,B,'highpass',5000);noiz(t+sd*2,.04,.3,B,'highpass',5000);osc('square',NOTE(c.root+36),t,.05,.04,B);osc('square',NOTE(c.root+36),t+sd*2,.05,.04,B);
@@ -5015,6 +5055,7 @@ function showOver(){
   if(W.leg)rows.push([_t('Legendárka kapitoly'),'<b style="color:'+RAR[4].col+'">'+itemName(W.leg)+'</b>']);
   if(W.tw)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.tower[W.tw.k])+'"> '+_t('Nová věž'),'<b style="color:var(--gold)">'+TOWERS[W.tw.k].name+'</b>']);
   if(W.set)rows.push(['<img class="cdl" alt="" src="'+itIcon(W.set)+'"> '+_t('Kus setu'),'<b style="color:'+SETS[W.set.set].col+'">'+itemName(W.set)+'</b>']);
+  if(W.av)rows.push(['<img class="cdl" alt="" src="'+dataUrl(avImg(W.av))+'"> '+_t('Profilový obrázek'),_t('<b style="color:var(--gold)">Odemčen!</b>')]);
   if(W.setCh)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"> '+_t('Truhla setu'),'<b style="color:'+SETS[W.setCh].col+'">'+SETS[W.setCh].name+'</b>']);
   ovSetBtn();
   if(W.tre)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"> '+_t('Poklad kapitoly'),_t('<b style="color:var(--gold)">Čeká na tebe v Přípravě!</b>')]);
@@ -5596,7 +5637,7 @@ function render(){
 /* ============ loop ============ */
 let last=0,frameDt=0;
 const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-function step(dt){if(run&&state==='play'&&!run.over){if(isGuest())guestUpdate(dt);else update(dt);}if(run)updateHud();}
+function step(dt){if(run&&state==='play'&&!run.over){if(BI&&bossIntroTick(dt)){}else if(isGuest())guestUpdate(dt);else update(dt);}if(run)updateHud();}
 function tick(dt){conductor(dt);step(dt);if(state==='levelup')luTick(dt);if(state==='fuse')fuseTick();if(CO.on)coNetTick(dt);}
 function menuDance(){if(RM)return;const imgs=$('#parade').children;
   for(let i=0;i<imgs.length;i++){const f=((M.beatPos+i*.25)%1+1)%1,k=f<.1?'translateY(2px) scaleY(.88)':f<.26?'translateY(-5px)':'none';if(imgs[i]._k!==k){imgs[i]._k=k;imgs[i].style.transform=k;}}
@@ -5638,7 +5679,7 @@ addEventListener('popstate',()=>{navArmed=false;if(!goBack()&&state==='menu'){tr
 function refreshSettings(){setLbl('#mSound',_t('Zvuk'),!save.sound);setLbl('#mMusic',_t('Hudba'),!save.music);stickLabels();
   {const I=fitApp.info||{};$('#mVer').textContent=_t('verze ')+GAME_VER;$('#mVer').title=(I.sa?_t('aplikace'):_t('prohlížeč'))+' '+(I.ih||0)+'/'+(I.sh||0)+'/'+(I.h||0);}
   setLbl('#mFb',fbRewardToday()?_t('Napsat názor · +60 zlata'):_t('Napsat názor na hru'));
-  $('#mInstall').hidden=!pwaCan();$('#mNick').hidden=!ON.ready;$('#mNick').textContent=_t('Hráč: ')+(save.nick||_t('bez přezdívky'))+(titleOf(save)?' · '+titleOf(save):'')+_t(' · změnit');
+  avMenu();  $('#mInstall').hidden=!pwaCan();$('#mNick').hidden=!ON.ready;$('#mNick').textContent=_t('Hráč: ')+(save.nick||_t('bez přezdívky'))+(titleOf(save)?' · '+titleOf(save):'')+_t(' · změnit');
   $('#mCheat').hidden=!isDev();$('#mCheat').textContent=_t('Testovací režim: ')+onOff(save.cheat);$('#mGold').hidden=!save.cheat;}
 function refreshMenu(){
   fitMenuCur();
@@ -5903,7 +5944,7 @@ function openTreeNode(kind,T,id){const I=tnInfo(kind,T,id),pop=$('#newsPop'),lk=
     '<button class="btn alt" id="tnClose">'+_t('Zavřít')+'</button></div></div>';
   pop.hidden=false;$('#tnClose').onclick=()=>{pop.hidden=true;sfx('ui');};
   const b=$('#tnBuy');if(b)b.onclick=()=>{if(!tnBuy(kind,T,id))return;sfx('level');renderShop(kind+id);refreshMenu();openTreeNode(kind,T,id);};}
-function openMenu(){seedRng(null);$('#tut').hidden=true;if(NET.ch||CO.on){netClose();CO.on=false;CO.role=null;}run=null;setSong('menu');stick.active=false;stickEl.hidden=true;refreshMenu();setState('menu');}
+function openMenu(){if(BI){BI=null;$('#hud').classList.remove('bi');}seedRng(null);$('#tut').hidden=true;if(NET.ch||CO.on){netClose();CO.on=false;CO.role=null;}run=null;setSong('menu');stick.active=false;stickEl.hidden=true;refreshMenu();setState('menu');}
 
 function bindUi(){
   document.querySelectorAll('#mLang button').forEach(b=>{b.classList.toggle('on',b.dataset.l===LANG);b.onclick=()=>{if(b.dataset.l!==LANG){sfx('ui');persist();setLang(b.dataset.l);}};});
@@ -5920,6 +5961,7 @@ function bindUi(){
   $('#mPlay').onclick=()=>{audioInit();sfx('ui');if(!sel.picked){const nx=MAP_IDS.find(m=>mapUnlocked(m)&&!save.cleared[m]&&!CH_OF[m].soon)||MAP_IDS.filter(mapUnlocked).pop();if(nx)sel.map=nx;}if(!mapUnlocked(sel.map))sel.map='hrbitov';chSel=null;renderSelect();setState('select');};
   $('#mBoard').onclick=()=>{audioInit();sfx('ui');openBoard();};
   $('#mNick').onclick=()=>{sfx('ui');openNick(save.pinSet?'rename':'pin');};
+  $('#mAv').onclick=()=>{sfx('ui');openNick('av');};avMenu();
   document.querySelectorAll('#nickTabs button').forEach(b=>b.onclick=()=>{sfx('ui');openNick(b.dataset.m);});
   $('#pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveNick();});
   $('#nickSave').onclick=()=>saveNick();
@@ -6024,13 +6066,27 @@ async function cloudFlush(){
 let nickMode='new';
 const NICK_TXT={new:[_t('Nový hráč'),_t('Vyber si přezdívku a PIN. PINem se přihlásíš na jiném zařízení, nebo když prohlížeč smaže data.')],
   login:[_t('Přihlášení'),_t('Zadej svou přezdívku a PIN a vrátí se ti postup.')],rename:[_t('Změna přezdívky'),_t('Nová přezdívka se ukáže v žebříčku.')],
-  pin:[_t('Nastav si PIN'),_t('Bez PINu bys o postup mohl přijít. Zvol 4 až 8 číslic.')]};
+  pin:[_t('Nastav si PIN'),_t('Bez PINu bys o postup mohl přijít. Zvol 4 až 8 číslic.')],av:[_t('Profil'),_t('Vyber si profilový obrázek a titul.')]};
 function openNick(mode){nickMode=mode===true?'new':mode===false?'rename':mode;const T=NICK_TXT[nickMode];
   $('#nickTitle').textContent=T[0];$('#nickMsg').textContent=T[1];
   $('#nickTabs').hidden=!(nickMode==='new'||nickMode==='login');
   document.querySelectorAll('#nickTabs button').forEach(b=>b.classList.toggle('on',b.dataset.m===nickMode));
-  $('#nickWrap').hidden=nickMode==='pin';$('#pinWrap').hidden=nickMode==='rename';
-  $('#nickInput').value=nickMode==='rename'?(save.nick||''):'';$('#pinInput').value='';renderTitlePick();setState('nick');}
+  $('#nickWrap').hidden=nickMode==='pin'||nickMode==='av';$('#pinWrap').hidden=nickMode==='rename'||nickMode==='av';$('#nickSave').hidden=nickMode==='av';
+  $('#nickInput').value=nickMode==='rename'?(save.nick||''):'';$('#pinInput').value='';renderTitlePick();renderAvPick();setState('nick');}
+// profile pictures: 3 to start with, every owned hero, and each boss beaten on Nightmare III
+const AV_BASE=['i:skull','e:slime','e:bat'];
+function avImg(id){const [k,v]=String(id||'').split(':');const S=k==='h'?SPR.hero[v]:k==='b'?SPR.boss[v]:k==='e'?SPR.enemy[v]:k==='i'?SPR.icon[v]:null;return S||SPR.icon.skull;}
+const avBossMap=()=>{const o={};for(const m in MAPS)if(MAPS[m].boss)o[MAPS[m].boss]=m;return o;};
+function avAll(){const BM=avBossMap(),out=AV_BASE.map(id=>({id,ok:true,sec:'base'}));
+  for(const h of HERO_IDS)out.push({id:'h:'+h,ok:heroOwned(h),sec:'hero',need:_t('Odemkni hrdinu ')+HEROES[h].name+'.'});
+  for(const b in BOSS_DEFS){const m=BM[b];if(!m)continue;out.push({id:'b:'+b,ok:!!(save.nmw&&save.nmw['3|'+m]),sec:'boss',need:_t('Poraz ')+BOSS_DEFS[b].name+_t(' na Noční můře III.')});}
+  return out;}
+const avCur=()=>save.av&&avAll().some(a=>a.id===save.av&&a.ok)?save.av:AV_BASE[0];
+function renderAvPick(){const W=$('#avWrap');W.hidden=nickMode==='login'||nickMode==='pin';if(W.hidden)return;const cur=avCur(),A=avAll(),SEC={base:_t('Základní'),hero:_t('Hrdinové'),boss:_t('Bossové z Noční můry III')};let last='';
+  $('#avList').innerHTML=A.map(a=>(a.sec!==last?(last=a.sec,'<div class="avsec">'+SEC[a.sec]+'</div>'):'')+'<button data-a="'+a.id+'" class="'+(a.id===cur?'on':'')+(a.ok?'':' lk')+'"><img alt="" src="'+dataUrl(avImg(a.id))+'"></button>').join('');
+  $('#avHint').textContent=_t('Obrázek uvidí ostatní v Síni slávy. Další odemkneš hrdiny a bossy na Noční můře III.');
+  $('#avList').querySelectorAll('button').forEach(b=>b.onclick=()=>{const a=A.find(x=>x.id===b.dataset.a);if(!a.ok){note(a.need);return;}save.av=a.id;persist();sfx('ui');renderAvPick();avMenu();});}
+function avMenu(){const i=$('#icAv');if(i)i.src=dataUrl(avImg(avCur()));}
 // title picker on the profile: every claimed Mastery gives a title, the player wears one (or none)
 function renderTitlePick(){const W=$('#ttlWrap');W.hidden=nickMode==='new'||nickMode==='login';if(W.hidden)return;
   const got=ACH.filter(A=>save.ach&&save.ach[A.id]),cur=titleOf(save)?save.title:'';
@@ -6096,7 +6152,7 @@ function boardRow(r,i){const el=document.createElement('div');el.className='brow
   const rk=document.createElement('b');rk.className='rk';rk.textContent=(i+1)+'.';
   const nm=document.createElement('div');nm.className='nm';const n1=document.createElement('strong');n1.textContent=r.nick;const tl=titleOf(r.sv);if(tl){const t=document.createElement('span');t.className='ttl';t.textContent=tl;n1.appendChild(t);}
   const n2=document.createElement('div');n2.className='mini';n2.innerHTML=boardFacts(r).filter(f=>!f.n).map(f=>'<span><img alt="" src="'+dataUrl(f.ic)+'">'+f.v+'</span>').join('');nm.append(n1,n2);
-  const val=document.createElement('div');val.className='val';const v1=document.createElement('span'),v2=document.createElement('small');v1.textContent=boardVal(r,true);v2.textContent=boardSub(r);val.append(v1,v2);el.append(rk,nm,val);return el;}
+  const val=document.createElement('div');val.className='val';const v1=document.createElement('span'),v2=document.createElement('small');v1.textContent=boardVal(r,true);v2.textContent=boardSub(r);val.append(v1,v2);const av=document.createElement('img');av.className='bav';av.alt='';av.src=dataUrl(avImg(r.sv&&r.sv.av||AV_BASE[0]));el.append(rk,av,nm,val);return el;}
 // main result (wins, or NM · win · time) and the line under it (kills, hero of the daily run)
 const bCombo=st=>(st&&st.tot&&+st.tot.combo)||0;
 function boardVal(r){if(boardTab==='celkem')return (r.st.wins||0)+_t(' výher');if(boardTab==='kombo')return '×'+bCombo(r.st).toLocaleString(EN?'en':'cs');const b=r.b;return (b.nm?_t('NM ')+b.nm+' · ':'')+(b.won?_t('Výhra · '):'')+fmtTime(b.t);}
@@ -6137,10 +6193,10 @@ function renderBoard(){
     for(let i=0;i<Math.min(3,rows.length);i++){const r=rows[i],d=document.createElement('div');
       d.className='tc p'+(i+1)+(ON.me&&r.id===ON.me.id?' me':'');d.style.setProperty('--mc',MC[i]);
       const hero=r.b&&HEROES[r.b.hero]?r.b.hero:null,tl=titleOf(r.sv);
-      d.innerHTML='<div class="tt"><div class="av"><img alt="" src="'+dataUrl(hero?SPR.hero[hero]:i?SPR.icon.medal:SPR.icon.trophy)+'"><b class="rk">'+(i+1)+'</b></div>'+
+      d.innerHTML='<div class="tt"><div class="av"><img alt="" src="'+dataUrl(r.sv&&r.sv.av?avImg(r.sv.av):hero?SPR.hero[hero]:i?SPR.icon.medal:SPR.icon.trophy)+'"><b class="rk">'+(i+1)+'</b></div>'+
         '<div class="who"><strong></strong>'+(tl?'<span class="ttl"></span>':'')+'<span class="big"></span></div></div>'+boardStats(r,!i);
       d.querySelector('strong').textContent=r.nick;if(tl)d.querySelector('.ttl').textContent=tl;d.querySelector('.big').textContent=boardVal(r);
-      if(!i&&hero){const cr=document.createElement('img');cr.className='crown';cr.alt='';cr.src=dataUrl(SPR.icon.trophy);d.appendChild(cr);}
+      if(!i&&(hero||(r.sv&&r.sv.av))){const cr=document.createElement('img');cr.className='crown';cr.alt='';cr.src=dataUrl(SPR.icon.trophy);d.appendChild(cr);}
       pod.appendChild(d);}}
   rows.slice(3,100).forEach((r,k)=>list.appendChild(boardRow(r,k+3)));
   // your own place, always in sight
@@ -6265,9 +6321,19 @@ const ECON={
          {id:'gold',name:_t('Královská truhla'),cost:2000,odds:[0,30,45,20,5],pity:{r:4,n:30}}],
  upCost:it=>upF(it.r,it.lv||0),
  refund:it=>refundF(it.r,it.lv||0),
- heroCost:L=>{const c={gold:45*L+(L>=10?90*(L-9):0),shard:10*L};if(L>=10)c.ess=2+(L-10)+((L+1)%5===0?10:0);return c;},
+ heroCost:L=>{const c={gold:45*L+(L>=10?90*(L-9):0),shard:10*L};if(L>=10)c.ess=2+(L-10)+((L+1)%5===0?10:0);if(L>=HERO_ESS){const k=1.2+.025*(L-HERO_ESS);c.gold=Math.round(c.gold*k/10)*10;c.shard=Math.round(c.shard*k);c.ess=Math.round(c.ess*k*.8);}return c;},
  nmItem:[null,1,2,3]};
-const HERO_MAX=20;
+const HERO_MAX=40,HERO_ESS=20;
+// levels 21-40: every 5 levels the player picks one of two talents (can switch later for gold); past 40 an endless Prestige
+const TAL_TIERS=[25,30,35,40],TAL_SWAP=300;
+const TAL_CH={25:[{id:'atk',ic:'power',t:_t('Útočník'),d:_t('Poškození +8 %')},{id:'def',ic:'shield',t:_t('Strážce'),d:_t('Zdraví +12 % a brnění +1')}],
+ 30:[{id:'wpn',ic:'*',t:_t('Mistr zbraně'),d:_t('Startovní zbraň dává +30 % základního poškození')},{id:'crit',ic:'eye',t:_t('Ostrostřelec'),d:_t('Kritický zásah +6 %')}],
+ 35:[{id:'rate',ic:'haste',t:_t('Smršť'),d:_t('Rychlost útoků +8 %')},{id:'hunt',ic:'boots',t:_t('Lovec'),d:_t('Pohyb +6 % a dosah sbírání +25 %')}],
+ 40:[{id:'fuse',ic:'star',t:_t('Mistr fúzí'),d:_t('Ultimátky +15 %')},{id:'tough',ic:'regen',t:_t('Nezlomný'),d:_t('Regenerace +0,5 za sekundu a úhyb +4 %')}]};
+const heroTal=(h,t)=>{const c=save.htal&&save.htal[h];return c&&c[t]!=null?c[t]:-1;};
+const heroPr=h=>(save.hpr&&save.hpr[h])||0;
+const PR_PCT=.005;
+function prCost(h){const p=heroPr(h);return{gold:6000+800*p,shard:400+40*p,ess:40+6*p};}
 // what was spent on an item's upgrades so far (sum of upCost for levels 0..lv-1)
 function upInvest(it){return investF(it.r,it.lv);}
 // where each material comes from and what it is for
@@ -6315,7 +6381,10 @@ function heroBonus(h){
   const eq=(save.eq&&save.eq[h])||{};
   const sc={};for(const s of SLOT_IDS){const it=eq[s]&&itemById(eq[s]);if(!it)continue;const S=itemStats(it);for(const k in S)B[k]+=S[k];if(it.lg)B.lg[it.lg]=1;if(it.af&&AFX[it.af])B.af[it.af]=(B.af[it.af]||0)+afVal(it);if(it.set)sc[it.set]=(sc[it.set]||0)+1;}
   if(sc.bone>=2){B.hpPct+=.10;B.lg.sb2=1;}if(sc.bone>=4)B.lg.sb4=1;if(sc.sun>=2){B.cd+=.08;B.spd+=.06;}if(sc.sun>=4)B.lg.ss4=1;if(sc.forge>=2){B.dmg+=.10;B.armor+=1;}if(sc.forge>=4)B.lg.sf4=1;if(sc.frost>=2){B.hpPct+=.10;B.lg.sfr2=1;}if(sc.frost>=4)B.lg.sfr4=1;if(sc.tide>=2){B.spd+=.08;B.mag+=.15;}if(sc.tide>=4)B.lg.st4=1;B.sets=sc;
-  const L=heroLv(h);B.hpPct+=.02*(L-1);B.dmg+=.02*(L-1);
+  const L=heroLv(h),L1=Math.min(L,20)-1,L2=Math.max(0,L-20),pr=heroPr(h)*PR_PCT;B.hpPct+=.02*L1+.01*L2+pr;B.dmg+=.02*L1+.01*L2+pr;
+  for(const t of TAL_TIERS){if(L<t)continue;const c=heroTal(h,t);if(c<0)continue;const id=TAL_CH[t][c].id;B.tal[id]=1;
+    if(id==='atk')B.dmg+=.08;else if(id==='def'){B.hpPct+=.12;B.armor+=1;}else if(id==='crit')B.crit+=.06;else if(id==='rate')B.cd+=.08;
+    else if(id==='hunt'){B.spd+=.06;B.mag+=.25;}else if(id==='fuse')B.fuse+=.15;else if(id==='tough'){B.regen+=.5;B.dodge+=.04;}}
   const pre={knight:'k',mage:'m',archer:'a',builder:'b',bard:'d',smith:'s',shaman:'h',sailor:'n',astro:'z',warlord:'w',tamer:'t'}[h]||'x';for(const t of [5,10,15,20])if(L>=t)B.tal[pre+t]=1;
   const T=B.tal;if(T.w5)B.dmg+=.05;if(T.w15)B.cd+=.10;if(T.w20)B.dmg+=.10;B.petd=(T.t5?.15:0)+(T.t20?.25:0);B.petr=T.t10?.15:0;B.petp=T.t15?.20:0;if(T.k5)B.armor+=1;if(T.k15)B.hpPct+=.15;if(T.m5)B.crit+=.05;if(T.m15)B.dmg+=.10;if(T.m20)B.fuse+=.20;if(T.a5)B.spd+=.05;
   if(T.b5)B.tcost+=.10;if(T.b15)B.thp+=.30;if(T.b20)B.tmax+=1;if(T.d15)B.cd+=.10;
@@ -6324,6 +6393,7 @@ function heroBonus(h){
   return B;}
 // talents that change a starting weapon
 function talentW(id){const T=(st&&st.tal)||{};const o={};
+  if(T.wpn&&run&&HEROES[run.heroId]&&HEROES[run.heroId].start===id&&WEAPONS[id].lv[0].dmg)o.dmg=Math.max(1,Math.round(WEAPONS[id].lv[0].dmg*.3));
   if(T.s10&&id==='hammer')o.rad=8;if(T.s20&&id==='hammer')o.n=1;if(T.h10&&id==='icicle')o.n=2;if(T.h20&&id==='icicle')o.frz=.5;if(T.n10&&id==='anchor')o.rad=10;if(T.n20&&id==='anchor')o.n=1;if(T.z10&&id==='stars')o.n=1;if(T.z20&&id==='stars')o.bt=1;
   if(T.k10&&id==='blade')o.n=1;if(T.d10&&id==='note')o.n=1;if(T.m10&&id==='bolt')o.n=1;if(T.a10&&id==='arrows')o.n=2;if(T.a15&&id==='arrows')o.pierce=1;
   return Object.keys(o).length?o:null;}
@@ -6401,7 +6471,7 @@ function runRewards(won){
   if(won){twInit();for(const k in TW_UNL)if(TW_UNL[k]===R.mapId&&!twOpen(k)){const c=twRoll(k,0);save.tw.cards.push(c);out.tw=c;}}
   let nmFirst=false;
   // 08e: the campaign pays gear only once per map and tier (first win); chests are the renewable source and the only one of the common legendaries
-  if(won&&R.nm>0){const k=Math.min(NM_MAX,R.nm);save.nmw=save.nmw||{};nmFirst=!save.nmw[k+'|'+R.mapId];save.nmw[k+'|'+R.mapId]=1;
+  if(won&&R.nm>0){const k=Math.min(NM_MAX,R.nm);save.nmw=save.nmw||{};nmFirst=!save.nmw[k+'|'+R.mapId];save.nmw[k+'|'+R.mapId]=1;if(nmFirst&&k>=3&&R.map.boss)out.av='b:'+R.map.boss;
     if(nmFirst&&save.inv.length<INV_MAX){const it=makeItem(ECON.nmItem[k]);addItem(it);out.item=it;}}
   if(won&&fin){save.fin=save.fin||{};if(!save.fin[R.mapId]){save.fin[R.mapId]=1;const it=makeItem(rollRarity(ECON.chests[2]));addItem(it);out.fin=it;}
     const lg=FIN_LEG[R.mapId];if(lg&&(R.nm||0)>=3&&Math.random()<.25){const it=makeItem(4,null,null,lg);addItem(it);out.leg=it;}
@@ -6737,8 +6807,16 @@ function renderHero(){
     (lines.length?'<ul class="ic-st">'+lines.map(l=>'<li><span>'+l[0]+'</span><b>'+l[1]+'</b></li>').join('')+'</ul>':_t('<p class="hint">Zatím žádné bonusy. Vylepši hrdinu nebo mu nasaď výbavu.</p>'))+
     SET_IDS.filter(id=>setCount(h,id)).map(id=>setInfoHtml(id,h)).join('')+
     '<ul class="tal">'+T.map(t=>'<li class="'+(L>=t[0]?'on':'')+'"><b>'+t[0]+'</b>'+t[1]+'</li>').join('')+'</ul>'+
-    (L<HERO_MAX?'<div class="hc-up"><div class="costs">'+costHtml(c,1)+'</div><button class="btn sm" id="hUp"'+(canHeroUp(h)?'':' disabled')+_t('>Vylepšit na ')+(L+1)+'</button></div>'+missHint(c):_t('<p class="hint">Hrdina má maximální úroveň.</p>'));
-  const up=$('#hUp');if(up)up.onclick=()=>{if(heroUp(h)){sfx('level');note(HEROES[h].name+_t(': úroveň ')+heroLv(h));renderHero();}};
+    '<div class="tchs"><small>'+_t('Volba talentu (vyber jeden ze dvou)')+'</small>'+TAL_TIERS.map(t=>{const c=heroTal(h,t),open=L>=t;
+      return '<div class="tch'+(open?(c>=0?' on':' ask'):' lock')+'"><b>'+t+'</b>'+TAL_CH[t].map((o,i)=>'<button data-t="'+t+'" data-i="'+i+'" class="'+(c===i?'pick':'')+'"><img alt="" src="'+dataUrl(o.ic==='*'?SPR.icon[HEROES[h].start]:SPR.icon[o.ic])+'"><span><em>'+o.t+'</em>'+(o.ic==='*'?WEAPONS[HEROES[h].start].name+': +30 %':o.d).replace(/ %/g,'\u00a0%')+'</span></button>').join('')+'</div>';}).join('')+'</div>'+
+    (L<HERO_MAX?'<div class="hc-up"><div class="costs">'+costHtml(c,1)+'</div><button class="btn sm" id="hUp"'+(canHeroUp(h)?'':' disabled')+_t('>Vylepšit na ')+(L+1)+'</button></div>'+missHint(c):
+      (()=>{const pc=prCost(h),pr=heroPr(h);return '<div class="prs"><img alt="" src="'+dataUrl(SPR.icon.star)+'">'+_t('Prestiž ')+pr+'<small style="color:var(--muted);font-weight:600">'+_t(' · každá +0,5 % zdraví a poškození')+'</small></div><div class="hc-up"><div class="costs">'+costHtml(pc,1)+'</div><button class="btn sm" id="hPr"'+(canPay(pc)?'':' disabled')+'>'+_t('Prestiž +1')+'</button></div>'+missHint(pc);})());
+  const up=$('#hUp');if(up)up.onclick=()=>{if(heroUp(h)){sfx('level');note(HEROES[h].name+_t(': úroveň ')+heroLv(h)+(TAL_TIERS.includes(heroLv(h))?_t(' · vyber si talent!'):''));renderHero();}};
+  const prb=$('#hPr');if(prb)prb.onclick=()=>{const pc=prCost(h);if(!canPay(pc))return;payC(pc);save.hpr=save.hpr||{};save.hpr[h]=heroPr(h)+1;persist();sfx('level');note(HEROES[h].name+_t(': prestiž ')+heroPr(h));renderHero();};
+  $('#hCard').querySelectorAll('.tch button').forEach(b=>b.onclick=()=>{const t=+b.dataset.t,i=+b.dataset.i,c=heroTal(h,t);
+    if(L<t){note(_t('Odemkne se na úrovni ')+t);return;}if(c===i)return;
+    if(c>=0){if(save.coins<TAL_SWAP){note(_t('Výměna talentu stojí ')+TAL_SWAP+_t(' zlata'));return;}if(!b.dataset.ok){b.dataset.ok=1;note(_t('Ťukni znovu: výměna za ')+TAL_SWAP+_t(' zlata'));return;}save.coins-=TAL_SWAP;}
+    save.htal=save.htal||{};(save.htal[h]=save.htal[h]||{})[t]=i;persist();sfx('level');renderHero();});
   const eq=save.eq[h]||{},sl=$('#hSlots');sl.innerHTML='';
   for(const s of SLOT_IDS){const it=eq[s]&&itemById(eq[s]);const b=document.createElement('button');b.className='slot'+(it?' r'+it.r+(it.set?' set set-'+it.set:''):'')+(invFilter===s?' on':'');
     b.innerHTML=it?'<img alt="" src="'+itIcon(it)+'"><span>'+itemName(it)+(it.lv?' +'+it.lv:'')+'</span>':'<img class="ghost" alt="" src="'+dataUrl(itemSpr(s,0))+'"><span>'+SLOTS[s].name+'</span>';
@@ -6937,9 +7015,9 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('shard'),_t('Úlomky'),_t('Padají na všech mapách, v pozdějších kapitolách víc. Potřebuješ je skoro na všechno: Vylepšení, úrovně hrdinů, vylepšování výbavy, věží a mazlíčků.')],
    [I('ess'),_t('Esence'),_t('Vzácná. Padá jen z finálních bossů (první výhra na každé obtížnosti dá nejvíc) a z Nekonečné krypty. Na úrovně hrdinů od 10, vylepšení od +6 a Vylepšení od úrovně 20.')],
    [I('stars'),_t('Nekonečná krypta'),_t('Každá kapitola má jednu: po poražení jejího finále si v Přípravě zapneš ∞. Bojuješ s finálním bossem kapitoly znovu a znovu: po každém zabití se vrátí silnější a s novým útokem. Za každého padne Esence (denně plně 20), rekord je počet poražených bossů.')],
-   [dataUrl(SPR.hero.knight),_t('Úroveň hrdiny'),_t('Za zlato a Úlomky (od úrovně 10 i Esenci). Přidá zdraví a poškození a na úrovni 5, 10, 15 a 20 dostaneš talent.')],
+   [dataUrl(SPR.hero.knight),_t('Úroveň hrdiny'),_t('Za zlato a Úlomky (od úrovně 10 i Esenci), až do úrovně 40. Přidá zdraví a poškození. Na úrovni 5, 10, 15 a 20 dostaneš talent, na 25, 30, 35 a 40 si vybereš jeden ze dvou. Po 40 pokračuje nekonečná Prestiž.')],
    [I('chest_iron'),_t('Výbava'),_t('Hlavně z truhel v Obchodu, jen tam padají i legendárky. Kampaň dá předmět jen za první výhru mapy na každé Noční můře a kusy setů z finále. Přilba, zbroj, amulet a prsten v pěti raritách.')],
-   [dataUrl(itemSpr('helm',3,'bone')),_t('Sety kapitol'),_t('Každá kapitola má set 4 kusů. Padají z finále, jeden je v pokladu kapitoly. 2 kusy dají bonus, 4 kusy schopnost.')],
+   [dataUrl(itemSpr('helm',3,'bone')),_t('Sety kapitol'),_t('Každá kapitola má set 4 kusů. Z finále padá truhla setu, kus si z ní vylosuješ, jeden je v pokladu kapitoly. 2 kusy dají bonus, 4 kusy schopnost.')],
    [I('shield'),_t('Kovárna'),_t('3 stejné kusy sliješ v jeden lepší: předměty a věže o raritu výš, mazlíčky o hvězdu víc.')],
    [I('haste'),_t('Vylepšení'),_t('Strom trvalých bonusů v Kovárně: tři větve (Útok, Obrana, Kořist), klíčové uzly s novými schopnostmi, každá kapitola otevře další patro a na konci je nekonečné Mistrovství.')],
    [I('skull'),_t('Noční můry'),_t('Těžší obtížnost celé kapitoly (I–III). Mapy jdeš znovu postupně až k finále a jeho první výhra na každém stupni dá truhlu setu, ze které si kus vylosuješ.')],
@@ -7532,6 +7610,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08u',d:'8. 11. 2026',t:_t('Bossové se představují, hrdinové do úrovně 40 a profilové obrázky'),hl:[
+  {ic:'boss:morvan',t:_t('Představení bossů'),d:_t('Každý boss se před soubojem <b>představí</b>: záblesk, silueta, jeho jméno a hláška. Finále kapitoly je delší a temnější. Ťuknutím ho přeskočíš.')},
+  {ic:'hero:knight',t:_t('Hrdinové až do úrovně 40'),d:_t('Na úrovních 25, 30, 35 a 40 si <b>vybereš jeden ze dvou talentů</b>. Po úrovni 40 pokračuje nekonečná <b>Prestiž</b>.')},
+  {ic:'skull',t:_t('Profilové obrázky'),d:_t('Ikona vlevo nahoře v menu. Vyber si obrázek, který uvidí ostatní v <b>Síni slávy</b>. Hrdinové a bossové z Noční můry III přidají další.')}],
+  items:[_t('Truhla setu se teď ukládá i do cloudu.')]},
  {v:'2026-11-08t',d:'8. 11. 2026',t:_t('Ultimátky duní, nová Aura a truhla setu'),hl:[
   {ic:'storm',t:_t('Ultimátky duní'),d:_t('Každý drop ultimátky má <b>vlastní těžký zvuk</b> přesně do rytmu a takt předem ho ohlásí náběh.')},
   {ic:'aura',t:_t('Nová Aura'),d:_t('Aura je teď <b>kruh s runami</b>, které se točí do taktu, a při každém zásahu z tebe vyjde vlna.')},
