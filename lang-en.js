@@ -1436,4 +1436,7 @@ window.KRYPTA_EN={
 "Zbrojmistr má vlastní zbraň <b>Halapartnu</b> a Krotitel <b>Bič</b>, který označí nepřátele pro mazlíčky.":"The Warlord has his own weapon, the <b>Halberd</b>, and the Tamer a <b>Whip</b> that marks enemies for pets.",
 "Výbava z kampaně: předmět dostaneš jen za <b>první výhru</b> mapy na každé Noční můře a kusy setů z finále. Opakované výhry dávají Úlomky. Truhly jsou teď jediný stálý zdroj výbavy a jediný zdroj legendárek (kromě legendárek kapitol).":"Campaign gear: you get an item only for the <b>first win</b> of a map on each Nightmare tier, plus set pieces from finales. Repeat wins give Shards. Chests are now the only renewable source of gear and the only source of legendaries (apart from chapter legendaries).",
 "Truhly jsou jediný stálý zdroj výbavy a jediný zdroj legendárních předmětů. Kampaň dá předmět jen za první výhru mapy na každé Noční můře a kusy setů z finále.":"Chests are the only renewable source of gear and the only source of legendary items. The campaign gives an item only for the first win of a map on each Nightmare tier, plus set pieces from finales.",
+"Opravy":"Fixes",
+"Z Vylepšení se zase dostaneš zpátky na záložku Kování.":"From Upgrades you can get back to the Forging tab again.",
+"Kapitola IV je o něco mírnější: méně vlků a yetiů, slabší sněhové koule, pomalejší mráz v Tajze a řidší laviny.":"Chapter IV is a bit gentler: fewer wolves and yetis, weaker snowballs, slower cold in the Taiga and rarer avalanches.",
 };

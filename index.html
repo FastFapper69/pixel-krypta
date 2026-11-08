@@ -1011,9 +1011,9 @@ const ENEMY_DEFS={
  magslime:{name:_t('Magmový sliz'),hp:28,spd:17,dmg:7,r:6,xp:3,beh:'chase',die:'magma',pal:{a:'#e8602c',b:'#8a2418',c:'#ffd060',k:'#3a1a14'},rows:['......', '...k..', '..kaak', '.kaaaa', '.aacaa', 'kaayaa', '.aapaa', 'aacaaa', 'abbbbb', '.bbbbb']},
  miner:{name:_t('Duch horníka'),hp:26,spd:24,dmg:7,r:5,xp:3,beh:'ranged',pal:{a:'#a8d8e8',b:'#5a6a8a',c:'#c89a2a',y:'#fff6a0',n:'#7a5232'},rows:['...ccc', '..cccc', '..ccyy', '..aaaa', '..apaa', '..aaaa', '.bbbbb', 'nbbbbb', 'n.bbbb', '..bbbb', '..b..b']},
  // chapter IV
- yeti:{name:_t('Yeti'),hp:70,spd:15,dmg:12,r:7,xp:6,beh:'yeti',pal:{a:'#eef4fa',b:'#9aaac4',c:'#7a8ab0'},rows:[
+ yeti:{name:_t('Yeti'),hp:52,spd:14,dmg:9,r:7,xp:6,beh:'yeti',pal:{a:'#eef4fa',b:'#9aaac4',c:'#7a8ab0'},rows:[
   '...aaa','..aaaa','.aaccc','.acpcc','.acccc','aaabbb','aaaaaa','aaaaaa','baaaaa','baaaaa','.aaaaa','.aa.aa','.bb.bb']},
- wraith:{name:_t('Ledový přízrak'),hp:22,spd:26,dmg:7,r:5,xp:3,beh:'ghost',touch:'slow',pal:{a:'#bfeaff',b:'#5a8ab8',e:'#e8fbff'},rows:[
+ wraith:{name:_t('Ledový přízrak'),hp:22,spd:25,dmg:6,r:5,xp:3,beh:'ghost',touch:'slow',pal:{a:'#bfeaff',b:'#5a8ab8',e:'#e8fbff'},rows:[
   '...aaa','..aaaa','.aaaaa','.apaaa','.apaaa','.aaaaa','aaaaba','aaaaaa','.abaab','..a.ab','...b..']},
  snowman:{name:_t('Sněhulák'),hp:30,spd:14,dmg:8,r:6,xp:3,beh:'chase',die:'snow',pal:{a:'#f4f8ff',b:'#b8c8e0',k:'#2a2a3a',n:'#7a4a2a'},rows:[
   '....kk','...kkk','..kkkk','..aaaa','..apaa','..aaao','...aaa','.naaaa','n.aaba','..aaaa','.aaaaa','.aaaba','.aaaaa','..aaaa']},
@@ -1229,28 +1229,28 @@ const MAPS={
   events:[{t:80,type:'ring',e:'imp',n:20},{t:150,type:'ring',e:'magslime',n:16},{t:220,type:'ring',e:'miner',n:16},{t:300,type:'ring',e:'imp',n:26},{t:380,type:'ring',e:'bat',n:30}]},
  // ----- chapter IV: the frozen realm -----
  jezero:{name:_t('Zamrzlé jezero'),desc:_t('Rozlehlé zamrzlé jezero. Na ledu kloužeš a těžko zastavuješ, pod ním se plíží Stín pod ledem. Vydrž 5:30 a poraz ho.'),dur:330,size:1000,seed:151,style:'ice',ice:'lake',grade:'#9ad8ff',gradeA:.2,dark:.2,amb:'#06101e',ambient:'snow',c1:'#d8e8f4',
-  speedMul:1.02,base:1.04,boss:'serpent',pools:0,
-  spawns:[{e:'wraith',from:0,w:4},{e:'snowman',from:0,w:4},{e:'wolf',from:0,w:3},{e:'skeleton',from:0,w:2},{e:'bat',from:1,w:2},{e:'ghost',from:1,w:2},{e:'yeti',from:2,w:2}],
+  speedMul:1.0,base:.97,boss:'serpent',pools:0,
+  spawns:[{e:'wraith',from:0,w:4},{e:'snowman',from:0,w:4},{e:'wolf',from:2,w:2},{e:'skeleton',from:0,w:3},{e:'bat',from:1,w:2},{e:'ghost',from:1,w:2},{e:'yeti',from:2,w:1}],
   elites:[{t:60,e:'snowman'},{t:130,e:'yeti'},{t:200,e:'wolf'},{t:270,e:'wraith'}],
   events:[{t:90,type:'ring',e:'wolf',n:14},{t:170,type:'ring',e:'wraith',n:18},{t:250,type:'ring',e:'snowman',n:18}]},
  pevnost:{name:_t('Ledová pevnost'),desc:_t('Nádvoří pevnosti z ledu, kde stráží zmrzlí vojáci a sochy rytířů. Vydrž 5:30 a poraz Mrazivého rytíře.'),dur:330,size:940,seed:157,style:'ice',ice:'fort',grade:'#8ab8ff',gradeA:.22,dark:.42,amb:'#040a1a',ambient:'snow',c1:'#9ab0c8',
-  speedMul:1.03,base:1.03,boss:'fknight',pools:0,
-  spawns:[{e:'skeleton',from:0,w:4},{e:'wraith',from:0,w:3},{e:'snowman',from:0,w:3},{e:'bonearcher',from:1,w:2},{e:'yeti',from:2,w:2},{e:'golem',from:3,w:1}],
+  speedMul:1.0,base:.98,boss:'fknight',pools:0,
+  spawns:[{e:'skeleton',from:0,w:4},{e:'wraith',from:0,w:3},{e:'snowman',from:0,w:3},{e:'bonearcher',from:1,w:2},{e:'yeti',from:2,w:1},{e:'golem',from:3,w:1}],
   elites:[{t:60,e:'skeleton'},{t:130,e:'yeti'},{t:200,e:'bonearcher'},{t:270,e:'golem'}],
   events:[{t:90,type:'ring',e:'skeleton',n:20},{t:170,type:'ring',e:'wraith',n:18},{t:250,type:'ring',e:'bat',n:26}]},
  tajga:{name:_t('Tajga'),desc:_t('Noční les v mrazu. Zima tě postupně zpomaluje a nakonec zraňuje, zahřeješ se u táborových ohňů. Vydrž 5:30 a poraz Wendiga.'),dur:330,size:1000,seed:163,style:'ice',ice:'taiga',grade:'#7aa8e8',gradeA:.24,dark:.56,amb:'#02060e',ambient:'snow',c1:'#c8d8ea',
-  speedMul:1.03,base:1.03,boss:'wendigo',pools:0,
-  spawns:[{e:'wolf',from:0,w:5},{e:'snowman',from:0,w:3},{e:'bat',from:0,w:2},{e:'wraith',from:1,w:3},{e:'yeti',from:1,w:2},{e:'spider',from:2,w:2}],
+  speedMul:1.0,base:.98,boss:'wendigo',pools:0,
+  spawns:[{e:'wolf',from:2,w:2},{e:'snowman',from:0,w:4},{e:'bat',from:0,w:3},{e:'wraith',from:1,w:3},{e:'yeti',from:2,w:1},{e:'spider',from:2,w:2}],
   elites:[{t:60,e:'wolf'},{t:130,e:'yeti'},{t:200,e:'wraith'},{t:270,e:'wolf'}],
   events:[{t:90,type:'ring',e:'wolf',n:16},{t:170,type:'ring',e:'snowman',n:18},{t:250,type:'ring',e:'wolf',n:20}]},
  soutezka:{name:_t('Lavinová soutěska'),desc:_t('Úzké údolí pod zasněženými svahy. Každých pár taktů se ukáže pruh a na první dobu dalšího taktu přes něj sjede lavina. Smete i nepřátele. Vydrž 6 minut a poraz Krále yetiů.'),dur:360,size:960,seed:167,style:'ice',ice:'gorge',grade:'#a8d0ff',gradeA:.2,dark:.2,amb:'#08101c',ambient:'snow',c1:'#d0dcea',
-  speedMul:1.04,base:1.02,boss:'yetiking',pools:0,
-  spawns:[{e:'yeti',from:0,w:3},{e:'snowman',from:0,w:4},{e:'wolf',from:0,w:3},{e:'wraith',from:1,w:3},{e:'bonearcher',from:2,w:2},{e:'golem',from:3,w:1}],
+  speedMul:1.0,base:.98,boss:'yetiking',pools:0,
+  spawns:[{e:'yeti',from:2,w:1},{e:'snowman',from:0,w:5},{e:'wolf',from:2,w:2},{e:'skeleton',from:0,w:3},{e:'wraith',from:1,w:3},{e:'bonearcher',from:2,w:2},{e:'golem',from:3,w:1}],
   elites:[{t:60,e:'yeti'},{t:130,e:'snowman'},{t:200,e:'golem'},{t:270,e:'yeti'},{t:330,e:'wolf'}],
   events:[{t:90,type:'ring',e:'snowman',n:20},{t:170,type:'ring',e:'wolf',n:16},{t:260,type:'ring',e:'yeti',n:8},{t:320,type:'ring',e:'wraith',n:24}]},
  zima:{name:_t('Trůn zimy'),desc:_t('Finále kapitoly. Pod polární září čeká Zimní královna. Když ji raníš pod polovinu, aréna začne zamrzat: v bezpečí jsi jen v zářící runě. Vydrž 7 minut.'),dur:420,size:940,seed:173,style:'ice',ice:'throne',grade:'#7ac8ff',gradeA:.24,dark:.5,amb:'#020814',ambient:'snow',c1:'#8aa8cc',finale:1,
-  speedMul:1.04,base:1.02,boss:'queen',pools:0,
-  spawns:[{e:'wraith',from:0,w:4},{e:'yeti',from:0,w:3},{e:'snowman',from:0,w:3},{e:'skeleton',from:1,w:3},{e:'ghost',from:2,w:2},{e:'wolf',from:2,w:2},{e:'golem',from:3,w:1}],
+  speedMul:1.0,base:1.0,boss:'queen',pools:0,
+  spawns:[{e:'wraith',from:0,w:4},{e:'yeti',from:2,w:1},{e:'snowman',from:0,w:3},{e:'skeleton',from:0,w:3},{e:'ghost',from:2,w:2},{e:'wolf',from:2,w:2},{e:'golem',from:3,w:1}],
   elites:[{t:50,e:'wraith'},{t:110,e:'yeti'},{t:170,e:'snowman'},{t:230,e:'golem'},{t:290,e:'yeti'},{t:350,e:'wraith'},{t:400,e:'golem'}],
   events:[{t:80,type:'ring',e:'wraith',n:20},{t:150,type:'ring',e:'snowman',n:18},{t:220,type:'ring',e:'yeti',n:8},{t:300,type:'ring',e:'wolf',n:18},{t:380,type:'ring',e:'wraith',n:28}]},
  // ----- chapter I: the realm of the dead -----
@@ -1300,7 +1300,7 @@ const MAPS={
 const MAP_TIER={hrbitov:[1,0,0],bazina:[1.06,.1,15],kostnice:[1.12,.2,30],zvonice:[1.18,.3,45],trun:[1.35,.45,90],
   poust:[1.22,.4,60],kanon:[1.2,.4,75],karavana:[1.24,.42,90],hrobka:[1.22,.4,105],brana:[1.28,.48,150],
   doly:[1.34,.45,110],kovarna:[1.36,.46,125],reka:[1.4,.48,140],krystaly:[1.44,.5,155],srdce:[1.55,.55,240],
-  jezero:[1.6,.56,170],pevnost:[1.63,.57,185],tajga:[1.66,.58,200],soutezka:[1.7,.6,215],zima:[1.82,.64,320]};
+  jezero:[1.4,.44,170],pevnost:[1.43,.46,185],tajga:[1.45,.47,200],soutezka:[1.48,.49,215],zima:[1.58,.55,320]};
 for(const id in MAPS){const T=MAP_TIER[id]||[1,0,0];MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];}
 // campaign: a chapter = one theme, five maps and one material; its last map is the finale with a special boss
 const CHAPTERS=[
@@ -2633,18 +2633,18 @@ function buildIce(id){
 function avalUpdate(dt){const A=run.aval,sz=run.map.size;
   for(let i=A.length-1;i>=0;i--){const q=A[i];q.t-=dt;if(q.hit)q.sw+=dt;
     if(!q.hit&&q.t<=0){q.hit=1;q.sw=0;sfx('boom');run.shake=Math.max(run.shake,5);
-      const dm=Math.round(18*(1+NM_DMG*(run.nm||0)));
+      const dm=Math.round(14*(1+NM_DMG*(run.nm||0)));
       for(const p of players()){if(p.down||Math.abs(p.y-q.y)>q.h)continue;const hit=()=>{hurtPlayer(dm,'aval');p.x=clamp(p.x+q.dir*30,14,sz-14);};if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}
       for(const e of run.enemies)if(!e.boss&&!e.dead&&!e.bur&&Math.abs(e.y-q.y)<q.h)hurtEnemy(e,90,q.dir*220,0);
       if(run.qc)run.qc.aval=(run.qc.aval||0)+1;}
     if(q.hit&&q.sw>.9)A.splice(i,1);}
   if(run.t<40||run.over)return;
-  if(run.barNow){run.avN=(run.avN||0)+1;if(run.avN%3)return;const bar=60/(M.song?M.song.bpm:120)*4;
+  if(run.barNow){run.avN=(run.avN||0)+1;if(run.avN%4)return;const bar=60/(M.song?M.song.bpm:120)*4;
     for(const p of players()){if(p.down)continue;A.push({y:clamp(p.y+rnd(-40,40),40,sz-40),h:26,t:bar,max:bar,dir:Math.random()<.5?1:-1,hit:0,sw:0});}}}
 // ----- the throne: below half health the queen's frost comes every few bars; only the glowing runes are safe -----
 function frostUpdate(dt){const B=run.built;
   if(run.fcy){run.fcy.t-=dt;if(run.fcy.t<=0){const act=run.fcy.act.map(i=>B.runes[i]);run.fcy=null;sfx('zap');run.flashScr=Math.max(run.flashScr,.25);run.flashCol='#bfeaff';
-      const dm=Math.round(24*(1+NM_DMG*(run.nm||0)));
+      const dm=Math.round(20*(1+NM_DMG*(run.nm||0)));
       for(const p of players()){if(p.down||act.some(r=>Math.hypot(p.x-r.x,p.y-r.y)<30))continue;const hit=()=>{hurtPlayer(dm,'frost');p.slw=Math.max(p.slw||0,1.6);};if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}
       for(const e of run.enemies)if(!e.boss&&!e.dead)e.frz=Math.max(e.frz||0,1.4);
       for(let i=0;i<30;i++){const a=Math.random()*6.283,d=rnd(0,160);addP({x:run.p.x+Math.cos(a)*d,y:run.p.y+Math.sin(a)*d*.7,vx:rnd(-10,10),vy:rnd(-30,-10),life:rnd(.5,.9),col:pick(['#ffffff','#bfeaff']),sz:1,g:0});}}}
@@ -2666,9 +2666,9 @@ MF.ice={
  // taiga: the cold fills up away from fires (and Hearth towers), slows you and at the top it hurts
  pl(p,dt){if(run.map.ice!=='taiga')return;let warm=false;for(const f of run.built.fires)if(Math.hypot(p.x-f.x,p.y-f.y)<58){warm=true;break;}
    if(!warm)for(const t of run.towers)if(t.k==='hearth'&&!t.dead&&Math.hypot(p.x-t.x,p.y-t.y)<towerRange(t)){warm=true;break;}
-   if(warm)p.cold=Math.max(0,(p.cold||0)-dt*.45);else p.cold=Math.min(1,(p.cold||0)+dt/38*(1+.15*(run.nm||0)));
+   if(warm)p.cold=Math.max(0,(p.cold||0)-dt*.45);else p.cold=Math.min(1,(p.cold||0)+dt/50*(1+.15*(run.nm||0)));
    if(!run.coldTip&&p.cold>.6){run.coldTip=1;toast(_t('Mrzneš! Zahřej se u ohně.'),2200);}
-   if(p.cold>=1){p.clT=(p.clT||0)-dt;if(p.clT<=0){p.clT=1;hurtTick(3,'cold','#8af0ff');}}},
+   if(p.cold>=1){p.clT=(p.clT||0)-dt;if(p.clT<=0){p.clT=1.2;hurtTick(2,'cold','#8af0ff');}}},
  freeze(){if(run.map.ice==='throne'){run.frz2=1;run.fcN=0;}},
  update(dt){if(run.map.ice==='gorge')avalUpdate(dt);if(run.map.ice==='throne')frostUpdate(dt);},
  gupdate(dt){for(const q of run.aval||[]){q.t-=dt;if(q.hit)q.sw+=dt;}if(run.fcy)run.fcy.t-=dt;},
@@ -3256,7 +3256,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08e';
+const GAME_VER='2026-11-08f';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3501,7 +3501,7 @@ function killEnemy(e){
     else if(r<.11)run.items.push({x:e.x,y:e.y,k:'magnet'});}
   if(e.d.die==='puddle')run.fx.push({k:'puddle',x:e.x,y:e.y+2,r:11,life:5,max:5,seed:Math.random()*9});
   else if(e.d.die==='magma')run.fx.push({k:'magma',x:e.x,y:e.y+2,r:9,life:3,max:3,seed:Math.random()*9});
-  else if(e.d.die==='snow'){if(!isGuest())ring(e.x,e.y-3,e.elite?8:5,46,5*(1+run.t/60*.08),Math.random()*6,srcOf(e));for(let i=0;i<8;i++)addP({x:e.x+rnd(-4,4),y:e.y-4,vx:rnd(-50,50),vy:rnd(-70,-20),life:rnd(.4,.7),col:pick(['#ffffff','#dff0ff']),sz:2,gy:e.y+4});}
+  else if(e.d.die==='snow'){if(!isGuest())ring(e.x,e.y-3,e.elite?6:4,42,4*(1+run.t/60*.08),Math.random()*6,srcOf(e));for(let i=0;i<8;i++)addP({x:e.x+rnd(-4,4),y:e.y-4,vx:rnd(-50,50),vy:rnd(-70,-20),life:rnd(.4,.7),col:pick(['#ffffff','#dff0ff']),sz:2,gy:e.y+4});}
   if(e.elite&&st&&st.lg&&st.lg.skull&&!isGuest())allySpawn(e.x,e.y);
   if(st&&st.lg&&!isGuest()){if(e.elite&&st.lg.sb2){const p=run.p,h=Math.ceil(p.max*.1);if(!p.down&&p.hp<p.max){p.hp=Math.min(p.max,p.hp+h);run.nums.push({x:p.x,y:p.y-10,txt:'+'+h,life:.8,col:'#8affa0'});}}
     if(st.lg.sb4&&e.bm&&run.t-e.bm<.3&&(run.allies||[]).filter(a=>!a.tw).length<3)allySpawn(e.x,e.y);}
@@ -4027,8 +4027,8 @@ const BEH={
      if(e.bc%3===0)summonAt(Math.random()<.5?'imp':'magslime',e.x,e.y,ph===2?4:3,30);}
    if(ph===2)return dashMove(e,dt,c,3.0);const w=c.dist>80?1:c.dist<50?-.4:0;return[c.cx*c.sp*w,c.cy*c.sp*w];},
  // yeti: lumbers after you and throws snowballs that slow
- yeti(e,dt,c){e.tA=(e.tA===undefined?2:e.tA)-dt;if(e.tA<=0&&c.dist<150&&run.beatNow){e.tA=e.elite?2.4:3.4;const a=Math.atan2(c.uy,c.ux);
-     run.eshots.push({x:e.x,y:e.y-4,vx:Math.cos(a)*62,vy:Math.sin(a)*62,dmg:9*(1+c.t/60*.08),r:5,life:4,src:srcOf(e),snow:1,slw:.8});sfx('shoot',2);}
+ yeti(e,dt,c){e.tA=(e.tA===undefined?2:e.tA)-dt;if(e.tA<=0&&c.dist<150&&run.beatNow){e.tA=e.elite?2.8:3.8;const a=Math.atan2(c.uy,c.ux);
+     run.eshots.push({x:e.x,y:e.y-4,vx:Math.cos(a)*58,vy:Math.sin(a)*58,dmg:6*(1+c.t/60*.08),r:5,life:4,src:srcOf(e),snow:1,slw:.6});sfx('shoot',2);}
    return[c.cx*c.sp,c.cy*c.sp];},
  // frost knight: charges, the landing throws a ring of ice, ice wraiths come to help
  fknight(e,dt,c){const v=dashMove(e,dt,c,3.6);if(e.dashEnd){e.dashEnd=0;ring(e.x,e.y,14,48,e.dmg*.5,Math.random()*6,srcOf(e));sfx('boom');run.shake=4;run.fx.push({k:'shock',x:e.x,y:e.y,r:4,t:0,life:.5,col:'#bfeaff',big:1});}
@@ -5194,7 +5194,7 @@ function bindUi(){
   $('#nickInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveNick();});
   $('#boardRefresh').onclick=()=>{sfx('ui');openBoard();};
   document.querySelectorAll('#boardTabs button').forEach(b=>b.onclick=()=>{boardTab=b.dataset.t==='map'?(MAPS[boardTab]?boardTab:(mapUnlocked(sel.map)?sel.map:'hrbitov')):b.dataset.t;sfx('ui');renderBoard();});
-  const SEC_OPEN={hero:()=>openHero(),towers:()=>openTowers(),pets:()=>openPets(),chests:()=>openChestShop(),shop:()=>{renderShop();setState('shop');},board:()=>openBoard(),master:()=>openMaster(),codex:()=>openCodex()};
+  const SEC_OPEN={hero:()=>openHero(),towers:()=>openTowers(),pets:()=>openPets(),chests:()=>openChestShop(),forge:()=>openForge(),shop:()=>{renderShop();setState('shop');},board:()=>openBoard(),master:()=>openMaster(),codex:()=>openCodex()};
   document.querySelectorAll('.sectabs button').forEach(b=>b.onclick=()=>{if(b.classList.contains('on'))return;audioInit();sfx('ui');SEC_OPEN[b.dataset.to]();});
   $('#mSet').onclick=()=>{audioInit();sfx('ui');setSheet(true);requestAnimationFrame(()=>setTimeout(refreshSettings,0));};
   $('#setClose').onclick=()=>{sfx('ui');setSheet(false);};
@@ -6692,6 +6692,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08f',d:'8. 11. 2026',t:_t('Opravy'),items:[_t('Z Vylepšení se zase dostaneš zpátky na záložku Kování.'),_t('Kapitola IV je o něco mírnější: méně vlků a yetiů, slabší sněhové koule, pomalejší mráz v Tajze a řidší laviny.')]},
  {v:'2026-11-08e',d:'8. 11. 2026',t:_t('Kapitola IV: Ledová říše'),items:[_t('Nová kapitola s pěti mapami: <b>Zamrzlé jezero</b> (na ledu kloužeš), <b>Ledová pevnost</b>, <b>Tajga</b> (mráz tě zpomaluje, zahřeješ se u ohně), <b>Lavinová soutěska</b> (laviny smetou i nepřátele) a finále <b>Trůn zimy</b> se Zimní královnou.'),_t('Noví nepřátelé Yeti, Ledový přízrak a Sněhulák, pět nových bossů, věže <b>Ohniště</b> a <b>Rampouchová věž</b>, set <b>Mrazivá zbroj</b> a legendárka Srdce zimy.'),_t('Kapitola IV odemkne <b>Šamanku mrazu</b> (1 500 zlata).'),_t('Zbrojmistr má vlastní zbraň <b>Halapartnu</b> a Krotitel <b>Bič</b>, který označí nepřátele pro mazlíčky.'),_t('Výbava z kampaně: předmět dostaneš jen za <b>první výhru</b> mapy na každé Noční můře a kusy setů z finále. Opakované výhry dávají Úlomky. Truhly jsou teď jediný stálý zdroj výbavy a jediný zdroj legendárek (kromě legendárek kapitol).')]},
  {v:'2026-11-08d',d:'8. 11. 2026',t:_t('Drobné opravy výbavy'),items:[_t('Tlačítko <b>Vše</b> v kategoriích výbavy je čitelné a štítek NOVÉ už nepřečnívá z dlaždice.')]},
  {v:'2026-11-08c',d:'8. 11. 2026',t:_t('Dva noví hrdinové'),items:[_t('<b>Zbrojmistr</b> unese o zbraň víc (6 místo 5). Úrovně mu přidávají poškození a rychlost útoků, od úrovně 10 začíná se dvěma zbraněmi.'),_t('<b>Krotitel</b> si do běhu vezme dva mazlíčky. Úrovně posilují poškození, rychlost i schopnosti mazlíčků. Druhého mazlíčka vybereš ve Vybavení na záložce Mazlíčci.'),_t('Oba koupíš v Přípravě za 1 000 zlata po poražení Trůnu kostí.')]},
