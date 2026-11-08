@@ -1,6 +1,6 @@
 # Pixel Krypta – kampaň a kapitoly
 
-Stav: **kapitoly I–IV hotové (III od 2026-11-07y, IV od 2026-11-08e)**. Další kapitoly V–VI čekají (hrdinové Námořnice a Hvězdářka už jsou připravení).
+Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI čeká (hrdinka Hvězdářka je připravená). **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
 Návrh pro uživatele je i v dokumentu „Pixel Krypta – kampaň a kapitoly“ (Claude Docs).
 
 ## Systém
@@ -58,7 +58,19 @@ Generátor `buildIce` (`def.ice` = lake | fort | taiga | gorge | throne) + háč
 | zima Trůn zimy | finále, polární záře; královna `queen` pod 50 % volá `mfCall('freeze')` → `run.frz2`, `frostUpdate`: každé 3 takty 2 takty varování, bezpečné jsou 3 zářící runy z 6 (`built.runes`), jinak 24 × NM + zpomalení |
 Nepřátelé: `yeti` (sněhové koule `eshots` se `snow`/`slw`), `wraith` (ghost, dotek zpomalí), `snowman` (`die:'snow'` = kruh střepů). Věže `hearth` Ohniště (pálí okolí, zahřívá, p5 léčí; odemkne pevnost) a `icelance` Rampouchová věž (průrazné kopí, zpomalí, p5 zmrazí; odemkne soutezka). Set `frost` (2 = zdraví +10 % a zásahy zpomalí `lg.sfr2`, 4 = mrazivá vlna na 1. dobu každého 2. taktu `lg.sfr4`), legendárka `wheart` (zima). Hledaný `bigfoot`. Šamanka mrazu `need:'jezero'`, 1500 zlata. Mistrovství `queen`. Testy `tests/tools/mech4.js`, `shot4.js`, `c3shots.js <prefix> jezero,…`.
 
+## Kapitola V Prokleté pobřeží (08o)
+Generátor `buildCoast` (`def.coast` = wreck | port | light | vortex | deck) + háčky `MF.coast`, sprity `CO_PROPS`/`coSprite`, vrak lodi `wreckSprite(seed,W)` (artSprite), domy přístavu přes `makeHouse` ze Zvonice, déšť `ambient:'rain'`, hudební styl `STYLES.sea` (shanty: oom-pah bas, tlesk na 2 a 4, akordeon na offbeatech), stupnice `dorian`.
+| Mapa | Mechanika |
+|---|---|
+| vrakoviste Vrakoviště | příliv `tideK()` (perioda `TIDE_T`=44 s, výška `TIDE_H`=170): voda nad `floodY` zpomalí hrdinu ×0,62, nepřátele ×0,72 (ne `wet`, `fly`, `wave`, `ghost`, bossy); boss `crabking` (výpady + vějíř bublin, kraby) |
+| pristav Pirátský přístav | bez mechaniky: mola, kotvící loď, nábřeží s děly, řada skladů, uličky z prken, městečko; boss `captain` (salvy dělových koulí, piráti) |
+| majak Mlžný maják | tma 0,8, mlha, paprsek majáku (`coBeam`, `BEAM_L`=380, otočka 0,75 rad/s): světla podél paprsku, nepřátelé v něm +25 % poškození; boss `seawitch` (mizí a objeví se u hrdiny, kruhy bublin, medúzy) |
+| vir Oko víru | vír `built.vc` (posunutý o `VORTEX_DY` na sever od startu): tah hrdiny do 260 od středu až 26/s (na 1. dobu ×1,4, hrdina má 58), nepřátel až 44/s, střed `VCORE`=46 zraňuje (hrdina tick, nepřátelé 12+t/20 každých 0,3 s); boss `seasnake` (krouží, vějíře, každý 4. takt výpad) |
+| paluba Paluba v bouři | finále, loď na výšku (`DECK_W`/`DECK_H`, příď `BOW`, záď `STERN`), hráči i nepřátelé zavření na palubě; náklon `coTilt()` (sin přes 2 takty) posouvá vše do stran 26/s (bouře 40); Kraken `kraken` stojí ve vodě u boku (`e.side`), každý 8. takt přeplave; chapadla `run.tent` (`tentUpdate`): vodorovný pruh u hrdiny z Krakenovy strany, za takt udeří (12 × NM); pod 50 % `mfCall('storm')` → `run.storm`: chapadla každý takt a lámou palubu (`run.holes`: zpomalí ×0,5 a zraňují) |
+Balanc (bot `zkuseny`, 3–4 běhy na mapu, 8. 11.): jezero ~50 %, zima ~17 %; po úpravě `MAP_TIER` V: vrakoviste ~100 % → zvednuto na 1,78/0,58, pristav ~50 %, majak ~83 %, vir ~33 %, paluba ~50 % (Kraken 15 500). Bot zná vír, chapadla a díry (`bot.js`). Ladit podle telemetrie.
+Nepřátelé: `crab` (charger, `wet`), `pirate` (chase, louže, `wet`), `jelly` (BEH `jelly`: na každou dobu vyrazí, dotek zpomalí), `gull` (BEH `gull`: krouží a střemhlav, `fly`). Set `tide` Výstroj mořského vlka (2 = pohyb +8 %, sbírání +15 %; 4 = `lg.st4` vlna na 3. dobu každého 2. taktu, `kb` u `ring`), legendárka `kheart` Oko krakena (prsten, chapadla inkoustu na 3 nejbližší každé 2 takty). Hledaný `seawolf` Mořský vlk. Námořnice `need:'vrakoviste'`, 1500 zlata. Mistrovství `kraken` Pán moří. Testy `tests/tools/c5shots.js <prefix> [mapy] [s]` (level-upy vybírá sám), pohlednice nových map `thumbgen5.js mapa,…`.
+
 ## Zbývá / nápady
-- Kapitola V–VI (Námořnice, Hvězdářka): podle stejného rámce, mechanika jen u některých map, 2–3 noví nepřátelé na kapitolu.
+- Kapitola VI (Hvězdářka): podle stejného rámce, mechanika jen u některých map, pár nových nepřátel, bez nového materiálu. Kapitola V nemá vlastní věže (IV měla dvě), dají se doplnit.
 - Úkoly a Mistrovství pro nové mechaniky (zapálené pochodně `run.qc.torch`, zvony `bell`, pasti `trap` se už počítají).
 - Ověřit na telefonu výkon tmy v Kostnici a mlhy v bažině.

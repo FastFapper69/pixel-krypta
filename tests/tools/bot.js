@@ -47,6 +47,10 @@ for(const map of maps)for(const hero of heroes)for(let i=0;i<N;i++){
         for(const s of R.eshots){const dx=p.x-s.x,dy=p.y-s.y,d=Math.hypot(dx,dy)+.01;if(d>30)continue;const w=(30-d)/30*2.5;fx+=dx/d*w;fy+=dy/d*w;}
         for(const pl of R.built.pools||[]){const dx=p.x-pl.x,dy=p.y-pl.y,d=Math.hypot(dx,dy);if(d<pl.r+14){const w=(pl.r+14-d)/14*3;fx+=dx/(d+.01)*w;fy+=dy/(d+.01)*w;}}
         if(R.carts)for(const ct of R.carts){const dx=p.x-ct.x,dy=p.y-ct.y,d2=dx*dx+dy*dy;if(d2<45*45){const d=Math.sqrt(d2)+.01,w=(45-d)/45*4;fx+=dx/d*w;fy+=dy/d*w;}}
+        // kapitola V: drž se dál od středu víru, uhýbej z pruhu chapadla, obcházej díry v palubě
+        if(R.built.vc){const dx=p.x-R.built.vc.x,dy=p.y-R.built.vc.y,d=Math.hypot(dx,dy)+.01;if(d<170){const w=(170-d)/170*3;fx+=dx/d*w;fy+=dy/d*w;}}
+        for(const q of R.tent||[]){if(q.hit||p.x<q.xa||p.x>q.xb)continue;const dy=p.y-q.y;if(Math.abs(dy)<q.w+10)fy+=(dy>=0?1:-1)*3;}
+        for(const q of R.holes||[]){const dx=p.x-q.x,dy=p.y-q.y,d=Math.hypot(dx,dy)+.01;if(d<q.r+12){const w=(q.r+12-d)/12*3;fx+=dx/d*w;fy+=dy/d*w;}}
         // cíl: oáza při nízkém zdraví, krystal v poušti, nejbližší krystal XP
         let goal=null;
         if(p.hp<p.max*.4&&R.built.oases&&R.built.oases.length&&!(R.crystal&&R.crystal.hp<R.crystal.max*.6)){let bd=1e9;for(const o of R.built.oases){const d=Math.hypot(o.x-p.x,o.y-p.y);if(d<bd){bd=d;goal=o;}}}
