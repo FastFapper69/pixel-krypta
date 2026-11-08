@@ -1255,6 +1255,7 @@ const ICONS={
  gear:{pal:{s:'#d8d4e8',S:'#8a86a0'},rows:['.s.ss.s.','.ssssss.','ssSSSSss','.sS..Ss.','.sS..Ss.','ssSSSSss','.ssssss.','.s.ss.s.']},
  bell:{pal:{y:'#f6c744',w:'#fff6c8',o:'#a97a14'},rows:['...yy...','..yyyy..','.yywyyy.','.ywyyyy.','.yyyyyy.','yyyyyyyy','oooooooo','...oo...']},
  book:{pal:{B:'#8a5ad0',b:'#5a3a9a',p:'#ecdcae',y:'#f6c744'},rows:['.BBBBBB.','Bbbbbbbp','Bbyyyybp','Bbybbybp','Bbyyyybp','Bbbbbbbp','Bbbbbbbp','.pppppp.']},
+ star:{pal:{y:'#f6c744',w:'#fff6c8',k:'#a8781a'},rows:['...yy...','...yy...','yyywyyyy','.yywwyy.','..yyyy..','.yyyyyy.','.yk..ky.','y......y']},
  news:{pal:{y:'#f6c744',w:'#fff6c8'},rows:['...y....','...y....','..ywy..y','yywwwyy.','..ywy...','...y....','.y.y....','........']},
  share:{pal:{s:'#cfcfe0',u:'#7fcaff'},rows:['.....uu.','....uuuu','...s.uu.','..s.....','uu.s....','uuuu.s..','.uu...s.','........']},
  phone:{pal:{s:'#cfcfe0',k:'#3a2c52',y:'#f6c744'},rows:['.ssssss.','.skkkks.','.skyyks.','.skyyks.','.skkkks.','.skkkks.','.ssssss.','..s..s..']}
@@ -3648,7 +3649,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08r';
+const GAME_VER='2026-11-08s';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -6240,23 +6241,23 @@ const itemSprCache={};
 // item icons: left half of a 12x12 picture (mirrored), g = gem in the rarity colour
 const ITEM_ART={
  // boots, gloves and the item kinds (BASES); g/e take the rarity colour
- boots0:{pal:{a:'#8a6a4a',b:'#5a4430'},rows:['......','......','.aa...','.aa...','.aa...','.aa...','.aab..','.aabb.','aaaabg','aaaaab','bbbbbb','......']},
- boots1:{pal:{a:'#6a4a2e',b:'#3e2a1a'},rows:['......','.bb...','.aa...','.aa...','.aa...','.aa...','.aab..','.aabb.','aaaabg','aaaaab','bbbbbb','......']},
- boots2:{pal:{a:'#9aa4b4',b:'#5a6474',c:'#e8eef8'},rows:['......','.cc...','.aa...','.ca...','.aa...','.ca...','.aab..','.aabb.','aaaabg','aaaaab','bbbbbb','......']},
- boots3:{pal:{a:'#3a2c52',b:'#221838',c:'#b8a8d8'},rows:['.c....','.cc...','.aa...','.aa...','.aa...','.aa...','.aab..','.aabb.','aaaabg','aaaaab','bbbbbb','......']},
- gloves0:{pal:{a:'#c8b090',b:'#8a7458',c:'#6a5a44'},rows:['......','.a.a..','.a.a.a','.aaaaa','.aaaaa','aaaaaa','.aaaaa','..aaaa','..cccc','..cggc','..bbbb','......']},
- gloves1:{pal:{a:'#8a5a3a',b:'#5a3822',c:'#d8a860'},rows:['......','.a.a..','.a.a.a','.aaaaa','.aaaaa','aaaaaa','.aaaaa','..aaaa','..cccc','..cggc','..bbbb','......']},
- gloves2:{pal:{a:'#aab4c6',b:'#6c768a',c:'#e8eef8'},rows:['......','.a.a..','.a.a.a','.aaaaa','.acaca','aaaaaa','.aaaaa','..aaaa','..cccc','..cggc','..bbbb','......']},
- gloves3:{pal:{a:'#3a2c52',b:'#221838',c:'#b8a8d8'},rows:['......','.c.c..','.a.a.c','.aaaaa','.aaaaa','aaaaaa','.aaaaa','..aaaa','..cccc','..cggc','..bbbb','......']},
+ boots0:{full:1,pal:{a:'#8a6a4a',b:'#5a4430',c:'#a8885e'},rows:['............','...cccccc...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaabb..','...aaaaaaab.','..aaaaaaaaab','..aagaaaaaab','..bbbbbbbbbb','............']},
+ boots1:{full:1,pal:{a:'#6a4a2e',b:'#3e2a1a',c:'#c89a52'},rows:['............','...cccccc...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaabb..','...aaaaaaab.','..aaaaaaaaab','..aagaaaaaab','..bbbbbbbbbb','............']},
+ boots2:{full:1,pal:{a:'#9aa4b4',b:'#5a6474',c:'#e8eef8'},rows:['............','...cccccc...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaabb..','...aaaaaaab.','..aaaaaaaaab','..aagaaaaaab','..bbbbbbbbbb','............']},
+ boots3:{full:1,pal:{a:'#3a2c52',b:'#221838',c:'#b8a8d8'},rows:['............','...cccccc...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaabb..','...aaaaaaab.','..aaaaaaaaab','..aagaaaaaab','..bbbbbbbbbb','............']},
+ gloves0:{full:1,pal:{a:'#c8b090',b:'#8a7458',c:'#a08a6a'},rows:['.....a.a....','...a.a.a.a..','...a.a.a.a..','...aaaaaaa..','.a.aaaaaaa..','.aaaaaaaaa..','..aaaaaaab..','...aaaaaab..','...ccccccc..','...ccgcccc..','...bbbbbbb..','............']},
+ gloves1:{full:1,pal:{a:'#8a5a3a',b:'#5a3822',c:'#d8a860'},rows:['.....a.a....','...a.a.a.a..','...a.a.a.a..','...aaaaaaa..','.a.aaaaaaa..','.aaaaaaaaa..','..aaaaaaab..','...aaaaaab..','...ccccccc..','...ccgcccc..','...bbbbbbb..','............']},
+ gloves2:{full:1,pal:{a:'#aab4c6',b:'#6c768a',c:'#e8eef8'},rows:['.....a.a....','...a.a.a.a..','...a.a.a.a..','...ccccccc..','.a.aaaaaaa..','.aaaaaaaaa..','..aaaaaaab..','...aaaaaab..','...ccccccc..','...ccgcccc..','...bbbbbbb..','............']},
+ gloves3:{full:1,pal:{a:'#3a2c52',b:'#221838',c:'#b8a8d8'},rows:['.....a.a....','...a.a.a.a..','...a.a.a.a..','...ccccccc..','.a.aaaaaaa..','.aaaaaaaaa..','..aaaaaaab..','...aaaaaab..','...ccccccc..','...ccgcccc..','...bbbbbbb..','............']},
  hood:{pal:{a:'#5a7a5a',b:'#3a5a3a',k:'#141018'},rows:['..aaaa','.aaaaa','aaaaaa','aabbbb','abkkkk','abkkkk','abkkkk','aabkkk','.aaabb','..aaag','...aaa','......']},
  circlet:{pal:{a:'#c8a040',b:'#8a6a20',y:'#f6e05a'},rows:['......','......','......','.....g','....gy','.aaaay','aaaaaa','abb...','......','......','......','......']},
  coat:{pal:{a:'#3a5a8a',b:'#24385a',c:'#e8c860'},rows:['......','.bb.aa','bbbaaa','.baaaa','.aaaaa','.acaaa','.aaaaa','.acaag','.aaaaa','.acaaa','.aaaaa','.aa.aa']},
  robe:{pal:{a:'#6a3a8a',b:'#3a1a5a',c:'#e8c860'},rows:['......','..aa..','.aaa..','aaaab.','.aaaab','.aaaca','..aaaa','..aaga','..aaaa','.aaaaa','aaaaaa','bbbbbb']},
- talisman:{pal:{a:'#8a6a3a',b:'#5a4a3a',c:'#c8a870'},rows:['......','...b..','..b...','.b....','.b....','...aaa','..acca','.aagga','.aagga','..acca','...aaa','......']},
+ talisman:{pal:{a:'#ece4cc',b:'#6a4a2a',c:'#c8a050'},rows:['.b....','..b...','...b..','....bb','...ccc','....aa','....aa','....ag','....aa','.....a','......','......']},
  emblem:{pal:{a:'#9a8a7a',b:'#5a4a3a',k:'#2a2420'},rows:['......','..a.a.','..aaaa','..akaa','..aaaa','..akaa','..aaaa','.aaaaa','.agaaa','.aaaaa','bbbbbb','......']},
  signet:{pal:{a:'#c8a040',b:'#8a6a20',y:'#e8c060'},rows:['......','......','...yyy','..yggy','..yggy','...yyy','..a...','.a....','.a....','.b....','..bbbb','......']},
- sandals:{pal:{a:'#b88a50',b:'#7a5a30'},rows:['......','......','......','......','......','.a.a..','.aaa..','.aaaa.','.aaaab','aaaaag','bbbbbb','......']},
- gauntlet:{pal:{a:'#7a7a86',b:'#4a4a56',c:'#c86a2a'},rows:['......','.a.a..','.a.a.a','.aaaaa','.acaca','aaaaaa','.aaaaa','..aaaa','..cccc','..cggc','..bbbb','......']},
+ sandals:{pal:{a:'#d8b070',b:'#8a6a3a',c:'#6a3a1a'},rows:['......','.aaa..','aacaa.','acaca.','caaac.','aaaaa.','.aaa..','.cgc..','.aaa..','.aaa..','.bbb..','......']},
+ gauntlet:{full:1,pal:{a:'#7a7a86',b:'#4a4a56',c:'#c86a2a'},rows:['.....a.a....','...a.a.a.a..','...a.a.a.a..','...ccccccc..','.a.aaaaaaa..','.aaaaaaaaa..','..aaaaaaab..','...aaaaaab..','...ccccccc..','...ccgcccc..','...bbbbbbb..','............']},
  // helmets
  helm0:{pal:{a:'#a8865a',b:'#6e5436',k:'#241a14'},rows:['......','....aa','...aaa','..aaaa','.aaaab','.aabkk','aabkkk','aabkkk','aaabkk','aaaabb','aaaaag','.aaaaa']},
  helm1:{pal:{a:'#8a5a3a',b:'#5a3822',c:'#d8a860',k:'#241a14'},rows:['......','......','...aaa','..aaaa','.aaaaa','.aaaag','cccccc','abkkkk','ab.kkk','bb....','......','......']},
@@ -6297,7 +6298,7 @@ const ITEM_ART={
  sun_ring:{pal:{a:'#f6c744',c:'#c28a10',r:'#ff7a3a',y:'#fff0a0'},rows:['...r.r','....rr','...ryy','..rryy','...ryy','..aarr','.ca...','.a....','.a....','.c....','..cccc','......']}};
 // item picture: base items by slot and tier (the gem takes the rarity colour), set pieces have their own art
 function itemSpr(sl,r,set,b){const k=set?set+'_'+sl:b&&ITEM_ART[b]?b:sl+Math.min(3,r),key=k+':'+r;if(itemSprCache[key])return itemSprCache[key];const A=ITEM_ART[k]||ITEM_ART[sl+'0'];
-  const rc=RAR[Math.max(1,r)].col;return itemSprCache[key]=buildSprite(A.rows,{pal:set?Object.assign({},A.pal,{g:rc,e:rc}):Object.assign({g:rc},A.pal)});}
+  const rc=RAR[Math.max(1,r)].col;return itemSprCache[key]=buildSprite(A.rows,{mirror:!A.full,pal:set?Object.assign({},A.pal,{g:rc,e:rc}):Object.assign({g:rc},A.pal)});}
 const itIcon=it=>dataUrl(itemSpr(it.s,it.r,it.set,it.b));
 function matIcon(m){return dataUrl(SPR.icon[MATX(m)]);}
 // big amounts shortened so the currency bars never grow: 9999, 12,3k, 456k, 1,2M
@@ -7348,17 +7349,19 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08s',d:'8. 11. 2026',t:_t('Čitelnější ikony'),hl:[
+  {ic:'item:gloves:1',t:_t('Nové obrázky výbavy'),d:_t('Boty, rukavice, kovářské rukavice, sandály a talisman mají <b>nové obrázky</b>, ze kterých hned poznáš, co to je.')}],items:[_t('Ikony v Novinkách teď vždy sedí k tomu, o čem bod je.')]},
  {v:'2026-11-08r',d:'8. 11. 2026',t:_t('Nové truhly v Obchodu'),hl:[
   {ic:'chest_gold',t:_t('Nové truhly'),d:_t('Truhly mají nový vzhled a jména: <b>Truhla dobrodruha</b>, <b>Okovaná truhla</b> a <b>Královská truhla</b>. Čím dražší, tím honosnější.')},
   {ic:'chest_tower',t:_t('Stavitelova bedna'),d:_t('Karty věží teď najdeš ve <b>Stavitelově bedně</b> s ozubeným kolem a plánkem.')},
   {ic:'chest_pet',t:_t('Kouzelný košík'),d:_t('Mazlíčci se rodí v proutěném <b>Kouzelném košíku</b> s mašlí.')}]},
  {v:'2026-11-08q',d:'8. 11. 2026',t:_t('Krásnější Síň slávy'),hl:[
   {ic:'trophy',t:_t('Nová Síň slávy'),d:_t('Vítěz má velkou kartu se <b>statistikami v dlaždicích</b>, druhý a třetí vlastní karty a ostatní hráči ikonky s kombem, mapami a hrdiny. Nic už nepřetéká přes rámeček.')},
-  {ic:'news',t:_t('Novinky s ikonami'),d:_t('Novinky ukazují <b>to hlavní nahoře</b> s ikonou, která k bodu patří, drobnosti jsou pod tím.')}]},
+  {ic:'bell',t:_t('Novinky s ikonami'),d:_t('Novinky ukazují <b>to hlavní nahoře</b> s ikonou, která k bodu patří, drobnosti jsou pod tím.')}]},
  {v:'2026-11-08p',d:'8. 11. 2026',t:_t('Nová výbava a těžší kapitoly'),hl:[
   {ic:'item:boots:3',t:_t('Boty a rukavice'),d:_t('Dva nové sloty výbavy. Boty dávají rychlost, dosah sbírání a nový <b>Úhyb</b>, rukavice rychlost útoků, kritické zásahy a poškození.')},
   {ic:'base:coat',t:_t('Víc druhů výbavy'),d:_t('Každý slot má víc druhů s vlastním zaměřením: <b>Kápě</b> na regeneraci, <b>Kabátec</b> s úhybem, <b>Pečeť</b> na poškození, <b>Stavitelský znak</b> pro věže a další.')},
-  {ic:'item:amulet:3',t:_t('Vlastnosti ★'),d:_t('Epické a legendární předměty mají <b>zvláštní vlastnost</b>: Upíří hlad, Trny, Rytmus, Hrabivost, Vítr v zádech nebo Lovec. Stejné se sčítají.')},
+  {ic:'star',t:_t('Vlastnosti ★'),d:_t('Epické a legendární předměty mají <b>zvláštní vlastnost</b>: Upíří hlad, Trny, Rytmus, Hrabivost, Vítr v zádech nebo Lovec. Stejné se sčítají.')},
   {ic:'boss:titan',t:_t('Každá kapitola je výzva'),d:_t('Další kapitola tě <b>pořádně zastaví</b> a bossové jsou mnohem silnější. Vrať se na Noční můry předchozích kapitol pro lepší výbavu a úrovně.')}],items:[_t('Nové legendárky <b>Sedmimílové boty</b> (dlouhý krok do rytmu) a <b>Hromové pěsti</b> (kritické zásahy vybuchují).'),_t('Nepřátelé z pobřeží mají víc zdraví a silnější útoky.')]},
  {v:'2026-11-08o',d:'8. 11. 2026',t:_t('Kapitola V: Prokleté pobřeží'),hl:[
   {ic:'map:vrakoviste',t:_t('Čtyři nové mapy'),d:_t('<b>Vrakoviště</b> s přílivem, <b>Pirátský přístav</b>, <b>Mlžný maják</b> s paprskem, který zesiluje tvoje zásahy, a <b>Oko víru</b>, které vtahuje tebe i nepřátele.')},
@@ -7370,7 +7373,7 @@ const NEWS=[
  {v:'2026-11-08m',d:'8. 11. 2026',t:_t('Nekonečná krypta pro každou kapitolu'),hl:[
   {ic:'boss:morvan',t:_t('Jedna krypta na kapitolu'),d:_t('Nekonečná krypta už není na každé mapě: <b>každá kapitola má jednu</b>, souboj s bossem jejího finále. Odemkneš ji poražením finále.')}]},
  {v:'2026-11-08l',d:'8. 11. 2026',t:_t('Velká aktualizace: bossové bez konce'),hl:[
-  {ic:'stars',t:_t('Nová Nekonečná krypta'),d:_t('Souboj s bossem mapy: po každém zabití se vrátí <b>silnější a s novým útokem</b>. Rekord je počet poražených bossů, Esence padá za každého.')},
+  {ic:'boss:lich',t:_t('Nová Nekonečná krypta'),d:_t('Souboj s bossem mapy: po každém zabití se vrátí <b>silnější a s novým útokem</b>. Rekord je počet poražených bossů, Esence padá za každého.')},
   {ic:'wolf',t:_t('Hvězdy mazlíčků'),d:_t('3 stejné mazlíčky sliješ v Kovárně v jednoho s <b>hvězdou navíc</b> (+15 % síly za hvězdu, max 5). Kování teď umí i <b>karty věží</b>.')},
   {ic:'note',t:_t('Kombo v Síni slávy'),d:_t('Nová záložka <b>Kombo</b> ukazuje, kdo udržel nejdelší kombo v jednom běhu.')},
   {ic:'skull',t:_t('Nebezpečí map konečně bolí'),d:_t('Sluneční paprsek, pasti, erupce, laviny i vozíky teď berou <b>část tvého zdraví</b>, takže je cítíš i s vylepšeným hrdinou.')}],

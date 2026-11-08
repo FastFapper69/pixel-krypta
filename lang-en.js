@@ -1,6 +1,10 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Čitelnější ikony":"Clearer icons",
+"Nové obrázky výbavy":"New gear pictures",
+"Boty, rukavice, kovářské rukavice, sandály a talisman mají <b>nové obrázky</b>, ze kterých hned poznáš, co to je.":"Boots, gloves, smith's gloves, sandals and the talisman have <b>new pictures</b>, so you can tell at a glance what they are.",
+"Ikony v Novinkách teď vždy sedí k tomu, o čem bod je.":"Icons in the News now always match what the point is about.",
 "Nové truhly v Obchodu":"New chests in the Shop",
 "Nové truhly":"New chests",
 "Truhly mají nový vzhled a jména: <b>Truhla dobrodruha</b>, <b>Okovaná truhla</b> a <b>Královská truhla</b>. Čím dražší, tím honosnější.":"Chests have a new look and names: the <b>Adventurer's Chest</b>, the <b>Ironbound Chest</b> and the <b>Royal Chest</b>. The pricier, the grander.",
