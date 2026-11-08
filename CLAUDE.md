@@ -18,7 +18,11 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
   - Speciální mechanika nemusí být na každé mapě. Každá kapitola přidá jen pár nových nepřátel.
   - Odměny za zpětnou vazbu skromné, ne přehnané.
 - **Jak pracovat:** před velkou změnou krátce shrň návrh a zeptej se; po „udělej“ dělej celý balík najednou, ověř (testy + screenshoty), nasaď, ověř Pages, řekni verzi. Když uživatel řekne „zastav po tomhle“, dál nepokračuj. Dlouhé simulace drž krátké.
-- **Záloha:** když uživatel řekne „zálohuj se“, aktualizuj tenhle soubor (Hotovo, Plán, Předávka) a pushni. Nic důležitého nesmí zůstat jen v paměti účtu.
+- **Synchronizace dvou účtů (pravidlo uživatele od 8. 11. 2026, vždy dodržuj):** uživatel pracuje se dvěma Claude účty **souběžně** na stejném repu.
+  - **Na začátku každé akce** (i krátké): `git fetch origin main` a porovnej `HEAD` s `origin/main`. Když je repo napřed, nejdřív `git pull --rebase` a přečti si nové commity a změny v tomhle souboru. Teprve pak začni pracovat.
+  - **Na konci každé akce** (nejen na „zálohuj se“): commit všeho podstatného (kód, `lang-en.js`, testy, skilly v `.claude/skills/`, tenhle soubor se stavem a dalšími kroky) a push na `main`. Před pushem znovu `git fetch` + `git pull --rebase`; při konfliktu ho vyřeš ručně a nic nepřepisuj.
+  - **Nikdy** `push --force`. Nic důležitého nesmí zůstat jen v paměti účtu nebo v sandboxu.
+  - Když push nejde (sandbox nemá repo v sezení), přidej repo do sezení s právem zápisu a zkus to znovu. Token do repa ani do paměti nikdy neukládej.
 - **Skilly projektu** jsou v `.claude/skills/` (html5-mobile-game-dev, survivors-design-balance, mobile-store-launch). Když je session nenačte sama, přečti si příslušný `SKILL.md` ručně.
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak v kořeni `sed "s#url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'[^']*'#url:'',key:''#" index.html > tests/tools/off.html`, `cp lang-en.js tests/tools/`, `ln -s ../../thumbs tests/tools/thumbs`. Playwright je předinstalovaný.
