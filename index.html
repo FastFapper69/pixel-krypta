@@ -137,6 +137,14 @@ button{font-family:inherit}
 .tabs.sectabs{display:flex;flex-wrap:nowrap;gap:0;box-shadow:inset 0 -3px 0 var(--line);margin-top:-4px}
 .tabs.sectabs button{flex:1;min-width:0;position:relative;font:inherit;font-weight:700;font-size:16px;padding:8px 4px 12px;background:none;border:0;box-shadow:none;color:var(--muted);cursor:pointer;letter-spacing:.03em;text-shadow:0 2px 0 #0009}
 .tabs.sectabs button.on{color:var(--gold);background:none;box-shadow:inset 0 -3px 0 var(--gold)}
+.hbuy{text-align:center}.hbuy img{width:64px;image-rendering:pixelated}.hbuy h3{margin:4px 0}
+.hdesc{font-size:16px;line-height:1.35;color:var(--fg);margin:4px 6px 10px}.hdesc b,.hinfo b{color:var(--gold)}
+.hweap{display:flex;gap:10px;align-items:center;padding:8px;background:#ffffff0d;clip-path:var(--px);margin:6px 0;text-align:left}
+.hweap img{width:32px;height:32px;image-rendering:pixelated}.hweap div{display:flex;flex-direction:column;gap:2px;font-size:13px;line-height:1.3}
+.hweap small,.htal small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}.hweap b{font-size:15px}
+.htal{display:flex;flex-direction:column;gap:3px;margin:6px 0 8px;font-size:13px;text-align:left}.htal div{display:flex;gap:8px}.htal div b{min-width:44px;color:var(--gold)}
+.fsec{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 2px 6px}.fsec:first-child{margin-top:4px}
+.pst{color:var(--gold);letter-spacing:1px;font-size:11px}.pst.big{font-size:14px}.pst.off{color:var(--muted)}
 .tree{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:4px}
 .tcol{display:flex;flex-direction:column;align-items:center;padding:10px 2px 12px;background:#120d1cb3;clip-path:var(--px);box-shadow:inset 0 3px 0 var(--bc)}
 .tcol h3{margin:0 0 8px;font-size:14px;color:var(--bc);letter-spacing:.06em;text-transform:uppercase;text-shadow:0 2px 0 #0009}
@@ -394,7 +402,14 @@ html,body,#stage{touch-action:none}
 .ttile{position:relative;aspect-ratio:1;background:var(--panel);border:0;display:flex;align-items:center;justify-content:center;padding:0;clip-path:var(--px);cursor:pointer}
 .ttile img{height:78%;width:auto;image-rendering:pixelated}.ttile em{position:absolute;right:4px;bottom:2px;font-style:normal;font-weight:700;font-size:11px;color:#fff;text-shadow:0 1px 0 #000}
 .ttile.r0{box-shadow:inset 0 0 0 3px #b4b4c4}.ttile.r1{box-shadow:inset 0 0 0 3px #5cc45c}.ttile.r2{box-shadow:inset 0 0 0 3px #4aa3e8}.ttile.r3{box-shadow:inset 0 0 0 3px #c869e0}.ttile.r4{box-shadow:inset 0 0 0 3px #f6c744,0 0 12px #f6c74466}
-.ttile.in::after{content:'';position:absolute;left:5px;top:5px;width:7px;height:7px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 5px var(--gold)}
+/* in use: a gold band with a label across the top, a gold frame and a warm glow */
+.ttile.in,.itile.eq{background:color-mix(in srgb,var(--gold) 16%,var(--panel))}
+.ttile.in::after,.itile.eq::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 2px var(--gold);pointer-events:none}
+.itile.eqo{opacity:.82}
+.inb{position:absolute;left:0;right:0;bottom:0;font-style:normal;font-size:9px;font-weight:800;letter-spacing:.05em;line-height:13px;text-align:center;background:var(--gold);color:#1a1020;text-transform:uppercase;white-space:nowrap;overflow:hidden}
+.itile.eqo .inb{background:#5a5070;color:#fff}
+.itile.eq em,.itile.eqo em,.ttile.in em,.ttile.in .tst{bottom:14px}
+.tst{position:absolute;left:4px;bottom:2px;font-style:normal;font-size:9px;color:var(--gold);letter-spacing:0;text-shadow:0 1px 0 #000}
 .tslot.r0{box-shadow:inset 0 0 0 3px #b4b4c4}.tslot.r1{box-shadow:inset 0 0 0 3px #5cc45c}.tslot.r2{box-shadow:inset 0 0 0 3px #4aa3e8}.tslot.r3{box-shadow:inset 0 0 0 3px #c869e0}.tslot.r4{box-shadow:inset 0 0 0 3px #f6c744,0 0 10px #f6c74455}
 .tslot .rr{font-size:9px;font-weight:700;line-height:1}
 .ic-st li.bon span{color:#bfeaff}
@@ -491,6 +506,9 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .ma.done{box-shadow:inset 0 0 0 3px var(--gold)}.ma.got{opacity:.82}.ma.worn{box-shadow:inset 0 0 0 3px var(--green)}
 .matitle{background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:10px 12px;margin-bottom:12px;font-size:14px}.matitle b{color:var(--gold)}
 .ttl{display:inline-block;font-size:11px;font-weight:700;color:#1a1423;background:var(--gold);padding:0 5px;margin-left:6px;vertical-align:2px}
+.nhl{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;margin:8px 0;background:#ffffff10;clip-path:var(--px);box-shadow:inset 3px 0 0 var(--gold)}
+.nhl img{width:32px;height:32px;image-rendering:pixelated;flex:none}.nhl b{display:block;font-size:16px;color:#fff;margin-bottom:2px}.nhl span{font-size:13px;line-height:1.4;color:var(--fg)}.nhl span b{display:inline;font-size:inherit;color:var(--gold)}
+.nsm{margin:10px 0 0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.news ul.small{font-size:12.5px;color:var(--muted);line-height:1.4}
 .news h3{font-size:16px;color:var(--gold)}.news small{color:var(--muted);font-size:12px}.news ul{margin:6px 0 4px 18px;font-size:14px;line-height:1.45}.news li{margin:3px 0}
 .mslots{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.mslot{align-items:center;text-align:center;padding:8px 4px;gap:4px}.mslot img{width:36px;height:36px;image-rendering:pixelated}.mslot b{font-size:12px}
 .mt[data-mat]{cursor:pointer}.ic-lg .mt{margin:0 6px 0 2px}.hint.miss{color:#ffb4a8;font-size:12px;text-align:left}
@@ -536,7 +554,7 @@ table.res td:last-child{text-align:right;font-weight:700}
 .tabs button.on{color:var(--ink);background:var(--gold);box-shadow:none}
 .langsw button{font-size:13px;padding:6px}
 html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
-#boardTabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}#boardTabs button{min-width:0;font-size:13px;padding:8px 2px}
+#boardTabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}#boardTabs button{min-width:0;font-size:13px;padding:8px 2px}
 .bmaps{display:flex;flex-direction:column;gap:8px}
 .bmgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
 .bmgrid button{position:relative;aspect-ratio:1;padding:0;border:0;background:#0c0912;cursor:pointer;clip-path:var(--px);box-shadow:inset 0 0 0 3px var(--line)}
@@ -780,7 +798,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <div class="head"><h2>Kovárna</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="fMats"></div></div>
       <div class="tabs sectabs" data-sec="forge"><button data-to="forge">Kování</button><button data-to="shop">Vylepšení</button></div>
       <div class="sec">Sloučení</div>
-      <p class="hint">3 stejné kusy stejné rarity, třeba 3 neobvyklé prsteny, se slijí v jeden o raritu vyšší. Ťukej do rytmu, Perfektní ťuknutí dají lepší hodnoty.</p>
+      <p class="hint">Sliješ <b>3 stejné kusy</b> v jeden lepší: předměty a karty věží o <b>raritu výš</b>, mazlíčky o <b>hvězdu víc</b>. Ťukej do rytmu, Perfektní ťuknutí dají lepší hodnoty.</p>
       <div class="stack" id="forgeList"></div>
     </div>
     <div class="popwrap" id="forgePop" hidden></div>
@@ -856,7 +874,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
     <div class="wrap">
       <div class="head"><h2>Síň slávy</h2><button class="btn alt sm" data-back>Zpět</button></div>
       <div class="tabs sectabs" data-sec="hall"><button data-to="board">Žebříček</button><button data-to="master">Mistrovství</button><button data-to="codex">Sbírka</button></div>
-      <div class="tabs" id="boardTabs"><button data-t="celkem">Celkem</button><button data-t="dnes">Dnes</button><button data-t="map">Mapy</button></div>
+      <div class="tabs" id="boardTabs"><button data-t="celkem">Celkem</button><button data-t="dnes">Dnes</button><button data-t="kombo">Kombo</button><button data-t="map">Mapy</button></div>
       <div class="bmaps" id="boardMaps" hidden></div>
       <p class="hint" id="boardMsg"></p>
       <div class="podium" id="boardPod" hidden></div>
@@ -926,8 +944,8 @@ const STICK_MODES=['touch','fixed','follow'],STICK_TXT={touch:_t('pevný v míst
 let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false,stick:'touch'};
 function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw','pets','metaV','seen','nmw','nmV','econV','esF','esD','endD','endB','chD'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
-const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw','pets','metaV','seen','nmw','nmV','econV','esF','esD','endD','endB','chD'];
+  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw','pets','metaV','seen','nmw','nmV','econV','esF','esD','endD','endB','chD','endW'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
+const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw','pets','metaV','seen','nmw','nmV','econV','esF','esD','endD','endB','chD','endW'];
 function persist(){save.updated=Date.now();if(save.mats&&save.mats.shard>6000){const x=save.mats.shard-6000;save.mats.shard=6000;save.coins=(save.coins||0)+Math.floor(x/3);}try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
 
@@ -1088,29 +1106,29 @@ const BOSS_DEFS={
 };
 BOSS_DEFS.eel.rows=BOSS_DEFS.worm.rows;BOSS_DEFS.serpent.rows=BOSS_DEFS.worm.rows;
 const HEROES={
- knight:{name:_t('Rytíř'),desc:_t('Pevný. +25 zdraví, brnění +1.'),start:'blade',hp:25,armor:1,dmg:0,spd:0,cost:0,pal:{a:'#4aa3e8'},rows:[
+ knight:{name:_t('Rytíř'),desc:_t('Tank do první linie: <b>+25 zdraví</b> a <b>brnění +1</b>.'),start:'blade',hp:25,armor:1,dmg:0,spd:0,cost:0,pal:{a:'#4aa3e8'},rows:[
   '...rrr','..ssss','.ssppp','.sssss','..aaaa','.saaaa','saabaa','.saaaa','..b..b','..nn.n']},
- mage:{name:_t('Mág'),desc:_t('Silné kouzlo. +10 % poškození.'),start:'bolt',hp:0,armor:0,dmg:.10,spd:0,cost:150,pal:{},rows:[
+ mage:{name:_t('Mág'),desc:_t('Kouzelník, co pořádně praští: <b>+10 % poškození</b> všem zbraním.'),start:'bolt',hp:0,armor:0,dmg:.10,spd:0,cost:150,pal:{},rows:[
   '....mm','...mmm','..mmmm','.mmmmm','..ffff','..fpff','..uuuu','.uuuuu','uuuubu','.uuuuu','.uu.uu']},
- archer:{name:_t('Lučištník'),desc:_t('Hbitý. +10 % rychlost.'),start:'arrows',hp:0,armor:0,dmg:0,spd:.10,cost:300,pal:{},rows:[
+ archer:{name:_t('Lučištník'),desc:_t('Rychlonohý střelec: běhá o <b>10 % rychleji</b>.'),start:'arrows',hp:0,armor:0,dmg:0,spd:.10,cost:300,pal:{},rows:[
   '..gggg','.ggggg','.gffff','.gfpff','..ffff','..gggg','.nnnnn','nnnbnn','.nnnnn','..n..n','..b..b']},
- bard:{name:_t('Bard'),desc:_t('Hraje do rytmu. Zásah mu kombo jen způlí.'),start:'note',hp:0,armor:0,dmg:0,spd:0,cost:0,ach:'combo',pal:{a:'#b0303a',c:'#f6c744'},rows:[
+ bard:{name:_t('Bard'),desc:_t('Hraje do rytmu. Když schytá ránu, <b>kombo mu spadne jen na půlku</b>.'),start:'note',hp:0,armor:0,dmg:0,spd:0,cost:0,ach:'combo',pal:{a:'#b0303a',c:'#f6c744'},rows:[
   '.....c','....cc','...aaa','..aaaa','.aaaaa','.fffff','.fpfff','..ffff','.mmmmm','mmmymm','.mmmmm','..m..m','..n..n']},
- builder:{name:_t('Stavitel'),desc:_t('Věže za 60 % ceny, začíná s jednou.'),start:'axe',hp:15,armor:0,dmg:0,spd:0,cost:250,builder:true,pal:{},rows:[
+ builder:{name:_t('Stavitel'),desc:_t('Mistr věží: staví je za <b>60 % ceny</b> a <b>začíná s jednou věží</b>.'),start:'axe',hp:15,armor:0,dmg:0,spd:0,cost:250,builder:true,pal:{},rows:[
   '..yyyy','.yyyyy','yyyyyy','.fffff','.fpfff','..ffff','.ooooo','oouuuu','ouuuuu','.uuuuu','..u..u','..n..n']},
  // 08c: heroes built around a slot: one more weapon / a second pet; their talents strengthen exactly that
- warlord:{name:_t('Zbrojmistr'),desc:_t('Unese o zbraň víc: 6 místo 5.'),start:'halberd',hp:10,armor:0,dmg:0,spd:0,cost:1000,need:'trun',pal:{s:'#a8b0c0',a:'#8a2a2a',c:'#f6c744',S:'#5a6070'},rows:[
+ warlord:{name:_t('Zbrojmistr'),desc:_t('Unese <b>6 zbraní místo 5</b>, takže si poskládá větší arzenál.'),start:'halberd',hp:10,armor:0,dmg:0,spd:0,cost:1000,need:'trun',pal:{s:'#a8b0c0',a:'#8a2a2a',c:'#f6c744',S:'#5a6070'},rows:[
   's....s','ss..ss','ssssss','.sffff','.sfpff','..ffff','.aaaaa','aacaaa','acaaSa','.aaaaa','..a..a','..n..n']},
- tamer:{name:_t('Krotitel'),desc:_t('Do běhu si vezme dva mazlíčky.'),start:'whip',hp:15,armor:0,dmg:0,spd:.04,cost:1000,need:'trun',pal:{g:'#5c8a3c',G:'#3a5a24',n:'#8a5a32',b:'#f6c744',d:'#3a2a1a'},rows:[
+ tamer:{name:_t('Krotitel'),desc:_t('Bere do běhu <b>dva mazlíčky</b> najednou.'),start:'whip',hp:15,armor:0,dmg:0,spd:.04,cost:1000,need:'trun',pal:{g:'#5c8a3c',G:'#3a5a24',n:'#8a5a32',b:'#f6c744',d:'#3a2a1a'},rows:[
   '..gggg','.ggggg','gGgggg','.fffff','.fpfff','..ffff','.nnnnn','nnbnnn','.nnnnn','.nnnnn','..n..n','..d..d']},
  // heroes of future chapters: locked until their chapter exists (soon), each brings its weapon to everyone at hero level 8
- smith:{name:_t('Kovářka'),desc:_t('Pevná ruka. +20 zdraví, brnění +1.'),start:'hammer',hp:20,armor:1,dmg:0,spd:0,cost:1500,need:'doly',pal:{r:'#c8502a',a:'#7a4a2a',c:'#a87048'},rows:[
+ smith:{name:_t('Kovářka'),desc:_t('Odolná řemeslnice: <b>+20 zdraví</b> a <b>brnění +1</b>.'),start:'hammer',hp:20,armor:1,dmg:0,spd:0,cost:1500,need:'doly',pal:{r:'#c8502a',a:'#7a4a2a',c:'#a87048'},rows:[
   '...rrr','..rrrr','.rrfff','.rfpff','..ffff','.ssccc','sscaaa','sscaaa','.ccaaa','..a..a','..n..n']},
- shaman:{name:_t('Šamanka mrazu'),sname:_t('Šamanka'),desc:_t('Vidí daleko. +20 % dosah sbírání, +8 % poškození.'),start:'icicle',hp:0,armor:0,dmg:.08,spd:0,cost:1500,need:'jezero',pal:{a:'#e8f4ff',c:'#3ac8c0',e:'#2a7a8a'},rows:[
+ shaman:{name:_t('Šamanka mrazu'),sname:_t('Šamanka'),desc:_t('Vidí daleko: <b>sbírá z 20 % větší dálky</b> a má <b>+8 % poškození</b>.'),start:'icicle',hp:0,armor:0,dmg:.08,spd:0,cost:1500,need:'jezero',pal:{a:'#e8f4ff',c:'#3ac8c0',e:'#2a7a8a'},rows:[
   '...aaa','..aaaa','.aaffu','.afpfu','.aafff','.ccccc','cceccc','ccecce','.ccccc','..c..c','..i..i']},
- sailor:{name:_t('Námořnice'),desc:_t('Mořské nohy. +12 % rychlost.'),start:'anchor',hp:5,armor:0,dmg:0,spd:.12,soon:'c5',pal:{r:'#e8453c',a:'#ffffff',c:'#3a5ab8',d:'#2a2036'},rows:[
+ sailor:{name:_t('Námořnice'),desc:_t('Rychlá jako vítr: běhá o <b>12 % rychleji</b>.'),start:'anchor',hp:5,armor:0,dmg:0,spd:.12,soon:'c5',pal:{r:'#e8453c',a:'#ffffff',c:'#3a5ab8',d:'#2a2036'},rows:[
   '...rrr','.rrrrr','.dffff','.dfpff','..ffff','.aaaaa','acccca','aaaaaa','.cccca','..d..d','..n..n']},
- astro:{name:_t('Hvězdářka'),desc:_t('Čte z hvězd. Ultimátky +15 %.'),start:'stars',hp:0,armor:0,dmg:0,spd:0,soon:'c6',pal:{a:'#2a2a6a',c:'#4a4aa0',y:'#ffe58a'},rows:[
+ astro:{name:_t('Hvězdářka'),desc:_t('Čte z hvězd: <b>ultimátky z fúzí dávají o 15 % víc</b>.'),start:'stars',hp:0,armor:0,dmg:0,spd:0,soon:'c6',pal:{a:'#2a2a6a',c:'#4a4aa0',y:'#ffe58a'},rows:[
   '.....y','....aa','...aaa','..aaya','.aaaaa','.fffff','.fpfff','.ccccc','ccycca','.ccccc','..c..c']}
 };
 const HERO_IDS=Object.keys(HEROES),HERO_LIVE=HERO_IDS.filter(h=>!HEROES[h].soon);
@@ -1216,7 +1234,7 @@ const PROPS={
 
 /* ============ maps ============ */
 const MAPS={
- hrbitov:{name:_t('Zapomněný hřbitov'),desc:_t('Slizy a kostlivci se probouzejí. Vydrž 4 minuty a poraz Krále slizů.'),dur:240,size:900,seed:11,style:'gk',grade:'#ffa860',gradeA:.28,dark:.34,amb:'#120a1c',ambient:'firefly',patch:['#33443a','#25312b','#3b4a3c'],pebble:['#4a5550','#6f7a74'],flower:['#c869e0','#e8e4d4','#f6c744'],
+ hrbitov:{name:_t('Zapomněný hřbitov'),desc:_t('Ze hrobů lezou slizy a kostlivci. Přežij 4 minuty a sejmi Krále slizů.'),dur:240,size:900,seed:11,style:'gk',grade:'#ffa860',gradeA:.28,dark:.34,amb:'#120a1c',ambient:'firefly',patch:['#33443a','#25312b','#3b4a3c'],pebble:['#4a5550','#6f7a74'],flower:['#c869e0','#e8e4d4','#f6c744'],
   c1:'#2d3b35',c2:'#2a3731',specks:['#3a4d42','#243029','#33463b'],tuft:'#46634a',wall:'#1b1f24',wallHi:'#2b3038',
   props:[['tomb',{a:'#8a93a2',b:'#555d6c',c:'#c4cbd6'}],['bush',{a:'#2f5c3a',b:'#1f3f28',c:'#4a8a52'}],['stump',{a:'#6a4a30',b:'#4a301e',c:'#8a6a48'}]],
   speedMul:1,base:1.05,boss:'slimeking',pools:0,
@@ -1975,7 +1993,7 @@ MF.throne={
       run.fx.push({k:'shock',x:j.x,y:j.y,r:4,t:0,life:.6,col:'#7af0b0',big:1});}
     toast(_t('Rozbij tři fylaktérie, jinak je Morvan nezranitelný!'),3200);},
   jarBroken(e){run.jars=Math.max(0,(run.jars||0)-1);run.shake=6;run.fx.push({k:'shock',x:e.x,y:e.y,r:4,t:0,life:.7,col:'#7af0b0',big:1});
-    toast(run.jars?_t('Fylaktérie rozbita! Zbývá ')+run.jars:_t('Morvan je zranitelný!'),2200);},
+    toast(run.jars?_t('Fylaktérie rozbitá! Zbývá ')+run.jars:_t('Morvan je zranitelný!'),2200);},
   update(dt){const a=run.arena;if(!a)return;if(a.r>a.to)a.r=Math.max(a.to,a.r-dt*60);
     for(const e of run.enemies){const dx=e.x-a.x,dy=e.y-a.y,d=Math.hypot(dx,dy);if(d>a.r-8){e.x=a.x+dx/d*(a.r-8);e.y=a.y+dy/d*(a.r-8);}}
     for(const p of (run.pls?players():[run.p])){const dx=p.x-a.x,dy=p.y-a.y,d=Math.hypot(dx,dy);if(d>a.r-6){p.x=a.x+dx/d*(a.r-6);p.y=a.y+dy/d*(a.r-6);}}},
@@ -2138,7 +2156,7 @@ MF.caravan={
     run.cv.walk=near?1:0;if(near){run.cv.s+=dt*12;const q=routePos(run.cv.s);c.x=q.x;c.y=q.y;run.cv.face=q.dx>=0?1:-1;}},
   // the caravan's water skins: staying close to the camel slowly heals
   pl(p,dt){const c=run.crystal;if(!c||p.down||run.mod==='noheal'||Math.hypot(p.x-c.x,p.y-c.y)>42){p.cvh=0;return;}p.cvh=(p.cvh||0)+dt;
-    if(p.cvh>=.6){p.cvh-=.6;if(p.hp<p.max){p.hp=Math.min(p.max,p.hp+1);if(Math.random()<.3)run.nums.push({x:p.x+rnd(-4,4),y:p.y-10,txt:'+1',life:.5,col:'#7cf0a0'});if(!run.cvTip){run.cvTip=1;toast(_t('U velblouda se napiješ a léčíš'),2400);}}}},
+    if(p.cvh>=.6){p.cvh-=.6;if(p.hp<p.max){p.hp=Math.min(p.max,p.hp+1);if(Math.random()<.3)run.nums.push({x:p.x+rnd(-4,4),y:p.y-10,txt:'+1',life:.5,col:'#7cf0a0'});if(!run.cvTip){run.cvTip=1;toast(_t('U velblouda se napiješ a doplníš zdraví'),2400);}}}},
   snap(){return[+run.cv.s.toFixed(1),run.cv.walk];},
   apply(o){run.cv.s=o[0];run.cv.walk=o[1];const q=routePos(o[0]);if(run.crystal){run.crystal.x=q.x;run.crystal.y=q.y;}run.cv.face=q.dx>=0?1:-1;},
   ground(g,ox,oy){const c=run.crystal;if(!c)return;ringPix(g,c.x+ox,c.y+oy+2,70,'#ffd890',run.cv.walk?.18:.35+.2*M.pulse);}
@@ -2202,7 +2220,7 @@ MF.tomb={
   update(dt){run.trapUp=Math.max(0,run.trapUp-dt);
     if(run.barNow){run.trapUp=M.stepDur*3;sfx('trap');const P=run.pls?players():[run.p];
       for(const t of run.built.traps){const on=(x,y)=>Math.abs(x-t.x)<TRAP_S*1.5+1&&Math.abs(y-t.y)<TRAP_S*1.5+1;
-        for(const p of P){if(!p.down&&on(p.x,p.y)){const dm=Math.round(9*(1+NM_DMG*(run.nm||0)));if(run.pls)hurtP(p,dm,'trap');else hurtPlayer(dm,'trap');}}
+        for(const p of P){if(!p.down&&on(p.x,p.y)){const dm=hazDm(10,.1,p);if(run.pls)hurtP(p,dm,'trap');else hurtPlayer(dm,'trap');}}
         for(const e of run.enemies){if(e.dead||e.boss||e.bur||!on(e.x,e.y))continue;const dm=e.max*(e.elite?.08:.3);e.hp-=dm;e.flash=.1;e.sq=1;if(run.nums.length<40)run.nums.push({x:e.x,y:e.y-e.h/2,vx:0,vy:-50,txt:String(Math.round(dm)),life:.5,col:'#ffb070',t:0});if(e.hp<=0){killEnemy(e);if(run.qc)run.qc.trap=(run.qc.trap||0)+1;}}}
       if(!run.trapTip&&run.t>4){run.trapTip=1;toast(_t('Bodce vyjedou na první dobu taktu. Uhni včas!'),2800);}}},
   gupdate(dt){run.trapUp=Math.max(0,run.trapUp-dt);if(((M.step%16)+16)%16===0&&!run.trapG){run.trapG=1;run.trapUp=M.stepDur*3;}else if(M.step%16!==0)run.trapG=0;},
@@ -2268,7 +2286,7 @@ MF.sun={
   sink(){const up=run.obs.filter(o=>o.sink===0);if(up.length<=3)return;const b=run.boss;up.sort((a,c)=>Math.hypot(c.x-(b?b.x:0),c.y-(b?b.y:0))-Math.hypot(a.x-(b?b.x:0),a.y-(b?b.y:0)));const o=up[up.length-1];o.sink=.01;toast(_t('Obelisk se propadá do písku!'),1600);run.shake=4;},
   update(dt){run.beam+=run.bspd*(run.boss?1.25:1)*dt;for(const o of run.obs)if(o.sink>0&&o.sink<1){o.sink=Math.min(1,o.sink+dt*.5);if(Math.random()<.5)dirtPuff(o.x+rnd(-8,8),o.y,'#d8b878');}
     run.sunT=(run.sunT||0)-dt;if(run.sunT<=0){run.sunT=.5;const P=run.pls?players():[run.p];
-      for(const p of P){if(p.down||!sunHit(p.x,p.y))continue;const dm=Math.round(4*(1+NM_DMG*(run.nm||0)));if(run.pls&&p!==run.p)withPl(run.pls[1],()=>hurtTick(dm,'sun','#fff0a0'));else hurtTick(dm,'sun','#fff0a0');if(!run.sunTip){run.sunTip=1;toast(_t('Sluneční paprsek pálí! Schovej se do stínu obelisku'),2800);}}
+      for(const p of P){if(p.down||!sunHit(p.x,p.y))continue;const dm=hazDm(5,.04,p);if(run.pls&&p!==run.p)withPl(run.pls[1],()=>hurtTick(dm,'sun','#fff0a0'));else hurtTick(dm,'sun','#fff0a0');if(!run.sunTip){run.sunTip=1;toast(_t('Sluneční paprsek pálí! Schovej se do stínu obelisku'),2800);}}
       for(const e of run.enemies){if(e.dead||e.boss||e.d.noHit||!sunHit(e.x,e.y))continue;e.hp-=e.max*.06;e.flash=.08;if(e.hp<=0)killEnemy(e);}}},
   gupdate(dt){run.beam+=run.bspd*(run.boss?1.25:1)*dt;for(const o of run.obs)if(o.sink>0&&o.sink<1)o.sink=Math.min(1,o.sink+dt*.5);},
   units(list){for(const o of run.obs)if(o.sink<1)list.push({mfDraw:drawSunOb,x:o.x,y:o.y,o});},
@@ -2553,7 +2571,7 @@ const ERUPT_R=22;
 function eruptUpdate(dt){const E=run.erupt;for(const q of E)q.t-=dt;
   for(let i=E.length-1;i>=0;i--){const q=E[i];if(q.t>0)continue;E.splice(i,1);
     run.fx.push({k:'boom',x:q.x,y:q.y,r:3,max:q.r,life:.34,t:0,seed:Math.random()*99});run.fx.push({k:'magma',x:q.x,y:q.y+2,r:q.r*.7,life:5,max:5,seed:Math.random()*9});sfx('boom');run.shake=Math.max(run.shake,3);
-    const dm=Math.round(16*(1+NM_DMG*(run.nm||0)));for(const p of players()){if(p.down||Math.hypot(p.x-q.x,p.y-q.y)>q.r)continue;if(run.pls&&p!==run.p)withPl(run.pls[1],()=>hurtPlayer(dm,'erupt'));else hurtPlayer(dm,'erupt');}
+    for(const p of players()){if(p.down||Math.hypot(p.x-q.x,p.y-q.y)>q.r)continue;const dm=hazDm(12,.12,p);if(run.pls&&p!==run.p)withPl(run.pls[1],()=>hurtPlayer(dm,'erupt'));else hurtPlayer(dm,'erupt');}
     for(const e of run.enemies)if(!e.boss&&!e.dead&&Math.hypot(e.x-q.x,e.y-q.y)<q.r)hurtEnemy(e,60,0,0);}
   if(run.t<75||run.over)return;
   // every second bar a few warnings near the heroes; faster and more once the titan is below half
@@ -2664,8 +2682,8 @@ function buildIce(id){
 function avalUpdate(dt){const A=run.aval,sz=run.map.size;
   for(let i=A.length-1;i>=0;i--){const q=A[i];q.t-=dt;if(q.hit)q.sw+=dt;
     if(!q.hit&&q.t<=0){q.hit=1;q.sw=0;sfx('boom');run.shake=Math.max(run.shake,5);
-      const dm=Math.round(14*(1+NM_DMG*(run.nm||0)));
-      for(const p of players()){if(p.down||Math.abs(p.y-q.y)>q.h)continue;const hit=()=>{hurtPlayer(dm,'aval');p.x=clamp(p.x+q.dir*30,14,sz-14);};if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}
+      
+      for(const p of players()){if(p.down||Math.abs(p.y-q.y)>q.h)continue;const dm=hazDm(10,.12,p);const hit=()=>{hurtPlayer(dm,'aval');p.x=clamp(p.x+q.dir*30,14,sz-14);};if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}
       for(const e of run.enemies)if(!e.boss&&!e.dead&&!e.bur&&Math.abs(e.y-q.y)<q.h)hurtEnemy(e,90,q.dir*220,0);
       if(run.qc)run.qc.aval=(run.qc.aval||0)+1;}
     if(q.hit&&q.sw>.9)A.splice(i,1);}
@@ -2675,8 +2693,8 @@ function avalUpdate(dt){const A=run.aval,sz=run.map.size;
 // ----- the throne: below half health the queen's frost comes every few bars; only the glowing runes are safe -----
 function frostUpdate(dt){const B=run.built;
   if(run.fcy){run.fcy.t-=dt;if(run.fcy.t<=0){const act=run.fcy.act.map(i=>B.runes[i]);run.fcy=null;sfx('zap');run.flashScr=Math.max(run.flashScr,.25);run.flashCol='#bfeaff';
-      const dm=Math.round(20*(1+NM_DMG*(run.nm||0)));
-      for(const p of players()){if(p.down||act.some(r=>Math.hypot(p.x-r.x,p.y-r.y)<30))continue;const hit=()=>{hurtPlayer(dm,'frost');p.slw=Math.max(p.slw||0,1.6);};if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}
+      
+      for(const p of players()){if(p.down||act.some(r=>Math.hypot(p.x-r.x,p.y-r.y)<30))continue;const dm=hazDm(12,.16,p);const hit=()=>{hurtPlayer(dm,'frost');p.slw=Math.max(p.slw||0,1.6);};if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}
       for(const e of run.enemies)if(!e.boss&&!e.dead)e.frz=Math.max(e.frz||0,1.4);
       for(let i=0;i<30;i++){const a=Math.random()*6.283,d=rnd(0,160);addP({x:run.p.x+Math.cos(a)*d,y:run.p.y+Math.sin(a)*d*.7,vx:rnd(-10,10),vy:rnd(-30,-10),life:rnd(.5,.9),col:pick(['#ffffff','#bfeaff']),sz:1,g:0});}}}
   if(!run.frz2||run.over)return;
@@ -2699,7 +2717,7 @@ MF.ice={
    if(!warm)for(const t of run.towers)if(t.k==='hearth'&&!t.dead&&Math.hypot(p.x-t.x,p.y-t.y)<towerRange(t)){warm=true;break;}
    if(warm)p.cold=Math.max(0,(p.cold||0)-dt*.45);else p.cold=Math.min(1,(p.cold||0)+dt/50*(1+.15*(run.nm||0)));
    if(!run.coldTip&&p.cold>.6){run.coldTip=1;toast(_t('Mrzneš! Zahřej se u ohně.'),2200);}
-   if(p.cold>=1){p.clT=(p.clT||0)-dt;if(p.clT<=0){p.clT=1.2;hurtTick(2,'cold','#8af0ff');}}},
+   if(p.cold>=1){p.clT=(p.clT||0)-dt;if(p.clT<=0){p.clT=1.2;hurtTick(hazDm(2,.02,p),'cold','#8af0ff');}}},
  freeze(){if(run.map.ice==='throne'){run.frz2=1;run.fcN=0;}},
  update(dt){if(run.map.ice==='gorge')avalUpdate(dt);if(run.map.ice==='throne')frostUpdate(dt);},
  gupdate(dt){for(const q of run.aval||[]){q.t-=dt;if(q.hit)q.sw+=dt;}if(run.fcy)run.fcy.t-=dt;},
@@ -2820,7 +2838,7 @@ function updateCarts(dt){
       if(e.dead&&run.qc)run.qc.cart++;}
     for(const p of (run.pls?players():[run.p])){if(p.down)continue;const dp=Math.hypot(p.x-c.x,p.y-c.y);
     if(dp<13){if(!run.cartTip){run.cartTip=true;toast(_t('Pozor na vozíky! Drtí i nepřátele'),2600);}
-      if(p.inv<=0&&!((run.pls&&p===run.pls[1].p?run.pls[1].st:st).lg||{}).compass){if(run.pls)hurtP(p,16,'cart');else hurtPlayer(16,'cart');const n=dp||1;p.x=clamp(p.x+(p.x-c.x)/n*14,14,run.map.size-14);p.y=clamp(p.y+(p.y-c.y)/n*14,14,run.map.size-14);run.shake=6;
+      if(p.inv<=0&&!((run.pls&&p===run.pls[1].p?run.pls[1].st:st).lg||{}).compass){if(run.pls)hurtP(p,hazDm(10,.08,p),'cart');else hurtPlayer(hazDm(10,.08,p),'cart');const n=dp||1;p.x=clamp(p.x+(p.x-c.x)/n*14,14,run.map.size-14);p.y=clamp(p.y+(p.y-c.y)/n*14,14,run.map.size-14);run.shake=6;
         if(run.pls&&p===run.pls[1].p){p.forced=true;p.lock=.35;}}}
     else if(dp<70&&!run.cartTip&&run.t>3){run.cartTip=true;toast(_t('Pozor na vozíky! Drtí i nepřátele'),2600);}}}
 }
@@ -2840,7 +2858,7 @@ const WEAPONS={
   lv:[{n:1,dmg:16,cd:1.5},{n:2,dmg:16,cd:1.5},{n:2,dmg:20,cd:1.4},{n:3,dmg:20,cd:1.3},{n:3,dmg:26,cd:1.2},{n:4,dmg:32,cd:1.1}]},
  aura:{name:_t('Aura'),desc:_t('Neustále zraňuje nepřátele kolem tebe.'),labels:{dmg:_t('Poškození'),rad:_t('Dosah')},
   lv:[{dmg:4,rad:26,tick:.5},{dmg:5,rad:30,tick:.5},{dmg:6,rad:34,tick:.45},{dmg:8,rad:38,tick:.4},{dmg:10,rad:44,tick:.4},{dmg:13,rad:52,tick:.35}]},
- arrows:{name:_t('Šípy'),desc:_t('Salva šípů na nejbližšího nepřítele.'),labels:{n:_t('Šípů'),dmg:_t('Poškození'),pierce:_t('Průraz')},
+ arrows:{name:_t('Šípy'),desc:_t('Vystřelí salvu šípů na nejbližšího nepřítele.'),labels:{n:_t('Šípů'),dmg:_t('Poškození'),pierce:_t('Průraz')},
   lv:[{n:2,dmg:7,cd:1.0,pierce:1},{n:3,dmg:7,cd:1.0,pierce:1},{n:3,dmg:9,cd:.9,pierce:2},{n:4,dmg:9,cd:.85,pierce:2},{n:5,dmg:11,cd:.8,pierce:3},{n:6,dmg:14,cd:.7,pierce:4}]},
  frost:{name:_t('Mrazivá vlna'),desc:_t('Kruh mrazu zraní a zpomalí nepřátele.'),labels:{dmg:_t('Poškození'),rad:_t('Dosah')},
   lv:[{dmg:8,cd:3.6,rad:50},{dmg:10,cd:3.4,rad:58},{dmg:12,cd:3.2,rad:66},{dmg:15,cd:3.0,rad:74},{dmg:18,cd:2.8,rad:82},{dmg:22,cd:2.5,rad:92}]},
@@ -2851,7 +2869,7 @@ const WEAPONS={
  // hero weapons: only for their hero until that hero reaches level 8 (W_HERO, wOpen)
  hammer:{name:_t('Roztavené kladivo'),desc:_t('Udeří do země před tebou a nechá louži lávy, která pálí.'),labels:{dmg:_t('Poškození'),rad:_t('Dosah'),burn:_t('Láva')},
   lv:[{n:1,dmg:20,rad:24,cd:1.8,burn:4},{n:1,dmg:24,rad:26,cd:1.7,burn:5},{n:1,dmg:28,rad:28,cd:1.6,burn:6},{n:1,dmg:34,rad:30,cd:1.5,burn:7},{n:1,dmg:40,rad:34,cd:1.4,burn:9},{n:1,dmg:48,rad:38,cd:1.3,burn:11}]},
- icicle:{name:_t('Krápníky'),desc:_t('Z nebe padají rampouchy na nepřátele a zmrazí je.'),labels:{n:_t('Krápníků'),dmg:_t('Poškození')},
+ icicle:{name:_t('Krápníky'),desc:_t('Na nepřátele padají z nebe rampouchy a zmrazí je.'),labels:{n:_t('Krápníků'),dmg:_t('Poškození')},
   lv:[{n:2,dmg:14,cd:1.4,frz:.5},{n:3,dmg:14,cd:1.4,frz:.5},{n:3,dmg:18,cd:1.3,frz:.6},{n:4,dmg:18,cd:1.2,frz:.6},{n:5,dmg:22,cd:1.1,frz:.7},{n:6,dmg:26,cd:1.0,frz:.8}]},
  anchor:{name:_t('Kotva na řetězu'),desc:_t('Točí kotvou v širokém oblouku a stahuje nepřátele k sobě.'),labels:{dmg:_t('Poškození'),rad:_t('Dosah')},
   lv:[{n:1,dmg:18,rad:44,cd:2.0},{n:1,dmg:22,rad:46,cd:1.9},{n:1,dmg:26,rad:50,cd:1.8},{n:1,dmg:30,rad:54,cd:1.7},{n:1,dmg:36,rad:58,cd:1.55},{n:1,dmg:44,rad:64,cd:1.4}]},
@@ -2894,12 +2912,13 @@ Object.assign(ULTS,{
   lv:[{n:4,dmg:30,cd:.5,rad:44,er:22,adm:8,tick:.45},{n:5,dmg:40,cd:.5,rad:48,er:24,adm:11,tick:.45},{n:6,dmg:54,cd:.5,rad:52,er:26,adm:15,tick:.4}]}});
 Object.assign(WEAPONS,ULTS);
 const FUSIONS=Object.keys(ULTS).map(id=>({id,a:ULTS[id].from[0],b:ULTS[id].from[1]}));
-const ROMAN=['I','II','III'];const ROMAN_NM=['','I','II','III','IV','V'];
+const ROMAN=['I','II','III'];
+const romanN=n=>{let o='';for(const [v,r] of [[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']])while(n>=v){o+=r;n-=v;}return o;};const ROMAN_NM=['','I','II','III','IV','V'];
 const PASSIVES={
  heart:{name:_t('Srdce'),txt:_t('+20 max. zdraví')},
  boots:{name:_t('Boty'),txt:_t('+8 % rychlost pohybu')},
  power:{name:_t('Síla'),txt:_t('+12 % poškození')},
- haste:{name:_t('Spěch'),txt:_t('−8 % čekání mezi útoky')},
+ haste:{name:_t('Spěch'),txt:_t('útočíš o 8 % rychleji')},
  magnet:{name:_t('Magnet'),txt:_t('+25 % dosah sbírání')},
  shield:{name:_t('Štít'),txt:_t('−1 poškození z každého zásahu')},
  regen:{name:_t('Regenerace'),txt:_t('+0,4 zdraví za sekundu')},
@@ -3301,7 +3320,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08k';
+const GAME_VER='2026-11-08l';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3448,9 +3467,21 @@ function spawnBoss(){
   const id=run.map.boss,d=BOSS_DEFS[id],sp=SPR.boss[id],q=edgePos(30);
   const e={id,d,x:q.x,y:q.y,hp:d.hp*(run.pls?1.8:1)*(1+NM_HP*(run.nm||0)),max:d.hp*(run.pls?1.8:1)*(1+NM_HP*(run.nm||0)),spd:d.spd,dmg:d.dmg*(1+NM_DMG*(run.nm||0)),r:d.r,spr:sp,w:sp.w,h:sp.h,kx:0,ky:0,flash:0,slowT:0,elite:false,boss:true,phase:0,off:{x:0,y:0},
     mode:0,mT:3,dx:0,dy:0,kbm:0,xp:60,hc:{},shootT:2.5,tA:3,tB:6,dead:false,par:false};
+  if(run.endless){const w=run.enW||0;e.evo=w+1;e.hp=e.max=e.max*(1+.5*w);e.dmg*=1+.15*w;e.spd*=(1+.04*w)*(e.evo>=4?1.2:1);e.bc=0;}
   e.born=run.t;run.boss=e;run.enemies.push(e);run.bossSpawned=true;mfCall('boss',e);
-  $('#bossbar').hidden=false;$('#bossbar').classList.remove('rage');$('#bossName').textContent=d.name;toast(EN?d.name+_t(' je na cestě!'):'Přichází '+d.name+'!',2600);sfx('boss');run.shake=6;
+  $('#bossbar').hidden=false;$('#bossbar').classList.remove('rage');$('#bossName').textContent=d.name+(e.evo>1?' · '+romanN(e.evo):'');
+  if(e.evo>1)toast(d.name+' '+romanN(e.evo)+'! '+(EVO_TXT[Math.min(e.evo,EVO_TXT.length-1)]||_t('Ještě silnější.')),3000);else toast(_t('Přichází: ')+d.name+'!',2600);sfx('boss');run.shake=6;
 }
+// ----- Endless Crypt (08l): the map's boss again and again, each time stronger and with a new attack -----
+const EVO_TXT=[null,null,_t('Nově: kruhy střepů.'),_t('Nově: volá elitní pomocníky.'),_t('Nově: zuří a je rychlejší.'),_t('Nově: vějíře střel.'),_t('Nově: nechává za sebou žhavé louže.'),_t('Teď útočí ještě častěji.')];
+function bossEvo(e,tp){if(!run.barNow)return;e.bc=(e.bc||0)+1;const n=e.bc,fast=e.evo>=7,src=srcOf(e);
+  if(e.evo>=2&&(fast||n%2===0)){ring(e.x,e.y,12,52,e.dmg*.45,n*.37,src);sfx('zap');}
+  if(e.evo>=3&&n%4===2){for(let i=0;i<2;i++){const a=Math.random()*6.283,q=makeEnemy(chooseEnemy(),clamp(e.x+Math.cos(a)*30,16,run.map.size-16),clamp(e.y+Math.sin(a)*30,16,run.map.size-16),true);run.enemies.push(q);}}
+  if(e.evo>=5&&(fast||n%2===1)&&tp)fan(e.x,e.y,Math.atan2(tp.y-e.y,tp.x-e.x),7,.2,66,e.dmg*.4,src);
+  if(e.evo>=6&&tp&&n%3===0)run.fx.push({k:'magma',x:tp.x+rnd(-20,20),y:tp.y+rnd(-20,20),r:12,life:4,max:4,seed:Math.random()*9});}
+function enBossDown(e){run.enW=(run.enW||0)+1;run.bossSpawned=false;run.enNext=run.t+12;run.coins+=20+10*run.enW;
+  for(const q of players())if(!q.down)q.hp=Math.min(q.max,q.hp+Math.ceil(q.max*.25));
+  toast(_t('Boss poražen! Za chvíli se vrátí silnější…'),2600);sfx('win');}
 function ring(x,y,n,spd,dmg,off,src){for(let i=0;i<n;i++){const a=(i/n)*6.283+(off||0);run.eshots.push({x,y,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd,dmg,r:3,life:5,src});}}
 
 function updateEnemies(dt){
@@ -3487,6 +3518,7 @@ function updateEnemies(dt){
         break;}
       default:{const r=BEH[beh];if(r){const v=r(e,dt,{cx,cy,ux,uy,dist,sp,t,tp});vx=v[0];vy=v[1];}else{vx=cx*sp;vy=cy*sp;}}
     }
+    if(e.evo>1)bossEvo(e,tp);
     e.x+=(vx+e.kx)*dt;e.y+=(vy+e.ky)*dt;
     const kd=Math.max(0,1-9*dt);e.kx*=kd;e.ky*=kd;
     const sz=run.map.size;e.x=clamp(e.x,14,sz-14);e.y=clamp(e.y,14,sz-14);
@@ -3523,12 +3555,12 @@ function hurtEnemy(e,dmg,kx,ky){
 function killEnemy(e){
   e.dead=true;if(run.pls){(CO.kills||(CO.kills=[])).push(e.nid||0);}run.kills++;run.combo++;run.comboT=st&&st.tal&&st.tal.d5?2.4:1.6;sfx('kill');
   const Q=run.qc;if(Q){Q.k[e.id]=(Q.k[e.id]||0)+1;if(e.elite)Q.el++;if(e.boss)Q.boss++;if(run.combo>Q.combo)Q.combo=run.combo;
-    if(e.want){Q.want=e.want;run.wanted=null;toast(_t('Hledaný dopaden! Odměna čeká na nástěnce'),2800);run.items.push({x:e.x-6,y:e.y,k:'mat',v:8});for(let i=0;i<3;i++)run.items.push({x:e.x+rnd(-8,8),y:e.y+rnd(-8,8),k:'coin'});}}
+    if(e.want){Q.want=e.want;run.wanted=null;toast(_t('Hledaný dopaden! Odměnu si vyzvedni na Nástěnce'),2800);run.items.push({x:e.x-6,y:e.y,k:'mat',v:8});for(let i=0;i<3;i++)run.items.push({x:e.x+rnd(-8,8),y:e.y+rnd(-8,8),k:'coin'});}}
   // combo milestones pay more the longer the combo lasts: 25 → 5, 50 → 10 … up to 40 gold (spent in the run on towers; only
   // part of the run's gold is kept afterwards, see endCoins); every 200 also drops material
   if(run.combo%25===0){const g=Math.min(40,5*(run.combo/25));run.coins+=g;const big=run.combo%200===0;
     if(big&&MAT_OF[run.mapId])run.items.push({x:run.p.x+rnd(-14,14),y:run.p.y+rnd(-14,14),k:'mat',v:2+Math.min(3,Math.floor(run.combo/300))});
-    toast(_t('Kombo ')+run.combo+'! +'+g+_t(' zlata')+(big&&MAT_OF[run.mapId]?_t(' a materiál'):''),big?1600:1000);sfx(big?'level':'coin');
+    toast(_t('Kombo ')+run.combo+'! +'+g+_t(' zlata')+(big&&MAT_OF[run.mapId]?_t(' a Úlomky'):''),big?1600:1000);sfx(big?'level':'coin');
     if(st&&st.tal&&st.tal.d20){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:110,dmg:20+run.level*2,hit:new Set(),life:1,noslow:true,col:'#7fe0c8'});}}
   const pal=e.d.pal||{},pa=pal.a||'#c869e0',cols=[pa,pal.b||mixHex(pa,SHADOW_HUE,.4),pal.c||mixHex(pa,LIGHT_HUE,.4),mixHex(pa,'#120c1a',.6)];
   const gy=e.y+e.h/2-4,n=e.boss?30:e.elite?12:5;
@@ -3553,7 +3585,7 @@ function killEnemy(e){
   if(st&&st.lg&&!isGuest()){if(e.elite&&st.lg.sb2){const p=run.p,h=Math.ceil(p.max*.1);if(!p.down&&p.hp<p.max){p.hp=Math.min(p.max,p.hp+h);run.nums.push({x:p.x,y:p.y-10,txt:'+'+h,life:.8,col:'#8affa0'});}}
     if(st.lg.sb4&&e.bm&&run.t-e.bm<.3&&(run.allies||[]).filter(a=>!a.tw).length<3)allySpawn(e.x,e.y);}
   if(e.id==='phyl'){mfCall('jarBroken',e);}
-  if(e.boss){run.boss=null;$('#bossbar').hidden=true;run.flashScr=.5;winRun();}
+  if(e.boss){run.boss=null;$('#bossbar').hidden=true;run.flashScr=.5;if(run.endless)enBossDown(e);else winRun();}
 }
 function hurtPlayer(d,src){
   const p=run.p;if(p.inv>0||run.over||run.dying||p.down||isGuest())return;
@@ -3873,15 +3905,15 @@ const TOWERS={
 const T_IDS=Object.keys(TOWERS),T_BASE=['arrow','fire','frost','tesla'];
 // Arsenal: towers you take into a run (4, the Builder 5), each with a menu level 1–5 (gold + material); levels 3 and 5 add a perk
 const TW_UNL={crypt:'bazina',bell:'zvonice',obelisk:'kanon',sandpit:'hrobka',oasis:'brana',forge:'kovarna',ram:'krystaly',hearth:'pevnost',icelance:'soutezka'},TW_SOON=[];
-const TW_INFO={arrow:[_t('Rychle střílí šípy na jednoho nepřítele.'),_t('Dva šípy naráz.'),_t('Šípy prorazí o nepřítele víc.')],
+const TW_INFO={arrow:[_t('Rychle střílí šípy na jednoho nepřítele.'),_t('Dva šípy naráz.'),_t('Každý šíp prorazí o jednoho nepřítele víc.')],
  fire:[_t('Hází ohnivé koule, které vybuchnou.'),_t('Výbuch o 30 % větší.'),_t('Dvě koule naráz.')],
  frost:[_t('Mrazivá vlna zraní a zpomalí nepřátele kolem.'),_t('Vlna dosáhne o 15 % dál.'),_t('Vlna nepřátele na chvíli zmrazí.')],
- tesla:[_t('Blesk přeskakuje mezi několika nepřáteli.'),_t('Blesk přeskočí o 1 nepřítele víc.'),_t('O další 2 skoky víc a skoro bez oslabení.')],
+ tesla:[_t('Blesk přeskakuje mezi několika nepřáteli.'),_t('Blesk přeskočí o 1 nepřítele víc.'),_t('Ještě o 2 skoky víc a blesk skoro neslábne.')],
  crypt:[_t('Vyvolává kostlivce, kteří brání okolí věže.'),_t('Dva kostlivci naráz.'),_t('Kostlivci jsou dvakrát silnější.')],
  bell:[_t('Úder zvonu zraní a odhodí nepřátele kolem.'),_t('Úder nepřátele i zpomalí.'),_t('Úder nepřátele na chvíli omráčí.')],
  obelisk:[_t('Otáčivý sluneční paprsek pálí vše v cestě.'),_t('Dva paprsky proti sobě.'),_t('Paprsek dosáhne o 40 % dál.')],
  sandpit:[_t('Stahuje nepřátele do středu a zpomaluje je.'),_t('Dvojnásobné poškození.'),_t('Dosah o 30 % větší.')],
- oasis:[_t('Posílá na tebe léčivý paprsek. Co jím projde, dostane malé poškození.'),_t('Léčí o 30 % víc.'),_t('Paprsek opravuje i věže v dosahu.')],
+ oasis:[_t('Léčí tě paprskem. Nepřátelé, kteří jím projdou, dostanou poškození.'),_t('Léčí o 30 % víc.'),_t('Paprsek opravuje i věže v dosahu.')],
  forge:[_t('Pod nepřátele vylévá lávu, která pálí.'),_t('Láva se rozlije o 30 % šířeji.'),_t('Láva vydrží o polovinu déle.')],
  ram:[_t('Vystřelí parní beran, který prorazí celou řadu nepřátel a odhodí je.'),_t('Beran nepřátele i na chvíli omráčí.'),_t('Dva berani naráz.')],
  hearth:[_t('Oheň pálí nepřátele kolem a v Tajze tě zahřeje.'),_t('Dosah o 25 % větší.'),_t('U ohně se léčíš.')],
@@ -3952,7 +3984,7 @@ function buildTower(k,ts){
 function upgradeTower(){
   const t=run.nearTower;if(!t||state!=='play'||run.over)return;
   if(isGuest()){netSend({t:'upg'});return;}
-  if(t.lv>=3){if(t.hp<t.max){t.hp=t.max;sfx('ui');note(_t('Věž opravena'));}return;}
+  if(t.lv>=3){if(t.hp<t.max){t.hp=t.max;sfx('ui');note(_t('Věž opravená'));}return;}
   const c=towerUpCost(t);if(run.coins<c){note(_t('Chybí ti ')+(c-run.coins)+_t(' zlata'));return;}
   run.coins-=c;run.spent=(run.spent||0)+c;t.lv++;t.max=Math.round(TOWERS[t.k].hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0))*(t.ts?t.ts.hm:1));t.hp=t.max;t.show=2.5;sfx('level');
 }
@@ -4040,7 +4072,7 @@ const REP_COST=20,REP_HP=200;
 function updateCrystal(dt){
   const c=run.crystal;if(!c)return;const p=run.p;
   c.flash=Math.max(0,c.flash-dt);c.warn=Math.max(0,c.warn-dt);
-  if(c.hit){if(c.warn<=0){toast(run.map.caravan?_t('Karavana je napadena!'):_t('Krystal je napaden!'),1400);sfx('hurt');c.warn=9;}c.hit=false;c.calm=0;}else c.calm+=dt;
+  if(c.hit){if(c.warn<=0){toast(run.map.caravan?_t('Útočí na karavanu!'):_t('Útočí na krystal!'),1400);sfx('hurt');c.warn=9;}c.hit=false;c.calm=0;}else c.calm+=dt;
   if(c.calm>3&&c.hp<c.max)c.hp=Math.min(c.max,c.hp+6*dt);
   c.pulse-=dt;if(c.pulse<=0){c.pulse=4;run.fx.push({k:'ring',x:c.x,y:c.y,r:2,max:66,dmg:Math.round(20*(1+run.t/60*.45)*(1+NM_HP*(run.nm||0))),hit:new Set(),life:1});}
   run.nearCrystal=(Math.hypot(c.x-p.x,c.y-p.y)<30&&c.hp<c.max)?c:null;
@@ -4140,7 +4172,7 @@ const BEH={
    return[c.cx*c.sp*.25,c.cy*c.sp*.25];},
  // mummy priestess: rings of shots, calls mummies, and every few bars a curse that flips your controls
  curse(e,dt,c){e.tB-=dt;if(e.tB<=0&&run.beatNow){e.tB=2.4;ring(e.x,e.y,10,44,e.dmg*.5,c.t*1.7,srcOf(e));sfx('zap');}
-   if(run.barNow){e.cb=(e.cb||0)+1;if(e.cb%5===3){run.curseW=M.stepDur*16;toast(_t('Kletba! Ovládání se obrátí'),1800);sfx('boss');}if(e.cb%5===4)run.curse=M.stepDur*24;if(e.cb%3===0)summonAt('mummy',e.x,e.y,2,26);}
+   if(run.barNow){e.cb=(e.cb||0)+1;if(e.cb%5===3){run.curseW=M.stepDur*16;toast(_t('Kletba! Ovládání je na chvíli obrácené'),1800);sfx('boss');}if(e.cb%5===4)run.curse=M.stepDur*24;if(e.cb%3===0)summonAt('mummy',e.x,e.y,2,26);}
    const w=c.dist>96?1:c.dist<66?-.7:0;return[c.cx*c.sp*w,c.cy*c.sp*w];},
  // the Sphinx: guards the centre with the sun beam, then hunts, sinks the obelisks and calls sand soldiers
  sphinx(e,dt,c){const f=e.hp/e.max,ph=f<.2?3:f<.5?2:1,C=run.map.size/2;
@@ -4156,7 +4188,7 @@ function plEffects(p,dt){
   if(st&&st.tr&&st.tr.d1&&!p.sh){p.shT=(p.shT||0)+dt;if(p.shT>=90-5*(st.tr.d1-1)){p.sh=1;p.shT=0;}}
   if(p.slw>0)p.slw-=dt;if(p.psn>0){p.psn-=dt;p.psT=(p.psT||0)-dt;if(p.psT<=0){p.psT=.9;hurtTick(2,'poison','#9aff6a');}}
   for(const f of run.fx){if(f.k!=='puddle'&&f.k!=='venom'&&f.k!=='magma')continue;if(Math.hypot((p.x-f.x)/1.3,p.y-f.y)<f.r*.9){if(f.k==='puddle')p.slw=Math.max(p.slw||0,.25);
-    else if(f.k==='magma'){p.mgT=(p.mgT||0)-dt;if(p.mgT<=0){p.mgT=.55;hurtTick(2,'magma','#ff9a3c');}}else p.psn=Math.max(p.psn||0,1.5);}}
+    else if(f.k==='magma'){p.mgT=(p.mgT||0)-dt;if(p.mgT<=0){p.mgT=.55;hurtTick(hazDm(2,.02,p),'magma','#ff9a3c');}}else p.psn=Math.max(p.psn||0,1.5);}}
   mfCall('pl',p,dt);
 }
 function hurtTick(amt,src,col){const p=run.p;if(run.over||p.down||isGuest())return;if(window.__krypta&&window.__krypta.god)return;
@@ -4213,19 +4245,20 @@ function updatePickups0(dt){
 
 /* ----- spawning and progress ----- */
 function updateSpawns(dt){
-  const m=run.t/60,map=run.map;
+  const m=run.endless?Math.min(run.t/60,3+(run.enW||0)*.3):run.t/60,map=run.map;
   run.spawnT-=dt;
   if(run.spawnT<=0&&run.beatNow&&!(run.bossSpawned&&run.boss===null)){
     run.spawnT=Math.max(.32,map.base-m*.13);
-    const n=Math.round((1+Math.floor(m*1.15+(run.map.spx||0)))*(run.pls?1.7:1)*(run.mod==='horde'?1.6:1)*(1+.15*(run.nm||0)));
+    const n=Math.round((1+Math.floor(m*1.15+(run.map.spx||0)))*(run.pls?1.7:1)*(run.mod==='horde'?1.6:1)*(1+.15*(run.nm||0))*(run.endless?.6:1));
     for(let i=0;i<n;i++)spawnEnemy(chooseEnemy());
   }
   while(run.barNow&&run.eliteI<map.elites.length&&run.t>=map.elites[run.eliteI].t){const el=map.elites[run.eliteI++];spawnEnemy(el.e,true);toast(_t('Elitní nepřítel!'),1500);}
   while(run.barNow&&run.evI<map.events.length&&run.t>=map.events[run.evI].t){const ev=map.events[run.evI++];
     const p=run.pls?pick(players()):run.p,rad=Math.hypot(VW,VH)/2+14;
     for(let i=0;i<ev.n;i++){const a=i/ev.n*6.283;const e=makeEnemy(ev.e,clamp(p.x+Math.cos(a)*rad,16,run.map.size-16),clamp(p.y+Math.sin(a)*rad,16,run.map.size-16),false);run.enemies.push(e);}
-    toast(_t('Obklíčení!'),1500);}
+    toast(_t('Obklíčili tě!'),1500);}
   if(!run.endless&&!run.bossSpawned&&run.barNow&&run.t>=map.dur)spawnBoss();
+  if(run.endless&&!run.boss&&run.barNow&&run.t>=(run.enNext||30))spawnBoss();
 }
 
 /* ----- main update ----- */
@@ -4257,7 +4290,7 @@ function update(dt){
 function envPl(dt){
   const p=run.p;
   p.max=st.max;p.inv=Math.max(0,p.inv-dt);p.flash=Math.max(0,p.flash-dt);if(p.down)return;
-  if(st.lg&&st.lg.heart&&run.revived){run.revT=(run.revT||0)+dt;if(run.revT>=180){run.revived=false;run.revT=0;toast(_t('Srdce krypty: druhá šance je zpět'),2000);}}
+  if(st.lg&&st.lg.heart&&run.revived){run.revT=(run.revT||0)+dt;if(run.revT>=180){run.revived=false;run.revT=0;toast(_t('Srdce krypty: Druhá šance se znovu nabila'),2000);}}
   if(st.regen>0&&p.hp<p.max){p.reg+=st.regen*dt;if(p.reg>=1){p.hp=Math.min(p.max,p.hp+Math.floor(p.reg));p.reg-=Math.floor(p.reg);}}
   // lava hazard
   // oasis water slowly heals (desert) - a reason to leave the crystal for a moment
@@ -4289,8 +4322,10 @@ function updateAmbient(dt){
     if(a.x<c.x-60||a.x>c.x+VW+60||a.y<c.y-60||a.y>c.y+VH+60)a.life=0;}
   run.amb=A.filter(a=>a.life>0);
 }
+// map hazards scale with the map's difficulty and the hero's max health, so they still bite late in the game
+function hazDm(base,pct,p){p=p||run.p;return Math.max(1,Math.round(base*(1+NM_DMG*(run.nm||0))*((run.map&&run.map.hpm)||1)+pct*(p.max||100)));}
 function hurtPlayerHaz(){const p=run.p;if(run.over||run.dying||p.down)return;if(window.__krypta&&window.__krypta.god)return;
-  const amt=Math.max(1,6-Math.floor(st.armor/2));tmHit('haz',amt);p.hp-=amt;p.flash=.12;sfx('hurt');run.nums.push({x:p.x,y:p.y-8,txt:String(amt),life:.6,col:'#ff9a3c'});
+  const amt=Math.max(1,hazDm(6,.03)-Math.floor(st.armor/2));tmHit('haz',amt);p.hp-=amt;p.flash=.12;sfx('hurt');run.nums.push({x:p.x,y:p.y-8,txt:String(amt),life:.6,col:'#ff9a3c'});
   if(p.hp<=0){p.hp=1;p.inv=0;hurtPlayer(99,'haz');}}
 
 /* ============ level-up ============ */
@@ -4426,7 +4461,7 @@ function finish(won){
   if(run.over)return;run.over=true;run.won=won;seedRng(null);if(run.tut){save.tut=1;$('#tut').hidden=true;}
   tmSend(won?'win':run.crystalDead?'crystal':'death');if(!run.coop)recordRun(won);
   if(run.pls){netSend({t:'end',won,cd:!!run.crystalDead,tt:run.t,c:run.coins,sp:run.spent||0,mt:run.mat||0,k:run.kills,lv:run.level,q:run.qc});setTimeout(()=>{netClose();CO.on=false;CO.role=null;},1500);}
-  const gain=endCoins(won);save.coins+=gain;run.rw=runRewards(won);if(run.endless){save.endB=save.endB||{};run.endPrev=save.endB[run.mapId]||0;if(run.t>run.endPrev)save.endB[run.mapId]=Math.floor(run.t);}const QC=qFinishC();run.qres=qCommit(QC);run.achNew=achTrack(QC,won);
+  const gain=endCoins(won);save.coins+=gain;run.rw=runRewards(won);if(run.endless){save.endW=save.endW||{};run.endPrev=save.endW[run.mapId]||0;if((run.enW||0)>run.endPrev)save.endW[run.mapId]=run.enW||0;}const QC=qFinishC();run.qres=qCommit(QC);run.achNew=achTrack(QC,won);
   let unlocked='';
   if(won){const nx=nextMap(run.mapId),was=nx&&mapUnlocked(nx);save.cleared[run.mapId]=true;if(nx&&!was&&mapUnlocked(nx)){const C=CH_OF[nx];unlocked=(C!==CH_OF[run.mapId]?_t('kapitola ')+ROMAN_CH[C.i]+' '+C.name+' · ':'')+MAPS[nx].name;}}
   const bk=run.mapId;if(!run.coop&&(!save.best[bk]||run.t>save.best[bk]))save.best[bk]=Math.floor(run.t);
@@ -4439,8 +4474,8 @@ function winRun(){finish(true);}
 function tutTick(dt){const T=run.tut,p=run.p,el=$('#tut');T.t-=dt;
   const say=(txt,d)=>{T.t=d;el.textContent=txt;el.hidden=false;el.style.animation='none';void el.offsetWidth;el.style.animation='';};
   if(T.s===0&&run.t>.6){say(_t('Táhni prstem kamkoli a hrdina poběží. Útočí sám.'),99);T.s=1;}
-  else if(T.s===1){if(p.moving)T.mv+=dt;if(T.mv>1.6){say(_t('Z nepřátel padají krystaly. Seber je a dostaneš novou úroveň.'),99);T.s=2;}}
-  else if(T.s===2&&run.level>=2){say(_t('Vylepšuj zbraně. Dvě zbraně na úrovni 5 se dají spojit ve fúzi!'),6);T.s=3;}
+  else if(T.s===1){if(p.moving)T.mv+=dt;if(T.mv>1.6){say(_t('Z nepřátel padají krystaly. Sbírej je a budeš získávat úrovně.'),99);T.s=2;}}
+  else if(T.s===2&&run.level>=2){say(_t('Vylepšuj zbraně. Dvě zbraně na úrovni 5 spojíš ve fúzi!'),6);T.s=3;}
   else if(T.s===3&&T.t<=0&&run.t>45){say(_t('Vpravo dole stavíš věže za zlato z běhu. Střílí do rytmu.'),6);T.s=4;}
   else if(T.s===4&&T.t<=0&&run.t>run.map.dur-20){say(_t('Za chvíli přijde boss. Poraz ho a mapa je tvoje!'),5);T.s=5;}
   if(T.t<=0)el.hidden=true;}
@@ -4452,13 +4487,13 @@ function showOver(){
     $('#ovW').innerHTML=Object.keys(run.W).map(id=>'<div class="it'+(WEAPONS[id].ult?' ult':'')+'"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><em>'+(WEAPONS[id].ult?ROMAN[run.W[id].lv-1]:run.W[id].lv)+'</em></div>').join('')+
       Object.keys(run.P).map(id=>'<div class="it"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><em>'+run.P[id]+'</em></div>').join('');}catch(_){}
   $('#ovTitle').textContent=run.won?_t('Vítězství!'):_t('Konec běhu');$('#ovTitle').className='title'+(run.won?'':' bad');
-  $('#ovSub').textContent=run.won?(run.map.boss&&BOSS_DEFS[run.map.boss].name+_t(' je poražen.')+(run.unlocked?_t(' Odemčeno: ')+run.unlocked+'.':'')):(run.crystalDead?(run.map.caravan?_t('Karavanu vykradli a krypta zvítězila.'):_t('Krystal se rozbil a krypta zvítězila.')):_t('Krypta si tě tentokrát vzala.'));
+  $('#ovSub').textContent=run.won?(run.map.boss&&_t('Boss poražen: ')+BOSS_DEFS[run.map.boss].name+'.'+(run.unlocked?_t(' Odemčeno: ')+run.unlocked+'.':'')):(run.crystalDead?(run.map.caravan?_t('Karavanu vykradli a krypta zvítězila.'):_t('Krystal se rozbil a krypta zvítězila.')):_t('Krypta si tě tentokrát vzala.'));
   const rows=[[_t('Čas'),fmtTime(run.t)],[_t('Zabití'),run.kills],[_t('Úroveň'),run.level],[_t('Zlato celkem'),'+'+run.gain]];const W=run.rw||{};
   if(run.nm)rows.unshift([_t('Obtížnost'),NM_NAME[run.nm]]);
   if(W.mat&&W.mat[1])rows.push([MAT_NAME[W.mat[0]],'<span class="mt"><img alt="" src="'+matIcon(W.mat[0])+'">+'+W.mat[1]+'</span>']);
   if(W.ess)rows.push([MAT_NAME.ess,'<span class="mt"><img alt="" src="'+matIcon('ess')+'">+'+W.ess+'</span>']);
   if(W.ovf)rows.push([_t('Plný sklad Úlomků'),'+'+W.ovf+_t(' zlata')]);
-  if(run.endless)rows.unshift([_t('Nekonečná krypta'),run.t>(run.endPrev||0)?'<b style="color:var(--gold)">'+_t('nový rekord!')+'</b>':_t('rekord ')+fmtTime(run.endPrev||0)]);
+  if(run.endless)rows.unshift([_t('Poražení bossové'),'<b>'+(run.enW||0)+'</b>'+((run.enW||0)>(run.endPrev||0)?' <b style="color:var(--gold)">'+_t('nový rekord!')+'</b>':' · '+_t('rekord ')+(run.endPrev||0))]);
   if(W.item)rows.push([_t('Kořist z bosse'),'<b style="color:'+RAR[W.item.r].col+'">'+itemName(W.item)+'</b>']);
   if(W.fin)rows.push([_t('Poklad finále'),'<b style="color:'+RAR[W.fin.r].col+'">'+itemName(W.fin)+'</b>']);
   if(W.leg)rows.push([_t('Legendárka kapitoly'),'<b style="color:'+RAR[4].col+'">'+itemName(W.leg)+'</b>']);
@@ -5113,7 +5148,9 @@ function mapThumb(id){if(thumbs[id])return thumbs[id];
   return thumbs[id]=c;}
 function confirmHero(id){const h=HEROES[id],pop=$('#newsPop'),coin='<img alt="" src="'+dataUrl(SPR.icon.coin)+'" style="width:14px;vertical-align:-2px">';
   pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Koupit hrdinu?')+'</h2>'+
-    '<div style="text-align:center"><img alt="" src="'+dataUrl(SPR.hero[id])+'" style="width:64px;image-rendering:pixelated"><h3>'+h.name+'</h3><small>'+h.desc+'</small></div>'+
+    '<div class="hbuy"><img alt="" src="'+dataUrl(SPR.hero[id])+'"><h3>'+h.name+'</h3><p class="hdesc">'+h.desc+'</p></div>'+
+    '<div class="hweap"><img alt="" src="'+dataUrl(SPR.icon[h.start])+'"><div><small>'+_t('Začíná se zbraní')+'</small><b>'+WEAPONS[h.start].name+'</b><span>'+WEAPONS[h.start].desc+'</span></div></div>'+
+    (TALENTS[id]?'<div class="htal"><small>'+_t('Talenty s úrovní hrdiny')+'</small>'+TALENTS[id].map(([l,t])=>'<div><b>'+_t('úr. ')+l+'</b>'+t+'</div>').join('')+'</div>':'')+
     '<ul><li>'+_t('Cena: ')+coin+' <b>'+h.cost+'</b></li><li>'+_t('Máš: ')+coin+' '+save.coins+'</li><li>'+_t('Zbude ti: ')+coin+' <b>'+(save.coins-h.cost)+'</b></li></ul>'+
     '<div class="stack"><button class="btn" id="buyYes">'+_t('Koupit')+'</button><button class="btn alt" id="buyNo">'+_t('Zpět')+'</button></div></div>';
   pop.hidden=false;
@@ -5154,7 +5191,7 @@ function renderCampaign(){
     '<div class="chh"><small>'+_t('KAPITOLA ')+ROMAN_CH[chSel]+'</small><h3>'+C.name+'</h3><span class="mt" data-mat="'+C.mat+'"><img alt="" src="'+matIcon(C.mat)+'">'+MAT_NAME[C.mat]+' · '+done+' / '+C.maps.length+'</span></div>'+
     '<button class="btn alt sm" id="chNext"'+(chSel<CHAPTERS.length-1?'':' disabled')+' aria-label="'+_t('Další kapitola')+'">›</button></div>';
   if(!C.soon){h+='<div class="nmtabs">';for(let k=0;k<=NM_MAX;k++){const ok=nmChapterOpen(C,k);h+='<button data-k="'+k+'" class="'+(k===NK&&!EN?'on':'')+(ok?'':' lk')+'">'+NM_SHORT[k]+'</button>';}
-    h+=(save.fin&&save.fin.trun?'<button data-k="e" class="endt'+(EN?' on':'')+'" aria-label="'+_t('Nekonečná krypta')+'">∞</button>':'')+'</div>'+(EN?'<p class="hint nmh">'+_t('Nekonečná krypta: dohraná mapa bez konce, nepřátelé každou minutu sílí. Esence od 5. minuty, denně plně 20.')+'</p>':NK?'<p class="hint nmh">'+_t('Silnější nepřátelé, odměny +')+(50*NK)+_t(' %. Mapy jdeš znovu postupně, první výhra finále dá kus setu.')+'</p>':'');}
+    h+=(save.fin&&save.fin.trun?'<button data-k="e" class="endt'+(EN?' on':'')+'" aria-label="'+_t('Nekonečná krypta')+'">∞</button>':'')+'</div>'+(EN?'<p class="hint nmh">'+_t('<b>Nekonečná krypta:</b> souboj s bossem mapy. Po každém zabití se vrátí <b>silnější a s novým útokem</b>. Esence za každého bosse, denně plně 20.')+'</p>':NK?'<p class="hint nmh">'+_t('Silnější nepřátelé, odměny +')+(50*NK)+_t(' %. Mapy jdeš znovu postupně, první výhra finále dá kus setu.')+'</p>':'');}
   h+='<div class="mpath"></div>';
   box.innerHTML=h;const path=box.querySelector('.mpath');
   box.querySelectorAll('.nmtabs button').forEach(b=>b.onclick=()=>{if(b.dataset.k==='e'){sel.endless=!EN;sfx('ui');if(sel.endless&&!save.cleared[sel.map]){const c=C.maps.filter(m=>save.cleared[m]).pop();if(c)sel.map=c;}renderSelect();return;}const wasE=EN;sel.endless=false;const k=+b.dataset.k;if(wasE&&k===sel.nm){sfx('ui');renderSelect();return;}
@@ -5164,7 +5201,7 @@ function renderCampaign(){
     const b=document.createElement('button');b.className='card mnode'+(on?' sel':'')+(ok?'':' lock')+(m.finale?' fin':'');
     const cv=document.createElement('canvas');cv.width=cv.height=TH;const g2=cv.getContext('2d');g2.imageSmoothingEnabled=false;
     const src=thumbSrc(id);if(src)g2.drawImage(src,0,0,TH,TH);else{g2.fillStyle=m.c1||'#2a2236';g2.fillRect(0,0,TH,TH);}
-    const st=EN?(ok?((save.endB&&save.endB[id])?_t('Rekord ')+fmtTime(save.endB[id]):_t('Bez rekordu')):_t('Nejdřív mapu dohraj.')):ok?mapStatus(id,NK):(k?_t('Odemkneš výhrou na předchozí mapě'):NK>1?_t('Odemkneš výhrou finále kapitoly na stupni ')+NM_SHORT[NK-1]:NK?_t('Odemkneš poražením finále kapitoly'):_t('Odemkneš poražením finále kapitoly ')+ROMAN_CH[Math.max(0,chSel-1)]);
+    const st=EN?(ok?((save.endW&&save.endW[id])?_t('Rekord: ')+save.endW[id]+' '+(save.endW[id]===1?_t('boss'):save.endW[id]<5?_t('bossové'):_t('bossů')):_t('Bez rekordu')):_t('Nejdřív mapu dohraj.')):ok?mapStatus(id,NK):(k?_t('Odemkneš výhrou na předchozí mapě'):NK>1?_t('Odemkneš výhrou finále kapitoly na stupni ')+NM_SHORT[NK-1]:NK?_t('Odemkneš poražením finále kapitoly'):_t('Odemkneš poražením finále kapitoly ')+ROMAN_CH[Math.max(0,chSel-1)]);
     const d=document.createElement('div');
     d.innerHTML='<h3><span class="num">'+(k+1)+'</span>'+m.name+(m.finale?'<span class="badge fin">'+_t('Finále')+'</span>':'')+(ok?'':_t('<span class="badge lk">Zamčeno</span>'))+'</h3>'+
       (st?'<small>'+st+'</small>':'')+(on?'<p>'+m.desc+'</p>':'');
@@ -5232,7 +5269,7 @@ function renderSelect(){
   renderCampaign();
   {const k=mapOpenAt(sel.map,sel.nm||0)?(sel.nm||0):0;const en=!!sel.endless;$('#goBtn').textContent=_t('Vyrazit')+(en?' · ∞':k?' · '+NM_SHORT[k]:'');$('#goBtn').classList.toggle('nm',!!k||en);}
   const di=dailyInfo(),db=$('#dailyBox');db.hidden=!(save.stats&&save.stats.runs)&&!save.cheat; // newcomers start with a normal run
-  db.innerHTML='<div class="card daily'+(di.done?' done':'')+_t('"><div class="t"><h3>Denní výzva · ')+MAPS[di.map].name+'</h3><small><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small>'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 3 minuty → truhla s předmětem + 20 ')+MAT_NAME[MAT_OF[di.map]]+'.')+_t('</small><small>Stejný běh pro všechny · žebříček Dnes')+(mapUnlocked(di.map)?'':_t(' · mapu si tak vyzkoušíš, i když ji ještě nemáš'))+_t('</small></div><button class="btn sm" id="dailyGo">Hrát</button></div>');
+  db.innerHTML='<div class="card daily'+(di.done?' done':'')+_t('"><div class="t"><h3>Denní výzva · ')+MAPS[di.map].name+'</h3><small><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small>'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 3 minuty → truhla s předmětem + 20 Úlomků.'))+_t('</small><small>Stejný běh pro všechny · žebříček Dnes')+(mapUnlocked(di.map)?'':_t(' · mapu si tak vyzkoušíš, i když ji ještě nemáš'))+_t('</small></div><button class="btn sm" id="dailyGo">Hrát</button></div>');
   $('#dailyGo').onclick=()=>{sfx('ui');startRun(heroOwned(sel.hero)?sel.hero:'knight',di.map,{mod:di.mod.id});};
 }
 // ----- upgrade tree (08g): three branches; each starts with its stat lines (the old Vylepšení, save.meta.hp…), then five key nodes
@@ -5384,7 +5421,9 @@ function bindUi(){
   $('#pResume').onclick=()=>{sfx('ui');togglePause();};
   $('#pQuit').onclick=()=>{if(run&&run.coop&&!run.over)netSend(CO.role==='guest'?{t:'quit'}:{t:'end',won:false});if(run&&!run.over){tmSend('quit');run.over=true;if(run.tut)save.tut=1;const gain=endCoins(false);save.coins+=gain;if(!isGuest())qCommit(qSnap());persist();}openMenu();};
   $('#ovShare').onclick=()=>{sfx('ui');shareResult();};
-  $('#ovAgain').onclick=()=>{sfx('ui');if(run.coop){openMenu();return;}if(run.won&&!run.mod){const nx=nextMap(run.mapId);sel.map=nx&&mapUnlocked(nx)?nx:run.mapId;}else sel.map=run.mapId;sel.picked=true;chSel=null;renderSelect();setState('select');};
+  $('#ovAgain').onclick=()=>{sfx('ui');if(run.coop){openMenu();return;}if(run.won&&!run.mod){const nx=nextMap(run.mapId);sel.map=nx&&mapUnlocked(nx)?nx:run.mapId;}else sel.map=run.mapId;sel.picked=true;chSel=null;
+    // leave the run like openMenu does, so the live menu background replaces the frozen last frame
+    seedRng(null);$('#tut').hidden=true;run=null;setSong('menu');stick.active=false;stickEl.hidden=true;refreshMenu();renderSelect();setState('select');};
   $('#ovMenu').onclick=()=>{sfx('ui');openMenu();};
 }
 
@@ -5504,13 +5543,14 @@ function boardRow(r,i){const el=document.createElement('div');el.className='brow
   n2.textContent=_t('Mapy ')+cl+'/'+MAP_IDS.length+_t(' · Hrdinové ')+hc+'/'+HERO_LIVE.length;nm.append(n1,n2);
   const val=document.createElement('div');val.className='val';const v1=document.createElement('span'),v2=document.createElement('small');v1.textContent=boardVal(r,true);v2.textContent=boardSub(r);val.append(v1,v2);el.append(rk,nm,val);return el;}
 // main result (wins, or NM · win · time) and the line under it (kills, hero of the daily run)
-function boardVal(r){if(boardTab==='celkem')return (r.st.wins||0)+_t(' výher');const b=r.b;return (b.nm?_t('NM ')+b.nm+' · ':'')+(b.won?_t('Výhra · '):'')+fmtTime(b.t);}
+const bCombo=st=>(st&&st.tot&&+st.tot.combo)||0;
+function boardVal(r){if(boardTab==='celkem')return (r.st.wins||0)+_t(' výher');if(boardTab==='kombo')return '×'+bCombo(r.st).toLocaleString(EN?'en':'cs');const b=r.b;return (b.nm?_t('NM ')+b.nm+' · ':'')+(b.won?_t('Výhra · '):'')+fmtTime(b.t);}
 // small stat chips: kills, maps cleared, heroes (wins too on the overall tab when there is room)
 function boardChips(r,wide){const sv=r.sv||{},cl=MAP_IDS.filter(m=>(sv.cleared||{})[m]).length,hc=Object.keys(sv.heroes||{}).filter(k=>HEROES[k]&&sv.heroes[k]).length,
-  kills=boardTab==='celkem'?(r.st.kills||0):r.b.kills,c=(ic,v,lab)=>'<span class="chip"><img alt="" src="'+dataUrl(ic)+'">'+v+(lab?'<span>'+lab+'</span>':'')+'</span>';
+  kills=boardTab==='celkem'||boardTab==='kombo'?(r.st.kills||0):r.b.kills,c=(ic,v,lab)=>'<span class="chip"><img alt="" src="'+dataUrl(ic)+'">'+v+(lab?'<span>'+lab+'</span>':'')+'</span>';
   const kf=wide||kills<1000?kills.toLocaleString(EN?'en':'cs'):(Math.round(kills/100)/10).toLocaleString(EN?'en':'cs')+'k';
-  return c(SPR.icon.skull,kf,wide?_t('zabití'):'')+c(SPR.icon.scroll,cl+'/'+MAP_IDS.length,wide?_t('map'):'')+c(SPR.hero.knight,hc+'/'+HERO_LIVE.length,wide?_t('hrdinů'):'');}
-function boardSub(r){if(boardTab==='celkem')return (r.st.kills||0)+_t(' zabití');const b=r.b;return (boardTab==='dnes'&&HEROES[b.hero]?HEROES[b.hero].name+' · ':'')+b.kills+_t(' zabití');}
+  return (boardTab==='celkem'?c(SPR.icon.note,'×'+bCombo(r.st),wide?_t('kombo'):''):'')+c(SPR.icon.skull,kf,wide?_t('zabití'):'')+c(SPR.icon.scroll,cl+'/'+MAP_IDS.length,wide?_t('map'):'')+c(SPR.hero.knight,hc+'/'+HERO_LIVE.length,wide?_t('hrdinů'):'');}
+function boardSub(r){if(boardTab==='celkem')return (r.st.kills||0)+_t(' zabití');if(boardTab==='kombo')return _t('nejvyšší kombo v jednom běhu');const b=r.b;return (boardTab==='dnes'&&HEROES[b.hero]?HEROES[b.hero].name+' · ':'')+b.kills+_t(' zabití');}
 function renderBoard(){
   document.querySelectorAll('#boardTabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===boardTab||(b.dataset.t==='map'&&!!MAPS[boardTab])));
   // map picker: one chapter at a time, its maps as postcards
@@ -5529,11 +5569,11 @@ function renderBoard(){
   if(!onlineConfigured()){msg.textContent=_t('Žebříček zatím není připojený k serveru. Tahle verze hraje offline a postup se ukládá jen v tomhle prohlížeči.');return;}
   if(!ON.ready){msg.textContent=ON.err?_t('Připojení k serveru se nezdařilo: ')+ON.err:_t('Připojuji se…');return;}
   if(!boardRows)return;
-  const rows=boardRows.map(r=>{const st=r.stats||{},sv=r.save||{},b=boardTab==='celkem'?null:boardTab==='dnes'?(st.daily&&st.daily.d===today()?st.daily:null):(st.best||{})[boardTab];
-    return{id:r.id,nick:r.nick||'?',st,sv,b,score:boardTab==='celkem'?((st.runs||0)?(st.wins||0)*1e6+(st.kills||0):-1):mapScore(b)};})
+  const rows=boardRows.map(r=>{const st=r.stats||{},sv=r.save||{},b=boardTab==='celkem'||boardTab==='kombo'?null:boardTab==='dnes'?(st.daily&&st.daily.d===today()?st.daily:null):(st.best||{})[boardTab];
+    return{id:r.id,nick:r.nick||'?',st,sv,b,score:boardTab==='celkem'?((st.runs||0)?(st.wins||0)*1e6+(st.kills||0):-1):boardTab==='kombo'?(bCombo(st)||-1):mapScore(b)};})
     .filter(r=>r.score>=0).sort((a,b)=>b.score-a.score);
   const di=dailyInfo();
-  msg.textContent=boardTab==='celkem'?'':boardTab==='dnes'?_t('Dnešní výzva: ')+MAPS[di.map].name+' · '+di.mod.name+_t('. Všichni hrají stejný běh, počítá se tvůj nejlepší pokus dne.'):_t('Výš je vyšší Noční můra, pak výhra. Výhry se řadí podle nejrychlejšího času.');
+  msg.textContent=boardTab==='celkem'?'':boardTab==='kombo'?_t('Nejvyšší kombo, jaké kdo udržel v jednom běhu. Kombo shodí každý zásah, který schytáš.'):boardTab==='dnes'?_t('Dnešní výzva: ')+MAPS[di.map].name+' · '+di.mod.name+_t('. Všichni hrají stejný běh, počítá se tvůj nejlepší pokus dne.'):_t('Nahoře jsou výhry na nejvyšší Noční můře. Výhry se řadí podle nejrychlejšího času.');
   if(!rows.length){msg.textContent=(msg.textContent?msg.textContent+' ':'')+_t('Zatím tu nikdo nemá výsledek. Buď první!');}
   // top three: champion card, then 2nd and 3rd side by side, each with its numbers as chips
   if(rows.length){pod.hidden=false;const MC=['#f6c744','#c8ccd8','#d08850'];
@@ -5652,13 +5692,13 @@ const TALENTS={knight:[[5,_t('Brnění +1')],[10,_t('Rotující čepele: +1 čep
   builder:[[5,_t('Věže o 10 % levnější')],[10,_t('Věže se staví na úrovni 2')],[15,_t('Věže +30 % zdraví')],[20,_t('+1 věž navíc')]],
   warlord:[[5,_t('Poškození +5 %')],[10,_t('Začíná s druhou zbraní')],[15,_t('Rychlost útoků +10 %')],[20,_t('Poškození +10 %')]],
   tamer:[[5,_t('Mazlíčci +15 % poškození')],[10,_t('Mazlíčci útočí o 15 % rychleji')],[15,_t('Schopnosti mazlíčků +20 %')],[20,_t('Mazlíčci +25 % poškození')]],
-  bard:[[5,_t('Kombo vydrží o 50 % déle')],[10,_t('Noty: +1 nota')],[15,_t('Rychlost útoků +10 %')],[20,_t('Každých 25 komba rázová vlna')]],
-  smith:[[5,_t('Brnění +1')],[10,_t('Kladivo: větší louže lávy')],[15,_t('Zdraví +15 %')],[20,_t('Kladivo udeří i za tebe')]],
+  bard:[[5,_t('Kombo vydrží o 50 % déle')],[10,_t('Noty: +1 nota')],[15,_t('Rychlost útoků +10 %')],[20,_t('Každých 25 komba vyšle rázovou vlnu')]],
+  smith:[[5,_t('Brnění +1')],[10,_t('Kladivo: větší louže lávy')],[15,_t('Zdraví +15 %')],[20,_t('Kladivo udeří i za tvými zády')]],
   shaman:[[5,_t('Dosah sbírání +20 %')],[10,_t('Krápníky: +2 krápníky')],[15,_t('Poškození +10 %')],[20,_t('Zmrazení trvá déle')]],
   sailor:[[5,_t('Rychlost pohybu +5 %')],[10,_t('Kotva: dosah +10')],[15,_t('Rychlost útoků +10 %')],[20,_t('Kotva se točí i za tebou')]],
   astro:[[5,_t('Kritický zásah +5 %')],[10,_t('Souhvězdí: +1 hvězda')],[15,_t('Ultimátky +15 %')],[20,_t('Hvězdy se spojí dvakrát za takt')]]};
 const DAILY_MODS=[{id:'fast',name:_t('Zběsilí'),desc:_t('Nepřátelé jsou o 30 % rychlejší.')},{id:'glass',name:_t('Skleněný kanón'),desc:_t('Dáváš +50 % poškození, ale máš poloviční zdraví.')},
-  {id:'horde',name:_t('Horda'),desc:_t('O 60 % víc nepřátel, ale i o 30 % víc zkušeností.')},{id:'noheal',name:_t('Bez léčení'),desc:_t('Žádná regenerace, srdce ani oázy.')}];
+  {id:'horde',name:_t('Horda'),desc:_t('O 60 % víc nepřátel, ale i o 30 % víc zkušeností.')},{id:'noheal',name:_t('Bez léčení'),desc:_t('Žádná regenerace, léčivá srdce ani oázy.')}];
 
 // ----- save helpers -----
 function econInit(){chMigrate();twInit();metaInit();save.fin=save.fin||{};save.mats=Object.assign({shard:0,ess:0},save.mats||{});econ2Migrate();save.hlv=save.hlv||{};save.inv=save.inv||[];save.eq=save.eq||{};
@@ -5760,7 +5800,7 @@ function essGain(won,fin){const R=run,d=today();let e=0;
   if(won&&fin&&!R.endless){const nm=Math.min(3,R.nm||0),k=R.mapId+'|'+nm;save.esF=save.esF||{};
     if(!save.esF[k]){save.esF[k]=1;e+=ES_FIRST[nm];}
     else{if(!save.esD||save.esD.d!==d)save.esD={d,n:0};if(save.esD.n<ES_FIN_DAY){save.esD.n++;e+=ES_REP[nm];}}}
-  if(R.endless){const x=Math.max(0,R.t/60-EN_T0)*EN_RATE;if(!save.endD||save.endD.d!==d)save.endD={d,e:0};const full=Math.min(x,Math.max(0,EN_CAP-save.endD.e));save.endD.e+=x;e+=full+.25*(x-full);}
+  if(R.endless){let x=0;for(let k=1;k<=(R.enW||0);k++)x+=1+.5*(k-1);if(!save.endD||save.endD.d!==d)save.endD={d,e:0};const full=Math.min(x,Math.max(0,EN_CAP-save.endD.e));save.endD.e+=x;e+=full+.25*(x-full);}
   if(e&&save.meta.treeV===2&&save.meta.l5)e*=1+.03*Math.min(KEY_MAX,save.meta.l5);return Math.floor(e);}
 function runRewards(won){
   const R=run,out={};const mid=MAT_OF[R.mapId];if(!mid)return out;
@@ -5854,11 +5894,11 @@ function itemCardHtml(it){const S=itemStats(it),R=RAR[it.r],col=it.set?SETS[it.s
   return '<div class="ic-head"><img alt="" src="'+itIcon(it)+'"><div><h3 style="color:'+col+'">'+itemName(it)+(it.lv?' +'+it.lv:'')+'</h3><small>'+(it.set?_t('Set kapitoly ')+ROMAN_CH[CHAPTERS.findIndex(c=>c.id===SETS[it.set].ch)]:R.name)+' · '+SLOTS[it.s].name+'</small></div></div>'+
     '<ul class="ic-st">'+Object.keys(S).map(k=>'<li><span>'+STATS[k].name+'</span><b>'+fmtStat(k,S[k])+'</b></li>').join('')+'</ul>'+
     (it.lg?'<p class="ic-lg">'+LEGS[it.lg].desc+'</p>':'')+(it.set?setInfoHtml(it.set,state==='hero'||$('#itemPop')&&!$('#itemPop').hidden?heroSel:null):'');}
-function tileHtml(it,extra){return '<button class="itile r'+it.r+(it.set?' set set-'+it.set:'')+(extra||'')+'" data-u="'+it.u+'"><img alt="" src="'+itIcon(it)+'">'+(it.lv?'<em>+'+it.lv+'</em>':'')+(equippedBy(it.u)?'<i class="eqd"></i>':'')+(isFresh('item','i'+it.u)?'<b class="nwt">'+_t('NOVÉ')+'</b>':'')+'</button>';}
+function tileHtml(it,extra){return '<button class="itile r'+it.r+(it.set?' set set-'+it.set:'')+(extra||'')+'" data-u="'+it.u+'"><img alt="" src="'+itIcon(it)+'">'+(it.lv?'<em>+'+it.lv+'</em>':'')+(equippedBy(it.u)?'<i class="inb">'+(equippedBy(it.u)===heroSel?_t('NASAZENO'):HEROES[equippedBy(it.u)].sname||HEROES[equippedBy(it.u)].name)+'</i>':'')+(isFresh('item','i'+it.u)?'<b class="nwt">'+_t('NOVÉ')+'</b>':'')+'</button>';}
 
 // ----- Towers screen: the arsenal (cards taken into a run) and the card collection -----
 let twPick=null;
-const twTile=(c,extra)=>'<button class="ttile r'+c.r+(extra||'')+'" data-u="'+c.u+'"><img alt="" src="'+dataUrl(SPR.tower[c.k])+'">'+(c.lv?'<em>+'+c.lv+'</em>':'')+(isFresh('tw','t'+c.u)?'<b class="nwt">'+_t('NOVÉ')+'</b>':'')+'</button>';
+const twTile=(c,extra)=>'<button class="ttile r'+c.r+(extra||'')+'" data-u="'+c.u+'"><img alt="" src="'+dataUrl(SPR.tower[c.k])+'">'+(c.lv?'<em>+'+c.lv+'</em>':'')+((extra||'').includes(' in')?'<i class="inb">'+_t('ARZENÁL')+'</i>':'')+(isFresh('tw','t'+c.u)?'<b class="nwt">'+_t('NOVÉ')+'</b>':'')+'</button>';
 function twStats(c){const D=TOWERS[c.k],S=twStat(c);return [[_t('Poškození'),cz(Math.round(D.dmg*S.dm*10)/10)],[_t('Dosah'),Math.round(D.range*S.rm)],[_t('Zdraví'),Math.round(D.hp*S.hm)],[_t('Útok'),_t('každé ')+cz(Math.round(D.cd*S.cdm*100)/100)+' s'],[_t('Cena v běhu'),Math.round(D.cost*S.cm)+' '+_t('zl.')]];}
 function twLockText(k){const m=TW_UNL[k];return m?_t('Odemkneš výhrou na mapě ')+MAPS[m].name+'.':'';}
 function twCardHtml(c){const R=RAR[c.r],I=TW_INFO[c.k],C=TOWERS[c.k].ch?CHAPTERS.find(x=>x.id===TOWERS[c.k].ch):null;
@@ -5873,7 +5913,8 @@ function renderTowers(){twInit();$('#twMats').innerHTML=matsHtml();const T=save.
       (b?'<i class="bt" title="'+_t('jen Stavitel')+'"><img alt="" src="'+dataUrl(SPR.hero.builder)+'"></i>':'')+'</button>';}).join('');
   $('#twHint').textContent=twPick?_t('Ťukni na místo, kam dáš věž ')+TOWERS[twCard(twPick).k].name+'.':_t('Do běhu si bereš 4 věže, Stavitel 5. Nové věže a lepší rarity jsou ve Věžové truhle v Obchodu.');
   $('#twHint').classList.toggle('on',!!twPick);
-  const cards=T.cards.slice().sort((a,b)=>T_IDS.indexOf(a.k)-T_IDS.indexOf(b.k)||(b.r-a.r)||(b.lv-a.lv));
+  const inD=c=>T.deck.slice(0,5).includes(c.u)?1:0;
+  const cards=T.cards.slice().sort((a,b)=>(inD(b)-inD(a))||T_IDS.indexOf(a.k)-T_IDS.indexOf(b.k)||(b.r-a.r)||(b.lv-a.lv));
   $('#twCount').textContent=cards.length;
   $('#twGrid').innerHTML=cards.map(c=>twTile(c,d.slice(0,5).includes(c.u)?' in':'')).join('');
   const miss=T_IDS.filter(k=>!twOpen(k));
@@ -5885,6 +5926,13 @@ function renderTowers(){twInit();$('#twMats').innerHTML=matsHtml();const T=save.
     else if(twCard(d[i]))openTwCard(d[i]);else note(_t('Vyber dole věž a dej ji sem'));});
   $('#twGrid').querySelectorAll('.ttile').forEach(b=>b.onclick=()=>{sfx('ui');openTwCard(b.dataset.u);});}
 // card detail: upgrade +1, put into the arsenal, merge 3 into the next rarity, dismantle
+function twMergeGo(c,from){const S=twMergeSet(c);if(S.length<3)return;
+  startFuse(null,0,{title:_t('Sloučení věží!'),sub:'3× '+TOWERS[c.k].name+' → '+RAR[c.r+1].name,icon:dataUrl(SPR.tower[c.k]),done:(per,good)=>{
+    const back={gold:0};for(const x of S){const r2=twRefund(x);back.gold+=r2.gold-15*(x.r+1)*(x.r+1);}
+    save.tw.cards=save.tw.cards.filter(x=>!S.includes(x));const n=twRoll(c.k,c.r+1,Math.min(1,.35+per*.15+good*.06));save.tw.cards.push(n);save.coins+=back.gold;persist();
+    const txt=per===4?_t('Perfektní sloučení!'):_t('Sloučeno!');
+    if(from==='forge'){renderForge();setState('forge');revealItem(n,null,txt,{pop:$('#forgePop'),done:()=>renderForge()});}
+    else{openTowers();revealItem(n,null,txt,{pop:$('#twPop'),done:()=>renderTowers()});}}});}
 function twMergeSet(c){return save.tw.cards.filter(x=>x.k===c.k&&x.r===c.r&&!save.tw.deck.slice(0,5).includes(x.u)).sort((a,b)=>(a.u===c.u?-1:b.u===c.u?1:a.lv-b.lv)).slice(0,3);}
 const twRefund=c=>refundF(c.r,c.lv||0);
 function openTwCard(u){const c=twCard(u);if(!c)return;if(seeOne('t'+u)&&state==='towers')renderTowers();const pop=$('#twPop'),inD=save.tw.deck.slice(0,5).includes(u),up=c.lv<TW_UPMAX?twUpCost(c):null,ok=up&&save.coins>=up.gold&&MAT_IDS.every(m=>!up[m]||save.mats[m]>=up[m]);
@@ -5899,11 +5947,7 @@ function openTwCard(u){const c=twCard(u);if(!c)return;if(seeOne('t'+u)&&state===
   pop.hidden=false;
   $('#twDeckBtn').onclick=()=>{pop.hidden=true;twPick=u;sfx('ui');renderTowers();};
   const ub=$('#twUp');if(ub)ub.onclick=()=>{const C=twUpCost(c);if(save.coins<C.gold||MAT_IDS.some(m=>C[m]&&save.mats[m]<C[m]))return;save.coins-=C.gold;for(const m of MAT_IDS)if(C[m])save.mats[m]-=C[m];c.lv++;persist();sfx('level');openTwCard(u);renderTowers();};
-  const mb=$('#twMerge');if(mb)mb.onclick=()=>{const S=twMergeSet(c);if(S.length<3)return;pop.hidden=true;
-    startFuse(null,0,{title:_t('Sloučení věží!'),sub:'3× '+TOWERS[c.k].name+' → '+RAR[c.r+1].name,icon:dataUrl(SPR.tower[c.k]),done:(per,good)=>{
-      const back={gold:0};for(const x of S){const r2=twRefund(x);back.gold+=r2.gold-15*(x.r+1)*(x.r+1);}
-      save.tw.cards=save.tw.cards.filter(x=>!S.includes(x));const n=twRoll(c.k,c.r+1,Math.min(1,.35+per*.15+good*.06));save.tw.cards.push(n);save.coins+=back.gold;persist();
-      openTowers();revealItem(n,null,per===4?_t('Perfektní sloučení!'):_t('Sloučeno!'),{pop:$('#twPop'),done:()=>renderTowers()});}});};
+  const mb=$('#twMerge');if(mb)mb.onclick=()=>{if(twMergeSet(c).length<3)return;pop.hidden=true;twMergeGo(c,'tw');};
   const db=$('#twDel');if(db)db.onclick=()=>{if(save.tw.cards.filter(x=>x.k===c.k).length<=1&&T_BASE.includes(c.k)){note(_t('Poslední kartu základní věže si nech'));return;}
     save.tw.cards=save.tw.cards.filter(x=>x!==c);gainC(rf);persist();sfx('coin');pop.hidden=true;renderTowers();};
   $('#twClose').onclick=()=>{pop.hidden=true;sfx('ui');};
@@ -5944,7 +5988,16 @@ function petInit(){const S=save.pets=save.pets||{};if(S.v!==1){S.v=1;S.cards=S.c
   if(!S.cards.length){const c=petRoll('wolf',.5);S.cards.push(c);S.sel=c.u;}
   if(!S.cards.some(c=>c.u===S.sel))S.sel=S.cards[0].u;}
 const petCard=u=>(save.pets&&save.pets.cards||[]).find(c=>c.u===u)||null;
-const petM=c=>RARM[c.r]*(1+.07*(c.lv||0));
+const PET_STMAX=5,petM=c=>RARM[c.r]*(1+.07*(c.lv||0))*(1+.15*(c.st||0));
+const petStars=(n,big)=>n?'<span class="pst'+(big?' big':'')+'">'+'★'.repeat(n)+'</span>':(big?'<span class="pst big off">☆</span>':'');
+// three pets of the same kind and the same stars make one with a star more (the best upgraded one stays, half of the others' upgrades come back)
+function petStarSet(c){const n=c.st||0;return save.pets.cards.filter(x=>x.k===c.k&&(x.st||0)===n&&x.u!==save.pets.sel&&x.u!==save.pets.sel2).sort((a,b)=>(a.u===c.u?-1:b.u===c.u?1:(b.lv||0)-(a.lv||0))).slice(0,3);}
+function petStarGo(c,from){const S=petStarSet(c);if(S.length<3||(c.st||0)>=PET_STMAX)return;
+  startFuse(null,0,{title:_t('Hvězda mazlíčka!'),sub:'3× '+PETS[c.k].name+' → '+'★'.repeat((c.st||0)+1),icon:dataUrl(SPR.pet[c.k]),done:()=>{
+    const keep=S[0],back={gold:0,shard:0,ess:0};for(const x of S.slice(1)){const v=investF(x.r,x.lv||0);for(const k in back)back[k]+=Math.floor(v[k]/2);}
+    save.pets.cards=save.pets.cards.filter(x=>x===keep||!S.includes(x));keep.st=(keep.st||0)+1;gainC(back);persist();sfx('level');
+    if(from==='forge'){renderForge();setState('forge');}else{openPets();}
+    note(PETS[keep.k].name+': '+'★'.repeat(keep.st)+(back.gold?_t(' · z vylepšení zpět +')+back.gold+_t(' zlata'):''),2600);}});}
 function petStat(c){const m=petM(c),b=c.b||{};return{m,dm:m*(1+(b.dmg||0)),rt:1+(b.rate||0),pw:1+(b.pw||0)};}
 const petUpCost=c=>upF(c.r,c.lv||0);
 const petRefund=c=>refundF(c.r,c.lv||0);
@@ -6023,12 +6076,12 @@ function drawPFire(g,ox,oy){if(!run.pfire)return;for(const f of run.pfire){const
   const a=clamp(f.life/f.max*3,0,1);circ(g,RZ(x),RZ(y),f.r*.85,'#2a0c08',.3*a);circ(g,RZ(x),RZ(y),f.r*.5,'#e8501e',.16*a);
   for(let i=0;i<5;i++){const an=f.seed+i*1.26,rr=f.r*.55*(i%2?.9:.45);g.globalAlpha=a;flame(g,x+Math.cos(an)*rr,y+Math.sin(an)*rr*.6,4+(i%3)*1.5,2.5,f.seed+i);}g.globalAlpha=1;}}
 // --- Pets screen (Vybavení → Mazlíčci) ---
-const petTile=(c,extra)=>'<button class="ttile r'+c.r+(extra||'')+'" data-u="'+c.u+'"><img alt="" src="'+dataUrl(SPR.pet[c.k])+'">'+(c.lv?'<em>+'+c.lv+'</em>':'')+'</button>';
+const petTile=(c,extra)=>'<button class="ttile r'+c.r+(extra||'')+'" data-u="'+c.u+'"><img alt="" src="'+dataUrl(SPR.pet[c.k])+'">'+(c.lv?'<em>+'+c.lv+'</em>':'')+(c.st?'<i class="tst">'+'★'.repeat(c.st)+'</i>':'')+((extra||'').includes(' in')?'<i class="inb">'+_t('V BĚHU')+'</i>':'')+'</button>';
 function petStatsRows(c){const D=PETS[c.k],S=petStat(c),r=[];
   if(D.dmg>0)r.push([_t('Poškození'),cz(Math.round(D.dmg*S.dm*10)/10),],[_t('Útok'),_t('každé ')+cz(Math.round(D.cd/S.rt*100)/100)+' s']);
   r.push([_t('Síla schopnosti'),'×'+cz(Math.round(S.m*S.pw*100)/100)]);return r;}
 function petCardHtml(c){const R=RAR[c.r],D=PETS[c.k];
-  return '<div class="ic-head tic"><img alt="" src="'+dataUrl(SPR.pet[c.k])+'"><div><h3 style="color:'+R.col+'">'+petName(c)+'</h3><small>'+R.name+'</small></div></div>'+
+  return '<div class="ic-head tic"><img alt="" src="'+dataUrl(SPR.pet[c.k])+'"><div><h3 style="color:'+R.col+'">'+petName(c)+'</h3><small>'+R.name+' '+petStars(c.st||0,1)+'</small></div></div>'+
     '<p class="tdesc">'+D.info+'</p><ul class="ic-st">'+petStatsRows(c).map(r=>'<li><span>'+r[0]+'</span><b>'+r[1]+'</b></li>').join('')+
     Object.keys(c.b||{}).map(k=>'<li class="bon"><span>'+PET_BON[k].name+'</span><b>+'+cz(Math.round(c.b[k]*1000)/10)+' %</b></li>').join('')+'</ul>'+
     '<div class="tperk"><p class="on"><i style="--rc:'+R.col+'">★</i><span>'+D.ab+'</span></p></div>';}
@@ -6037,7 +6090,8 @@ function renderPets(){petInit();$('#ptMats').innerHTML=matsHtml();const S=save.p
   const c2=save.heroes.tamer?petCard(S.sel2):null;
   $('#ptSlot').innerHTML=(cur?'<button class="tslot r'+cur.r+'" id="ptCur"><img alt="" src="'+dataUrl(SPR.pet[cur.k])+'"><b>'+PETS[cur.k].name+'</b><small class="rp" style="--rc:'+RAR[cur.r].col+'">'+RAR[cur.r].name+(cur.lv?' +'+cur.lv:'')+'</small></button>':'')+(save.heroes.tamer?(c2&&c2.u!==S.sel?'<button class="tslot r'+c2.r+'" id="ptCur2"><img alt="" src="'+dataUrl(SPR.pet[c2.k])+'"><b>'+PETS[c2.k].name+'</b><small class="rp" style="--rc:'+RAR[c2.r].col+'">'+RAR[c2.r].name+(c2.lv?' +'+c2.lv:'')+'</small><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>':'<button class="tslot empty" id="ptCur2"><span class="plus">+</span><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>'):'');
   $('#ptHint').textContent=save.heroes.tamer?_t('Do běhu bereš jednoho mazlíčka, Krotitel dva. Nové a vzácnější najdeš v Mazlíčkově truhle v Obchodu.'):_t('Do běhu bereš jednoho mazlíčka. Nové a vzácnější najdeš v Mazlíčkově truhle v Obchodu.');
-  const cards=S.cards.slice().sort((a,b)=>PET_IDS.indexOf(a.k)-PET_IDS.indexOf(b.k)||(b.lv-a.lv));
+  const inR=c=>c.u===S.sel?2:(save.heroes.tamer&&c.u===S.sel2)?1:0;
+  const cards=S.cards.slice().sort((a,b)=>(inR(b)-inR(a))||PET_IDS.indexOf(a.k)-PET_IDS.indexOf(b.k)||((b.st||0)-(a.st||0))||(b.lv-a.lv));
   $('#ptCount').textContent=cards.length;$('#ptGrid').innerHTML=cards.map(c=>petTile(c,c.u===S.sel||(save.heroes.tamer&&c.u===S.sel2)?' in':'')).join('');
   $('#ptLocked').innerHTML=PET_IDS.filter(k=>!S.cards.some(c=>c.k===k)).map(k=>'<div class="tcard lock"><img alt="" src="'+dataUrl(SPR.pet[k])+'" style="filter:brightness(0) opacity(.5)"><div><b>???</b><small style="color:'+RAR[PETS[k].r].col+'">'+RAR[PETS[k].r].name+'</small><small class="lk">'+_t('Padá z Mazlíčkovy truhly.')+'</small></div></div>').join('');
   const cb=$('#ptCur');if(cb)cb.onclick=()=>{sfx('ui');openPetCard(S.sel);};
@@ -6048,6 +6102,7 @@ function openPetCard(u){const c=petCard(u);if(!c)return;const pop=$('#ptPop'),se
     '<button class="btn sm" id="ptTake"'+(sel?' disabled':'')+'>'+(sel?_t('Je v běhu'):_t('Vzít do běhu'))+'</button>'+
     (save.heroes.tamer&&!sel?'<button class="btn alt sm" id="ptTake2"'+(sel2?' disabled':'')+'>'+(sel2?_t('Je druhý (Krotitel)'):_t('Jako druhý (Krotitel)'))+'</button>':'')+
     (up?'<button class="btn alt sm" id="ptUp"'+(petCan(up)?'':' disabled')+'>'+_t('Vylepšit +')+(c.lv+1)+' <span class="costs">'+costHtml(up,1)+'</span></button>'+missHint(up):'<p class="hint">'+_t('Maximální vylepšení.')+'</p>')+
+    ((c.st||0)<PET_STMAX?(()=>{const ms=petStarSet(c);return '<button class="btn alt sm" id="ptStar"'+(ms.length<3||sel||sel2?' disabled':'')+'>'+_t('Sloučit 3× → ')+'★'.repeat((c.st||0)+1)+' ('+ms.length+'/3)</button>';})():'<p class="hint">'+_t('Maximum hvězd.')+'</p>')+
     (sel||sel2?'':'<button class="btn alt sm" id="ptDel">'+_t('Rozebrat ')+'<span class="costs">'+costHtml(rf).replace(/ no/g,'')+'</span></button>')+
     ''+
     '<button class="btn alt sm" id="ptClose">'+_t('Zavřít')+'</button></div></div>';pop.hidden=false;
@@ -6055,6 +6110,7 @@ function openPetCard(u){const c=petCard(u);if(!c)return;const pop=$('#ptPop'),se
   $('#ptTake').onclick=()=>{if(save.pets.sel2===u)save.pets.sel2=save.pets.sel;save.pets.sel=u;persist();sfx('level');pop.hidden=true;renderPets();};
   {const t2=$('#ptTake2');if(t2)t2.onclick=()=>{save.pets.sel2=u;persist();sfx('level');pop.hidden=true;renderPets();};}
   const ub=$('#ptUp');if(ub)ub.onclick=()=>{if(!petCan(up))return;petPay(up);c.lv++;persist();sfx('level');openPetCard(u);renderPets();};
+  {const sb=$('#ptStar');if(sb)sb.onclick=()=>{pop.hidden=true;petStarGo(c,'pets');};}
   const db=$('#ptDel');if(db)db.onclick=()=>{save.pets.cards=save.pets.cards.filter(x=>x!==c);gainC(rf);persist();sfx('coin');pop.hidden=true;renderPets();};
   $('#ptClose').onclick=()=>{pop.hidden=true;sfx('ui');};pop.onclick=e=>{if(e.target===pop)pop.hidden=true;};}
 
@@ -6082,9 +6138,10 @@ function renderHero(){
     b.onclick=()=>{sfx('ui');invFilter=s;renderHero();if(it)openItem(it.u);};sl.appendChild(b);}
   {const cnt=k=>save.inv.filter(i=>!k||i.s===k).length,cats=$('#invCats');cats.innerHTML=[null,...SLOT_IDS].map(k=>'<button class="'+((invFilter||null)===k?'on':'')+'" data-k="'+(k||'')+'" aria-label="'+(k?SLOTS[k].name:_t('Vše'))+'">'+(k?'<img alt="" src="'+dataUrl(itemSpr(k,1))+'">':'<b>'+_t('Vše')+'</b>')+'<small>'+cnt(k)+'</small></button>').join('');
    cats.querySelectorAll('button').forEach(b=>b.onclick=()=>{const k=b.dataset.k||null;if(invFilter===k)return;invFilter=k;sfx('ui');renderHero();});}
-  const list=save.inv.filter(i=>!invFilter||i.s===invFilter).sort((a,b)=>(b.r-a.r)||(b.lv-a.lv));
+  const eqR=i=>{const h=equippedBy(i.u);return h===heroSel?2:h?1:0;};
+  const list=save.inv.filter(i=>!invFilter||i.s===invFilter).sort((a,b)=>(eqR(b)-eqR(a))||(b.r-a.r)||(b.lv-a.lv));
   $('#invCount').textContent=invFilter?SLOTS[invFilter].name+' · '+list.length:save.inv.length+' / '+INV_MAX+_t(' předmětů');
-  const g=$('#invGrid');g.innerHTML=list.length?list.map(it=>tileHtml(it)).join(''):_t('<p class="hint">Inventář je prázdný. Truhly koupíš v Obchodě.</p>');
+  const g=$('#invGrid');g.innerHTML=list.length?list.map(it=>tileHtml(it,equippedBy(it.u)===heroSel?' eq':equippedBy(it.u)?' eqo':'')).join(''):_t('<p class="hint">Inventář je prázdný. Truhly koupíš v Obchodě.</p>');
   g.querySelectorAll('.itile').forEach(b=>b.onclick=()=>{sfx('ui');openItem(b.dataset.u);});
 }
 function openItem(u){const it=itemById(u);if(!it)return;if(seeOne('i'+u)&&state==='hero')renderHero();const pop=$('#itemPop'),h=heroSel,who=equippedBy(u),on=who===h,c=ECON.upCost(it),rf=ECON.refund(it);
@@ -6137,12 +6194,26 @@ function openReforge(kind,o,back){const pop=$('#newsPop');let last=null,was=null
   draw();pop.hidden=false;}
 // ----- Kovárna (08a): merging 3 identical pieces (same slot, rarity, set) into one of the next rarity -----
 function openForge(){econInit();renderForge();setState('forge');}
-function renderForge(){$('#fMats').innerHTML=matsHtml();const fb=$('#forgeList'),G=mergeGroups();
+function renderForge(){$('#fMats').innerHTML=matsHtml();const fb=$('#forgeList'),G=mergeGroups();fb.innerHTML='';
+  const row=(ic,h3,sub,go)=>{const r=document.createElement('div');r.className='card chest';r.innerHTML='<img alt="" src="'+dataUrl(ic)+'"><div class="t"><h3>'+h3+'</h3><small>'+sub+'</small></div>';
+    const b=document.createElement('button');b.className='btn sm';b.textContent=_t('Sloučit');b.onclick=()=>{sfx('ui');go();};r.appendChild(b);fb.appendChild(r);};
+  const head=t=>fb.insertAdjacentHTML('beforeend','<div class="fsec">'+t+'</div>');let any=0;
+  // gear
   const keys=Object.keys(G).filter(k=>G[k].length>=3).sort((a,b)=>(+b.split('|')[1])-(+a.split('|')[1])||a.localeCompare(b));
-  fb.innerHTML=keys.length?'':'<div class="card"><p class="hint" style="margin:0">'+_t('Zatím nemáš 3 stejné kusy. Potřebuješ 3 předměty stejného druhu a stejné rarity (kusy setu ze stejného setu). Nasazené a legendární předměty se neslučují.')+'</p></div>';
-  for(const k of keys){const [sl,r0,set]=k.split('|'),r=+r0,n=G[k].length,row=document.createElement('div');row.className='card chest';
-    row.innerHTML='<img alt="" src="'+dataUrl(itemSpr(sl,r+1,set||undefined))+'"><div class="t"><h3>3× <span style="color:'+RAR[r].col+'">'+RAR[r].name+'</span> → <span style="color:'+RAR[r+1].col+'">'+RAR[r+1].name+'</span></h3><small>'+(set?SETS[set].pieces[sl].name+' · '+SETS[set].name:SLOTS[sl].name)+' · '+_t('máš ')+n+_t(' ks')+'</small></div>';
-    const b=document.createElement('button');b.className='btn sm';b.textContent=_t('Sloučit');b.onclick=()=>{if(mergeCandidates(k).length<3)return;sfx('ui');openMerge(k);};row.appendChild(b);fb.appendChild(row);}}
+  if(keys.length){head(_t('Výbava'));any=1;}
+  for(const k of keys){const [sl,r0,set]=k.split('|'),r=+r0,n=G[k].length;
+    row(itemSpr(sl,r+1,set||undefined),'3× <span style="color:'+RAR[r].col+'">'+RAR[r].name+'</span> → <span style="color:'+RAR[r+1].col+'">'+RAR[r+1].name+'</span>',(set?SETS[set].pieces[sl].name+' · '+SETS[set].name:SLOTS[sl].name)+' · '+_t('máš ')+n+_t(' ks'),()=>{if(mergeCandidates(k).length>=3)openMerge(k);});}
+  // tower cards
+  {twInit();const TG={};for(const c of save.tw.cards){if(c.r>=4||save.tw.deck.slice(0,5).includes(c.u))continue;(TG[c.k+'|'+c.r]=TG[c.k+'|'+c.r]||[]).push(c);}
+   const tk=Object.keys(TG).filter(k=>TG[k].length>=3).sort((a,b)=>(+b.split('|')[1])-(+a.split('|')[1]));if(tk.length){head(_t('Věže'));any=1;}
+   for(const k of tk){const c=TG[k].sort((a,b)=>(b.lv||0)-(a.lv||0))[0],r=c.r;
+     row(SPR.tower[c.k],'3× <span style="color:'+RAR[r].col+'">'+RAR[r].name+'</span> → <span style="color:'+RAR[r+1].col+'">'+RAR[r+1].name+'</span>',TOWERS[c.k].name+' · '+_t('máš ')+TG[k].length+_t(' ks'),()=>twMergeGo(c,'forge'));}}
+  // pets: three of the same kind and stars make one with a star more
+  {petInit();const PG={};for(const c of save.pets.cards){if((c.st||0)>=PET_STMAX||c.u===save.pets.sel||c.u===save.pets.sel2)continue;(PG[c.k+'|'+(c.st||0)]=PG[c.k+'|'+(c.st||0)]||[]).push(c);}
+   const pk=Object.keys(PG).filter(k=>PG[k].length>=3);if(pk.length){head(_t('Mazlíčci'));any=1;}
+   for(const k of pk){const c=PG[k].sort((a,b)=>(b.lv||0)-(a.lv||0))[0],n=c.st||0;
+     row(SPR.pet[c.k],'3× '+petStars(n,1)+' → '+petStars(n+1,1),PETS[c.k].name+' · '+_t('máš ')+PG[k].length+_t(' ks'),()=>petStarGo(c,'forge'));}}
+  if(!any)fb.innerHTML='<div class="card"><p class="hint" style="margin:0">'+_t('Zatím nemáš co slučovat. Potřebuješ 3 stejné kusy: předměty stejného druhu a rarity, karty stejné věže a rarity, nebo 3 stejné mazlíčky se stejným počtem hvězd. Co máš nasazené nebo v arzenálu, se neslučuje.')+'</p></div>';}
 function openMerge(key){const used=mergeUsed(key),back=mergeRefund(used),pop=$('#newsPop'),[sl,r0,set]=key.split('|'),r=+r0,nm=set?SETS[set].pieces[sl].name:SLOTS[sl].name;
   pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Sloučení')+'</h2><div class="mslots"><div class="card mslot sel"><img alt="" src="'+dataUrl(itemSpr(sl,r+1,set||undefined))+'"><b style="color:'+RAR[r+1].col+'">'+nm+'</b><small>'+RAR[r+1].name+'</small></div></div>'+
     '<small>'+_t('Použijí se: ')+used.map(i=>'<b style="color:'+RAR[i.r].col+'">'+itemName(i)+(i.lv?' +'+i.lv:'')+'</b>').join(', ')+'.</small>'+
@@ -6220,7 +6291,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('stick'),_t('Pohyb'),_t('Táhni prstem kamkoli po obrazovce. Hrdina útočí sám.')],
    [I('power'),_t('Úrovně'),_t('Sbírej krystaly z nepřátel. S každou úrovní vybereš novou zbraň nebo vylepšení.')],
    [I('music'),_t('Rytmus'),_t('Zbraně a věže střílí do rytmu hudby. Zabíjej bez zásahu a poroste ti kombo.')],
-   [I('coin'),_t('Kombo'),_t('Každých 25 komba dostaneš zlato a čím delší kombo, tím víc (až 40). Každých 200 padne i materiál. Po běhu si necháš asi třetinu zlata z běhu, zbytek je na věže.')],
+   [I('coin'),_t('Kombo'),_t('Každých 25 komba dostaneš zlato, a čím delší kombo, tím víc (až 40). Každých 200 padnou i Úlomky. Po běhu si necháš asi třetinu zlata, zbytek je na věže.')],
    [I('vortex'),_t('Fúze'),_t('Dvě zbraně na úrovni 5 spojíš v silnou ultimátku. Při rituálu ťukej do rytmu.')],
    [I('tower'),_t('Věže'),_t('Za zlato z běhu stavíš věže tlačítky vpravo dole.')],
    [I('potion'),_t('Předměty na zemi'),_t('Lektvar léčí, magnet přitáhne krystaly, truhla dá vylepšení navíc.')],
@@ -6239,11 +6310,11 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('power'),_t('Vylepšení věže'),_t('Stoupni si k věži a ťukni na Vylepšit. Maximum je úroveň 3.')],
    [I('heart'),_t('Oprava'),_t('Nepřátelé věže ničí. Plně vylepšenou věž opravíš stejným tlačítkem.')],
    [dataUrl(SPR.hero.builder),HEROES.builder.name,HEROES.builder.desc]].map(r=>gdRow(...r)).join('');}
-  else if(tab==='world'){const N={'slime':_t('Pomalý, chodí v houfech.'),'bat':_t('Rychlý, létá v kličkách.'),'skeleton':_t('Jde rovnou po tobě.'),'ghost':_t('Pomalu kličkuje k tobě.'),'spider':_t('Malý a hodně rychlý.'),'zombie':_t('Pomalý, ale hodně vydrží.'),'mage':_t('Drží si odstup a střílí.'),'golem':_t('Obr, vydrží hodně a tvrdě bije.'),'wolf':_t('Rozběhne se proti tobě.'),'flameskull':_t('Řítí se na tebe v plamenech.'),'drowned':_t('Pomalý, ve vodě ho nic nezdrží. Po smrti nechá louži, která zpomaluje.'),'bonearcher':_t('Kostlivec s lukem, drží si odstup.'),'digger':_t('Každých pár taktů vykope z hrobu kostlivce.'),'scorp':_t('Vrhá se na tebe a jeho žihadlo otráví.'),'mummy':_t('Odolná. Když tě chytí, zpomalí tě.'),'cultist':_t('Hází vějíř tří nožů.'),'imp':_t('Malý a rychlý, poletuje v kličkách.'),'magslime':_t('Po smrti nechá kaluž magmatu, která pálí.'),'miner':_t('Drží si odstup a hází krumpáče.'),'yeti':_t('Pomalý a odolný. Hází sněhové koule, které zpomalí.'),'wraith':_t('Kličkuje k tobě a jeho dotek zpomaluje.'),'snowman':_t('Po smrti se rozletí na střepy ledu.')},B={'slimeking':_t('Svolává další slizy.'),'lich':_t('Střílí kruhy střel.'),'demon':_t('Vrhá se na tebe a pálí kruhy střel.'),'priest':_t('Volá utopence a pod nohy ti plive louže.'),'warden':_t('Vrhá se, dupe a zhasíná pochodně.'),'ringer':_t('Každý úder zvonu je kruh střel.'),'morvan':_t('Chrání ho tři fylaktérie. Pod polovinou zdraví uzavře arénu.'),'scorpking':_t('Vrhá se a nechává za sebou jed.'),'worm':_t('Plave pod pískem, kde je nezranitelný, a vyráží pod tebou.'),'priestess':_t('Kletbou ti na chvíli obrátí ovládání.'),'sphinx':_t('Hlídá paprsek slunce, potom loví, potápí obelisky a volá vojáky.'),'forgelord':_t('Každý úder kladiva je kruh jisker, volá skřety a pod nohy ti lije magma.'),'eel':_t('Plave pod vodou, kde je nezranitelný, a vyráží pod tebou.'),'colossus':_t('Vrhá se a při dopadu se roztříští do kruhu krystalů.'),'titan':_t('Střídá vějíř a kruh magmatu. Pod polovinou zdraví se hora probudí a vybuchuje častěji.'),'serpent':_t('Plave pod ledem, kde ho nezraníš. Vynoří se s kruhem střepů a chvíli útočí.'),'fknight':_t('Vrhá se na tebe, dopad rozmetá kruh ledu. Volá ledové přízraky.'),'wendigo':_t('Bleskové výpady končí vějířem střepů. Každé tři takty zavyje a přivolá vlky.'),'yetiking':_t('Střídá obří sněhové koule a dupnutí. Volá sněhuláky a yetie.'),'queen':_t('Kruhy ledových střepů a pomocníci. Pod polovinou zdraví začne aréna zamrzat a v bezpečí jsi jen v zářící runě.')};
+  else if(tab==='world'){const N={'slime':_t('Pomalý, chodí v houfech.'),'bat':_t('Rychlý, létá v kličkách.'),'skeleton':_t('Jde rovnou po tobě.'),'ghost':_t('Pomalu kličkuje k tobě.'),'spider':_t('Malý a hodně rychlý.'),'zombie':_t('Pomalý, ale hodně vydrží.'),'mage':_t('Drží si odstup a střílí.'),'golem':_t('Obr, vydrží hodně a tvrdě bije.'),'wolf':_t('Rozběhne se proti tobě.'),'flameskull':_t('Řítí se na tebe v plamenech.'),'drowned':_t('Pomalý, ve vodě ho nic nezdrží. Po smrti nechá louži, která zpomaluje.'),'bonearcher':_t('Kostlivec s lukem, drží si odstup.'),'digger':_t('Každých pár taktů vykope z hrobu kostlivce.'),'scorp':_t('Vrhá se na tebe a jeho žihadlo otráví.'),'mummy':_t('Odolná. Když tě chytí, zpomalí tě.'),'cultist':_t('Hází vějíř tří nožů.'),'imp':_t('Malý a rychlý, poletuje v kličkách.'),'magslime':_t('Po smrti nechá kaluž magmatu, která pálí.'),'miner':_t('Drží si odstup a hází krumpáče.'),'yeti':_t('Pomalý a odolný. Hází sněhové koule, které zpomalí.'),'wraith':_t('Kličkuje k tobě a jeho dotek zpomaluje.'),'snowman':_t('Po smrti se rozletí na střepy ledu.')},B={'slimeking':_t('Svolává další slizy.'),'lich':_t('Střílí kruhy střel.'),'demon':_t('Vrhá se na tebe a pálí kruhy střel.'),'priest':_t('Volá utopence a pod nohy ti plive louže.'),'warden':_t('Vrhá se, dupe a zhasíná pochodně.'),'ringer':_t('Každý úder zvonu je kruh střel.'),'morvan':_t('Chrání ho tři fylaktérie. Pod polovinou zdraví uzavře arénu.'),'scorpking':_t('Vrhá se a nechává za sebou jed.'),'worm':_t('Plave pod pískem, kde je nezranitelný, a vyráží pod tebou.'),'priestess':_t('Kletbou ti na chvíli obrátí ovládání.'),'sphinx':_t('Nejdřív hlídá sluneční paprsek, pak tě loví, potápí obelisky a volá vojáky.'),'forgelord':_t('Každý úder kladiva je kruh jisker, volá skřety a pod nohy ti lije magma.'),'eel':_t('Plave pod vodou, kde je nezranitelný, a vyráží pod tebou.'),'colossus':_t('Vrhá se a při dopadu se roztříští do kruhu krystalů.'),'titan':_t('Střídá vějíř a kruh magmatu. Pod polovinou zdraví se hora probudí a vybuchuje častěji.'),'serpent':_t('Plave pod ledem, kde ho nezraníš. Vynoří se s kruhem střepů a chvíli útočí.'),'fknight':_t('Vrhá se na tebe, dopad rozmetá kruh ledu. Volá ledové přízraky.'),'wendigo':_t('Bleskové výpady končí vějířem střepů. Každé tři takty zavyje a přivolá vlky.'),'yetiking':_t('Střídá obří sněhové koule a dupnutí. Volá sněhuláky a yetie.'),'queen':_t('Kruhy ledových střepů a pomocníci. Pod polovinou zdraví začne aréna zamrzat a v bezpečí jsi jen v zářící runě.')};
     h=gdSec(_t('Hrdinové'))+Object.keys(HEROES).map(id=>gdRow(dataUrl(SPR.hero[id]),HEROES[id].name,HEROES[id].desc+(HEROES[id].soon?' '+_t('Přijde s kapitolou ')+SOON_CH[HEROES[id].soon]+_t('. Jeho zbraň dostanou všichni, až ho vylepšíš na úroveň 8.'):''))).join('')
      +CHAPTERS.map(C=>gdSec(_t('Kapitola ')+ROMAN_CH[C.i]+' · '+C.name)+C.maps.map(id=>gdRow(thumbs[id]?thumbs[id].toDataURL():thumbUrl(id),MAPS[id].name+(MAPS[id].finale?_t(' (finále)'):''),MAPS[id].desc)).join('')).join('')
      +gdSec(_t('Nepřátelé'))+ENEMY_IDS.filter(id=>!ENEMY_DEFS[id].noHit).map(id=>gdRow(dataUrl(SPR.enemy[id]),ENEMY_DEFS[id].name,N[id]||'')).join('')
-     +gdRow(dataUrl(eliteSprite('golem')),_t('Elita'),_t('Větší a silnější. Padá z ní materiál.'))
+     +gdRow(dataUrl(eliteSprite('golem')),_t('Elita'),_t('Větší a silnější. Padají z ní Úlomky.'))
      +gdRow(I('scroll'),_t('Hledaný'),_t('Silná elita z plakátu na Nástěnce. Když ji nechytíš do 80 s, uteče.'))
      +gdSec(_t('Bossové'))+Object.keys(BOSS_DEFS).map(id=>gdRow(dataUrl(SPR.boss[id]),BOSS_DEFS[id].name,B[id]||'')).join('');}
   else{h=[
@@ -6251,11 +6322,11 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('skull'),_t('Kapitoly'),_t('Kampaň má kapitoly po pěti mapách. Pátá je finále se speciálním bossem a jeho porážka otevře další kapitolu.')],
    [I('shard'),_t('Úlomky'),_t('Padají na všech mapách, v pozdějších kapitolách víc. Potřebuješ je skoro na všechno: Vylepšení, úrovně hrdinů, vylepšování výbavy, věží a mazlíčků.')],
    [I('ess'),_t('Esence'),_t('Vzácná. Padá jen z finálních bossů (první výhra na každé obtížnosti dá nejvíc) a z Nekonečné krypty. Na úrovně hrdinů od 10, vylepšení od +6 a Vylepšení od úrovně 20.')],
-   [I('stars'),_t('Nekonečná krypta'),_t('Po poražení Trůnu kostí si v Přípravě zapneš ∞. Hraješ dohranou mapu bez konce a nepřátelé každou minutu sílí. Od 5. minuty padá Esence, denně plně 20.')],
-   [dataUrl(SPR.hero.knight),_t('Úroveň hrdiny'),_t('Za zlato a materiály. Přidá zdraví a poškození, na úrovni 5, 10, 15 a 20 talent.')],
-   [I('chest_iron'),_t('Výbava'),_t('Hlavně z truhel v Obchodu, jen tam padají i legendárky. Kampaň dá předmět jen za první výhru mapy na každé Noční můře a kusy setů z finále. Helma, zbroj, amulet a prsten v pěti raritách.')],
+   [I('stars'),_t('Nekonečná krypta'),_t('Po poražení Trůnu kostí si v Přípravě zapneš ∞. Bojuješ s bossem dohrané mapy znovu a znovu: po každém zabití se vrátí silnější a s novým útokem. Za každého padne Esence (denně plně 20), rekord je počet poražených bossů.')],
+   [dataUrl(SPR.hero.knight),_t('Úroveň hrdiny'),_t('Za zlato a Úlomky (od úrovně 10 i Esenci). Přidá zdraví a poškození a na úrovni 5, 10, 15 a 20 dostaneš talent.')],
+   [I('chest_iron'),_t('Výbava'),_t('Hlavně z truhel v Obchodu, jen tam padají i legendárky. Kampaň dá předmět jen za první výhru mapy na každé Noční můře a kusy setů z finále. Přilba, zbroj, amulet a prsten v pěti raritách.')],
    [dataUrl(itemSpr('helm',3,'bone')),_t('Sety kapitol'),_t('Každá kapitola má set 4 kusů. Padají z finále, jeden je v pokladu kapitoly. 2 kusy dají bonus, 4 kusy schopnost.')],
-   [I('shield'),_t('Kovárna'),_t('Tři předměty stejné rarity sloučíš v jeden vzácnější.')],
+   [I('shield'),_t('Kovárna'),_t('3 stejné kusy sliješ v jeden lepší: předměty a věže o raritu výš, mazlíčky o hvězdu víc.')],
    [I('haste'),_t('Vylepšení'),_t('Strom trvalých bonusů v Kovárně: tři větve (Útok, Obrana, Kořist), klíčové uzly s novými schopnostmi, každá kapitola otevře další patro a na konci je nekonečné Mistrovství.')],
    [I('skull'),_t('Noční můry'),_t('Těžší obtížnost celé kapitoly (I–III). Mapy jdeš znovu postupně až k finále a jeho první výhra na každém stupni dá kus setu.')],
    [I('scroll'),_t('Nástěnka'),_t('Denní úkoly a hledané elity za svíčky a truhly.')],
@@ -6291,8 +6362,8 @@ const ACH=[
  {id:'k1',ic:'blade',name:_t('Řezník'),desc:_t('Zabij celkem 2 000 nepřátel.'),title:_t('Řezník'),n:2000,v:S=>(S.kills||0)+S.tot.ck,g:150},
  {id:'k2',ic:'axe',name:_t('Žnec'),desc:_t('Zabij celkem 25 000 nepřátel.'),title:_t('Žnec'),n:25000,v:S=>(S.kills||0)+S.tot.ck,g:700},
  {id:'elite',ic:'power',name:_t('Lovec elit'),desc:_t('Poraz 100 elitních nepřátel.'),title:_t('Lovec elit'),n:100,v:S=>S.tot.el,g:300},
- {id:'fuse',ic:'vortex',name:_t('Alchymista'),desc:_t('Objev všechny fúze zbraní, i tu tajnou.'),title:_t('Alchymista'),n:0,v:()=>Object.keys((save.codex&&save.codex.f)||{}).filter(id=>ULTS[id]).length,g:500},
- {id:'pf',ic:'music',name:_t('Dirigent'),desc:_t('5× ťukni rituál fúze nebo sloučení na 4× Perfektní.'),title:_t('Dirigent'),n:5,v:S=>S.tot.pf,g:300},
+ {id:'fuse',ic:'vortex',name:_t('Alchymista'),desc:_t('Objev všechny fúze zbraní, i ty tajné.'),title:_t('Alchymista'),n:0,v:()=>Object.keys((save.codex&&save.codex.f)||{}).filter(id=>ULTS[id]).length,g:500},
+ {id:'pf',ic:'music',name:_t('Dirigent'),desc:_t('5× zvládni rituál fúze nebo sloučení na 4× Perfektní.'),title:_t('Dirigent'),n:5,v:S=>S.tot.pf,g:300},
  {id:'nm3',ic:'skull',name:_t('Noční můra'),desc:_t('Vyhraj na Noční můře II.'),title:_t('Noční můra'),n:2,v:()=>nmWon(),g:500},
  {id:'nm5',ic:'trophy',name:_t('Pán nočních můr'),desc:_t('Vyhraj na Noční můře III.'),title:_t('Pán nočních můr'),n:3,v:()=>nmWon(),g:1500},
  {id:'heroes',ic:'shield',name:_t('Všestranný'),desc:_t('Vyhraj s každým hrdinou.'),title:_t('Všestranný'),n:0,v:S=>HERO_LIVE.filter(h=>S.hw[h]).length,g:500},
@@ -6350,7 +6421,7 @@ const Q_TPL=[
  {id:'crystal',grp:'map',max:1,fmt:1,ok:c=>c.maps.includes('poust'),gen(r,c,d){const n=[90,150,240][d];return{n,ico:'shield',mat:'amber',t:_t('Strážce krystalu'),x:_t('V poušti udrž krystal nad polovinou ')+qMin(n)};},val:(q,C)=>Math.floor(C.crys||0)},
  {id:'boss',grp:'hero',ok:(c,d)=>d>=1,gen(r,c,d){const h=c.heroes[Math.floor(r()*c.heroes.length)];return{p:{h},n:1,ico:['hero',h],t:_t('Lovec bossů'),x:_t('Poraz bosse za ')+Q_ACC[h]};},val:(q,C)=>(C.heroes||[]).includes(q.p.h)?C.boss||0:0},
  {id:'hero',grp:'hero',fmt:1,ok:c=>c.heroes.length>1,gen(r,c,d){const h=c.heroes[Math.floor(r()*c.heroes.length)],n=[300,480,720][d];return{p:{h},n,ico:['hero',h],t:_t('Trénink'),x:_t('Odehraj ')+qMin(n)+_t(' za ')+Q_ACC[h]};},val:(q,C)=>(C.heroes||[]).includes(q.p.h)?Math.floor(C.t||0):0},
- {id:'mat',gen(r,c,d){const n=[8,15,25][d];return{n,ico:'bone',t:_t('Sběratel'),x:_t('Seber v bězích ')+n+_t(' kousků materiálu')};},val:(q,C)=>C.mat||0},
+ {id:'mat',gen(r,c,d){const n=[8,15,25][d];return{n,ico:'bone',t:_t('Sběratel'),x:_t('Seber v bězích ')+n+_t(' Úlomků')};},val:(q,C)=>C.mat||0},
  {id:'fuse',ok:(c,d)=>c.fused&&d>=1,gen(r,c,d){return{n:1,ico:'vortex',t:_t('Fúze'),x:_t('Vytvoř v běhu ultimátku')};},val:(q,C)=>C.fus||0},
  {id:'perf',ok:c=>c.fused,gen(r,c,d){const n=[2,3,4][d];return{n,ico:'blizzard',t:_t('Dirigent'),x:_t('Dej při rituálu fúze ')+n+_t('× Perfektní')};},val:(q,C)=>C.perf||0},
  {id:'level',max:1,gen(r,c,d){const n=[12,18,24][d];return{n,ico:'power',t:_t('Vzestup'),x:_t('Dosáhni úrovně ')+n+_t(' v jednom běhu')};},val:(q,C)=>C.lv||0},
@@ -6842,6 +6913,12 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08l',d:'8. 11. 2026',t:_t('Velká aktualizace: bossové bez konce'),hl:[
+  {ic:'stars',t:_t('Nová Nekonečná krypta'),d:_t('Souboj s bossem mapy: po každém zabití se vrátí <b>silnější a s novým útokem</b>. Rekord je počet poražených bossů, Esence padá za každého.')},
+  {ic:'wolf',t:_t('Hvězdy mazlíčků'),d:_t('3 stejné mazlíčky sliješ v Kovárně v jednoho s <b>hvězdou navíc</b> (+15 % síly za hvězdu, max 5). Kování teď umí i <b>karty věží</b>.')},
+  {ic:'note',t:_t('Kombo v Síni slávy'),d:_t('Nová záložka <b>Kombo</b> ukazuje, kdo udržel nejdelší kombo v jednom běhu.')},
+  {ic:'skull',t:_t('Nebezpečí map konečně bolí'),d:_t('Sluneční paprsek, pasti, erupce, laviny i vozíky teď berou <b>část tvého zdraví</b>, takže je cítíš i s vylepšeným hrdinou.')}],
+  items:[_t('Nasazená výbava, věže v arzenálu a mazlíčci v běhu jsou první a mají výrazný štítek.'),_t('Okno koupě hrdiny ukazuje startovní zbraň a talenty, popisy hrdinů jsou jasnější.'),_t('Opravená obrazovka výhry, která po Pokračovat zůstala na pozadí.'),_t('Prošli jsme texty ve hře: pravopis, skloňování a srozumitelnost.')]},
  {v:'2026-11-08k',d:'8. 11. 2026',t:_t('Nové fúze'),items:[_t('<b>Hromová sekera</b> (Vrhací sekera + Blesk): každý zásah sešle blesk, který přeskočí na další nepřátele.'),_t('<b>Ledové čepele</b> (Rotující čepele + Mrazivá vlna): čepele mrazí a na začátku taktu vystřelí ledové střepy.'),_t('<b>Arkánní salva</b> (Kouzelná střela + Šípy): šípy samy hledají cíl a rozprsknou se na menší střely.'),_t('A jedna nová <b>tajná fúze</b>. Nápověda je ve Sbírce.')]},
  {v:'2026-11-08j',d:'8. 11. 2026',t:_t('Mazlíčci v co-opu'),items:[_t('Při hře s kamarádem s vámi bojují mazlíčci obou hráčů (Krotitel si bere oba své). Fénix tě oživí i v co-opu.')]},
  {v:'2026-11-08i',d:'8. 11. 2026',t:_t('Bez Přebroušení'),items:[_t('Přebroušení předmětů, věží a mazlíčků je pryč. Detail kusu je přehlednější.')]},
@@ -6950,7 +7027,10 @@ function openFeedback(){const pop=$('#newsPop');const F={kind:'napad',rate:0,tex
       msg(/feedback_limit/.test(t)?_t('Dnes už jsi poslal dost zpráv, díky! Další pošli zítra.'):/relation|does not exist|schema cache/i.test(t)?_t('Zpětná vazba se zatím nedá odeslat. Text zůstane uložený.'):_t('Nepodařilo se odeslat: ')+t);}};
 }
 function openNews(all){const list=all?NEWS:newsUnseen().slice(0,3);if(!list.length)return;const pop=$('#newsPop');
-  pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font-size:28px">Novinky</h2><div class="nl">')+list.map(n=>'<div><h3>'+n.t+'</h3><small>'+n.d+'</small><ul>'+n.items.map(i=>'<li>'+i+'</li>').join('')+'</ul></div>').join('')+
+  pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font-size:28px">Novinky</h2><div class="nl">')+list.map(n=>'<div><h3>'+n.t+'</h3><small>'+n.d+'</small>'+
+      // highlights big with an icon, the small stuff as a quiet list under them
+      (n.hl||[]).map(h=>'<div class="nhl"><img alt="" src="'+dataUrl(SPR.icon[h.ic]||(SPR.pet&&SPR.pet[h.ic])||SPR.icon.skull)+'"><div><b>'+h.t+'</b><span>'+h.d+'</span></div></div>').join('')+
+      ((n.items||[]).length?(n.hl?'<p class="nsm">'+_t('Drobnosti')+'</p>':'')+'<ul'+(n.hl?' class="small"':'')+'>'+n.items.map(i=>'<li>'+i+'</li>').join('')+'</ul>':'')+'</div>').join('')+
     _t('</div><button class="btn" id="newsOk">Jdu hrát!</button></div>');
   pop.hidden=false;$('#newsOk').onclick=()=>{pop.hidden=true;save.newsSeen=NEWS[0].v;persist();sfx('ui');refreshMenu();};}
 function newsBoot(){if(/[?&]hra=/.test(location.search))return;
@@ -6992,10 +7072,10 @@ async function shareImage(){
   const ws=Object.keys(R.W);if(ws.length){const s2=96,gap=24,tw=ws.length*s2+(ws.length-1)*gap;let x=W/2-tw/2;
     ws.forEach(id=>{const sp=SPR.icon[id];if(sp)g.drawImage(sp.c,x,1560,s2,s2);const w=R.W[id];txt(WEAPONS[id].ult?ROMAN[w.lv-1]:String(w.lv),x+s2-6,1560+s2+4,'700 36px '+FT,'#f6c744','right',3);x+=s2+gap;});}
   const who=(save.nick||'')+(titleOf(save)?' · '+titleOf(save):'');if(who)txt(who,W/2,1735,'600 42px '+FT,'#f3edff',null,4);
-  txt(_t('Dokážeš to líp? Zahraj si zdarma:'),W/2,1810,'600 36px '+FT,'#a898c4',null,3);txt(GAME_URL.replace('https://',''),W/2,1865,'700 40px '+FT,'#f6c744',null,4);
+  txt(_t('Dáš to líp? Zahraj si zdarma:'),W/2,1810,'600 36px '+FT,'#a898c4',null,3);txt(GAME_URL.replace('https://',''),W/2,1865,'700 40px '+FT,'#f6c744',null,4);
   return c;}
 async function shareResult(){if(!run||!run.over)return;let c;try{c=await shareImage();}catch(e){note(_t('Obrázek se nepovedl'));return;}
-  const text=(run.won?_t('Vyhrál jsem '):_t('Vydržel jsem ')+fmtTime(run.t)+_t(' na mapě '))+(run.won?_t('mapu ')+run.map.name:run.map.name)+_t(' v Pixel Krypta! Dokážeš to líp?');
+  const text=(run.won?_t('Vyhrál jsem '):_t('Vydržel jsem ')+fmtTime(run.t)+_t(' na mapě '))+(run.won?_t('mapu ')+run.map.name:run.map.name)+_t(' v Pixel Kryptě! Dáš to líp?');
   const blob=await new Promise(r=>c.toBlob(r,'image/png'));const file=blob&&new File([blob],'pixel-krypta.png',{type:'image/png'});
   try{if(file&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text,url:GAME_URL});return;}}catch(e){if(e&&e.name==='AbortError')return;}
   const url=c.toDataURL('image/png'),pop=$('#newsPop');

@@ -21,7 +21,7 @@ Skutečná data dvou hráčů (Supabase `profiles`, 8. 11.): za běh ~500–900 
 | Měna | Odkud | Na co |
 |---|---|---|
 | **Zlato** | každý běh (beze změny), úkoly, mistrovství | všechno, truhly jen za zlato |
-| **Úlomky** (běžný materiál) | běžné mapy všech kapitol: dosavadní vzorec materiálu ×1,1 (`SH_K`), pozdější kapitoly +15 % za kapitolu; úkoly, poklad kapitoly, denní výzva | Vylepšení od úrovně 10, úrovně hrdinů, vylepšování předmětů, věží a mazlíčků, Věžová a Mazlíčkova truhla, Přebroušení |
+| **Úlomky** (běžný materiál) | běžné mapy všech kapitol: dosavadní vzorec materiálu ×1,1 (`SH_K`), pozdější kapitoly +15 % za kapitolu; úkoly, poklad kapitoly, denní výzva | Vylepšení od úrovně 10, úrovně hrdinů, vylepšování předmětů, věží a mazlíčků, Věžová a Mazlíčkova truhla |
 | **Esence** (vzácná) | jen finální bossové kapitol a Nekonečná krypta | Vylepšení 20+, úrovně hrdinů 10+, vylepšení +6 až +10 |
 
 Žádná kapitola už nepřidá nový materiál. Pozdější kapitoly dávají víc Úlomků a Esence (silnější bossové).
@@ -38,7 +38,7 @@ Skutečná data dvou hráčů (Supabase `profiles`, 8. 11.): za běh ~500–900 
 - **Vylepšení předmětu, karty věže i mazlíčka** (stejný vzorec): zlato `24·(lv+1)·(r+1)`, Úlomky `6·(lv+1)·(r+1)`, od +6 navíc Esence `(lv−4)·(r+1)`.
 - **Rozebrání:** základ + 50 % vloženého (i Esence). **Sloučení:** 3 stejné kusy stejné rarity → 1 o raritu vyšší, vrací 50 % vylepšení.
 - **Truhly:** výbava jen za zlato (250 / 750 / 2000). Věžová 700 zl + 60 Úl., Mazlíčkova 600 zl + 60 Úl. **Denní limity:** Železná 4, Zlatá 2, Věžová 3, Mazlíčkova 3 (Dřevěná bez limitu). Tím nejde nahromaděné zlato utratit za nekonečně beden.
-- **Přebroušení (nekonečný výdaj):** přelosuje jeden bonus předmětu, věže nebo mazlíčka. 600 zl + 150 Úl., každé další přebroušení téhož kusu ×1,25 (strop po 12.).
+- ~~Přebroušení~~ (zrušeno 08i): přelosuje jeden bonus předmětu, věže nebo mazlíčka. 600 zl + 150 Úl., každé další přebroušení téhož kusu ×1,25 (strop po 12.).
 - **Strop skladu Úlomků 6 000.** Co přeteče, se změní na zlato 1 : 3 (horší než běžný poměr příjmu ~6 : 1, takže se nevyplatí farmit).
 
 ### Výsledek simulace (`econsim.py`, 5 hrdinů, 2 hlavní, ~1,5 h hraní denně)
@@ -61,6 +61,8 @@ Kostní prach + Jantar + Magmatit → Úlomky 1 : 1. Za už poražená finále h
 
 ### Nekonečná krypta
 Odemkne se po prvním finále (Trůn): v Přípravě záložka ∞ vedle Nočních můr (`sel.endless`, `run.endless`). Hraje se na libovolné dohrané mapě, boss nepřijde, od 5. minuty každou minutu +8 % zdraví a +5 % poškození nepřátel navíc ke stávajícímu růstu. Konec jen smrtí. Odměny: zlato a Úlomky za celý čas (`rewT` bez stropu), Esence podle pravidel výše (`essGain`, `save.endD`). Rekord na mapu v `save.endB`, ukazuje se u map a na konci běhu.
+
+**Od 08l je to boss fight:** běžné vlny slabší (×0,6), boss přijde po 30 s a po každém poražení znovu za 12 s silnější a s novým útokem (evoluce II–VII). Poražení bosse: léčení 25 %, zlato, Esence 1 + 0,5 za každou další evoluci (v rámci denního stropu). Rekord evolucí v `save.endW`.
 
 ---
 
