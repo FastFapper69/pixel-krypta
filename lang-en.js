@@ -1,13 +1,16 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Profilový obrázek je zpátky v Nastavení u přezdívky, horní lišta menu je jako dřív.":"The profile picture now lives in Settings next to your nickname, the menu top bar is back as before.",
+"Profil v Nastavení":"Profile in Settings",
+"Profilový obrázek a titul":"Profile picture and title",
 "Bossové se představují, hrdinové do úrovně 40 a profilové obrázky":"Bosses introduce themselves, heroes up to level 40 and profile pictures",
 "Představení bossů":"Boss introductions",
 "Každý boss se před soubojem <b>představí</b>: záblesk, silueta, jeho jméno a hláška. Finále kapitoly je delší a temnější. Ťuknutím ho přeskočíš.":"Every boss <b>introduces itself</b> before the fight: a flash, a silhouette, its name and a one-liner. A chapter finale is longer and darker. Tap to skip.",
 "Hrdinové až do úrovně 40":"Heroes up to level 40",
 "Na úrovních 25, 30, 35 a 40 si <b>vybereš jeden ze dvou talentů</b>. Po úrovni 40 pokračuje nekonečná <b>Prestiž</b>.":"At levels 25, 30, 35 and 40 you <b>pick one of two talents</b>. After level 40 an endless <b>Prestige</b> continues.",
 "Profilové obrázky":"Profile pictures",
-"Ikona vlevo nahoře v menu. Vyber si obrázek, který uvidí ostatní v <b>Síni slávy</b>. Hrdinové a bossové z Noční můry III přidají další.":"The icon top left in the menu. Pick a picture others see in the <b>Hall of Fame</b>. Heroes and Nightmare III bosses add more.",
+"V Nastavení u přezdívky si vybereš obrázek, který uvidí ostatní v <b>Síni slávy</b>. Hrdinové a bossové z Noční můry III přidají další.":"In Settings next to your nickname, pick a picture others see in the <b>Hall of Fame</b>. Heroes and Nightmare III bosses add more.",
 "Truhla setu se teď ukládá i do cloudu.":"The set chest is now saved to the cloud too.",
 "Profilový obrázek":"Profile picture",
 "<b style=\"color:var(--gold)\">Odemčen!</b>":"<b style=\"color:var(--gold)\">Unlocked!</b>",

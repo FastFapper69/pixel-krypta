@@ -605,7 +605,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #avWrap{margin-top:6px}#avList{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-top:6px}#avList button{aspect-ratio:1;min-height:0;padding:4px;display:grid;place-items:center;background:#0c0912;border:0;clip-path:var(--px);box-shadow:inset 0 0 0 2px var(--line)}
 #avList button img{width:80%;height:80%;object-fit:contain;image-rendering:pixelated}#avList button.on{box-shadow:inset 0 0 0 3px var(--gold);background:#3a2c14}#avList button.lk img{filter:brightness(0) opacity(.45)}
 #avList .avsec{grid-column:1/-1;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:4px}
-#mAv{margin-right:6px;flex:none}#mAv img{width:26px;height:26px}.brow .bav{width:28px;height:28px;flex:none;image-rendering:pixelated;object-fit:contain}
+#mNick{display:flex;align-items:center;justify-content:center;gap:8px}#mNick img{width:24px;height:24px;image-rendering:pixelated;margin:-4px 0}.brow .bav{width:28px;height:28px;flex:none;image-rendering:pixelated;object-fit:contain}
 #ttlWrap{margin-top:10px}#ttlList{display:grid;grid-template-columns:1fr 1fr;gap:6px}#ttlList button{min-height:44px}#ttlList:empty{display:none}#ttlWrap .hint{margin:2px 0 0}
 
 /* 08a: inventory categories, NEW ribbon, rarity pill, Kovárna, chapter reward */
@@ -661,7 +661,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
   </div>
 
   <section class="scr" id="scr-menu">
-    <div id="mTop"><button class="btn alt ic" id="mAv" aria-label="Profil"><img alt="" id="icAv"></button><div class="mats" id="mCur"></div><button class="btn alt ic" id="mBoard" aria-label="Síň slávy"><img alt="" id="icBoard"></button><button class="btn alt ic" id="mNews" aria-label="Novinky"><img alt="" id="icNews"></button><button class="btn alt ic" id="mGuide" aria-label="Průvodce"><img alt="" id="icGuide"></button><button class="btn alt ic" id="mSet" aria-label="Nastavení"><img alt="" id="icSet"></button></div>
+    <div id="mTop"><div class="mats" id="mCur"></div><button class="btn alt ic" id="mBoard" aria-label="Síň slávy"><img alt="" id="icBoard"></button><button class="btn alt ic" id="mNews" aria-label="Novinky"><img alt="" id="icNews"></button><button class="btn alt ic" id="mGuide" aria-label="Průvodce"><img alt="" id="icGuide"></button><button class="btn alt ic" id="mSet" aria-label="Nastavení"><img alt="" id="icSet"></button></div>
     <div class="wrap">
       <div class="sp"></div>
       <div class="logobox"><img class="crest" id="crest" alt=""><h1 class="logo">PIXEL<br>KRYPTA</h1><i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i></div>
@@ -3698,7 +3698,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08u';
+const GAME_VER='2026-11-08v';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -5679,7 +5679,7 @@ addEventListener('popstate',()=>{navArmed=false;if(!goBack()&&state==='menu'){tr
 function refreshSettings(){setLbl('#mSound',_t('Zvuk'),!save.sound);setLbl('#mMusic',_t('Hudba'),!save.music);stickLabels();
   {const I=fitApp.info||{};$('#mVer').textContent=_t('verze ')+GAME_VER;$('#mVer').title=(I.sa?_t('aplikace'):_t('prohlížeč'))+' '+(I.ih||0)+'/'+(I.sh||0)+'/'+(I.h||0);}
   setLbl('#mFb',fbRewardToday()?_t('Napsat názor · +60 zlata'):_t('Napsat názor na hru'));
-  avMenu();  $('#mInstall').hidden=!pwaCan();$('#mNick').hidden=!ON.ready;$('#mNick').textContent=_t('Hráč: ')+(save.nick||_t('bez přezdívky'))+(titleOf(save)?' · '+titleOf(save):'')+_t(' · změnit');
+  $('#mInstall').hidden=!pwaCan();nickBtn();
   $('#mCheat').hidden=!isDev();$('#mCheat').textContent=_t('Testovací režim: ')+onOff(save.cheat);$('#mGold').hidden=!save.cheat;}
 function refreshMenu(){
   fitMenuCur();
@@ -5688,7 +5688,7 @@ function refreshMenu(){
   $('#mWarn').hidden=!/Instagram|FBAN|FBAV|FB_IAB|Messenger|TikTok|Snapchat/i.test(navigator.userAgent||'');
   {const I=fitApp.info||{};$('#mVer').textContent=_t('verze ')+GAME_VER;$('#mVer').title=(I.sa?_t('aplikace'):_t('prohlížeč'))+' '+(I.ih||0)+'/'+(I.sh||0)+'/'+(I.h||0);}
   $('#mInstall').hidden=!pwaCan();$('#mNews').classList.toggle('has',newsUnseen().length>0);
-  $('#mNick').hidden=!ON.ready;$('#mNick').textContent=_t('Hráč: ')+(save.nick||_t('bez přezdívky'))+(titleOf(save)?' · '+titleOf(save):'')+_t(' · změnit');
+  nickBtn();
   if(save.cheat&&!isDev()){save.cheat=false;persist();}
   try{econInit();$('#mQuest').classList.toggle('has',qClaimable());{const a=achClaimable();$('#mBoard').classList.toggle('has',a);document.querySelectorAll('.sectabs [data-to=master]').forEach(b=>b.classList.toggle('has',a));}}catch(_){}
   $('#mCheat').hidden=!isDev();$('#mCheat').textContent=_t('Testovací režim: ')+onOff(save.cheat);$('#mGold').hidden=!save.cheat;
@@ -5960,8 +5960,8 @@ function bindUi(){
   const par=$('#parade');[SPR.hero.knight,SPR.enemy.slime,SPR.enemy.skeleton,SPR.enemy.bat,SPR.enemy.zombie,SPR.enemy.ghost].forEach(sp=>{const i=document.createElement('img');i.alt='';i.src=dataUrl(sp);par.appendChild(i);});
   $('#mPlay').onclick=()=>{audioInit();sfx('ui');if(!sel.picked){const nx=MAP_IDS.find(m=>mapUnlocked(m)&&!save.cleared[m]&&!CH_OF[m].soon)||MAP_IDS.filter(mapUnlocked).pop();if(nx)sel.map=nx;}if(!mapUnlocked(sel.map))sel.map='hrbitov';chSel=null;renderSelect();setState('select');};
   $('#mBoard').onclick=()=>{audioInit();sfx('ui');openBoard();};
-  $('#mNick').onclick=()=>{sfx('ui');openNick(save.pinSet?'rename':'pin');};
-  $('#mAv').onclick=()=>{sfx('ui');openNick('av');};avMenu();
+  $('#mNick').onclick=()=>{sfx('ui');openNick(!ON.ready?'av':save.pinSet?'rename':'pin');};
+
   document.querySelectorAll('#nickTabs button').forEach(b=>b.onclick=()=>{sfx('ui');openNick(b.dataset.m);});
   $('#pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')saveNick();});
   $('#nickSave').onclick=()=>saveNick();
@@ -6082,11 +6082,14 @@ function avAll(){const BM=avBossMap(),out=AV_BASE.map(id=>({id,ok:true,sec:'base
   for(const b in BOSS_DEFS){const m=BM[b];if(!m)continue;out.push({id:'b:'+b,ok:!!(save.nmw&&save.nmw['3|'+m]),sec:'boss',need:_t('Poraz ')+BOSS_DEFS[b].name+_t(' na Noční můře III.')});}
   return out;}
 const avCur=()=>save.av&&avAll().some(a=>a.id===save.av&&a.ok)?save.av:AV_BASE[0];
-function renderAvPick(){const W=$('#avWrap');W.hidden=nickMode==='login'||nickMode==='pin';if(W.hidden)return;const cur=avCur(),A=avAll(),SEC={base:_t('Základní'),hero:_t('Hrdinové'),boss:_t('Bossové z Noční můry III')};let last='';
+function renderAvPick(){const W=$('#avWrap');W.hidden=nickMode==='login';if(W.hidden)return;const cur=avCur(),A=avAll(),SEC={base:_t('Základní'),hero:_t('Hrdinové'),boss:_t('Bossové z Noční můry III')};let last='';
   $('#avList').innerHTML=A.map(a=>(a.sec!==last?(last=a.sec,'<div class="avsec">'+SEC[a.sec]+'</div>'):'')+'<button data-a="'+a.id+'" class="'+(a.id===cur?'on':'')+(a.ok?'':' lk')+'"><img alt="" src="'+dataUrl(avImg(a.id))+'"></button>').join('');
   $('#avHint').textContent=_t('Obrázek uvidí ostatní v Síni slávy. Další odemkneš hrdiny a bossy na Noční můře III.');
   $('#avList').querySelectorAll('button').forEach(b=>b.onclick=()=>{const a=A.find(x=>x.id===b.dataset.a);if(!a.ok){note(a.need);return;}save.av=a.id;persist();sfx('ui');renderAvPick();avMenu();});}
-function avMenu(){const i=$('#icAv');if(i)i.src=dataUrl(avImg(avCur()));}
+function avMenu(){nickBtn();}
+// settings: the player's picture, nickname and title on one button (offline only the picture and title)
+function nickBtn(){const b=$('#mNick');if(!b)return;b.hidden=false;b.innerHTML='<img alt="" src="'+dataUrl(avImg(avCur()))+'"><span></span>';
+  b.querySelector('span').textContent=ON.ready?_t('Hráč: ')+(save.nick||_t('bez přezdívky'))+(titleOf(save)?' · '+titleOf(save):'')+_t(' · změnit'):_t('Profilový obrázek a titul');}
 // title picker on the profile: every claimed Mastery gives a title, the player wears one (or none)
 function renderTitlePick(){const W=$('#ttlWrap');W.hidden=nickMode==='new'||nickMode==='login';if(W.hidden)return;
   const got=ACH.filter(A=>save.ach&&save.ach[A.id]),cur=titleOf(save)?save.title:'';
@@ -7610,10 +7613,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08v',d:'8. 11. 2026',t:_t('Profil v Nastavení'),items:[_t('Profilový obrázek je zpátky v Nastavení u přezdívky, horní lišta menu je jako dřív.')]},
  {v:'2026-11-08u',d:'8. 11. 2026',t:_t('Bossové se představují, hrdinové do úrovně 40 a profilové obrázky'),hl:[
   {ic:'boss:morvan',t:_t('Představení bossů'),d:_t('Každý boss se před soubojem <b>představí</b>: záblesk, silueta, jeho jméno a hláška. Finále kapitoly je delší a temnější. Ťuknutím ho přeskočíš.')},
   {ic:'hero:knight',t:_t('Hrdinové až do úrovně 40'),d:_t('Na úrovních 25, 30, 35 a 40 si <b>vybereš jeden ze dvou talentů</b>. Po úrovni 40 pokračuje nekonečná <b>Prestiž</b>.')},
-  {ic:'skull',t:_t('Profilové obrázky'),d:_t('Ikona vlevo nahoře v menu. Vyber si obrázek, který uvidí ostatní v <b>Síni slávy</b>. Hrdinové a bossové z Noční můry III přidají další.')}],
+  {ic:'skull',t:_t('Profilové obrázky'),d:_t('V Nastavení u přezdívky si vybereš obrázek, který uvidí ostatní v <b>Síni slávy</b>. Hrdinové a bossové z Noční můry III přidají další.')}],
   items:[_t('Truhla setu se teď ukládá i do cloudu.')]},
  {v:'2026-11-08t',d:'8. 11. 2026',t:_t('Ultimátky duní, nová Aura a truhla setu'),hl:[
   {ic:'storm',t:_t('Ultimátky duní'),d:_t('Každý drop ultimátky má <b>vlastní těžký zvuk</b> přesně do rytmu a takt předem ho ohlásí náběh.')},
