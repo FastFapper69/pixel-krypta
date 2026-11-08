@@ -3283,7 +3283,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08g';
+const GAME_VER='2026-11-08h';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3374,14 +3374,14 @@ function recalc(){
   st={max:Math.round((120+h.hp+mB('hp',m.hp)+L('heart')*20+B.hp)*(1+B.hpPct)),speed:58*(1+h.spd+mB('spd',m.spd)+L('boots')*.08+B.spd),dmg:1+h.dmg+mB('dmg',m.dmg)+L('power')*.12+B.dmg,
     cdMul:Math.max(.4,(1-L('haste')*.08)*(1-B.cd)),mag:30*(1+mB('mag',m.mag)+L('magnet')*.25+B.mag),armor:h.armor+L('shield')+B.armor,regen:L('regen')*.4+B.regen,xpMul:1+mB('xp',m.xp)+B.xp,
     crit:.1+B.crit+L('eye')*.06,fuse:B.fuse,gold:B.gold+L('greed')*.1,tcost:B.tcost,thp:B.thp,tmax:B.tmax,lg:B.lg,tal:B.tal};
-  {const T={};for(const k of TREE_KEYS)if(m[k])T[k]=1;st.tr=T;if(T.d3){st.tmax=(st.tmax||0)+1;st.thp=(st.thp||0)+.2;}if(T.d4)st.armor+=2;if(T.l3)st.gold+=.15;
+  {const T={};for(const k of TREE_KEYS)T[k]=m.treeV===2?Math.min(KEY_MAX,m[k]||0):0;st.tr=T;st.thp=(st.thp||0)+.06*T.d3;st.armor+=.2*T.d4;st.regen+=run.mod==='noheal'?0:.05*T.d5;st.gold+=.02*T.l3;st.fuse=(st.fuse||0)+.03*T.a4;
    st.dmg+=.005*(m.ma||0);st.max=Math.round(st.max*(1+.01*(m.md||0)));st.gold+=.01*(m.ml||0);}
   if(run.mod==='glass'){st.dmg*=1.5;st.max=Math.round(st.max*.5);}if(run.mod==='horde')st.xpMul+=.3;if(run.mod==='noheal')st.regen=0;
   for(const id in run.W)run.W[id].xn=talentW(id),run.W[id]._p=null;
 }
 // the daily challenge runs on a seed of the day (map, spawns and level-up offers start out the same for everyone)
 const RNG0=Math.random;function seedRng(seed){Math.random=seed==null?RNG0:mulberry32(qHash(seed));}
-function startRun(heroId,mapId,o){metaInit();
+function startRun(heroId,mapId,o){metaInit();treeMigrate();
   o=o||{};seedRng(o.mod?'daily|'+today():null);audioInit();setSong(mapId);
   const hero=HEROES[heroId],map=MAPS[mapId],built=buildMap(mapId);for(const k in mapsBuilt)if(k!==mapId)delete mapsBuilt[k];save.lastMap=mapId;MB.id=mapId;
   run={heroId,hero,mapId,map,built,idx:MAP_IDS.indexOf(mapId),t:0,kills:0,coins:25,startCoins:25,towers:[],nearTower:null,tip:false,level:1,xp:0,need:needXP(1),pending:0,
@@ -3395,7 +3395,7 @@ function startRun(heroId,mapId,o){metaInit();
   if(map.crystal){run.crystal={isCrystal:true,x:map.size/2,y:map.size/2,hp:1300,max:1300,r:9,flash:0,hit:false,calm:0,warn:0,pulse:5,spr:SPR.misc.crystal};run.p.y+=30;run.p.face={x:0,y:1};}
   run.allies=[];mfCall('init');
   run.deck=runDeck(!!hero.builder);run.tws=runTwStats(!!hero.builder);buildBarInit();run.pet=petStart(1);run.pet2=petStart(2);
-  addWeapon(hero.start);if(st.tr&&st.tr.a1)run.W[hero.start].lv=2;run.p.sh=st.tr&&st.tr.d1?1:0;
+  addWeapon(hero.start);run.p.sh=st.tr&&st.tr.d1?1:0;
   if(run.heroId==='warlord'&&heroLv(run.heroId)>=10){const pool=['blade','bolt','arrows','fireball','frost','lightning','aura'].filter(w=>WEAPONS[w]&&w!==hero.start);addWeapon(pick(pool));}
   if(hero.builder)addTower(run.deck[0],run.p.x+24,run.p.y,run.tws[run.deck[0]]);
   for(let i=0;i<6;i++)spawnEnemy(chooseEnemy());
@@ -3495,7 +3495,7 @@ function smokePuff(x,y,n,col,size){for(let i=0;i<n;i++)addP({k:'smoke',x:x+rnd(-
 function hurtEnemy(e,dmg,kx,ky){
   if(e.dead||e.bur||isGuest())return;
   if(e.shield){e.flash=.05;if(Math.random()<.3)sparks(e.x,e.y-4,2,'#b07aff',kx,ky,90);if(!e.shT||run.t-e.shT>2.5){e.shT=run.t;toast(e.shield,1600);}return;}
-  let d=dmg*st.dmg*(mfCall('dmgMul',e)||1),crit=false;if(e.mk>run.t)d*=e.mkm||1.2;if(st.tr&&st.tr.a5)d*=1+Math.min(.25,run.combo/1000);if(Math.random()<(st.crit||.1)+(st.tr&&st.tr.a2&&(M.step%16)<4?.25:0)){d*=st.tal&&st.tal.a20?2:1.6;crit=true;}if(st.lg&&st.lg.metro&&(M.step%16)>=12)d*=2;d=Math.max(1,Math.round(d));
+  let d=dmg*st.dmg*(mfCall('dmgMul',e)||1),crit=false;if(e.mk>run.t)d*=e.mkm||1.2;if(st.tr&&st.tr.a5)d*=1+Math.min(.025*st.tr.a5,run.combo/1000);if(Math.random()<(st.crit||.1)+(st.tr&&st.tr.a1&&(M.step%16)<4?.03*st.tr.a1:0)){d*=st.tal&&st.tal.a20?2:1.6;crit=true;}if(st.lg&&st.lg.metro&&(M.step%16)>=12)d*=2;d=Math.max(1,Math.round(d));
   run.tdm=(run.tdm||0)+d;e.hp-=d;if(st.lg&&st.lg.sfr2&&!e.boss)e.slowT=Math.max(e.slowT,.8);e.flash=.09;e.sq=1;e.kx+=(kx||0)*e.kbm;e.ky+=(ky||0)*e.kbm;
   if(run.nums.length<40)run.nums.push({x:e.x+rnd(-3,3),y:e.y-e.h/2,vx:rnd(-14,14),vy:crit?-70:-55,txt:String(d)+(crit?'!':''),life:crit?.8:.6,col:crit?'#f6c744':'#ffffff',big:crit,t:0});
   sparks(e.x,e.y-2,crit?5:2,crit?'#fff6b0':'#ffffff',kx,ky,crit?150:110);
@@ -3523,7 +3523,7 @@ function killEnemy(e){
   const v=e.xp;
   if(run.gems.length>220){const g=pick(run.gems);g.v+=v;}else run.gems.push({x:e.x,y:e.y,v});
   if(e.elite||e.boss)run.items.push({x:e.x,y:e.y,k:'chest'});
-  if(MAT_OF[run.mapId]){if(e.boss){}else if(e.elite)run.items.push({x:e.x+6,y:e.y,k:'mat',v:rndi(2,3)+(st&&st.tr&&st.tr.l4?3:0)});else if(Math.random()<.01)run.items.push({x:e.x,y:e.y,k:'mat',v:1});}
+  if(MAT_OF[run.mapId]){if(e.boss){}else if(e.elite)run.items.push({x:e.x+6,y:e.y,k:'mat',v:rndi(2,3)+Math.round(.3*((st&&st.tr&&st.tr.l4)||0))});else if(Math.random()<.01)run.items.push({x:e.x,y:e.y,k:'mat',v:1});}
   else{const r=Math.random();
     if(r<.10)run.items.push({x:e.x,y:e.y,k:'coin'});
     else if(r<.106)run.items.push({x:e.x,y:e.y,k:'heart'});
@@ -3546,10 +3546,10 @@ function hurtPlayer(d,src){
   if(st.lg&&st.lg.wheart&&run.t-(run.whT||-9)>2){run.whT=run.t;for(const e of run.enemies)if(!e.dead&&!e.boss&&Math.hypot(e.x-p.x,e.y-p.y)<56)e.frz=Math.max(e.frz||0,1.6);run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:56,dmg:10+run.level,hit:new Set(),life:1,freeze:true,col:'#8af0ff'});}
   p.hp-=amt;p.inv=st.tal&&st.tal.k20?1.1:.6;p.flash=.15;run.shake=3;run.combo=run.hero&&run.hero.ach==='combo'?run.combo>>1:0;sfx('hurt');
   run.nums.push({x:p.x,y:p.y-8,txt:String(amt),life:.7,col:'#ff6a5a'});
-  if(st.tr&&st.tr.d2&&!p.d2u&&p.hp>0&&p.hp<p.max*.3){p.d2u=1;const h=Math.ceil(p.max*.35);p.hp=Math.min(p.max,p.hp+h);run.nums.push({x:p.x,y:p.y-14,txt:'+'+h,life:1,col:'#8affa0'});toast(_t('Druhý dech!'),1400);sfx('level');}
+  if(st.tr&&st.tr.d2&&!p.d2u&&p.hp>0&&p.hp<p.max*.3){p.d2u=1;const h=Math.ceil(p.max*.05*st.tr.d2);p.hp=Math.min(p.max,p.hp+h);run.nums.push({x:p.x,y:p.y-14,txt:'+'+h,life:1,col:'#8affa0'});toast(_t('Druhý dech!'),1400);sfx('level');}
   if(p.hp<=0){
     if(petRevive())return;
-    const rv=Math.min(3,(run.meta||save.meta).revive||0);if((rv>0||(st.lg&&st.lg.heart))&&(run.revived|0)<(st.tr&&st.tr.d5?2:1)){run.revived=(run.revived|0)+1;p.hp=Math.ceil(p.max*(REV_HP[rv]||.5));p.inv=2.5;toast(_t('Druhá šance!'),1800);sfx('level');
+    const rv=Math.min(3,(run.meta||save.meta).revive||0);if((rv>0||(st.lg&&st.lg.heart))&&!run.revived){run.revived=(run.revived|0)+1;p.hp=Math.ceil(p.max*(REV_HP[rv]||.5));p.inv=2.5;toast(_t('Druhá šance!'),1800);sfx('level');
       run.enemies.forEach(e=>{if(!e.boss&&Math.hypot(e.x-p.x,e.y-p.y)<90){e.kx+=(e.x-p.x)*5;e.ky+=(e.y-p.y)*5;}});
       run.eshots.length=0;}
     else if(run.pls)downPlayer(p);
@@ -3701,7 +3701,7 @@ function fireAll(s){
   if(st.lg&&st.lg.ss4&&s%16===0&&run.t>1)sunDisk(Math.floor(s/16));
   if(st.lg&&st.lg.sb4&&s%16===8&&run.t>1)boneSpikes();
   if(st.lg&&st.lg.sf4&&s%32===0&&run.t>1)anvilStrike();
-  if(st.tr&&st.tr.l2&&s%128===0&&run.t>1)run.gems.forEach(g=>g.pull=true);
+  if(st.tr&&st.tr.l2&&s%(16*(17-st.tr.l2))===0&&run.t>1)run.gems.forEach(g=>g.pull=true);
   if(st.lg&&st.lg.sfr4&&s%32===16&&run.t>1){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:84,dmg:20+run.level*2,hit:new Set(),life:1,freeze:true,col:'#8af0ff'});sfx('zap');}
   if(st.lg&&st.lg.bass&&s%16===0&&run.t>1){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:70,dmg:12+run.level*2,hit:new Set(),life:1,noslow:true,col:'#ff9a5a'});}
   if(s%64===0&&run.t>2)for(const id in run.W){const D=ULT_DROP[id];if(D){const w=run.W[id];D(w,wP(id,w));run.flashScr=Math.max(run.flashScr,.22);run.flashCol=ULT_COL[id];run.hitstop=Math.max(run.hitstop||0,.09);run.shake=Math.max(run.shake,3.5);const p=run.p;run.fx.push({k:'shock',x:p.x,y:p.y,r:4,max:150,life:.45,t:0,col:ULT_COL[id]||'#ffffff',big:1});}}
@@ -3912,7 +3912,7 @@ function upgradeTower(){
 }
 function enemiesNear(x,y,r){const out=[];for(const e of run.enemies){if(e.dead)continue;if(Math.abs(e.x-x)>r||Math.abs(e.y-y)>r)continue;if(Math.hypot(e.x-x,e.y-y)<=r)out.push(e);}return out;}
 function towerFire(t){
-  const D=TOWERS[t.k],lv=t.lv,range=towerRange(t),dmg=D.dmg*(1+.5*(lv-1))*twM(t),p3=!!(t.ts&&t.ts.p3),p5=!!(t.ts&&t.ts.p5);
+  const D=TOWERS[t.k],lv=t.lv,range=towerRange(t),dmg=D.dmg*(1+.5*(lv-1))*twM(t)*(1+.03*((st&&st.tr&&st.tr.d3)||0)),p3=!!(t.ts&&t.ts.p3),p5=!!(t.ts&&t.ts.p5);
   switch(t.k){
     case'arrow':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;
       let e=c[0],bd=1e9;for(const q of c){const d=(q.x-t.x)**2+(q.y-t.y)**2;if(d<bd){bd=d;e=q;}}
@@ -4107,7 +4107,7 @@ const BEH={
 };
 // poison and slowness on heroes, puddles and venom on the ground (host, per hero via envPl)
 function plEffects(p,dt){
-  if(st&&st.tr&&st.tr.d1&&!p.sh){p.shT=(p.shT||0)+dt;if(p.shT>=45){p.sh=1;p.shT=0;}}
+  if(st&&st.tr&&st.tr.d1&&!p.sh){p.shT=(p.shT||0)+dt;if(p.shT>=90-5*(st.tr.d1-1)){p.sh=1;p.shT=0;}}
   if(p.slw>0)p.slw-=dt;if(p.psn>0){p.psn-=dt;p.psT=(p.psT||0)-dt;if(p.psT<=0){p.psT=.9;hurtTick(2,'poison','#9aff6a');}}
   for(const f of run.fx){if(f.k!=='puddle'&&f.k!=='venom'&&f.k!=='magma')continue;if(Math.hypot((p.x-f.x)/1.3,p.y-f.y)<f.r*.9){if(f.k==='puddle')p.slw=Math.max(p.slw||0,.25);
     else if(f.k==='magma'){p.mgT=(p.mgT||0)-dt;if(p.mgT<=0){p.mgT=.55;hurtTick(2,'magma','#ff9a3c');}}else p.psn=Math.max(p.psn||0,1.5);}}
@@ -4161,7 +4161,7 @@ function updatePickups0(dt){
       else if(it.k==='heart'&&run.mod==='noheal'){}
       else if(it.k==='heart'){p.hp=Math.min(p.max,p.hp+Math.round(p.max*.3));toast(_t('Zdraví +'),900);sfx('level');}
       else if(it.k==='magnet'){run.gems.forEach(g=>g.pull=true);toast(_t('Magnet!'),900);sfx('level');}
-      else if(it.k==='chest'){run.coins+=rndi(15,30);run.pending+=st.tr&&st.tr.l1?2:1;sfx('coin');run.chestOpen=true;}}}
+      else if(it.k==='chest'){run.coins+=rndi(15,30);run.pending+=st.tr&&Math.random()<.08*st.tr.l1?2:1;sfx('coin');run.chestOpen=true;}}}
   run.items=run.items.filter(i=>!i.dead);
 }
 
@@ -4257,7 +4257,7 @@ function levelOptions(){
   for(const id of P_IDS){const l=run.P[id]||0;
     if(l>0&&l<MAX_PLV)opts.push({k:'p',id,lv:l+1});
     else if(!l&&nPassives()<MAX_P)opts.push({k:'p',id,lv:1});}
-  const out=[],nOpt=st&&st.tr&&st.tr.a3?4:3;while(out.length<nOpt&&opts.length){out.push(opts.splice((Math.random()*opts.length)|0,1)[0]);}
+  const out=[],nOpt=st&&st.tr&&Math.random()<.1*st.tr.a3?4:3;while(out.length<nOpt&&opts.length){out.push(opts.splice((Math.random()*opts.length)|0,1)[0]);}
   if(!out.length){out.push({k:'heal'},{k:'gold'});}
   return out;
 }
@@ -4293,7 +4293,7 @@ function luTick(dt){if(!run||!run.luT||state!=='levelup')return;run.luT=Math.max
   if(run.luT<=0){const B=[...$('#luList').children],nf=B.filter(b=>!b.classList.contains('fuse')),b=pick(nf.length?nf:B);if(b){b.classList.add('auto');setTimeout(()=>b.click(),180);}run.luT=0;}}
 function fuseApply(f,mul){mul*=1+((st&&st.fuse)||0);if(!CO.ctxMate&&save.codex)save.codex.f[f.id]=true;delete run.W[f.a];delete run.W[f.b];run.fused=run.fused||{};run.fused[f.a]=run.fused[f.b]=true;
   run.W[f.id]={lv:1,cd:.4,ang:0,tick:0,mul,r:0,pulse:0};}
-function fusable(){const n=st&&st.tr&&st.tr.a4?4:5;return FUSIONS.filter(f=>run.W[f.a]&&run.W[f.b]&&run.W[f.a].lv>=n&&run.W[f.b].lv>=n);}
+function fusable(){return FUSIONS.filter(f=>run.W[f.a]&&run.W[f.b]&&run.W[f.a].lv>=5&&run.W[f.b].lv>=5);}
 function applyOption(o){
   if(state!=='levelup')return;run.luT=0;
   if(o.k==='fuse'){sfx('ui');startFuse(o.f);return;}
@@ -4301,7 +4301,7 @@ function applyOption(o){
   afterOption();
 }
 function applyOptCore(o){
-  if(o.k==='w'){if(o.lv===1)addWeapon(o.id);else run.W[o.id].lv=o.lv;}
+  if(o.k==='w'){if(o.lv===1){addWeapon(o.id);if(st.tr&&st.tr.a2&&Math.random()<.06*st.tr.a2&&WEAPONS[o.id].lv.length>1){run.W[o.id].lv=2;toast(_t('Ostrost: ')+WEAPONS[o.id].name+_t(' rovnou na úrovni 2'),1400);}}else run.W[o.id].lv=o.lv;}
   else if(o.k==='p'){run.P[o.id]=o.lv;const oldMax=st.max;recalc();if(o.id==='heart'){run.p.hp+=st.max-oldMax;}}
   else if(o.k==='heal'){run.p.hp=Math.min(run.p.max,run.p.hp+Math.round(run.p.max*.4));}
   else run.coins+=40;
@@ -5185,48 +5185,55 @@ function renderSelect(){
 }
 // ----- upgrade tree (08g): three branches; each starts with its stat lines (the old Vylepšení, save.meta.hp…), then five key nodes
 // with a mechanic (save.meta.a1…, one per chapter tier) and an endless mastery at the bottom (save.meta.ma/md/ml) -----
+const pc=v=>cz(Math.round(v*1000)/10)+' %';
 const TREE=[
- {id:'atk',name:_t('Útok'),col:'#e8604a',stats:['dmg','build'],mast:{id:'ma',icon:'power',name:_t('Mistr zbraní'),per:.005,fmt:v=>'+'+cz(Math.round(v*1000)/10)+_t(' % poškození')},keys:[
-  {id:'a1',icon:'blade',name:_t('Ostří'),desc:_t('Startovní zbraň začíná na úrovni 2.')},
-  {id:'a2',icon:'note',name:_t('Úder do rytmu'),desc:_t('Na první dobu taktu máš o 25 % vyšší šanci na kritický zásah.')},
-  {id:'a3',icon:'scroll',name:_t('Zbrojíř'),desc:_t('Při nové úrovni vybíráš ze čtyř karet místo tří.')},
-  {id:'a4',icon:'vortex',name:_t('Rychlý rituál'),desc:_t('Fúzi zbraní dostaneš nabídnutou už od úrovně 4 obou zbraní.')},
-  {id:'a5',icon:'fireball',name:_t('Hněv'),desc:_t('Kombo zvyšuje poškození: +1 % za každých 10, nejvýš +25 %.')}]},
- {id:'def',name:_t('Obrana'),col:'#4aa3e8',stats:['hp','spd','revive'],mast:{id:'md',icon:'heart',name:_t('Nezlomný'),per:.01,fmt:v=>'+'+cz(Math.round(v*1000)/10)+_t(' % zdraví')},keys:[
-  {id:'d1',icon:'shield',name:_t('Kostěný štít'),desc:_t('Štít pohltí jeden zásah. Obnoví se po 45 s.')},
-  {id:'d2',icon:'regen',name:_t('Druhý dech'),desc:_t('Když klesneš pod 30 % zdraví, jednou za běh se vyléčíš o 35 %.')},
-  {id:'d3',icon:'tower',name:_t('Opevnění'),desc:_t('Postavíš o 1 věž víc a věže mají +20 % zdraví.')},
-  {id:'d4',icon:'gear',name:_t('Pancíř'),desc:_t('Brnění +2.')},
-  {id:'d5',icon:'skull',name:_t('Fénixova vůle'),desc:_t('Druhá šance tě v jednom běhu zachrání dvakrát. Potřebuje aspoň 1 úroveň Druhé šance.')}]},
- {id:'loot',name:_t('Kořist'),col:'#f6c744',stats:['mag','xp'],mast:{id:'ml',icon:'greed',name:_t('Boháč'),per:.01,fmt:v=>'+'+cz(Math.round(v*1000)/10)+_t(' % zlata')},keys:[
-  {id:'l1',icon:'chest_wood',name:_t('Hledač pokladů'),desc:_t('Truhla v běhu dá dvě vylepšení místo jednoho.')},
-  {id:'l2',icon:'magnet',name:_t('Magnet rytmu'),desc:_t('Každých 8 taktů k tobě přiletí všechny krystaly zkušeností.')},
-  {id:'l3',icon:'coin',name:_t('Zlatokop'),desc:_t('Zlata z běhu dostaneš o 15 % víc.')},
-  {id:'l4',icon:'shard',name:_t('Lovec elit'),desc:_t('Elity upustí o 3 Úlomky víc.')},
-  {id:'l5',icon:'ess',name:_t('Strážce esence'),desc:_t('Finálový boss dá o 30 % víc Esence.')}]}];
-const TREE_KEYS=TREE.flatMap(T=>T.keys.map(k=>k.id)),TIER_NEED=[null,'trun','brana','srdce','zima'];
-const TIER_COST=[{gold:800},{gold:2000,shard:80},{gold:4000,shard:200,ess:10},{gold:7000,shard:350,ess:25},{gold:12000,shard:500,ess:50}];
+ {id:'atk',name:_t('Útok'),col:'#e8604a',stats:['dmg','build'],mast:{id:'ma',icon:'power',name:_t('Mistr zbraní'),per:.005,fmt:v=>'+'+pc(v)+_t(' poškození')},keys:[
+  {id:'a1',icon:'note',name:_t('Úder do rytmu'),desc:_t('Na první dobu taktu máš vyšší šanci na kritický zásah.'),eff:L=>'+'+pc(.03*L)+_t(' kritická šance na 1. dobu')},
+  {id:'a2',icon:'blade',name:_t('Ostrost'),desc:_t('Nová zbraň z karty může rovnou začít na úrovni 2.'),eff:L=>pc(.06*L)+_t(' šance')},
+  {id:'a3',icon:'scroll',name:_t('Zbrojíř'),desc:_t('Při nové úrovni můžeš dostat čtvrtou kartu na výběr.'),eff:L=>pc(.1*L)+_t(' šance')},
+  {id:'a4',icon:'vortex',name:_t('Síla rituálu'),desc:_t('Ultimátky z fúze dávají víc poškození.'),eff:L=>'+'+pc(.03*L)},
+  {id:'a5',icon:'fireball',name:_t('Hněv'),desc:_t('Kombo zvyšuje poškození o 1 % za každých 10, až do stropu.'),eff:L=>_t('strop +')+pc(.025*L)}]},
+ {id:'def',name:_t('Obrana'),col:'#4aa3e8',stats:['hp','spd','revive'],mast:{id:'md',icon:'heart',name:_t('Nezlomný'),per:.01,fmt:v=>'+'+pc(v)+_t(' zdraví')},keys:[
+  {id:'d1',icon:'shield',name:_t('Kostěný štít'),desc:_t('Štít pohltí jeden zásah a po čase se obnoví.'),eff:L=>L?_t('obnova za ')+(90-5*(L-1))+' s':''},
+  {id:'d2',icon:'regen',name:_t('Druhý dech'),desc:_t('Když klesneš pod 30 % zdraví, jednou za běh se vyléčíš.'),eff:L=>'+'+pc(.05*L)+_t(' zdraví')},
+  {id:'d3',icon:'tower',name:_t('Opevnění'),desc:_t('Věže mají víc zdraví a dávají víc poškození.'),eff:L=>'+'+pc(.06*L)+_t(' zdraví, +')+pc(.03*L)+_t(' poškození')},
+  {id:'d4',icon:'gear',name:_t('Pancíř'),desc:_t('Víc brnění, každý zásah ubere méně.'),eff:L=>_t('brnění +')+cz(Math.round(L*2)/10)},
+  {id:'d5',icon:'potion',name:_t('Regenerace'),desc:_t('Zdraví se ti pomalu obnovuje.'),eff:L=>'+'+cz(Math.round(L*5)/100)+_t(' zdraví za sekundu')}]},
+ {id:'loot',name:_t('Kořist'),col:'#f6c744',stats:['mag','xp'],mast:{id:'ml',icon:'greed',name:_t('Boháč'),per:.01,fmt:v=>'+'+pc(v)+_t(' zlata')},keys:[
+  {id:'l1',icon:'chest_wood',name:_t('Hledač pokladů'),desc:_t('Truhla v běhu může dát dvě vylepšení místo jednoho.'),eff:L=>pc(.08*L)+_t(' šance')},
+  {id:'l2',icon:'magnet',name:_t('Magnet rytmu'),desc:_t('Jednou za pár taktů k tobě přiletí všechny krystaly zkušeností.'),eff:L=>L?_t('každých ')+(17-L)+_t(' taktů'):''},
+  {id:'l3',icon:'coin',name:_t('Zlatokop'),desc:_t('Víc zlata z běhu.'),eff:L=>'+'+pc(.02*L)},
+  {id:'l4',icon:'shard',name:_t('Lovec elit'),desc:_t('Elity upustí víc Úlomků.'),eff:L=>'+'+Math.round(.3*L)+_t(' Úlomků')},
+  {id:'l5',icon:'ess',name:_t('Strážce esence'),desc:_t('Víc Esence z finálových bossů a Nekonečné krypty.'),eff:L=>'+'+pc(.03*L)}]}];
+// every node grows in levels; a node opens with its chapter and 3 levels of the one above it, and never locks again once bought;
+// mastery opens after 50 levels bought in the branch (a count that only grows, so new content never re-locks anything)
+const TREE_KEYS=TREE.flatMap(T=>T.keys.map(k=>k.id)),TIER_NEED=[null,'trun','brana','srdce','zima'],KEY_MAX=10,KEY_PREV=3,MAST_NEED=50;
+const KG=[120,260,450,700,1000],KS=[0,12,25,40,60],KE=[0,0,0,1,2];
+const keyCost=(t,L)=>{const c={gold:Math.round(KG[t]*Math.pow(1.13,L))};if(KS[t])c.shard=Math.round(KS[t]*Math.pow(1.1,L));const e=KE[t]?KE[t]+Math.floor(L/3):t===2&&L>=5?1:0;if(e)c.ess=e;return c;};
 const mastCost=L=>({gold:Math.round(1500*Math.pow(1.06,L)),shard:Math.min(200,60+5*L),ess:3});
-const statMax=id=>id==='revive'?3:META_MAX;
-const mastOpen=T=>T.stats.every(id=>(save.meta[id]||0)>=statMax(id));
-// state of one node: kind 's' stat line, 'k' key node, 'm' mastery
+const branchLv=T=>T.stats.reduce((a,id)=>a+(save.meta[id]||0),0)+T.keys.reduce((a,k)=>a+(save.meta[k.id]||0),0);
+const mastOpen=T=>(save.meta[T.mast.id]||0)>0||branchLv(T)>=MAST_NEED;
+// 08g sold the key nodes as single buys with other effects: give those back in full once
+const TREE_OLD_COST=[{gold:800},{gold:2000,shard:80},{gold:4000,shard:200,ess:10},{gold:7000,shard:350,ess:25},{gold:12000,shard:500,ess:50}];
+function treeMigrate(){const m=save.meta;if(!m||m.treeV===2)return;let back=null;
+  for(const T of TREE)T.keys.forEach((K,i)=>{if(m[K.id]){gainC(TREE_OLD_COST[i]);back=1;delete m[K.id];}});m.treeV=2;if(back)save.treeBack=1;}
 function tnInfo(kind,T,id){const m=save.meta;
   if(kind==='s'){const M=META.find(x=>x.id===id),L=m[id]||0,cost=metaCost(M,L);let lock='';
     if(M.rev){const n=Math.min(3,L);if(cost&&n>=1&&!metaOpen(n))lock=META_RANKS[n].need;
       return{icon:M.icon,name:M.name,lv:n+'/3',done:n>=3,part:n>0,cost,lock,desc:_t('Po smrti vstaneš s ')+Math.round(REV_HP[Math.max(1,n)]*100)+_t(' % zdraví')+(n?'':' '+_t('(po koupi)')),now:n?_t('Teď: ')+Math.round(REV_HP[n]*100)+' %':'',next:cost?_t('Další: ')+Math.round(REV_HP[n+1]*100)+' %':''};}
     const r=metaRank(Math.min(L,META_MAX-1)),per=M.per*[1,.5,.25][r];if(cost&&!metaOpen(r))lock=META_RANKS[r].need;
     return{icon:M.icon,name:M.name,lv:L+'/'+META_MAX,done:L>=META_MAX,part:L>0,cost,lock,rank:r,desc:_t('Trvalý bonus v každém běhu.'),now:_t('Celkem ')+M.fmt(mB(M.id,L)),next:L<META_MAX?_t('Další úroveň ')+M.fmt(per):''};}
-  if(kind==='k'){const i=T.keys.findIndex(k=>k.id===id),K=T.keys[i],own=!!m[id],need=TIER_NEED[i],prev=i?T.keys[i-1]:null;let lock='';
-    if(!own){if(need&&!(save.cleared&&save.cleared[need]))lock=need;else if(prev&&!m[prev.id])lock='prev';else if(id==='d5'&&!(m.revive>0))lock='rev';}
-    return{icon:K.icon,name:K.name,done:own,part:own,cost:own?null:TIER_COST[i],lock,tier:i,desc:K.desc,prev};}
+  if(kind==='k'){const i=T.keys.findIndex(k=>k.id===id),K=T.keys[i],L=m[id]||0,need=TIER_NEED[i],prev=i?T.keys[i-1]:null;let lock='';
+    if(!L){if(need&&!(save.cleared&&save.cleared[need]))lock=need;else if(prev&&(m[prev.id]||0)<KEY_PREV)lock='prev';}
+    return{icon:K.icon,name:K.name,lv:L+'/'+KEY_MAX,done:L>=KEY_MAX,part:L>0,cost:L<KEY_MAX?keyCost(i,L):null,lock,tier:i,desc:K.desc,prev,now:L?_t('Teď: ')+K.eff(L):'',next:L<KEY_MAX?_t('Další úroveň: ')+K.eff(L+1):''};}
   const M=T.mast,L=m[M.id]||0,open=mastOpen(T);
-  return{icon:M.icon,name:M.name,lv:L?_t('úr. ')+L:'',done:false,part:L>0,cost:mastCost(L),lock:open?'':'mast',desc:_t('Nekonečné úrovně. Každá přidá ')+M.fmt(M.per)+'.',now:L?_t('Celkem ')+M.fmt(M.per*L):''};}
+  return{icon:M.icon,name:M.name,lv:L?_t('úr. ')+L:'',done:false,part:L>0,cost:mastCost(L),lock:open?'':'mast',desc:_t('Nekonečné úrovně. Každá přidá ')+M.fmt(M.per)+'.',now:L?_t('Celkem ')+M.fmt(M.per*L):'',bl:branchLv(T)};}
 const tnCan=I=>I.cost&&!I.lock&&canPay(I.cost);
 function tnBuy(kind,T,id){const I=tnInfo(kind,T,id);if(!tnCan(I))return false;payC(I.cost);const m=save.meta;
-  if(kind==='s')m[id]=(m[id]||0)+1;else if(kind==='k')m[id]=1;else m[T.mast.id]=(m[T.mast.id]||0)+1;persist();return true;}
-function tnLockTxt(I,T){if(I.lock==='prev')return _t('Nejdřív kup ')+I.prev.name+'.';if(I.lock==='rev')return _t('Nejdřív kup aspoň 1 úroveň Druhé šance.');
-  if(I.lock==='mast')return _t('Otevře se, až budou všechny bonusy větve ')+T.name+_t(' na maximu.');return I.lock?_t('Odemkne poražení mapy ')+MAPS[I.lock].name+' ('+_t('kapitola ')+ROMAN_CH[CH_OF[I.lock].i]+').':'';}
-function renderShop(pop){metaInit();
+  if(kind==='s'||kind==='k')m[id]=(m[id]||0)+1;else m[T.mast.id]=(m[T.mast.id]||0)+1;persist();return true;}
+function tnLockTxt(I,T){if(I.lock==='prev')return _t('Nejdřív kup aspoň 3 úrovně uzlu ')+I.prev.name+'.';
+  if(I.lock==='mast')return _t('Otevře se po 50 koupených úrovních ve větvi ')+T.name+' ('+_t('teď ')+I.bl+').';return I.lock?_t('Odemkne poražení mapy ')+MAPS[I.lock].name+' ('+_t('kapitola ')+ROMAN_CH[CH_OF[I.lock].i]+').':'';}
+function renderShop(pop){metaInit();treeMigrate();if(save.treeBack){save.treeBack=0;persist();setTimeout(()=>note(_t('Klíčové uzly jsou předělané na úrovně, cenu za ty koupené jsi dostal zpět.')),300);}
   $('#shopMats').innerHTML=matsHtml();
   const box=$('#shopList');box.innerHTML='';
   if(FRESH.rank&&FRESH.rank.size){const r=Math.max(...[...FRESH.rank].map(k=>+k.slice(1)));box.insertAdjacentHTML('beforeend','<p class="hint newrank">'+NEW_TAG()+' '+_t('Odemkla se hodnost ')+ROMAN_CH[r]+_t(' – vylepšení jdou dál.')+'</p>');}
@@ -5234,23 +5241,23 @@ function renderShop(pop){metaInit();
   for(const T of TREE){const col=document.createElement('div');col.className='tcol';col.style.setProperty('--bc',T.col);let h='<h3>'+T.name+'</h3>',prevOn=true;
     const node=(kind,id,I,cls)=>{const st=I.done?'on':I.part?'part':'',can=tnCan(I)?' can':'',lk=I.lock&&!I.part?' lock':'';
       return '<button class="tn '+cls+' '+st+can+lk+(pop===kind+id?' pop':'')+'" data-k="'+kind+'" data-id="'+id+'"><img alt="" src="'+dataUrl(SPR.icon[I.icon])+'">'+
-        (I.lv?'<span class="lv">'+I.lv+'</span>':'')+(kind==='k'&&I.done?'<i class="ok"></i>':'')+(I.lock&&I.lock!=='prev'&&I.lock!=='rev'&&I.lock!=='mast'&&!I.part?'<span class="lk">'+ROMAN_CH[CH_OF[I.lock].i]+'</span>':'')+'</button><div class="tnm'+(I.lock&&!I.part?' dim':'')+'">'+I.name+'</div>';};
+        (I.lv?'<span class="lv">'+I.lv+'</span>':'')+(kind==='k'&&I.done?'<i class="ok"></i>':'')+(I.lock&&I.lock!=='prev'&&I.lock!=='mast'&&!I.part?'<span class="lk">'+ROMAN_CH[CH_OF[I.lock].i]+'</span>':'')+'</button><div class="tnm'+(I.lock&&!I.part?' dim':'')+'">'+I.name+'</div>';};
     T.stats.forEach((id,i)=>{const I=tnInfo('s',T,id);if(i)h+='<i class="tln'+(I.part?' on':'')+'"></i>';h+=node('s',id,I,'');});
     h+='<div class="tsep">'+_t('Klíčové')+'</div>';
-    T.keys.forEach((K,i)=>{const I=tnInfo('k',T,K.id);if(i)h+='<i class="tln'+(I.done?' on':'')+'"></i>';h+=node('k',K.id,I,'key');});
+    T.keys.forEach((K,i)=>{const I=tnInfo('k',T,K.id);if(i)h+='<i class="tln'+(I.part?' on':'')+'"></i>';h+=node('k',K.id,I,'key');});
     {const I=tnInfo('m',T,T.mast.id);h+='<i class="tln'+(I.part?' on':'')+'"></i>'+node('m',T.mast.id,I,'mast');}
     col.innerHTML=h;tree.appendChild(col);}
   box.appendChild(tree);
   box.querySelectorAll('.tn').forEach(b=>b.onclick=()=>{sfx('ui');const T=TREE.find(t=>t.keys.some(k=>k.id===b.dataset.id)||t.stats.includes(b.dataset.id)||t.mast.id===b.dataset.id);openTreeNode(b.dataset.k,T,b.dataset.id);});}
 function openTreeNode(kind,T,id){const I=tnInfo(kind,T,id),pop=$('#newsPop'),lk=tnLockTxt(I,T);
-  const head=kind==='k'?_t('Klíčový uzel · ')+T.name:kind==='m'?_t('Mistrovství · ')+T.name:T.name+(I.lv?' · '+I.lv:'');
+  const head=(kind==='k'?_t('Klíčový uzel · ')+T.name:kind==='m'?_t('Mistrovství · ')+T.name:T.name)+(I.lv?' · '+I.lv:'');
   pop.innerHTML='<div class="pop-card news tpop" style="--bc:'+T.col+'"><div class="tph"><img alt="" src="'+dataUrl(SPR.icon[I.icon])+'"><div><small>'+head+'</small><h3>'+I.name+'</h3></div></div>'+
     '<p>'+I.desc+'</p>'+(I.now?'<p><b>'+I.now+'</b></p>':'')+(I.next?'<p>'+I.next+'</p>':'')+(lk?'<p class="lkm">'+lk+'</p>':'')+
     (I.cost&&!lk?'<p><span class="costs">'+costHtml(I.cost,1)+'</span></p>'+missHint(I.cost):'')+
-    '<div class="stack">'+(I.done?'<button class="btn" disabled>'+(kind==='k'?_t('Máš'):_t('Max'))+'</button>':'<button class="btn" id="tnBuy"'+(tnCan(I)?'':' disabled')+'>'+(lk?_t('Zamčeno'):_t('Koupit'))+'</button>')+
+    '<div class="stack">'+(I.done?'<button class="btn" disabled>'+_t('Max')+'</button>':'<button class="btn" id="tnBuy"'+(tnCan(I)?'':' disabled')+'>'+(lk?_t('Zamčeno'):_t('Koupit'))+'</button>')+
     '<button class="btn alt" id="tnClose">'+_t('Zavřít')+'</button></div></div>';
   pop.hidden=false;$('#tnClose').onclick=()=>{pop.hidden=true;sfx('ui');};
-  const b=$('#tnBuy');if(b)b.onclick=()=>{if(!tnBuy(kind,T,id))return;sfx('level');renderShop(kind+id);refreshMenu();if(kind==='k')pop.hidden=true;else openTreeNode(kind,T,id);};}
+  const b=$('#tnBuy');if(b)b.onclick=()=>{if(!tnBuy(kind,T,id))return;sfx('level');renderShop(kind+id);refreshMenu();openTreeNode(kind,T,id);};}
 function openMenu(){seedRng(null);$('#tut').hidden=true;if(NET.ch||CO.on){netClose();CO.on=false;CO.role=null;}run=null;setSong('menu');stick.active=false;stickEl.hidden=true;refreshMenu();setState('menu');}
 
 function bindUi(){
@@ -5702,7 +5709,7 @@ function essGain(won,fin){const R=run,d=today();let e=0;
     if(!save.esF[k]){save.esF[k]=1;e+=ES_FIRST[nm];}
     else{if(!save.esD||save.esD.d!==d)save.esD={d,n:0};if(save.esD.n<ES_FIN_DAY){save.esD.n++;e+=ES_REP[nm];}}}
   if(R.endless){const x=Math.max(0,R.t/60-EN_T0)*EN_RATE;if(!save.endD||save.endD.d!==d)save.endD={d,e:0};const full=Math.min(x,Math.max(0,EN_CAP-save.endD.e));save.endD.e+=x;e+=full+.25*(x-full);}
-  if(e&&save.meta.l5)e*=1.3;return Math.floor(e);}
+  if(e&&save.meta.treeV===2&&save.meta.l5)e*=1+.03*Math.min(KEY_MAX,save.meta.l5);return Math.floor(e);}
 function runRewards(won){
   const R=run,out={};const mid=MAT_OF[R.mapId];if(!mid)return out;
   const fin=!!R.map.finale;
@@ -6772,6 +6779,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08h',d:'8. 11. 2026',t:_t('Strom vylepšení předělaný'),items:[_t('Klíčové uzly mají teď 10 úrovní a sílí postupně, místo jednoho silného nákupu. Některé schopnosti jsou nové (Ostrost, Síla rituálu, Regenerace).'),_t('Další uzel se otevře poraženou kapitolou a 3 úrovněmi uzlu nad ním. Co jednou koupíš, už se nikdy nezamkne.'),_t('Mistrovství se otevře po 50 koupených úrovních ve větvi.'),_t('Za klíčové uzly koupené ve verzi 08g jsi dostal plnou cenu zpět.')]},
  {v:'2026-11-08g',d:'8. 11. 2026',t:_t('Strom vylepšení'),items:[_t('Vylepšení v Kovárně jsou teď <b>strom</b> se třemi větvemi: Útok, Obrana a Kořist. Tvoje dosavadní úrovně zůstaly.'),_t('Každá větev má pět <b>klíčových uzlů</b> s novou schopností, třeba štít, 4 karty při nové úrovni, dvě vylepšení z truhly nebo dvojitou Druhou šanci. Každá kapitola otevře další patro.'),_t('Když vymaxuješ bonusy větve, otevře se nekonečné <b>Mistrovství</b>, takže je pořád co vylepšovat.')]},
  {v:'2026-11-08f',d:'8. 11. 2026',t:_t('Opravy'),items:[_t('Z Vylepšení se zase dostaneš zpátky na záložku Kování.'),_t('Kapitola IV je o něco mírnější: méně vlků a yetiů, slabší sněhové koule, pomalejší mráz v Tajze a řidší laviny.')]},
  {v:'2026-11-08e',d:'8. 11. 2026',t:_t('Kapitola IV: Ledová říše'),items:[_t('Nová kapitola s pěti mapami: <b>Zamrzlé jezero</b> (na ledu kloužeš), <b>Ledová pevnost</b>, <b>Tajga</b> (mráz tě zpomaluje, zahřeješ se u ohně), <b>Lavinová soutěska</b> (laviny smetou i nepřátele) a finále <b>Trůn zimy</b> se Zimní královnou.'),_t('Noví nepřátelé Yeti, Ledový přízrak a Sněhulák, pět nových bossů, věže <b>Ohniště</b> a <b>Rampouchová věž</b>, set <b>Mrazivá zbroj</b> a legendárka Srdce zimy.'),_t('Kapitola IV odemkne <b>Šamanku mrazu</b> (1 500 zlata).'),_t('Zbrojmistr má vlastní zbraň <b>Halapartnu</b> a Krotitel <b>Bič</b>, který označí nepřátele pro mazlíčky.'),_t('Výbava z kampaně: předmět dostaneš jen za <b>první výhru</b> mapy na každé Noční můře a kusy setů z finále. Opakované výhry dávají Úlomky. Truhly jsou teď jediný stálý zdroj výbavy a jediný zdroj legendárek (kromě legendárek kapitol).')]},
