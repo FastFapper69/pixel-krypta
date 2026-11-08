@@ -606,6 +606,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #avList button img{width:80%;height:80%;object-fit:contain;image-rendering:pixelated}#avList button.on{box-shadow:inset 0 0 0 3px var(--gold);background:#3a2c14}#avList button.lk img{filter:brightness(0) opacity(.45)}
 #avList .avsec{grid-column:1/-1;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 #mNick{display:flex;align-items:center;justify-content:center;gap:8px}#mNick img{width:24px;height:24px;image-rendering:pixelated;margin:-4px 0}.brow .bav{width:28px;height:28px;flex:none;image-rendering:pixelated;object-fit:contain}
+.fzgain{display:inline-block;color:var(--gold);font-size:17px;font-weight:800;animation:popIn .35s ease-out}
 #ttlWrap{margin-top:10px}#ttlList{display:grid;grid-template-columns:1fr 1fr;gap:6px}#ttlList button{min-height:44px}#ttlList:empty{display:none}#ttlWrap .hint{margin:2px 0 0}
 
 /* 08a: inventory categories, NEW ribbon, rarity pill, Kovárna, chapter reward */
@@ -3698,7 +3699,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08v';
+const GAME_VER='2026-11-08w';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4990,8 +4991,8 @@ function fuseTick(){
 }
 function finishFuse(){
   const F=FZ;F.done=true;const per=F.res.filter(r=>r==='p').length,good=F.res.filter(r=>r==='g').length;
-  if(F.opts){if(per===4){achInit().tot.pf++;}$('#fzTitle').textContent=per===4?_t('Perfektní!'):_t('Hotovo!');$('#fzHint').textContent='';$('#scr-fuse').classList.add('done');if(per===4)$('#scr-fuse').classList.add('perfect');
-    sfx(per===4?'win':'level');setTimeout(()=>{if(FZ===F){FZ=null;F.opts.done(per,good);}},1200);return;}
+  if(F.opts){if(per===4){achInit().tot.pf++;}$('#fzTitle').textContent=per===4?_t('Perfektní!'):_t('Hotovo!');{const h=$('#fzHint');h.textContent='';if(F.opts.gain){const b=document.createElement('b');b.className='fzgain';b.textContent=F.opts.gain(per,good);h.appendChild(b);}}$('#scr-fuse').classList.add('done');if(per===4)$('#scr-fuse').classList.add('perfect');
+    sfx(per===4?'win':'level');setTimeout(()=>{if(FZ===F){FZ=null;F.opts.done(per,good);}},F.opts.gain?2000:1200);return;}
   if(isGuest()&&save.codex)save.codex.f[F.f.id]=true;
   const mul=per===4?1.25:1+per*.06+good*.03,f=F.f;
   if(isGuest()){const L=run.qcL||(run.qcL={fus:0,perf:0,pf:0});L.fus++;L.perf+=per;if(per===4)L.pf=(L.pf||0)+1;}else if(run.qc){run.qc.fus++;run.qc.perf+=per;if(per===4)run.qc.pf=(run.qc.pf||0)+1;}
@@ -6606,7 +6607,7 @@ function renderTowers(){twInit();$('#twMats').innerHTML=matsHtml();const T=save.
   $('#twGrid').querySelectorAll('.ttile').forEach(b=>b.onclick=()=>{sfx('ui');openTwCard(b.dataset.u);});}
 // card detail: upgrade +1, put into the arsenal, merge 3 into the next rarity, dismantle
 function twMergeGo(c,from){const S=twMergeSet(c);if(S.length<3)return;
-  startFuse(null,0,{title:_t('Sloučení věží!'),sub:'3× '+TOWERS[c.k].name+' → '+RAR[c.r+1].name,icon:dataUrl(SPR.tower[c.k]),done:(per,good)=>{
+  startFuse(null,0,{title:_t('Sloučení věží!'),sub:'3× '+TOWERS[c.k].name+' → '+RAR[c.r+1].name,icon:dataUrl(SPR.tower[c.k]),gain:(per,good)=>_t('Rytmus: kvalita bonusů ')+Math.round(Math.min(1,.35+per*.15+good*.06)*100)+' %',done:(per,good)=>{
     const back={gold:0};for(const x of S){const r2=twRefund(x);back.gold+=r2.gold-15*(x.r+1)*(x.r+1);}
     save.tw.cards=save.tw.cards.filter(x=>!S.includes(x));const n=twRoll(c.k,c.r+1,Math.min(1,.35+per*.15+good*.06));save.tw.cards.push(n);save.coins+=back.gold;persist();
     const txt=per===4?_t('Perfektní sloučení!'):_t('Sloučeno!');
@@ -6665,18 +6666,23 @@ function petRoll(k,q){const D=PETS[k],c={u:newUid(),k,r:D.r,lv:0,b:{},pet:1},poo
     c.b[id]=Math.round(R[0]+(R[1]-R[0])*(q==null?Math.random():q))/100;}return c;}
 function petInit(){const S=save.pets=save.pets||{};if(S.v!==1){S.v=1;S.cards=S.cards||[];}
   if(!S.cards.length){const c=petRoll('wolf',.5);S.cards.push(c);S.sel=c.u;}
-  if(!S.cards.some(c=>c.u===S.sel))S.sel=S.cards[0].u;}
+  if(!S.none&&!S.cards.some(c=>c.u===S.sel))S.sel=S.cards[0].u;if(S.none&&S.sel&&S.cards.some(c=>c.u===S.sel))S.none=false;}
 const petCard=u=>(save.pets&&save.pets.cards||[]).find(c=>c.u===u)||null;
-const PET_STMAX=5,petM=c=>RARM[c.r]*(1+.07*(c.lv||0))*(1+.15*(c.st||0));
+const PET_STMAX=5,petM=c=>RARM[c.r]*(1+.07*(c.lv||0))*(1+.15*(c.st||0))*(1+(c.rb||0));
+// rhythm of a star merge: 4× Perfect = +8 % strength, otherwise 1,5 % per Perfect and 0,8 % per Good (stacks over merges)
+const petRb=(per,good)=>per===4?.08:per*.015+good*.008;
 const petStars=(n,big)=>n?'<span class="pst'+(big?' big':'')+'">'+'★'.repeat(n)+'</span>':(big?'<span class="pst big off">☆</span>':'');
 // three pets of the same kind and the same stars make one with a star more (the best upgraded one stays, half of the others' upgrades come back)
-function petStarSet(c){const n=c.st||0;return save.pets.cards.filter(x=>x.k===c.k&&(x.st||0)===n&&x.u!==save.pets.sel&&x.u!==save.pets.sel2).sort((a,b)=>(a.u===c.u?-1:b.u===c.u?1:(b.lv||0)-(a.lv||0))).slice(0,3);}
+function petStarSet(c){const n=c.st||0,P=save.pets,pr=x=>x.u===P.sel?3:x.u===P.sel2?2:x.u===c.u?1:0;return P.cards.filter(x=>x.k===c.k&&(x.st||0)===n).sort((a,b)=>(pr(b)-pr(a))||((b.lv||0)-(a.lv||0))).slice(0,3);}
 function petStarGo(c,from){const S=petStarSet(c);if(S.length<3||(c.st||0)>=PET_STMAX)return;
-  startFuse(null,0,{title:_t('Hvězda mazlíčka!'),sub:'3× '+PETS[c.k].name+' → '+'★'.repeat((c.st||0)+1),icon:dataUrl(SPR.pet[c.k]),done:()=>{
+  startFuse(null,0,{title:_t('Hvězda mazlíčka!'),sub:'3× '+PETS[c.k].name+' → '+'★'.repeat((c.st||0)+1),icon:dataUrl(SPR.pet[c.k]),
+   gain:(per,good)=>_t('Rytmus: síla mazlíčka +')+cz(Math.round(petRb(per,good)*1000)/10)+' %',done:(per,good)=>{
     const keep=S[0],back={gold:0,shard:0,ess:0};for(const x of S.slice(1)){const v=investF(x.r,x.lv||0);for(const k in back)back[k]+=Math.floor(v[k]/2);}
-    save.pets.cards=save.pets.cards.filter(x=>x===keep||!S.includes(x));keep.st=(keep.st||0)+1;gainC(back);persist();sfx('level');
-    if(from==='forge'){renderForge();setState('forge');}else{openPets();}
-    note(PETS[keep.k].name+': '+'★'.repeat(keep.st)+(back.gold?_t(' · z vylepšení zpět +')+back.gold+_t(' zlata'):''),2600);}});}
+    save.pets.cards=save.pets.cards.filter(x=>x===keep||!S.includes(x));keep.st=(keep.st||0)+1;keep.rb=Math.round(((keep.rb||0)+petRb(per,good))*1000)/1000;gainC(back);
+    {const P=save.pets;if(S.some(x=>x!==keep&&x.u===P.sel))P.sel=keep.u;if(S.some(x=>x!==keep&&x.u===P.sel2))P.sel2=P.sel===keep.u?null:keep.u;}persist();sfx('level');
+    const txt=per===4?_t('Perfektní sloučení!'):_t('Sloučeno!');
+    if(from==='forge'){renderForge();setState('forge');revealItem(keep,null,txt,{pop:$('#forgePop'),done:()=>renderForge()});}else{openPets();revealItem(keep,null,txt,{pop:$('#ptPop'),done:()=>renderPets()});}
+    if(back.gold)setTimeout(()=>note(_t('Z vylepšení zpět +')+back.gold+_t(' zlata'),2200),400);}});}
 function petStat(c){const m=petM(c),b=c.b||{};return{m,dm:m*(1+(b.dmg||0)),rt:1+(b.rate||0),pw:1+(b.pw||0)};}
 const petUpCost=c=>upF(c.r,c.lv||0);
 const petRefund=c=>refundF(c.r,c.lv||0);
@@ -6762,18 +6768,18 @@ function petStatsRows(c){const D=PETS[c.k],S=petStat(c),r=[];
 function petCardHtml(c){const R=RAR[c.r],D=PETS[c.k];
   return '<div class="ic-head tic"><img alt="" src="'+dataUrl(SPR.pet[c.k])+'"><div><h3 style="color:'+R.col+'">'+petName(c)+'</h3><small>'+R.name+' '+petStars(c.st||0,1)+'</small></div></div>'+
     '<p class="tdesc">'+D.info+'</p><ul class="ic-st">'+petStatsRows(c).map(r=>'<li><span>'+r[0]+'</span><b>'+r[1]+'</b></li>').join('')+
-    Object.keys(c.b||{}).map(k=>'<li class="bon"><span>'+PET_BON[k].name+'</span><b>+'+cz(Math.round(c.b[k]*1000)/10)+' %</b></li>').join('')+'</ul>'+
+    Object.keys(c.b||{}).map(k=>'<li class="bon"><span>'+PET_BON[k].name+'</span><b>+'+cz(Math.round(c.b[k]*1000)/10)+' %</b></li>').join('')+(c.rb?'<li class="bon"><span>'+_t('Síla z rytmu')+'</span><b>+'+cz(Math.round(c.rb*1000)/10)+' %</b></li>':'')+'</ul>'+
     '<div class="tperk"><p class="on"><i style="--rc:'+R.col+'">★</i><span>'+D.ab+'</span></p></div>';}
 function openPets(){econInit();petInit();renderPets();setState('pets');}
 function renderPets(){petInit();$('#ptMats').innerHTML=matsHtml();const S=save.pets,cur=petCard(S.sel);
   const c2=save.heroes.tamer?petCard(S.sel2):null;
-  $('#ptSlot').innerHTML=(cur?'<button class="tslot r'+cur.r+'" id="ptCur"><img alt="" src="'+dataUrl(SPR.pet[cur.k])+'"><b>'+PETS[cur.k].name+'</b><small class="rp" style="--rc:'+RAR[cur.r].col+'">'+RAR[cur.r].name+(cur.lv?' +'+cur.lv:'')+'</small></button>':'')+(save.heroes.tamer?(c2&&c2.u!==S.sel?'<button class="tslot r'+c2.r+'" id="ptCur2"><img alt="" src="'+dataUrl(SPR.pet[c2.k])+'"><b>'+PETS[c2.k].name+'</b><small class="rp" style="--rc:'+RAR[c2.r].col+'">'+RAR[c2.r].name+(c2.lv?' +'+c2.lv:'')+'</small><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>':'<button class="tslot empty" id="ptCur2"><span class="plus">+</span><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>'):'');
+  $('#ptSlot').innerHTML=(!cur?'<button class="tslot empty" id="ptCur"><span class="plus">+</span></button>':'')+(cur?'<button class="tslot r'+cur.r+'" id="ptCur"><img alt="" src="'+dataUrl(SPR.pet[cur.k])+'"><b>'+PETS[cur.k].name+'</b><small class="rp" style="--rc:'+RAR[cur.r].col+'">'+RAR[cur.r].name+(cur.lv?' +'+cur.lv:'')+'</small></button>':'')+(save.heroes.tamer?(c2&&c2.u!==S.sel?'<button class="tslot r'+c2.r+'" id="ptCur2"><img alt="" src="'+dataUrl(SPR.pet[c2.k])+'"><b>'+PETS[c2.k].name+'</b><small class="rp" style="--rc:'+RAR[c2.r].col+'">'+RAR[c2.r].name+(c2.lv?' +'+c2.lv:'')+'</small><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>':'<button class="tslot empty" id="ptCur2"><span class="plus">+</span><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>'):'');
   $('#ptHint').textContent=save.heroes.tamer?_t('Do běhu bereš jednoho mazlíčka, Krotitel dva. Nové a vzácnější najdeš v Kouzelném košíku v Obchodu.'):_t('Do běhu bereš jednoho mazlíčka. Nové a vzácnější najdeš v Kouzelném košíku v Obchodu.');
   const inR=c=>c.u===S.sel?2:(save.heroes.tamer&&c.u===S.sel2)?1:0;
   const cards=S.cards.slice().sort((a,b)=>(inR(b)-inR(a))||PET_IDS.indexOf(a.k)-PET_IDS.indexOf(b.k)||((b.st||0)-(a.st||0))||(b.lv-a.lv));
   $('#ptCount').textContent=cards.length;$('#ptGrid').innerHTML=cards.map(c=>petTile(c,c.u===S.sel||(save.heroes.tamer&&c.u===S.sel2)?' in':'')).join('');
   $('#ptLocked').innerHTML=PET_IDS.filter(k=>!S.cards.some(c=>c.k===k)).map(k=>'<div class="tcard lock"><img alt="" src="'+dataUrl(SPR.pet[k])+'" style="filter:brightness(0) opacity(.5)"><div><b>???</b><small style="color:'+RAR[PETS[k].r].col+'">'+RAR[PETS[k].r].name+'</small><small class="lk">'+_t('Padá z Kouzelného košíku.')+'</small></div></div>').join('');
-  const cb=$('#ptCur');if(cb)cb.onclick=()=>{sfx('ui');openPetCard(S.sel);};
+  const cb=$('#ptCur');if(cb)cb.onclick=()=>{sfx('ui');if(cur)openPetCard(S.sel);else note(_t('Ťukni na mazlíčka níž a vezmi ho do běhu.'),2400);};
   {const c2b=$('#ptCur2');if(c2b)c2b.onclick=()=>{sfx('ui');if(c2&&c2.u!==S.sel)openPetCard(S.sel2);else note(_t('Krotitel si bere druhého mazlíčka. Ťukni na mazlíčka níž a dej ho na druhé místo.'),2600);};}
   $('#ptGrid').querySelectorAll('.ttile').forEach(b=>b.onclick=()=>{sfx('ui');openPetCard(b.dataset.u);});}
 function openPetCard(u){const c=petCard(u);if(!c)return;const pop=$('#ptPop'),sel=save.pets.sel===u,sel2=!!save.heroes.tamer&&save.pets.sel2===u&&!sel,up=c.lv<PET_UPMAX?petUpCost(c):null,rf=petRefund(c);
@@ -6781,12 +6787,13 @@ function openPetCard(u){const c=petCard(u);if(!c)return;const pop=$('#ptPop'),se
     '<button class="btn sm" id="ptTake"'+(sel?' disabled':'')+'>'+(sel?_t('Je v běhu'):_t('Vzít do běhu'))+'</button>'+
     (save.heroes.tamer&&!sel?'<button class="btn alt sm" id="ptTake2"'+(sel2?' disabled':'')+'>'+(sel2?_t('Je druhý (Krotitel)'):_t('Jako druhý (Krotitel)'))+'</button>':'')+
     (up?'<button class="btn alt sm" id="ptUp"'+(petCan(up)?'':' disabled')+'>'+_t('Vylepšit +')+(c.lv+1)+' <span class="costs">'+costHtml(up,1)+'</span></button>'+missHint(up):'<p class="hint">'+_t('Maximální vylepšení.')+'</p>')+
-    ((c.st||0)<PET_STMAX?(()=>{const ms=petStarSet(c);return '<button class="btn alt sm" id="ptStar"'+(ms.length<3||sel||sel2?' disabled':'')+'>'+_t('Sloučit 3× → ')+'★'.repeat((c.st||0)+1)+' ('+ms.length+'/3)</button>';})():'<p class="hint">'+_t('Maximum hvězd.')+'</p>')+
-    (sel||sel2?'':'<button class="btn alt sm" id="ptDel">'+_t('Rozebrat ')+'<span class="costs">'+costHtml(rf).replace(/ no/g,'')+'</span></button>')+
+    ((c.st||0)<PET_STMAX?(()=>{const ms=petStarSet(c);return '<button class="btn alt sm" id="ptStar"'+(ms.length<3?' disabled':'')+'>'+_t('Sloučit 3× → ')+'★'.repeat((c.st||0)+1)+' ('+ms.length+'/3)</button>';})():'<p class="hint">'+_t('Maximum hvězd.')+'</p>')+
+    (sel||sel2?'<button class="btn alt sm" id="ptOff">'+_t('Sundat ze slotu')+'</button>':'<button class="btn alt sm" id="ptDel">'+_t('Rozebrat ')+'<span class="costs">'+costHtml(rf).replace(/ no/g,'')+'</span></button>')+
     ''+
     '<button class="btn alt sm" id="ptClose">'+_t('Zavřít')+'</button></div></div>';pop.hidden=false;
   {const rb=$('#ptRf');if(rb)rb.onclick=()=>{pop.hidden=true;sfx('ui');openReforge('pet',c,()=>{renderPets();openPetCard(u);});};}
-  $('#ptTake').onclick=()=>{if(save.pets.sel2===u)save.pets.sel2=save.pets.sel;save.pets.sel=u;persist();sfx('level');pop.hidden=true;renderPets();};
+  {const ob=$('#ptOff');if(ob)ob.onclick=()=>{const P=save.pets;if(P.sel===u){P.sel=null;P.none=true;}if(P.sel2===u)P.sel2=null;persist();sfx('ui');pop.hidden=true;renderPets();};}
+  $('#ptTake').onclick=()=>{if(save.pets.sel2===u)save.pets.sel2=save.pets.sel;save.pets.sel=u;save.pets.none=false;persist();sfx('level');pop.hidden=true;renderPets();};
   {const t2=$('#ptTake2');if(t2)t2.onclick=()=>{save.pets.sel2=u;persist();sfx('level');pop.hidden=true;renderPets();};}
   const ub=$('#ptUp');if(ub)ub.onclick=()=>{if(!petCan(up))return;petPay(up);c.lv++;persist();sfx('level');openPetCard(u);renderPets();};
   {const sb=$('#ptStar');if(sb)sb.onclick=()=>{pop.hidden=true;petStarGo(c,'pets');};}
@@ -6897,11 +6904,11 @@ function renderForge(){$('#fMats').innerHTML=matsHtml();const fb=$('#forgeList')
    for(const k of tk){const c=TG[k].sort((a,b)=>(b.lv||0)-(a.lv||0))[0],r=c.r;
      row(SPR.tower[c.k],'3× <span style="color:'+RAR[r].col+'">'+RAR[r].name+'</span> → <span style="color:'+RAR[r+1].col+'">'+RAR[r+1].name+'</span>',TOWERS[c.k].name+' · '+_t('máš ')+TG[k].length+_t(' ks'),()=>twMergeGo(c,'forge'));}}
   // pets: three of the same kind and stars make one with a star more
-  {petInit();const PG={};for(const c of save.pets.cards){if((c.st||0)>=PET_STMAX||c.u===save.pets.sel||c.u===save.pets.sel2)continue;(PG[c.k+'|'+(c.st||0)]=PG[c.k+'|'+(c.st||0)]||[]).push(c);}
+  {petInit();const PG={};for(const c of save.pets.cards){if((c.st||0)>=PET_STMAX)continue;(PG[c.k+'|'+(c.st||0)]=PG[c.k+'|'+(c.st||0)]||[]).push(c);}
    const pk=Object.keys(PG).filter(k=>PG[k].length>=3);if(pk.length){head(_t('Mazlíčci'));any=1;}
    for(const k of pk){const c=PG[k].sort((a,b)=>(b.lv||0)-(a.lv||0))[0],n=c.st||0;
      row(SPR.pet[c.k],'3× '+petStars(n,1)+' → '+petStars(n+1,1),PETS[c.k].name+' · '+_t('máš ')+PG[k].length+_t(' ks'),()=>petStarGo(c,'forge'));}}
-  if(!any)fb.innerHTML='<div class="card"><p class="hint" style="margin:0">'+_t('Zatím nemáš co slučovat. Potřebuješ 3 stejné kusy: předměty stejného druhu a rarity, karty stejné věže a rarity, nebo 3 stejné mazlíčky se stejným počtem hvězd. Co máš nasazené nebo v arzenálu, se neslučuje.')+'</p></div>';}
+  if(!any)fb.innerHTML='<div class="card"><p class="hint" style="margin:0">'+_t('Zatím nemáš co slučovat. Potřebuješ 3 stejné kusy: předměty stejného druhu a rarity, karty stejné věže a rarity, nebo 3 stejné mazlíčky se stejným počtem hvězd. Nasazené předměty a věže v arzenálu se neslučují.')+'</p></div>';}
 function openMerge(key){const used=mergeUsed(key),back=mergeRefund(used),pop=$('#newsPop'),[sl,r0,set]=key.split('|'),r=+r0,nm=set?SETS[set].pieces[sl].name:SLOTS[sl].name;
   pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Sloučení')+'</h2><div class="mslots"><div class="card mslot sel"><img alt="" src="'+dataUrl(itemSpr(sl,r+1,set||undefined))+'"><b style="color:'+RAR[r+1].col+'">'+nm+'</b><small>'+RAR[r+1].name+'</small></div></div>'+
     '<small>'+_t('Použijí se: ')+used.map(i=>'<b style="color:'+RAR[i.r].col+'">'+itemName(i)+(i.lv?' +'+i.lv:'')+'</b>').join(', ')+'.</small>'+
@@ -6910,7 +6917,7 @@ function openMerge(key){const used=mergeUsed(key),back=mergeRefund(used),pop=$('
   $('#newsOk').onclick=()=>{pop.hidden=true;sfx('ui');};
   $('#mGo').onclick=()=>{pop.hidden=true;sfx('ui');startFuse({id:'amulet',a:null,b:null,merge:r},0,{
     title:_t('Sloučení!'),sub:'3× '+RAR[r].name+' → '+RAR[r+1].name+' · '+nm,icon:dataUrl(itemSpr(sl,r+1,set||undefined)),
-    done:(per,good)=>{const q=Math.min(1,.25+per*.19+good*.08);const it=doMerge(key,q);renderForge();setState('forge');
+    gain:(per,good)=>_t('Rytmus: kvalita statistik ')+Math.round(Math.min(1,.25+per*.19+good*.08)*100)+' %',done:(per,good)=>{const q=Math.min(1,.25+per*.19+good*.08);const it=doMerge(key,q);renderForge();setState('forge');
       if(it){const b=it.back;delete it.back;revealItem(it,null,per===4?_t('Perfektní sloučení!'):_t('Sloučeno!'),{pop:$('#forgePop'),done:()=>renderForge()});if(b)setTimeout(()=>note(_t('Z vylepšení zpět: +')+b.gold+_t(' zlata')+MAT_IDS.filter(m=>b[m]).map(m=>', +'+b[m]+' '+MAT_NAME[m]).join(''),3200),1600);}}});};
   pop.hidden=false;}
 // chest opening: the chest shakes and hops three times with the rarity glowing through the seam,
@@ -7613,6 +7620,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08w',d:'8. 11. 2026',t:_t('Mazlíčci: sloučení i z nasazených a rytmus, který je vidět'),hl:[
+  {ic:'wolf',t:_t('Sloučení mazlíčků'),d:_t('Do sloučení na hvězdu teď jde i <b>nasazený mazlíček</b>, hvězdu dostane právě on a zůstane v běhu. Mazlíčka jde také <b>sundat ze slotu</b>.')},
+  {ic:'note',t:_t('Co dá rytmus'),d:_t('Po rituálu sloučení vidíš, co ti časování dalo. U mazlíčků je to <b>síla navíc</b> (4× Perfektní = +8 %), která se sčítá a je vidět na kartě.')}],items:[]},
  {v:'2026-11-08v',d:'8. 11. 2026',t:_t('Profil v Nastavení'),items:[_t('Profilový obrázek je zpátky v Nastavení u přezdívky, horní lišta menu je jako dřív.')]},
  {v:'2026-11-08u',d:'8. 11. 2026',t:_t('Bossové se představují, hrdinové do úrovně 40 a profilové obrázky'),hl:[
   {ic:'boss:morvan',t:_t('Představení bossů'),d:_t('Každý boss se před soubojem <b>představí</b>: záblesk, silueta, jeho jméno a hláška. Finále kapitoly je delší a temnější. Ťuknutím ho přeskočíš.')},

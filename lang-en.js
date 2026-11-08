@@ -1,6 +1,18 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Po rituálu sloučení vidíš, co ti časování dalo. U mazlíčků je to <b>síla navíc</b> (4× Perfektní = +8 %), která se sčítá a je vidět na kartě.":"After the merge ritual you see what your timing gave. For pets it is <b>extra strength</b> (4× Perfect = +8 %), which stacks and shows on the card.",
+"Co dá rytmus":"What the rhythm gives",
+"Do sloučení na hvězdu teď jde i <b>nasazený mazlíček</b>, hvězdu dostane právě on a zůstane v běhu. Mazlíčka jde také <b>sundat ze slotu</b>.":"An <b>equipped pet</b> can now join a star merge, it gets the star and stays in your run. You can also <b>remove a pet from its slot</b>.",
+"Sloučení mazlíčků":"Merging pets",
+"Mazlíčci: sloučení i z nasazených a rytmus, který je vidět":"Pets: merge equipped ones too, and see what the rhythm gives",
+"Z vylepšení zpět +":"Back from upgrades +",
+"Síla z rytmu":"Strength from rhythm",
+"Rytmus: kvalita statistik ":"Rhythm: stat quality ",
+"Rytmus: kvalita bonusů ":"Rhythm: bonus quality ",
+"Rytmus: síla mazlíčka +":"Rhythm: pet strength +",
+"Ťukni na mazlíčka níž a vezmi ho do běhu.":"Tap a pet below to take it into the run.",
+"Sundat ze slotu":"Remove from slot",
 "Profilový obrázek je zpátky v Nastavení u přezdívky, horní lišta menu je jako dřív.":"The profile picture now lives in Settings next to your nickname, the menu top bar is back as before.",
 "Profil v Nastavení":"Profile in Settings",
 "Profilový obrázek a titul":"Profile picture and title",
@@ -1860,7 +1872,7 @@ window.KRYPTA_EN={
 " · z vylepšení zpět +":" · back from upgrades +",
 "V BĚHU":"IN RUN",
 "Maximum hvězd.":"Maximum stars.",
-"Zatím nemáš co slučovat. Potřebuješ 3 stejné kusy: předměty stejného druhu a rarity, karty stejné věže a rarity, nebo 3 stejné mazlíčky se stejným počtem hvězd. Co máš nasazené nebo v arzenálu, se neslučuje.":"Nothing to merge yet. You need 3 identical pieces: items of the same kind and rarity, cards of the same tower and rarity, or 3 of the same pet with the same stars. What you have equipped or in your arsenal isn't merged.",
+"Zatím nemáš co slučovat. Potřebuješ 3 stejné kusy: předměty stejného druhu a rarity, karty stejné věže a rarity, nebo 3 stejné mazlíčky se stejným počtem hvězd. Nasazené předměty a věže v arzenálu se neslučují.":"Nothing to merge yet. You need 3 identical pieces: items of the same kind and rarity, cards of the same tower and rarity, or 3 of the same pet with the same stars. Equipped items and towers in your arsenal are not merged.",
 "Po poražení Trůnu kostí si v Přípravě zapneš ∞. Bojuješ s bossem dohrané mapy znovu a znovu: po každém zabití se vrátí silnější a s novým útokem. Za každého padne Esence (denně plně 20), rekord je počet poražených bossů.":"After beating the Throne of Bones, turn on ∞ in Preparation. You fight the boss of a beaten map again and again: after every kill it returns stronger with a new attack. Each one drops Essence (full 20 per day), the record is the number of bosses defeated.",
 "Drobnosti":"Small stuff",
 "Sliješ <b>3 stejné kusy</b> v jeden lepší: předměty a karty věží o <b>raritu výš</b>, mazlíčky o <b>hvězdu víc</b>. Ťukej do rytmu, Perfektní ťuknutí dají lepší hodnoty.":"Melt <b>3 identical pieces</b> into a better one: items and tower cards <b>one rarity up</b>, pets <b>one more star</b>. Tap to the beat, Perfect taps give better stats.",
