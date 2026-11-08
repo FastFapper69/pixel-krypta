@@ -448,7 +448,7 @@ html,body,#stage{touch-action:none}
 .cxset{display:flex;flex-direction:column;gap:8px;padding:12px;background:var(--panel);background-image:var(--tex);background-size:32px 32px;clip-path:var(--px);box-shadow:inset 0 0 0 3px var(--line)}
 .cxset.on{box-shadow:inset 0 0 0 3px color-mix(in srgb,var(--sc) 60%,transparent)}
 .cxset .cs-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}.cxset .cs-h b{font-size:16px;color:var(--sc)}.cxset:not(.on) .cs-h b{color:var(--muted)}.cxset .cs-h small{font-size:12px;color:var(--muted);text-align:right}
-.cxset .cs-p{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cxset .cs-p{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.cxset .cs-p.six{grid-template-columns:repeat(3,1fr)}
 .cxset .cs-p div{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;background:#0c0912a0;clip-path:var(--px);text-align:center}
 .cxset .cs-p img{width:36px;height:36px;image-rendering:pixelated;filter:brightness(0);opacity:.45}.cxset .cs-p .on img{filter:none;opacity:1}
 .cxset .cs-p small{font-size:10px;line-height:1.15;color:var(--muted)}.cxset .cs-p .on small{color:var(--fg)}
@@ -3699,7 +3699,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08w';
+const GAME_VER='2026-11-08x';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4292,6 +4292,9 @@ function fireAll(s){
   if(st.lg&&st.lg.kheart&&s%32===24&&run.t>1){const p=run.p,near=run.enemies.filter(e=>!e.dead&&!e.bur&&!e.d.noHit&&Math.hypot(e.x-p.x,e.y-p.y)<150).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y)).slice(0,3);
     for(const e of near){hurtEnemy(e,24+run.level*3,0,0);e.slowT=Math.max(e.slowT,2);run.fx.push({k:'arc',pts:[{x:p.x,y:p.y-4},{x:(p.x+e.x)/2+rnd(-10,10),y:(p.y+e.y)/2+rnd(-10,10)},{x:e.x,y:e.y-4}],life:.3,seed:Math.random()*99,col:'#c868d8'});}if(near.length)sfx('zap');}
   if(st.lg&&st.lg.stride&&s%32===0&&run.t>1){const p=run.p,sz=run.map.size;if(!p.down&&p.moving&&(p.face.x||p.face.y)){const fl=Math.hypot(p.face.x,p.face.y)||1;run.fx.push({k:'shock',x:p.x,y:p.y,r:3,t:0,life:.35,max:16,col:'#bfeaff'});p.x=clamp(p.x+p.face.x/fl*44,14,sz-14);p.y=clamp(p.y+p.face.y/fl*44,14,sz-14);mfCall('move',p,0);p.inv=Math.max(p.inv,.5);sfx('ui');}}
+  if(st.lg&&st.lg.st6&&s%16===0&&run.t>1){const p=run.p,near=run.enemies.filter(e=>!e.dead&&!e.bur&&!e.d.noHit&&Math.hypot(e.x-p.x,e.y-p.y)<160).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y)).slice(0,4);
+    for(const e of near){hurtEnemy(e,30+run.level*3,0,0);e.slowT=Math.max(e.slowT,1.5);run.fx.push({k:'arc',pts:[{x:e.x-6,y:e.y+8},{x:e.x-3,y:e.y-2},{x:e.x+2,y:e.y-8},{x:e.x,y:e.y-2}],life:.35,seed:Math.random()*99,col:'#5ae0d0'});
+      if(run.parts.length<380)for(let j=0;j<6;j++)addP({x:e.x+rnd(-4,4),y:e.y+4,vx:rnd(-30,30),vy:rnd(-70,-30),life:rnd(.3,.5),col:pick(['#5ae0d0','#bff4e8','#ffffff']),sz:1,g:160});}if(near.length)sfx('zap');}
   if(st.lg&&st.lg.bass&&s%16===0&&run.t>1){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:70,dmg:12+run.level*2,hit:new Set(),life:1,noslow:true,col:'#ff9a5a'});}
   if(s%64===48&&run.t>2&&!isGuest()&&Object.keys(run.W).some(id=>ULT_DROP[id]))ultRiser();
   let dropN=0;if(s%64===0&&run.t>2)for(const id in run.W){const D=ULT_DROP[id];if(D){const w=run.W[id];D(w,wP(id,w));ultDropSfx(id,!dropN++&&run.dropAt!==s);run.flashScr=Math.max(run.flashScr,.22);run.flashCol=ULT_COL[id];run.hitstop=Math.max(run.hitstop||0,.09);run.shake=Math.max(run.shake,3.5);const p=run.p;run.fx.push({k:'shock',x:p.x,y:p.y,r:4,max:150,life:.45,t:0,col:ULT_COL[id]||'#ffffff',big:1});}}
@@ -5801,8 +5804,8 @@ function renderCampaign(){
   // chapter treasure: opens once the finale is won, holds a piece of the chapter set
   const sid=!EN&&SET_OF_CH[C.id];if(sid){const S=SETS[sid],fin=C.maps[C.maps.length-1],won=!!(save.fin&&save.fin[fin]),got=!!(save.chT&&save.chT[C.id]),own=Object.keys(setOwned(sid)).length;
     const b=document.createElement('button');b.className='card mnode tre'+(got?' got':won?' ready':' lock');{const sp=document.createElement('div');sp.className='tre-sep';sp.textContent=_t('ODMĚNA KAPITOLY');path.appendChild(sp);}
-    b.innerHTML='<span class="tre-rb">'+(got?_t('OTEVŘENO'):won?_t('PŘIPRAVENO'):_t('ZAMČENO'))+'</span><div class="tre-ic"><img alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"></div><div><h3>'+_t('Poklad kapitoly')+'</h3><small>'+(got?_t('Otevřeno · ')+S.name+' '+own+'/4':won?_t('Otevři ho! Kus setu, 300 zlata, 50 Úlomků a 10 Esence.'):_t('Poraz finále a poklad je tvůj. Uvnitř je kus setu ')+S.name+'.')+'</small>'+
-      '<span class="si-p">'+SET_SLOTS.map(k=>'<img class="'+(setOwned(sid)[k]?'on':'')+'" alt="" src="'+dataUrl(itemSpr(k,3,sid))+'">').join('')+'</span></div>';
+    b.innerHTML='<span class="tre-rb">'+(got?_t('OTEVŘENO'):won?_t('PŘIPRAVENO'):_t('ZAMČENO'))+'</span><div class="tre-ic"><img alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"></div><div><h3>'+_t('Poklad kapitoly')+'</h3><small>'+(got?_t('Otevřeno · ')+S.name+' '+own+'/'+setMax(sid):won?_t('Otevři ho! Kus setu, 300 zlata, 50 Úlomků a 10 Esence.'):_t('Poraz finále a poklad je tvůj. Uvnitř je kus setu ')+S.name+'.')+'</small>'+
+      '<span class="si-p">'+setSlots(sid).map(k=>'<img class="'+(setOwned(sid)[k]?'on':'')+'" alt="" src="'+dataUrl(itemSpr(k,3,sid))+'">').join('')+'</span></div>';
     b.addEventListener('click',()=>{if(won&&!got)openTreasure(C);else if(!won)note(_t('Poraz finále kapitoly'));else note(S.name+': '+_t('kusy padají z finále kapitoly'));});path.appendChild(b);
     const nc=setChN(sid);if(nc){const b2=document.createElement('button');b2.className='card mnode tre ready';
       b2.innerHTML='<span class="tre-rb">'+_t('PŘIPRAVENO')+(nc>1?' ×'+nc:'')+'</span><div class="tre-ic"><img alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"></div><div><h3>'+_t('Truhla setu')+'</h3><small>'+_t('Z finále. Otevři ji a vylosuj si kus setu ')+S.name+'.</small></div>';
@@ -5846,7 +5849,7 @@ function heroStrip(box,ids,cur,label,pick){box.innerHTML='';let on=null;
 // set chest from a finale win: the piece is drawn only when the player opens it (on the result screen or in Prep)
 function openSetChest(sid,pop,done){const L=save.setCh||[],i=L.findIndex(c=>!sid||c.sid===sid);if(i<0)return;const c=L.splice(i,1)[0];
   const it=makeSetItem(c.sid,null,c.r);addItem(it);persist();
-  revealItem(it,'gold',_t('Kus setu!'),{pop,done,roll:SET_SLOTS.map(k=>itemSpr(k,c.r,c.sid))});}
+  revealItem(it,'gold',_t('Kus setu!'),{pop,done,roll:setSlots(c.sid).map(k=>itemSpr(k,c.r,c.sid))});}
 function ovSetBtn(){const b=$('#ovSet'),n=setChN();b.hidden=!n;if(!n)return;b.innerHTML='<img alt="" src="'+dataUrl(SPR.icon.chest_gold)+'">'+_t('Otevřít truhlu setu')+(n>1?' ×'+n:'');
   b.onclick=()=>{sfx('ui');openSetChest(null,$('#ovPop'),ovSetBtn);};}
 const setChN=sid=>(save.setCh||[]).filter(c=>!sid||c.sid===sid).length;
@@ -6283,28 +6286,31 @@ const SETS={
  bone:{ch:'c1',fin:'trun',col:'#9affc0',name:_t('Výstroj pána kostí'),
    pieces:{helm:{name:_t('Koruna pána kostí'),st:['hp','armor','regen']},armor:{name:_t('Hrudní koš'),st:['hp','armor','regen']},amulet:{name:_t('Fylaktérie'),st:['dmg','crit','fuse']},ring:{name:_t('Hrobníkův prsten'),st:['cd','mag','xp']}},
    b2:_t('Zdraví +10 % a každé zabití elity tě vyléčí o 10 % zdraví.'),b4n:_t('Tanec kostí'),b4:_t('Na třetí dobu taktu vyrazí kolem tebe kruh kostěných hrotů. Kdo jim padne, vstane jako kostlivec a bojuje za tebe (nejvýš 3).')},
- sun:{ch:'c2',fin:'brana',col:'#ffd060',name:_t('Faraonův odkaz'),
-   pieces:{helm:{name:_t('Nemes'),st:['hp','armor','crit']},armor:{name:_t('Sluneční pektorál'),st:['hp','armor','spd']},amulet:{name:_t('Zlatý skarabeus'),st:['dmg','crit','cd']},ring:{name:_t('Prsten Ra'),st:['cd','spd','gold']}},
+ sun:{ch:'c2',fin:'brana',col:'#ffd060',name:_t('Faraonův odkaz'),slots:['helm','amulet','boots','gloves'],
+   pieces:{boots:{name:_t('Sandály pouštního krále'),st:['spd','dodge','mag']},gloves:{name:_t('Obvazy mumie'),st:['cd','crit','dmg']},helm:{name:_t('Nemes'),st:['hp','armor','crit']},armor:{name:_t('Sluneční pektorál'),st:['hp','armor','spd']},amulet:{name:_t('Zlatý skarabeus'),st:['dmg','crit','cd']},ring:{name:_t('Prsten Ra'),st:['cd','spd','gold']}},
    b2:_t('Rychlost útoků +8 % a rychlost pohybu +6 %.'),b4n:_t('Sluneční disk'),b4:_t('Nad hlavou ti září sluneční disk. Na první dobu taktu vyšle čtyři paprsky, střídavě do kříže a do X.')},
- frost:{ch:'c4',fin:'zima',col:'#8af0ff',name:_t('Mrazivá zbroj'),
-   pieces:{helm:{name:_t('Ledová koruna'),st:['hp','armor','crit']},armor:{name:_t('Plášť sněžné bouře'),st:['hp','armor','regen']},amulet:{name:_t('Krystal věčné zimy'),st:['dmg','cd','fuse']},ring:{name:_t('Prsten polární záře'),st:['crit','spd','gold']}},
+ frost:{ch:'c4',fin:'zima',col:'#8af0ff',name:_t('Mrazivá zbroj'),slots:['helm','armor','amulet','gloves'],
+   pieces:{gloves:{name:_t('Rukavice z věčného ledu'),st:['crit','cd','dmg']},helm:{name:_t('Ledová koruna'),st:['hp','armor','crit']},armor:{name:_t('Plášť sněžné bouře'),st:['hp','armor','regen']},amulet:{name:_t('Krystal věčné zimy'),st:['dmg','cd','fuse']},ring:{name:_t('Prsten polární záře'),st:['crit','spd','gold']}},
    b2:_t('Zdraví +10 % a tvoje zásahy zpomalí nepřátele.'),b4n:_t('Mrazivá vlna'),b4:_t('Na první dobu každého druhého taktu z tebe vyrazí mrazivá vlna, která zraní a na chvíli zmrazí nepřátele okolo.')},
- tide:{ch:'c5',fin:'paluba',col:'#5ae0d0',name:_t('Výstroj mořského vlka'),
-   pieces:{helm:{name:_t('Kapitánský klobouk'),st:['hp','armor','spd']},armor:{name:_t('Námořnický kabát'),st:['hp','armor','regen']},amulet:{name:_t('Mořská perla'),st:['dmg','crit','fuse']},ring:{name:_t('Prsten kompasu'),st:['cd','mag','gold']}},
-   b2:_t('Rychlost pohybu +8 % a sbíráš z 15 % větší dálky.'),b4n:_t('Příboj'),b4:_t('Na třetí dobu každého druhého taktu se z tebe rozlije vlna, která zraní nepřátele okolo a odhodí je.')},
- forge:{ch:'c3',fin:'srdce',col:'#ff8a3a',name:_t('Výstroj kováře hor'),
-   pieces:{helm:{name:_t('Rohatá přilba'),st:['hp','armor','dmg']},armor:{name:_t('Kovářská zástěra'),st:['hp','armor','regen']},amulet:{name:_t('Žhavý uhlík'),st:['dmg','crit','fuse']},ring:{name:_t('Kladivový prsten'),st:['dmg','cd','gold']}},
+ tide:{ch:'c5',fin:'paluba',col:'#5ae0d0',name:_t('Výstroj mořského vlka'),six:1,slots:['helm','armor','amulet','ring','boots','gloves'],
+   pieces:{boots:{name:_t('Námořnické holínky'),st:['spd','dodge','mag']},gloves:{name:_t('Rukavice s rybářským hákem'),st:['cd','crit','dmg']},helm:{name:_t('Kapitánský klobouk'),st:['hp','armor','spd']},armor:{name:_t('Námořnický kabát'),st:['hp','armor','regen']},amulet:{name:_t('Mořská perla'),st:['dmg','crit','fuse']},ring:{name:_t('Prsten kompasu'),st:['cd','mag','gold']}},
+   b2:_t('Rychlost pohybu +8 % a sbíráš z 15 % větší dálky.'),b4n:_t('Příboj'),b4:_t('Na třetí dobu každého druhého taktu se z tebe rozlije vlna, která zraní nepřátele okolo a odhodí je.'),
+   b6n:_t('Volání hlubin'),b6:_t('Poškození a zdraví +10 %. Na první dobu každého taktu vyrazí z hlubin chapadla na 4 nejbližší nepřátele, zraní je a zpomalí.')},
+ forge:{ch:'c3',fin:'srdce',col:'#ff8a3a',name:_t('Výstroj kováře hor'),slots:['armor','ring','gloves','boots'],
+   pieces:{gloves:{name:_t('Žáruvzdorné rukavice'),st:['dmg','cd','crit']},boots:{name:_t('Okované boty'),st:['armor','spd','dodge']},helm:{name:_t('Rohatá přilba'),st:['hp','armor','dmg']},armor:{name:_t('Kovářská zástěra'),st:['hp','armor','regen']},amulet:{name:_t('Žhavý uhlík'),st:['dmg','crit','fuse']},ring:{name:_t('Kladivový prsten'),st:['dmg','cd','gold']}},
    b2:_t('Poškození +10 % a brnění +1.'),b4n:_t('Úder kovadliny'),b4:_t('Na první dobu každého druhého taktu dopadne obří kladivo na nejbližší skupinu nepřátel a vybuchne.')}};
-const SET_IDS=Object.keys(SETS),SET_OF_CH={};for(const id of SET_IDS)SET_OF_CH[SETS[id].ch]=id;
+const SET_IDS=Object.keys(SETS),SET_OF_CH={};for(const id of SET_IDS){SET_OF_CH[SETS[id].ch]=id;SETS[id].slots=SETS[id].slots||SET_SLOTS;}
+// pieces that drop now (each set uses different slots; every 5th chapter has a six-piece set); older pieces in other slots still count
+const setSlots=id=>SETS[id].slots,setMax=id=>SETS[id].slots.length;
 const SET_DROP=.25,SET_PITY=3; // finale win: 25 % (+5 % per Nightmare tier), the 4th win without a piece always drops one
 function setOwned(id){const o={};for(const it of save.inv||[])if(it.set===id)o[it.s]=1;return o;}
-function setCount(h,id){const eq=(save.eq&&save.eq[h])||{};let n=0;for(const k of SET_SLOTS){const it=eq[k]&&itemById(eq[k]);if(it&&it.set===id)n++;}return n;}
+function setCount(h,id){const eq=(save.eq&&save.eq[h])||{};let n=0;for(const k of SLOT_IDS){const it=eq[k]&&itemById(eq[k]);if(it&&it.set===id)n++;}return n;}
 // a set piece: a slot the player does not own yet if there is one, stats from the piece's own list at epic strength
 // 08a: a set piece has its own rarity (by Nightmare tier) and is a random piece; colours follow the rarity like any item
 const SET_RAR=[[0,50,35,13,2],[0,30,40,25,5],[0,15,40,35,10],[0,5,30,45,20]],SET_TRE=[0,0,65,30,5];
 function rollW(w){let x=Math.random()*w.reduce((a,b)=>a+b,0);for(let i=0;i<w.length;i++){x-=w[i];if(x<0)return i;}return w.length-1;}
-const setRarity=nm=>rollW(SET_RAR[clamp(nm|0,0,3)]);
-function makeSetItem(id,slot,r,q){const S=SETS[id];if(!slot||!S.pieces[slot])slot=pick(SET_SLOTS);if(r==null)r=setRarity(0);
+const setRarity=(nm,id)=>rollW(SET_RAR[clamp((nm|0)+(id&&SETS[id].six?1:0),0,3)]); // six-piece sets drop one Nightmare tier better
+function makeSetItem(id,slot,r,q){const S=SETS[id];if(!slot||!S.pieces[slot]){const own=setOwned(id),miss=S.slots.filter(k=>!own[k]);slot=pick(miss.length&&Math.random()<.5?miss:S.slots);}if(r==null)r=setRarity(0,id);
   const st={};for(const k of S.pieces[slot].st)st[k]=rollStat(k,r,q!=null?q:.55+Math.random()*.45);return {u:newUid(),s:slot,r,lv:0,st,set:id};}
 // gold : Úlomky ≈ 4 : 1 in upgrades (income ≈ 6 : 1, the rest goes to chests), Esence from +6 (see EKONOMIKA.md, tests/tools/econsim.py)
 const SH_K=1.1,SH_CAP=6000,ES_FIRST=[25,35,50,70],ES_REP=[4,6,8,10],ES_FIN_DAY=3,EN_RATE=.4,EN_CAP=20,EN_T0=5,
@@ -6384,7 +6390,7 @@ function heroBonus(h){
   const B={hp:0,hpPct:0,armor:0,regen:0,dmg:0,crit:0,fuse:0,cd:0,spd:0,mag:0,xp:0,gold:0,dodge:0,tdmg:0,tcost:0,thp:0,tmax:0,lg:{},tal:{},af:{}};
   const eq=(save.eq&&save.eq[h])||{};
   const sc={};for(const s of SLOT_IDS){const it=eq[s]&&itemById(eq[s]);if(!it)continue;const S=itemStats(it);for(const k in S)B[k]+=S[k];if(it.lg)B.lg[it.lg]=1;if(it.af&&AFX[it.af])B.af[it.af]=(B.af[it.af]||0)+afVal(it);if(it.set)sc[it.set]=(sc[it.set]||0)+1;}
-  if(sc.bone>=2){B.hpPct+=.10;B.lg.sb2=1;}if(sc.bone>=4)B.lg.sb4=1;if(sc.sun>=2){B.cd+=.08;B.spd+=.06;}if(sc.sun>=4)B.lg.ss4=1;if(sc.forge>=2){B.dmg+=.10;B.armor+=1;}if(sc.forge>=4)B.lg.sf4=1;if(sc.frost>=2){B.hpPct+=.10;B.lg.sfr2=1;}if(sc.frost>=4)B.lg.sfr4=1;if(sc.tide>=2){B.spd+=.08;B.mag+=.15;}if(sc.tide>=4)B.lg.st4=1;B.sets=sc;
+  if(sc.bone>=2){B.hpPct+=.10;B.lg.sb2=1;}if(sc.bone>=4)B.lg.sb4=1;if(sc.sun>=2){B.cd+=.08;B.spd+=.06;}if(sc.sun>=4)B.lg.ss4=1;if(sc.forge>=2){B.dmg+=.10;B.armor+=1;}if(sc.forge>=4)B.lg.sf4=1;if(sc.frost>=2){B.hpPct+=.10;B.lg.sfr2=1;}if(sc.frost>=4)B.lg.sfr4=1;if(sc.tide>=2){B.spd+=.08;B.mag+=.15;}if(sc.tide>=4)B.lg.st4=1;if(sc.tide>=6){B.lg.st6=1;B.dmg+=.10;B.hpPct+=.10;}B.sets=sc;
   const L=heroLv(h),L1=Math.min(L,20)-1,L2=Math.max(0,L-20),pr=heroPr(h)*PR_PCT;B.hpPct+=.02*L1+.01*L2+pr;B.dmg+=.02*L1+.01*L2+pr;
   for(const t of TAL_TIERS){if(L<t)continue;const c=heroTal(h,t);if(c<0)continue;const id=TAL_CH[t][c].id;B.tal[id]=1;
     if(id==='atk')B.dmg+=.08;else if(id==='def'){B.hpPct+=.12;B.armor+=1;}else if(id==='crit')B.crit+=.06;else if(id==='rate')B.cd+=.08;
@@ -6481,7 +6487,7 @@ function runRewards(won){
     const lg=FIN_LEG[R.mapId];if(lg&&(R.nm||0)>=3&&Math.random()<.25){const it=makeItem(4,null,null,lg);addItem(it);out.leg=it;}
     const sid=SET_OF_CH[CH_OF[R.mapId].id];if(sid){save.setP=save.setP||{};const miss=save.setP[sid]||0;
       // the first win of a finale on each Nightmare tier always gives a piece; otherwise a chance with pity
-      if((nmFirst&&!R.coop)||miss>=SET_PITY||Math.random()<SET_DROP+.05*(R.nm||0)){(save.setCh=save.setCh||[]).push({sid,r:setRarity(R.nm||0)});out.setCh=sid;save.setP[sid]=0;}else save.setP[sid]=miss+1;
+      if((nmFirst&&!R.coop)||miss>=SET_PITY||Math.random()<SET_DROP+.05*(R.nm||0)){(save.setCh=save.setCh||[]).push({sid,r:setRarity(R.nm||0,sid)});out.setCh=sid;save.setP[sid]=0;}else save.setP[sid]=miss+1;
       save.chT=save.chT||{};if(!save.chT[CH_OF[R.mapId].id])out.tre=1;}}
   if(R.mod&&!R.coop&&(won||R.t>=180)&&save.daily.chal!==today()){save.daily.chal=today();achInit().tot.dc++;save.mats[mid]+=20;const it=makeItem(rollRarity(ECON.chests[1]));addItem(it);out.daily=it;}
   return out;}
@@ -6546,6 +6552,12 @@ const ITEM_ART={
  frost_amulet:{pal:{a:'#9ab0c8',k:'#1a2a40',o:'#5ad8ff',y:'#e8fbff'},rows:['..a...','...a..','....a.','....kk','...kok','...koy','..koyy','..kooy','...koo','...kkk','....kk','......']},
  frost_ring:{pal:{a:'#c8d8f0',c:'#7a8aa8',r:'#5ad8ff',y:'#e8fbff'},rows:['...r.r','....rr','...ryy','..rryy','...ryy','..aarr','.ca...','.a....','.a....','.c....','..cccc','......']},
  sun_ring:{pal:{a:'#f6c744',c:'#c28a10',r:'#ff7a3a',y:'#fff0a0'},rows:['...r.r','....rr','...ryy','..rryy','...ryy','..aarr','.ca...','.a....','.a....','.c....','..cccc','......']}};
+{const BR=['............','...cccccc...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaabb..','...aaaaaaab.','..aaaaaaaaab','..aagaaaaaab','..bbbbbbbbbb','............'],
+  GR=['.....a.a....','...a.a.a.a..','...a.a.a.a..','...aaaaaaa..','.a.aaaaaaa..','.aaaaaaaaa..','..aaaaaaab..','...aaaaaab..','...ccccccc..','...ccgcccc..','...bbbbbbb..','............'];
+ const art=(rows,a,b,c)=>({full:1,pal:{a,b,c},rows});
+ Object.assign(ITEM_ART,{sun_boots:art(BR,'#e8c070','#a8783a','#f6c744'),sun_gloves:art(GR,'#e8dcc0','#a89878','#2a5ab8'),
+  forge_gloves:art(GR,'#8a5a3a','#4a2e1e','#e8702c'),forge_boots:art(BR,'#6a6a78','#3a3a48','#e8702c'),
+  frost_gloves:art(GR,'#bfeaff','#5a8ad8','#8af0ff'),tide_boots:art(BR,'#2a3a5a','#141c2e','#5ae0d0'),tide_gloves:art(GR,'#8a6a4a','#4a3a2a','#5ae0d0')});}
 // item picture: base items by slot and tier (the gem takes the rarity colour), set pieces have their own art
 function itemSpr(sl,r,set,b){const k=set?set+'_'+sl:b&&ITEM_ART[b]?b:sl+Math.min(3,r),key=k+':'+r;if(itemSprCache[key])return itemSprCache[key];const A=ITEM_ART[k]||ITEM_ART[sl+'0'];
   const rc=RAR[Math.max(1,r)].col;return itemSprCache[key]=buildSprite(A.rows,{mirror:!A.full,pal:set?Object.assign({},A.pal,{g:rc,e:rc}):Object.assign({g:rc},A.pal)});}
@@ -6567,9 +6579,9 @@ function costHtml(c,have){const parts=[],H=n=>have?'<small class="have">/'+fmtN(
   if(c.mat)parts.push('<span class="mt'+(save.mats[c.matId]<c.mat?' no':'')+'"><img alt="" src="'+matIcon(c.matId)+'">'+c.mat+H(save.mats[c.matId]||0)+'</span>');return parts.join('');}
 // the set block on an item card and on the hero: pieces worn by the hero, bonuses lit when active
 function setInfoHtml(id,h){const S=SETS[id],n=h?setCount(h,id):0,eq=(h&&save.eq&&save.eq[h])||{};
-  const pcs=SET_SLOTS.map(k=>{const it=eq[k]&&itemById(eq[k]),on=it&&it.set===id;return '<img class="'+(on?'on':'')+'" alt="" src="'+dataUrl(itemSpr(k,3,id))+'">';}).join('');
-  return '<div class="setinfo" style="--sc:'+S.col+'"><div class="si-h"><b>'+S.name+'</b><span class="si-p">'+pcs+'</span><em>'+n+'/4</em></div>'+
-    '<p class="'+(n>=2?'on':'')+'"><i>2</i><span>'+S.b2+'</span></p><p class="'+(n>=4?'on':'')+'"><i>4</i><span><b>'+S.b4n+'.</b> '+S.b4+'</span></p></div>';}
+  const pcs=setSlots(id).map(k=>{const it=eq[k]&&itemById(eq[k]),on=it&&it.set===id;return '<img class="'+(on?'on':'')+'" alt="" src="'+dataUrl(itemSpr(k,3,id))+'">';}).join('');
+  return '<div class="setinfo" style="--sc:'+S.col+'"><div class="si-h"><b>'+S.name+'</b><span class="si-p">'+pcs+'</span><em>'+n+'/'+setMax(id)+'</em></div>'+
+    '<p class="'+(n>=2?'on':'')+'"><i>2</i><span>'+S.b2+'</span></p><p class="'+(n>=4?'on':'')+'"><i>4</i><span><b>'+S.b4n+'.</b> '+S.b4+'</span></p>'+(S.six?'<p class="'+(n>=6?'on':'')+'"><i>6</i><span><b>'+S.b6n+'.</b> '+S.b6+'</span></p>':'')+'</div>';}
 function itemCardHtml(it){const S=itemStats(it),R=RAR[it.r],col=it.set?SETS[it.set].col:R.col;
   return '<div class="ic-head"><img alt="" src="'+itIcon(it)+'"><div><h3 style="color:'+col+'">'+itemName(it)+(it.lv?' +'+it.lv:'')+'</h3><small>'+(it.set?_t('Set kapitoly ')+ROMAN_CH[CHAPTERS.findIndex(c=>c.id===SETS[it.set].ch)]:R.name)+' · '+SLOTS[it.s].name+'</small></div></div>'+
     '<ul class="ic-st">'+Object.keys(S).map(k=>'<li><span>'+STATS[k].name+'</span><b>'+fmtStat(k,S[k])+'</b></li>').join('')+'</ul>'+
@@ -7027,7 +7039,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('stars'),_t('Nekonečná krypta'),_t('Každá kapitola má jednu: po poražení jejího finále si v Přípravě zapneš ∞. Bojuješ s finálním bossem kapitoly znovu a znovu: po každém zabití se vrátí silnější a s novým útokem. Za každého padne Esence (denně plně 20), rekord je počet poražených bossů.')],
    [dataUrl(SPR.hero.knight),_t('Úroveň hrdiny'),_t('Za zlato a Úlomky (od úrovně 10 i Esenci), až do úrovně 40. Přidá zdraví a poškození. Na úrovni 5, 10, 15 a 20 dostaneš talent, na 25, 30, 35 a 40 si vybereš jeden ze dvou. Po 40 pokračuje nekonečná Prestiž.')],
    [I('chest_iron'),_t('Výbava'),_t('Hlavně z truhel v Obchodu, jen tam padají i legendárky. Kampaň dá předmět jen za první výhru mapy na každé Noční můře a kusy setů z finále. Přilba, zbroj, amulet a prsten v pěti raritách.')],
-   [dataUrl(itemSpr('helm',3,'bone')),_t('Sety kapitol'),_t('Každá kapitola má set 4 kusů. Z finále padá truhla setu, kus si z ní vylosuješ, jeden je v pokladu kapitoly. 2 kusy dají bonus, 4 kusy schopnost.')],
+   [dataUrl(itemSpr('helm',3,'bone')),_t('Sety kapitol'),_t('Každá kapitola má set 4 kusů (každý set v jiných slotech), každá pátá kapitola set 6 kusů s lepší kořistí a bonusem za celý set. Z finále padá truhla setu, kus si z ní vylosuješ, jeden je v pokladu kapitoly. 2 kusy dají bonus, 4 kusy schopnost.')],
    [I('shield'),_t('Kovárna'),_t('3 stejné kusy sliješ v jeden lepší: předměty a věže o raritu výš, mazlíčky o hvězdu víc.')],
    [I('haste'),_t('Vylepšení'),_t('Strom trvalých bonusů v Kovárně: tři větve (Útok, Obrana, Kořist), klíčové uzly s novými schopnostmi, každá kapitola otevře další patro a na konci je nekonečné Mistrovství.')],
    [I('skull'),_t('Noční můry'),_t('Těžší obtížnost celé kapitoly (I–III). Mapy jdeš znovu postupně až k finále a jeho první výhra na každém stupni dá truhlu setu, ze které si kus vylosuješ.')],
@@ -7042,8 +7054,8 @@ function openCodex(){econInit();const f=$('#cxFus'),l=$('#cxLeg');
   l.innerHTML=LEG_IDS.map(id=>{const has=save.codex.l[id],L=LEGS[id];return '<div class="cx'+(has?' on':'')+'"><img alt="" src="'+dataUrl(itemSpr(L.slot,4))+'"><b>'+(has?L.name:'???')+'</b><small>'+(has?L.desc:SLOTS[L.slot].name+' · '+L.hint)+'</small></div>';}).join('');
   $('#cxSet').innerHTML=SET_IDS.map(id=>{const S=SETS[id],C=CHAPTERS.find(c=>c.id===S.ch),seen=save.codex.s[id]||{},n=Object.keys(seen).length;
     return '<div class="cxset'+(n?' on':'')+'" style="--sc:'+S.col+'"><div class="cs-h"><b>'+(n?S.name:'???')+'</b><small>'+_t('Kapitola ')+ROMAN_CH[C.i]+' · '+_t('finále ')+MAPS[S.fin].name+'</small></div>'+
-      '<div class="cs-p">'+SET_SLOTS.map(k=>'<div class="'+(seen[k]?'on':'')+'"><img alt="" src="'+dataUrl(itemSpr(k,3,id))+'"><small>'+(seen[k]?S.pieces[k].name:'???')+'</small></div>').join('')+'</div>'+
-      (n?'<p><i>2</i>'+S.b2+'</p><p><i>4</i><b>'+S.b4n+'.</b> '+S.b4+'</p>':'<p class="hint">'+_t('Padá z finále kapitoly. Jeden kus je v pokladu kapitoly.')+'</p>')+'</div>';}).join('');
+      '<div class="cs-p'+(S.six?' six':'')+'">'+setSlots(id).map(k=>'<div class="'+(seen[k]?'on':'')+'"><img alt="" src="'+dataUrl(itemSpr(k,3,id))+'"><small>'+(seen[k]?S.pieces[k].name:'???')+'</small></div>').join('')+'</div>'+
+      (n?'<p><i>2</i>'+S.b2+'</p><p><i>4</i><b>'+S.b4n+'.</b> '+S.b4+'</p>'+(S.six?'<p><i>6</i><b>'+S.b6n+'.</b> '+S.b6+'</p>':''):'<p class="hint">'+_t('Padá z finále kapitoly. Jeden kus je v pokladu kapitoly.')+'</p>')+'</div>';}).join('');
   const sN=SET_IDS.reduce((a,id)=>a+Object.keys(save.codex.s[id]||{}).length,0);
   $('#cxCount').textContent=(Object.keys(save.codex.f).length+Object.keys(save.codex.l).length+sN)+' / '+(FUSIONS.length+LEG_IDS.length+SET_IDS.length*4);
   setState('codex');}
@@ -7620,6 +7632,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08x',d:'8. 11. 2026',t:_t('Sety v různých slotech a set 6 kusů'),hl:[
+  {ic:'item:boots:3',t:_t('Sety střídají sloty'),d:_t('Sety kapitol už nejsou vždy přilba, zbroj, amulet a prsten. Faraonův odkaz, Výstroj kováře hor a Mrazivá zbroj mají nově i <b>boty nebo rukavice</b>. Kusy, které už máš, platí dál.')},
+  {ic:'set:tide',t:_t('Set 6 kusů'),d:_t('Každá pátá kapitola má <b>set 6 kusů</b>, který padá lepší. Výstroj mořského vlka teď má i boty a rukavice a za celý set dá <b>Volání hlubin</b>: chapadla na každý takt a +10 % poškození i zdraví.')}],items:[]},
  {v:'2026-11-08w',d:'8. 11. 2026',t:_t('Mazlíčci: sloučení i z nasazených a rytmus, který je vidět'),hl:[
   {ic:'wolf',t:_t('Sloučení mazlíčků'),d:_t('Do sloučení na hvězdu teď jde i <b>nasazený mazlíček</b>, hvězdu dostane právě on a zůstane v běhu. Mazlíčka jde také <b>sundat ze slotu</b>.')},
   {ic:'note',t:_t('Co dá rytmus'),d:_t('Po rituálu sloučení vidíš, co ti časování dalo. U mazlíčků je to <b>síla navíc</b> (4× Perfektní = +8 %), která se sčítá a je vidět na kartě.')}],items:[]},

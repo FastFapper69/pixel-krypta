@@ -1,6 +1,21 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Každá kapitola má set 4 kusů (každý set v jiných slotech), každá pátá kapitola set 6 kusů s lepší kořistí a bonusem za celý set. Z finále padá truhla setu, kus si z ní vylosuješ, jeden je v pokladu kapitoly. 2 kusy dají bonus, 4 kusy schopnost.":"Each chapter has a 4-piece set (each set in different slots), every fifth chapter a 6-piece set with better loot and a full-set bonus. The finale drops a set chest you draw a piece from, one piece is in the chapter treasure. 2 pieces give a bonus, 4 pieces an ability.",
+"Sandály pouštního krále":"Sandals of the desert king",
+"Obvazy mumie":"Mummy wraps",
+"Rukavice z věčného ledu":"Gloves of eternal ice",
+"Námořnické holínky":"Sailor's boots",
+"Rukavice s rybářským hákem":"Gloves with a fishing hook",
+"Žáruvzdorné rukavice":"Heatproof gloves",
+"Okované boty":"Hobnailed boots",
+"Volání hlubin":"Call of the deep",
+"Poškození a zdraví +10 %. Na první dobu každého taktu vyrazí z hlubin chapadla na 4 nejbližší nepřátele, zraní je a zpomalí.":"Damage and health +10 %. On the first beat of every bar tentacles burst from the deep at the 4 nearest enemies, hurting and slowing them.",
+"Sety v různých slotech a set 6 kusů":"Sets in different slots and a 6-piece set",
+"Sety střídají sloty":"Sets use different slots",
+"Sety kapitol už nejsou vždy přilba, zbroj, amulet a prsten. Faraonův odkaz, Výstroj kováře hor a Mrazivá zbroj mají nově i <b>boty nebo rukavice</b>. Kusy, které už máš, platí dál.":"Chapter sets are no longer always helmet, armour, amulet and ring. Pharaoh's Legacy, the Mountain Smith's Gear and the Frost Armour now include <b>boots or gloves</b>. Pieces you already own still count.",
+"Set 6 kusů":"6-piece set",
+"Každá pátá kapitola má <b>set 6 kusů</b>, který padá lepší. Výstroj mořského vlka teď má i boty a rukavice a za celý set dá <b>Volání hlubin</b>: chapadla na každý takt a +10 % poškození i zdraví.":"Every fifth chapter has a <b>6-piece set</b> that drops better. The Sea Wolf's Gear now has boots and gloves too, and the full set gives <b>Call of the deep</b>: tentacles on every bar and +10 % damage and health.",
 "Po rituálu sloučení vidíš, co ti časování dalo. U mazlíčků je to <b>síla navíc</b> (4× Perfektní = +8 %), která se sčítá a je vidět na kartě.":"After the merge ritual you see what your timing gave. For pets it is <b>extra strength</b> (4× Perfect = +8 %), which stacks and shows on the card.",
 "Co dá rytmus":"What the rhythm gives",
 "Do sloučení na hvězdu teď jde i <b>nasazený mazlíček</b>, hvězdu dostane právě on a zůstane v běhu. Mazlíčka jde také <b>sundat ze slotu</b>.":"An <b>equipped pet</b> can now join a star merge, it gets the star and stays in your run. You can also <b>remove a pet from its slot</b>.",
