@@ -295,7 +295,7 @@ html,body,#stage{touch-action:none}
 .mnode>div{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
 .mnode h3{display:flex;align-items:center;flex-wrap:wrap;gap:4px}.mnode .badge{margin-left:0}
 .mnode .num{font-family:var(--font-px);color:var(--chc,var(--gold));font-size:15px;margin-right:2px}
-.mnode p{font-size:13px;color:var(--fg);opacity:.85;line-height:1.3}
+.mnode p{font-size:13px;color:var(--fg);opacity:.85;line-height:1.3}.mnode p b{color:var(--gold)}
 .card.mnode.fin{box-shadow:inset 0 0 0 3px var(--chc,var(--gold)),inset 0 0 0 6px #0c0912;background:linear-gradient(90deg,#2a1830,var(--panel) 70%)}
 .card.mnode.fin.sel{box-shadow:inset 0 0 0 3px var(--gold),inset 0 0 0 6px #0c0912}
 .badge.fin{background:var(--chc,var(--gold));color:var(--ink)}
@@ -462,7 +462,7 @@ html,body,#stage{touch-action:none}
 #gdTabs button{min-width:0;font-size:13px;padding:8px 2px}
 .gd{display:flex;gap:10px;align-items:center;background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:8px 12px 8px 10px}
 .gd img{width:36px;height:36px;image-rendering:pixelated;object-fit:contain;flex:none}
-.gd b{display:block;font-size:15px}.gd small{display:block;color:var(--muted);font-size:13px;line-height:1.3}
+.gd b{display:block;font-size:15px}.gd small{display:block;color:var(--muted);font-size:13px;line-height:1.3}.gd small b{display:inline;font-size:inherit;color:var(--gold)}
 #qPin{display:flex;align-items:center;gap:6px;align-self:flex-start;font-size:13px;font-weight:700;color:#ffe9a8;background:#0c0912b0;padding:3px 8px 3px 5px;box-shadow:inset 0 0 0 2px #ffffff22;text-shadow:0 1px 0 #000;max-width:72%}
 #qPin[hidden]{display:none}#qPin img{width:16px;height:16px;image-rendering:pixelated;flex:none}#qPin span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #qPin.hot{color:#ffd0c8;box-shadow:inset 0 0 0 2px var(--red);animation:qhot .5s steps(2) infinite alternate}@keyframes qhot{to{background:#3a0c12c0}}
@@ -1241,14 +1241,14 @@ const MAPS={
   spawns:[{e:'slime',from:0,w:6},{e:'bat',from:0,w:3},{e:'skeleton',from:1,w:4},{e:'zombie',from:2,w:3},{e:'ghost',from:2,w:2},{e:'spider',from:3,w:2}],
   elites:[{t:70,e:'zombie'},{t:140,e:'skeleton'},{t:200,e:'zombie'}],
   events:[{t:110,type:'ring',e:'bat',n:18},{t:190,type:'ring',e:'slime',n:22}]},
- poust:{name:_t('Prašná poušť'),desc:_t('Krystal ve starém chrámu láká vlky a pavouky. Chraň ho 5 minut a poraz Licha. Oázy léčí.'),dur:300,size:960,seed:23,crystal:true,style:'desert',grade:'#ff9050',gradeA:.26,dark:.26,amb:'#3a1408',ambient:'dust',patch:['#d4b272','#b8955a','#cdac69'],pebble:['#9a7a58','#e0caa0'],crack:'#a8894e',
+ poust:{name:_t('Prašná poušť'),desc:_t('Krystal ve starém chrámu láká vlky a pavouky. <b>Chraň ho 5 minut</b> a poraz Licha. <b>Oázy léčí</b>.'),dur:300,size:960,seed:23,crystal:true,style:'desert',grade:'#ff9050',gradeA:.26,dark:.26,amb:'#3a1408',ambient:'dust',patch:['#d4b272','#b8955a','#cdac69'],pebble:['#9a7a58','#e0caa0'],crack:'#a8894e',
   c1:'#c9a566',c2:'#c1a060',specks:['#d8b878','#b08c4e','#a47f45'],tuft:'#9a7a40',wall:'#6b4f2c',wallHi:'#8a6a3e',
   props:[['cactus',{g:'#4a9a4a',G:'#2f6a30'}],['rock',{a:'#9a7a58',b:'#6a5038',c:'#c4a07a'}],['bush',{a:'#8a8a3a',b:'#5a5a22',c:'#b4b45a'}]],
   speedMul:1.04,base:1.15,boss:'lich',pools:0,
   spawns:[{e:'wolf',from:0,w:4},{e:'spider',from:0,w:4},{e:'skeleton',from:0,w:3},{e:'bat',from:1,w:3},{e:'mage',from:1,w:2},{e:'ghost',from:2,w:2},{e:'zombie',from:2,w:2},{e:'flameskull',from:3,w:2}],
   elites:[{t:60,e:'wolf'},{t:130,e:'mage'},{t:200,e:'skeleton'},{t:250,e:'flameskull'}],
   events:[{t:90,type:'ring',e:'spider',n:16},{t:170,type:'ring',e:'bat',n:22},{t:240,type:'ring',e:'wolf',n:12}]},
- doly:{name:_t('Lávové doly'),desc:_t('Láva pálí a rozjeté důlní vozíky drtí vše v cestě, i nepřátele. Vydrž 6 minut a poraz Démona.'),dur:360,size:1000,seed:37,style:'mines',grade:'#ff6a3a',gradeA:.2,dark:.6,amb:'#100306',ambient:'ember',patch:['#40303a','#2a1d23','#4a323a'],pebble:['#5a4a52','#80707a'],crack:'#6a2418',
+ doly:{name:_t('Lávové doly'),desc:_t('<b>Láva pálí</b> a rozjeté <b>důlní vozíky drtí vše v cestě, i nepřátele</b>. Vydrž 6 minut a poraz Démona.'),dur:360,size:1000,seed:37,style:'mines',grade:'#ff6a3a',gradeA:.2,dark:.6,amb:'#100306',ambient:'ember',patch:['#40303a','#2a1d23','#4a323a'],pebble:['#5a4a52','#80707a'],crack:'#6a2418',
   c1:'#3a2a30',c2:'#35262c',specks:['#4a343c','#2a1c22','#523a42'],tuft:'#5a3c46',wall:'#1a1114',wallHi:'#2e1e24',
   props:[['crystal',{a:'#e8603c',b:'#a02c18',c:'#ffb070'}],['rock',{a:'#5a4a52',b:'#3a2e34',c:'#7a6870'}],['stump',{a:'#4a3a42',b:'#2e2228',c:'#6a5660'}]],
   speedMul:1.1,base:0.9,boss:'demon',pools:7,
@@ -1256,28 +1256,28 @@ const MAPS={
   elites:[{t:60,e:'flameskull'},{t:120,e:'golem'},{t:190,e:'mage'},{t:260,e:'golem'},{t:320,e:'zombie'}],
   events:[{t:80,type:'ring',e:'bat',n:18},{t:160,type:'ring',e:'flameskull',n:12},{t:240,type:'ring',e:'wolf',n:14},{t:310,type:'ring',e:'bat',n:28}]},
  // ----- chapter III: the depths (doly is its first map) -----
- kovarna:{name:_t('Kovárny trpaslíků'),desc:_t('Opuštěné kovárny hluboko pod horou. Výhně pořád žhnou a mezi nimi bublají kaluže lávy. Vydrž 5:30 a poraz Mistra výhně.'),dur:330,size:960,seed:113,style:'deep',deep:'forge',grade:'#ff8a40',gradeA:.22,dark:.5,amb:'#140406',ambient:'ember',c1:'#4a3430',
+ kovarna:{name:_t('Kovárny trpaslíků'),desc:_t('Opuštěné kovárny hluboko pod horou. Výhně pořád žhnou a mezi nimi bublají <b>kaluže lávy</b>. Vydrž 5:30 a poraz Mistra výhně.'),dur:330,size:960,seed:113,style:'deep',deep:'forge',grade:'#ff8a40',gradeA:.22,dark:.5,amb:'#140406',ambient:'ember',c1:'#4a3430',
   speedMul:1.04,base:1.0,boss:'forgelord',pools:6,
   spawns:[{e:'imp',from:0,w:5},{e:'zombie',from:0,w:3},{e:'flameskull',from:0,w:3},{e:'magslime',from:1,w:3},{e:'miner',from:2,w:2},{e:'mage',from:2,w:2},{e:'golem',from:3,w:1}],
   elites:[{t:60,e:'imp'},{t:130,e:'magslime'},{t:200,e:'golem'},{t:270,e:'flameskull'}],
   events:[{t:90,type:'ring',e:'imp',n:18},{t:170,type:'ring',e:'magslime',n:14},{t:250,type:'ring',e:'bat',n:26}]},
- reka:{name:_t('Podzemní řeka'),desc:_t('Jeskyní teče černá řeka. Voda zpomaluje, přes řeku vedou kamenné mosty a ve světle hub číhá Jeskynní úhoř. Vydrž 5:30 a poraz ho.'),dur:330,size:1000,seed:127,style:'deep',deep:'river',grade:'#5ab0ff',gradeA:.22,dark:.62,amb:'#020812',ambient:'mote',c1:'#2a3038',
+ reka:{name:_t('Podzemní řeka'),desc:_t('Jeskyní teče černá řeka. <b>Voda zpomaluje</b>, přes řeku vedou kamenné mosty a ve světle hub číhá Jeskynní úhoř. Vydrž 5:30 a poraz ho.'),dur:330,size:1000,seed:127,style:'deep',deep:'river',grade:'#5ab0ff',gradeA:.22,dark:.62,amb:'#020812',ambient:'mote',c1:'#2a3038',
   speedMul:1.02,base:1.02,boss:'eel',pools:0,
   spawns:[{e:'miner',from:0,w:4},{e:'imp',from:0,w:3},{e:'bat',from:0,w:3},{e:'drowned',from:0,w:3},{e:'ghost',from:1,w:2},{e:'spider',from:1,w:2},{e:'magslime',from:2,w:2},{e:'golem',from:3,w:1}],
   elites:[{t:60,e:'drowned'},{t:130,e:'miner'},{t:200,e:'magslime'},{t:270,e:'golem'}],
   events:[{t:90,type:'ring',e:'bat',n:24},{t:170,type:'ring',e:'drowned',n:18},{t:250,type:'ring',e:'miner',n:14}]},
- krystaly:{name:_t('Krystalové jeskyně'),desc:_t('Temné jeskyně plné svítících krystalů, jen ty dávají světlo. Vydrž 6 minut a poraz Krystalového kolosa.'),dur:360,size:960,seed:131,style:'deep',deep:'crystal',grade:'#9a7aff',gradeA:.24,dark:.8,amb:'#06030e',ambient:'mote',c1:'#221a30',
+ krystaly:{name:_t('Krystalové jeskyně'),desc:_t('Temné jeskyně plné svítících krystalů, <b>jen ty dávají světlo</b>. Vydrž 6 minut a poraz Krystalového kolosa.'),dur:360,size:960,seed:131,style:'deep',deep:'crystal',grade:'#9a7aff',gradeA:.24,dark:.8,amb:'#06030e',ambient:'mote',c1:'#221a30',
   speedMul:1.04,base:1.0,boss:'colossus',pools:0,
   spawns:[{e:'miner',from:0,w:4},{e:'imp',from:0,w:3},{e:'skeleton',from:0,w:3},{e:'ghost',from:1,w:3},{e:'spider',from:1,w:2},{e:'magslime',from:2,w:2},{e:'golem',from:2,w:2}],
   elites:[{t:60,e:'miner'},{t:130,e:'golem'},{t:200,e:'ghost'},{t:270,e:'magslime'},{t:330,e:'golem'}],
   events:[{t:90,type:'ring',e:'imp',n:20},{t:170,type:'ring',e:'ghost',n:18},{t:260,type:'ring',e:'miner',n:16},{t:320,type:'ring',e:'bat',n:28}]},
- srdce:{name:_t('Srdce hory'),desc:_t('Finále kapitoly. V nitru hory pulzuje magmové srdce a země vybuchuje: uhni z červených kruhů, než prasknou. Čeká tu Magmový titán. Vydrž 7 minut.'),dur:420,size:940,seed:137,style:'deep',deep:'core',grade:'#ff6a2a',gradeA:.24,dark:.55,amb:'#120204',ambient:'ember',c1:'#3a2224',finale:1,
+ srdce:{name:_t('Srdce hory'),desc:_t('Finále kapitoly. V nitru hory pulzuje magmové srdce a země vybuchuje: <b>uhni z červených kruhů</b>, než prasknou. Čeká tu Magmový titán. Vydrž 7 minut.'),dur:420,size:940,seed:137,style:'deep',deep:'core',grade:'#ff6a2a',gradeA:.24,dark:.55,amb:'#120204',ambient:'ember',c1:'#3a2224',finale:1,
   speedMul:1.04,base:1.02,boss:'titan',pools:6,
   spawns:[{e:'imp',from:0,w:4},{e:'magslime',from:0,w:4},{e:'miner',from:0,w:3},{e:'flameskull',from:1,w:3},{e:'golem',from:2,w:2},{e:'mage',from:2,w:2},{e:'wolf',from:3,w:2}],
   elites:[{t:50,e:'magslime'},{t:110,e:'miner'},{t:170,e:'golem'},{t:230,e:'imp'},{t:290,e:'magslime'},{t:350,e:'golem'},{t:400,e:'flameskull'}],
   events:[{t:80,type:'ring',e:'imp',n:20},{t:150,type:'ring',e:'magslime',n:16},{t:220,type:'ring',e:'miner',n:16},{t:300,type:'ring',e:'imp',n:26},{t:380,type:'ring',e:'bat',n:30}]},
  // ----- chapter IV: the frozen realm -----
- jezero:{name:_t('Zamrzlé jezero'),desc:_t('Rozlehlé zamrzlé jezero. Na ledu kloužeš a těžko zastavuješ, pod ním se plíží Stín pod ledem. Vydrž 5:30 a poraz ho.'),dur:330,size:1000,seed:151,style:'ice',ice:'lake',grade:'#9ad8ff',gradeA:.2,dark:.2,amb:'#06101e',ambient:'snow',c1:'#d8e8f4',
+ jezero:{name:_t('Zamrzlé jezero'),desc:_t('Rozlehlé zamrzlé jezero. <b>Na ledu kloužeš</b> a těžko zastavuješ, pod ním se plíží Stín pod ledem. Vydrž 5:30 a poraz ho.'),dur:330,size:1000,seed:151,style:'ice',ice:'lake',grade:'#9ad8ff',gradeA:.2,dark:.2,amb:'#06101e',ambient:'snow',c1:'#d8e8f4',
   speedMul:1.0,base:.97,boss:'serpent',pools:0,
   spawns:[{e:'wraith',from:0,w:4},{e:'snowman',from:0,w:4},{e:'wolf',from:2,w:2},{e:'skeleton',from:0,w:3},{e:'bat',from:1,w:2},{e:'ghost',from:1,w:2},{e:'yeti',from:2,w:1}],
   elites:[{t:60,e:'snowman'},{t:130,e:'yeti'},{t:200,e:'wolf'},{t:270,e:'wraith'}],
@@ -1287,59 +1287,59 @@ const MAPS={
   spawns:[{e:'skeleton',from:0,w:4},{e:'wraith',from:0,w:3},{e:'snowman',from:0,w:3},{e:'bonearcher',from:1,w:2},{e:'yeti',from:2,w:1},{e:'golem',from:3,w:1}],
   elites:[{t:60,e:'skeleton'},{t:130,e:'yeti'},{t:200,e:'bonearcher'},{t:270,e:'golem'}],
   events:[{t:90,type:'ring',e:'skeleton',n:20},{t:170,type:'ring',e:'wraith',n:18},{t:250,type:'ring',e:'bat',n:26}]},
- tajga:{name:_t('Tajga'),desc:_t('Noční les v mrazu. Zima tě postupně zpomaluje a nakonec zraňuje, zahřeješ se u táborových ohňů. Vydrž 5:30 a poraz Wendiga.'),dur:330,size:1000,seed:163,style:'ice',ice:'taiga',grade:'#7aa8e8',gradeA:.24,dark:.56,amb:'#02060e',ambient:'snow',c1:'#c8d8ea',
+ tajga:{name:_t('Tajga'),desc:_t('Noční les v mrazu. <b>Zima tě postupně zpomaluje</b> a nakonec zraňuje, <b>zahřeješ se u táborových ohňů</b>. Vydrž 5:30 a poraz Wendiga.'),dur:330,size:1000,seed:163,style:'ice',ice:'taiga',grade:'#7aa8e8',gradeA:.24,dark:.56,amb:'#02060e',ambient:'snow',c1:'#c8d8ea',
   speedMul:1.0,base:.98,boss:'wendigo',pools:0,
   spawns:[{e:'wolf',from:2,w:2},{e:'snowman',from:0,w:4},{e:'bat',from:0,w:3},{e:'wraith',from:1,w:3},{e:'yeti',from:2,w:1},{e:'spider',from:2,w:2}],
   elites:[{t:60,e:'wolf'},{t:130,e:'yeti'},{t:200,e:'wraith'},{t:270,e:'wolf'}],
   events:[{t:90,type:'ring',e:'wolf',n:16},{t:170,type:'ring',e:'snowman',n:18},{t:250,type:'ring',e:'wolf',n:20}]},
- soutezka:{name:_t('Lavinová soutěska'),desc:_t('Úzké údolí pod zasněženými svahy. Každých pár taktů se ukáže pruh a na první dobu dalšího taktu přes něj sjede lavina. Smete i nepřátele. Vydrž 6 minut a poraz Krále yetiů.'),dur:360,size:960,seed:167,style:'ice',ice:'gorge',grade:'#a8d0ff',gradeA:.2,dark:.2,amb:'#08101c',ambient:'snow',c1:'#d0dcea',
+ soutezka:{name:_t('Lavinová soutěska'),desc:_t('Úzké údolí pod zasněženými svahy. Každých pár taktů se ukáže pruh a na první dobu dalšího taktu přes něj <b>sjede lavina</b>, která smete i nepřátele. Vydrž 6 minut a poraz Krále yetiů.'),dur:360,size:960,seed:167,style:'ice',ice:'gorge',grade:'#a8d0ff',gradeA:.2,dark:.2,amb:'#08101c',ambient:'snow',c1:'#d0dcea',
   speedMul:1.0,base:.98,boss:'yetiking',pools:0,
   spawns:[{e:'yeti',from:2,w:1},{e:'snowman',from:0,w:5},{e:'wolf',from:2,w:2},{e:'skeleton',from:0,w:3},{e:'wraith',from:1,w:3},{e:'bonearcher',from:2,w:2},{e:'golem',from:3,w:1}],
   elites:[{t:60,e:'yeti'},{t:130,e:'snowman'},{t:200,e:'golem'},{t:270,e:'yeti'},{t:330,e:'wolf'}],
   events:[{t:90,type:'ring',e:'snowman',n:20},{t:170,type:'ring',e:'wolf',n:16},{t:260,type:'ring',e:'yeti',n:8},{t:320,type:'ring',e:'wraith',n:24}]},
- zima:{name:_t('Trůn zimy'),desc:_t('Finále kapitoly. Pod polární září čeká Zimní královna. Když ji raníš pod polovinu, aréna začne zamrzat: v bezpečí jsi jen v zářící runě. Vydrž 7 minut.'),dur:420,size:940,seed:173,style:'ice',ice:'throne',grade:'#7ac8ff',gradeA:.24,dark:.5,amb:'#020814',ambient:'snow',c1:'#8aa8cc',finale:1,
+ zima:{name:_t('Trůn zimy'),desc:_t('Finále kapitoly. Pod polární září čeká Zimní královna. Když ji raníš pod polovinu, aréna začne zamrzat: <b>v bezpečí jsi jen v zářící runě</b>. Vydrž 7 minut.'),dur:420,size:940,seed:173,style:'ice',ice:'throne',grade:'#7ac8ff',gradeA:.24,dark:.5,amb:'#020814',ambient:'snow',c1:'#8aa8cc',finale:1,
   speedMul:1.0,base:1.0,boss:'queen',pools:0,
   spawns:[{e:'wraith',from:0,w:4},{e:'yeti',from:2,w:1},{e:'snowman',from:0,w:3},{e:'skeleton',from:0,w:3},{e:'ghost',from:2,w:2},{e:'wolf',from:2,w:2},{e:'golem',from:3,w:1}],
   elites:[{t:50,e:'wraith'},{t:110,e:'yeti'},{t:170,e:'snowman'},{t:230,e:'golem'},{t:290,e:'yeti'},{t:350,e:'wraith'},{t:400,e:'golem'}],
   events:[{t:80,type:'ring',e:'wraith',n:20},{t:150,type:'ring',e:'snowman',n:18},{t:220,type:'ring',e:'yeti',n:8},{t:300,type:'ring',e:'wolf',n:18},{t:380,type:'ring',e:'wraith',n:28}]},
  // ----- chapter I: the realm of the dead -----
- bazina:{name:_t('Utopené hroby'),desc:_t('Hřbitov se propadá do bažiny. Voda zpomaluje, z mlhy lezou utopenci. Vydrž 4:30 a poraz Bahenního kněze.'),dur:270,size:920,seed:41,style:'swamp',grade:'#5ad0b0',gradeA:.26,dark:.52,amb:'#04121a',ambient:'wisp',c1:'#2a3424',
+ bazina:{name:_t('Utopené hroby'),desc:_t('Hřbitov se propadá do bažiny. <b>Voda zpomaluje</b>, z mlhy lezou utopenci. Vydrž 4:30 a poraz Bahenního kněze.'),dur:270,size:920,seed:41,style:'swamp',grade:'#5ad0b0',gradeA:.26,dark:.52,amb:'#04121a',ambient:'wisp',c1:'#2a3424',
   speedMul:1,base:1.02,boss:'priest',pools:0,
   spawns:[{e:'drowned',from:0,w:5},{e:'slime',from:0,w:3},{e:'bat',from:0,w:3},{e:'skeleton',from:1,w:3},{e:'ghost',from:1,w:3},{e:'zombie',from:2,w:2},{e:'bonearcher',from:2,w:2}],
   elites:[{t:60,e:'drowned'},{t:130,e:'zombie'},{t:200,e:'drowned'},{t:245,e:'ghost'}],
   events:[{t:100,type:'ring',e:'drowned',n:16},{t:180,type:'ring',e:'bat',n:24},{t:235,type:'ring',e:'drowned',n:20}]},
- kostnice:{name:_t('Kostnice'),desc:_t('Podzemní síň z lebek. Je tma, svítí jen pochodně, které zapálíš dotykem. V jejich světle nepřátelé dostávají víc poškození. Vydrž 5 minut a poraz Strážce kostnice.'),dur:300,size:880,seed:53,style:'crypt',grade:'#8a7ad8',gradeA:.22,dark:.86,amb:'#05040b',ambient:'mote',c1:'#3a363c',
+ kostnice:{name:_t('Kostnice'),desc:_t('Podzemní síň z lebek. Je tma, svítí jen <b>pochodně, které zapálíš dotykem</b>. V jejich světle <b>nepřátelé dostávají víc poškození</b>. Vydrž 5 minut a poraz Strážce kostnice.'),dur:300,size:880,seed:53,style:'crypt',grade:'#8a7ad8',gradeA:.22,dark:.86,amb:'#05040b',ambient:'mote',c1:'#3a363c',
   speedMul:1,base:1.0,boss:'warden',pools:0,
   spawns:[{e:'skeleton',from:0,w:5},{e:'bat',from:0,w:4},{e:'bonearcher',from:0,w:3},{e:'ghost',from:1,w:3},{e:'zombie',from:1,w:3},{e:'spider',from:2,w:2},{e:'digger',from:3,w:1}],
   elites:[{t:60,e:'skeleton'},{t:120,e:'digger'},{t:180,e:'bonearcher'},{t:250,e:'digger'}],
   events:[{t:90,type:'ring',e:'bat',n:22},{t:170,type:'ring',e:'skeleton',n:20},{t:250,type:'ring',e:'ghost',n:16}]},
- zvonice:{name:_t('Zvonice'),desc:_t('Opuštěná vesnice pod kostelní věží. Zvony bijí každé dva takty: stůj u zvonu na úder a vyšle rázovou vlnu. Vydrž 5:30 a poraz Zvoníka.'),dur:330,size:940,seed:67,style:'village',grade:'#ff9a50',gradeA:.26,dark:.44,amb:'#160818',ambient:'leaf',c1:'#5a4a2a',
+ zvonice:{name:_t('Zvonice'),desc:_t('Opuštěná vesnice pod kostelní věží. Zvony bijí každé dva takty: <b>stůj u zvonu na úder</b> a vyšle rázovou vlnu. Vydrž 5:30 a poraz Zvoníka.'),dur:330,size:940,seed:67,style:'village',grade:'#ff9a50',gradeA:.26,dark:.44,amb:'#160818',ambient:'leaf',c1:'#5a4a2a',
   speedMul:1.02,base:1.0,boss:'ringer',pools:0,
   spawns:[{e:'zombie',from:0,w:4},{e:'skeleton',from:0,w:4},{e:'bat',from:0,w:3},{e:'ghost',from:1,w:3},{e:'bonearcher',from:1,w:3},{e:'drowned',from:2,w:2},{e:'wolf',from:2,w:2},{e:'digger',from:3,w:1}],
   elites:[{t:60,e:'zombie'},{t:130,e:'digger'},{t:200,e:'bonearcher'},{t:275,e:'wolf'}],
   events:[{t:100,type:'ring',e:'zombie',n:18},{t:190,type:'ring',e:'bat',n:26},{t:280,type:'ring',e:'skeleton',n:22}]},
- trun:{name:_t('Trůn kostí'),desc:_t('Finále kapitoly. Na trůnu z kostí čeká Morvan, pán kostí. Nejdřív rozbij jeho tři fylaktérie, pak se aréna začne zužovat. Vydrž 7 minut.'),dur:420,size:860,seed:79,style:'throne',grade:'#a868ff',gradeA:.28,dark:.62,amb:'#0a0416',ambient:'soul',c1:'#3a2c3a',finale:1,
+ trun:{name:_t('Trůn kostí'),desc:_t('Finále kapitoly. Na trůnu z kostí čeká Morvan, pán kostí. <b>Nejdřív rozbij jeho tři fylaktérie</b>, pak se <b>aréna začne zužovat</b>. Vydrž 7 minut.'),dur:420,size:860,seed:79,style:'throne',grade:'#a868ff',gradeA:.28,dark:.62,amb:'#0a0416',ambient:'soul',c1:'#3a2c3a',finale:1,
   speedMul:1.04,base:.98,boss:'morvan',pools:0,
   spawns:[{e:'skeleton',from:0,w:5},{e:'bonearcher',from:0,w:3},{e:'ghost',from:0,w:3},{e:'bat',from:0,w:2},{e:'zombie',from:1,w:3},{e:'digger',from:2,w:2},{e:'drowned',from:2,w:2},{e:'spider',from:3,w:2},{e:'golem',from:4,w:1}],
   elites:[{t:50,e:'digger'},{t:110,e:'skeleton'},{t:170,e:'bonearcher'},{t:230,e:'digger'},{t:290,e:'zombie'},{t:350,e:'digger'},{t:400,e:'golem'}],
   events:[{t:80,type:'ring',e:'skeleton',n:20},{t:150,type:'ring',e:'bat',n:26},{t:220,type:'ring',e:'ghost',n:20},{t:300,type:'ring',e:'skeleton',n:28},{t:380,type:'ring',e:'drowned',n:22}]},
  // ----- chapter II: the sand empire -----
- kanon:{name:_t('Kaňon větrů'),desc:_t('Rudé skály a vyschlé řečiště. Každou minutu se přižene písečná bouře a vítr tě tlačí, za skalami je závětří. Vydrž 5 minut a poraz Obřího štíra.'),dur:300,size:960,seed:89,style:'canyon',grade:'#ff6a3a',gradeA:.24,dark:.2,amb:'#2a0c04',ambient:'dust',c1:'#b8643c',
+ kanon:{name:_t('Kaňon větrů'),desc:_t('Rudé skály a vyschlé řečiště. Každou minutu se přižene písečná bouře a <b>vítr tě tlačí</b>, <b>za skalami je závětří</b>. Vydrž 5 minut a poraz Obřího štíra.'),dur:300,size:960,seed:89,style:'canyon',grade:'#ff6a3a',gradeA:.24,dark:.2,amb:'#2a0c04',ambient:'dust',c1:'#b8643c',
   speedMul:1.02,base:1.18,boss:'scorpking',pools:0,
   spawns:[{e:'wolf',from:0,w:4},{e:'scorp',from:0,w:4},{e:'spider',from:0,w:3},{e:'bat',from:1,w:3},{e:'cultist',from:1,w:2},{e:'flameskull',from:2,w:2},{e:'skeleton',from:2,w:2},{e:'mummy',from:3,w:2}],
   elites:[{t:60,e:'scorp'},{t:130,e:'wolf'},{t:200,e:'cultist'},{t:255,e:'mummy'}],
   events:[{t:90,type:'ring',e:'scorp',n:16},{t:170,type:'ring',e:'wolf',n:14},{t:240,type:'ring',e:'bat',n:24}]},
- karavana:{name:_t('Karavanní stezka'),desc:_t('Doprovoď karavanu přes poušť. Velbloud jde jen tehdy, když jsi u něj, a u něj se i léčíš. Věže postavené u něj jedou s karavanou na vozech. Vydrž 5:30 a poraz Písečného červa.'),dur:330,size:1000,seed:97,style:'caravan',caravan:true,crystal:true,grade:'#ffa050',gradeA:.24,dark:.24,amb:'#2a1006',ambient:'dust',c1:'#d4ac6a',
+ karavana:{name:_t('Karavanní stezka'),desc:_t('Doprovoď karavanu přes poušť. <b>Velbloud jde jen tehdy, když jsi u něj</b>, a u něj se i léčíš. Věže postavené u něj <b>jedou s karavanou</b> na vozech. Vydrž 5:30 a poraz Písečného červa.'),dur:330,size:1000,seed:97,style:'caravan',caravan:true,crystal:true,grade:'#ffa050',gradeA:.24,dark:.24,amb:'#2a1006',ambient:'dust',c1:'#d4ac6a',
   speedMul:1.02,base:1.2,boss:'worm',pools:0,
   spawns:[{e:'skeleton',from:0,w:4},{e:'bat',from:0,w:3},{e:'scorp',from:0,w:2},{e:'cultist',from:1,w:2},{e:'wolf',from:1,w:2},{e:'mummy',from:1,w:2},{e:'spider',from:2,w:2},{e:'flameskull',from:3,w:1}],
   elites:[{t:60,e:'cultist'},{t:130,e:'scorp'},{t:200,e:'mummy'},{t:270,e:'cultist'}],
   events:[{t:90,type:'ring',e:'wolf',n:12},{t:170,type:'ring',e:'scorp',n:18},{t:250,type:'ring',e:'cultist',n:14}]},
- hrobka:{name:_t('Hrobka faraona'),desc:_t('Pískovcové chodby plné pastí. Bodce vyjedou na první dobu každého taktu a zraní každého, kdo na nich stojí. Choď do rytmu. Vydrž 5:30 a poraz Mumii kněžku.'),dur:330,size:900,seed:103,style:'tomb',grade:'#ffb860',gradeA:.24,dark:.6,amb:'#120804',ambient:'mote',c1:'#a8844c',
+ hrobka:{name:_t('Hrobka faraona'),desc:_t('Pískovcové chodby plné pastí. <b>Bodce vyjedou na první dobu každého taktu</b> a zraní každého, kdo na nich stojí. <b>Choď do rytmu</b>. Vydrž 5:30 a poraz Mumii kněžku.'),dur:330,size:900,seed:103,style:'tomb',grade:'#ffb860',gradeA:.24,dark:.6,amb:'#120804',ambient:'mote',c1:'#a8844c',
   speedMul:1.02,base:1.16,boss:'priestess',pools:0,
   spawns:[{e:'mummy',from:0,w:3},{e:'bat',from:0,w:4},{e:'skeleton',from:0,w:4},{e:'scorp',from:1,w:2},{e:'ghost',from:1,w:2},{e:'cultist',from:2,w:1}],
   elites:[{t:60,e:'mummy'},{t:130,e:'cultist'},{t:200,e:'scorp'},{t:270,e:'mummy'}],
   events:[{t:90,type:'ring',e:'mummy',n:14},{t:170,type:'ring',e:'bat',n:26},{t:250,type:'ring',e:'scorp',n:18}]},
- brana:{name:_t('Brána slunce'),desc:_t('Finále kapitoly. Sluneční paprsek krouží arénou a stín obelisků je jediný úkryt. Za branou čeká Sfinga. Vydrž 7 minut.'),dur:420,size:920,seed:109,style:'sun',grade:'#ffc860',gradeA:.26,dark:.14,amb:'#2a1404',ambient:'dust',c1:'#e0c48a',finale:1,
+ brana:{name:_t('Brána slunce'),desc:_t('Finále kapitoly. Sluneční paprsek krouží arénou a <b>stín obelisků je jediný úkryt</b>. Za branou čeká Sfinga. Vydrž 7 minut.'),dur:420,size:920,seed:109,style:'sun',grade:'#ffc860',gradeA:.26,dark:.14,amb:'#2a1404',ambient:'dust',c1:'#e0c48a',finale:1,
   speedMul:1.03,base:1.12,boss:'sphinx',pools:0,
   spawns:[{e:'mummy',from:0,w:4},{e:'skeleton',from:0,w:3},{e:'bat',from:0,w:3},{e:'cultist',from:1,w:2},{e:'scorp',from:1,w:2},{e:'wolf',from:2,w:2},{e:'flameskull',from:3,w:2},{e:'mage',from:4,w:1},{e:'golem',from:5,w:1}],
   elites:[{t:50,e:'cultist'},{t:110,e:'mummy'},{t:170,e:'scorp'},{t:230,e:'cultist'},{t:290,e:'mummy'},{t:350,e:'golem'},{t:400,e:'wolf'}],
@@ -3320,7 +3320,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08m';
+const GAME_VER='2026-11-08n';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -6913,6 +6913,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08n',d:'8. 11. 2026',t:_t('Čitelnější popisy map'),items:[_t('V popisu každé mapy jsou teď <b>zlatě zvýrazněné mechaniky</b>, na které si dát pozor. V Průvodci se navíc zvýraznění v popisech hrdinů už neláme na samostatné řádky.')]},
  {v:'2026-11-08m',d:'8. 11. 2026',t:_t('Nekonečná krypta pro každou kapitolu'),items:[_t('Nekonečná krypta už není na každé mapě: <b>každá kapitola má jednu</b>, souboj s jejím finálním bossem. Odemkneš ji poražením finále kapitoly.')]},
  {v:'2026-11-08l',d:'8. 11. 2026',t:_t('Velká aktualizace: bossové bez konce'),hl:[
   {ic:'stars',t:_t('Nová Nekonečná krypta'),d:_t('Souboj s bossem mapy: po každém zabití se vrátí <b>silnější a s novým útokem</b>. Rekord je počet poražených bossů, Esence padá za každého.')},
