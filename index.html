@@ -3283,7 +3283,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08h';
+const GAME_VER='2026-11-08i';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -5591,7 +5591,7 @@ const HERO_MAX=20;
 // what was spent on an item's upgrades so far (sum of upCost for levels 0..lv-1)
 function upInvest(it){return investF(it.r,it.lv);}
 // where each material comes from and what it is for
-const MAT_INFO={shard:_t('padají na všech mapách, v pozdějších kapitolách víc. Na Vylepšení od úrovně 10, úrovně hrdinů, vylepšování výbavy, věží a mazlíčků a Přebroušení. Sklad má strop 6 000, přebytek se změní na zlato.'),
+const MAT_INFO={shard:_t('padají na všech mapách, v pozdějších kapitolách víc. Na Vylepšení od úrovně 10, úrovně hrdinů a vylepšování výbavy, věží a mazlíčků. Sklad má strop 6 000, přebytek se změní na zlato.'),
   ess:_t('padá jen z finálních bossů kapitol (první výhra na každé obtížnosti dá nejvíc, opakované výhry 3× denně) a z Nekonečné krypty. Na úrovně hrdinů od 10, vylepšení od +6 a Vylepšení od úrovně 20.')};
 function matInfo(m){m=MATX(m);const I=MAT_INFO[m];return I?MAT_NAME[m]+' '+I:'';}
 const TALENTS={knight:[[5,_t('Brnění +1')],[10,_t('Rotující čepele: +1 čepel')],[15,_t('Zdraví +15 %')],[20,_t('Po zásahu delší nezranitelnost')]],
@@ -5842,7 +5842,7 @@ function openTwCard(u){const c=twCard(u);if(!c)return;if(seeOne('t'+u)&&state===
     (up?'<button class="btn alt sm" id="twUp"'+(ok?'':' disabled')+'>'+_t('Vylepšit +')+(c.lv+1)+' <span class="costs">'+costHtml(up,1)+'</span></button>'+missHint(up):'<p class="hint">'+_t('Maximální vylepšení.')+'</p>')+
     (c.r<4?'<button class="btn alt sm" id="twMerge"'+(ms.length<3?' disabled':'')+'>'+_t('Sloučit 3× → ')+'<span style="color:'+RAR[c.r+1].col+'">'+RAR[c.r+1].name+'</span> ('+ms.length+'/3)</button>':'')+
     (inD?'':'<button class="btn alt sm" id="twDel">'+_t('Rozebrat ')+'<span class="costs">'+costHtml(rf).replace(/ no/g,'')+'</span></button>')+
-    (Object.keys(c.b||{}).length?'<button class="btn alt sm" id="twRf">'+_t('Přebrousit')+' <span class="costs">'+costHtml(rfCost(c.rf),1)+'</span></button>':'')+
+    ''+
     '<button class="btn alt sm" id="twClose">'+_t('Zavřít')+'</button></div></div>';
   pop.hidden=false;
   $('#twDeckBtn').onclick=()=>{pop.hidden=true;twPick=u;sfx('ui');renderTowers();};
@@ -5992,7 +5992,7 @@ function openPetCard(u){const c=petCard(u);if(!c)return;const pop=$('#ptPop'),se
     (save.heroes.tamer&&!sel?'<button class="btn alt sm" id="ptTake2"'+(sel2?' disabled':'')+'>'+(sel2?_t('Je druhý (Krotitel)'):_t('Jako druhý (Krotitel)'))+'</button>':'')+
     (up?'<button class="btn alt sm" id="ptUp"'+(petCan(up)?'':' disabled')+'>'+_t('Vylepšit +')+(c.lv+1)+' <span class="costs">'+costHtml(up,1)+'</span></button>'+missHint(up):'<p class="hint">'+_t('Maximální vylepšení.')+'</p>')+
     (sel||sel2?'':'<button class="btn alt sm" id="ptDel">'+_t('Rozebrat ')+'<span class="costs">'+costHtml(rf).replace(/ no/g,'')+'</span></button>')+
-    (Object.keys(c.b||{}).length?'<button class="btn alt sm" id="ptRf">'+_t('Přebrousit')+' <span class="costs">'+costHtml(rfCost(c.rf),1)+'</span></button>':'')+
+    ''+
     '<button class="btn alt sm" id="ptClose">'+_t('Zavřít')+'</button></div></div>';pop.hidden=false;
   {const rb=$('#ptRf');if(rb)rb.onclick=()=>{pop.hidden=true;sfx('ui');openReforge('pet',c,()=>{renderPets();openPetCard(u);});};}
   $('#ptTake').onclick=()=>{if(save.pets.sel2===u)save.pets.sel2=save.pets.sel;save.pets.sel=u;persist();sfx('level');pop.hidden=true;renderPets();};
@@ -6034,7 +6034,7 @@ function openItem(u){const it=itemById(u);if(!it)return;if(seeOne('i'+u)&&state=
   pop.innerHTML='<div class="pop-card r'+it.r+(it.set?' set set-'+it.set:'')+'">'+itemCardHtml(it)+
     (who&&!on?_t('<p class="hint">Nosí ho ')+HEROES[who].name+'.</p>':'')+
     '<div class="pop-btns"><button class="btn sm" id="ipEq">'+(on?_t('Sundat'):_t('Nasadit ')+(HERO_DAT[h]||HEROES[h].name))+'</button>'+
-    (it.lv<10?_t('<button class="btn alt sm" id="ipUp">Vylepšit +')+(it.lv+1)+' <span class="costs">'+costHtml(c,1)+'</span></button>'+missHint(c):_t('<p class="hint">Maximální vylepšení.</p>'))+(Object.keys(it.st||{}).length?'<button class="btn alt sm" id="ipRf">'+_t('Přebrousit')+' <span class="costs">'+costHtml(rfCost(it.rf),1)+'</span></button>':'')+
+    (it.lv<10?_t('<button class="btn alt sm" id="ipUp">Vylepšit +')+(it.lv+1)+' <span class="costs">'+costHtml(c,1)+'</span></button>'+missHint(c):_t('<p class="hint">Maximální vylepšení.</p>'))+''+
     (who?'':'<button class="btn alt sm" id="ipDel">'+_t('Rozebrat ')+'<span class="costs">'+costHtml(rf).replace(/ no/g,'')+'</span></button>'+(it.lv?_t('<p class="hint">Rozebrání vrátí i polovinu vylepšení.</p>'):''))+
     _t('<button class="btn alt sm" id="ipClose">Zavřít</button></div></div>');
   pop.hidden=false;
@@ -6779,6 +6779,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08i',d:'8. 11. 2026',t:_t('Bez Přebroušení'),items:[_t('Přebroušení předmětů, věží a mazlíčků je pryč. Detail kusu je přehlednější.')]},
  {v:'2026-11-08h',d:'8. 11. 2026',t:_t('Strom vylepšení předělaný'),items:[_t('Klíčové uzly mají teď 10 úrovní a sílí postupně, místo jednoho silného nákupu. Některé schopnosti jsou nové (Ostrost, Síla rituálu, Regenerace).'),_t('Další uzel se otevře poraženou kapitolou a 3 úrovněmi uzlu nad ním. Co jednou koupíš, už se nikdy nezamkne.'),_t('Mistrovství se otevře po 50 koupených úrovních ve větvi.'),_t('Za klíčové uzly koupené ve verzi 08g jsi dostal plnou cenu zpět.')]},
  {v:'2026-11-08g',d:'8. 11. 2026',t:_t('Strom vylepšení'),items:[_t('Vylepšení v Kovárně jsou teď <b>strom</b> se třemi větvemi: Útok, Obrana a Kořist. Tvoje dosavadní úrovně zůstaly.'),_t('Každá větev má pět <b>klíčových uzlů</b> s novou schopností, třeba štít, 4 karty při nové úrovni, dvě vylepšení z truhly nebo dvojitou Druhou šanci. Každá kapitola otevře další patro.'),_t('Když vymaxuješ bonusy větve, otevře se nekonečné <b>Mistrovství</b>, takže je pořád co vylepšovat.')]},
  {v:'2026-11-08f',d:'8. 11. 2026',t:_t('Opravy'),items:[_t('Z Vylepšení se zase dostaneš zpátky na záložku Kování.'),_t('Kapitola IV je o něco mírnější: méně vlků a yetiů, slabší sněhové koule, pomalejší mráz v Tajze a řidší laviny.')]},
