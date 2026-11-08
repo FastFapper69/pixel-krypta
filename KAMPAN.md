@@ -1,6 +1,6 @@
 # Pixel Krypta – kampaň a kapitoly
 
-Stav: **kapitoly I, II a III hotové (III od verze 2026-11-07y)**. Další kapitoly IV–VI čekají (hrdinové Šamanka, Námořnice, Hvězdářka už jsou připravení).
+Stav: **kapitoly I–IV hotové (III od 2026-11-07y, IV od 2026-11-08e)**. Další kapitoly V–VI čekají (hrdinové Námořnice a Hvězdářka už jsou připravení).
 Návrh pro uživatele je i v dokumentu „Pixel Krypta – kampaň a kapitoly“ (Claude Docs).
 
 ## Systém
@@ -47,7 +47,18 @@ Hudba: každá mapa vlastní skladba v `SONGS` (styl kapitoly), zvuky `bell`, `t
 Profil `zkuseny` (hrdina 10): hřbitov 93 %, kapitola I 87–93 %, Trůn kostí 62 %; poušť ~43 %, kaňon ~50 %, karavana ~66 %, hrobka ~50 %, Brána slunce ~29 %.
 Profil `novy`: hřbitov 83 %, bažina 50 %, zvonice 16 %, Trůn 0 % (postup vyžaduje úrovně hrdiny). Bot je průměrný hráč, ladit podle telemetrie (`runs`).
 
+## Kapitola IV Ledová říše (08e)
+Generátor `buildIce` (`def.ice` = lake | fort | taiga | gorge | throne) + háčky `MF.ice`, sprity `ICE_PROPS`/`icSprite`, ambient `snow`, hudební styl `STYLES.frost` (zvonkohra, celesta).
+| Mapa | Mechanika |
+|---|---|
+| jezero Zamrzlé jezero | led `built.ice` (`iceAt`): hrdina má setrvačnost (`MF.ice.move`, `p.ivx/ivy`), nepřátelé na ledu ×0,84; boss `serpent` (= `worm`) |
+| pevnost Ledová pevnost | bez mechaniky: nádvoří s dlaždicemi, ledové zdi, sochy, modré pánve; boss `fknight` (výpad + kruh, volá přízraky) |
+| tajga Tajga | mráz `p.cold` 0→1 za 38 s mimo oheň (`built.fires`, věž Ohniště), zpomalí až o 35 %, na maximu 3 dmg/s; ukazatel nad hrdinou, modré okraje; boss `wendigo` (rychlé výpady, vlci) |
+| soutezka Lavinová soutěska | laviny `run.aval` (`avalUpdate`): od 40 s každý 3. takt pruh u hrdiny, za takt sjede (18 × NM, odhodí, nepřátelé 90 dmg); `run.qc.aval`; boss `yetiking` |
+| zima Trůn zimy | finále, polární záře; královna `queen` pod 50 % volá `mfCall('freeze')` → `run.frz2`, `frostUpdate`: každé 3 takty 2 takty varování, bezpečné jsou 3 zářící runy z 6 (`built.runes`), jinak 24 × NM + zpomalení |
+Nepřátelé: `yeti` (sněhové koule `eshots` se `snow`/`slw`), `wraith` (ghost, dotek zpomalí), `snowman` (`die:'snow'` = kruh střepů). Věže `hearth` Ohniště (pálí okolí, zahřívá, p5 léčí; odemkne pevnost) a `icelance` Rampouchová věž (průrazné kopí, zpomalí, p5 zmrazí; odemkne soutezka). Set `frost` (2 = zdraví +10 % a zásahy zpomalí `lg.sfr2`, 4 = mrazivá vlna na 1. dobu každého 2. taktu `lg.sfr4`), legendárka `wheart` (zima). Hledaný `bigfoot`. Šamanka mrazu `need:'jezero'`, 1500 zlata. Mistrovství `queen`. Testy `tests/tools/mech4.js`, `shot4.js`, `c3shots.js <prefix> jezero,…`.
+
 ## Zbývá / nápady
-- Kapitola IV–VI (Šamanka mrazu, Námořnice, Hvězdářka): podle stejného rámce, mechanika jen u některých map, 2–3 noví nepřátelé na kapitolu.
+- Kapitola V–VI (Námořnice, Hvězdářka): podle stejného rámce, mechanika jen u některých map, 2–3 noví nepřátelé na kapitolu.
 - Úkoly a Mistrovství pro nové mechaniky (zapálené pochodně `run.qc.torch`, zvony `bell`, pasti `trap` se už počítají).
 - Ověřit na telefonu výkon tmy v Kostnici a mlhy v bažině.

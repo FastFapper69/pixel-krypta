@@ -742,7 +742,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
   <section class="scr" id="scr-chests" hidden>
     <div class="wrap">
       <div class="head"><h2>Obchod</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="cMats"></div></div>
-      <p class="hint">Truhly obsahují výbavu, věže a mazlíčky. Šance na raritu jsou vidět u každé truhly.</p>
+      <p class="hint">Truhly jsou jediný stálý zdroj výbavy a jediný zdroj legendárních předmětů. Kampaň dá předmět jen za první výhru mapy na každé Noční můře a kusy setů z finále.</p>
       <div class="stack" id="chestList"></div>
     </div>
     <div class="popwrap" id="chestPop" hidden></div>
@@ -1010,6 +1010,13 @@ const ENEMY_DEFS={
  imp:{name:_t('Ohnivý skřet'),hp:13,spd:40,dmg:6,r:4,xp:2,beh:'wave',pal:{a:'#d8482c',b:'#7a2a3a',o:'#ffb040',y:'#fff060'},rows:['....b.', '....aa', '...aaa', 'b..aya', 'bb.aaa', 'bbaaao', '.b.aoo', '...aaa', '...a.a']},
  magslime:{name:_t('Magmový sliz'),hp:28,spd:17,dmg:7,r:6,xp:3,beh:'chase',die:'magma',pal:{a:'#e8602c',b:'#8a2418',c:'#ffd060',k:'#3a1a14'},rows:['......', '...k..', '..kaak', '.kaaaa', '.aacaa', 'kaayaa', '.aapaa', 'aacaaa', 'abbbbb', '.bbbbb']},
  miner:{name:_t('Duch horníka'),hp:26,spd:24,dmg:7,r:5,xp:3,beh:'ranged',pal:{a:'#a8d8e8',b:'#5a6a8a',c:'#c89a2a',y:'#fff6a0',n:'#7a5232'},rows:['...ccc', '..cccc', '..ccyy', '..aaaa', '..apaa', '..aaaa', '.bbbbb', 'nbbbbb', 'n.bbbb', '..bbbb', '..b..b']},
+ // chapter IV
+ yeti:{name:_t('Yeti'),hp:70,spd:15,dmg:12,r:7,xp:6,beh:'yeti',pal:{a:'#eef4fa',b:'#9aaac4',c:'#7a8ab0'},rows:[
+  '...aaa','..aaaa','.aaccc','.acpcc','.acccc','aaabbb','aaaaaa','aaaaaa','baaaaa','baaaaa','.aaaaa','.aa.aa','.bb.bb']},
+ wraith:{name:_t('Ledový přízrak'),hp:22,spd:26,dmg:7,r:5,xp:3,beh:'ghost',touch:'slow',pal:{a:'#bfeaff',b:'#5a8ab8',e:'#e8fbff'},rows:[
+  '...aaa','..aaaa','.aaaaa','.apaaa','.apaaa','.aaaaa','aaaaba','aaaaaa','.abaab','..a.ab','...b..']},
+ snowman:{name:_t('Sněhulák'),hp:30,spd:14,dmg:8,r:6,xp:3,beh:'chase',die:'snow',pal:{a:'#f4f8ff',b:'#b8c8e0',k:'#2a2a3a',n:'#7a4a2a'},rows:[
+  '....kk','...kkk','..kkkk','..aaaa','..apaa','..aaao','...aaa','.naaaa','n.aaba','..aaaa','.aaaaa','.aaaba','.aaaaa','..aaaa']},
  // finale objects: a soul jar that does not move or hurt, it just has to break
  phyl:{name:_t('Fylaktérie'),hp:420,spd:0,dmg:0,r:7,xp:6,beh:'static',noHit:1,pal:{a:'#8a6a44',c:'#3a9a6a',g:'#7af0b0',s:'#8a8698',S:'#5a5668'},rows:[
   '....aa','...aaa','..cggg','.cgggg','.ggege','.ggggg','..gggg','..ssss','.SSSSS','.sssss']}
@@ -1043,10 +1050,16 @@ const BOSS_DEFS={
  eel:{name:_t('Jeskynní úhoř'),hp:4800,spd:30,dmg:18,r:15,pat:'worm',puff:'#3a5a7a',pal:{a:'#2a4a6a',b:'#16304a',c:'#5a9ac8',r:'#0a1018',w:'#c8f0ff'},rows:[]},
  colossus:{name:_t('Krystalový kolos'),hp:5200,spd:22,dmg:18,r:15,pat:'colossus',pal:{a:'#5a5a7a',b:'#3a3a52',u:'#7a6ae8',i:'#c8b8ff',y:'#e0f0ff'},rows:['......ii', '..i..iuu', '.iu.iuuu', '.uu.aaaa', '..aaaaaa', '..aayaaa', '.aaaaaaa', 'aaaaaaaa', 'aauaaaaa', 'aauubaaa', '.aaabaaa', '.aaaaaaa', '..aaa.aa', '..bbb.bb']},
  titan:{name:_t('Magmový titán'),hp:11000,spd:18,dmg:20,r:18,pat:'titan',big:1,pal:{k:'#3a2a30',o:'#ff6a1a',y:'#ffd040'},rows:['.....kkkk', '....kkkkk', '....kyykk', '....kkkkk', '.....kokk', '..kkkkkkk', '.kkkokkkk', 'kkkkookkk', 'kkokkkkoo', 'kokkkkkkk', 'kk.kkokkk', 'kk.kkkkok', '.o.kkokkk', '...kkkkkk', '...kkk.kk', '...kkk.kk', '..ookk.oo']},
+ // chapter IV
+ serpent:{name:_t('Stín pod ledem'),hp:5400,spd:30,dmg:18,r:15,pat:'worm',puff:'#e8f4ff',pal:{a:'#3a5a7a',b:'#22384e',c:'#8ac8e8',r:'#0a1420',w:'#e8f8ff'},rows:[]},
+ fknight:{name:_t('Mrazivý rytíř'),hp:5800,spd:22,dmg:18,r:14,pat:'fknight',pal:{s:'#9ab0c8',S:'#5a6a84',u:'#3a6ab8',i:'#bfeaff',e:'#8af0ff'},rows:['......ii','.....iss','....ssss','...sssss','...sSSSS','...Seeee','...sssss','....ssss','..uusSss','.uussSss','uuussSss','uuusssss','uuussSss','.uusssss','..uusSSs','...SS.SS','...ss.ss','..SSS.SS']},
+ wendigo:{name:_t('Wendigo'),hp:6200,spd:26,dmg:18,r:14,pat:'wendigo',pal:{y:'#d8d0b8',a:'#e8e4d8',b:'#4a4a5a',e:'#8affff'},rows:['.y......','.yy.....','..y.y...','...yy...','....aaaa','...aaaaa','...aeaaa','...aaaaa','....aaaa','...bbbbb','..bbbbbb','.b.bbbbb','.b.bbbbb','...bbbbb','...bb.bb','..bb..bb']},
+ yetiking:{name:_t('Král yetiů'),hp:7000,spd:17,dmg:20,r:16,pat:'yetiking',pal:{a:'#eef4fa',b:'#9aaac4',c:'#7a8ab0',y:'#f6c744',r:'#5a2030'},rows:['....y.y.','....yyyy','...aaaaa','..aaaaaa','..aacccc','..acpccc','..accccc','.aaaccrr','aaaaaaaa','aaaaaaaa','baaaaaaa','baaaabaa','.baaaaaa','..aaaaaa','..aaa.aa','..bbb.bb']},
+ queen:{name:_t('Zimní královna'),hp:12500,spd:20,dmg:20,r:18,pat:'queen',big:1,pal:{u:'#cfe8ff',i:'#8af0ff',f:'#e8f0ff',e:'#3ac8ff',w:'#5a8ad8',b:'#bfeaff'},rows:['....i...i','....ii.ii','....iiiii','...uuuuuu','..uuuffff','..uuufeff','..uuuffff','..uu.ffff','.uu..wwww','.u..wwwww','u..wwwwbw','..wwwwwbw','.wwwwwwbw','wwwwwwbww','wwwwwwwww','wwwwwwwww']},
  sphinx:{name:_t('Sfinga, strážkyně brány'),hp:8200,spd:22,dmg:18,r:17,pat:'sphinx',big:1,pal:{a:'#e0b868',b:'#a8783a',u:'#2a4ab0',y:'#f6c744',f:'#d8a868',o:'#7affff'},
   rows:['.....yyyy','....yuuyu','...yuuyyy','...uyffff','...yufoff','...uyffff','...yuffff','....yyfff','.....yyyy','...aaaaaa','.aaaaaaaa','aaaaaaaaa','aabaaaaba','aabaaaaba','.abaaaaba','.aaa.aaa.','.bb...bb.']}
 };
-BOSS_DEFS.eel.rows=BOSS_DEFS.worm.rows;
+BOSS_DEFS.eel.rows=BOSS_DEFS.worm.rows;BOSS_DEFS.serpent.rows=BOSS_DEFS.worm.rows;
 const HEROES={
  knight:{name:_t('Rytíř'),desc:_t('Pevný. +25 zdraví, brnění +1.'),start:'blade',hp:25,armor:1,dmg:0,spd:0,cost:0,pal:{a:'#4aa3e8'},rows:[
   '...rrr','..ssss','.ssppp','.sssss','..aaaa','.saaaa','saabaa','.saaaa','..b..b','..nn.n']},
@@ -1059,14 +1072,14 @@ const HEROES={
  builder:{name:_t('Stavitel'),desc:_t('Věže za 60 % ceny, začíná s jednou.'),start:'axe',hp:15,armor:0,dmg:0,spd:0,cost:250,builder:true,pal:{},rows:[
   '..yyyy','.yyyyy','yyyyyy','.fffff','.fpfff','..ffff','.ooooo','oouuuu','ouuuuu','.uuuuu','..u..u','..n..n']},
  // 08c: heroes built around a slot: one more weapon / a second pet; their talents strengthen exactly that
- warlord:{name:_t('Zbrojmistr'),desc:_t('Unese o zbraň víc: 6 místo 5.'),start:'axe',hp:10,armor:0,dmg:0,spd:0,cost:1000,need:'trun',pal:{s:'#a8b0c0',a:'#8a2a2a',c:'#f6c744',S:'#5a6070'},rows:[
+ warlord:{name:_t('Zbrojmistr'),desc:_t('Unese o zbraň víc: 6 místo 5.'),start:'halberd',hp:10,armor:0,dmg:0,spd:0,cost:1000,need:'trun',pal:{s:'#a8b0c0',a:'#8a2a2a',c:'#f6c744',S:'#5a6070'},rows:[
   's....s','ss..ss','ssssss','.sffff','.sfpff','..ffff','.aaaaa','aacaaa','acaaSa','.aaaaa','..a..a','..n..n']},
- tamer:{name:_t('Krotitel'),desc:_t('Do běhu si vezme dva mazlíčky.'),start:'rang',hp:15,armor:0,dmg:0,spd:.04,cost:1000,need:'trun',pal:{g:'#5c8a3c',G:'#3a5a24',n:'#8a5a32',b:'#f6c744',d:'#3a2a1a'},rows:[
+ tamer:{name:_t('Krotitel'),desc:_t('Do běhu si vezme dva mazlíčky.'),start:'whip',hp:15,armor:0,dmg:0,spd:.04,cost:1000,need:'trun',pal:{g:'#5c8a3c',G:'#3a5a24',n:'#8a5a32',b:'#f6c744',d:'#3a2a1a'},rows:[
   '..gggg','.ggggg','gGgggg','.fffff','.fpfff','..ffff','.nnnnn','nnbnnn','.nnnnn','.nnnnn','..n..n','..d..d']},
  // heroes of future chapters: locked until their chapter exists (soon), each brings its weapon to everyone at hero level 8
  smith:{name:_t('Kovářka'),desc:_t('Pevná ruka. +20 zdraví, brnění +1.'),start:'hammer',hp:20,armor:1,dmg:0,spd:0,cost:1500,need:'doly',pal:{r:'#c8502a',a:'#7a4a2a',c:'#a87048'},rows:[
   '...rrr','..rrrr','.rrfff','.rfpff','..ffff','.ssccc','sscaaa','sscaaa','.ccaaa','..a..a','..n..n']},
- shaman:{name:_t('Šamanka mrazu'),sname:_t('Šamanka'),desc:_t('Vidí daleko. +20 % dosah sbírání, +8 % poškození.'),start:'icicle',hp:0,armor:0,dmg:.08,spd:0,soon:'c4',pal:{a:'#e8f4ff',c:'#3ac8c0',e:'#2a7a8a'},rows:[
+ shaman:{name:_t('Šamanka mrazu'),sname:_t('Šamanka'),desc:_t('Vidí daleko. +20 % dosah sbírání, +8 % poškození.'),start:'icicle',hp:0,armor:0,dmg:.08,spd:0,cost:1500,need:'jezero',pal:{a:'#e8f4ff',c:'#3ac8c0',e:'#2a7a8a'},rows:[
   '...aaa','..aaaa','.aaffu','.afpfu','.aafff','.ccccc','cceccc','ccecce','.ccccc','..c..c','..i..i']},
  sailor:{name:_t('Námořnice'),desc:_t('Mořské nohy. +12 % rychlost.'),start:'anchor',hp:5,armor:0,dmg:0,spd:.12,soon:'c5',pal:{r:'#e8453c',a:'#ffffff',c:'#3a5ab8',d:'#2a2036'},rows:[
   '...rrr','.rrrrr','.dffff','.dfpff','..ffff','.aaaaa','acccca','aaaaaa','.cccca','..d..d','..n..n']},
@@ -1090,6 +1103,8 @@ const ICONS={
  lightning:{pal:{},rows:['...yyy..','..yyy...','.yyy....','yyyyyy..','..yyy...','.yy.....','y.......','........']},
  fireball:{pal:{},rows:['..o..o..','.oyo.o..','.oyyoo..','oyyyyoo.','oyyyyoo.','.oyyoo..','..oo....','........']},
  axe:{pal:{},rows:['..sss...','.ssss...','.sssn...','..ssn...','....n...','....n...','....n...','........']},
+ halberd:{pal:{s:'#c8ccd8',d:'#6a6e80',n:'#8a5a32',r:'#c8402a'},rows:['.....ss.','....sssd','...dssd.','....rn..','...n.r..','..n.....','.n......','n.......']},
+ whip:{pal:{n:'#8a5a32',d:'#5a3a1e',y:'#f6c744'},rows:['......nn','.....n..','....n...','...dd...','..n.....','.nn.....','yd......','dy......']},
  aura:{pal:{},rows:['..gggg..','.g....g.','g..yy..g','g.yyyy.g','g..yy..g','.g....g.','..gggg..','........']},
  arrows:{pal:{},rows:['......s.','.....ss.','....n...','...n....','..n.....','.n......','rn......','........']},
  frost:{pal:{},rows:['...i....','.i.i.i..','..iii...','iiiwiii.','..iii...','.i.i.i..','...i....','........']},
@@ -1212,6 +1227,32 @@ const MAPS={
   spawns:[{e:'imp',from:0,w:4},{e:'magslime',from:0,w:4},{e:'miner',from:0,w:3},{e:'flameskull',from:1,w:3},{e:'golem',from:2,w:2},{e:'mage',from:2,w:2},{e:'wolf',from:3,w:2}],
   elites:[{t:50,e:'magslime'},{t:110,e:'miner'},{t:170,e:'golem'},{t:230,e:'imp'},{t:290,e:'magslime'},{t:350,e:'golem'},{t:400,e:'flameskull'}],
   events:[{t:80,type:'ring',e:'imp',n:20},{t:150,type:'ring',e:'magslime',n:16},{t:220,type:'ring',e:'miner',n:16},{t:300,type:'ring',e:'imp',n:26},{t:380,type:'ring',e:'bat',n:30}]},
+ // ----- chapter IV: the frozen realm -----
+ jezero:{name:_t('Zamrzlé jezero'),desc:_t('Rozlehlé zamrzlé jezero. Na ledu kloužeš a těžko zastavuješ, pod ním se plíží Stín pod ledem. Vydrž 5:30 a poraz ho.'),dur:330,size:1000,seed:151,style:'ice',ice:'lake',grade:'#9ad8ff',gradeA:.2,dark:.2,amb:'#06101e',ambient:'snow',c1:'#d8e8f4',
+  speedMul:1.02,base:1.04,boss:'serpent',pools:0,
+  spawns:[{e:'wraith',from:0,w:4},{e:'snowman',from:0,w:4},{e:'wolf',from:0,w:3},{e:'skeleton',from:0,w:2},{e:'bat',from:1,w:2},{e:'ghost',from:1,w:2},{e:'yeti',from:2,w:2}],
+  elites:[{t:60,e:'snowman'},{t:130,e:'yeti'},{t:200,e:'wolf'},{t:270,e:'wraith'}],
+  events:[{t:90,type:'ring',e:'wolf',n:14},{t:170,type:'ring',e:'wraith',n:18},{t:250,type:'ring',e:'snowman',n:18}]},
+ pevnost:{name:_t('Ledová pevnost'),desc:_t('Nádvoří pevnosti z ledu, kde stráží zmrzlí vojáci a sochy rytířů. Vydrž 5:30 a poraz Mrazivého rytíře.'),dur:330,size:940,seed:157,style:'ice',ice:'fort',grade:'#8ab8ff',gradeA:.22,dark:.42,amb:'#040a1a',ambient:'snow',c1:'#9ab0c8',
+  speedMul:1.03,base:1.03,boss:'fknight',pools:0,
+  spawns:[{e:'skeleton',from:0,w:4},{e:'wraith',from:0,w:3},{e:'snowman',from:0,w:3},{e:'bonearcher',from:1,w:2},{e:'yeti',from:2,w:2},{e:'golem',from:3,w:1}],
+  elites:[{t:60,e:'skeleton'},{t:130,e:'yeti'},{t:200,e:'bonearcher'},{t:270,e:'golem'}],
+  events:[{t:90,type:'ring',e:'skeleton',n:20},{t:170,type:'ring',e:'wraith',n:18},{t:250,type:'ring',e:'bat',n:26}]},
+ tajga:{name:_t('Tajga'),desc:_t('Noční les v mrazu. Zima tě postupně zpomaluje a nakonec zraňuje, zahřeješ se u táborových ohňů. Vydrž 5:30 a poraz Wendiga.'),dur:330,size:1000,seed:163,style:'ice',ice:'taiga',grade:'#7aa8e8',gradeA:.24,dark:.56,amb:'#02060e',ambient:'snow',c1:'#c8d8ea',
+  speedMul:1.03,base:1.03,boss:'wendigo',pools:0,
+  spawns:[{e:'wolf',from:0,w:5},{e:'snowman',from:0,w:3},{e:'bat',from:0,w:2},{e:'wraith',from:1,w:3},{e:'yeti',from:1,w:2},{e:'spider',from:2,w:2}],
+  elites:[{t:60,e:'wolf'},{t:130,e:'yeti'},{t:200,e:'wraith'},{t:270,e:'wolf'}],
+  events:[{t:90,type:'ring',e:'wolf',n:16},{t:170,type:'ring',e:'snowman',n:18},{t:250,type:'ring',e:'wolf',n:20}]},
+ soutezka:{name:_t('Lavinová soutěska'),desc:_t('Úzké údolí pod zasněženými svahy. Každých pár taktů se ukáže pruh a na první dobu dalšího taktu přes něj sjede lavina. Smete i nepřátele. Vydrž 6 minut a poraz Krále yetiů.'),dur:360,size:960,seed:167,style:'ice',ice:'gorge',grade:'#a8d0ff',gradeA:.2,dark:.2,amb:'#08101c',ambient:'snow',c1:'#d0dcea',
+  speedMul:1.04,base:1.02,boss:'yetiking',pools:0,
+  spawns:[{e:'yeti',from:0,w:3},{e:'snowman',from:0,w:4},{e:'wolf',from:0,w:3},{e:'wraith',from:1,w:3},{e:'bonearcher',from:2,w:2},{e:'golem',from:3,w:1}],
+  elites:[{t:60,e:'yeti'},{t:130,e:'snowman'},{t:200,e:'golem'},{t:270,e:'yeti'},{t:330,e:'wolf'}],
+  events:[{t:90,type:'ring',e:'snowman',n:20},{t:170,type:'ring',e:'wolf',n:16},{t:260,type:'ring',e:'yeti',n:8},{t:320,type:'ring',e:'wraith',n:24}]},
+ zima:{name:_t('Trůn zimy'),desc:_t('Finále kapitoly. Pod polární září čeká Zimní královna. Když ji raníš pod polovinu, aréna začne zamrzat: v bezpečí jsi jen v zářící runě. Vydrž 7 minut.'),dur:420,size:940,seed:173,style:'ice',ice:'throne',grade:'#7ac8ff',gradeA:.24,dark:.5,amb:'#020814',ambient:'snow',c1:'#8aa8cc',finale:1,
+  speedMul:1.04,base:1.02,boss:'queen',pools:0,
+  spawns:[{e:'wraith',from:0,w:4},{e:'yeti',from:0,w:3},{e:'snowman',from:0,w:3},{e:'skeleton',from:1,w:3},{e:'ghost',from:2,w:2},{e:'wolf',from:2,w:2},{e:'golem',from:3,w:1}],
+  elites:[{t:50,e:'wraith'},{t:110,e:'yeti'},{t:170,e:'snowman'},{t:230,e:'golem'},{t:290,e:'yeti'},{t:350,e:'wraith'},{t:400,e:'golem'}],
+  events:[{t:80,type:'ring',e:'wraith',n:20},{t:150,type:'ring',e:'snowman',n:18},{t:220,type:'ring',e:'yeti',n:8},{t:300,type:'ring',e:'wolf',n:18},{t:380,type:'ring',e:'wraith',n:28}]},
  // ----- chapter I: the realm of the dead -----
  bazina:{name:_t('Utopené hroby'),desc:_t('Hřbitov se propadá do bažiny. Voda zpomaluje, z mlhy lezou utopenci. Vydrž 4:30 a poraz Bahenního kněze.'),dur:270,size:920,seed:41,style:'swamp',grade:'#5ad0b0',gradeA:.26,dark:.52,amb:'#04121a',ambient:'wisp',c1:'#2a3424',
   speedMul:1,base:1.02,boss:'priest',pools:0,
@@ -1258,17 +1299,19 @@ const MAPS={
 // difficulty per map (enemy HP multiplier, extra spawns, win gold bonus): rises gently in a chapter, the finale jumps
 const MAP_TIER={hrbitov:[1,0,0],bazina:[1.06,.1,15],kostnice:[1.12,.2,30],zvonice:[1.18,.3,45],trun:[1.35,.45,90],
   poust:[1.22,.4,60],kanon:[1.2,.4,75],karavana:[1.24,.42,90],hrobka:[1.22,.4,105],brana:[1.28,.48,150],
-  doly:[1.34,.45,110],kovarna:[1.36,.46,125],reka:[1.4,.48,140],krystaly:[1.44,.5,155],srdce:[1.55,.55,240]};
+  doly:[1.34,.45,110],kovarna:[1.36,.46,125],reka:[1.4,.48,140],krystaly:[1.44,.5,155],srdce:[1.55,.55,240],
+  jezero:[1.6,.56,170],pevnost:[1.63,.57,185],tajga:[1.66,.58,200],soutezka:[1.7,.6,215],zima:[1.82,.64,320]};
 for(const id in MAPS){const T=MAP_TIER[id]||[1,0,0];MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];}
 // campaign: a chapter = one theme, five maps and one material; its last map is the finale with a special boss
 const CHAPTERS=[
  {id:'c1',name:_t('Říše mrtvých'),mat:'shard',col:'#a8c890',maps:['hrbitov','bazina','kostnice','zvonice','trun']},
  {id:'c2',name:_t('Písečná říše'),mat:'shard',col:'#f0b050',maps:['poust','kanon','karavana','hrobka','brana']},
- {id:'c3',name:_t('Hlubiny'),mat:'shard',col:'#f07a3c',maps:['doly','kovarna','reka','krystaly','srdce']}];
+ {id:'c3',name:_t('Hlubiny'),mat:'shard',col:'#f07a3c',maps:['doly','kovarna','reka','krystaly','srdce']},
+ {id:'c4',name:_t('Ledová říše'),mat:'shard',col:'#8ad8ff',maps:['jezero','pevnost','tajga','soutezka','zima']}];
 const MAP_IDS=CHAPTERS.flatMap(c=>c.maps),CH_OF={};CHAPTERS.forEach((c,i)=>{c.i=i;for(const m of c.maps)CH_OF[m]=c;});
 const ROMAN_CH=['I','II','III','IV','V'];
 const mapsBuilt={},MF={};
-const MAP_BUILD={deep:id=>buildDeep(id),swamp:id=>buildSwamp(id),crypt:id=>buildCrypt(id),village:id=>buildVillage(id),throne:id=>buildThrone(id),canyon:id=>buildCanyon(id),caravan:id=>buildCaravan(id),tomb:id=>buildTomb(id),sun:id=>buildSun(id)};
+const MAP_BUILD={ice:id=>buildIce(id),deep:id=>buildDeep(id),swamp:id=>buildSwamp(id),crypt:id=>buildCrypt(id),village:id=>buildVillage(id),throne:id=>buildThrone(id),canyon:id=>buildCanyon(id),caravan:id=>buildCaravan(id),tomb:id=>buildTomb(id),sun:id=>buildSun(id)};
 function buildMap(id){
   if(mapsBuilt[id])return mapsBuilt[id];
   if(MAPS[id].style==='gk')return mapsBuilt[id]=buildGraveyard(id);
@@ -2504,6 +2547,157 @@ MF.deep={
  apply(o){run.erupt=(o||[]).map(a=>({x:a[0],y:a[1],t:a[2],max:a[3],r:ERUPT_R}));}
 };
 
+/* ----- chapter IV, the frozen realm: one generator with five looks (def.ice = lake | fort | taiga | gorge | throne) ----- */
+const ICE_PROPS={
+ pine:{big:1,rows:['.....w','....wg','....gg','...wgg','...ggg','..wwgg','..gggg','.wwggg','.ggggg','wwgggg','gggggg','....nn','....nn'],pal:{w:'#f4f8ff',g:'#24504a',n:'#5a3a22'}},
+ pine2:{rows:['.....w','....wg','...wgg','...ggg','..wwgg','..gggg','.wwggg','.ggggg','....nn'],pal:{w:'#f4f8ff',g:'#2a5a50',n:'#5a3a22'}},
+ dead:{mirror:false,rows:['..n.n..','..nnn.n','n..n.nn','.nnn.n.','...nn..','...n...','...n...','..nnn..'],pal:{n:'#4a3a3a'}},
+ icerock:{rows:['...iii','..iuuu','.iuuuu','iuuuub','uuubbb','.bbbbb'],pal:{i:'#e8f8ff',u:'#9ad0f0',b:'#5a8ab0'}},
+ shard:{mirror:false,rows:['..i....','..iu.i.','.iuu.iu','.iuuiuu','iuuuuuu','uuuuuub','bbbbbbb'],pal:{i:'#f0fbff',u:'#8ad0f0',b:'#4a7aa8'}},
+ rock:{rows:['..aaaa','.awaaa','awaaab','aaaabb','.abbbb'],pal:{a:'#6a7488',b:'#40485a',w:'#f4f8ff'}},
+ statue:{rows:['...ii','..iuu','..uuu','...uu','..uuu','.iuuu','.uuuu','..u.u','.bbbb','bbbbb'],pal:{i:'#e8f8ff',u:'#9ac0e0',b:'#5a6a84'}},
+ pillar:{rows:['.ii','.iu','.iu','.iu','.iu','.iu','.iu','iiu','bbb'],pal:{i:'#e8f8ff',u:'#8ab8e0',b:'#4a5a78'}},
+ block:{mirror:false,rows:['iiiiii','iuuuuu','iuuuuu','uuuuub','bbbbbb'],pal:{i:'#dff4ff',u:'#8ab8e0',b:'#4a6a90'}},
+ campfire:{rows:['......','..s.nn','.ssnnn','sssnns'],pal:{n:'#6a4628',s:'#7a7a8a'}},
+ tent:{rows:['.....n','....nc','...ncc','..nccc','.ncccc','ncccck'],pal:{c:'#a85a3a',n:'#6a4628',k:'#2a1a14'}},
+ bank:{mirror:false,rows:['..wwww..','.wwwwwww','wwwwwwwb','bbbbbbbb'],pal:{w:'#f4f8ff',b:'#b8c8e0'}},
+ brazier:{rows:['....ii','....uu','..ssss','...ss.','...ss.','..ssss'],pal:{i:'#e8fbff',u:'#5ad8ff',s:'#5a6a84'}},
+ throne:{big:1,rows:['...ii.','..iuui','..iuuu','..iuuu','.iuuuu','.iuuuu','iiiiii','uuuuuu','uuuuuu','bbbbbb'],pal:{i:'#e8fbff',u:'#7ac0f0',b:'#3a5a88'}}
+};
+const icSpr={};
+const icSprite=k=>icSpr[k]||(icSpr[k]=buildSprite(ICE_PROPS[k].rows,{pal:ICE_PROPS[k].pal,mirror:ICE_PROPS[k].mirror!==false,scale:ICE_PROPS[k].big?2:1}));
+const iceAt=(b,x,y)=>b.ice?b.ice[(clamp(y|0,0,b.def.size-1))*b.def.size+clamp(x|0,0,b.def.size-1)]:0;
+function buildIce(id){
+  const def=MAPS[id],V=def.ice,size=def.size,rng=mulberry32(def.seed),C=size/2;
+  // the lake: big noisy sheets of ice, the start stays on the shore
+  let ice=null;
+  if(V==='lake'){const N=noiseField(size,size,130,rng);ice=new Uint8Array(size*size);for(let y=0;y<size;y++)for(let x=0;x<size;x++){const i=y*size+x;if(N[i]>.5&&Math.hypot(x-C,y-C)>70)ice[i]=1;}}
+  const SN={lake:['#94a8c2','#a2b4cc','#b0c0d6','#bccadf','#c8d4e6','#d4deec'],fort:['#8a9ab4','#98a8c0','#a6b6cc','#b4c4d8','#c2d0e2','#d0dcec'],taiga:['#8a9eb8','#98aac4','#a6b6ce','#b2c2d8','#becce0','#cad6e8'],
+    gorge:['#9aaac2','#a8b6cc','#b4c2d6','#c0cce0','#ccd6e8','#d8e0ee'],throne:['#7a8ab0','#8898bc','#96a6c8','#a4b4d4','#b2c2de','#c0cee8']}[V].map(hex2rgb);
+  const ICEP=['#4a7aa8','#5a8ab8','#6a9ac6','#7aaad2','#8ab8dc'].map(hex2rgb),IHI=hex2rgb('#e8f8ff'),ICR=hex2rgb('#c8e8ff');
+  const TILE=['#6a84a8','#7890b4','#869cc0','#94a8ca'].map(hex2rgb),WL=['#1a2232','#222c40','#2c384e','#36445c'].map(hex2rgb),TB=12*Z;
+  const inYard=(wx,wy)=>V==='fort'?Math.abs(wx-C)<230&&Math.abs(wy-C)<230:V==='throne'?Math.hypot(wx-C,wy-C)<290:false;
+  const G=paintGround(size,rng,[110,18],(wx,wy,x,y,n1,n2,hn,b,i)=>{const A=size*Z,ed=Math.min(x,y,A-1-x,A-1-y);
+    if(ed<TB){const v=hashN(x>>2,y>>2,3)*.5+hashN(x,y>>1,4)*.3+(ed/TB)*.4+(b-.5)*.2;return palPick(WL,v);}
+    if(ice&&ice[i]){let col=palPick(ICEP,n2*.55+n1*.25+hn*.15+(b-.5)*.2);if(((x+y*2)%29===0)&&hn>.5)col=IHI;else if(hashN(x>>3,y>>3,9)>.985&&hn>.3)col=ICR;return col;}
+    if(inYard(wx,wy)){const gx=wx%22,gy=(wy+((wx/22|0)&1)*11)%22;let v=n1*.4+hn*.2+(b-.5)*.2+.2;if(gx<1||gy<1)v-=.45;else if(gx<2||gy<2)v+=.2;return palPick(TILE,v);}
+    let v=n1*.5+n2*.32+hn*.1+(b-.5)*.2;if(ice&&ice[Math.min(size*size-1,i+size*3)])v-=.25;
+    const rp=Math.sin((wx+wy*.45+n2*46)*.55);if(rp>.94&&n1>.3)v+=.2;else if(rp<-.93&&n1>.3)v-=.14;if(n1<.26)v-=.12;
+    let col=palPick(SN,v);if(hn>.996)col=IHI;return col;});
+  const g=G.g,A=G.A,lights=[],fires=[],runes=[];
+  // bits poking through the snow: dry grass, pebbles, twigs, footprints
+  for(let k=0;k<size*size/700;k++){const x=20+rng()*(size-40),y=20+rng()*(size-40);if((ice&&ice[(y|0)*size+(x|0)])||inYard(x,y))continue;const X=Math.round(x*Z),Y=Math.round(y*Z),r=rng();
+    if(r<.45){g.fillStyle='#8a7a5a';g.fillRect(X,Y,1,4);g.fillRect(X+2,Y+1,1,3);g.fillRect(X-2,Y+2,1,2);g.fillStyle='#b8a878';g.fillRect(X,Y,1,1);}
+    else if(r<.75){g.fillStyle='#6a7488';g.fillRect(X,Y+1,4,2);g.fillStyle='#9aa4b8';g.fillRect(X,Y,3,1);g.fillStyle='#f4f8ff';g.fillRect(X+1,Y,1,1);}
+    else if(r<.9){g.fillStyle='#5a4a3a';g.fillRect(X,Y,5,1);g.fillRect(X+3,Y-1,1,1);g.fillRect(X+1,Y+1,1,1);}
+    else{let fx=x,fy=y;const a=rng()*6.283;for(let s=0;s<10;s++){g.fillStyle='#9aaccc';g.fillRect(Math.round((fx+Math.cos(a+1.57)*(s%2?2:-2))*Z),Math.round((fy+Math.sin(a+1.57)*(s%2?2:-2))*Z),2,3);fx+=Math.cos(a)*5;fy+=Math.sin(a)*5;}}}
+  // cracks on the lake
+  if(ice)for(let k=0;k<120;k++){let x=40+rng()*(size-80),y=40+rng()*(size-80);if(!ice[(y|0)*size+(x|0)])continue;let a=rng()*6.283;const n=30+rng()*60;
+    for(let s=0;s<n;s++){const X=Math.round(x*Z),Y=Math.round(y*Z);g.fillStyle=s%3?'#d8f0ff':'#9ac8e8';g.fillRect(X,Y,1,1);a+=(rng()-.5)*.8;x+=Math.cos(a);y+=Math.sin(a);if(x<20||y<20||x>size-20||y>size-20)break;}}
+  // the throne's runes: six rings around the arena, the queen's frost spares only the glowing ones
+  if(V==='throne')for(let k=0;k<6;k++){const a=k/6*6.283+.52,x=Math.round(C+Math.cos(a)*150),y=Math.round(C+Math.sin(a)*130);runes.push({x,y});
+    g.globalAlpha=.5;g.fillStyle='#2a3a5a';rowsCircle(g,x*Z,y*Z,30*Z);g.globalAlpha=1;for(let j=0;j<120;j++){const b=j/120*6.283;g.fillStyle=j%5?'#5a7ab0':'#8ac8f0';g.fillRect(Math.round((x+Math.cos(b)*28)*Z),Math.round((y+Math.sin(b)*28)*Z),2,2);}}
+  const props=[];const free=(x,y,r)=>!props.some(q=>Math.hypot(q.x-x,q.y-y)<r);
+  const shadowAt=(x,y,rx,ry,a)=>{g.globalAlpha=a;g.fillStyle='#1a2a48';g.beginPath();g.ellipse(x*Z,y*Z,rx*Z,ry*Z,0,0,6.283);g.fill();g.globalAlpha=1;};
+  const put=(k,x,y,tall,sh)=>{const s=typeof k==='string'?icSprite(k):k;if(sh!==0)shadowAt(x+s.w*.1,y-.5,s.w*.46,Math.max(1.4,s.h*.08),sh||.3);props.push({isProp:true,x,y,spr:s,tall:!!tall});return s;};
+  const ok=(x,y,r)=>Math.hypot(x-C,y-C)>66&&(!ice||!ice[(clamp(y|0,0,size-1))*size+clamp(x|0,0,size-1)])&&free(x,y,r)&&!runes.some(q=>Math.hypot(q.x-x,q.y-y)<40);
+  const rand=()=>[40+rng()*(size-80),40+rng()*(size-80)];
+  // a camp in the middle: lanterns on lake/gorge/taiga, blue braziers in the fortress and the throne room
+  const blue=V==='fort'||V==='throne';
+  for(const [dx,dy] of [[-34,-30],[34,-30],[-34,30],[34,30]]){if(blue){put('brazier',C+dx,C+dy,true,.3);lights.push({x:C+dx,y:C+dy-6,r:36,col:'#7ad8ff',a:.6});}
+    else{put('campfire',C+dx,C+dy,false,.3);fires.push({x:C+dx,y:C+dy});lights.push({x:C+dx,y:C+dy-3,r:V==='taiga'?48:36,col:'#ff9a4a',a:V==='taiga'?.85:.5});}}
+  if(V==='lake'){for(let k=0;k<70;k++){const [x,y]=rand();if(!ok(x,y,26))continue;put(rng()<.6?'pine2':'dead',x,y,true,.3);}
+    for(let k=0;k<50;k++){const [x,y]=rand();if(!ok(x,y,20))continue;put(pick(['icerock','bank','rock']),x,y,false,.25);}
+    for(let k=0;k<26;k++){const [x,y]=rand();if(!ice[(y|0)*size+(x|0)])continue;put('shard',x,y,false,.2);if(k%3===0)lights.push({x,y:y-4,r:22,col:'#9ae0ff',a:.5});}}
+  if(V==='fort'){for(let s=-240;s<=240;s+=13)for(const [x,y] of [[C+s,C-240],[C+s,C+240],[C-240,C+s],[C+240,C+s]]){if(Math.abs(s)<40)continue;put('block',x,y,false,.25);}
+    for(const [dx,dy] of [[-240,-240],[240,-240],[-240,240],[240,240],[-40,-240],[40,-240],[-40,240],[40,240],[-240,-40],[-240,40],[240,-40],[240,40]]){put('pillar',C+dx,C+dy+3,true,.3);}
+    for(let k=0;k<14;k++){const a=k/14*6.283,x=C+Math.cos(a)*150,y=C+Math.sin(a)*150;if(!free(x,y,30))continue;put(k%2?'statue':'pillar',x,y,true,.3);if(k%2===0)lights.push({x,y:y-12,r:30,col:'#7ad8ff',a:.6});}
+    for(let k=0;k<8;k++){const a=k/8*6.283+.4,x=C+Math.cos(a)*200,y=C+Math.sin(a)*200;put('brazier',x,y,true,.3);lights.push({x,y:y-6,r:40,col:'#7ad8ff',a:.85});}
+    for(let k=0;k<90;k++){const [x,y]=rand();if(Math.abs(x-C)<250&&Math.abs(y-C)<250)continue;if(!ok(x,y,24))continue;put(pick(['pine2','icerock','rock','shard','bank']),x,y,rng()<.4,.3);}}
+  if(V==='taiga'){for(let k=0;k<9;k++){let x,y,t=0;do{[x,y]=rand();t++;}while(t<40&&(!ok(x,y,120)||Math.hypot(x-C,y-C)<200));const fx=x,fy=y;put('campfire',fx,fy,false,.3);fires.push({x:fx,y:fy});lights.push({x:fx,y:fy-3,r:58,col:'#ff9a4a',a:1});if(rng()<.7)put('tent',fx+24,fy-6,true,.3);}
+    for(let k=0;k<200;k++){const [x,y]=rand();if(!ok(x,y,22)||fires.some(f=>Math.hypot(f.x-x,f.y-y)<46))continue;put(rng()<.55?'pine':'pine2',x,y,true,.35);}
+    for(let k=0;k<40;k++){const [x,y]=rand();if(!ok(x,y,18))continue;put(rng()<.5?'bank':'dead',x,y,false,.25);}}
+  if(V==='gorge'){for(let k=0;k<160;k++){const side=rng()<.5?0:1,d=24+rng()*120,x=side?size-d:d,y=40+rng()*(size-80);if(!ok(x,y,22))continue;put(rng()<.5?'rock':rng()<.5?'pine2':'icerock',x,y,rng()<.5,.3);}
+    for(let k=0;k<40;k++){const [x,y]=rand();if(!ok(x,y,26))continue;put(pick(['bank','icerock','dead']),x,y,false,.25);}}
+  if(V==='throne'){put('throne',C,C-200,true,.4);lights.push({x:C,y:C-216,r:70,col:'#8ae0ff',a:1});
+    for(const q of runes)lights.push({x:q.x,y:q.y,r:34,col:'#6ab0ff',a:.6});
+    for(let k=0;k<16;k++){const a=k/16*6.283,x=C+Math.cos(a)*292,y=C+Math.sin(a)*292;put(k%2?'pillar':'shard',x,y,true,.3);if(k%4===0)lights.push({x,y:y-10,r:30,col:'#7ad8ff',a:.6});}
+    for(let k=0;k<70;k++){const [x,y]=rand();if(Math.hypot(x-C,y-C)<310||!ok(x,y,24))continue;put(pick(['shard','icerock','statue','bank']),x,y,rng()<.4,.3);}}
+  for(let k=0;k<110;k++){const side=(rng()*4)|0,d=24+rng()*50;const x=side===0?d:side===1?size-d:40+rng()*(size-80),y=side===2?d+12:side===3?size-d:40+rng()*(size-80);if(!ok(x,y,16))continue;put(V==='taiga'||V==='lake'?'pine2':'icerock',x,y,true,.3);}
+  for(let i=0;i<8;i++){g.fillStyle='rgba(10,20,40,'+(.35-i*.04)+')';g.fillRect(TB,TB+i,A-2*TB,1);g.fillRect(TB+i,TB,1,A-2*TB);}
+  props.sort((a,b)=>a.y-b.y);
+  const glints=[];if(ice)for(let k=0;k<900;k++){const x=20+rng()*(size-40),y=20+rng()*(size-40);if(ice[(y|0)*size+(x|0)])glints.push(x,y,rng()*6.283);}
+  return {canvas:G.c,pools:[],def,props,lights:lights.slice(0,64),ice,fires,runes,glints:new Float32Array(glints)};
+}
+// ----- avalanches (gorge): a band lights up for one bar, then the snow sweeps across it on the downbeat -----
+function avalUpdate(dt){const A=run.aval,sz=run.map.size;
+  for(let i=A.length-1;i>=0;i--){const q=A[i];q.t-=dt;if(q.hit)q.sw+=dt;
+    if(!q.hit&&q.t<=0){q.hit=1;q.sw=0;sfx('boom');run.shake=Math.max(run.shake,5);
+      const dm=Math.round(18*(1+NM_DMG*(run.nm||0)));
+      for(const p of players()){if(p.down||Math.abs(p.y-q.y)>q.h)continue;const hit=()=>{hurtPlayer(dm,'aval');p.x=clamp(p.x+q.dir*30,14,sz-14);};if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}
+      for(const e of run.enemies)if(!e.boss&&!e.dead&&!e.bur&&Math.abs(e.y-q.y)<q.h)hurtEnemy(e,90,q.dir*220,0);
+      if(run.qc)run.qc.aval=(run.qc.aval||0)+1;}
+    if(q.hit&&q.sw>.9)A.splice(i,1);}
+  if(run.t<40||run.over)return;
+  if(run.barNow){run.avN=(run.avN||0)+1;if(run.avN%3)return;const bar=60/(M.song?M.song.bpm:120)*4;
+    for(const p of players()){if(p.down)continue;A.push({y:clamp(p.y+rnd(-40,40),40,sz-40),h:26,t:bar,max:bar,dir:Math.random()<.5?1:-1,hit:0,sw:0});}}}
+// ----- the throne: below half health the queen's frost comes every few bars; only the glowing runes are safe -----
+function frostUpdate(dt){const B=run.built;
+  if(run.fcy){run.fcy.t-=dt;if(run.fcy.t<=0){const act=run.fcy.act.map(i=>B.runes[i]);run.fcy=null;sfx('zap');run.flashScr=Math.max(run.flashScr,.25);run.flashCol='#bfeaff';
+      const dm=Math.round(24*(1+NM_DMG*(run.nm||0)));
+      for(const p of players()){if(p.down||act.some(r=>Math.hypot(p.x-r.x,p.y-r.y)<30))continue;const hit=()=>{hurtPlayer(dm,'frost');p.slw=Math.max(p.slw||0,1.6);};if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}
+      for(const e of run.enemies)if(!e.boss&&!e.dead)e.frz=Math.max(e.frz||0,1.4);
+      for(let i=0;i<30;i++){const a=Math.random()*6.283,d=rnd(0,160);addP({x:run.p.x+Math.cos(a)*d,y:run.p.y+Math.sin(a)*d*.7,vx:rnd(-10,10),vy:rnd(-30,-10),life:rnd(.5,.9),col:pick(['#ffffff','#bfeaff']),sz:1,g:0});}}}
+  if(!run.frz2||run.over)return;
+  if(run.barNow){run.fcN=(run.fcN||0)+1;if(run.fcy||run.fcN%3!==1)return;const bar=60/(M.song?M.song.bpm:120)*4,ids=[0,1,2,3,4,5].sort(()=>Math.random()-.5).slice(0,3);
+    run.fcy={t:bar*2,max:bar*2,act:ids};toast(_t('Mráz se blíží! Běž do zářící runy.'),1800);sfx('boss');}}
+MF.ice={
+ init(){run.aval=[];run.avN=0;run.fcy=null;run.fcN=0;run.frz2=0;for(const p of players()){p.cold=0;p.lx=undefined;}},
+ psp(p){return run.map.ice==='taiga'?1-.35*(p.cold||0):1;},
+ espd(e){return !e.boss&&iceAt(run.built,e.x,e.y)?.84:1;},
+ // ice keeps your momentum: the velocity follows the stick slowly, so you slide
+ move(p,dt){const B=run.built;if(!B.ice)return;
+   if(p.lx===undefined||Math.abs(p.x-p.lx)>12||Math.abs(p.y-p.ly)>12){p.lx=p.x;p.ly=p.y;p.ivx=0;p.ivy=0;return;}
+   const d=Math.max(dt,1e-3),vx=(p.x-p.lx)/d,vy=(p.y-p.ly)/d;
+   if(iceAt(B,p.x,p.y)){const k=Math.min(1,dt*2.4),sz=run.map.size;p.ivx+=(vx-p.ivx)*k;p.ivy+=(vy-p.ivy)*k;p.x=clamp(p.lx+p.ivx*dt,14,sz-14);p.y=clamp(p.ly+p.ivy*dt,14,sz-14);
+     if(Math.hypot(p.ivx,p.ivy)>20&&Math.random()<dt*14)addP({x:p.x+rnd(-3,3),y:p.y+4,vx:-p.ivx*.1,vy:-8,life:.35,col:'#e8f8ff',sz:1,g:0});}
+   else{p.ivx=vx;p.ivy=vy;}
+   p.lx=p.x;p.ly=p.y;},
+ // taiga: the cold fills up away from fires (and Hearth towers), slows you and at the top it hurts
+ pl(p,dt){if(run.map.ice!=='taiga')return;let warm=false;for(const f of run.built.fires)if(Math.hypot(p.x-f.x,p.y-f.y)<58){warm=true;break;}
+   if(!warm)for(const t of run.towers)if(t.k==='hearth'&&!t.dead&&Math.hypot(p.x-t.x,p.y-t.y)<towerRange(t)){warm=true;break;}
+   if(warm)p.cold=Math.max(0,(p.cold||0)-dt*.45);else p.cold=Math.min(1,(p.cold||0)+dt/38*(1+.15*(run.nm||0)));
+   if(!run.coldTip&&p.cold>.6){run.coldTip=1;toast(_t('Mrzneš! Zahřej se u ohně.'),2200);}
+   if(p.cold>=1){p.clT=(p.clT||0)-dt;if(p.clT<=0){p.clT=1;hurtTick(3,'cold','#8af0ff');}}},
+ freeze(){if(run.map.ice==='throne'){run.frz2=1;run.fcN=0;}},
+ update(dt){if(run.map.ice==='gorge')avalUpdate(dt);if(run.map.ice==='throne')frostUpdate(dt);},
+ gupdate(dt){for(const q of run.aval||[]){q.t-=dt;if(q.hit)q.sw+=dt;}if(run.fcy)run.fcy.t-=dt;},
+ ground(g,ox,oy){const B=run.built,t=run.t;
+   if(B.glints&&B.glints.length){const G=B.glints;for(let i=0;i<G.length;i+=3){const x=G[i]+ox,y=G[i+1]+oy;if(x<-4||y<-4||x>VW+4||y>VH+4)continue;const ph=(t*.35+G[i+2])%3;if(ph>.5)continue;
+     g.globalAlpha=Math.sin(ph*6.283)*.7+.1;g.fillStyle='#ffffff';g.fillRect(RZ(x),RZ(y),ph<.25?1.5:1,.5);}g.globalAlpha=1;}
+   for(const f of B.fires){const x=f.x+ox,y=f.y+oy;if(x<-60||y<-60||x>VW+60||y>VH+60)continue;if(run.map.ice==='taiga')ringPix(g,x,y,58,'#ffb060',.12+.06*M.pulse);for(let i=0;i<3;i++)flame(g,x-2+i*2,y-2,4+i%2*2+M.pulse*2,1.6,i+f.x);}
+   if(B.runes.length){const act=run.fcy?run.fcy.act:null,k=run.fcy?1-clamp(run.fcy.t/run.fcy.max,0,1):0;
+     B.runes.forEach((q,i)=>{const x=q.x+ox,y=q.y+oy;if(x<-40||y<-40||x>VW+40||y>VH+40)return;const on=act&&act.includes(i);
+       if(on){circ(g,x,y,28,'#8ae0ff',.16+.12*M.pulse);ringPix(g,x,y,28,'#e8fbff',.6+.4*M.pulse);ringPix(g,x,y,22-k*6,'#8ae0ff',.5);}
+       else ringPix(g,x,y,28,run.frz2?'#3a5a8a':'#4a6aa0',.35);
+       g.globalAlpha=on?.95:.4;g.fillStyle=on?'#ffffff':'#8ac8f0';for(let j=0;j<3;j++){const b=t*(on?1.5:.4)+j*2.09;g.fillRect(RZ(x+Math.cos(b)*14),RZ(y+Math.sin(b)*11),1,1);}g.globalAlpha=1;});}
+   for(const q of run.aval||[]){if(q.hit)continue;const y=q.y+oy,k=1-clamp(q.t/q.max,0,1);if(y<-q.h-4||y>VH+q.h+4)continue;
+     g.globalAlpha=.1+.16*k+(M.pulse>.6?.06:0);g.fillStyle='#8ad8ff';g.fillRect(0,RZ(y-q.h),VW,RZ(q.h*2));g.globalAlpha=.7;g.fillStyle='#e8fbff';
+     for(let x=((t*40*q.dir)%12+12)%12;x<VW;x+=12){g.fillRect(RZ(x),RZ(y-q.h),4,.5);g.fillRect(RZ(x),RZ(y+q.h),4,.5);}
+     g.globalAlpha=.55+.4*k;g.fillStyle='#ffffff';for(let x=((t*60*q.dir)%28+28)%28;x<VW;x+=28){const ax=x,d=q.dir;g.fillRect(RZ(ax),RZ(y)-.5,4,1);g.fillRect(RZ(ax+(d>0?3:0)),RZ(y)-1.5,1,3);}g.globalAlpha=1;}},
+ top(g,ox,oy){for(const q of run.aval||[]){if(!q.hit)continue;const y=q.y+oy;if(y<-q.h-10||y>VH+q.h+10)continue;const k=clamp(q.sw/.35,0,1),fade=1-clamp((q.sw-.35)/.55,0,1),front=q.dir>0?-20+(VW+40)*k:VW+20-(VW+40)*k;
+     const x0=q.dir>0?0:front,x1=q.dir>0?front:VW;g.globalAlpha=.85*fade;g.fillStyle='#f4f8ff';g.fillRect(RZ(x0),RZ(y-q.h),RZ(x1-x0),RZ(q.h*2));
+     for(let i=0;i<10;i++){const bx=front-q.dir*i*7,by=y+Math.sin(i*1.7+q.y)*q.h*.7;circ(g,bx,by,6+i%3*2,'#ffffff',.9*fade);}
+     g.globalAlpha=1;if(k<1&&Math.random()<.6)addP({x:front-ox,y:y-oy+rnd(-q.h,q.h),vx:q.dir*rnd(40,120),vy:rnd(-40,-10),life:rnd(.3,.6),col:'#ffffff',sz:2,g:60});}
+   const p=run.p;if(run.map.ice==='taiga'&&(p.cold||0)>.03&&!p.down){const x=p.x+ox,y=p.y+oy-17,w=14;g.fillStyle='#1a2232';g.fillRect(RZ(x-w/2)-.5,RZ(y)-.5,w+1,2.5);g.fillStyle=p.cold>=1?(M.pulse>.5?'#ffffff':'#8af0ff'):'#8af0ff';g.fillRect(RZ(x-w/2),RZ(y),RZ(w*p.cold),1.5);}},
+ over(g){const p=run.p,c=run.map.ice==='taiga'?(p.cold||0):0,fk=run.fcy?1-clamp(run.fcy.t/run.fcy.max,0,1):0,k=Math.max(c*.9,fk);
+   if(run.map.ice==='throne'){g.globalCompositeOperation='lighter';for(let j=0;j<3;j++){g.globalAlpha=.06;g.fillStyle=['#3affa0','#3ac8ff','#a868ff'][j];for(let x=0;x<VW;x+=2){const y=10+j*9+Math.sin(x*.03+run.t*.6+j*2)*6+Math.sin(x*.011-run.t*.3)*8;g.fillRect(x,y,2,14+Math.sin(x*.05+j)*4);}}g.globalCompositeOperation='source-over';g.globalAlpha=1;}
+   if(k<=.05)return;for(let i=0;i<8;i++){g.globalAlpha=k*.32*(1-i/8);g.fillStyle='#bfeaff';const w=2+i*2.5;g.fillRect(0,i*2.5,VW,2.5);g.fillRect(0,VH-(i+1)*2.5,VW,2.5);g.fillRect(i*2.5,0,2.5,VH);g.fillRect(VW-(i+1)*2.5,0,2.5,VH);}g.globalAlpha=1;},
+ glows(GL){const fa=run.map.ice==='taiga'?.35:.16;for(const f of run.built.fires)GL(f.x,f.y-4,30,'#ff8a3a',fa+.08*M.pulse);if(run.fcy)for(const i of run.fcy.act){const q=run.built.runes[i];GL(q.x,q.y,40,'#8ae0ff',.4+.2*M.pulse);}},
+ snap(){const o={};if(run.aval&&run.aval.length)o.a=run.aval.map(q=>[q.y|0,q.h,+q.t.toFixed(2),+q.max.toFixed(2),q.dir,q.hit?+q.sw.toFixed(2):-1]);if(run.fcy)o.f=[+run.fcy.t.toFixed(2),+run.fcy.max.toFixed(2),run.fcy.act.join('')];if(run.frz2)o.z=1;return Object.keys(o).length?o:null;},
+ apply(o){o=o||{};run.aval=(o.a||[]).map(a=>({y:a[0],h:a[1],t:a[2],max:a[3],dir:a[4],hit:a[5]>=0?1:0,sw:Math.max(0,a[5])}));run.fcy=o.f?{t:o.f[0],max:o.f[1],act:o.f[2].split('').map(Number)}:null;run.frz2=o.z?1:0;}
+};
+
 function buildMines(id){
   const def=MAPS[id],size=def.size,rng=mulberry32(def.seed),A=size*Z,C=size/2;
   // closed rail loop, three-lobed so it sweeps close to the centre and out towards the walls
@@ -2631,9 +2825,13 @@ const WEAPONS={
  anchor:{name:_t('Kotva na řetězu'),desc:_t('Točí kotvou v širokém oblouku a stahuje nepřátele k sobě.'),labels:{dmg:_t('Poškození'),rad:_t('Dosah')},
   lv:[{n:1,dmg:18,rad:44,cd:2.0},{n:1,dmg:22,rad:46,cd:1.9},{n:1,dmg:26,rad:50,cd:1.8},{n:1,dmg:30,rad:54,cd:1.7},{n:1,dmg:36,rad:58,cd:1.55},{n:1,dmg:44,rad:64,cd:1.4}]},
  stars:{name:_t('Souhvězdí'),desc:_t('Rozmisťuje hvězdy a na první dobu taktu je spojí paprsky, které zraní vše mezi nimi.'),labels:{n:_t('Hvězd'),dmg:_t('Poškození')},
-  lv:[{n:3,dmg:16,cd:1.0},{n:3,dmg:20,cd:.9},{n:4,dmg:20,cd:.9},{n:4,dmg:26,cd:.8},{n:5,dmg:30,cd:.75},{n:6,dmg:36,cd:.7}]}
+  lv:[{n:3,dmg:16,cd:1.0},{n:3,dmg:20,cd:.9},{n:4,dmg:20,cd:.9},{n:4,dmg:26,cd:.8},{n:5,dmg:30,cd:.75},{n:6,dmg:36,cd:.7}]},
+ halberd:{name:_t('Halapartna'),desc:_t('Na první a třetí dobu sekne širokým obloukem před sebe. Každá další zbraň v buildu jí přidá 6 % poškození.'),labels:{dmg:_t('Poškození'),rad:_t('Dosah')},
+  lv:[{dmg:16,rad:36,cd:1.0},{dmg:19,rad:38,cd:1.0},{dmg:23,rad:42,cd:1.0},{dmg:27,rad:44,cd:.95},{dmg:32,rad:48,cd:.9},{dmg:38,rad:54,cd:.85}]},
+ whip:{name:_t('Bič'),desc:_t('Šlehne do dálky přes celou řadu nepřátel a označí je. Mazlíčci útočí na označené o 30 % silněji.'),labels:{n:_t('Šlehů'),dmg:_t('Poškození'),len:_t('Délka')},
+  lv:[{n:1,dmg:12,len:78,cd:1.2},{n:1,dmg:15,len:82,cd:1.1},{n:2,dmg:15,len:86,cd:1.1},{n:2,dmg:19,len:90,cd:1.0},{n:2,dmg:23,len:96,cd:.9},{n:3,dmg:28,len:104,cd:.8}]}
 };
-const W_HERO={hammer:'smith',icicle:'shaman',anchor:'sailor',stars:'astro'},W_UNL_LV=8;
+const W_HERO={hammer:'smith',icicle:'shaman',anchor:'sailor',stars:'astro',halberd:'warlord',whip:'tamer'},W_UNL_LV=8;
 // a hero weapon joins the common pool once its hero is level 8 (or for that hero himself)
 const wOpen=id=>!W_HERO[id]||(run&&run.heroId===W_HERO[id])||(heroOwned(W_HERO[id])&&heroLv(W_HERO[id])>=W_UNL_LV);
 const W_IDS=Object.keys(WEAPONS);
@@ -2852,6 +3050,42 @@ const SONGS={
   C:{e:0,prog:[[0,'p'],[0,'p'],[-4,'p'],[-2,'p']],lead:[11,_,_,_,9,_,_,_, 7,_,_,_,6,_,_,_, 4,_,_,_,3,_,_,_, 4,_,_,_,_,_,_,_]},
   X:{e:3,prog:[[0,'p'],[1,'p'],[-2,'p'],[0,'p']],lead:[7,_,9,_,11,_,9,_, 7,_,6,_,4,_,_,_, 7,_,9,_,11,_,12,_, 11,_,9,_,7,_,_,_]},
   Y:{e:3,prog:[[-4,'p'],[-5,'p'],[-2,'p'],[0,'p']],lead:[4,_,3,_,4,_,6,_, 7,_,_,_,_,_,_,_, 6,_,4,_,3,_,1,_, 0,_,_,_,_,_,_,_]}}},
+ // frozen realm: minor/harmonic minor with a celesta lead, bell arpeggios and airy pads
+ jezero:{bpm:116,root:52,scale:'minor',style:'frost',keys:[0,0,3,-2],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','X','Y','X'],sec:{
+  I:{e:0,prog:[[0,'m'],[-4,'M'],[3,'M'],[-2,'M']],lead:[7,_,_,_,4,_,_,_, 6,_,_,_,4,_,2,_, 4,_,_,_,_,_,_,_, 2,_,_,_,_,_,_,_]},
+  A:{e:1,prog:[[0,'m'],[-4,'M'],[-2,'M'],[0,'m']],lead:[0,_,2,_,4,_,7,_, 6,_,4,_,2,_,_,_, 4,_,6,_,7,_,9,_, 7,_,_,_,_,_,_,_]},
+  B:{e:2,prog:[[-4,'M'],[-2,'M'],[0,'m'],[5,'m']],lead:[9,_,7,_,9,_,11,_, 9,_,7,_,6,_,_,_, 7,_,6,_,4,_,2,_, 4,_,_,_,_,_,_,_]},
+  C:{e:0,prog:[[0,'m'],[5,'m'],[-4,'M'],[-2,'M']],lead:[11,_,_,_,9,_,_,_, 7,_,_,_,6,_,_,_, 4,_,_,_,2,_,_,_, 4,_,_,_,_,_,_,_]},
+  X:{e:3,prog:[[0,'m'],[-2,'M'],[-4,'M'],[-2,'M']],lead:[7,_,9,_,11,_,9,_, 7,_,6,_,4,_,_,_, 7,_,9,_,11,_,12,_, 11,_,9,_,7,_,_,_]},
+  Y:{e:3,prog:[[-4,'M'],[-5,'M'],[-2,'M'],[0,'m']],lead:[4,_,2,_,4,_,6,_, 7,_,_,_,_,_,_,_, 6,_,4,_,2,_,1,_, 0,_,_,_,_,_,_,_]}}},
+ pevnost:{bpm:126,root:50,scale:'harm',style:'frost',keys:[0,0,2,-1],form0:['I','A'],form:['A','B','A','C','B','B'],bossForm:['X','Y','X','Y'],sec:{
+  I:{e:0,prog:[[0,'m'],[5,'m'],[7,'M'],[0,'m']],lead:[4,_,_,_,6,_,_,_, 7,_,_,_,6,_,4,_, 3,_,_,_,_,_,_,_, 4,_,_,_,_,_,_,_]},
+  A:{e:1,prog:[[0,'m'],[5,'m'],[7,'M'],[0,'m']],lead:[0,_,0,2,4,_,4,_, 5,_,4,_,3,_,_,_, 4,_,4,5,7,_,6,_, 4,_,_,_,_,_,_,_]},
+  B:{e:2,prog:[[-4,'M'],[5,'m'],[7,'M'],[0,'m']],lead:[7,_,8,_,7,_,5,_, 4,_,5,_,6,_,_,_, 7,_,8,_,10,_,8,_, 7,_,_,_,6,_,_,_]},
+  C:{e:0,prog:[[5,'m'],[0,'m'],[2,'d'],[7,'M']],lead:[_,_,9,_,_,_,8,_, _,_,7,_,_,_,6,_, _,_,5,_,_,_,4,_, 3,_,_,_,6,_,_,_]},
+  X:{e:3,prog:[[0,'m'],[1,'M'],[0,'m'],[7,'M']],lead:[7,7,_,6,7,_,4,_, 5,_,4,_,5,_,3,_, 7,7,_,6,7,_,9,_, 8,_,6,_,4,_,1,_]},
+  Y:{e:3,prog:[[5,'m'],[1,'M'],[2,'d'],[7,'M']],lead:[10,_,9,_,8,_,7,_, 8,_,7,_,6,_,5,_, 4,_,5,_,3,_,4,_, 6,_,_,_,1,_,_,_]}}},
+ tajga:{bpm:112,root:47,scale:'minor',style:'frost',keys:[0,0,-2,3],form0:['I','A'],form:['A','C','B','A','B','C'],bossForm:['X','X','Y','X'],sec:{
+  I:{e:0,prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[4,_,_,_,_,_,2,_, 4,_,_,_,_,_,_,_, 7,_,_,_,6,_,4,_, 2,_,_,_,_,_,_,_]},
+  A:{e:1,prog:[[0,'m'],[3,'M'],[-2,'M'],[0,'m']],lead:[0,_,_,2,4,_,_,4, 5,_,4,_,2,_,_,_, 0,_,_,2,4,_,_,7, 6,_,_,_,4,_,_,_]},
+  B:{e:2,prog:[[5,'m'],[3,'M'],[-2,'M'],[-4,'M']],lead:[7,_,_,_,9,_,7,_, 6,_,_,_,4,_,_,_, 9,_,_,_,11,_,9,_, 7,_,_,_,_,_,_,_]},
+  C:{e:0,prog:[[0,'m'],[-4,'M'],[0,'m'],[-5,'M']],lead:[_,_,_,_,4,_,_,_, _,_,_,_,2,_,_,_, _,_,_,_,0,_,_,_, -1,_,_,_,_,_,_,_]},
+  X:{e:3,prog:[[0,'m'],[-2,'M'],[-4,'M'],[-5,'M']],lead:[7,_,7,_,9,_,7,_, 6,_,4,_,2,_,4,_, 7,_,7,_,9,_,11,_, 9,_,7,_,6,_,_,_]},
+  Y:{e:3,prog:[[5,'m'],[-2,'M'],[3,'M'],[0,'m']],lead:[11,_,9,_,7,_,6,_, 7,_,_,_,4,_,_,_, 6,_,4,_,2,_,1,_, 0,_,_,_,_,_,_,_]}}},
+ soutezka:{bpm:134,root:53,scale:'harm',style:'frost',keys:[0,0,2,-2],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','Y','X','Y'],sec:{
+  I:{e:0,prog:[[0,'m'],[1,'M'],[0,'m'],[-1,'M']],lead:[0,_,_,_,1,_,_,_, 0,_,_,_,-1,_,_,_, 0,_,_,_,3,_,_,_, 4,_,_,_,_,_,_,_]},
+  A:{e:1,prog:[[0,'m'],[1,'M'],[-2,'M'],[0,'m']],lead:[0,_,2,_,3,_,4,_, 5,_,4,_,3,_,_,_, 0,_,2,_,3,_,6,_, 4,_,3,_,2,_,1,_]},
+  B:{e:2,prog:[[-2,'M'],[1,'M'],[0,'m'],[-1,'M']],lead:[7,_,6,7,8,_,7,_, 6,_,4,_,3,_,_,_, 7,_,6,7,8,_,10,_, 8,_,7,_,6,_,4,_]},
+  C:{e:0,prog:[[0,'m'],[3,'M'],[1,'M'],[0,'m']],lead:[0,_,_,_,_,_,_,_, 3,_,_,_,_,_,_,_, 1,_,_,_,_,_,_,_, 0,_,_,_,_,_,_,_]},
+  X:{e:3,prog:[[0,'m'],[1,'M'],[0,'m'],[-1,'M']],lead:[7,7,_,8,7,_,6,_, 7,7,_,8,10,_,8,_, 7,_,6,_,4,_,3,_, 1,_,0,_,-1,_,0,_]},
+  Y:{e:3,prog:[[-2,'M'],[1,'M'],[3,'M'],[0,'m']],lead:[10,_,8,_,7,_,6,_, 7,_,_,_,4,_,_,_, 6,_,4,_,3,_,1,_, 0,_,_,_,_,_,_,_]}}},
+ zima:{bpm:138,root:49,scale:'harm',style:'frost',keys:[0,0,3,-2],form0:['I','A'],form:['A','B','A','C','B','B'],bossForm:['X','Y','X','Y'],sec:{
+  I:{e:0,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[7,_,_,_,6,_,_,_, 4,_,_,_,3,_,_,_, 4,_,_,_,6,_,_,_, 7,_,_,_,_,_,_,_]},
+  A:{e:1,prog:[[0,'m'],[5,'m'],[7,'M'],[0,'m']],lead:[0,_,2,4,7,_,4,_, 5,_,3,_,5,4,3,_, 6,_,4,_,1,2,1,_, 0,_,_,_,_,_,_,_]},
+  B:{e:2,prog:[[-4,'M'],[3,'M'],[5,'m'],[7,'M']],lead:[5,_,_,_,7,_,_,_, 9,_,7,_,4,_,_,_, 8,_,_,_,7,_,5,_, 6,_,_,_,4,_,_,_]},
+  C:{e:0,prog:[[5,'m'],[0,'m'],[2,'d'],[7,'M']],lead:[_,_,9,_,_,_,8,_, _,_,7,_,_,_,4,_, _,_,5,_,_,_,3,_, 1,_,_,_,6,_,_,_]},
+  X:{e:3,prog:[[0,'m'],[1,'M'],[0,'m'],[7,'M']],lead:[7,7,_,6,7,_,4,_, 5,_,4,_,5,_,3,_, 7,7,_,6,7,_,9,_, 8,_,6,_,4,_,1,_]},
+  Y:{e:3,prog:[[5,'m'],[1,'M'],[2,'d'],[7,'M']],lead:[10,_,9,_,8,_,7,_, 8,_,7,_,6,_,5,_, 4,_,5,_,3,_,4,_, 6,_,_,_,1,_,_,_]}}},
  srdce:{bpm:142,root:48,scale:'harm',style:'forge',keys:[0,0,2,-2],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','Y','X','Y'],sec:{
   I:{e:0,prog:[[0,'p'],[0,'p'],[1,'p'],[0,'p']],lead:[0,_,0,_,_,_,_,_, 1,_,0,_,_,_,_,_, 0,_,0,_,_,_,_,_, -1,_,_,_,_,_,_,_]},
   A:{e:1,prog:[[0,'p'],[1,'p'],[-2,'p'],[0,'p']],lead:[0,_,2,_,3,_,4,_, 5,_,4,_,3,_,_,_, 0,_,2,_,3,_,6,_, 4,_,3,_,2,_,1,_]},
@@ -2924,6 +3158,12 @@ const STYLES={
   arp(x){const {s16,t,c,sd}=x;const k=[0,1,2,1][s16%4],f=NOTE(c.root+24+c.tones[k]%12);tone('square',f,t,sd*.6,.026,{lp:3000});},
   lead(f,t,dur,v){tone('square',f,t,dur,.06*v,{lp:3200,vib:7});tone('sawtooth',f,t,dur*.8,.02*v,{lp:2000,det:8});}}
 };
+// frozen realm: soft brushed drums, the graveyard's bass, an airy pad, bell arpeggios and a celesta lead
+STYLES.frost={drums:STYLES.grave.drums,bass:STYLES.grave.bass,
+ pad(x){if(x.s16!==0)return;const {t,c,sd,E}=x,v=E===0?.02:.013;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sine',f,t,sd*15,v,{a:.4,det:-6});tone('triangle',f,t,sd*15,v*.6,{lp:1400,a:.4,det:6});}},
+ arp(x){const {s16,t,c,sd,cyc}=x;if(s16%2)return;const P=[[0,1,2,3,2,1,2,3],[3,2,1,0,1,2,3,2],[0,2,1,3,2,0,3,1]][cyc%3],k=P[s16>>1];
+  const f=NOTE(c.root+24+(k===3?12:c.tones[k]));tone('sine',f,t,sd*3,.045);tone('sine',f*2.76,t,sd*1.2,.012);},
+ lead(f,t,dur,v){tone('sine',f,t,dur*1.2,.11*v,{a:.005});tone('sine',f*2,t,dur*.6,.03*v);tone('triangle',f*4,t,dur*.25,.01*v);tone('sine',f,t+M.stepDur*3,dur*.8,.025*v);}};
 function playStep(s,t){
   if(!ac||!save.music||!M.musicBus||(ac.state!=='running'&&!M.offline))return;
   const S=M.song,s16=s%16,P=songPos(s),c=chordAt(s),I=M.int,B=M.musicBus,sd=M.stepDur,bar=P.bar,ST=STYLES[S.style]||STYLES.grave;
@@ -3016,7 +3256,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08d';
+const GAME_VER='2026-11-08e';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3227,7 +3467,7 @@ function hurtEnemy(e,dmg,kx,ky){
   if(e.dead||e.bur||isGuest())return;
   if(e.shield){e.flash=.05;if(Math.random()<.3)sparks(e.x,e.y-4,2,'#b07aff',kx,ky,90);if(!e.shT||run.t-e.shT>2.5){e.shT=run.t;toast(e.shield,1600);}return;}
   let d=dmg*st.dmg*(mfCall('dmgMul',e)||1),crit=false;if(e.mk>run.t)d*=e.mkm||1.2;if(Math.random()<(st.crit||.1)){d*=st.tal&&st.tal.a20?2:1.6;crit=true;}if(st.lg&&st.lg.metro&&(M.step%16)>=12)d*=2;d=Math.max(1,Math.round(d));
-  run.tdm=(run.tdm||0)+d;e.hp-=d;e.flash=.09;e.sq=1;e.kx+=(kx||0)*e.kbm;e.ky+=(ky||0)*e.kbm;
+  run.tdm=(run.tdm||0)+d;e.hp-=d;if(st.lg&&st.lg.sfr2&&!e.boss)e.slowT=Math.max(e.slowT,.8);e.flash=.09;e.sq=1;e.kx+=(kx||0)*e.kbm;e.ky+=(ky||0)*e.kbm;
   if(run.nums.length<40)run.nums.push({x:e.x+rnd(-3,3),y:e.y-e.h/2,vx:rnd(-14,14),vy:crit?-70:-55,txt:String(d)+(crit?'!':''),life:crit?.8:.6,col:crit?'#f6c744':'#ffffff',big:crit,t:0});
   sparks(e.x,e.y-2,crit?5:2,crit?'#fff6b0':'#ffffff',kx,ky,crit?150:110);
   if(crit)run.fx.push({k:'pop',x:e.x,y:e.y-2,r:2,max:9,life:.12,t:0,col:'#f6c744'});
@@ -3261,6 +3501,7 @@ function killEnemy(e){
     else if(r<.11)run.items.push({x:e.x,y:e.y,k:'magnet'});}
   if(e.d.die==='puddle')run.fx.push({k:'puddle',x:e.x,y:e.y+2,r:11,life:5,max:5,seed:Math.random()*9});
   else if(e.d.die==='magma')run.fx.push({k:'magma',x:e.x,y:e.y+2,r:9,life:3,max:3,seed:Math.random()*9});
+  else if(e.d.die==='snow'){if(!isGuest())ring(e.x,e.y-3,e.elite?8:5,46,5*(1+run.t/60*.08),Math.random()*6,srcOf(e));for(let i=0;i<8;i++)addP({x:e.x+rnd(-4,4),y:e.y-4,vx:rnd(-50,50),vy:rnd(-70,-20),life:rnd(.4,.7),col:pick(['#ffffff','#dff0ff']),sz:2,gy:e.y+4});}
   if(e.elite&&st&&st.lg&&st.lg.skull&&!isGuest())allySpawn(e.x,e.y);
   if(st&&st.lg&&!isGuest()){if(e.elite&&st.lg.sb2){const p=run.p,h=Math.ceil(p.max*.1);if(!p.down&&p.hp<p.max){p.hp=Math.min(p.max,p.hp+h);run.nums.push({x:p.x,y:p.y-10,txt:'+'+h,life:.8,col:'#8affa0'});}}
     if(st.lg.sb4&&e.bm&&run.t-e.bm<.3&&(run.allies||[]).filter(a=>!a.tw).length<3)allySpawn(e.x,e.y);}
@@ -3272,6 +3513,7 @@ function hurtPlayer(d,src){
   if(window.__krypta&&window.__krypta.god)return;
   const amt=Math.max(1,Math.round(d-st.armor));tmHit(src,amt);
   if(st.lg&&st.lg.mheart&&run.t-(run.mhT||-9)>2){run.mhT=run.t;explode(p.x,p.y,40,24+run.level*2);}
+  if(st.lg&&st.lg.wheart&&run.t-(run.whT||-9)>2){run.whT=run.t;for(const e of run.enemies)if(!e.dead&&!e.boss&&Math.hypot(e.x-p.x,e.y-p.y)<56)e.frz=Math.max(e.frz||0,1.6);run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:56,dmg:10+run.level,hit:new Set(),life:1,freeze:true,col:'#8af0ff'});}
   p.hp-=amt;p.inv=st.tal&&st.tal.k20?1.1:.6;p.flash=.15;run.shake=3;run.combo=run.hero&&run.hero.ach==='combo'?run.combo>>1:0;sfx('hurt');
   run.nums.push({x:p.x,y:p.y-8,txt:String(amt),life:.7,col:'#ff6a5a'});
   if(p.hp<=0){
@@ -3302,7 +3544,7 @@ function nearest(n,maxD){
 function inView(e,m){const c=run.cam;return e.x>c.x-m&&e.x<c.x+VW+m&&e.y>c.y-m&&e.y<c.y+VH+m;}
 function fire(s){s.hit=new Map();s.rehit=s.rehit||Infinity;s.rot=0;run.shots.push(s);}
 // discrete weapons fire on 16th-note steps; offsets interleave them so the volley sounds like a groove
-const W_OFF={bolt:0,arrows:2,lightning:0,fireball:8,axe:6,frost:0,aura:2,vortex:2,storm:0,meteor:8,blizzard:2,note:4,rang:10,echo:0,steam:8};
+const W_OFF={bolt:0,arrows:2,lightning:0,fireball:8,axe:6,frost:0,aura:2,vortex:2,storm:0,meteor:8,blizzard:2,note:4,rang:10,echo:0,steam:8,halberd:0,whip:4};
 const LOGIC={
  bolt:{fire(w,P){const ts=nearest(P.n,180);if(!ts.length)return;sfx('shoot',0);const p=run.p;
   for(let i=0;i<P.n;i++){const t=ts[i%ts.length];let a=Math.atan2(t.y-p.y,t.x-p.x);if(i>=ts.length)a+=(((i-ts.length)>>1)+1)*.2*(i%2?1:-1);
@@ -3338,6 +3580,14 @@ const LOGIC={
  anchor:{fire(w,P){const p=run.p,a0=Math.atan2(p.face.y,p.face.x);for(let i=0;i<P.n;i++)run.fx.push({k:'anchor',x:p.x,y:p.y,a0:a0+(i?Math.PI:0),t:-i*.2,life:.45,max:.45,rad:P.rad,dmg:P.dmg,hit:new Set()});sfx('shoot',2);}},
  stars:{fire(w,P){const p=run.p,S=run.stars||(run.stars=[]);const a=Math.random()*6.283,r=rnd(28,62),f={k:'star',x:p.x+Math.cos(a)*r,y:p.y+Math.sin(a)*r*.8,life:5,max:5};
    S.push(f);run.fx.push(f);while(S.length>P.n)S.shift().life=.25;sfx('coin');}},
+ halberd:{fire(w,P){const p=run.p,a=Math.atan2(p.face.y,p.face.x),m=1+.06*Math.max(0,Object.keys(run.W).length-1),R=P.rad;
+   for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit)continue;const dx=e.x-p.x,dy=e.y-p.y,d=Math.hypot(dx,dy)||1;if(d>R+e.r)continue;
+     let da=Math.atan2(dy,dx)-a;da=Math.atan2(Math.sin(da),Math.cos(da));if(Math.abs(da)>.85&&d>e.r+8)continue;hurtEnemy(e,P.dmg*m,dx/d*60,dy/d*60);}
+   run.fx.push({k:'halb',x:p.x,y:p.y,a,rad:R,life:.24,max:.24});sfx('shoot',2);run.shake=Math.max(run.shake,1);}},
+ whip:{fire(w,P){const ts=nearest(P.n,P.len+20),p=run.p;sfx('shoot',1);
+   for(let i=0;i<P.n;i++){const t=ts[i%Math.max(1,ts.length)];const a=(t?Math.atan2(t.y-p.y,t.x-p.x):Math.atan2(p.face.y,p.face.x))+(t&&i<ts.length?0:(i%2?1:-1)*.5*Math.ceil(i/2)),fx=Math.cos(a),fy=Math.sin(a);
+     for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit)continue;const rx=e.x-p.x,ry=e.y-p.y,al=rx*fx+ry*fy;if(al<0||al>P.len)continue;if(Math.abs(rx*fy-ry*fx)<e.r+4){e.wm=run.t+3;hurtEnemy(e,P.dmg,fx*40,fy*40);}}
+     run.fx.push({k:'whip',x:p.x,y:p.y,a,len:P.len,life:.28,max:.28,seed:Math.random()*6});}}},
  rang:{fire(w,P){const ts=nearest(P.n,160),p=run.p;sfx('shoot',1);
   for(let i=0;i<P.n;i++){const t=ts[i%Math.max(1,ts.length)];const a=(t?Math.atan2(t.y-p.y,t.x-p.x):Math.atan2(p.face.y,p.face.x))+(i-(P.n-1)/2)*.45;
    fire({x:p.x,y:p.y,vx:Math.cos(a)*190,vy:Math.sin(a)*190,dmg:P.dmg,r:5,pierce:99,life:2.2,kind:'rang',rehit:.3,kb:40,spin:14,t:0});}}},
@@ -3420,6 +3670,7 @@ function fireAll(s){
   if(st.lg&&st.lg.ss4&&s%16===0&&run.t>1)sunDisk(Math.floor(s/16));
   if(st.lg&&st.lg.sb4&&s%16===8&&run.t>1)boneSpikes();
   if(st.lg&&st.lg.sf4&&s%32===0&&run.t>1)anvilStrike();
+  if(st.lg&&st.lg.sfr4&&s%32===16&&run.t>1){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:84,dmg:20+run.level*2,hit:new Set(),life:1,freeze:true,col:'#8af0ff'});sfx('zap');}
   if(st.lg&&st.lg.bass&&s%16===0&&run.t>1){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:70,dmg:12+run.level*2,hit:new Set(),life:1,noslow:true,col:'#ff9a5a'});}
   if(s%64===0&&run.t>2)for(const id in run.W){const D=ULT_DROP[id];if(D){const w=run.W[id];D(w,wP(id,w));run.flashScr=Math.max(run.flashScr,.22);run.flashCol=ULT_COL[id];run.hitstop=Math.max(run.hitstop||0,.09);run.shake=Math.max(run.shake,3.5);const p=run.p;run.fx.push({k:'shock',x:p.x,y:p.y,r:4,max:150,life:.45,t:0,col:ULT_COL[id]||'#ffffff',big:1});}}
   for(const id in run.W){const L=LOGIC[id];if(!L.fire)continue;const w=run.W[id],P=wP(id,w);
@@ -3466,8 +3717,8 @@ function updateShots(dt){
   run.shots=run.shots.filter(s=>!s.dead);
   const p=run.p;
   for(const s of run.eshots){s.life-=dt;s.x+=s.vx*dt;s.y+=s.vy*dt;
-    if(run.pls){for(const q of players())if(!q.down&&s.life>0&&Math.hypot(s.x-q.x,s.y-q.y)<s.r+q.r){hurtP(q,s.dmg,s.src);s.life=0;}}
-    else if(Math.hypot(s.x-p.x,s.y-p.y)<s.r+p.r){hurtPlayer(s.dmg,s.src);s.life=0;}
+    if(run.pls){for(const q of players())if(!q.down&&s.life>0&&Math.hypot(s.x-q.x,s.y-q.y)<s.r+q.r){hurtP(q,s.dmg,s.src);if(s.slw)q.slw=Math.max(q.slw||0,s.slw);s.life=0;}}
+    else if(Math.hypot(s.x-p.x,s.y-p.y)<s.r+p.r){hurtPlayer(s.dmg,s.src);if(s.slw)p.slw=Math.max(p.slw||0,s.slw);s.life=0;}
     const cr=run.crystal;if(cr&&Math.hypot(s.x-cr.x,s.y-cr.y)<s.r+cr.r){cr.hp-=s.dmg*.6;cr.flash=.12;cr.hit=true;s.life=0;}
     if(s.x<0||s.y<0||s.x>sz||s.y>sz)s.life=0;}
   run.eshots=run.eshots.filter(s=>s.life>0);
@@ -3536,11 +3787,14 @@ const TOWERS={
  oasis:{name:_t('Oáza'),cost:50,range:110,dmg:4,cd:.5,hp:80,ch:'c2',pal:{a:'#dcb87c',c:'#b89058',b:'#7a5a30',t:'#3ac8c0',i:'#bff4e8',w:'#ffffff'},
   rows:['.......w','......ww','......ti','.....tii','.....tii','......ti','......tt','.....aaa','....aaca','...aaaaa','..accccc','.acwwttt','.acttttt','..aaaaaa','.aaaaaaa','bbbbbbbb']},
  forge:{name:_t('Výheň'),cost:45,range:74,dmg:7,cd:2.6,hp:110,ch:'c3',pal:{b:'#6a4a40',c:'#8a6250',k:'#1a0e10',o:'#ff7a2a',y:'#ffe08a',a:'#5a5468',d:'#3a3448'},rows:['.....kk.', '.....bb.', '.....bc.', '.....bb.', '..bbbbbb', '.bcbbcbb', '.bbbbbbb', '.bbkkkkk', '.bbkoooo', '.bbkoyyy', '.bbkoooo', '.bbbbbbb', '..aaaaaa', '.aaaaaaa', 'aaaaaaaa', 'dddddddd']},
- ram:{name:_t('Parní beran'),cost:50,range:100,dmg:24,cd:3.2,hp:100,ch:'c3',pal:{c:'#b87333',n:'#8a5a2a',s:'#6a6a78',w:'#e8eef4',a:'#7a7488',d:'#4a4458'},rows:['........', '........', '.....w..', '....www.', '.....w..', '.....ss.', '..cccccc', '.cnnnnnn', '.cnnnnnn', '..cccccc', '...aaaaa', '..aacaaa', '..aaaaaa', '.aaaaaca', 'aaaaaaaa', 'dddddddd']}
+ ram:{name:_t('Parní beran'),cost:50,range:100,dmg:24,cd:3.2,hp:100,ch:'c3',pal:{c:'#b87333',n:'#8a5a2a',s:'#6a6a78',w:'#e8eef4',a:'#7a7488',d:'#4a4458'},rows:['........', '........', '.....w..', '....www.', '.....w..', '.....ss.', '..cccccc', '.cnnnnnn', '.cnnnnnn', '..cccccc', '...aaaaa', '..aacaaa', '..aaaaaa', '.aaaaaca', 'aaaaaaaa', 'dddddddd']},
+ // chapter IV
+ hearth:{name:_t('Ohniště'),cost:40,range:64,dmg:6,cd:1.1,hp:130,ch:'c4',pal:{a:'#7a7488',b:'#4a4458',c:'#9a94a8',d:'#3a3448',n:'#6a4628',o:'#f08a3c',y:'#ffd060'},rows:['........','........','........','........','........','........','..nn.nnn','.nnnnnnn','.aaaaaaa','.acaaaca','.aaaaaaa','..aaaaaa','..abaaaa','..aaacaa','.aaaaaaa','dddddddd']},
+ icelance:{name:_t('Rampouchová věž'),cost:45,range:110,dmg:16,cd:2.0,hp:90,ch:'c4',pal:{a:'#8a9ab8',b:'#4a5a7a',c:'#c8d8f0',d:'#3a4a68',i:'#e8fbff',u:'#7ac8f0'},rows:['.......i','......iu','......iu','.....iuu','.....iuu','....iuuu','....uuuu','...aaaaa','...acaaa','...aaaau','..aacaaa','..abaaaa','..aaaaca','.aaaaaaa','aaaaaaaa','dddddddd']}
 };
 const T_IDS=Object.keys(TOWERS),T_BASE=['arrow','fire','frost','tesla'];
 // Arsenal: towers you take into a run (4, the Builder 5), each with a menu level 1–5 (gold + material); levels 3 and 5 add a perk
-const TW_UNL={crypt:'bazina',bell:'zvonice',obelisk:'kanon',sandpit:'hrobka',oasis:'brana',forge:'kovarna',ram:'krystaly'},TW_SOON=[];
+const TW_UNL={crypt:'bazina',bell:'zvonice',obelisk:'kanon',sandpit:'hrobka',oasis:'brana',forge:'kovarna',ram:'krystaly',hearth:'pevnost',icelance:'soutezka'},TW_SOON=[];
 const TW_INFO={arrow:[_t('Rychle střílí šípy na jednoho nepřítele.'),_t('Dva šípy naráz.'),_t('Šípy prorazí o nepřítele víc.')],
  fire:[_t('Hází ohnivé koule, které vybuchnou.'),_t('Výbuch o 30 % větší.'),_t('Dvě koule naráz.')],
  frost:[_t('Mrazivá vlna zraní a zpomalí nepřátele kolem.'),_t('Vlna dosáhne o 15 % dál.'),_t('Vlna nepřátele na chvíli zmrazí.')],
@@ -3551,7 +3805,9 @@ const TW_INFO={arrow:[_t('Rychle střílí šípy na jednoho nepřítele.'),_t('
  sandpit:[_t('Stahuje nepřátele do středu a zpomaluje je.'),_t('Dvojnásobné poškození.'),_t('Dosah o 30 % větší.')],
  oasis:[_t('Posílá na tebe léčivý paprsek. Co jím projde, dostane malé poškození.'),_t('Léčí o 30 % víc.'),_t('Paprsek opravuje i věže v dosahu.')],
  forge:[_t('Pod nepřátele vylévá lávu, která pálí.'),_t('Láva se rozlije o 30 % šířeji.'),_t('Láva vydrží o polovinu déle.')],
- ram:[_t('Vystřelí parní beran, který prorazí celou řadu nepřátel a odhodí je.'),_t('Beran nepřátele i na chvíli omráčí.'),_t('Dva berani naráz.')]};
+ ram:[_t('Vystřelí parní beran, který prorazí celou řadu nepřátel a odhodí je.'),_t('Beran nepřátele i na chvíli omráčí.'),_t('Dva berani naráz.')],
+ hearth:[_t('Oheň pálí nepřátele kolem a v Tajze tě zahřeje.'),_t('Dosah o 25 % větší.'),_t('U ohně se léčíš.')],
+ icelance:[_t('Vystřelí ledové kopí, které prorazí řadu nepřátel a zpomalí je.'),_t('Dvě kopí naráz.'),_t('Kopí nepřátele na chvíli zmrazí.')]};
 // Tower cards (like gear): type + rarity (0–4) + random bonuses + upgrade +0..+10. Rarity: power ×1/1.15/1.3/1.5/1.75,
 // bonuses 0/1/2/2/2, perk 1 from Epic, perk 2 at Legendary. Cards come from the Tower chest; a win on a tower's unlock map gives a Common one.
 const TW_RAR=[1,1.15,1.3,1.5,1.75],TW_NB=[0,1,2,2,2],TW_UPMAX=10;
@@ -3670,6 +3926,14 @@ function towerFire(t){
         for(const q of run.enemies){if(q.dead||q.bur)continue;const rx=q.x-t.x,ry=q.y-ty,al=rx*fx+ry*fy;if(al<0||al>L)continue;if(Math.abs(rx*fy-ry*fx)<q.r+5){hurtEnemy(q,dmg,fx*(q.boss?30:160),fy*(q.boss?30:160));if(p3&&!q.boss)q.frz=Math.max(q.frz||0,.5);}}
         for(let s2=10;s2<L;s2+=9)addP({k:'smoke',x:t.x+fx*s2+rnd(-3,3),y:ty+fy*s2+rnd(-3,3),vx:fx*30,vy:fy*30-10,life:rnd(.35,.6),max:.6,sz:rnd(1.5,2.5),grow:5,drag:2,g:0,col:'#e8eef4',a:.5});
         run.fx.push({k:'shock',x:t.x+fx*L,y:ty+fy*L,r:3,t:0,life:.3,max:20,col:'#e8eef4'});}sfx('boom');break;}
+    case'hearth':{const R=range*(p3?1.25:1),c=enemiesNear(t.x,t.y,R);t.kick=c.length?1:.3;for(const e of c)hurtEnemy(e,dmg,0,0);
+      if(p5)for(const u of (run.pls?players():[run.p]))if(u&&!u.down&&u.hp<u.max&&Math.hypot(u.x-t.x,u.y-t.y)<R){u.hp=Math.min(u.max,u.hp+1);}
+      if(c.length)for(let i=0;i<4;i++)addP({k:'ember',x:t.x+rnd(-4,4),y:t.y-6,vx:rnd(-20,20),vy:rnd(-50,-20),life:rnd(.4,.8),col:pick(['#ffd060','#f08a3c']),sz:1,g:0});break;}
+    case'icelance':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;let e=c[0],bd=1e9;for(const q of c){const d=(q.x-t.x)**2+(q.y-t.y)**2;if(d<bd){bd=d;e=q;}}
+      t.kick=1;const ty=t.y-t.spr.h/2+2,a0=Math.atan2(e.y-ty,e.x-t.x),L=range*1.2;t.aim=a0;
+      for(const a of p3?[a0-.16,a0+.16]:[a0]){const fx=Math.cos(a),fy=Math.sin(a);
+        for(const q of run.enemies){if(q.dead||q.bur)continue;const rx=q.x-t.x,ry=q.y-ty,al=rx*fx+ry*fy;if(al<0||al>L)continue;if(Math.abs(rx*fy-ry*fx)<q.r+4){hurtEnemy(q,dmg,fx*40,fy*40);q.slowT=Math.max(q.slowT||0,1.6);if(p5&&!q.boss)q.frz=Math.max(q.frz||0,.7);}}
+        run.fx.push({k:'lance',x:t.x,y:ty,fx,fy,len:L,life:.3,max:.3});}sfx('zap');break;}
     case'sandpit':{const R=range*(p5?1.3:1),c=enemiesNear(t.x,t.y,R);if(!c.length)return;t.kick=1;
       for(const e of c){if(!e.boss){e.x+=(t.x-e.x)*.16;e.y+=(t.y-e.y)*.16;}e.slowT=Math.max(e.slowT||0,1.2);hurtEnemy(e,dmg*(p3?2:1),0,0);}break;}
   }
@@ -3762,6 +4026,28 @@ const BEH={
      else fan(e.x,e.y,Math.atan2(c.uy,c.ux),ph===2?7:5,.22,60,e.dmg*.5,srcOf(e));
      if(e.bc%3===0)summonAt(Math.random()<.5?'imp':'magslime',e.x,e.y,ph===2?4:3,30);}
    if(ph===2)return dashMove(e,dt,c,3.0);const w=c.dist>80?1:c.dist<50?-.4:0;return[c.cx*c.sp*w,c.cy*c.sp*w];},
+ // yeti: lumbers after you and throws snowballs that slow
+ yeti(e,dt,c){e.tA=(e.tA===undefined?2:e.tA)-dt;if(e.tA<=0&&c.dist<150&&run.beatNow){e.tA=e.elite?2.4:3.4;const a=Math.atan2(c.uy,c.ux);
+     run.eshots.push({x:e.x,y:e.y-4,vx:Math.cos(a)*62,vy:Math.sin(a)*62,dmg:9*(1+c.t/60*.08),r:5,life:4,src:srcOf(e),snow:1,slw:.8});sfx('shoot',2);}
+   return[c.cx*c.sp,c.cy*c.sp];},
+ // frost knight: charges, the landing throws a ring of ice, ice wraiths come to help
+ fknight(e,dt,c){const v=dashMove(e,dt,c,3.6);if(e.dashEnd){e.dashEnd=0;ring(e.x,e.y,14,48,e.dmg*.5,Math.random()*6,srcOf(e));sfx('boom');run.shake=4;run.fx.push({k:'shock',x:e.x,y:e.y,r:4,t:0,life:.5,col:'#bfeaff',big:1});}
+   e.tB=(e.tB===undefined?4:e.tB)-dt;if(e.tB<=0&&run.barNow&&e.mode===0){e.tB=6;summonAt('wraith',e.x,e.y,3,30);}return v;},
+ // wendigo: very fast charges that end in a fan of shards, howls and calls wolves every third bar
+ wendigo(e,dt,c){const v=dashMove(e,dt,c,4.4);if(e.dashEnd){e.dashEnd=0;fan(e.x,e.y,Math.atan2(c.uy,c.ux),5,.26,62,e.dmg*.45,srcOf(e));sfx('boom');run.shake=3;}
+   if(run.barNow){e.bc=(e.bc||0)+1;if(e.bc%3===0&&e.mode===0){summonAt('wolf',e.x,e.y,3,30);toast(_t('Wendigo vyje!'),1200);sfx('boss');}}return v;},
+ // yeti king: big snowballs and ground stomps in turn, every fourth bar calls snowmen or a yeti
+ yetiking(e,dt,c){if(run.barNow){e.bc=(e.bc||0)+1;const a=Math.atan2(c.uy,c.ux);
+     if(e.bc%2){for(let i=-1;i<=1;i++)run.eshots.push({x:e.x,y:e.y-8,vx:Math.cos(a+i*.28)*58,vy:Math.sin(a+i*.28)*58,dmg:e.dmg*.55,r:7,life:5,src:srcOf(e),snow:1,slw:1});sfx('shoot',2);}
+     else{ring(e.x,e.y,16,50,e.dmg*.45,e.bc*.3,srcOf(e));sfx('boom');run.shake=5;run.fx.push({k:'shock',x:e.x,y:e.y,r:4,t:0,life:.5,col:'#e8f4ff',big:1});
+       for(let i=0;i<12;i++)addP({x:e.x+rnd(-12,12),y:e.y+6,vx:rnd(-60,60),vy:rnd(-80,-20),life:rnd(.4,.7),col:pick(['#ffffff','#dff0ff']),sz:2});}
+     if(e.bc%4===0)summonAt(e.bc%8?'snowman':'yeti',e.x,e.y,e.bc%8?3:1,30);}
+   const w=c.dist>70?1:c.dist<40?-.4:0;return[c.cx*c.sp*w,c.cy*c.sp*w];},
+ // winter queen: rings of ice shards and helpers; below half the arena starts to freeze (MF.ice.freeze) and she charges
+ queen(e,dt,c){const ph=e.hp<e.max*.5?2:1;if(ph===2&&!e.ph2){e.ph2=1;toast(_t('Zima se probouzí! Schovej se v zářící runě.'),2600);run.shake=8;sfx('boss');mfCall('freeze');}
+   e.tB=(e.tB===undefined?2:e.tB)-dt;if(e.tB<=0&&run.beatNow){e.tB=ph===2?1.8:2.4;ring(e.x,e.y,ph===2?16:12,46,e.dmg*.5,c.t*1.3,srcOf(e));sfx('zap');}
+   if(run.barNow){e.bc=(e.bc||0)+1;if(e.bc%3===0)summonAt(e.bc%2?'wraith':'snowman',e.x,e.y,ph===2?4:3,30);if(ph===2&&e.bc%2===0)fan(e.x,e.y,Math.atan2(c.uy,c.ux),7,.2,64,e.dmg*.45,srcOf(e));}
+   if(ph===2)return dashMove(e,dt,c,3.0);const w=c.dist>100?1:c.dist<70?-.6:0;return[c.cx*c.sp*w,c.cy*c.sp*w];},
  // giant scorpion: charges and leaves a trail of venom
  scorp(e,dt,c){const v=dashMove(e,dt,c,3.8);if(e.mode===2){e.vt=(e.vt||0)-dt;if(e.vt<=0){e.vt=.1;run.fx.push({k:'venom',x:e.x,y:e.y+4,r:9,life:4,max:4,seed:Math.random()*9});}}
    if(e.dashEnd){e.dashEnd=0;fan(e.x,e.y,Math.atan2(c.uy,c.ux),5,.3,60,e.dmg*.5,srcOf(e));}
@@ -3904,13 +4190,14 @@ function envPl(dt){
 }
 function updateAmbient(dt){
   const kind=run.map.ambient;if(!kind)return;const A=run.amb,c=run.cam;
-  const cap=kind==='dust'?26:kind==='ember'?34:kind==='wisp'?12:kind==='leaf'?18:kind==='mote'?30:22;
+  const cap=kind==='dust'?26:kind==='ember'?34:kind==='wisp'?12:kind==='leaf'?18:kind==='mote'?30:kind==='snow'?46:22;
   while(A.length<cap){const x=c.x+rnd(-20,VW+20),y=c.y+rnd(-20,VH+20);
     A.push(kind==='firefly'||kind==='mote'?{x,y,vx:rnd(-6,6),vy:rnd(-6,6),life:rnd(3,7),ph:Math.random()*6}
       :kind==='wisp'?{x,y,vx:rnd(-4,4),vy:rnd(-3,3),life:rnd(5,9),ph:Math.random()*6}
       :kind==='leaf'?{x,y:c.y-rnd(0,30),vx:rnd(8,20),vy:rnd(10,20),life:rnd(5,9),ph:Math.random()*6,col:Math.random()<.5?'#d8822e':'#b8541e'}
       :kind==='soul'?{x,y:c.y+VH+rnd(0,20),vx:rnd(-4,4),vy:rnd(-18,-8),life:rnd(4,7),ph:Math.random()*6}
       :kind==='dust'?{x:c.x-rnd(0,40),y,vx:rnd(60,110),vy:rnd(-6,6),life:rnd(2,4),ph:0}
+      :kind==='snow'?{x,y:c.y-rnd(0,30),vx:rnd(-10,2),vy:rnd(12,26),life:rnd(6,10),ph:Math.random()*6,sz:Math.random()<.3?2:1}
       :{x,y:c.y+VH+rnd(0,20),vx:rnd(-6,6),vy:rnd(-26,-12),life:rnd(3,6),ph:Math.random()*6});}
   for(const a of A){a.life-=dt;a.ph+=dt;
     if(kind==='firefly'){a.vx+=Math.sin(a.ph*1.7)*8*dt;a.vy+=Math.cos(a.ph*1.3)*8*dt;}
@@ -3918,6 +4205,7 @@ function updateAmbient(dt){
     if(kind==='wisp'){a.vx+=Math.sin(a.ph*.9)*5*dt;a.vy+=Math.cos(a.ph*.7)*5*dt;}
     if(kind==='mote'){a.vx+=Math.sin(a.ph*1.1)*3*dt;a.vy+=Math.cos(a.ph*.9)*3*dt;}
     if(kind==='leaf')a.vx+=Math.sin(a.ph*2.2)*26*dt;
+    if(kind==='snow')a.vx+=Math.sin(a.ph*1.6)*10*dt;
     a.x+=a.vx*dt;a.y+=a.vy*dt;
     if(a.x<c.x-60||a.x>c.x+VW+60||a.y<c.y-60||a.y>c.y+VH+60)a.life=0;}
   run.amb=A.filter(a=>a.life>0);
@@ -4207,6 +4495,15 @@ const ULT_DRAW={
  icicle(g,f,x,y){const k=clamp(f.t/f.dly,0,1);if(f.t<0)return;
    if(!f.hit){circ(g,x,y,3+k*4,'#0c1a2a',.25+.25*k);const h=(1-k)*90,iy=y-h-10;g.fillStyle='#bfeaff';g.beginPath();g.moveTo(RZ(x-2.5),RZ(iy));g.lineTo(RZ(x+2.5),RZ(iy));g.lineTo(RZ(x),RZ(iy+11));g.closePath();g.fill();g.fillStyle='#ffffff';g.fillRect(RZ(x-1),RZ(iy),1,5);}
    else{const e=clamp((f.t-f.dly)/.35,0,1);ringPix(g,x,y,4+e*10,'#bfeaff',.8*(1-e));circ(g,x,y,5*(1-e),'#e8fbff',.6*(1-e));}},
+ lance(g,f,x,y){const al=clamp(f.life/f.max,0,1),n=Math.ceil(f.len/2);for(let j=0;j<n;j++){const t=j/n,px=RZ(x+f.fx*f.len*t),py=RZ(y+f.fy*f.len*t);g.globalAlpha=.35*al;g.fillStyle='#7ac8f0';g.fillRect(px-1,py-1,3,3);g.globalAlpha=.9*al;g.fillStyle=j%4?'#e8fbff':'#ffffff';g.fillRect(px,py,1,1);}
+   const tx=x+f.fx*f.len,ty=y+f.fy*f.len;ringPix(g,tx,ty,3+(1-al)*6,'#bfeaff',al);g.globalAlpha=1;},
+ halb(g,f,x,y){const k=1-f.life/f.max,sw=-.9+1.8*Math.min(1,k*2.4),al=1-Math.max(0,k-.35)/.65;
+   for(let j=0;j<=22;j++){const t=-.9+(sw+.9)*j/22,b=f.a+t,tail=j/22;for(let d=0;d<3;d++){const r=f.rad-d*3.5;g.globalAlpha=al*tail*(d?.45:.95);g.fillStyle=d?'#9aa8c8':(tail>.8?'#ffffff':'#dfe6f4');g.fillRect(RZ(x+Math.cos(b)*r),RZ(y+Math.sin(b)*r*.85),d?1:2,d?1:2);}}
+   const b=f.a+sw,hx=x+Math.cos(b)*f.rad,hy=y+Math.sin(b)*f.rad*.85;g.globalAlpha=al;g.fillStyle='#8a5a32';for(let i=1;i<10;i++)g.fillRect(RZ(x+(hx-x)*i/10),RZ(y-3+(hy-y+3)*i/10),1,1);
+   g.fillStyle='#e8ecf4';g.fillRect(RZ(hx)-1.5,RZ(hy)-1.5,3,3);g.fillStyle='#c8402a';g.fillRect(RZ(hx)-.5,RZ(hy)+1.5,1,1);g.globalAlpha=1;},
+ whip(g,f,x,y){const k=1-f.life/f.max,ext=Math.min(1,k*3),fx=Math.cos(f.a),fy=Math.sin(f.a),n=18,L=f.len*ext,al=1-Math.max(0,k-.4)/.6;
+   g.globalAlpha=al;for(let i=0;i<=n;i++){const t=i/n,w=Math.sin(t*7+f.seed+k*20)*3*t*(1-ext*.6),px=x+fx*L*t-fy*w,py=y-3+fy*L*t+fx*w;g.fillStyle=i>n-3?'#f6c744':i%3?'#8a5a32':'#5a3a1e';g.fillRect(RZ(px),RZ(py),1,1);}
+   if(ext>=1&&k<.6){const tx=x+fx*L,ty=y-3+fy*L;ringPix(g,tx,ty,2+k*8,'#fff6c8',.8*(1-k));}g.globalAlpha=1;},
  anchor(g,f,x,y){if(f.t<0)return;const k=clamp(f.t/f.max,0,1),a=f.a0-Math.PI/2+Math.PI*k,ax=x+Math.cos(a)*f.rad,ay=y+Math.sin(a)*f.rad*.85,px=x,py=y-4;
    g.globalAlpha=.9;g.fillStyle='#6a6e80';for(let i=1;i<9;i++){const t=i/9;g.fillRect(RZ(px+(ax-px)*t),RZ(py+(ay-py)*t),1,1);}
    for(let j=1;j<5;j++){const b=a-j*.12;g.globalAlpha=.18*(5-j)/4;ringPix(g,x+Math.cos(b)*f.rad,y+Math.sin(b)*f.rad*.85,3,'#bfc8dc',1);}
@@ -4280,7 +4577,7 @@ function towerPlate(g,u,x,y){if(u.cv){const s=u.spr,yy=RZ(y+(s.h>>1)-2);g.fillSt
     for(let i=0;i<64;i++){const a=i/64*6.283;q.fillStyle=i%8<5?col:mixHex(col,'#ffffff',.5);q.fillRect(Math.round(Math.cos(a)*w*2)/2-.25,Math.round(Math.sin(a)*ry*2)/2-.25,.75,.75);}}));
   g.globalAlpha=.75+.25*M.pulse;g.drawImage(c,x-w-1.5,yy-4.5,c.width/Z,c.height/Z);g.globalAlpha=1;}
 function towerXray(g,u,x,y){const s=u.spr,o=outlineOf(s.c,'#fff6d8'),top=y-s.h/2;g.globalAlpha=.5;g.drawImage(o,RZ(x-s.w/2)-1,RZ(top)-1,s.w+2,s.h+2);g.globalAlpha=1;}
-const TW_FLAG={forge:'#ff7a2a',ram:'#c8a070',arrow:'#4aa3e8',fire:'#e8453c',frost:'#3ac8c0',tesla:'#c869e0',crypt:'#8affa0',bell:'#f0c870',obelisk:'#3a6ad8',sandpit:'#e0c080',oasis:'#3ac8c0'};
+const TW_FLAG={hearth:'#ff9a3a',icelance:'#8af0ff',forge:'#ff7a2a',ram:'#c8a070',arrow:'#4aa3e8',fire:'#e8453c',frost:'#3ac8c0',tesla:'#c869e0',crypt:'#8affa0',bell:'#f0c870',obelisk:'#3a6ad8',sandpit:'#e0c080',oasis:'#3ac8c0'};
 function drawTower(g,u,x,y){const s=u.spr,top=y-s.h/2,sq=u.kick>.45,k=u.kick||0,lv=u.lv||1,t=run.t;
   shadow(g,x,y+(s.h>>1)-4,s.w-2);
   const img=sq?(u.flash>0?s.f2:s.c2):(u.flash>0?s.f:s.c),bt=u.born===undefined?1:clamp((t-u.born)/.45,0,1);
@@ -4306,6 +4603,8 @@ function drawTower(g,u,x,y){const s=u.spr,top=y-s.h/2,sq=u.kick>.45,k=u.kick||0,
     if(k>.5)ringPix(g,cx,cy,4+(1-k)*8,'#bfeaff',k);}
   else if(u.k==='crypt'){circ(g,x,top+s.h*.66,3+k*2,'#8affa0',.25+.15*M.pulse+k*.3);if(Math.random()<.08)addP({x:u.x+rnd(-3,3),y:u.y-4,vx:rnd(-3,3),vy:rnd(-14,-6),life:.8,col:'#8affa0',sz:1,g:0});}
   else if(u.k==='bell'){if(k>.2)for(let j=0;j<2;j++)ringPix(g,x,top+s.h*.35,5+(1-k)*14+j*4,'#f0c870',k*.6);}
+  else if(u.k==='hearth'){for(let i=0;i<3;i++)flame(g,x-3+i*3,top+7,4+lv+1.5*Math.sin(t*10+i*2)+k*4,1.8,i+u.x);circ(g,x,top+4,6+k*3,'#ffb060',.15+k*.2);}
+  else if(u.k==='icelance'){const cy=top+1;circ(g,x,cy,2.5+M.pulse+k*3,'#bfeaff',.3+k*.4);if(Math.random()<.1)addP({x:u.x+rnd(-3,3),y:u.y-u.spr.h/2,vx:0,vy:-6,life:.6,col:'#e8fbff',sz:1,g:0});}
   else if(u.k==='obelisk'){const cy=top+1;circ(g,x,cy,2.5+M.pulse*1.5+k*3,'#ffd060',.35+k*.4);circ(g,x,cy,1,'#fff6c8');}
   else if(u.k==='oasis'){const cy=top+1.5;circ(g,x,cy,2.5+M.pulse*1.5+k*2,'#7af0d0',.3+k*.4);if(Math.random()<.1)addP({x:u.x+rnd(-4,4),y:u.y,vx:rnd(-3,3),vy:rnd(-16,-8),life:.7,col:'#bff4e8',sz:1,g:0});}
   else if(u.k==='sandpit'){const cy=y+s.h*.18,R0=s.w*.38;g.fillStyle='#e0c080';for(let i=0;i<10;i++){const a=t*(2.4+k*3)+i*.628,r=R0*(.35+.65*((i*.37+t*.4)%1));g.globalAlpha=.75;g.fillRect(RZ(x+Math.cos(a)*r),RZ(cy+Math.sin(a)*r*.45),1,.5);}g.globalAlpha=1;}
@@ -4550,6 +4849,7 @@ function render(){
     else if(s.kind==='axe'){const sp=SPR.icon.axe;
       for(let i=2;i>=1;i--){g.globalAlpha=.22/i;rotImg(g,sp.c,RZ(x-s.vx*.018*i),RZ(y-s.vy*.018*i),s.rot-(s.spin||0)*.018*i,sp.w,sp.h);}g.globalAlpha=1;rotImg(g,sp.c,x,y,s.rot,sp.w,sp.h);}}
   for(const s of run.eshots){const x=RZ(s.x+ox),y=RZ(s.y+oy);if(x<-8||y<-8||x>VW+8||y>VH+8)continue;
+    if(s.snow){circ(g,x,y+1,s.r,'#5a7aa8',.6);circ(g,x,y,s.r,'#f4f8ff');circ(g,x-s.r*.3,y-s.r*.3,s.r*.4,'#ffffff');continue;}
     const sp=SPR.misc.shot;blit(g,sp.c,sp,x,y-sp.h/2);if(M.pulse>.5){g.fillStyle='#ffd0dc';g.fillRect(x-1,y-1,1,1);}}
   // storm drop darkens the sky for a moment
   for(const f of run.fx){if(f.k==='dark'&&!RM){const k=f.life/f.max;g.globalAlpha=.42*Math.min(1,k*2.5);g.fillStyle='#0a0618';g.fillRect(0,0,VW,VH);g.globalAlpha=1;}}
@@ -4607,6 +4907,7 @@ function render(){
       g.globalCompositeOperation='lighter';g.imageSmoothingEnabled=true;g.globalAlpha=.42*al*(.7+.3*tw);g.drawImage(gradSpr('rgb(122,255,208)'),x-8,y-8,16,16);g.globalAlpha=1;g.imageSmoothingEnabled=false;g.globalCompositeOperation='source-over';
       g.globalAlpha=al;g.fillStyle='#e8fff8';g.fillRect(x,y,1,1);g.globalAlpha=al*.6*tw;g.fillStyle='#9affe0';g.fillRect(x-1,y+.25,.5,.5);g.fillRect(x+1.5,y+.25,.5,.5);g.fillRect(x+.25,y-1,.5,.5);g.fillRect(x+.25,y+1.5,.5,.5);g.globalAlpha=1;}}
   if(ak==='leaf'){for(const a of amb){const x=RZ(a.x+ox),y=RZ(a.y+oy),fl=Math.sin(a.ph*5)>0;g.globalAlpha=clamp(a.life,0,1);g.fillStyle=a.col;g.fillRect(x,y,fl?2:1,1);g.fillStyle=mixHex(a.col,SHADOW_HUE,.4);g.fillRect(x+(fl?0:1),y+.5,1,.5);}g.globalAlpha=1;}
+  if(ak==='snow'){g.fillStyle='#ffffff';for(const a of amb){g.globalAlpha=clamp(a.life,0,1)*.75;g.fillRect(RZ(a.x+ox),RZ(a.y+oy),a.sz*.5,a.sz*.5);}g.globalAlpha=1;}
   if(ak==='mote'){g.fillStyle='#fff3d0';for(const a of amb){const tw=(Math.sin(a.ph*1.5)+1)/2;g.globalAlpha=clamp(a.life,0,1)*.4*tw;g.fillRect(RZ(a.x+ox),RZ(a.y+oy),.5,.5);}g.globalAlpha=1;}
   if(ak==='firefly'||ak==='ember'||ak==='soul'){for(const a of amb){const x=RZ(a.x+ox),y=RZ(a.y+oy),tw=(Math.sin(a.ph*(ak==='ember'?9:3))+1)/2;
       g.globalAlpha=clamp(a.life,0,1)*(.4+.6*tw);g.fillStyle=ak==='ember'?(tw>.5?'#ffd27a':'#ff7a2a'):ak==='soul'?(tw>.5?'#e0b0ff':'#a868ff'):'#d8ff8a';g.fillRect(x,y,1,1);
@@ -5150,7 +5451,8 @@ const LEGS={
  skull:{slot:'helm',fin:'trun',name:_t('Morvanova lebka'),desc:_t('Po zabití elity vstane z hrobu kostlivec a 12 s bojuje na tvé straně.'),hint:_t('Leží u trůnu z kostí, jen pro odvážné (NM III+)…')},
  sphinx:{slot:'amulet',fin:'brana',name:_t('Oko Sfingy'),desc:_t('Každé dva takty vyšle sluneční paprsek ve směru tvého pohybu.'),hint:_t('Hlídá bránu slunce, jen pro odvážné (NM III+)…')},
  mheart:{slot:'armor',fin:'srdce',name:_t('Magmové srdce'),desc:_t('Když tě něco zasáhne, kolem tebe vybuchne láva (nejvýš jednou za 2 s).'),hint:_t('Bije v nitru hory, jen pro odvážné (NM III+)…')}};
-const LEG_IDS=Object.keys(LEGS),FIN_LEG={trun:'skull',brana:'sphinx',srdce:'mheart'};
+LEGS.wheart={slot:'amulet',fin:'zima',name:_t('Srdce zimy'),desc:_t('Když tě něco zasáhne, kolem tebe vybuchne mráz a zmrazí nepřátele okolo (nejvýš jednou za 2 s).'),hint:_t('Leží u trůnu zimy, jen pro odvážné (NM III+)…')};
+const LEG_IDS=Object.keys(LEGS),FIN_LEG={trun:'skull',brana:'sphinx',srdce:'mheart',zima:'wheart'};
 // chapter sets: 4 pieces with fixed epic-level stats; drop from the chapter finale (with pity) and one comes from the chapter treasure.
 // 2 pieces = a bonus, 4 pieces = a unique ability on the beat. Flags go into heroBonus().lg, so they reach run stats and co-op like legendaries.
 const SETS={
@@ -5160,6 +5462,9 @@ const SETS={
  sun:{ch:'c2',fin:'brana',col:'#ffd060',name:_t('Faraonův odkaz'),
    pieces:{helm:{name:_t('Nemes'),st:['hp','armor','crit']},armor:{name:_t('Sluneční pektorál'),st:['hp','armor','spd']},amulet:{name:_t('Zlatý skarabeus'),st:['dmg','crit','cd']},ring:{name:_t('Prsten Ra'),st:['cd','spd','gold']}},
    b2:_t('Rychlost útoků +8 % a rychlost pohybu +6 %.'),b4n:_t('Sluneční disk'),b4:_t('Nad hlavou ti září sluneční disk. Na první dobu taktu vyšle čtyři paprsky, střídavě do kříže a do X.')},
+ frost:{ch:'c4',fin:'zima',col:'#8af0ff',name:_t('Mrazivá zbroj'),
+   pieces:{helm:{name:_t('Ledová koruna'),st:['hp','armor','crit']},armor:{name:_t('Plášť sněžné bouře'),st:['hp','armor','regen']},amulet:{name:_t('Krystal věčné zimy'),st:['dmg','cd','fuse']},ring:{name:_t('Prsten polární záře'),st:['crit','spd','gold']}},
+   b2:_t('Zdraví +10 % a tvoje zásahy zpomalí nepřátele.'),b4n:_t('Mrazivá vlna'),b4:_t('Na první dobu každého druhého taktu z tebe vyrazí mrazivá vlna, která zraní a na chvíli zmrazí nepřátele okolo.')},
  forge:{ch:'c3',fin:'srdce',col:'#ff8a3a',name:_t('Výstroj kováře hor'),
    pieces:{helm:{name:_t('Rohatá přilba'),st:['hp','armor','dmg']},armor:{name:_t('Kovářská zástěra'),st:['hp','armor','regen']},amulet:{name:_t('Žhavý uhlík'),st:['dmg','crit','fuse']},ring:{name:_t('Kladivový prsten'),st:['dmg','cd','gold']}},
    b2:_t('Poškození +10 % a brnění +1.'),b4n:_t('Úder kovadliny'),b4:_t('Na první dobu každého druhého taktu dopadne obří kladivo na nejbližší skupinu nepřátel a vybuchne.')}};
@@ -5242,7 +5547,7 @@ function heroBonus(h){
   const B={hp:0,hpPct:0,armor:0,regen:0,dmg:0,crit:0,fuse:0,cd:0,spd:0,mag:0,xp:0,gold:0,tcost:0,thp:0,tmax:0,lg:{},tal:{}};
   const eq=(save.eq&&save.eq[h])||{};
   const sc={};for(const s of SLOT_IDS){const it=eq[s]&&itemById(eq[s]);if(!it)continue;const S=itemStats(it);for(const k in S)B[k]+=S[k];if(it.lg)B.lg[it.lg]=1;if(it.set)sc[it.set]=(sc[it.set]||0)+1;}
-  if(sc.bone>=2){B.hpPct+=.10;B.lg.sb2=1;}if(sc.bone>=4)B.lg.sb4=1;if(sc.sun>=2){B.cd+=.08;B.spd+=.06;}if(sc.sun>=4)B.lg.ss4=1;if(sc.forge>=2){B.dmg+=.10;B.armor+=1;}if(sc.forge>=4)B.lg.sf4=1;B.sets=sc;
+  if(sc.bone>=2){B.hpPct+=.10;B.lg.sb2=1;}if(sc.bone>=4)B.lg.sb4=1;if(sc.sun>=2){B.cd+=.08;B.spd+=.06;}if(sc.sun>=4)B.lg.ss4=1;if(sc.forge>=2){B.dmg+=.10;B.armor+=1;}if(sc.forge>=4)B.lg.sf4=1;if(sc.frost>=2){B.hpPct+=.10;B.lg.sfr2=1;}if(sc.frost>=4)B.lg.sfr4=1;B.sets=sc;
   const L=heroLv(h);B.hpPct+=.02*(L-1);B.dmg+=.02*(L-1);
   const pre={knight:'k',mage:'m',archer:'a',builder:'b',bard:'d',smith:'s',shaman:'h',sailor:'n',astro:'z',warlord:'w',tamer:'t'}[h]||'x';for(const t of [5,10,15,20])if(L>=t)B.tal[pre+t]=1;
   const T=B.tal;if(T.w5)B.dmg+=.05;if(T.w15)B.cd+=.10;if(T.w20)B.dmg+=.10;B.petd=(T.t5?.15:0)+(T.t20?.25:0);B.petr=T.t10?.15:0;B.petp=T.t15?.20:0;if(T.k5)B.armor+=1;if(T.k15)B.hpPct+=.15;if(T.m5)B.crit+=.05;if(T.m15)B.dmg+=.10;if(T.m20)B.fuse+=.20;if(T.a5)B.spd+=.05;
@@ -5328,8 +5633,9 @@ function runRewards(won){
   if(save.mats.shard>SH_CAP){const x=save.mats.shard-SH_CAP;save.mats.shard=SH_CAP;const g=Math.floor(x/3);save.coins+=g;out.ovf=g;}
   if(won){twInit();for(const k in TW_UNL)if(TW_UNL[k]===R.mapId&&!twOpen(k)){const c=twRoll(k,0);save.tw.cards.push(c);out.tw=c;}}
   let nmFirst=false;
-  if(won&&R.nm>0){const k=Math.min(NM_MAX,R.nm);let r=ECON.nmItem[k];if(k===NM_MAX&&Math.random()<.25)r=4;const it=makeItem(r);addItem(it);out.item=it;
-    save.nmw=save.nmw||{};nmFirst=!save.nmw[k+'|'+R.mapId];save.nmw[k+'|'+R.mapId]=1;}
+  // 08e: the campaign pays gear only once per map and tier (first win); chests are the renewable source and the only one of the common legendaries
+  if(won&&R.nm>0){const k=Math.min(NM_MAX,R.nm);save.nmw=save.nmw||{};nmFirst=!save.nmw[k+'|'+R.mapId];save.nmw[k+'|'+R.mapId]=1;
+    if(nmFirst&&save.inv.length<INV_MAX){const it=makeItem(ECON.nmItem[k]);addItem(it);out.item=it;}}
   if(won&&fin){save.fin=save.fin||{};if(!save.fin[R.mapId]){save.fin[R.mapId]=1;const it=makeItem(rollRarity(ECON.chests[2]));addItem(it);out.fin=it;}
     const lg=FIN_LEG[R.mapId];if(lg&&(R.nm||0)>=3&&Math.random()<.25){const it=makeItem(4,null,null,lg);addItem(it);out.leg=it;}
     const sid=SET_OF_CH[CH_OF[R.mapId].id];if(sid){save.setP=save.setP||{};const miss=save.setP[sid]||0;
@@ -5376,6 +5682,10 @@ const ITEM_ART={
  forge_armor:{pal:{a:'#7a7a88',c:'#b0b0c0',n:'#6a4628',o:'#ff8a2a'},rows:['......','aa....','aaa.aa','.aaaaa','.aacaa','.nnnnn','.nnnnn','.nnnno','.nnnoo','.nnnnn','..nnnn','...nnn']},
  forge_amulet:{pal:{a:'#7a7a88',k:'#3a3440',o:'#ff7a2a',y:'#ffe08a'},rows:['..a...','...a..','....a.','....kk','...kok','...koy','..koyy','..kooy','...koo','...kkk','....kk','......']},
  forge_ring:{pal:{c:'#9a9aa8',d:'#ff8a2a',n:'#6a4628',a:'#c8903a'},rows:['..cccc','..cddc','..cccc','....n.','...aan','..aa..','.a....','.a....','.a....','.a....','..aaaa','......']},
+ frost_helm:{pal:{a:'#bfeaff',c:'#5a9ad8',i:'#ffffff',k:'#1a2a40',u:'#8af0ff'},rows:['.i....','.i..i.','.ii.ii','.aaaaa','.aaaaa','aauuuu','auaaaa','aaaaaa','akkkkk','ak.kkk','.a....','......']},
+ frost_armor:{pal:{a:'#bfeaff',u:'#3a6ab8',c:'#8ab8e0',r:'#8af0ff'},rows:['......','......','auu...','auuuaa','.aaauu','.uuuaa','..aauu','..uuaa','...aar','....ar','......','......']},
+ frost_amulet:{pal:{a:'#9ab0c8',k:'#1a2a40',o:'#5ad8ff',y:'#e8fbff'},rows:['..a...','...a..','....a.','....kk','...kok','...koy','..koyy','..kooy','...koo','...kkk','....kk','......']},
+ frost_ring:{pal:{a:'#c8d8f0',c:'#7a8aa8',r:'#5ad8ff',y:'#e8fbff'},rows:['...r.r','....rr','...ryy','..rryy','...ryy','..aarr','.ca...','.a....','.a....','.c....','..cccc','......']},
  sun_ring:{pal:{a:'#f6c744',c:'#c28a10',r:'#ff7a3a',y:'#fff0a0'},rows:['...r.r','....rr','...ryy','..rryy','...ryy','..aarr','.ca...','.a....','.a....','.c....','..cccc','......']}};
 // item picture: base items by slot and tier (the gem takes the rarity colour), set pieces have their own art
 function itemSpr(sl,r,set){const k=set?set+'_'+sl:sl+Math.min(3,r),key=k+':'+r;if(itemSprCache[key])return itemSprCache[key];const A=ITEM_ART[k]||ITEM_ART[sl+'0'];
@@ -5510,7 +5820,7 @@ function petStart(n){petInit();const two=n===2;if(two&&(run.heroId!=='tamer'||!s
   return{isPet:true,k:c.k,x:p.x+(two?14:-14),y:p.y+4,face:1,cd:.6,t:0,anim:0,hits:0,rd:0,S,fc:0,mark:null,markT:0,dig:6,dbl:false,show:true,born:0};}
 const PET_DK=.2; // pet damage is a helper, not a second weapon: ~10–15 % of a hero's damage (tests/tools/petbal.js)
 function petDmg(P){return PETS[P.k].dmg*PET_DK*P.S.dm*(1+.12*run.level);}
-function petHit(e,d,kx,ky){run.pdm=(run.pdm||0)+d;hurtEnemy(e,d,kx,ky);}
+function petHit(e,d,kx,ky){if(e.wm>run.t)d*=1.3;run.pdm=(run.pdm||0)+d;hurtEnemy(e,d,kx,ky);}
 function petFx(x,y,col,n){for(let i=0;i<n;i++)addP({x:x+rnd(-2,2),y:y+rnd(-3,1),vx:rnd(-40,40),vy:rnd(-60,-10),life:rnd(.25,.5),col,sz:1,g:0});}
 function petUpdate(dt){if(run.pls||isGuest()||run.over)return;for(const P of [run.pet,run.pet2])if(P)petStep(P,dt);petFire(dt);}
 function petStep(P,dt){const p=run.p,D=PETS[P.k],S=P.S;
@@ -5785,7 +6095,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('power'),_t('Vylepšení věže'),_t('Stoupni si k věži a ťukni na Vylepšit. Maximum je úroveň 3.')],
    [I('heart'),_t('Oprava'),_t('Nepřátelé věže ničí. Plně vylepšenou věž opravíš stejným tlačítkem.')],
    [dataUrl(SPR.hero.builder),HEROES.builder.name,HEROES.builder.desc]].map(r=>gdRow(...r)).join('');}
-  else if(tab==='world'){const N={'slime':_t('Pomalý, chodí v houfech.'),'bat':_t('Rychlý, létá v kličkách.'),'skeleton':_t('Jde rovnou po tobě.'),'ghost':_t('Pomalu kličkuje k tobě.'),'spider':_t('Malý a hodně rychlý.'),'zombie':_t('Pomalý, ale hodně vydrží.'),'mage':_t('Drží si odstup a střílí.'),'golem':_t('Obr, vydrží hodně a tvrdě bije.'),'wolf':_t('Rozběhne se proti tobě.'),'flameskull':_t('Řítí se na tebe v plamenech.'),'drowned':_t('Pomalý, ve vodě ho nic nezdrží. Po smrti nechá louži, která zpomaluje.'),'bonearcher':_t('Kostlivec s lukem, drží si odstup.'),'digger':_t('Každých pár taktů vykope z hrobu kostlivce.'),'scorp':_t('Vrhá se na tebe a jeho žihadlo otráví.'),'mummy':_t('Odolná. Když tě chytí, zpomalí tě.'),'cultist':_t('Hází vějíř tří nožů.'),'imp':_t('Malý a rychlý, poletuje v kličkách.'),'magslime':_t('Po smrti nechá kaluž magmatu, která pálí.'),'miner':_t('Drží si odstup a hází krumpáče.')},B={'slimeking':_t('Svolává další slizy.'),'lich':_t('Střílí kruhy střel.'),'demon':_t('Vrhá se na tebe a pálí kruhy střel.'),'priest':_t('Volá utopence a pod nohy ti plive louže.'),'warden':_t('Vrhá se, dupe a zhasíná pochodně.'),'ringer':_t('Každý úder zvonu je kruh střel.'),'morvan':_t('Chrání ho tři fylaktérie. Pod polovinou zdraví uzavře arénu.'),'scorpking':_t('Vrhá se a nechává za sebou jed.'),'worm':_t('Plave pod pískem, kde je nezranitelný, a vyráží pod tebou.'),'priestess':_t('Kletbou ti na chvíli obrátí ovládání.'),'sphinx':_t('Hlídá paprsek slunce, potom loví, potápí obelisky a volá vojáky.'),'forgelord':_t('Každý úder kladiva je kruh jisker, volá skřety a pod nohy ti lije magma.'),'eel':_t('Plave pod vodou, kde je nezranitelný, a vyráží pod tebou.'),'colossus':_t('Vrhá se a při dopadu se roztříští do kruhu krystalů.'),'titan':_t('Střídá vějíř a kruh magmatu. Pod polovinou zdraví se hora probudí a vybuchuje častěji.')};
+  else if(tab==='world'){const N={'slime':_t('Pomalý, chodí v houfech.'),'bat':_t('Rychlý, létá v kličkách.'),'skeleton':_t('Jde rovnou po tobě.'),'ghost':_t('Pomalu kličkuje k tobě.'),'spider':_t('Malý a hodně rychlý.'),'zombie':_t('Pomalý, ale hodně vydrží.'),'mage':_t('Drží si odstup a střílí.'),'golem':_t('Obr, vydrží hodně a tvrdě bije.'),'wolf':_t('Rozběhne se proti tobě.'),'flameskull':_t('Řítí se na tebe v plamenech.'),'drowned':_t('Pomalý, ve vodě ho nic nezdrží. Po smrti nechá louži, která zpomaluje.'),'bonearcher':_t('Kostlivec s lukem, drží si odstup.'),'digger':_t('Každých pár taktů vykope z hrobu kostlivce.'),'scorp':_t('Vrhá se na tebe a jeho žihadlo otráví.'),'mummy':_t('Odolná. Když tě chytí, zpomalí tě.'),'cultist':_t('Hází vějíř tří nožů.'),'imp':_t('Malý a rychlý, poletuje v kličkách.'),'magslime':_t('Po smrti nechá kaluž magmatu, která pálí.'),'miner':_t('Drží si odstup a hází krumpáče.'),'yeti':_t('Pomalý a odolný. Hází sněhové koule, které zpomalí.'),'wraith':_t('Kličkuje k tobě a jeho dotek zpomaluje.'),'snowman':_t('Po smrti se rozletí na střepy ledu.')},B={'slimeking':_t('Svolává další slizy.'),'lich':_t('Střílí kruhy střel.'),'demon':_t('Vrhá se na tebe a pálí kruhy střel.'),'priest':_t('Volá utopence a pod nohy ti plive louže.'),'warden':_t('Vrhá se, dupe a zhasíná pochodně.'),'ringer':_t('Každý úder zvonu je kruh střel.'),'morvan':_t('Chrání ho tři fylaktérie. Pod polovinou zdraví uzavře arénu.'),'scorpking':_t('Vrhá se a nechává za sebou jed.'),'worm':_t('Plave pod pískem, kde je nezranitelný, a vyráží pod tebou.'),'priestess':_t('Kletbou ti na chvíli obrátí ovládání.'),'sphinx':_t('Hlídá paprsek slunce, potom loví, potápí obelisky a volá vojáky.'),'forgelord':_t('Každý úder kladiva je kruh jisker, volá skřety a pod nohy ti lije magma.'),'eel':_t('Plave pod vodou, kde je nezranitelný, a vyráží pod tebou.'),'colossus':_t('Vrhá se a při dopadu se roztříští do kruhu krystalů.'),'titan':_t('Střídá vějíř a kruh magmatu. Pod polovinou zdraví se hora probudí a vybuchuje častěji.'),'serpent':_t('Plave pod ledem, kde ho nezraníš. Vynoří se s kruhem střepů a chvíli útočí.'),'fknight':_t('Vrhá se na tebe, dopad rozmetá kruh ledu. Volá ledové přízraky.'),'wendigo':_t('Bleskové výpady končí vějířem střepů. Každé tři takty zavyje a přivolá vlky.'),'yetiking':_t('Střídá obří sněhové koule a dupnutí. Volá sněhuláky a yetie.'),'queen':_t('Kruhy ledových střepů a pomocníci. Pod polovinou zdraví začne aréna zamrzat a v bezpečí jsi jen v zářící runě.')};
     h=gdSec(_t('Hrdinové'))+Object.keys(HEROES).map(id=>gdRow(dataUrl(SPR.hero[id]),HEROES[id].name,HEROES[id].desc+(HEROES[id].soon?' '+_t('Přijde s kapitolou ')+SOON_CH[HEROES[id].soon]+_t('. Jeho zbraň dostanou všichni, až ho vylepšíš na úroveň 8.'):''))).join('')
      +CHAPTERS.map(C=>gdSec(_t('Kapitola ')+ROMAN_CH[C.i]+' · '+C.name)+C.maps.map(id=>gdRow(thumbs[id]?thumbs[id].toDataURL():thumbUrl(id),MAPS[id].name+(MAPS[id].finale?_t(' (finále)'):''),MAPS[id].desc)).join('')).join('')
      +gdSec(_t('Nepřátelé'))+ENEMY_IDS.filter(id=>!ENEMY_DEFS[id].noHit).map(id=>gdRow(dataUrl(SPR.enemy[id]),ENEMY_DEFS[id].name,N[id]||'')).join('')
@@ -5799,7 +6109,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('ess'),_t('Esence'),_t('Vzácná. Padá jen z finálních bossů (první výhra na každé obtížnosti dá nejvíc) a z Nekonečné krypty. Na úrovně hrdinů od 10, vylepšení od +6 a Vylepšení od úrovně 20.')],
    [I('stars'),_t('Nekonečná krypta'),_t('Po poražení Trůnu kostí si v Přípravě zapneš ∞. Hraješ dohranou mapu bez konce a nepřátelé každou minutu sílí. Od 5. minuty padá Esence, denně plně 20.')],
    [dataUrl(SPR.hero.knight),_t('Úroveň hrdiny'),_t('Za zlato a materiály. Přidá zdraví a poškození, na úrovni 5, 10, 15 a 20 talent.')],
-   [I('chest_iron'),_t('Výbava'),_t('Z truhel v Obchodu. Helma, zbroj, amulet a prsten v pěti raritách.')],
+   [I('chest_iron'),_t('Výbava'),_t('Hlavně z truhel v Obchodu, jen tam padají i legendárky. Kampaň dá předmět jen za první výhru mapy na každé Noční můře a kusy setů z finále. Helma, zbroj, amulet a prsten v pěti raritách.')],
    [dataUrl(itemSpr('helm',3,'bone')),_t('Sety kapitol'),_t('Každá kapitola má set 4 kusů. Padají z finále, jeden je v pokladu kapitoly. 2 kusy dají bonus, 4 kusy schopnost.')],
    [I('shield'),_t('Kovárna'),_t('Tři předměty stejné rarity sloučíš v jeden vzácnější.')],
    [I('haste'),_t('Vylepšení'),_t('Trvalé bonusy pro všechny hrdiny a běhy.')],
@@ -5831,6 +6141,7 @@ const ACH=[
  {id:'win1',ic:'trophy',name:_t('První vítězství'),desc:_t('Vyhraj na libovolné mapě.'),title:_t('Přeživší'),n:1,v:S=>(S.wins||0)+S.tot.cw,g:100},
  {id:'maps',ic:'skull',name:_t('Přemožitel Morvana'),desc:_t('Poraz Morvana, pána kostí, ve finále kapitoly I.'),title:_t('Přemožitel Morvana'),n:1,v:()=>save.cleared.trun?1:0,g:300},
  {id:'sphinx',ic:'trophy',name:_t('Luštitel hádanek'),desc:_t('Poraz Sfingu ve finále kapitoly II.'),title:_t('Luštitel hádanek'),n:1,v:()=>save.cleared.brana?1:0,g:500},
+ {id:'queen',ic:'trophy',name:_t('Pán zimy'),desc:_t('Poraz Zimní královnu ve finále kapitoly IV.'),title:_t('Pán zimy'),n:1,v:()=>save.cleared.zima?1:0,g:800},
  {id:'titan',ic:'trophy',name:_t('Krotitel hory'),desc:_t('Poraz Magmového titána ve finále kapitoly III.'),title:_t('Krotitel hory'),n:1,v:()=>save.cleared.srdce?1:0,g:700},
  {id:'combo',ic:'note',name:_t('Rytmus v krvi'),desc:_t('Dosáhni komba 300 v jednom běhu.'),title:_t('Bard'),n:300,v:S=>S.tot.combo,g:150,hero:'bard'},
  {id:'k1',ic:'blade',name:_t('Řezník'),desc:_t('Zabij celkem 2 000 nepřátel.'),title:_t('Řezník'),n:2000,v:S=>(S.kills||0)+S.tot.ck,g:150},
@@ -5906,8 +6217,9 @@ const Q_DMS=[{at:2,g:60},{at:4,mat:8},{at:6,chest:'wood'}];
 const Q_WMS=[{at:6,g:150},{at:12,chest:'iron'},{at:18,mat:15},{at:24,g:400},{at:30,chest:'iron'},{at:40,chest:'gold'}];
 const WANTED={baron:{map:'hrbitov',e:'skeleton',name:_t('Kostěný baron'),desc:_t('Metá kruhy kostí a svolává kostlivce.')},
   widow:{map:'poust',e:'spider',name:_t('Písečná vdova'),desc:_t('Zahrabe se do písku a vyskočí přímo u tebe.')},
-  smith:{map:'doly',e:'golem',name:_t('Kovář z hlubin'),desc:_t('Vozíky ho jen odstrčí. Chrlí kruhy žhavé strusky.')}};
-const WANT_OF={};for(const id of MAP_IDS)WANT_OF[id]=({c1:'baron',c2:'widow',c3:'smith'})[CH_OF[id].id];
+  smith:{map:'doly',e:'golem',name:_t('Kovář z hlubin'),desc:_t('Vozíky ho jen odstrčí. Chrlí kruhy žhavé strusky.')},
+  bigfoot:{map:'jezero',e:'yeti',name:_t('Bílý obr'),desc:_t('Hází kruhy sněhových koulí, které zpomalí, a dupnutím tě odhodí.')}};
+const WANT_OF={};for(const id of MAP_IDS)WANT_OF[id]=({c1:'baron',c2:'widow',c3:'smith',c4:'bigfoot'})[CH_OF[id].id];
 const W_RW={g:150,m:20,c:2,itemP:.35};
 
 const qHash=s=>{let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;};
@@ -5977,6 +6289,9 @@ function updateWanted(dt){
       if(e.wA<=0&&run.beatNow){e.bur=0;e.wA=rnd(3,4.2);ring(e.x,e.y,10,50,e.dmg*.5,run.t,srcOf(e));run.shake=5;sfx('boom');
         for(let i=0;i<2;i++)run.enemies.push(makeEnemy('spider',clamp(e.x+rnd(-20,20),16,run.map.size-16),clamp(e.y+rnd(-20,20),16,run.map.size-16),false));
         for(let i=0;i<20;i++){const a=Math.random()*6.283;addP({x:e.x,y:e.y,vx:Math.cos(a)*80,vy:Math.sin(a)*80-30,life:rnd(.3,.7),col:pick(['#c9a566','#e0caa0','#8a6a3e']),sz:2});}}}}
+  else if(e.want==='bigfoot'){
+    if(e.wA<=0&&run.beatNow){e.wA=2.6;for(let i=0;i<8;i++){const a=i/8*6.283+run.t;run.eshots.push({x:e.x,y:e.y-4,vx:Math.cos(a)*48,vy:Math.sin(a)*48,dmg:e.dmg*.4,r:5,life:4,src:srcOf(e),snow:1,slw:.8});}sfx('shoot',2);}
+    if(e.wB<=0&&run.barNow){e.wB=6;run.fx.push({k:'shock',x:e.x,y:e.y,r:4,t:0,life:.5,max:60,col:'#e8f4ff'});run.shake=4;sfx('boom');for(const p of players()){const dx=p.x-e.x,dy=p.y-e.y,d=Math.hypot(dx,dy)||1;if(d<60&&!p.down){p.x=clamp(p.x+dx/d*30,14,run.map.size-14);p.y=clamp(p.y+dy/d*30,14,run.map.size-14);}}}}
   else if(e.want==='smith'){
     if(e.wA<=0&&run.beatNow){e.wA=2.8;ring(e.x,e.y,12,40,e.dmg*.45,run.t*.7,srcOf(e));sfx('boom');run.shake=Math.max(run.shake,2);}}
 }
@@ -6377,6 +6692,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-08e',d:'8. 11. 2026',t:_t('Kapitola IV: Ledová říše'),items:[_t('Nová kapitola s pěti mapami: <b>Zamrzlé jezero</b> (na ledu kloužeš), <b>Ledová pevnost</b>, <b>Tajga</b> (mráz tě zpomaluje, zahřeješ se u ohně), <b>Lavinová soutěska</b> (laviny smetou i nepřátele) a finále <b>Trůn zimy</b> se Zimní královnou.'),_t('Noví nepřátelé Yeti, Ledový přízrak a Sněhulák, pět nových bossů, věže <b>Ohniště</b> a <b>Rampouchová věž</b>, set <b>Mrazivá zbroj</b> a legendárka Srdce zimy.'),_t('Kapitola IV odemkne <b>Šamanku mrazu</b> (1 500 zlata).'),_t('Zbrojmistr má vlastní zbraň <b>Halapartnu</b> a Krotitel <b>Bič</b>, který označí nepřátele pro mazlíčky.'),_t('Výbava z kampaně: předmět dostaneš jen za <b>první výhru</b> mapy na každé Noční můře a kusy setů z finále. Opakované výhry dávají Úlomky. Truhly jsou teď jediný stálý zdroj výbavy a jediný zdroj legendárek (kromě legendárek kapitol).')]},
  {v:'2026-11-08d',d:'8. 11. 2026',t:_t('Drobné opravy výbavy'),items:[_t('Tlačítko <b>Vše</b> v kategoriích výbavy je čitelné a štítek NOVÉ už nepřečnívá z dlaždice.')]},
  {v:'2026-11-08c',d:'8. 11. 2026',t:_t('Dva noví hrdinové'),items:[_t('<b>Zbrojmistr</b> unese o zbraň víc (6 místo 5). Úrovně mu přidávají poškození a rychlost útoků, od úrovně 10 začíná se dvěma zbraněmi.'),_t('<b>Krotitel</b> si do běhu vezme dva mazlíčky. Úrovně posilují poškození, rychlost i schopnosti mazlíčků. Druhého mazlíčka vybereš ve Vybavení na záložce Mazlíčci.'),_t('Oba koupíš v Přípravě za 1 000 zlata po poražení Trůnu kostí.')]},
  {v:'2026-11-08b',d:'8. 11. 2026',t:_t('Nová ekonomika a Nekonečná krypta'),items:[_t('Místo materiálu každé kapitoly jsou jen dva: <b>Úlomky</b> padají na všech mapách a vzácná <b>Esence</b> jen z finálních bossů a z Nekonečné krypty. Tvůj Kostní prach, Jantar a Magmatit se převedly na Úlomky a za už poražená finále jsi dostal Esenci.'),_t('Ceny jsou přepočítané, aby ti nedocházelo jen zlato a nehromadil se materiál. Vylepšení, úrovně hrdinů i vylepšování výbavy chtějí zlato i Úlomky, vrchol navíc Esenci.'),_t('<b>Nekonečná krypta</b>: v Přípravě zapni ∞ a hraj dohranou mapu bez konce. Nepřátelé každou minutu sílí, od 5. minuty padá Esence (denně plně 20) a máš rekord na každou mapu.'),_t('<b>Přebroušení</b> v detailu předmětu, věže nebo mazlíčka znovu vylosuje jednu vlastnost.'),_t('Drahé truhly mají denní limit (Železná 4, Zlatá 2, Věžová a Mazlíčkova 3). Sklad Úlomků má strop 6 000, přebytek se změní na zlato.')]},

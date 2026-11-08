@@ -1,3 +1,12 @@
+# Výbava: kampaň vs. truhly (08e, 8. 11. 2026)
+Problém: každá výhra na Noční můře dávala předmět (NM III Epický + 25 % legendárka), takže hráč měl časem tolik dobré výbavy, že truhly ztratily smysl.
+Pravidlo od 08e:
+- **Kampaň** dá předmět jen za **první výhru mapy na každé NM** (NM I Neobvyklý, II Vzácný, III Epický, `ECON.nmItem`), za první výhru finále na Normální (Zlatá truhla) a kusy **setů z finále** (25 % + pojistka). Opakované výhry dávají Úlomky. Celkem je to omezené číslo (20 map × 3 NM).
+- **Truhly** jsou jediný stálý zdroj výbavy a jediný zdroj běžných legendárek (Zlatá truhla 5 %, pojistka 30). Legendárky kapitol (`LEGS[..].fin`) dál padají jen z finále na NM III.
+- Denní výzva a Hledaný dávají předmět jako dřív (omezené denně).
+- Dvě cesty k vrcholu: **sety** (farmit finále) vs. **legendárky z truhel** (zlato). Sloučení 3→1 dělá z běžných kusů z truhel materiál na vyšší raritu.
+Test `tests/tools/drop8e.js`.
+
 # Pixel Krypta – ekonomika
 
 ## Ekonomika 2.0 (návrh 8. 11. 2026, nasazení ve verzi 08b) – PLATÍ
