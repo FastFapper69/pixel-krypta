@@ -66,6 +66,14 @@ Odemkne se po prvním finále (Trůn): v Přípravě záložka ∞ vedle Noční
 
 ---
 
+## Výbava 2.0 (08p)
+- **Sloty:** přilba, zbroj, amulet, prsten + nové **boty** (`spd`, `mag`, `dodge`) a **rukavice** (`cd`, `crit`, `dmg`). Sety mají dál 4 kusy (`SET_SLOTS`), nové sloty v nich nejsou.
+- **Druhy předmětů** `BASES` (pole `it.b`, bez něj původní druh slotu): kápě, čelenka, kabátec, róba, talisman, znak (věže), pečeť, sandály, kovářské rukavice. Každý má vlastní statistiky, 4 jména podle rarity a vlastní obrázek (`ITEM_ART[b]`, `g`/`e` = barva rarity). `makeItem` druh losuje stejně často jako základní.
+- **Nové statistiky:** `dodge` Úhyb (strop 30 %, v `hurtPlayer` před brněním, i proti hazardům), `tdmg` Poškození věží (násobí škodu věží).
+- **Vlastnosti** `AFX` (pole `it.af`, jen Epická a Legendární, ne sety): `vamp` léčení za zabití, `thorn` trny při zásahu (CD 1,5 s), `rhythm` krit na 1. dobu, `gold` zlato za elitu, `swift` rychlost s kombem 25+, `hunter` poškození bossům a elitám. Hodnoty [Epická, Legendární], stejné se sčítají (`B.af`, `st.af`). Ve výpisu bonusů hrdiny s ★.
+- **Legendárky pro nové sloty:** `stride` Sedmimílové boty (krok 44 ve směru pohybu na 1. dobu každého 2. taktu + krátká nezranitelnost), `storm` Hromové pěsti (krit vybuchne kolem cíle, max 2× za s).
+- Sloučení (3 stejného slotu a rarity) dá náhodný druh; od Epické náhodnou vlastnost. Test obrazovky: `tests/tools/gearshot.js prefix [cs|en]`.
+
 # Historie: návrh dlouhodobé progrese (materiály kapitol, do verze 08a)
 
 > **Aktualizace 07w (2026-11-07 večer):** čísla níže jsou starší. Platí: po běhu se ze zlata z běhu bere jen část (`keepGold`: 30 % z prvních 2000, 10 % nad), kombo max 40 zlata každých 25, materiál z komba každých 200, za minutu 2, elita 2–3, výhra 10 / finále 25, finále ×1,25; truhly 250/750/2000, Věžová 700. Noční můry od 07x jen I–III (`NM_HP` .75, `NM_DMG` .3). Detaily v `CLAUDE.md` (sekce Menu a ekonomika 07w).
