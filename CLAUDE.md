@@ -357,6 +357,7 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 ## Předávka 2026-11-09 18:45 (verze 09y, vše na main, Pages nasazené)
 - Dnes hotovo: 09n místnosti v menu, 09o–09r oprava a pojistky ukládání (verze, záloha, sync všeho kromě `LOCAL_KEYS`), férová denní/týdenní výzva, plynulé otřesy, posuvníky hlasitosti, ducking; 09s–09w gesta (přejetí mezi záložkami, zpět na iPhonu), štítky věží, náhled zamčených hrdinů, předěl Nové schopnosti, návod Přidat na plochu podle prohlížeče; 09x zjasňování hvězd v Souhvězdí; 09y soukromí, moderace přezdívek, smazání dat, písma ve hře.
 - Skilly projektu: `.claude/skills/pixel-ui-art-direction`, `.claude/skills/gamedev-zasady` (+ `nova-kapitola`).
+- **Před nasazením změny menu vždy `node tests/tools/menucheck.js`** (poučení z 09z, viz skill pixel-ui-art-direction).
 - Pravidla od uživatele: po každé vizuální změně zvětšený snímek a opravdu ho prohlédnout (CZ i EN, malý iPhone); pushovat jen když projdou testy; ověřit nasazení přes `gh api …/actions/runs`.
 - Otevřené: makety menu H1/H2 odložené (`tests/tools/mock`); kapitola VII Prázdnota; ladění kap. V–VI podle telemetrie; před vydáním: jméno/e-mail provozovatele do `PRIVACY.md`, vlastní doména, rozhodnutí o truhlách za peníze (PEGI 16, Belgie), TMview; moderovat `reports` do 24 h.
 

@@ -23,6 +23,15 @@ Testeři (11/2026): menu „vypadá jako AI slop“ kvůli **stejným fialovým 
 7. **Po každé vizuální změně zvětšený snímek (deviceScaleFactor 3, výřez dané části) a opravdu ho prohlédnout**: zarovnání na střed, oříznutý text, zdvojený text/stín, stejné velikosti v řadě, CZ i EN, nejdelší texty. Měření „vejde se“ nestačí – uživatel to opakovaně vytýká.
 8. **Kontrola na snímku vždy se skutečnými písmy** (iPhone 393×852). Sandbox nestáhne Google Fonts – bez nich snímky lžou.
 
+
+## Poučení z 09z (uživatel: „už je nedělej“) – povinné před nasazením menu
+1. **`node tests/tools/menucheck.js` musí projít** (5 velikostí iPhonu, CZ/EN, nový i rozehraný účet). Hlídá materiály v liště, překryté nebo nevejité popisky, holý text v tlačítku, přetékání, polohu lišty pod rozmazáním iOS a rámy na celém pixelu. Neprošlo → nenasazovat.
+2. Každý snímek projít **celý**, ne jen místo, které jsem měnil. Materiály i nápis Souhvězdí byly rozbité na mých vlastních snímcích a přehlédl jsem je.
+3. Snímky dělat i **se skutečnými okraji** daného telefonu (SE: nahoře 20, dole 0), ne vždy s okraji velkého iPhonu.
+4. Sandbox je Chromium, ne Safari. Cokoli s vrstvami, rozmazáním, `isolation`, `z-index:-1`, `filter` nebo zlomky pixelu na iPhonu může vypadat jinak – raději se tomu vyhnout. Když uživatel pošle screenshot s chybou, **nejdřív si ho zvětšit a změřit** (profil hrany), teprve pak hádat příčinu.
+5. iOS 26 kreslí u horního okraje vlastní rozmazání – nic důležitého do `--sat + 30px`.
+6. Po přidání plátna nebo překryvu do prvku zkontrolovat, jestli kód neměří `scrollWidth`/`clientWidth` téhož prvku (materiály zmizely přesně takhle).
+
 ## Písma (ověřeno s českou diakritikou, 9. 11. 2026)
 - **Jacquard 12** – gotické pixelové, krásné na nadpisy a logo („Pixel Krypta“ malými písmeny, verzálky jsou nečitelné). Jen velké velikosti (≥32 px).
 - **Jersey 10** – tlusté herní pixelové, čitelné od ~20 px, dobré na tlačítka a nadpisy sekcí.

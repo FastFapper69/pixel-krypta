@@ -1033,7 +1033,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #scr-menu{padding-top:calc(92px + var(--sat,0px))!important}/* iPhone (iOS 26) kreslí u horního okraje vlastní rozmazání – ikony musí být pod ním */
 #mTop{align-items:flex-start!important}#mTop .btn.ic.art{width:42px;height:42px}#mCur.art{padding:0 11px;height:36px;margin-top:3px;box-sizing:border-box;align-items:center}
 #mStack{gap:14px}#mStack .row2{column-gap:12px}
-@media (max-height:700px){#mStack{gap:10px}#mStack .btn.art-play{min-height:58px}#mStack .btn.art:not(.art-play){min-height:54px}#mTop{padding-top:calc(14px + var(--sat,0px))!important}#scr-menu{padding-top:calc(74px + var(--sat,0px))!important}#scr-menu .logo{font-size:clamp(40px,12vw,60px)}#scr-menu .wrap{gap:10px}}
+@media (max-height:700px){#mStack{gap:10px}#mStack .btn.art-play{min-height:58px}#mStack .btn.art:not(.art-play){min-height:54px}#scr-menu .logo{font-size:clamp(38px,11vw,54px)}#scr-menu .wrap{gap:8px}#scr-menu .crest{width:34px;height:34px}#scr-menu .parade{min-height:40px}#scr-menu .parade img{height:30px}#scr-menu .parade img:first-child{height:38px}}
 </style>
 </head>
 <body>
@@ -6942,7 +6942,9 @@ function bartFit(){ // popisky ve dvojicích tlačítek: stejná velikost písma
  bs.forEach(b=>b.style.fontSize=fs+'px');while(fs>12&&bs.some(need)){fs-=.5;bs.forEach(b=>b.style.fontSize=fs+'px');}}
 function bartWrap(b){for(const n of [...b.childNodes])if(n.nodeType===3&&n.textContent.trim()){const s=document.createElement('span');s.className='lbl';n.replaceWith(s);s.appendChild(n);}} // holý text by plátno překrylo
 function bartAll(){bartFit();for(const id in BART_KIND){const b=document.getElementById(id);if(b){b.classList.add('art','art-'+BART_KIND[id]);if(id!=='mCur')bartWrap(b);bartApply(b);}}}
-function bartInit(){bartAll();if(window.ResizeObserver){const ro=new ResizeObserver(()=>bartAll());for(const id in BART_KIND){const b=document.getElementById(id);if(b)ro.observe(b);}}
+function bartInit(){bartAll();
+ // rám se srovnává na celý pixel podle polohy na obrazovce – po animaci obrazovky (posun o zlomky px) a po gestu zpět změřit znovu
+ const sm=document.getElementById('scr-menu');if(sm){sm.addEventListener('animationend',e=>{if(e.target===sm)bartAll();});sm.addEventListener('transitionend',e=>{if(e.target===sm)bartAll();});}if(window.ResizeObserver){const ro=new ResizeObserver(()=>bartAll());for(const id in BART_KIND){const b=document.getElementById(id);if(b)ro.observe(b);}}
  try{document.fonts.ready.then(bartAll);}catch(_){}}
 // větší ikony na tlačítka menu (16×16, obrys se dokreslí)
 const MICO={
