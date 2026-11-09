@@ -2372,4 +2372,8 @@ window.KRYPTA_EN={
 "Tah od levého okraje v aplikaci z plochy už nekreslí přes sebe tři vrstvy. Pod obrazovkou je vidět menu, kam se vracíš.":"Swiping from the left edge in the home-screen app no longer draws three layers over each other. The menu you return to shows underneath.",
 "Čitelné štítky věží":"Readable tower labels",
 "Rarita na kartách věží a mazlíčků už nemá zdvojený text a úroveň (+1) je zvlášť v rohu karty.":"Rarity on tower and pet cards no longer shows doubled text, and the level (+1) sits separately in the card's corner.",
+"Nové schopnosti":"New abilities",
+"Srozumitelnější strom vylepšení":"Clearer upgrade tree",
+"Předěl „Nové schopnosti“":"“New abilities” divider",
+"Místo nápisu „Klíčové“ odděluje sloupec inkoustová linka s nápisem Nové schopnosti. Nad ní jsou bonusy k číslům, pod ní vylepšení, která přidají novou schopnost.":"Instead of the “Key” label, an ink rule titled New abilities splits each column. Above it are stat bonuses, below it upgrades that add a new ability.",
 };

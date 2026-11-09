@@ -63,3 +63,4 @@ Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav 
 - `tabflash.js` – přepnutí záložek bez probliknutí; `treeshot.js` – strom Vylepšení s koupenými uzly
 - `dailysame.js` – denní/týdenní výzva stejná při jiném FPS; `vols.js <prefix> [cs|en]` – posuvníky hlasitosti a otřesů; `savekeys.js` teď testuje i zálohu a verzi savu
 - `tabswipe.js` – přejetí mezi záložkami + historie jen mimo iPhone aplikaci; `edgeback.js [snímek]` – tah zpět od okraje s menu pod obrazovkou; `rplabel.js [prefix] [cs|en]` – štítky rarity na kartách věží
+- `treesep.js <prefix> [cs|en]` – předěl Nové schopnosti ve stromu Vylepšení

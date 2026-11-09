@@ -330,3 +330,6 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 - **Gesto zpět na iPhonu (aplikace z plochy):** `navArm` tam nezapisuje historii (`navigator.standalone`) – iOS by z ní udělal vlastní swipe-back se snímkem stránky a kreslily se tři vrstvy přes sebe. Zůstává herní tah od okraje; u obrazovek s `[data-back]` ukáže pod sebou menu (ztmavené, parallax). V prohlížeči a na Androidu historie zůstává kvůli tlačítku zpět. Test `tests/tools/edgeback.js`.
 - **Přejíždění mezi záložkami:** vodorovný tah (ne od levého okraje, ne v posuvníku nebo vodorovně rolovaném řádku) klikne na sousední tlačítko v `.tabs.sectabs` aktuální obrazovky (zamčené záložky tak ukážou svou hlášku). `tabSwipeDir` → nová obrazovka vjede z dané strany (`@keyframes tabIn`, `--tx/--ty`). Test `tests/tools/tabswipe.js`.
 - **Štítek rarity** `.tslot small.rp` bez zděděného stínu (vypadal jako druhý řádek), malými písmeny, úroveň zvlášť jako `.tlv` v rohu. Test `tests/tools/rplabel.js`.
+
+## 09t – strom Vylepšení (2026-11-09)
+- Nadpis „Klíčové“ (`.tsep`) uživatele mátl (vypadal jako štítek jen prvního uzlu). Teď je to předěl přes celý sloupec: inkoustová linka s kosočtvercem + „Nové schopnosti“ (nad = bonusy k číslům, pod = uzly s novou schopností). Snímek `tests/tools/treesep.js`.

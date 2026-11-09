@@ -950,6 +950,13 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 .smithy .tnm{color:#2e1c0e;font-weight:700}.smithy .tnm.dim{color:#8a6a48;font-weight:600}
 .smithy .tln,.smithy .tln.on{width:2px;height:12px;margin:2px auto;background:repeating-linear-gradient(#6a4a2a 0 3px,#0000 3px 5px);box-shadow:none} /* 09q: jednotné inkoustové spojnice, bez barev jen u koupených */
 .smithy .tsep{color:#6a3a1a;font-weight:800}
+/* 09t: the divider between plain stat upgrades and the ones that add a new ability – an ink rule across the whole column with a
+   small diamond, the label under it (it used to read as a tag of just the first node below) */
+.smithy .tsep{align-self:stretch;display:flex;flex-direction:column;align-items:center;gap:3px;margin:14px -2px 8px;text-transform:none;letter-spacing:.02em;font-size:11px;line-height:1.15;text-align:center}
+.smithy .tsep i{position:relative;align-self:stretch;height:9px;background:linear-gradient(90deg,#0000,#6a4a2a 18%,#6a4a2a 82%,#0000) 0 50%/100% 2px no-repeat}
+.smithy .tsep i::before{content:'';position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-4px 0 0 -4px;background:#d3bd93;box-shadow:inset 0 0 0 2px #6a4a2a;transform:rotate(45deg)}
+.smithy .tsep i::after{content:'';position:absolute;left:50%;top:50%;width:3px;height:3px;margin:-2px 0 0 -2px;background:#a3241c;transform:rotate(45deg)}
+.smithy .tsep span{color:#5a2e12;font-weight:800;text-shadow:0 1px 0 #f0e2c0}
 .smithy #shopList>.hint{color:#e8dcc4}
 /* ---- Síň slávy: plakety a vitrína ---- */
 .hall .card.ma{padding:14px 16px;background:var(--rv),var(--tx-stone,#2a2638) 0 0/64px 64px;image-rendering:pixelated;box-shadow:inset 0 0 0 3px #120e18,inset 0 2px 0 4px #4a4462,inset 0 -2px 0 4px #1c1828,0 4px 0 #0008}
@@ -4167,7 +4174,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09s';
+const GAME_VER='2026-11-09t';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -6769,7 +6776,7 @@ function renderShop(pop){metaInit();treeMigrate();if(save.treeBack){save.treeBac
       return '<button class="tn '+cls+' '+st+can+lk+(pop===kind+id?' pop':'')+'" data-k="'+kind+'" data-id="'+id+'"><img alt="" src="'+dataUrl(SPR.icon[I.icon])+'">'+
         (I.lv?'<span class="lv">'+I.lv+'</span>':'')+(kind==='k'&&I.done?'<i class="ok"></i>':'')+(I.lock&&I.lock!=='prev'&&I.lock!=='mast'&&!I.part?'<span class="lk">'+ROMAN_CH[CH_OF[I.lock].i]+'</span>':'')+'</button><div class="tnm'+(I.lock&&!I.part?' dim':'')+'">'+I.name+'</div>';};
     T.stats.forEach((id,i)=>{const I=tnInfo('s',T,id);if(i)h+='<i class="tln'+(I.part?' on':'')+'"></i>';h+=node('s',id,I,'');});
-    h+='<div class="tsep">'+_t('Klíčové')+'</div>';
+    h+='<div class="tsep"><i></i><span>'+_t('Nové schopnosti')+'</span></div>';
     T.keys.forEach((K,i)=>{const I=tnInfo('k',T,K.id);if(i)h+='<i class="tln'+(I.part?' on':'')+'"></i>';h+=node('k',K.id,I,'key');});
     {const I=tnInfo('m',T,T.mast.id);h+='<i class="tln'+(I.part?' on':'')+'"></i>'+node('m',T.mast.id,I,'mast');}
     col.innerHTML=h;tree.appendChild(col);}
@@ -8951,6 +8958,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09t',d:'9. 11. 2026',t:_t('Srozumitelnější strom vylepšení'),hl:[
+  {ic:'hammer',t:_t('Předěl „Nové schopnosti“'),d:_t('Místo nápisu „Klíčové“ odděluje sloupec inkoustová linka s nápisem Nové schopnosti. Nad ní jsou bonusy k číslům, pod ní vylepšení, která přidají novou schopnost.')}]},
  {v:'2026-11-09s',d:'9. 11. 2026',t:_t('Přejíždění prstem'),hl:[
   {ic:'scroll',t:_t('Záložky přejetím'),d:_t('Ve Vybavení, Kovárně, Síni slávy a na Nástěnce přepneš záložky přejetím prstem doleva nebo doprava.')},
   {ic:'skull',t:_t('Gesto zpět bez překrývání'),d:_t('Tah od levého okraje v aplikaci z plochy už nekreslí přes sebe tři vrstvy. Pod obrazovkou je vidět menu, kam se vracíš.')},
