@@ -325,3 +325,8 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 - **Otřes:** `shakeOff()` – `run.shake` 0–9 → trauma, výchylka trauma²×6 px po hladkých sinech; `save.shk` posuvník síly, `RM` = žádný.
 - **Zvuk:** `busVol(k)` (vypínač × posuvník², `save.vol={m,s}`), `M.duck` mezi hudební sběrnicí a filtrem, `duckMusic(db,hold)` při `boss` (−10 dB), `death` (−12 dB), první drop ultimátky (−6 dB).
 - Nastavení: blok `.vols` s posuvníky hudba/efekty/otřesy, test a snímek `tests/tools/vols.js`.
+
+## 09s – gesta a štítky (2026-11-09)
+- **Gesto zpět na iPhonu (aplikace z plochy):** `navArm` tam nezapisuje historii (`navigator.standalone`) – iOS by z ní udělal vlastní swipe-back se snímkem stránky a kreslily se tři vrstvy přes sebe. Zůstává herní tah od okraje; u obrazovek s `[data-back]` ukáže pod sebou menu (ztmavené, parallax). V prohlížeči a na Androidu historie zůstává kvůli tlačítku zpět. Test `tests/tools/edgeback.js`.
+- **Přejíždění mezi záložkami:** vodorovný tah (ne od levého okraje, ne v posuvníku nebo vodorovně rolovaném řádku) klikne na sousední tlačítko v `.tabs.sectabs` aktuální obrazovky (zamčené záložky tak ukážou svou hlášku). `tabSwipeDir` → nová obrazovka vjede z dané strany (`@keyframes tabIn`, `--tx/--ty`). Test `tests/tools/tabswipe.js`.
+- **Štítek rarity** `.tslot small.rp` bez zděděného stínu (vypadal jako druhý řádek), malými písmeny, úroveň zvlášť jako `.tlv` v rohu. Test `tests/tools/rplabel.js`.

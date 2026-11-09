@@ -2365,4 +2365,11 @@ window.KRYPTA_EN={
 "Otřesy jsou plynulé místo trhání, malé zásahy jemné, velké pořádně. Sílu nastavíš v Nastavení.":"Shake is smooth instead of jittery, small hits gentle, big ones heavy. Set the strength in Settings.",
 "Hlasitost a zvuk":"Volume and sound",
 "Posuvníky hlasitosti hudby a efektů. Při bossovi, smrti a ultimátkách hudba na chvilku ztichne, ať vyniknou.":"Sliders for music and effects volume. During bosses, death and ultimates the music briefly dips so they stand out.",
+"Přejíždění prstem":"Swipe gestures",
+"Záložky přejetím":"Swipe between tabs",
+"Ve Vybavení, Kovárně, Síni slávy a na Nástěnce přepneš záložky přejetím prstem doleva nebo doprava.":"In Loadout, Forge, Hall of Fame and the Quest Board you can switch tabs by swiping left or right.",
+"Gesto zpět bez překrývání":"Back gesture without overlap",
+"Tah od levého okraje v aplikaci z plochy už nekreslí přes sebe tři vrstvy. Pod obrazovkou je vidět menu, kam se vracíš.":"Swiping from the left edge in the home-screen app no longer draws three layers over each other. The menu you return to shows underneath.",
+"Čitelné štítky věží":"Readable tower labels",
+"Rarita na kartách věží a mazlíčků už nemá zdvojený text a úroveň (+1) je zvlášť v rohu karty.":"Rarity on tower and pet cards no longer shows doubled text, and the level (+1) sits separately in the card's corner.",
 };
