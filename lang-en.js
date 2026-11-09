@@ -1930,4 +1930,6 @@ window.KRYPTA_EN={
 "Zuřivý boss tě dožene":"A raging boss catches up",
 "Když bosse dlouho jen obíháš, začne se <b>vrhat přímo na tebe</b>. Každou minutu častěji a dál, později i s kruhy střel.":"If you just keep running from a boss, it starts <b>lunging right at you</b>. More often and further every minute, later with rings of shots too.",
 "Kapitola IV má nové elity a vlny s Ledovými lučištníky.":"Chapter IV has new elites and waves with Ice Archers.",
+"Pokořené mapy":"Maps beaten",
+"Pod názvem kapitoly je teď jasně napsané, kolik jejích map máš pokořených.":"The chapter header now clearly says how many of its maps you have beaten.",
 };

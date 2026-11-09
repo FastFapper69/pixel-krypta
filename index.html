@@ -1450,8 +1450,8 @@ const MAPS={
 const MAP_TIER={hrbitov:[1,0,0],bazina:[1.05,.1,15],kostnice:[1.1,.2,30],zvonice:[1.15,.3,45],trun:[1.32,.45,90],
   poust:[1.3,.45,60,1.1],kanon:[1.34,.48,75,1.1],karavana:[1.38,.5,90,1.1],hrobka:[1.42,.52,105,1.1],brana:[1.55,.6,150,1.15],
   doly:[1.7,.55,110,1.2],kovarna:[1.75,.58,125,1.2],reka:[1.8,.6,140,1.2],krystaly:[1.85,.62,155,1.2],srdce:[2,.7,240,1.25],
-  jezero:[2.3,.7,170,1.38],pevnost:[2.37,.72,185,1.38],tajga:[2.44,.74,200,1.4],soutezka:[2.5,.76,215,1.42],zima:[2.75,.84,320,1.48],
-  vrakoviste:[2.95,.86,230,1.55],pristav:[3.05,.88,245,1.57],majak:[3.15,.9,260,1.6],vir:[3.22,.92,275,1.62],paluba:[3.5,1.02,380,1.72]};
+  jezero:[2.38,.72,170,1.42],pevnost:[2.37,.72,185,1.38],tajga:[2.5,.76,200,1.44],soutezka:[2.5,.76,215,1.42],zima:[2.75,.84,320,1.48],
+  vrakoviste:[3.35,.92,230,1.7],pristav:[3.45,.94,245,1.72],majak:[3.55,.96,260,1.75],vir:[3.4,.94,275,1.68],paluba:[3.8,1.06,380,1.85]};
 for(const id in MAPS){const T=MAP_TIER[id]||[1,0,0];MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];MAPS[id].dmm=T[3]||1;}
 // campaign: a chapter = one theme, five maps and one material; its last map is the finale with a special boss
 const CHAPTERS=[
@@ -4041,7 +4041,7 @@ function bossRage(e){const over=run.t-(e.born===undefined?run.t:e.born)-BOSS_RAG
 // a raging boss also lunges at a player who keeps running away: telegraph (1 beat), then a dash; more often and further every minute, so kiting ends
 function rageHunt(e,tp,pd,dt){if(!e.rage||run.endless||!e.d)return;const k=Math.max(0,(run.t-e.born-BOSS_RAGE)/60);
   if(e.rhD>0){e.rhD-=dt;e.x+=e.rhx*dt;e.y+=e.rhy*dt;if(Math.random()<.7)sparks(e.x,e.y,1,'#ff5a3a',-e.rhx,-e.rhy,60);return;}
-  if(e.rhW>0){e.rhW-=dt;if(e.rhW<=0){const a=Math.atan2(tp.y-e.y,tp.x-e.x),L=Math.max(0,Math.min(pd-12,90+45*k)),T=.3;e.rhx=Math.cos(a)*L/T;e.rhy=Math.sin(a)*L/T;e.rhD=T;sfx('boom');run.shake=Math.max(run.shake||0,4);
+  if(e.rhW>0){e.rhW-=dt;if(e.rhW<=0&&e.d.pat==='kraken'){fan(e.x,e.y,Math.atan2(tp.y-e.y,tp.x-e.x),5+2*Math.min(4,Math.floor(k)),.14,84,e.dmg*.4,srcOf(e));sfx('boom');return;}if(e.rhW<=0){const a=Math.atan2(tp.y-e.y,tp.x-e.x),L=Math.max(0,Math.min(pd-12,90+45*k)),T=.3;e.rhx=Math.cos(a)*L/T;e.rhy=Math.sin(a)*L/T;e.rhD=T;sfx('boom');run.shake=Math.max(run.shake||0,4);
       if(k>=1.5)ring(e.x,e.y,10+Math.min(8,Math.floor(k)*2),54,e.dmg*.4,Math.random()*6,srcOf(e));}return;}
   e.rhT=(e.rhT===undefined?2:e.rhT)-dt;
   if(e.rhT<=0&&pd>64&&run.beatNow){e.rhT=Math.max(2,5.5-1.1*k);e.rhW=M.stepDur*4;run.fx.push({k:'shock',x:e.x,y:e.y,r:4,t:0,life:.5,col:'#ff4a3a'});}}
@@ -5936,7 +5936,7 @@ function renderCampaign(){
   const NK=sel.nm,done=C.maps.filter(m=>nmWin(m,NK)).length,open=mapOpenAt(C.maps[0],NK);
   box.style.setProperty('--chc',C.col);
   let h='<div class="chbar"><button class="btn alt sm" id="chPrev"'+(chSel?'':' disabled')+' aria-label="'+_t('Předchozí kapitola')+'">‹</button>'+
-    '<div class="chh"><small>'+_t('KAPITOLA ')+ROMAN_CH[chSel]+'</small><h3>'+C.name+'</h3><span class="mt" data-mat="'+C.mat+'"><img alt="" src="'+matIcon(C.mat)+'">'+MAT_NAME[C.mat]+' · '+done+' / '+C.maps.length+'</span></div>'+
+    '<div class="chh"><small>'+_t('KAPITOLA ')+ROMAN_CH[chSel]+'</small><h3>'+C.name+'</h3><span class="mt" data-mat="'+C.mat+'">'+_t('Pokořené mapy')+' '+done+' / '+C.maps.length+'</span></div>'+
     '<button class="btn alt sm" id="chNext"'+(chSel<CHAPTERS.length-1?'':' disabled')+' aria-label="'+_t('Další kapitola')+'">›</button></div>';
   if(!C.soon){h+='<div class="nmtabs">';for(let k=0;k<=NM_MAX;k++){const ok=nmChapterOpen(C,k);h+='<button data-k="'+k+'" class="'+(k===NK&&!EN?'on':'')+(ok?'':' lk')+'">'+NM_SHORT[k]+'</button>';}
     h+=(save.fin&&Object.keys(save.fin).length?'<button data-k="e" class="endt'+(EN?' on':'')+(ENok?'':' lk')+'" aria-label="'+_t('Nekonečná krypta')+'">∞</button>':'')+'</div>'+(EN?'<p class="hint nmh">'+_t('<b>Nekonečná krypta kapitoly:</b> souboj s finálním bossem. Po každém zabití se vrátí <b>silnější a s novým útokem</b>. Esence za každého bosse, denně plně 20.')+'</p>':NK?'<p class="hint nmh">'+_t('Silnější nepřátelé, odměny +')+(50*NK)+_t(' %. Mapy jdeš znovu postupně, první výhra finále dá kus setu.')+'</p>':'');}
@@ -7798,7 +7798,7 @@ const NEWS=[
   {ic:'enemy:yeti',t:_t('Silnější Ledová říše'),d:_t('Yeti, přízraky a sněhuláci vydrží víc a kostlivci z první kapitoly odtud zmizeli. Kapitola IV je teď <b>skutečná zeď</b>.')},
   {ic:'enemy:pirate',t:_t('Prokleté pobřeží o stupeň tvrdší'),d:_t('Nepřátelé kapitoly V mají víc zdraví a bolí víc.')},
   {ic:'boss:lich',t:_t('Zuřivý boss tě dožene'),d:_t('Když bosse dlouho jen obíháš, začne se <b>vrhat přímo na tebe</b>. Každou minutu častěji a dál, později i s kruhy střel.')}],
-  items:[_t('Kapitola IV má nové elity a vlny s Ledovými lučištníky.')]},
+  items:[_t('Kapitola IV má nové elity a vlny s Ledovými lučištníky.'),_t('Pod názvem kapitoly je teď jasně napsané, kolik jejích map máš pokořených.')]},
  {v:'2026-11-08y',d:'8. 11. 2026',t:_t('Doplněné Prokleté pobřeží'),hl:[
   {ic:'set:tide',t:_t('Nové obrázky setu'),d:_t('Klobouk, kabát, perla a prsten <b>Výstroje mořského vlka</b> mají vlastní obrázky.')},
   {ic:'enemy:crab',t:_t('Průvodce'),d:_t('Krab, utopený pirát, medúza a racek mají v Průvodci popis.')}],items:[_t('Pod kapotou: nová stavebnice pro další kapitoly, ať přibývají rychleji.')]},
