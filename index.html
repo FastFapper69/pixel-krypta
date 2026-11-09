@@ -1029,10 +1029,11 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #mStack .btn.art.flock::before{top:-7px;left:28px;width:18px;height:18px;filter:drop-shadow(0 2px 0 #0b0810)}
 #mStack .btn.art.new::after{top:-9px;right:26px;z-index:2}#mQuest.art.has::after{top:-3px;right:-3px}
 #mStack .skybtn.art{color:#fff4d0!important}#mStack .skybtn.art::after{display:none}
-#mTop{background:#0e0b14!important;box-shadow:0 3px 0 #2b2340,0 6px 0 #0e0b14b0!important;padding-bottom:10px!important}
+#mTop{background:#0e0b14!important;box-shadow:0 3px 0 #2b2340,0 6px 0 #0e0b14b0!important;padding-top:calc(30px + var(--sat,0px))!important;padding-bottom:10px!important}
+#scr-menu{padding-top:calc(92px + var(--sat,0px))!important}/* iPhone (iOS 26) kreslí u horního okraje vlastní rozmazání – ikony musí být pod ním */
 #mTop{align-items:flex-start!important}#mTop .btn.ic.art{width:42px;height:42px}#mCur.art{padding:0 11px;height:36px;margin-top:3px;box-sizing:border-box;align-items:center}
 #mStack{gap:14px}#mStack .row2{column-gap:12px}
-@media (max-height:700px){#mStack{gap:11px}#mStack .btn.art-play{min-height:62px}}
+@media (max-height:700px){#mStack{gap:10px}#mStack .btn.art-play{min-height:58px}#mStack .btn.art:not(.art-play){min-height:54px}#mTop{padding-top:calc(14px + var(--sat,0px))!important}#scr-menu{padding-top:calc(74px + var(--sat,0px))!important}#scr-menu .logo{font-size:clamp(40px,12vw,60px)}#scr-menu .wrap{gap:10px}}
 </style>
 </head>
 <body>
@@ -6939,7 +6940,8 @@ function bartFit(){ // popisky ve dvojicích tlačítek: stejná velikost písma
  const bs=[...document.querySelectorAll('#mStack .row2 .btn')].filter(b=>!b.hidden&&b.offsetWidth);if(!bs.length)return;
  let fs=18;const need=b=>{const l=b.querySelector('.lbl'),i=b.querySelector('.bi');return (l?l.scrollWidth:0)+(i?i.offsetWidth+8:0)>b.clientWidth-30;};
  bs.forEach(b=>b.style.fontSize=fs+'px');while(fs>12&&bs.some(need)){fs-=.5;bs.forEach(b=>b.style.fontSize=fs+'px');}}
-function bartAll(){bartFit();for(const id in BART_KIND){const b=document.getElementById(id);if(b){b.classList.add('art','art-'+BART_KIND[id]);bartApply(b);}}}
+function bartWrap(b){for(const n of [...b.childNodes])if(n.nodeType===3&&n.textContent.trim()){const s=document.createElement('span');s.className='lbl';n.replaceWith(s);s.appendChild(n);}} // holý text by plátno překrylo
+function bartAll(){bartFit();for(const id in BART_KIND){const b=document.getElementById(id);if(b){b.classList.add('art','art-'+BART_KIND[id]);if(id!=='mCur')bartWrap(b);bartApply(b);}}}
 function bartInit(){bartAll();if(window.ResizeObserver){const ro=new ResizeObserver(()=>bartAll());for(const id in BART_KIND){const b=document.getElementById(id);if(b)ro.observe(b);}}
  try{document.fonts.ready.then(bartAll);}catch(_){}}
 // větší ikony na tlačítka menu (16×16, obrys se dokreslí)
@@ -7939,7 +7941,8 @@ function fmtN(n){n=Math.floor(n||0);if(n<10000)return String(n);const [v,u]=n<1e
 function matsHtml(menu){const ids=menu?MAT_IDS.filter(m=>(save.mats[m]||0)>0):MAT_IDS;
   return '<span class="mt" title="'+save.coins+'"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+fmtN(save.coins)+'</span>'+ids.map(m=>'<span class="mt" data-mat="'+m+'" title="'+MAT_NAME[m]+' '+(save.mats[m]||0)+'"><img alt="" src="'+matIcon(m)+'">'+fmtN(save.mats[m])+'</span>').join('');}
 // the menu bar shares its row with three icon buttons: drop the oldest materials until it fits on one line
-function fitMenuCur(){const el=$("#mCur");if(!el)return;el.innerHTML=matsHtml(true);try{bartApply(el)}catch(_){}if(!el.clientWidth)return;let sp=[...el.querySelectorAll('.mt[data-mat]')];while(sp.length&&el.scrollWidth>el.clientWidth+1){sp.shift().remove();}}
+function fitMenuCur(){const el=$("#mCur");if(!el)return;el.innerHTML=matsHtml(true);if(el.clientWidth){let sp=[...el.querySelectorAll('.mt[data-mat]')];while(sp.length&&el.scrollWidth>el.clientWidth+1){sp.shift().remove();}}
+ try{bartApply(el)}catch(_){}} // rám až po vejití: plátno přečnívá a scrollWidth by jinak vyhodil všechny materiály
 // one line telling where to get a material the player is short of
 function missHint(c){const m=MAT_IDS.find(k=>c[k]&&save.mats[k]<c[k]);return m?'<p class="hint miss">'+matInfo(m)+'</p>':'';}
 // a price; with have=true each part also shows how much the player has ("360/1240"), red when it is not enough
