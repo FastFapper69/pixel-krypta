@@ -397,3 +397,5 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 - Žebříček čte jen `id,nick,stats,hidden`; vizitka hráče `stats.card={av,tl,cl,hc}` z `boardCard(sv)` (pro staré řádky fallback ze savu). Nová veřejná informace v žebříčku = přidat do `boardCard`, ne číst save.
 - Migrace v `supabase/migrations/` (číslované podle data). Serverové změny nejdřív nanečisto: `DO $$ … raise exception 'VYSLEDEK: %' $$` se `set local role authenticated` a `request.jwt.claims` – vše se vrátí.
 - Test bez serveru: `tests/tools/cloudstub.js` (je v auditu).
+
+- Uživatel potvrdil (21:02): po 09z4 přihlášení, ukládání i žebříček fungují.
