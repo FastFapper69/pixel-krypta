@@ -342,3 +342,7 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 ## 09w – Přidat na plochu (2026-11-09)
 - iOS **nemá žádné API**, kterým by stránka přidala ikonu sama (Safari ani Chrome/Edge/Firefox na iPhonu; beforeinstallprompt tam není, ověřeno 11/2026). Skutečná instalace jedním ťuknutím jen přes `beforeinstallprompt` (Android/desktop Chromium) – `pwaInstall()` ji použije, když `pwaEvt` existuje.
 - Jinak `pwaGuide()` podle prohlížeče (`iosBrowser()`: CriOS/EdgiOS/FxiOS/Safari, Android bez okna): 3 kroky s ikonami (`SVG_SHARE/MORE/DOTS/PLUS`) a blikající šipka `.ig-arrow` (b/br/tr) k místu tlačítka. Tlačítko v Nastavení i na Androidu bez instalačního okna. Test a snímky `tests/tools/pwaguide.js prefix [cs|en]`.
+
+## 09x – Souhvězdí dlouhodobě (2026-11-09)
+- Uživatel: hvězdy málo výrazné, vše se odemkne moc rychle (80 ✦ na vše, body z výkonů ~120+). Nově **úrovně hvězd** `save.sky.rk[c][i]` (0–2 navíc k rozsvícení), `SKY_RK=3`; zjasnit jde jen v dokončeném souhvězdí (`skyCanUp`), cena L→L+1 = `SKY_COST[i]+2L` (`skyNextCost`), bonus ×úroveň v `skyApply`, `skySpent` počítá i úrovně, Vrátit body vrací i úrovně. Vše na 1. úrovni 80 ✦, vše na maximum 450 ✦ – každá nová kapitola přidá další body z Nočních můr a finále.
+- Kreslení: každá hvězda má jemnou záři; otevřené pulzují kruhem (dostupné v barvě souhvězdí), větší hvězda = vyšší úroveň, malý třpyt = jde zjasnit. Úroveň jako kosočtverečky v panelu (`.sk-pips`). Test `tests/tools/skylv.js prefix [cs|en]`.

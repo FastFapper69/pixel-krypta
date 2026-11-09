@@ -67,3 +67,4 @@ Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav 
 - `chipshot.js <prefix> [cs|en]` – zvětšený výřez Arzenálu (všechny rarity, nejdelší jména) a mazlíčka; `heroprev.js <prefix> [cs|en]` – náhled zamčených hrdinů v Přípravě
 - `fitrow.js W cs|en [snímek]` – Arzenál na šířce displeje W (nejdelší jména, všechny rarity), exit 1 při oříznutí
 - `pwaguide.js <prefix> [cs|en]` – návod Přidat na plochu pro Safari/Chrome/Edge na iPhonu a Android, skutečná instalace přes beforeinstallprompt
+- `skylv.js <prefix> [cs|en]` – Souhvězdí: zjasňování hvězd (ceny, bonusy, strop, vrácení bodů, uložení) + snímky

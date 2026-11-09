@@ -849,6 +849,8 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 .ig-arrow.br{right:18px;bottom:calc(10px + var(--sab,0px));border-top:22px solid var(--gold);border-bottom:0;animation:igB 1s ease-in-out infinite}
 .ig-arrow.tr{right:22px;top:calc(8px + var(--sat,0px));border-bottom:22px solid var(--gold);border-top:0;animation:igT 1s ease-in-out infinite}
 @keyframes igB{50%{transform:translateY(8px)}}@keyframes igT{50%{transform:translateY(-8px)}}
+.sk-pips{display:inline-flex;gap:4px;margin-left:auto}.sk-pips i{width:9px;height:9px;background:#2a2450;box-shadow:inset 0 0 0 1px #5a5490;transform:rotate(45deg)}.sk-pips i.on{background:var(--sc);box-shadow:0 0 6px var(--sc)}
+.sk-star .sk-h{display:flex;align-items:center;gap:8px}.sk-star>p{grid-column:1;grid-row:2}.sk-star>.sk-st{grid-column:1;grid-row:3;margin:0}.sk-star>.btn{grid-column:2;grid-row:2/span 2}.sk-next{display:block;margin-top:2px;font-size:12px;color:var(--muted)}.sk-st{display:block;font-size:12px;color:var(--muted);margin:2px 0 6px}
 :root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}</style>
 <style>/* 09n: rooms – Vybavení = zbrojnice, Obchod = tržní stánek, Kovárna = výheň, Síň slávy = pamětní síň (textures from qTexInit) */
 :root{--rv:radial-gradient(circle at 8px 8px,#d8dce6 0 1px,#8a90a0 1.5px 2.2px,#1a1c22 2.6px 3.4px,#0000 3.6px),radial-gradient(circle at calc(100% - 8px) 8px,#d8dce6 0 1px,#8a90a0 1.5px 2.2px,#1a1c22 2.6px 3.4px,#0000 3.6px),
@@ -4194,7 +4196,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09w';
+const GAME_VER='2026-11-09x';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7438,6 +7440,10 @@ function openRunes(){renderForge();setState('forge');setTimeout(()=>{const e=doc
 // ----- 09m: Souhvězdí — account-wide star map, points only from achievements (never bought) -----
 // five constellations of 7 stars; a star lights from the first one or from a lit neighbour; a full constellation adds a unique bonus
 const SKY_COST=[1,1,2,2,3,3,4];
+// 09x: long-term goal – once a whole constellation is drawn (every star at level 1), each star can be made brighter up to SKY_RK.
+// Level L→L+1 costs SKY_COST[i]+2L and adds the star's bonus again. Rank 1 of everything = 80 ✦, all at max = 450 ✦, while the
+// points only come from feats (Nightmare wins, finales, weekly gold, Mastery) – every new chapter adds more of them.
+const SKY_RK=3;
 const SKY=[
  {id:'war',name:_t('Válečník'),ic:'blade',col:'#ff6a5a',
   st:[[50,90],[50,74],[34,66],[66,66],[50,50],[50,30],[50,10]],ln:[[0,1],[1,2],[1,3],[1,4],[4,5],[5,6]],
@@ -7465,7 +7471,9 @@ const SKY_STAT={dmg:_t('Poškození'),crit:_t('Kritický zásah'),hpPct:_t('Zdra
 const skyFmt=([k,v])=>SKY_STAT[k]+' '+(k==='armor'?'+'+v:k==='regen'?'+'+String(v).replace('.',',')+_t(' za s'):'+'+String(Math.round(v*1000)/10).replace('.',',')+' %');
 const SKY_ACH=['win1','combo','k1','k2','elite','fuse','pf','nm3','nm5','heroes','lvl20','legend','want','daily','cart'];
 const SKY_FIN=['trun','brana','srdce','zima','paluba','zatmeni'];
-function skyInit(){save.sky=save.sky||{lit:{},wg:0,rw:''};for(const C of SKY)save.sky.lit[C.id]=save.sky.lit[C.id]||0;return save.sky;}
+function skyInit(){save.sky=save.sky||{lit:{},wg:0,rw:''};save.sky.rk=save.sky.rk||{};for(const C of SKY){save.sky.lit[C.id]=save.sky.lit[C.id]||0;save.sky.rk[C.id]=save.sky.rk[C.id]||[0,0,0,0,0,0,0];}return save.sky;}
+const skyLv=(c,i)=>skyLit(c,i)?1+(skyInit().rk[c][i]|0):0;
+const skyNextCost=(c,i)=>{const L=skyLv(c,i);return L>=SKY_RK?0:SKY_COST[i]+2*L;};
 const skyLit=(c,i)=>!!(skyInit().lit[c]&(1<<i));
 const skyFull=c=>skyInit().lit[c]===127;
 // where the points come from (computed from the save, so old progress counts too)
@@ -7474,12 +7482,14 @@ function skySrc(){const S=skyInit(),nm=Object.keys(save.nmw||{}).filter(k=>save.
   return [{ic:'eye',t:_t('Noční můra: první výhra na každé mapě a stupni'),n:nm,per:1,u:_t('za každou')},{ic:'trophy',t:_t('Finále kapitoly'),n:fin,per:3,u:_t('za každé')},
     {ic:'medal_g',t:_t('Zlatá medaile v týdenní výzvě'),n:S.wg|0,per:2,u:_t('za každou')},{ic:'star',t:_t('Mistrovství'),n:ach,per:1,u:_t('za každé')}];}
 const skyEarned=()=>skySrc().reduce((a,s)=>a+s.n*s.per,0);
-function skySpent(){let n=0;for(const C of SKY)for(let i=0;i<7;i++)if(skyLit(C.id,i))n+=SKY_COST[i];return n;}
+function skySpent(){let n=0;for(const C of SKY)for(let i=0;i<7;i++){const L=skyLv(C.id,i);for(let k=0;k<L;k++)n+=SKY_COST[i]+2*k;}return n;}
 const skyPts=()=>Math.max(0,skyEarned()-skySpent());
 const skyOpen=(C,i)=>!skyLit(C.id,i)&&(i===0||C.ln.some(([a,b])=>(a===i&&skyLit(C.id,b))||(b===i&&skyLit(C.id,a))));
 // bonuses into heroBonus
-function skyApply(B){if(!featOn('sky')||!save.sky)return;for(const C of SKY){for(let i=0;i<7;i++)if(skyLit(C.id,i)){const [k,v]=C.b[i];B[k]=(B[k]||0)+v;}if(skyFull(C.id))B.lg[C.fk]=1;}
+function skyApply(B){if(!featOn('sky')||!save.sky)return;for(const C of SKY){for(let i=0;i<7;i++){const L=skyLv(C.id,i);if(L){const [k,v]=C.b[i];B[k]=(B[k]||0)+v*L;}}if(skyFull(C.id))B.lg[C.fk]=1;}
   if(B.lg.skyB)B.tmax+=1;if(B.lg.skyP){B.petd=(B.petd||0)+.2;B.petp=(B.petp||0)+.15;}}
+const skyCanUp=(c,i)=>skyLit(c,i)&&skyFull(c)&&skyLv(c,i)<SKY_RK; // brighten: only once the whole constellation is drawn
+function skyUp(c,i){const cost=skyNextCost(c,i);if(!skyCanUp(c,i)||skyPts()<cost)return;skyInit().rk[c][i]=(skyInit().rk[c][i]|0)+1;persist();sfx('level');skyFx={c,i,t0:performance.now(),up:1};renderSky();}
 function skyBuy(c,i){const C=SKY_OF[c];if(!skyOpen(C,i)||skyPts()<SKY_COST[i])return;save.sky.lit[c]|=1<<i;persist();sfx('level');
   const full=skyFull(c);skyFx={c,i,t0:performance.now(),full};if(full)setTimeout(()=>{sfx('win');skyDone(C);},900);renderSky();}
 function skyDone(C){const pop=$('#skyPop');pop.innerHTML='<div class="pop-card sky-done" style="--sc:'+C.col+'"><div class="fc-rays"></div><small>'+_t('SOUHVĚZDÍ DOKONČENO')+'</small><img alt="" src="'+dataUrl(SPR.icon[C.ic])+'"><h3>'+C.name+'</h3><p>'+C.fin+'</p><button class="btn" id="skyOk">'+_t('Nádhera')+'</button></div>';
@@ -7489,20 +7499,24 @@ function skyRespec(){const S=skyInit(),free=S.rw!==weekKey(),pop=$('#skyPop');
   pop.innerHTML='<div class="pop-card stone"><h3>'+_t('Vrátit body')+'</h3><p class="hint">'+_t('Všechny hvězdy přestanou svítit a body dostaneš zpátky. Pak je můžeš dát do jiných hvězd.')+' '+(free?_t('Jednou za týden zdarma.'):_t('Tento týden už jsi body zdarma vracel, teď to stojí ')+SKY_RESPEC+' '+MAT_NAME.ess+'.')+'</p>'+
     '<div class="pop-btns"><button class="btn sm" id="skyR"'+(!free&&(save.mats.ess||0)<SKY_RESPEC?' disabled':'')+'>'+(free?_t('Vrátit zdarma'):_t('Vrátit za ')+SKY_RESPEC+' '+MAT_NAME.ess)+'</button><button class="btn alt sm" id="skyRB">'+_t('Zpět')+'</button></div></div>';
   pop.hidden=false;$('#skyRB').onclick=()=>{sfx('ui');pop.hidden=true;};
-  $('#skyR').onclick=()=>{if(free)S.rw=weekKey();else{if((save.mats.ess||0)<SKY_RESPEC)return;save.mats.ess-=SKY_RESPEC;}for(const C of SKY)S.lit[C.id]=0;persist();sfx('ui');pop.hidden=true;skySel=0;renderSky();};}
+  $('#skyR').onclick=()=>{if(free)S.rw=weekKey();else{if((save.mats.ess||0)<SKY_RESPEC)return;save.mats.ess-=SKY_RESPEC;}for(const C of SKY){S.lit[C.id]=0;S.rk[C.id]=[0,0,0,0,0,0,0];}persist();sfx('ui');pop.hidden=true;skySel=0;renderSky();};}
 // screen
 let skyCon='war',skySel=0,skyFx=null,skyRaf=0;
 function openSky(){skyInit();qTexInit();const p=$('#skyPop');if(p)p.hidden=true;renderSky();setState('sky');skyLoop();}
 function renderSky(){const C=SKY_OF[skyCon],pts=skyPts();
   $('#skyPts').innerHTML='<img alt="" src="'+dataUrl(SPR.icon.star)+'"><b>'+pts+'</b><span>'+_t('hvězdných bodů')+'</span>';
-  $('#skyTabs').innerHTML=SKY.map(K=>{let n=0;for(let i=0;i<7;i++)if(skyLit(K.id,i))n++;const can=[0,1,2,3,4,5,6].some(i=>skyOpen(K,i)&&pts>=SKY_COST[i]);
+  $('#skyTabs').innerHTML=SKY.map(K=>{let n=0;for(let i=0;i<7;i++)if(skyLit(K.id,i))n++;const can=[0,1,2,3,4,5,6].some(i=>(skyOpen(K,i)&&pts>=SKY_COST[i])||(skyCanUp(K.id,i)&&pts>=skyNextCost(K.id,i)));
     return '<button data-c="'+K.id+'" class="'+(K.id===skyCon?'on':'')+(n===7?' full':'')+'" style="--sc:'+K.col+'"><img alt="" src="'+dataUrl(SPR.icon[K.ic])+'"><span>'+K.name+'</span><i>'+n+'/7</i>'+(can?'<em></em>':'')+'</button>';}).join('');
   $('#skyTabs').querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{sfx('ui');skyCon=b.dataset.c;skySel=[0,1,2,3,4,5,6].find(i=>skyOpen(SKY_OF[skyCon],i))??0;renderSky();});
-  const lit=skyLit(C.id,skySel),open=skyOpen(C,skySel),cost=SKY_COST[skySel];
-  $('#skyInfo').innerHTML='<div class="sk-star" style="--sc:'+C.col+'"><div class="sk-h"><b>'+_t('Hvězda ')+(skySel+1)+' · '+C.name+'</b><span>'+(lit?_t('Svítí'):open?_t('Cena: ')+cost+' ✦':_t('Nejdřív rozsviť sousední hvězdu'))+'</span></div>'+
-    '<p>'+skyFmt(C.b[skySel])+'</p>'+(lit?'':'<button class="btn sm" id="skyBuy"'+(open&&pts>=cost?'':' disabled')+'>'+_t('Rozsvítit')+' <span class="bst">'+cost+' ✦</span></button>')+'</div>'+
+  const lit=skyLit(C.id,skySel),open=skyOpen(C,skySel),L=skyLv(C.id,skySel),cost=lit?skyNextCost(C.id,skySel):SKY_COST[skySel],up=skyCanUp(C.id,skySel),[bk,bv]=C.b[skySel];
+  const pips='<span class="sk-pips">'+[0,1,2].map(k=>'<i class="'+(k<L?'on':'')+'"></i>').join('')+'</span>';
+  const state=!lit?(open?_t('Cena: ')+cost+' ✦':_t('Nejdřív rozsviť sousední hvězdu')):L>=SKY_RK?_t('Plná záře'):up?_t('Zjasnění: ')+cost+' ✦':_t('Zjasníš po dokončení souhvězdí');
+  $('#skyInfo').innerHTML='<div class="sk-star" style="--sc:'+C.col+'"><div class="sk-h"><b>'+_t('Hvězda ')+(skySel+1)+' · '+C.name+'</b>'+pips+'</div>'+
+    '<p>'+(L?skyFmt([bk,bv*L]):skyFmt(C.b[skySel]))+(lit&&L<SKY_RK?'<small class="sk-next">'+_t('další úroveň: ')+skyFmt([bk,bv*(L+1)])+'</small>':'')+'</p>'+((!lit&&open)||(lit&&L<SKY_RK&&up)?'':'<span class="sk-st">'+state+'</span>')+
+    (!lit?'<button class="btn sm" id="skyBuy"'+(open&&pts>=cost?'':' disabled')+'>'+_t('Rozsvítit')+' <span class="bst">'+cost+' ✦</span></button>':
+     L<SKY_RK&&up?'<button class="btn sm" id="skyBuy"'+(pts>=cost?'':' disabled')+'>'+_t('Zjasnit')+' <span class="bst">'+cost+' ✦</span></button>':'')+'</div>'+
     '<div class="sk-fin'+(skyFull(C.id)?' on':'')+'" style="--sc:'+C.col+'"><small>'+(skyFull(C.id)?_t('Dokončeno'):_t('Celé souhvězdí'))+'</small><p>'+C.fin+'</p></div>';
-  const bb=$('#skyBuy');if(bb)bb.onclick=()=>skyBuy(C.id,skySel);
+  const bb=$('#skyBuy');if(bb)bb.onclick=()=>lit?skyUp(C.id,skySel):skyBuy(C.id,skySel);
   const src=skySrc();$('#skySrc').innerHTML='<div class="fsec">'+_t('Jak získat body')+'</div><p class="hint">'+_t('Hvězdné body se nedají koupit. Dostaneš je jen za výkony:')+'</p>'+
     src.map(s=>'<div class="sk-src"><img alt="" src="'+dataUrl(SPR.icon[s.ic]||SPR.icon.star)+'"><span>'+s.t+'<small>+'+s.per+' ✦ '+s.u+'</small></span><b>'+(s.n*s.per)+' ✦</b></div>').join('')+
     '<div class="sk-sum">'+_t('Získáno ')+skyEarned()+' ✦ · '+_t('rozsvíceno za ')+skySpent()+' ✦</div><button class="btn alt sm" id="skyRs"'+(skySpent()?'':' disabled')+'>'+_t('Vrátit body')+'</button>';
@@ -7529,13 +7543,20 @@ function skyDraw(){const cv=$('#skyCv');if(!cv)return;const g=cv.getContext('2d'
     if(la&&lb){let p=1,s0=[x0,y0],s1=[x1,y1];if(fx&&(fx.i===a||fx.i===b)&&fa<1){p=fa;if(fx.i===a){s0=[x1,y1];s1=[x0,y0];}}
       g.globalAlpha=.35;skyLine(g,s0[0],s0[1]+1,s1[0],s1[1]+1,C.col,false,p);skyLine(g,s0[0]+1,s0[1],s1[0]+1,s1[1],C.col,false,p);g.globalAlpha=1;skyLine(g,s0[0],s0[1],s1[0],s1[1],'#fff4d0',false,p);}
     else skyLine(g,x0,y0,x1,y1,la||lb?'#8a80c0':'#4e4888',true);}
-  for(let i=0;i<7;i++){const [x,y]=skyXY(C,i),lit=skyLit(C.id,i),open=skyOpen(C,i),aff=open&&skyPts()>=SKY_COST[i];
-    if(lit){const born=fx&&fx.i===i?Math.min(1,(now-fx.t0)/500):1,tw=1+Math.round(Math.sin(T*3+i)*.6);
-      const gr=g.createRadialGradient(x+.5,y+.5,0,x+.5,y+.5,9+3*(1-born)*4);gr.addColorStop(0,C.col+'aa');gr.addColorStop(1,C.col+'00');g.fillStyle=gr;g.fillRect(x-20,y-20,41,41);
-      g.fillStyle=C.col;const L=3+tw;g.fillRect(x-L,y,2*L+1,1);g.fillRect(x,y-L,1,2*L+1);g.fillStyle='#fff';g.fillRect(x-1,y-1,3,3);g.fillRect(x-2,y,5,1);g.fillRect(x,y-2,1,5);
-      if(born<1){g.strokeStyle='#ffffff'+Math.round((1-born)*255).toString(16).padStart(2,'0');g.lineWidth=1;g.beginPath();g.arc(x+.5,y+.5,2+born*16,0,7);g.stroke();}}
-    else if(open){const pu=Math.sin(T*4+i)>0;g.fillStyle=aff?(pu?C.col:'#fff4d0'):'#6a6098';g.fillRect(x-2,y-2,5,1);g.fillRect(x-2,y+2,5,1);g.fillRect(x-2,y-1,1,3);g.fillRect(x+2,y-1,1,3);g.fillStyle=aff?'#fff':'#8a84b0';g.fillRect(x,y,1,1);}
-    else{g.fillStyle='#4e4888';g.fillRect(x-2,y,5,1);g.fillRect(x,y-2,1,5);g.fillStyle='#8a84c0';g.fillRect(x-1,y,3,1);g.fillRect(x,y-1,1,3);g.fillStyle='#c8c0ff';g.fillRect(x,y,1,1);}
+  for(let i=0;i<7;i++){const [x,y]=skyXY(C,i),lit=skyLit(C.id,i),open=skyOpen(C,i),aff=open&&skyPts()>=SKY_COST[i],L=skyLv(C.id,i),upA=lit&&skyCanUp(C.id,i)&&skyPts()>=skyNextCost(C.id,i);
+    // 09x: every star sits in a soft halo so it reads as tappable; open/brightenable ones pulse with a ring
+    const pu=(Math.sin(T*4+i)+1)/2;
+    if(lit){const born=fx&&fx.i===i?Math.min(1,(now-fx.t0)/500):1,tw=1+Math.round(Math.sin(T*3+i)*.6),big=L-1;
+      const gr=g.createRadialGradient(x+.5,y+.5,0,x+.5,y+.5,10+big*3+3*(1-born)*4);gr.addColorStop(0,C.col+'bb');gr.addColorStop(1,C.col+'00');g.fillStyle=gr;g.fillRect(x-24,y-24,49,49);
+      g.fillStyle=C.col;const Lr=3+tw+big;g.fillRect(x-Lr,y,2*Lr+1,1);g.fillRect(x,y-Lr,1,2*Lr+1);if(big){g.fillRect(x-Lr+2,y-1,2*Lr-3,3);g.fillRect(x-1,y-Lr+2,3,2*Lr-3);}
+      g.fillStyle='#fff';g.fillRect(x-1,y-1,3,3);g.fillRect(x-2,y,5,1);g.fillRect(x,y-2,1,5);if(big>1){g.fillRect(x-2,y-1,5,3);g.fillRect(x-1,y-2,3,5);}
+      if(born<1){g.strokeStyle='#ffffff'+Math.round((1-born)*255).toString(16).padStart(2,'0');g.lineWidth=1;g.beginPath();g.arc(x+.5,y+.5,2+born*16,0,7);g.stroke();}
+      if(upA&&pu>.5){g.fillStyle='#fff4d0';g.fillRect(x+5,y-7,1,3);g.fillRect(x+4,y-6,3,1);}}
+    else if(open){const r=5;const gr=g.createRadialGradient(x+.5,y+.5,0,x+.5,y+.5,10);gr.addColorStop(0,(aff?C.col:'#8a80c0')+(aff?'88':'44'));gr.addColorStop(1,'#0000');g.fillStyle=gr;g.fillRect(x-12,y-12,25,25);
+      g.fillStyle=aff?(pu>.5?C.col:'#fff4d0'):'#8a80c0';g.fillRect(x-r,y,2*r+1,1);g.fillRect(x,y-r,1,2*r+1);g.fillRect(x-1,y-1,3,3);g.fillStyle='#fff';g.fillRect(x,y,1,1);
+      if(aff){g.strokeStyle=C.col;g.globalAlpha=.45+.5*pu;g.beginPath();g.arc(x+.5,y+.5,7+pu*2.5,0,7);g.stroke();g.globalAlpha=1;}}
+    else{const gr=g.createRadialGradient(x+.5,y+.5,0,x+.5,y+.5,7);gr.addColorStop(0,'#8a84c055');gr.addColorStop(1,'#0000');g.fillStyle=gr;g.fillRect(x-8,y-8,17,17);
+      g.fillStyle='#6a64a8';g.fillRect(x-3,y,7,1);g.fillRect(x,y-3,1,7);g.fillStyle='#a8a0e0';g.fillRect(x-1,y,3,1);g.fillRect(x,y-1,1,3);g.fillStyle='#e8e4ff';g.fillRect(x,y,1,1);}
     if(i===skySel){g.fillStyle='#fff';const r=7;for(const [sx,sy] of [[-1,-1],[1,-1],[-1,1],[1,1]]){g.fillRect(x+sx*r-(sx<0?0:1),y+sy*r,2,1);g.fillRect(x+sx*r,y+sy*r-(sy<0?0:1),1,2);}}}
   if(fx&&fx.full&&now-fx.t0<1600){const a=1-(now-fx.t0)/1600;g.fillStyle=C.col+Math.round(a*90).toString(16).padStart(2,'0');g.fillRect(0,0,SKY_W,SKY_W);}
   if(fx&&now-fx.t0>2000)skyFx=null;}
@@ -8987,6 +9008,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09x',d:'9. 11. 2026',t:_t('Souhvězdí na dlouho'),hl:[
+  {ic:'star',t:_t('Zjasňování hvězd'),d:_t('Když dokreslíš celé souhvězdí, můžeš každou hvězdu zjasnit až na 3. úroveň. Každá úroveň přidá její bonus znovu a stojí víc bodů, takže je na čem pracovat dlouho.')},
+  {ic:'stars',t:_t('Výraznější hvězdy'),d:_t('Hvězdy, které můžeš rozsvítit, září a pulzují, ostatní jsou na obloze lépe vidět.')}]},
  {v:'2026-11-09w',d:'9. 11. 2026',t:_t('Přidání na plochu podle prohlížeče'),hl:[
   {ic:'scroll',t:_t('Návod pro tvůj prohlížeč'),d:_t('Přidat na plochu ukáže kroky přesně pro prohlížeč, ve kterém hru máš (Safari, Chrome, Edge…), se šipkou na správné tlačítko. Kde to prohlížeč umí, přidá se hra rovnou.')},
   {ic:'tower',t:_t('Hezčí karty věží'),d:_t('Jména a štítky rarity se vejdou na každém telefonu, i na malém iPhonu.')}]},
