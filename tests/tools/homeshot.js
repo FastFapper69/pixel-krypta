@@ -2,7 +2,7 @@
 // env ZOOM=1 přidá zvětšený výřez tlačítek, PRESS=1 snímek se stisknutým HRÁT
 const {chromium}=require('playwright');const pre=process.argv[2]||'home',lang=process.argv[3]||'cs',W=+(process.argv[4]||393),H=+(process.argv[5]||852);
 const MID="save.coins=939;save.mats.shard=698;save.mats.ess=27;save.stats=save.stats||{};save.stats.runs=30;save.cleared=save.cleared||{};for(const C of CHAPTERS.slice(0,3))for(const m of C.maps)save.cleared[m]=true;save.fin={trun:1};"+
- "for(let i=0;i<6;i++)addItem(makeItem(i%4));twInit();petInit();try{featCheck()}catch(e){};save.featNew=[];save.featSum=0;save.storyNew=[];persist();";
+ "for(let i=0;i<6;i++)addItem(makeItem(i%4));twInit();petInit();try{featCheck()}catch(e){};save.featNew=[];save.featSum=0;save.storyNew=null;persist();";
 (async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:W,height:H},deviceScaleFactor:3,isMobile:true,hasTouch:true});
  await c.addInitScript(l=>{localStorage.setItem('pixel-krypta-lang',l);const s=document.createElement('style');s.textContent=':root{--sat:47px!important;--sab:34px!important}';document.addEventListener('DOMContentLoaded',()=>document.head.appendChild(s));},lang);
  const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));

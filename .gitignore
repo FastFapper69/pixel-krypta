@@ -8,3 +8,8 @@ tests/tools/new.html
 tests/tools/cc.html
 tests/tools/base.html
 tests/tools/hraci-results.json
+tests/tools/audit-last.txt
+tests/tools/icon-192.png
+tests/tools/icon-512.png
+tests/tools/icon-180.png
+tests/tools/manifest.webmanifest

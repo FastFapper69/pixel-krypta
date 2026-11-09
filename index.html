@@ -4247,7 +4247,7 @@ function noizSweep(t,dur,vol,type,f0,f1,q,att){const n=ac.createBufferSource(),f
   f.frequency.setValueAtTime(f0,t);f.frequency.exponentialRampToValueAtTime(Math.max(30,f1),t+dur);n.connect(f);f.connect(g);g.connect(M.sfxBus);
   const a=att||.004;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,vol),t+a);g.gain.exponentialRampToValueAtTime(.0001,t+dur);n.start(t,Math.random()*.5);n.stop(t+dur+.05);}
 // the music ducks for a moment under the drop so it hits harder (sidechain feel)
-function duckMusic(t,depth,rel){if(!M.musicBus||!save.music)return;const g=M.musicBus.gain;try{g.cancelScheduledValues(t);g.setValueAtTime(.3,t);g.linearRampToValueAtTime(.3*depth,t+.02);g.setTargetAtTime(.3,t+.08,rel||.18);}catch(e){}}
+function duckBeat(t,depth,rel){if(!M.musicBus||!save.music)return;const g=M.musicBus.gain;try{g.cancelScheduledValues(t);g.setValueAtTime(.3,t);g.linearRampToValueAtTime(.3*depth,t+.02);g.setTargetAtTime(.3,t+.08,rel||.18);}catch(e){}}
 const ULT_SND={
  storm(t,sd,B,c){noizSweep(t,.12,.34,'highpass',7000,2500);noizSweep(t+.03,1.6,.3,'lowpass',900,90,0,.06);osc('sawtooth',NOTE(c.root+36),t,.5,.07,B,NOTE(c.root),2200);
    for(let i=1;i<4;i++){const u=t+i*sd;osc('sawtooth',NOTE(c.root+24+c.tones[i%3]),u,.07,.05,B,null,3400);noiz(u,.05,.07,B,'highpass',6000);}},
@@ -4268,7 +4268,7 @@ const ULT_SND={
 function ultDropSfx(id,first){if(!save.sound||!ac||!M.sfxBus||!M.song||(ac.state!=='running'&&!M.offline))return;if(first)duckMusic(-6,.25);
   const B=M.sfxBus,sd=M.stepDur,t=Math.max(ac.currentTime+.01,M.lastAudio||ac.currentTime),c=chordAt(Math.max(0,M.step-1));
   try{if(first){osc('sine',165,t,.55,.62,B,34);osc('square',90,t,.12,.12,B,40,600);noiz(t,.35,.26,B,'lowpass',1000);noizSweep(t,1.3,.13,'highpass',7000,4000);
-      for(const n of c.tones)osc('square',NOTE(c.root+12+n),t,.28,.035,B,null,2600);duckMusic(t,.25,.22);}
+      for(const n of c.tones)osc('square',NOTE(c.root+12+n),t,.28,.035,B,null,2600);duckBeat(t,.25,.22);}
     const L=ULT_SND[id];if(L)L(t,sd,B,c);}catch(e){}}
 // one bar before the drop: a filtered noise riser and a climbing arpeggio that lands on the downbeat
 function ultRiser(){if(!save.sound||!ac||!M.sfxBus||!M.song||(ac.state!=='running'&&!M.offline))return;const B=M.sfxBus,sd=M.stepDur,t=Math.max(ac.currentTime+.01,M.lastAudio||ac.currentTime),c=chordAt(Math.max(0,M.step-1));
@@ -4291,7 +4291,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09z2';
+const GAME_VER='2026-11-09z3';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4573,7 +4573,7 @@ function bossIntroSkip(){if(BI){const out=BI.beat*(BI.beats-.6);if(BI.t<out)BI.t
 // sound: two clicks for the flashes, a whoosh for the card, a slam with a metal clang on the beat; finale adds a low choir and thunder
 function bossIntroSfx(fin){if(!save.sound||!ac||!M.sfxBus||!M.song||(ac.state!=='running'&&!M.offline))return;const B=M.sfxBus,sd=M.stepDur,t=Math.max(ac.currentTime+.01,M.lastAudio||ac.currentTime),c=chordAt(Math.max(0,M.step-1));
   try{noiz(t,.04,.3,B,'highpass',5000);noiz(t+sd*2,.04,.3,B,'highpass',5000);osc('square',NOTE(c.root+36),t,.05,.04,B);osc('square',NOTE(c.root+36),t+sd*2,.05,.04,B);
-    noizSweep(t+sd*3,sd*2,.18,'bandpass',300,5000,2,sd*1.6);duckMusic(t+sd*4,.15,.5);
+    noizSweep(t+sd*3,sd*2,.18,'bandpass',300,5000,2,sd*1.6);duckBeat(t+sd*4,.15,.5);
     const u=t+sd*4;osc('sine',190,u,.7,.65,B,32);noiz(u,.4,.3,B,'lowpass',900);noizSweep(u,1.6,.14,'highpass',7000,3500);
     for(const n of c.tones){const f=NOTE(c.root+12+n);osc('square',f,u,.5,.04,B,null,2200);osc('sine',f*2.76,u,.9,.025,B);}
     const v=t+sd*8;osc('sine',150,v,.4,.4,B,40);noiz(v,.12,.2,B,'bandpass',1800);
@@ -9267,6 +9267,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09z3',d:'9. 11. 2026',t:_t('Oprava zvuku'),hl:[
+  {ic:'music',t:_t('Hudba ustoupí velkým chvílím'),d:_t('Když přijde boss, padneš nebo poprvé odpálíš ultimátku, hudba se na chvíli ztiší, ať vyniknou efekty. Slibovali jsme to už dřív, ale kvůli chybě se to nedělo.')}]},
  {v:'2026-11-09z2',d:'9. 11. 2026',t:_t('Kámen a železo'),hl:[
   {ic:'hammer',t:_t('Kovaná tlačítka všude'),d:_t('Všechna tlačítka ve hře mají železný rám s nýty: v Přípravě, Vybavení, Nástěnce, Nastavení, pauze i po běhu. Hlavní akce je zlatá, Noční můra karmínová.')},
   {ic:'shield',t:_t('Bez fialové'),d:_t('Hra přešla z fialového šera na kámen a železo. Fialová zůstala jen epickým předmětům a kouzlům.')}],

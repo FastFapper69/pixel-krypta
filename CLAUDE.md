@@ -24,6 +24,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
   - **Na konci každé akce** (nejen na „zálohuj se“): commit všeho podstatného (kód, `lang-en.js`, testy, skilly v `.claude/skills/`, tenhle soubor se stavem a dalšími kroky) a push na `main`. Před pushem znovu `git fetch` + `git pull --rebase`; při konfliktu ho vyřeš ručně a nic nepřepisuj.
   - **Nikdy** `push --force`. Nic důležitého nesmí zůstat jen v paměti účtu nebo v sandboxu.
   - Když push nejde (sandbox nemá repo v sezení), přidej repo do sezení s právem zápisu a zkus to znovu. Token do repa ani do paměti nikdy neukládej.
+- **Audit:** `node tests/tools/audit.js` (rychlý) / `audit.js plny` – skill `audit-projektu`, poslední zpráva `AUDIT.md`. Nové testy psát nad `tests/tools/lib.js`.
 - **Skilly projektu** jsou v `.claude/skills/` (html5-mobile-game-dev, survivors-design-balance, mobile-store-launch, **nova-kapitola, novy-hrdina**). Když je session nenačte sama, přečti si příslušný `SKILL.md` ručně.
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak v kořeni `sed "s#url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'[^']*'#url:'',key:''#" index.html > tests/tools/off.html`, `cp lang-en.js tests/tools/`, `ln -s ../../thumbs tests/tools/thumbs`. Playwright je předinstalovaný.
@@ -386,3 +387,7 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 - **Tlačítka `.btn:not(.art)`** = rám jen z CSS vrstev (`background` gradienty: destičky s nýty v rozích, obrys, zkosená hrana `--fh/--fl/--fd/--fdd`, zapuštěná linka, výplň `--f1/--f2/--f3`), žádné obrázky ani plátno → ostré i na iPhonu. Varianty přes proměnné: `.alt` železná výplň, `.danger` červený rám, `#goBtn.nm` karmínová výplň, `.sm`/`.ic` menší jednotka `--u:2px`. **Nepřepisovat `background` u `.btn` jinde** (zničí rám) – měnit jen proměnné. Cenovky v Obchodě (`.market .card.chest>.btn`) zůstávají papírové.
 - Přepínače `.tabs:not(.sectabs) button` a `.nmtabs button` = malé železné destičky, vybraná zlatá (NM karmínová).
 - Snímky všech obrazovek: `tests/tools/_scr.js prefix cs|en obrazovky` (menu, select, hero, towers, pets, chests, forge, shop, quests, master, codex, board, guide, sky, settings, news, coop, confirm, feat), běh `tests/tools/_game.js prefix cs|en` (HUD, nová úroveň, pauza, konec běhu).
+
+## Předávka 2026-11-09 ~21:00 (verze 09z3)
+- Hotovo: audit projektu (`AUDIT.md`), skill `audit-projektu`, `tests/tools/audit.js` + `lib.js`, oprava duplicitní `duckMusic` (ztlumení hudby z 09r konečně funguje).
+- Čeká na rozhodnutí uživatele (viz AUDIT.md): limit pokusů PINu (vysoká), žebříček bez cizích savů, ověřit horní okraj HUD na iPhonu, plynulost menu, úklid tests/tools a zeštíhlení tohoto souboru.
