@@ -1,7 +1,7 @@
 // Noční můry jako obtížnost kapitoly: node nmtest.js [prefix pro screenshoty]
 const {chromium}=require('playwright');const pre=process.argv[2];
 (async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:393,height:852},deviceScaleFactor:2,isMobile:true,hasTouch:true});
- await c.addInitScript(()=>localStorage.setItem('pixel-krypta-lang','cs'));
+ await c.addInitScript(()=>{localStorage.setItem('pixel-krypta-lang','cs');document.addEventListener('DOMContentLoaded',()=>{const s=document.createElement('style');s.textContent='#featPop{display:none!important}';document.head.appendChild(s);});}); // karty Cesty mechanik by zakryly klikání
  const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));await p.goto('file://'+__dirname+'/off.html');await p.waitForTimeout(700);
  const r=await p.evaluate(()=>{const K=window.__krypta,S=K.save,o=[];S.sound=false;S.music=false;S.tut=1;K.econInit();
    const win=(map,nm)=>{K.god=true;K.startRun('knight',map,{nm});K.step(1/30);K.finish(true);const rw=K.run.rw;K.openMenu();return rw;};

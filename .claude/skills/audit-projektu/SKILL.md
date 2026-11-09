@@ -30,13 +30,16 @@ Skutečné chyby: `no-redeclare`, `no-undef`, `no-dupe-keys` (u exportu `window.
 - Pravidla a práva: `select tablename,policyname,cmd,roles,qual,with_check from pg_policies where schemaname='public'` a `information_schema.column_privileges` pro `anon`/`authenticated` (kdo smí číst/měnit které sloupce).
 - Funkce SECURITY DEFINER (`pg_get_functiondef`): limit pokusů (PIN!), kontrola `auth.uid()`, nic nesmí jít bez klíče.
 - Otevřená nahlášení: `select count(*) from reports where done=false` (moderovat do 24 h).
+- Podezřelé skóre: `select nick,at,why from private.cheat_log order by at desc limit 20`; zamčené PINy: `select nick,count(*) from private.pin_fail group by 1`.
+- Přezdívky z doby před filtrem: `select nick from profiles where public.nick_bad(nick) and not coalesce(hidden,false)`.
 - Jen čtení. Migrace jen po souhlasu uživatele.
 
 ## 4. Ruční pohled (to, co skript nevidí)
 - Nálezy z minulého `AUDIT.md`: co je opravené, co zůstává.
 - iPhone: horní okraj (iOS 26 rozmazává pruh pod stavovým řádkem → nic důležitého do `--sat + 30px`), ostrost rámů – jen uživatel na telefonu, zeptej se.
 - Balanc: `node hraci.js zed 1` (rychle) nebo `kapitola:cN 3`; porovnat s pravidlem „každá kapitola je zeď“. Telemetrie `fbread.js runs` (potřebuje `dev_key` od uživatele).
-- Pracovní postup: velikost CLAUDE.md (cíl < 60 kB), zastaralé testy v `tests/tools`, opakované ruční kroky → nástroj.
+- Pracovní postup: velikost CLAUDE.md (cíl < 40 kB, historie do `docs/HISTORIE.md`), zastaralé testy v `tests/tools`, opakované ruční kroky → nástroj.
 
 ## Poučení z auditů
+- 9. 11. 2026 večer: okna otevřená během běhu (nabídka úrovně) zahazují kroky rytmu – úder ultimátky mizel.
 - 9. 11. 2026: duplicitní `duckMusic` (09r ztlumení nikdy nefungovalo), PIN bez limitu pokusů, žebříček stahuje cizí savy kvůli jednomu obrázku, pokles plynulosti menu po rámech v plátně, 108 kB CLAUDE.md.

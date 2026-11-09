@@ -3,7 +3,7 @@ const {chromium}=require('playwright');const pre=process.argv[2]||'pet';
 (async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:390,height:844},locale:'cs-CZ',hasTouch:true,isMobile:true,deviceScaleFactor:2});
 const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
 await p.goto('file://'+process.cwd()+'/off.html');await p.waitForTimeout(500);
-const res=await p.evaluate(()=>{const K=window.__krypta,out=[];K.save.sound=false;K.save.music=false;K.god=true;
+const res=await p.evaluate(()=>{const K=window.__krypta,out=[];K.save.sound=false;K.save.music=false;K.god=true;K._ev('featInit();save.feat.pets=1');
  for(const k of K.PET_IDS){const c=K.petRoll(k,.5);K.save.pets={v:1,cards:[c],sel:c.u};
   K.startRun('knight','hrbitov');const r=K.run;let kills0=0;for(let i=0;i<60*40;i++){K.step(1/60);}
   out.push({k,kills:r.kills,hits:r.pet.hits,hp:Math.round(r.p.hp),fire:(r.pfire||[]).length});}

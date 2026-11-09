@@ -1,3 +1,7 @@
+# Testy a nástroje
+
+**Začni tady:** `node audit.js` (vše podstatné), nové testy piš nad `lib.js` (`prep`, `open({phone,lang,save})`, `SCREENS`). Staré jednorázové skripty jsou v `archiv/`.
+
 # Testovací skripty (Playwright)
 
 Spouštěj z adresáře, kde leží `off.html` = offline kopie hry:

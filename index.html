@@ -4342,7 +4342,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09z5';
+const GAME_VER='2026-11-09z6';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -5578,8 +5578,11 @@ function update(dt){
   const tx=clamp(p.x-VW/2,0,Math.max(0,sz-VW)),ty=clamp(p.y-VH/2,0,Math.max(0,sz-VH));
   run.cam.x=tx;run.cam.y=ty; // locked to the player (a lagging camera + rounding made diagonal movement judder)
   run.beatNow=run.barNow=false;
-  if(!run.over&&run.pending>0)openLevelUp();
+  if(!run.over&&run.pending>0&&!ultHold(dt))openLevelUp();
 }
+// 09z5: nabídka nové úrovně nepřeruší velký úder ultimátky – když už běží náběh (poslední takt před úderem), počká do úderu (max ~3 s)
+function ultHold(dt){const s=M.step%64,has=run.t>2&&!run.coop&&Object.keys(run.W).some(id=>ULT_DROP[id]); // M.step = další krok; úder je krok 0
+  if(!has||(s<46&&s!==0)){run.ultHoldT=0;return false;}run.ultHoldT=(run.ultHoldT||0)+dt;return run.ultHoldT<3;}
 // per-hero upkeep: timers, regeneration, oasis, lava (runs for the partner too via withPl)
 function envPl(dt){
   const p=run.p;
@@ -9369,6 +9372,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09z6',d:'9. 11. 2026',t:_t('Úder ultimátky'),hl:[
+  {ic:'note',t:_t('Nová úroveň nesebere úder ultimátky'),d:_t('Když už hudba nabíhá k velkému úderu ultimátky, nabídka nové úrovně počká, až úder proběhne. O útok tak nepřijdeš.')}]},
  {v:'2026-11-09z5',d:'9. 11. 2026',t:_t('Pauza a odemykání'),hl:[
   {ic:'book',t:_t('Pauza se třemi záložkami'),d:_t('Výbava ukáže zbraně a pasivky běhu, Hrdina všechny tvoje staty (zdraví, regenerace, brnění, poškození, rychlost, krit…) a Úkoly průběh dnešních úkolů a kontraktů včetně toho, co přidává tenhle běh.')},
   {ic:'star',t:_t('Oslava nového hrdiny'),d:_t('Koupený nebo vybojovaný hrdina se ukáže se zábleskem, paprsky a jiskrami a hned si ho můžeš vybrat.')},
