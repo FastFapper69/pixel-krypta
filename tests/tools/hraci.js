@@ -5,6 +5,7 @@
 // node hraci.js zed [běhů=2] [povahy=all]        -> kapitoly I–V: první mapa a finále, účet při vstupu a po grindu, verdikt „zeď“
 // node hraci.js kapitola:c5 [běhů=3] [povahy]    -> jedna kapitola (všech 5 map), vstup i grind
 // node hraci.js mapa:paluba[:vstup|grind] [běhů=4] [povahy] [hrdinové]
+// UCET=2 node hraci.js mapa:zima:vstup …  -> všechny mapy se stejným účtem (index kapitoly), na srovnání obtížnosti map
 // Povahy: novacek, opatrny, agresor, sberatel, stavitel, fuzak, expert (čárkou). Výstup: tabulka + hraci-results.json.
 // Simulace, ne skutečný hráč: neřekne, jestli je to zábavné nebo čitelné. Ukáže balanc, zdi a mechaniky, které jdou obejít.
 const {chromium}=require('playwright'),fs=require('fs');
@@ -17,15 +18,19 @@ const POVAHY={
  stavitel:{name:'Stavitel',hero:'builder',react:.25,aware:.75,keep:1.1,approach:.2,greed:.8,gemR:80,panic:.35,cards:'std',ritual:['g','p','g','m','g'],towers:6,upgrade:1,jitter:.12},
  fuzak:{name:'Fúzní lovec',hero:'mage',react:.22,aware:.75,keep:1,approach:.4,greed:.8,gemR:80,panic:.3,cards:'fuse',ritual:['p','p','g','p','g'],towers:2,jitter:.1},
  expert:{name:'Expert',hero:'bard',react:.12,aware:.97,keep:1,approach:.5,greed:1,gemR:100,panic:.35,cards:'expert',ritual:['p','p','p','p','g'],towers:3,upgrade:1,jitter:.05}};
-// účet na vstupu do kapitoly ci (0 = kapitola I) podle skutečných hráčů (8. 11.: kapitola III ≈ hrdina 16–18, Vylepšení ~15/30)
+// účet na vstupu do kapitoly (index = kapitola, 0 = I). Kalibrace 8. 11. podle nejdál postoupeného hráče: v kapitole III hrdina 16–18,
+// Vylepšení ~15/30, výbava ve 4 slotech rarity 1–3 na +0 až +3, 2 kusy setu. Další kapitoly jsou odhad (+3 úrovně hrdiny, +3 Vylepšení, +1 slot a +1 vylepšení výbavy).
+// Až budou hráči dál, přepočítej z tabulky profiles (save.hlv, save.meta, save.eq/inv).
 const UCTY=[
- {hlv:1,meta:0,rev:0,tiers:0,tlv:0,gear:null,sets:null,pet:['wolf',0],tw:[['arrow',0],['fire',0],['frost',0],['tesla',0]]},
- {hlv:8,meta:7,rev:1,tiers:0,tlv:0,gear:[1,2],sets:['bone',1],pet:['wolf',3],tw:[['arrow',0],['fire',0],['frost',0],['tesla',0],['crypt',0]]},
- {hlv:16,meta:14,rev:1,tiers:1,tlv:3,gear:[2,3],sets:['bone',2],pet:['owl',3],tw:[['arrow',1],['fire',1],['frost',1],['tesla',1],['obelisk',0]]},
- {hlv:22,meta:19,rev:2,tiers:2,tlv:4,gear:[2,5],sets:['forge',2],pet:['fox',5],tw:[['arrow',1],['fire',2],['frost',1],['tesla',2],['forge',1]]},
- {hlv:27,meta:23,rev:2,tiers:3,tlv:5,gear:[3,5],sets:['frost',2],pet:['salamander',4],tw:[['arrow',2],['fire',2],['frost',2],['tesla',2],['hearth',1]]},
- {hlv:32,meta:26,rev:3,tiers:4,tlv:6,gear:[3,7],sets:['tide',4],pet:['drake',6],tw:[['arrow',2],['fire',3],['frost',2],['tesla',3],['icelance',2]]}];
-const grind=A=>Object.assign({},A,{hlv:Math.min(40,A.hlv+5),meta:Math.min(30,A.meta+3),gear:A.gear?[Math.min(3,A.gear[0]+1),A.gear[1]+2]:[1,2],sets:A.sets?[A.sets[0],Math.min(4,A.sets[1]+2)]:null,tlv:A.tlv+2});
+ {hlv:1,meta:0,rev:0,tiers:0,tlv:0,gear:null,slots:0,sets:null,pet:['wolf',0],tw:[['arrow',0],['fire',0],['frost',0],['tesla',0]]},
+ {hlv:8,meta:7,rev:1,tiers:0,tlv:0,gear:[1,1],slots:3,sets:['bone',1],pet:['wolf',3],tw:[['arrow',0],['fire',0],['frost',0],['tesla',0],['crypt',0]]},
+ {hlv:16,meta:14,rev:1,tiers:1,tlv:2,gear:[2,2],slots:4,sets:['bone',2],pet:['owl',3],tw:[['arrow',1],['fire',1],['frost',1],['tesla',1],['obelisk',0]]},
+ {hlv:19,meta:17,rev:2,tiers:2,tlv:3,gear:[2,3],slots:5,sets:['forge',2],pet:['fox',4],tw:[['arrow',1],['fire',1],['frost',1],['tesla',1],['forge',1]]},
+ {hlv:22,meta:20,rev:2,tiers:3,tlv:3,gear:[2,4],slots:6,sets:['frost',2],pet:['salamander',3],tw:[['arrow',1],['fire',2],['frost',1],['tesla',2],['hearth',1]]},
+ {hlv:25,meta:22,rev:2,tiers:4,tlv:4,gear:[3,4],slots:6,sets:['tide',2],pet:['drake',4],tw:[['arrow',2],['fire',2],['frost',2],['tesla',2],['icelance',1]]}];
+// finále hraje hráč, který prošel 4 mapy kapitoly (o kousek silnější než na vstupu)
+const fin=A=>Object.assign({},A,{hlv:A.hlv+2,meta:Math.min(30,A.meta+2)});
+const grind=A=>Object.assign({},A,{hlv:Math.min(40,A.hlv+4),meta:Math.min(30,A.meta+3),gear:A.gear?[Math.min(3,A.gear[0]+1),A.gear[1]+2]:[1,2],slots:Math.min(6,(A.slots||0)+1)||3,sets:A.sets?[A.sets[0],Math.min(4,A.sets[1]+2)]:null,tlv:A.tlv+2});
 (async()=>{
 const b=await chromium.launch();const errs=[];
 const pages=[];for(let i=0;i<2;i++){const c=await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true});const p=await c.newPage();p.on('pageerror',e=>errs.push(e.message));
@@ -43,14 +48,15 @@ else if(SC.startsWith('mapa:')){const [,m,acc]=SC.split(':');const C=chs.find(c=
 else{console.log('Neznámý scénář. Viz hlavička souboru.');process.exit(1);}
 console.log(jobs.length+' běhů, '+pov.map(k=>POVAHY[k].name).join(', '));
 const t0=Date.now(),rows=[];let done=0;
-async function runOne(p,J){const P=POVAHY[J.pov],A=J.acc==='grind'?grind(UCTY[J.ci]):UCTY[J.ci];
+async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map,U=process.env.UCET!=null?UCTY[+process.env.UCET]:UCTY[J.ci],A0=isFin&&process.env.UCET==null?fin(U):U,A=J.acc==='grind'?grind(A0):A0; // UCET=n: stejný účet pro všechny mapy (srovnání map)
   await p.evaluate(([J,A,P])=>{const K=window.__krypta,E=K._ev,S=K.save;K.god=false;S.sound=false;S.music=false;S.cheat=false;K.lastRun=null;
     let s=J.seed;Math.random=()=>((s=(s*16807)%2147483647)/2147483647);
     E('econInit()');const h=J.hero;S.heroes[h]=true;S.hlv={};S.hlv[h]=A.hlv;S.htal={};if(A.hlv>=25){S.htal[h]={25:0,30:0,35:1,40:0};}
     S.meta={treeV:2};S.metaV=2;for(const id of ['hp','dmg','spd','mag','xp','build'])S.meta[id]=A.meta;S.meta.revive=A.rev;
     const br=['a','d','l'];for(let t=0;t<A.tiers;t++)for(const x of br)S.meta[x+(t+1)]=A.tlv;
     S.inv=[];S.eq={};S.eq[h]={};const setS=A.sets?E("setSlots('"+A.sets[0]+"')").slice(0,A.sets[1]):[];
-    if(A.gear)for(const sl of E('SLOT_IDS')){const it=setS.includes(sl)?E("makeSetItem('"+A.sets[0]+"','"+sl+"',"+A.gear[0]+",.6)"):K.makeItem(A.gear[0],sl,.6);it.lv=A.gear[1];E('addItem')(it);S.eq[h][sl]=it.u;}
+    const order=[...setS,...E('SLOT_IDS').filter(x=>!setS.includes(x))].slice(0,Math.max(A.slots||0,setS.length));
+    if(A.gear)for(const sl of order){const it=setS.includes(sl)?E("makeSetItem('"+A.sets[0]+"','"+sl+"',"+A.gear[0]+",.6)"):K.makeItem(A.gear[0],sl,.6);it.lv=A.gear[1];E('addItem')(it);S.eq[h][sl]=it.u;}
     const pc=E('petRoll')(A.pet[0],.6);pc.lv=A.pet[1];S.pets={v:1,cards:[pc],sel:pc.u};
     S.tw={v:2,cards:[],deck:[]};for(const [k,r] of A.tw){const c=E('twRoll')(k,r,.6);c.lv=Math.min(10,A.gear?A.gear[1]:0);S.tw.cards.push(c);S.tw.deck.push(c.u);}
     K.startRun(h,J.map,{});const R=K.run;R.tut=null;
@@ -84,6 +90,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],A=J.acc==='grind'?grind(UCTY[J.
         for(const q of R.erupt||[])if(q.t>0&&seen(q))away(q.x,q.y,(q.r||30)+10,4);
         for(const q of R.aval||[]){if(q.hit||!seen(q))continue;const dy=p.y-q.y;if(Math.abs(dy)<q.h+10)fy+=(dy>=0?1:-1)*3.5;}
         if(R.kp&&seen(R.kp))away(R.kp.x,R.kp.y,90,3);
+        for(const f of R.fx)if((f.k==='magma'||f.k==='venom')&&seen(f))away(f.x,f.y,(f.r||14)+10,3);
         if(R.built.traps&&(E('M.step')%16)>=11)for(const t of R.built.traps)if(seen(t))away(t.x,t.y,H.trapS*1.6+8,3);
         let goal=null;
         if(R.fcy&&seen(R.fcy)){let bd=1e9;for(const i of R.fcy.act){const q=R.built.runes[i],d=Math.hypot(q.x-p.x,q.y-p.y);if(d<bd){bd=d;goal=q;}}}
@@ -119,7 +126,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],A=J.acc==='grind'?grind(UCTY[J.
         if(R.crystal&&R.nearCrystal&&R.crystal.hp<R.crystal.max*.75&&Math.random()<(P.aware))K.repairCrystal();}
     });
     if(st==='over')break;if(st!=='run'&&st!=='play'&&st!=='levelup'&&st!=='fuse')await p.waitForTimeout(40);}
-  const r=await p.evaluate(()=>{const K=window.__krypta,R=K.run;if(!R.over)K.finish(false);return Object.assign({},K.lastRun||K.tmRow('death'),{gain:R.gain});});
+  const r=await p.evaluate(()=>{const K=window.__krypta,R=K.run;if(!R.over)K.finish(false);return Object.assign({},K.lastRun||K.tmRow('death'),{gain:R.gain,cap:R.t>R.map.dur+390});});
   return Object.assign(r,{pov:J.pov,acc:J.acc,ci:J.ci});}
 let ji=0;await Promise.all(pages.map(async p=>{while(ji<jobs.length){const J=jobs[ji++];try{rows.push(await runOne(p,J));}catch(e){errs.push(String(e).slice(0,200));}
   if(++done%10===0)process.stdout.write(done+' ');}}));
@@ -145,5 +152,5 @@ const odd=[];for(const m of maps){const all=pct(rows.filter(r=>r.map===m));for(c
 if(odd.length)console.log('\nPODEZŘELE SNADNÁ STRATEGIE:\n  '+odd.join('\n  '));
 // how they die
 console.log('\nCO ZABÍJÍ (prohry, top 3 na mapu):');
-for(const m of maps){const L=rows.filter(r=>r.map===m&&!r.won),cs={};L.forEach(r=>cs[r.cause]=(cs[r.cause]||0)+1);console.log('  '+pad(m,12)+Object.entries(cs).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k,v])=>k+' ×'+v).join(', ')+'  | medián přežití '+fmt(med(L.map(r=>r.t))));}
+for(const m of maps){const L=rows.filter(r=>r.map===m&&!r.won),cs={};L.forEach(r=>cs[r.cause]=(cs[r.cause]||0)+1);const cap=L.filter(r=>r.cap).length;console.log('  '+pad(m,12)+Object.entries(cs).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k,v])=>k+' ×'+v).join(', ')+(cap?', NEDOHRÁNO (kitování bez konce) ×'+cap:'')+'  | medián přežití '+fmt(med(L.map(r=>r.t))));}
 console.log('\nchyby:',errs.slice(0,5));await b.close();})();
