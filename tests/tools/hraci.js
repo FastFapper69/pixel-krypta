@@ -91,6 +91,12 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         for(const q of R.erupt||[])if(q.t>0&&seen(q))away(q.x,q.y,(q.r||30)+10,4);
         for(const q of R.aval||[]){if(q.hit||!seen(q))continue;const dy=p.y-q.y;if(Math.abs(dy)<q.h+10)fy+=(dy>=0?1:-1)*3.5;}
         if(R.kp&&seen(R.kp))away(R.kp.x,R.kp.y,90,3);
+        // chapter VI: telescope beams, the void between islands (unless the bridges shine), lines between wolves
+        if(R.kb&&R.t>12&&Math.random()<P.aware+.3){const C=map.size/2,o=(map.kit.mech.find(m=>m.id==='beam')||{}),n=o.n||2;for(let k=0;k<n;k++){const an=R.kb.a+k*6.283/n,cs=Math.cos(an),sn=Math.sin(an),dx=p.x-C,dy=p.y-C,pr=dx*cs+dy*sn,pp=-dx*sn+dy*cs;
+          if(pr>10&&pr<(o.len||520)&&Math.abs(pp)<30){const s2=pp>=0?1:-1;fx+=-sn*s2*4;fy+=cs*s2*4;}}}
+        if(R.built.zone&&R.kg&&!R.kg.on&&Math.random()<P.aware+.4){const Z=R.built.zone,sz=map.size,at=(x,y)=>Z[Math.max(0,Math.min(sz-1,y|0))*sz+Math.max(0,Math.min(sz-1,x|0))];
+          for(let k=0;k<8;k++){const a=k/8*6.283,x=p.x+Math.cos(a)*22,y=p.y+Math.sin(a)*22;if(at(x,y))away(x,y,26,3);}}
+        for(const [a,b] of R.kl||[]){const vx=b.x-a.x,vy=b.y-a.y,L2=vx*vx+vy*vy||1,t=Math.max(0,Math.min(1,((p.x-a.x)*vx+(p.y-a.y)*vy)/L2));away(a.x+vx*t,a.y+vy*t,18,3);}
         for(const f of R.fx)if((f.k==='magma'||f.k==='venom')&&seen(f))away(f.x,f.y,(f.r||14)+10,3);
         if(R.built.traps&&(E('M.step')%16)>=11)for(const t of R.built.traps)if(seen(t))away(t.x,t.y,H.trapS*1.6+8,3);
         let goal=null;

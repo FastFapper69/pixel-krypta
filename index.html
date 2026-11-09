@@ -1529,25 +1529,25 @@ const MAPS={
   events:[{t:80,type:'ring',e:'pirate',n:20},{t:150,type:'ring',e:'crab',n:18},{t:220,type:'ring',e:'gull',n:20},{t:300,type:'ring',e:'jelly',n:18},{t:380,type:'ring',e:'pirate',n:28}]},
  // ----- chapter VI: the heavenly observatory (09j, chapter kit) -----
  hvezdarna:{name:_t('Hvězdárna'),desc:_t('Stará hvězdárna nad mraky. Z jejího středu se otáčejí <b>dva paprsky dalekohledu</b>, které <b>pálí všechno, i tebe</b>. Nažeň do nich nepřátele. Vydrž 5:30 a poraz Astroláb.'),dur:330,size:960,seed:241,style:'kit',grade:'#a89aff',gradeA:.2,dark:.42,amb:'#06041a',ambient:'mote',c1:'#3a3660',
-  speedMul:1,base:1,boss:'astrolab',pools:0,kit:{ground:C6G,wall:C6W,path:['#3a3460','#443e6e','#4e487c','#58528a'],accent:['#2a3a6a','#34487a'],tile:C6T,layout:'plaza',R:150,bits:C6B,spark:'#fff6d8',shadow:'#060410',
+  speedMul:1,base:1,boss:'astrolab',pools:0,hpmK:1.2,spxAdd:.08,kit:{ground:C6G,wall:C6W,path:['#3a3460','#443e6e','#4e487c','#58528a'],accent:['#2a3a6a','#34487a'],tile:C6T,layout:'plaza',R:150,bits:C6B,spark:'#fff6d8',shadow:'#060410',
    camp:{k:'c6_lamp',light:{r:42,col:'#ffe9a8',a:.7}},props:[{k:'c6_orrery',n:8,at:'ring',ring:190,tall:1,light:{r:30,col:'#ffd27a',a:.55}},{k:['c6_rock','c6_crystal'],n:70,r:22,light:{r:22,col:'#9a8aff',a:.45},lightEvery:4},{k:'c6_scope',n:10,tall:1,r:60,at:'edge'}],
-   mech:[{id:'beam',n:2,spd:.42,len:520,w:9,dmg:10,pct:.06,edmg:40,from:15,col:'#fff2b0',tip:_t('Paprsky dalekohledu pálí všechno, i tebe!')}]},
+   mech:[{id:'beam',n:2,spd:.32,len:520,w:8,dmg:6,pct:.012,edmg:40,from:15,col:'#fff2b0',tip:_t('Paprsky dalekohledu pálí všechno, i tebe!')}]},
   spawns:[{e:'starimp',from:0,w:4},{e:'meteor',from:0,w:3},{e:'ghost',from:0,w:2},{e:'bat',from:1,w:2},{e:'wraith',from:2,w:1},{e:'golem',from:3,w:1}],
   elites:[{t:60,e:'meteor'},{t:130,e:'starimp'},{t:200,e:'golem'},{t:270,e:'meteor'}],
   events:[{t:90,type:'ring',e:'starimp',n:20},{t:170,type:'ring',e:'meteor',n:16},{t:250,type:'ring',e:'ghost',n:22}]},
  mlhovina:{name:_t('Mlhovina'),desc:_t('Fialová mlhovina, kde <b>vidíš jen kolem sebe a kolem světlušek</b>. <b>Hvězdný plyn zpomaluje</b>. Vydrž 5:30 a poraz Mlhovinovou medúzu.'),dur:330,size:980,seed:251,style:'kit',grade:'#c88aff',gradeA:.24,dark:.86,amb:'#0a0418',ambient:'wisp',c1:'#3a2a5a',
-  speedMul:1,base:1,boss:'nebula',pools:0,kit:{ground:['#1c1430','#22183a','#281c44','#2e2050','#36265c','#3e2c68'],wall:C6W,accent:['#3a2a6a','#4a3478'],layout:'open',bits:C6B,spark:'#ffd8ff',shadow:'#060410',
+  speedMul:1,base:1,boss:'nebula',pools:0,spxAdd:.4,hpmK:1.65,kit:{ground:['#1c1430','#22183a','#281c44','#2e2050','#36265c','#3e2c68'],wall:C6W,accent:['#3a2a6a','#4a3478'],layout:'open',bits:C6B,spark:'#ffd8ff',shadow:'#060410',
    zone:{pal:['#3a1a5a','#4a2270','#5a2a86','#6a349a'],thr:.58,cells:110},
    camp:{k:'c6_lamp',light:{r:44,col:'#ffe9a8',a:.75}},props:[{k:'c6_firefly',n:46,r:40,light:{r:46,col:'#ffd8ff',a:.65}},{k:['c6_cloud','c6_crystal'],n:60,r:24},{k:'c6_cloud',n:24,at:'zone',r:30}],
-   mech:[{id:'slow',slow:.7,eslow:.85}]},
-  spawns:[{e:'starimp',from:0,w:4},{e:'jelly',from:0,w:3},{e:'ghost',from:0,w:3},{e:'meteor',from:1,w:2},{e:'bat',from:1,w:2},{e:'golem',from:3,w:1}],
+   mech:[{id:'slow',slow:.7,eslow:1}]},
+  spawns:[{e:'starimp',from:0,w:4},{e:'jelly',from:0,w:3},{e:'meteor',from:0,w:3},{e:'starwolf',from:1,w:2},{e:'comet',from:2,w:1},{e:'golem',from:3,w:1}],
   elites:[{t:60,e:'jelly'},{t:130,e:'starimp'},{t:200,e:'meteor'},{t:270,e:'golem'}],
   events:[{t:90,type:'ring',e:'jelly',n:18},{t:170,type:'ring',e:'starimp',n:22},{t:250,type:'ring',e:'ghost',n:24}]},
  ostrovy:{name:_t('Plovoucí ostrovy'),desc:_t('Ostrovy plují nad propastí hvězd. <b>Prázdnota mezi nimi bolí a zpomaluje</b>, ale <b>na každý druhý takt se rozsvítí hvězdné mosty</b> a přejdeš bezpečně. Občas fouká hvězdný vítr. Vydrž 6 minut a poraz Hvězdného gryfa.'),dur:360,size:1000,seed:263,style:'kit',grade:'#9ab8ff',gradeA:.2,dark:.4,amb:'#04061a',ambient:'mote',c1:'#4a5478',
   speedMul:1,base:1,boss:'griffin',pools:0,kit:{ground:['#2a3050','#323a5e','#3a446a','#424e78','#4c5886','#566294'],wall:C6W,path:['#4a4870','#56547e','#62608c','#6e6c9a'],accent:['#3a5a6a','#46687a'],layout:'paths',paths:5,pathW:30,bits:C6B,spark:'#ffffff',shadow:'#060410',
    zone:{pal:['#06051a','#0a0824','#0e0c30','#16123c'],thr:.55,cells:130},
    camp:{k:'c6_lamp',light:{r:42,col:'#ffe9a8',a:.7}},props:[{k:['c6_rock','c6_crystal'],n:80,r:22,light:{r:22,col:'#9ab8ff',a:.45},lightEvery:5},{k:'c6_orrery',n:6,tall:1,r:80}],
-   mech:[{id:'gaps',every:2,dmg:4,pct:.03,col:'#bfd0ff'},{id:'push',period:36,dur:7,force:22,from:40,col:'#e8e0ff',tip:_t('Hvězdný vítr!')},{id:'strike',from:99999,col:'#bfd0ff'}]},
+   mech:[{id:'gaps',every:2,dmg:2,pct:.015,col:'#bfd0ff'},{id:'push',period:36,dur:7,force:22,from:40,col:'#e8e0ff',tip:_t('Hvězdný vítr!')},{id:'strike',from:99999,col:'#bfd0ff'}]},
   spawns:[{e:'meteor',from:0,w:4},{e:'starimp',from:0,w:3},{e:'bat',from:0,w:2},{e:'ghost',from:1,w:2},{e:'comet',from:2,w:1},{e:'golem',from:3,w:1}],
   elites:[{t:60,e:'meteor'},{t:130,e:'comet'},{t:200,e:'starimp'},{t:270,e:'golem'},{t:330,e:'comet'}],
   events:[{t:90,type:'ring',e:'meteor',n:18},{t:170,type:'ring',e:'starimp',n:22},{t:260,type:'ring',e:'bat',n:24},{t:320,type:'ring',e:'meteor',n:22}]},
@@ -1625,7 +1625,7 @@ const CHAPTERS=[
  {id:'c6',name:_t('Nebeská hvězdárna'),mat:'shard',col:'#b8a8ff',maps:['hvezdarna','mlhovina','ostrovy','souhvezdi','zatmeni']}];
 const MAP_IDS=CHAPTERS.flatMap(c=>c.maps),CH_OF={};CHAPTERS.forEach((c,i)=>{c.i=i;for(const m of c.maps)CH_OF[m]=c;});
 // maps without a hand-tuned MAP_TIER row take the staircase formula (chapter kit)
-for(const id of MAP_IDS)if(!MAP_TIER[id]){const T=kitTier(id);MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];MAPS[id].dmm=T[3];}
+for(const id of MAP_IDS)if(!MAP_TIER[id]){const T=kitTier(id);MAPS[id].hpm=+(T[0]*(MAPS[id].hpmK||1)).toFixed(2);MAPS[id].spx=+(T[1]+(MAPS[id].spxAdd||0)).toFixed(2);MAPS[id].gb=T[2];MAPS[id].dmm=T[3];}
 const ROMAN_CH=['I','II','III','IV','V','VI','VII','VIII'];
 const mapsBuilt={},MF={};
 const MAP_BUILD={coast:id=>buildCoast(id),ice:id=>buildIce(id),deep:id=>buildDeep(id),swamp:id=>buildSwamp(id),crypt:id=>buildCrypt(id),village:id=>buildVillage(id),throne:id=>buildThrone(id),canyon:id=>buildCanyon(id),caravan:id=>buildCaravan(id),tomb:id=>buildTomb(id),sun:id=>buildSun(id)};
@@ -5255,26 +5255,26 @@ Object.assign(KIT_PROPS,{
  c6_cloud:{mirror:false,rows:['..pp..','.pqqp.','pqqqqp','.pppp.'],pal:{p:'#6a4a9a',q:'#a87ad8'}},
  c6_firefly:{mirror:false,rows:['.y.','yYy','.y.'],pal:{y:'#ffd8ff',Y:'#ffffff'}}});
 const c6On=(o,x,y,a)=>{const C=run.map.size/2,L=o.len||520,w=o.w||9,n=o.n||2;for(let k=0;k<n;k++){const an=a+k*6.283/n,cs=Math.cos(an),sn=Math.sin(an),dx=x-C,dy=y-C,pr=dx*cs+dy*sn;
-  if(pr<18||pr>L)continue;if(Math.abs(-dx*sn+dy*cs)<w)return true;}return false;};
+  if(pr<44||pr>L)continue;if(Math.abs(-dx*sn+dy*cs)<w)return true;}return false;};
 Object.assign(KIT_MECH,{
  // rotating telescope beams from the map centre: they burn everything they sweep, the hero too
  beam:{init(o){run.kb={a:Math.random()*6.283};},
   update(o,dt){if(run.t<(o.from||15)||run.over)return;const B=run.kb;B.a+=dt*(o.spd||.42);
    if(o.tip&&!run.kbTip){run.kbTip=1;toast(o.tip,2400);}
-   for(const p of players()){if(p.down||!c6On(o,p.x,p.y,B.a))continue;p.kbT=(p.kbT||0)-dt;if(p.kbT<=0){p.kbT=.4;const hit=()=>hurtTick(hazDm(o.dmg||10,o.pct||.06,p),'beam',o.col||'#fff2b0');if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}}
+   for(const p of players()){if(p.down||!c6On(o,p.x,p.y,B.a))continue;p.kbT=(p.kbT||0)-dt;if(p.kbT<=0){p.kbT=.5;const hit=()=>hurtTick(hazDm(o.dmg||10,o.pct||.06,p),'beam',o.col||'#fff2b0');if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}}
    for(const e of run.enemies){if(e.boss||e.dead||e.bur||!c6On(o,e.x,e.y,B.a))continue;e.kbT=(e.kbT||0)-dt;if(e.kbT<=0){e.kbT=.3;hurtEnemy(e,o.edmg||40,0,0);if(run.qc)run.qc.kst=(run.qc.kst||0)+1;}}},
   gupdate(o,dt){if(run.kb&&run.t>=(o.from||15))run.kb.a+=dt*(o.spd||.42);},
   ground(o,g,ox,oy){if(!run.kb||run.t<(o.from||15)-3)return;const C=run.map.size/2,x=C+ox,y=C+oy,L=o.len||520,w=o.w||9,n=o.n||2,warm=run.t<(o.from||15);
    for(let k=0;k<n;k++){const an=run.kb.a+k*6.283/n;g.save();g.translate(x,y);g.rotate(an);
-     const gr=g.createLinearGradient(18,0,L,0);gr.addColorStop(0,'rgba(255,242,176,'+(warm?.12:.42)+')');gr.addColorStop(1,'rgba(255,242,176,0)');g.fillStyle=gr;g.fillRect(18,-w,L,w*2);
-     if(!warm){g.fillStyle='rgba(255,255,255,'+(.5+.2*M.pulse)+')';g.fillRect(18,-1,L*.85,2);}g.restore();}},
+     const gr=g.createLinearGradient(44,0,L,0);gr.addColorStop(0,'rgba(255,242,176,'+(warm?.12:.42)+')');gr.addColorStop(1,'rgba(255,242,176,0)');g.fillStyle=gr;g.fillRect(44,-w,L-44,w*2);
+     if(!warm){g.fillStyle='rgba(255,255,255,'+(.5+.2*M.pulse)+')';g.fillRect(44,-1,L*.85-44,2);}g.restore();}},
   glows(o,GL){const C=run.map.size/2;if(run.kb)GL(C,C,40,o.col||'#fff2b0',.45);},
   snap(){return run.kb?[+run.kb.a.toFixed(3)]:null;},apply(o,a){run.kb={a:a?a[0]:0};}},
  // gaps between floating islands (the zone): they hurt and slow, but every other bar star bridges light up and they are safe
  gaps:{init(o){run.kg={on:0,n:0};},
   update(o,dt){const G=run.kg,Z=run.built.zone,sz=run.map.size;if(!Z)return;if(run.barNow){G.n++;G.on=G.n%(o.every||2)===0?1:0;if(G.on&&!run.kgTip&&run.t>8){run.kgTip=1;toast(_t('Hvězdné mosty! Teď přeběhni prázdnotu.'),2400);}}
    if(G.on)return;for(const p of players()){if(p.down)continue;if(!Z[clamp(p.y|0,0,sz-1)*sz+clamp(p.x|0,0,sz-1)]){p.kgT=0;continue;}p.kgT=(p.kgT||0)-dt;
-     if(p.kgT<=0){p.kgT=.45;const hit=()=>hurtTick(hazDm(o.dmg||4,o.pct||.03,p),'void',o.col||'#bfd0ff');if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}}},
+     if(p.kgT<=0){p.kgT=.6;const hit=()=>hurtTick(hazDm(o.dmg||4,o.pct||.03,p),'void',o.col||'#bfd0ff');if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}}},
   gupdate(o){const G=run.kg;if(G&&run.barNow){G.n++;G.on=G.n%(o.every||2)===0?1:0;}},
   psp(o,p){const Z=run.built.zone,sz=run.map.size;if(!Z||!Z[clamp(p.y|0,0,sz-1)*sz+clamp(p.x|0,0,sz-1)])return 1;return run.kg&&run.kg.on?1:.55;},
   espd(o,e){const Z=run.built.zone,sz=run.map.size;if(e.boss||e.d.fly||!Z)return 1;return Z[clamp(e.y|0,0,sz-1)*sz+clamp(e.x|0,0,sz-1)]&&!(run.kg&&run.kg.on)?.7:1;},
