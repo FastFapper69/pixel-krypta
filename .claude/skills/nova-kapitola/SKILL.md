@@ -72,3 +72,4 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 - Smoke `shot.js`, `heavy.js` (výkon), `newsshot.js` (Novinky s ikonami), `i18n.js static`.
 
 - Nástěnka (09e): každý nový nepřítel potřebuje množný tvar v `Q_PL` (jinak úkol píše „Zabij 40× Jméno“), kapitola hledaného v `WANTED` + `WANT_OF`; kontrakty a týdenní výzva si novou kapitolu/mapy vezmou samy.
+- Příběh (09h): finální boss kapitoly má v poslední fázi **náznak další kapitoly** a po první výhře kartu „Cesta dál“ (most). Od kapitoly IV přidává každá kapitola i jednu novou mechaniku do `FEATS` (odemkne ji finále), s kartou NOVÁ MECHANIKA.
