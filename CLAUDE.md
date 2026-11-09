@@ -287,3 +287,13 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 - Uživatel: bílé bloky na Nástěnce a stránka vkládání run působily „cheap“. Nově procedurální pixelové textury `qTexInit()` (CSS proměnné `--tx-paper`, `--tx-cork`, `--tx-wood`, `--tx-stone`, generované canvasem, žádné obrázky).
 - Úkol = `.qnote` (připínáček, náklon, stín) + `.qn-in` (potrhaný papír přes clip-path, pečeť `seal_r/b/g`, rámeček ikony `.qn-ic`, hvězdy `qStarImg`). Svitky kontraktů mají dřevěné tyče (`.qscroll::before/after`), svíčky stojí na polici.
 - Runy: `.pop-card.stone` (kamenná deska), řádky s objímkou `.rsk`, ukazatel úrovně `runePip(l)`, počet `.rcnt`; stejné pro sloty v předmětu a váček v Kovárně. Nové obrazovky ve stejném duchu: textury z `qTexInit`, ne ploché barvy.
+
+## 09m – Souhvězdí (2026-11-09)
+- Mechanika `sky` ve `FEATS`, odemkne ji finále `zatmeni` (kapitola VI). Tlačítko `#mSky` v menu (hvězdné pozadí) se ukáže až po odemčení, obrazovka `#scr-sky` (`openSky`, `renderSky`, plátno `#skyCv` 128×128 pixel art, `skyDraw`/`skyLoop`/`skyTap`).
+- Data `SKY` (war, guard, build, tame, music): 7 hvězd (`st` souřadnice 0–100, `ln` čáry, `b` bonus), ceny `SKY_COST` 1,1,2,2,3,3,4 (16 na souhvězdí, 80 celkem). Hvězda jde rozsvítit od první nebo od rozsvíceného souseda.
+- Body (`skySrc`) se **počítají ze save**, nekupují se: výhry `save.nmw` (1), finále `SKY_FIN` (3), zlaté medaile týdenní výzvy `save.sky.wg` (2, počítá se v `wkResult`), Mistrovství ze `SKY_ACH` (1). Uloženo `save.sky={lit:{id:bitmaska},wg,rw}`.
+- Bonusy `skyApply(B)` na konci `heroBonus`. Dokončené: `skyW` +15 % na bossy/elity (`hurtEnemy`), `skyG` jednou za běh přežití se 40 % HP (`hurtPlayer`), `skyB` +1 věž (`tmax`), `skyP` mazlíčci, `skyM` širší okno fúze (`startFuse` wide).
+- Zhasnutí (`skyRespec`) jednou týdně zdarma (`rw`=weekKey), jinak 10 Esence. Test `tests/tools/sky.js`.
+
+## Předávka 2026-11-09 (verze 09m)
+- Hotovo: 09l nový vzhled Nástěnky a run (textury), 09m Souhvězdí. Další: ladění obtížnosti kapitol V–VI a ekonomiky Nástěnky podle telemetrie, kapitola VII Prázdnota (most `zatmeni` → void připraven, nová mechanika do `FEATS`), co-op kampaň jen jako nápad.

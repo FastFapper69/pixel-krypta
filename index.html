@@ -599,6 +599,38 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .wk-t>img{width:44px;height:44px;image-rendering:pixelated;flex:none;filter:grayscale(.85) brightness(.75)}.wk-t>div{flex:1;min-width:0}.wk-t b{display:block;font-size:16px}.wk-t>div>span:not(.rw){display:block;font-size:13px;color:var(--muted);margin-bottom:3px}
 .wk-t.got{box-shadow:inset 0 0 0 3px var(--gold)}.wk-t.got>img,.wk-t.cl>img{filter:none}.wk-t.got>img{animation:qbob .6s ease-in-out infinite alternate}.wk-t .ok{font-style:normal;color:var(--green);font-size:22px;font-weight:700}
 .wk-btns{display:flex;gap:8px;margin:12px 0 4px}.wk-btns .btn{flex:1}
+/* 09m Souhvězdí */
+.skybtn{position:relative;overflow:hidden;background:linear-gradient(90deg,#120c2a,#2a1a4a 50%,#120c2a)!important;color:#fff4d0!important;box-shadow:inset 0 0 0 2px #6a5aa8,0 0 14px #8a6aff44!important}
+.skybtn img{width:22px;height:22px;image-rendering:pixelated;vertical-align:-5px;margin-right:8px;filter:drop-shadow(0 0 4px #ffd27a)}
+.skybtn::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 12% 30%,#fff 0 1px,#0000 2px),radial-gradient(circle at 80% 70%,#fff 0 1px,#0000 2px),radial-gradient(circle at 60% 20%,#c8b8ff 0 1px,#0000 2px),radial-gradient(circle at 30% 80%,#c8b8ff 0 1px,#0000 2px);animation:skytw 2.4s steps(2) infinite;pointer-events:none}
+@keyframes skytw{50%{opacity:.35}}
+#scr-sky{background:radial-gradient(ellipse at 50% 0,#1e1440,#0a0816 70%)}
+.skypts{display:flex;align-items:center;gap:6px;font-family:var(--font-px);color:var(--gold)}
+.skypts img{width:20px;height:20px;image-rendering:pixelated;filter:drop-shadow(0 0 4px #ffd27a)}.skypts b{font-size:20px}.skypts span{font-size:12px;color:#b8b0d8}
+.skytabs{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:8px 0 10px}
+.skytabs button{position:relative;display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 2px 5px;background:#14102a;color:#b8b0d8;border:0;font:inherit;box-shadow:inset 0 0 0 2px #2a2448;clip-path:var(--px);transition:transform .15s}
+.skytabs button img{width:24px;height:24px;image-rendering:pixelated;opacity:.7}
+.skytabs button span{font-size:10px;font-weight:700;letter-spacing:.02em}.skytabs button i{font-style:normal;font-family:var(--font-px);font-size:11px;color:#8a84b0}
+.skytabs button.on{background:#221a40;color:#fff;box-shadow:inset 0 0 0 2px var(--sc),0 0 12px color-mix(in srgb,var(--sc) 40%,transparent);transform:translateY(-2px)}.skytabs button.on img{opacity:1;filter:drop-shadow(0 0 4px var(--sc))}
+.skytabs button.full i{color:var(--sc)}.skytabs button em{position:absolute;top:4px;right:5px;width:6px;height:6px;background:var(--gold);box-shadow:0 0 6px var(--gold);animation:skytw 1.2s steps(2) infinite}
+.skyframe{position:relative;padding:6px;background:var(--tx-stone) 0 0/96px 96px;image-rendering:pixelated;box-shadow:inset 0 0 0 2px #0e0c16,inset 0 0 0 4px #4a4470,0 8px 20px #0008}
+.skyframe::before,.skyframe::after{content:'';position:absolute;width:10px;height:10px;background:var(--gold);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%)}
+.skyframe::before{top:-4px;left:-4px}.skyframe::after{bottom:-4px;right:-4px}
+#skyCv{display:block;width:100%;aspect-ratio:1;image-rendering:pixelated;cursor:pointer;touch-action:manipulation}
+#skyInfo{display:grid;gap:8px;margin:12px 0}
+.sk-star{padding:10px 12px;background:linear-gradient(#1c1830,#141026);box-shadow:inset 0 0 0 2px #2a2448,inset 3px 0 0 var(--sc);display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px 10px}
+.sk-h{grid-column:1/-1;display:flex;justify-content:space-between;gap:8px;align-items:baseline}.sk-h b{font-family:var(--font-px);color:var(--sc);font-size:15px;letter-spacing:.03em}.sk-h span{font-size:12px;color:#a8a0c8}
+.sk-star p{margin:0;font-weight:700;color:#fff}.sk-star .btn{white-space:nowrap}.sk-star .bst{margin-left:4px;opacity:.85}
+.sk-fin{padding:9px 12px;background:#100c20;box-shadow:inset 0 0 0 2px #2a2448;opacity:.8}.sk-fin small{font-family:var(--font-px);letter-spacing:.08em;color:#8a84b0;font-size:11px;text-transform:uppercase}.sk-fin p{margin:2px 0 0;font-size:13px;color:#c8c0e0}
+.sk-fin.on{opacity:1;background:linear-gradient(90deg,color-mix(in srgb,var(--sc) 22%,#100c20),#100c20);box-shadow:inset 0 0 0 2px var(--sc),0 0 14px color-mix(in srgb,var(--sc) 30%,transparent)}.sk-fin.on small{color:var(--sc)}.sk-fin.on p{color:#fff}
+.sk-src{display:flex;align-items:center;gap:10px;padding:7px 10px;margin-bottom:5px;background:#14102a;box-shadow:inset 0 0 0 1px #2a2448}
+.sk-src img{width:22px;height:22px;image-rendering:pixelated}.sk-src span{flex:1;font-size:13px;color:#d8d0f0;font-weight:600}.sk-src small{display:block;color:#8a84b0;font-weight:500;font-size:11px}.sk-src b{font-family:var(--font-px);color:var(--gold)}
+.sk-sum{margin:8px 0;text-align:center;font-size:12px;color:#a8a0c8}#skySrc .btn{width:100%}
+.pop-card.sky-done{position:relative;overflow:hidden;text-align:center;background:radial-gradient(circle at 50% 30%,color-mix(in srgb,var(--sc) 35%,#120c2a),#0a0816 75%);box-shadow:inset 0 0 0 3px var(--sc),0 0 40px color-mix(in srgb,var(--sc) 45%,transparent);animation:skypop .5s cubic-bezier(.2,1.4,.4,1)}
+.sky-done>*:not(.fc-rays){position:relative}.sky-done small{font-family:var(--font-px);letter-spacing:.14em;color:var(--sc)}.sky-done img{display:block;width:64px;height:64px;margin:10px auto;image-rendering:pixelated;filter:drop-shadow(0 0 12px var(--sc))}
+.sky-done h3{font-family:var(--font-px);font-size:24px;color:#fff;margin:0}.sky-done p{color:#e8e0ff}
+.sky-done .fc-rays{position:absolute;inset:-50%;background:repeating-conic-gradient(from 0deg,color-mix(in srgb,var(--sc) 25%,transparent) 0 10deg,transparent 10deg 20deg);animation:skyspin 12s linear infinite}
+@keyframes skyspin{to{transform:rotate(1turn)}}@keyframes skypop{from{transform:scale(.6);opacity:0}}
 /* 09l: the Board, hand-made pixel look (textures from qTexInit) */
 .qboard{gap:18px;padding:20px 12px 18px;background:var(--tx-cork) 0 0/72px 72px;image-rendering:pixelated;clip-path:none;
  box-shadow:inset 0 0 0 3px #2a1a0e,inset 0 0 0 9px transparent,inset 0 0 26px #1a0e0699;border:9px solid transparent;border-image:var(--tx-wood) 8 repeat;position:relative}
@@ -830,6 +862,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
         <button class="btn alt" id="mCoop">Hrát s kamarádem</button>
         <div class="row2"><button class="btn alt" id="mHero">Vybavení</button><button class="btn alt" id="mForge">Kovárna</button></div>
         <div class="row2"><button class="btn alt" id="mChest">Obchod</button><button class="btn alt" id="mQuest">Nástěnka</button></div>
+        <button class="btn alt skybtn" id="mSky" hidden><img alt="" id="icSky">Souhvězdí</button>
       </div>
     </div>
     <div class="sheetwrap" id="setPop" inert><div class="sheet">
@@ -985,6 +1018,16 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
     <div class="popwrap" id="qPop" hidden></div>
   </section>
 
+  <section class="scr" id="scr-sky" hidden>
+    <div class="wrap">
+      <div class="head"><h2>Souhvězdí</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats skypts" id="skyPts"></div></div>
+      <div class="skytabs" id="skyTabs"></div>
+      <div class="skyframe"><canvas id="skyCv" width="128" height="128"></canvas></div>
+      <div id="skyInfo"></div>
+      <div id="skySrc"></div>
+    </div>
+    <div class="popwrap" id="skyPop" hidden></div>
+  </section>
   <section class="scr" id="scr-master" hidden>
     <div class="wrap">
       <div class="head"><h2>Síň slávy</h2><button class="btn alt sm" data-back>Zpět</button></div>
@@ -3940,7 +3983,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09l';
+const GAME_VER='2026-11-09m';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3952,7 +3995,7 @@ const isGuest=()=>CO.role==='guest'&&!!run&&!!run.coop;
 function withPl(pl,fn){const K=['p','W','P','hero','heroId','fused','fuseMiss','revived','meta','bonus','revT','pet','pet2'],sv={};for(const k of K)sv[k]=run[k];const s0=st,c0=CO.ctxMate;
   for(const k of K)run[k]=pl[k];st=pl.st;CO.ctxMate=true;
   try{return fn();}finally{for(const k of K)pl[k]=run[k];pl.st=st;for(const k of K)run[k]=sv[k];st=s0;CO.ctxMate=c0;}}
-const screens={menu:$('#scr-menu'),towers:$('#scr-towers'),pets:$('#scr-pets'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),forge:$('#scr-forge'),codex:$('#scr-codex'),guide:$('#scr-guide'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master')};
+const screens={menu:$('#scr-menu'),towers:$('#scr-towers'),pets:$('#scr-pets'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),forge:$('#scr-forge'),codex:$('#scr-codex'),guide:$('#scr-guide'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master'),sky:$('#scr-sky')};
 function showScreen(n){for(const k in screens)screens[k].hidden=(k!==n);}
 function setState(s){const prevS=state;if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
   $('#hud').hidden=!(run&&(s==='play'||s==='levelup'||s==='fuse'||s==='wait'||s==='pause'||s==='over'));
@@ -4299,7 +4342,7 @@ function smokePuff(x,y,n,col,size){for(let i=0;i<n;i++)addP({k:'smoke',x:x+rnd(-
 function hurtEnemy(e,dmg,kx,ky){
   if(e.dead||e.bur||isGuest())return;
   if(e.shield){e.flash=.05;if(Math.random()<.3)sparks(e.x,e.y-4,2,'#b07aff',kx,ky,90);if(!e.shT||run.t-e.shT>2.5){e.shT=run.t;toast(e.shield,1600);}return;}
-  let d=dmg*st.dmg*(mfCall('dmgMul',e)||1)*(st.af&&st.af.hunter&&(e.boss||e.elite)?1+st.af.hunter:1),crit=false;if(e.mk>run.t)d*=e.mkm||1.2;if(e.elite&&run.thm==='hunt')d*=1.2;if(st.tr&&st.tr.a5)d*=1+Math.min(.025*st.tr.a5,run.combo/1000);if(Math.random()<(st.crit||.1)+(st.tr&&st.tr.a1&&(M.step%16)<4?.03*st.tr.a1:0)+(st.af&&st.af.rhythm&&(M.step%16)<4?st.af.rhythm:0)){d*=st.tal&&st.tal.a20?2:1.6;crit=true;}if(st.lg&&st.lg.metro&&(M.step%16)>=12)d*=2;d=Math.max(1,Math.round(d));
+  let d=dmg*st.dmg*(mfCall('dmgMul',e)||1)*(st.af&&st.af.hunter&&(e.boss||e.elite)?1+st.af.hunter:1),crit=false;if(e.mk>run.t)d*=e.mkm||1.2;if(e.elite&&run.thm==='hunt')d*=1.2;if(st.lg&&st.lg.skyW&&(e.boss||e.elite))d*=1.15;if(st.tr&&st.tr.a5)d*=1+Math.min(.025*st.tr.a5,run.combo/1000);if(Math.random()<(st.crit||.1)+(st.tr&&st.tr.a1&&(M.step%16)<4?.03*st.tr.a1:0)+(st.af&&st.af.rhythm&&(M.step%16)<4?st.af.rhythm:0)){d*=st.tal&&st.tal.a20?2:1.6;crit=true;}if(st.lg&&st.lg.metro&&(M.step%16)>=12)d*=2;d=Math.max(1,Math.round(d));
   if(crit&&st.lg&&st.lg.storm&&run.t-(run.sgT||-9)>.5){run.sgT=run.t;explode(e.x,e.y,26,10+run.level*1.5);}
   run.tdm=(run.tdm||0)+d;e.hp-=d;if(st.lg&&st.lg.sfr2&&!e.boss)e.slowT=Math.max(e.slowT,.8);e.flash=.09;e.sq=1;e.kx+=(kx||0)*e.kbm;e.ky+=(ky||0)*e.kbm;
   if(run.nums.length<40)run.nums.push({x:e.x+rnd(-3,3),y:e.y-e.h/2,vx:rnd(-14,14),vy:crit?-70:-55,txt:String(d)+(crit?'!':''),life:crit?.8:.6,col:crit?'#f6c744':'#ffffff',big:crit,t:0});
@@ -4357,6 +4400,7 @@ function hurtPlayer(d,src){
   if(st.tr&&st.tr.d2&&!p.d2u&&p.hp>0&&p.hp<p.max*.3){p.d2u=1;const h=Math.ceil(p.max*.05*st.tr.d2);p.hp=Math.min(p.max,p.hp+h);run.nums.push({x:p.x,y:p.y-14,txt:'+'+h,life:1,col:'#8affa0'});toast(_t('Druhý dech!'),1400);sfx('level');}
   if(p.hp<=0){
     if(petRevive())return;
+    if(st.lg&&st.lg.skyG&&!run.skyG){run.skyG=1;p.hp=Math.ceil(p.max*.4);p.inv=2.5;toast(_t('Štít hvězd!'),1800);sfx('level');run.fx.push({k:'shock',x:p.x,y:p.y-4,r:3,t:0,life:.6,max:70,col:'#6ab8ff'});run.eshots.length=0;return;}
     const rv=Math.min(3,(run.meta||save.meta).revive||0);if((rv>0||(st.lg&&st.lg.heart))&&!run.revived){run.revived=(run.revived|0)+1;p.hp=Math.ceil(p.max*(REV_HP[rv]||.5));p.inv=2.5;toast(_t('Druhá šance!'),1800);sfx('level');
       run.enemies.forEach(e=>{if(!e.boss&&Math.hypot(e.x-p.x,e.y-p.y)<90){e.kx+=(e.x-p.x)*5;e.ky+=(e.y-p.y)*5;}});
       run.eshots.length=0;}
@@ -5514,7 +5558,7 @@ let FZ=null;
 function audioBeat(){const lat=ac?.05+(ac.outputLatency||ac.baseLatency||0):0;return M.beatPos-lat/(M.stepDur*4);}
 function startFuse(f,idx,opts){
   const b0=Math.floor(audioBeat()),lg=run?(st&&st.lg)||{}:heroBonus(heroOwned(sel.hero)?sel.hero:'knight').lg;
-  FZ={f,idx,opts,wide:!!lg.crown,targets:[2,3,4,5].map(i=>b0+i),res:[null,null,null,null],done:false};
+  FZ={f,idx,opts,wide:!!lg.crown||!!lg.skyM,targets:[2,3,4,5].map(i=>b0+i),res:[null,null,null,null],done:false};
   if(opts){$('#fzTitle').textContent=opts.title;$('#fzSub').textContent=opts.sub;$('#fzIcon').src=opts.icon;$('#fzA').hidden=$('#fzB').hidden=true;}
   else{$('#fzA').hidden=$('#fzB').hidden=false;$('#fzTitle').textContent=_t('Fúze!');$('#fzSub').textContent=WEAPONS[f.a].name+' + '+WEAPONS[f.b].name;
   $('#fzIcon').src=dataUrl(SPR.icon[f.id]);$('#fzA').src=dataUrl(SPR.icon[f.a]);$('#fzB').src=dataUrl(SPR.icon[f.b]);}
@@ -6576,6 +6620,7 @@ function bindUi(){
   document.querySelectorAll('#gdTabs button').forEach(b=>b.onclick=()=>{sfx('ui');renderGuide(b.dataset.g);});
   $('#mQuest').onclick=fGate('quests',()=>openQuests());
   $('#mNews').onclick=()=>{audioInit();sfx('ui');openNews(true);};
+  $('#mSky').onclick=()=>{audioInit();sfx('ui');openSky();};$('#skyCv').onclick=skyTap;
   $('#mInstall').onclick=()=>{audioInit();sfx('ui');pwaInstall();};
   $('#coHost').onclick=()=>coHostStart();
   $('#coJoin').onclick=()=>coJoin($('#coCode').value);
@@ -6984,6 +7029,7 @@ function heroBonus(h){
   if(T.b5)B.tcost+=.10;if(T.b15)B.thp+=.30;if(T.b20)B.tmax+=1;if(T.d15)B.cd+=.10;
   if(T.s5)B.armor+=1;if(T.s15)B.hpPct+=.15;if(T.h5)B.mag+=.20;if(T.h15)B.dmg+=.10;if(T.n5)B.spd+=.05;if(T.n15)B.cd+=.10;if(T.z5)B.crit+=.05;if(T.z15)B.fuse+=.15;
   if(h==='shaman')B.mag+=.20;if(h==='astro')B.fuse+=.15;
+  skyApply(B);
   return B;}
 // talents that change a starting weapon
 function talentW(id){const T=(st&&st.tal)||{};const o={};
@@ -7137,6 +7183,115 @@ function runeForgeHtml(){qTexInit();if(!featOn('runes'))return '';const R=save.r
 function runeMerge(k){const R=save.runes||{},o=runeOf(k);if((R[k]||0)<3||o.l>=5)return;R[k]-=3;const nk=runeKey(o.t,o.l+1);R[nk]=(R[nk]||0)+1;persist();sfx('level');note(_t('Nová runa: ')+runeName(nk));}
 function openRunes(){renderForge();setState('forge');setTimeout(()=>{const e=document.querySelector('#forgeList .rbag')||document.querySelector('#forgeList .fsec:last-of-type');if(e)e.scrollIntoView({block:'center',behavior:'smooth'});},120);}
 
+// ----- 09m: Souhvězdí — account-wide star map, points only from achievements (never bought) -----
+// five constellations of 7 stars; a star lights from the first one or from a lit neighbour; a full constellation adds a unique bonus
+const SKY_COST=[1,1,2,2,3,3,4];
+const SKY=[
+ {id:'war',name:_t('Válečník'),ic:'blade',col:'#ff6a5a',
+  st:[[50,90],[50,74],[34,66],[66,66],[50,50],[50,30],[50,10]],ln:[[0,1],[1,2],[1,3],[1,4],[4,5],[5,6]],
+  b:[['dmg',.02],['crit',.01],['dmg',.02],['crit',.01],['dmg',.03],['crit',.02],['dmg',.04]],
+  fin:_t('Hvězdný úder: +15 % poškození proti bossům a elitám.'),fk:'skyW'},
+ {id:'guard',name:_t('Strážce'),ic:'shield',col:'#6ab8ff',
+  st:[[50,90],[28,72],[72,72],[20,40],[80,40],[36,14],[64,14]],ln:[[0,1],[0,2],[1,3],[2,4],[3,5],[4,6],[5,6]],
+  b:[['hpPct',.03],['armor',1],['hpPct',.03],['regen',.2],['hpPct',.04],['armor',1],['dodge',.02]],
+  fin:_t('Štít hvězd: jednou za běh tě smrtelný zásah nezabije a vrátí ti 40 % zdraví.'),fk:'skyG'},
+ {id:'build',name:_t('Stavitel'),ic:'tower',col:'#ffc84a',
+  st:[[32,90],[68,90],[32,60],[68,60],[22,36],[78,36],[50,12]],ln:[[0,1],[0,2],[1,3],[2,3],[2,4],[3,5],[4,6],[5,6]],
+  b:[['tdmg',.04],['tcost',.03],['thp',.05],['tdmg',.04],['tcost',.03],['thp',.08],['tdmg',.06]],
+  fin:_t('Hvězdná stavba: v běhu postavíš o 1 věž víc.'),fk:'skyB'},
+ {id:'tame',name:_t('Krotitel'),ic:'chest_pet',col:'#7ae07a',
+  st:[[50,66],[50,90],[22,48],[38,28],[62,28],[78,48],[30,84]],ln:[[0,1],[0,2],[0,3],[0,4],[0,5],[1,6]],
+  b:[['petd',.04],['petr',.03],['mag',.05],['petd',.04],['petr',.04],['mag',.08],['petd',.06]],
+  fin:_t('Smečka hvězd: mazlíčci mají +20 % poškození a +15 % síly schopností.'),fk:'skyP'},
+ {id:'music',name:_t('Hudebník'),ic:'music',col:'#c87aff',
+  st:[[26,84],[40,76],[40,46],[40,18],[56,14],[72,10],[72,66]],ln:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6]],
+  b:[['fuse',.03],['cd',.02],['fuse',.03],['xp',.03],['fuse',.04],['cd',.03],['xp',.04]],
+  fin:_t('Hvězdný takt: při fúzi a slučování máš širší okno pro Perfektní ťuknutí.'),fk:'skyM'}];
+const SKY_OF={};for(const C of SKY)SKY_OF[C.id]=C;
+const SKY_STAT={dmg:_t('Poškození'),crit:_t('Kritický zásah'),hpPct:_t('Zdraví'),armor:_t('Brnění'),regen:_t('Regenerace'),dodge:_t('Úhyb'),tdmg:_t('Poškození věží'),tcost:_t('Levnější věže'),
+  thp:_t('Výdrž věží'),petd:_t('Poškození mazlíčků'),petr:_t('Rychlost mazlíčků'),mag:_t('Dosah sbírání'),fuse:_t('Síla ultimátek'),cd:_t('Rychlost útoků'),xp:_t('Zkušenosti')};
+const skyFmt=([k,v])=>SKY_STAT[k]+' '+(k==='armor'?'+'+v:k==='regen'?'+'+String(v).replace('.',',')+_t(' za s'):'+'+String(Math.round(v*1000)/10).replace('.',',')+' %');
+const SKY_ACH=['win1','combo','k1','k2','elite','fuse','pf','nm3','nm5','heroes','lvl20','legend','want','daily','cart'];
+const SKY_FIN=['trun','brana','srdce','zima','paluba','zatmeni'];
+function skyInit(){save.sky=save.sky||{lit:{},wg:0,rw:''};for(const C of SKY)save.sky.lit[C.id]=save.sky.lit[C.id]||0;return save.sky;}
+const skyLit=(c,i)=>!!(skyInit().lit[c]&(1<<i));
+const skyFull=c=>skyInit().lit[c]===127;
+// where the points come from (computed from the save, so old progress counts too)
+function skySrc(){const S=skyInit(),nm=Object.keys(save.nmw||{}).filter(k=>save.nmw[k]).length,fin=SKY_FIN.filter(m=>save.cleared&&save.cleared[m]).length;
+  const ach=SKY_ACH.filter(id=>{const A=ACHM[id];try{return A&&achProg(A)>=A.n;}catch(_){return false;}}).length;
+  return [{ic:'eye',t:_t('Noční můra: první výhra na každé mapě a stupni'),n:nm,per:1,u:_t('za každou')},{ic:'trophy',t:_t('Finále kapitoly'),n:fin,per:3,u:_t('za každé')},
+    {ic:'medal_g',t:_t('Zlatá medaile v týdenní výzvě'),n:S.wg|0,per:2,u:_t('za každou')},{ic:'star',t:_t('Mistrovství'),n:ach,per:1,u:_t('za každé')}];}
+const skyEarned=()=>skySrc().reduce((a,s)=>a+s.n*s.per,0);
+function skySpent(){let n=0;for(const C of SKY)for(let i=0;i<7;i++)if(skyLit(C.id,i))n+=SKY_COST[i];return n;}
+const skyPts=()=>Math.max(0,skyEarned()-skySpent());
+const skyOpen=(C,i)=>!skyLit(C.id,i)&&(i===0||C.ln.some(([a,b])=>(a===i&&skyLit(C.id,b))||(b===i&&skyLit(C.id,a))));
+// bonuses into heroBonus
+function skyApply(B){if(!featOn('sky')||!save.sky)return;for(const C of SKY){for(let i=0;i<7;i++)if(skyLit(C.id,i)){const [k,v]=C.b[i];B[k]=(B[k]||0)+v;}if(skyFull(C.id))B.lg[C.fk]=1;}
+  if(B.lg.skyB)B.tmax+=1;if(B.lg.skyP){B.petd=(B.petd||0)+.2;B.petp=(B.petp||0)+.15;}}
+function skyBuy(c,i){const C=SKY_OF[c];if(!skyOpen(C,i)||skyPts()<SKY_COST[i])return;save.sky.lit[c]|=1<<i;persist();sfx('level');
+  const full=skyFull(c);skyFx={c,i,t0:performance.now(),full};if(full)setTimeout(()=>{sfx('win');skyDone(C);},900);renderSky();}
+function skyDone(C){const pop=$('#skyPop');pop.innerHTML='<div class="pop-card sky-done" style="--sc:'+C.col+'"><div class="fc-rays"></div><small>'+_t('SOUHVĚZDÍ DOKONČENO')+'</small><img alt="" src="'+dataUrl(SPR.icon[C.ic])+'"><h3>'+C.name+'</h3><p>'+C.fin+'</p><button class="btn" id="skyOk">'+_t('Nádhera')+'</button></div>';
+  pop.hidden=false;$('#skyOk').onclick=()=>{sfx('ui');pop.hidden=true;};}
+const SKY_RESPEC=10;
+function skyRespec(){const S=skyInit(),free=S.rw!==weekKey(),pop=$('#skyPop');
+  pop.innerHTML='<div class="pop-card stone"><h3>'+_t('Zhasnout hvězdy')+'</h3><p class="hint">'+_t('Všechny hvězdy zhasnou a body se ti vrátí, ať je rozdáš jinak.')+' '+(free?_t('Jednou za týden zdarma.'):_t('Tento týden už jsi zdarma zhasínal, teď to stojí ')+SKY_RESPEC+' '+MAT_NAME.ess+'.')+'</p>'+
+    '<div class="pop-btns"><button class="btn sm" id="skyR"'+(!free&&(save.mats.ess||0)<SKY_RESPEC?' disabled':'')+'>'+(free?_t('Zhasnout zdarma'):_t('Zhasnout za ')+SKY_RESPEC+' '+MAT_NAME.ess)+'</button><button class="btn alt sm" id="skyRB">'+_t('Zpět')+'</button></div></div>';
+  pop.hidden=false;$('#skyRB').onclick=()=>{sfx('ui');pop.hidden=true;};
+  $('#skyR').onclick=()=>{if(free)S.rw=weekKey();else{if((save.mats.ess||0)<SKY_RESPEC)return;save.mats.ess-=SKY_RESPEC;}for(const C of SKY)S.lit[C.id]=0;persist();sfx('ui');pop.hidden=true;skySel=0;renderSky();};}
+// screen
+let skyCon='war',skySel=0,skyFx=null,skyRaf=0;
+function openSky(){skyInit();qTexInit();const p=$('#skyPop');if(p)p.hidden=true;renderSky();setState('sky');skyLoop();}
+function renderSky(){const C=SKY_OF[skyCon],pts=skyPts();
+  $('#skyPts').innerHTML='<img alt="" src="'+dataUrl(SPR.icon.star)+'"><b>'+pts+'</b><span>'+_t('hvězdných bodů')+'</span>';
+  $('#skyTabs').innerHTML=SKY.map(K=>{let n=0;for(let i=0;i<7;i++)if(skyLit(K.id,i))n++;const can=[0,1,2,3,4,5,6].some(i=>skyOpen(K,i)&&pts>=SKY_COST[i]);
+    return '<button data-c="'+K.id+'" class="'+(K.id===skyCon?'on':'')+(n===7?' full':'')+'" style="--sc:'+K.col+'"><img alt="" src="'+dataUrl(SPR.icon[K.ic])+'"><span>'+K.name+'</span><i>'+n+'/7</i>'+(can?'<em></em>':'')+'</button>';}).join('');
+  $('#skyTabs').querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{sfx('ui');skyCon=b.dataset.c;skySel=[0,1,2,3,4,5,6].find(i=>skyOpen(SKY_OF[skyCon],i))??0;renderSky();});
+  const lit=skyLit(C.id,skySel),open=skyOpen(C,skySel),cost=SKY_COST[skySel];
+  $('#skyInfo').innerHTML='<div class="sk-star" style="--sc:'+C.col+'"><div class="sk-h"><b>'+_t('Hvězda ')+(skySel+1)+' · '+C.name+'</b><span>'+(lit?_t('Svítí'):open?_t('Cena: ')+cost+' ✦':_t('Nejdřív rozsviť sousední hvězdu'))+'</span></div>'+
+    '<p>'+skyFmt(C.b[skySel])+'</p>'+(lit?'':'<button class="btn sm" id="skyBuy"'+(open&&pts>=cost?'':' disabled')+'>'+_t('Rozsvítit')+' <span class="bst">'+cost+' ✦</span></button>')+'</div>'+
+    '<div class="sk-fin'+(skyFull(C.id)?' on':'')+'" style="--sc:'+C.col+'"><small>'+(skyFull(C.id)?_t('Dokončeno'):_t('Celé souhvězdí'))+'</small><p>'+C.fin+'</p></div>';
+  const bb=$('#skyBuy');if(bb)bb.onclick=()=>skyBuy(C.id,skySel);
+  const src=skySrc();$('#skySrc').innerHTML='<div class="fsec">'+_t('Jak získat body')+'</div><p class="hint">'+_t('Hvězdné body se nedají koupit. Dostaneš je jen za výkony:')+'</p>'+
+    src.map(s=>'<div class="sk-src"><img alt="" src="'+dataUrl(SPR.icon[s.ic]||SPR.icon.star)+'"><span>'+s.t+'<small>+'+s.per+' ✦ '+s.u+'</small></span><b>'+(s.n*s.per)+' ✦</b></div>').join('')+
+    '<div class="sk-sum">'+_t('Získáno ')+skyEarned()+' ✦ · '+_t('rozsvíceno za ')+skySpent()+' ✦</div><button class="btn alt sm" id="skyRs"'+(skySpent()?'':' disabled')+'>'+_t('Zhasnout hvězdy')+'</button>';
+  $('#skyRs').onclick=()=>{sfx('ui');skyRespec();};}
+// the night sky canvas: 160×160 pixel art, scaled up
+const SKY_W=128;
+function skyXY(C,i){const [x,y]=C.st[i];return [Math.round(12+x*1.04),Math.round(10+y*1.04)];}
+function skyBg(){if(skyBg.c)return skyBg.c;const c=document.createElement('canvas');c.width=c.height=SKY_W;const g=c.getContext('2d'),R=mulberry32(77);
+  const gr=g.createLinearGradient(0,0,0,SKY_W);gr.addColorStop(0,'#070818');gr.addColorStop(.6,'#120c2a');gr.addColorStop(1,'#1c1034');g.fillStyle=gr;g.fillRect(0,0,SKY_W,SKY_W);
+  // dithered nebula
+  const neb=[[30,40,40,'#2a1858'],[100,92,44,'#16245a'],[76,30,24,'#4a1a4e']];
+  for(let y=0;y<SKY_W;y++)for(let x=0;x<SKY_W;x++)for(const [cx,cy,r,col] of neb){const d=Math.hypot(x-cx,y-cy)/r;if(d<1&&R()<(1-d)*.4&&((x+y)&1)){g.fillStyle=col;g.fillRect(x,y,1,1);}}
+  for(let i=0;i<90;i++){const x=(R()*SKY_W)|0,y=(R()*SKY_W)|0,b=R();g.fillStyle=b>.9?'#ffffff':b>.6?'#a8a0d8':'#5a5488';g.fillRect(x,y,1,1);}
+  skyBg.c=c;return c;}
+function skyLine(g,x0,y0,x1,y1,col,dash,prog){const n=Math.max(Math.abs(x1-x0),Math.abs(y1-y0));const m=Math.round(n*(prog==null?1:prog));g.fillStyle=col;
+  for(let s=0;s<=m;s++){if(dash&&(s%4)>1)continue;const x=Math.round(x0+(x1-x0)*s/n),y=Math.round(y0+(y1-y0)*s/n);g.fillRect(x,y,1,1);}}
+function skyDraw(){const cv=$('#skyCv');if(!cv)return;const g=cv.getContext('2d'),C=SKY_OF[skyCon],now=performance.now(),T=now/1000;g.imageSmoothingEnabled=false;
+  g.drawImage(skyBg(),0,0);
+  // twinkle
+  const R=mulberry32(9);for(let i=0;i<26;i++){const x=(R()*SKY_W)|0,y=(R()*SKY_W)|0,ph=R()*6;if(Math.sin(T*2+ph)>.6){g.fillStyle='#fff';g.fillRect(x,y,1,1);g.fillStyle='#ffffff55';g.fillRect(x-1,y,3,1);g.fillRect(x,y-1,1,3);}}
+  // faint big emblem of the constellation
+    const fx=skyFx&&skyFx.c===C.id?skyFx:null,fa=fx?Math.min(1,(now-fx.t0)/600):1;
+  for(const [a,b] of C.ln){const [x0,y0]=skyXY(C,a),[x1,y1]=skyXY(C,b),la=skyLit(C.id,a),lb=skyLit(C.id,b);
+    if(la&&lb){let p=1,s0=[x0,y0],s1=[x1,y1];if(fx&&(fx.i===a||fx.i===b)&&fa<1){p=fa;if(fx.i===a){s0=[x1,y1];s1=[x0,y0];}}
+      g.globalAlpha=.35;skyLine(g,s0[0],s0[1]+1,s1[0],s1[1]+1,C.col,false,p);skyLine(g,s0[0]+1,s0[1],s1[0]+1,s1[1],C.col,false,p);g.globalAlpha=1;skyLine(g,s0[0],s0[1],s1[0],s1[1],'#fff4d0',false,p);}
+    else skyLine(g,x0,y0,x1,y1,la||lb?'#8a80c0':'#4e4888',true);}
+  for(let i=0;i<7;i++){const [x,y]=skyXY(C,i),lit=skyLit(C.id,i),open=skyOpen(C,i),aff=open&&skyPts()>=SKY_COST[i];
+    if(lit){const born=fx&&fx.i===i?Math.min(1,(now-fx.t0)/500):1,tw=1+Math.round(Math.sin(T*3+i)*.6);
+      const gr=g.createRadialGradient(x+.5,y+.5,0,x+.5,y+.5,9+3*(1-born)*4);gr.addColorStop(0,C.col+'aa');gr.addColorStop(1,C.col+'00');g.fillStyle=gr;g.fillRect(x-20,y-20,41,41);
+      g.fillStyle=C.col;const L=3+tw;g.fillRect(x-L,y,2*L+1,1);g.fillRect(x,y-L,1,2*L+1);g.fillStyle='#fff';g.fillRect(x-1,y-1,3,3);g.fillRect(x-2,y,5,1);g.fillRect(x,y-2,1,5);
+      if(born<1){g.strokeStyle='#ffffff'+Math.round((1-born)*255).toString(16).padStart(2,'0');g.lineWidth=1;g.beginPath();g.arc(x+.5,y+.5,2+born*16,0,7);g.stroke();}}
+    else if(open){const pu=Math.sin(T*4+i)>0;g.fillStyle=aff?(pu?C.col:'#fff4d0'):'#6a6098';g.fillRect(x-2,y-2,5,1);g.fillRect(x-2,y+2,5,1);g.fillRect(x-2,y-1,1,3);g.fillRect(x+2,y-1,1,3);g.fillStyle=aff?'#fff':'#8a84b0';g.fillRect(x,y,1,1);}
+    else{g.fillStyle='#4e4888';g.fillRect(x-2,y,5,1);g.fillRect(x,y-2,1,5);g.fillStyle='#8a84c0';g.fillRect(x-1,y,3,1);g.fillRect(x,y-1,1,3);g.fillStyle='#c8c0ff';g.fillRect(x,y,1,1);}
+    if(i===skySel){g.fillStyle='#fff';const r=7;for(const [sx,sy] of [[-1,-1],[1,-1],[-1,1],[1,1]]){g.fillRect(x+sx*r-(sx<0?0:1),y+sy*r,2,1);g.fillRect(x+sx*r,y+sy*r-(sy<0?0:1),1,2);}}}
+  if(fx&&fx.full&&now-fx.t0<1600){const a=1-(now-fx.t0)/1600;g.fillStyle=C.col+Math.round(a*90).toString(16).padStart(2,'0');g.fillRect(0,0,SKY_W,SKY_W);}
+  if(fx&&now-fx.t0>2000)skyFx=null;}
+function skyLoop(){cancelAnimationFrame(skyRaf);const f=()=>{if(state!=='sky')return;skyDraw();skyRaf=requestAnimationFrame(f);};f();}
+function skyTap(ev){const cv=$('#skyCv'),r=cv.getBoundingClientRect(),x=(ev.clientX-r.left)/r.width*SKY_W,y=(ev.clientY-r.top)/r.height*SKY_W,C=SKY_OF[skyCon];
+  let best=-1,bd=14;for(let i=0;i<7;i++){const [sx,sy]=skyXY(C,i),d=Math.hypot(sx-x,sy-y);if(d<bd){bd=d;best=i;}}
+  if(best>=0){sfx('ui');skySel=best;renderSky();}}
+
 // ----- 09i: the Fallen Star story — in the last phase of a chapter finale the next chapter seeps in, then a "Cesta dál" card -----
 const BRIDGE={trun:{k:'sun',line:_t('Z Morvanovy lebky sálá žár pouštního slunce…')},brana:{k:'magma',line:_t('Pod Bránou slunce se probouzí žár hor…')},
   srdce:{k:'snow',line:_t('Srdce hory chladne, do jeskyně začíná sněžit…')},zima:{k:'thaw',line:_t('Ledový trůn taje, voda stoupá…')},paluba:{k:'stars',line:_t('Z roztržené oblohy padají hvězdy…')},zatmeni:{k:'void',line:_t('Za měsícem se otevírá Prázdnota…')}};
@@ -7196,6 +7351,7 @@ const FEATS=[
  {id:'talents',at:'doly',ic:'star',name:_t('Talenty hrdinů'),d:_t('Každých 5 úrovní hrdiny se zapne nový talent, který mění, jak hrdina hraje.'),go:()=>openHero()},
  {id:'contracts',at:'reka',ic:'scroll',name:_t('Týdenní kontrakty'),d:_t('Tři větší úkoly na celý týden. Za celý kontrakt Okovaná truhla, Stavitelova bedna nebo Esence.'),go:()=>{qTab='week';openQuests();}},
  {id:'runes',at:'zima',ic:'rune_fire',name:_t('Runy'),d:_t('Do Epických a Legendárních předmětů vložíš runu se zvláštní silou. Runy padají z bossů na Noční můře a vzácně z truhel.'),go:()=>openRunes()},
+ {id:'sky',at:'zatmeni',ic:'star',name:_t('Souhvězdí'),d:_t('Noční obloha s pěti souhvězdími. Za výkony dostáváš hvězdné body a rozsvěcuješ hvězdy s trvalými bonusy pro všechny hrdiny.'),go:()=>openSky()},
  {id:'weekly',at:'srdce',ic:'medal_g',name:_t('Týdenní výzva'),d:_t('Jedna mapa, jeden hrdina a dva modifikátory pro všechny na celý týden. Bronz, stříbro a zlato.'),go:()=>{qTab='wk';openQuests();}}];
 const FEAT_OF={};for(const F of FEATS)FEAT_OF[F.id]=F;
 function featInit(){if(save.feat)return;save.feat={};
@@ -7225,7 +7381,7 @@ function storyShow(mp){const C=CH_OF[mp],N=CHAPTERS[C.i+1];let pop=$('#featPop')
     '<div class="fc-b"><button class="btn" id="fcOk">'+(N?_t('Vydat se dál'):_t('Pokračovat'))+'</button></div></div>';
   pop.hidden=false;pop.classList.remove('in');void pop.offsetWidth;pop.classList.add('in');sfx('win');
   $('#fcOk').onclick=()=>{sfx('ui');pop.hidden=true;if(N){sel.map=N.maps[0];sel.nm=0;sel.picked=1;chSel=null;renderSelect();setState('select');}else setTimeout(featShow,250);};}
-function featUi(){featInit();if(!featUi.rn){featUi.rn=1;RUNE_IDS.forEach(runeIcon);}if(!featUi.img){featUi.img=1;document.documentElement.style.setProperty('--lockimg','url('+dataUrl(SPR.icon.lock)+')');}const L=[['#mHero','gear'],['#mChest','gear'],['#mForge','forge'],['#mQuest','quests']];
+function featUi(){featInit();{const b=$('#mSky');if(b){b.hidden=!featOn('sky');if(!b.hidden&&SPR.icon.star)$('#icSky').src=dataUrl(SPR.icon.star);}}if(!featUi.rn){featUi.rn=1;RUNE_IDS.forEach(runeIcon);}if(!featUi.img){featUi.img=1;document.documentElement.style.setProperty('--lockimg','url('+dataUrl(SPR.icon.lock)+')');}const L=[['#mHero','gear'],['#mChest','gear'],['#mForge','forge'],['#mQuest','quests']];
   for(const [sel2,id] of L){const b=$(sel2);if(b)b.classList.toggle('flock',!featOn(id));}
   document.querySelectorAll('.sectabs [data-to=towers]').forEach(b=>b.classList.toggle('flock',!featOn('arsenal')));
   document.querySelectorAll('.sectabs [data-to=pets]').forEach(b=>b.classList.toggle('flock',!featOn('pets')));
@@ -7991,7 +8147,7 @@ const qkDone=K=>K.d.filter(Boolean).length;
 function wkInfo(){const w=weekKey(),h=qHash('wk|'+w),m1=(h>>>4)%DAILY_MODS.length,m2=(m1+1+(h>>>12)%(DAILY_MODS.length-1))%DAILY_MODS.length;
   return{w,map:MAP_IDS[h%MAP_IDS.length],hero:HERO_LIVE[(h>>>8)%HERO_LIVE.length],mods:[DAILY_MODS[m1].id,DAILY_MODS[m2].id]};}
 function wkResult(won){qEnsure();const W=save.wk,R=run,hp=R.p&&R.p.max?R.p.hp/R.p.max:0,reach=[won||R.t>=R.map.dur,!!won,!!won&&hp>=.5],got=[];let best=-1;
-  reach.forEach((x,i)=>{if(!x)return;best=i;if(!W.got[i]){W.got[i]=1;got.push(i);if(i===0)qkAdd('wkB',1);}});
+  reach.forEach((x,i)=>{if(!x)return;best=i;if(!W.got[i]){W.got[i]=1;got.push(i);if(i===0)qkAdd('wkB',1);if(i===2){save.sky=save.sky||{lit:{},wg:0,rw:''};save.sky.wg=(save.sky.wg|0)+1;}}});
   const cur={t:Math.floor(R.t),won:!!won,tier:best};if(!W.best||best>W.best.tier||(best===W.best.tier&&(won?cur.t<W.best.t:cur.t>W.best.t)))W.best=cur;
   return{got,best,left:Math.max(0,Math.ceil(R.map.dur-R.t))};}
 function wkSub(R){if(R.got.length)return _t('Nová medaile! Odměnu si vyzvedni na Nástěnce.');if(R.best===2)return _t('Zlato už máš. Teď už jen honíš žebříček Týden.');
@@ -8551,6 +8707,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09m',d:'9. 11. 2026',t:_t('Souhvězdí'),hl:[
+  {ic:'star',t:_t('Nová mechanika: Souhvězdí'),d:_t('Po poražení <b>Zatmění</b> (finále kapitoly VI) se otevře noční obloha s pěti souhvězdími: <b>Válečník, Strážce, Stavitel, Krotitel a Hudebník</b>. Každá hvězda dá malý trvalý bonus všem hrdinům.')},
+  {ic:'trophy',t:_t('Body jen za výkony'),d:_t('Hvězdné body se nedají koupit. Dostaneš je za <b>první výhru každé mapy na Noční můře</b>, finále kapitol, zlatou medaili v týdenní výzvě a Mistrovství. Započítá se i to, co už máš.')},
+  {ic:'tower',t:_t('Celé souhvězdí'),d:_t('Dokončené souhvězdí přidá silný bonus: například <b>o věž víc v běhu</b>, <b>štít, který tě jednou za běh zachrání</b>, nebo širší okno pro Perfektní ťuknutí.')}],
+  items:[_t('Hvězdy jde jednou týdně zdarma zhasnout a body rozdat znovu, jindy to stojí 10 Esence.')]},
  {v:'2026-11-09l',d:'9. 11. 2026',t:_t('Nový vzhled Nástěnky a run'),hl:[
   {ic:'seal_r',t:_t('Nástěnka jako ze dřeva a papíru'),d:_t('Úkoly jsou <b>potrhané lístky</b> s pečetí na korkové desce v dřevěném rámu, svíčky stojí na polici a kontrakty jsou <b>svitky</b> na dřevěných tyčích.')},
   {ic:'rune_ice',t:_t('Runy vytesané do kamene'),d:_t('Vkládání run, sloty v předmětech i váček run v Kovárně mají <b>kamenné desky</b>, zářící objímky a ukazatel úrovně.')}],
