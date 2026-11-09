@@ -37,7 +37,7 @@ Skutečná data dvou hráčů (Supabase `profiles`, 8. 11.): za běh ~500–900 
 - **Úroveň hrdiny L→L+1:** zlato `45·L` (+`90·(L−9)` od 10), Úlomky `10·L`, Esence od úrovně 10 `2+(L−10)` a +10 při dosažení 15 a 20. Celkem 1→20: 13 500 zlata, 1 900 Úlomků, 85 Esence.
 - **Vylepšení předmětu, karty věže i mazlíčka** (stejný vzorec): zlato `24·(lv+1)·(r+1)`, Úlomky `6·(lv+1)·(r+1)`, od +6 navíc Esence `(lv−4)·(r+1)`.
 - **Rozebrání:** základ + 50 % vloženého (i Esence). **Sloučení:** 3 stejné kusy stejné rarity → 1 o raritu vyšší, vrací 50 % vylepšení.
-- **Truhly:** výbava jen za zlato (250 / 750 / 2000). Věžová 700 zl + 60 Úl., Mazlíčkova 600 zl + 60 Úl. **Denní limity:** Železná 4, Zlatá 2, Věžová 3, Mazlíčkova 3 (Dřevěná bez limitu). Tím nejde nahromaděné zlato utratit za nekonečně beden.
+- **Truhly:** výbava jen za zlato (250 / 750 / 2000). Věžová 700 zl + 60 Úl., Mazlíčkova 600 zl + 60 Úl. **Karty věží jen z Věžové (Stavitelovy) bedny** (09c): výhra na mapě věž jen odemkne do bedny, nevlastněné odemčené věže v ní mají váhu 3×. **Denní limity:** Železná 4, Zlatá 2, Věžová 3, Mazlíčkova 3 (Dřevěná bez limitu). Tím nejde nahromaděné zlato utratit za nekonečně beden.
 - ~~Přebroušení~~ (zrušeno 08i): přelosuje jeden bonus předmětu, věže nebo mazlíčka. 600 zl + 150 Úl., každé další přebroušení téhož kusu ×1,25 (strop po 12.).
 - **Strop skladu Úlomků 6 000.** Co přeteče, se změní na zlato 1 : 3 (horší než běžný poměr příjmu ~6 : 1, takže se nevyplatí farmit).
 

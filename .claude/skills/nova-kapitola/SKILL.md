@@ -50,7 +50,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 5. `SETS` (ch, fin, col, name, slots, pieces, b2, b4n, b4, u páté kapitoly six/b6n/b6) + bonusy v `heroBonus` (`sc.<set>`) + schopnost 4 (a 6) v `fireAll` přes `st.lg` + `ITEM_ART` obrázky.
 6. Legendárka finále: `LEGS` (s `fin:1`) + `FIN_LEG[finále]` + účinek.
 7. Hledaný: `WANTED` + `WANT_OF` (mapování kapitola → hledaný).
-8. Věž kapitoly (doporučeno 1–2): `TOWERS` + `TW_UNL`.
+8. Věž kapitoly (doporučeno 1–2): `TOWERS` + `TW_UNL` + `TW_INFO` + `TW_FLAG` + chování v `towerFire` a vrchol v `drawTower`. Výhra na mapě věž jen odemkne, **kartu dává jen Stavitelova bedna** (pravidlo uživatele 09c, nic dalšího se nastavovat nemusí). Kontrola `tests/tools/tw5.js` (upravit mapy a věže) a `twgallery.js`.
 9. Hrdina kapitoly (pokud je): viz skill `novy-hrdina`; `need:'první mapa'` místo `soon`.
 10. Mistrovství za finále: `ACH` (`v:()=>save.cleared.<finále>?1:0`).
 11. Průvodce: `N` (nepřátelé) a `B` (bossové) v `renderGuide`.
