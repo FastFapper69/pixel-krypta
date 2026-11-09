@@ -4120,7 +4120,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09o';
+const GAME_VER='2026-11-09p';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7371,8 +7371,8 @@ function skyDone(C){const pop=$('#skyPop');pop.innerHTML='<div class="pop-card s
   pop.hidden=false;$('#skyOk').onclick=()=>{sfx('ui');pop.hidden=true;};}
 const SKY_RESPEC=10;
 function skyRespec(){const S=skyInit(),free=S.rw!==weekKey(),pop=$('#skyPop');
-  pop.innerHTML='<div class="pop-card stone"><h3>'+_t('Zhasnout hvězdy')+'</h3><p class="hint">'+_t('Všechny hvězdy zhasnou a body se ti vrátí, ať je rozdáš jinak.')+' '+(free?_t('Jednou za týden zdarma.'):_t('Tento týden už jsi zdarma zhasínal, teď to stojí ')+SKY_RESPEC+' '+MAT_NAME.ess+'.')+'</p>'+
-    '<div class="pop-btns"><button class="btn sm" id="skyR"'+(!free&&(save.mats.ess||0)<SKY_RESPEC?' disabled':'')+'>'+(free?_t('Zhasnout zdarma'):_t('Zhasnout za ')+SKY_RESPEC+' '+MAT_NAME.ess)+'</button><button class="btn alt sm" id="skyRB">'+_t('Zpět')+'</button></div></div>';
+  pop.innerHTML='<div class="pop-card stone"><h3>'+_t('Vrátit body')+'</h3><p class="hint">'+_t('Všechny hvězdy přestanou svítit a body dostaneš zpátky. Pak je můžeš dát do jiných hvězd.')+' '+(free?_t('Jednou za týden zdarma.'):_t('Tento týden už jsi body zdarma vracel, teď to stojí ')+SKY_RESPEC+' '+MAT_NAME.ess+'.')+'</p>'+
+    '<div class="pop-btns"><button class="btn sm" id="skyR"'+(!free&&(save.mats.ess||0)<SKY_RESPEC?' disabled':'')+'>'+(free?_t('Vrátit zdarma'):_t('Vrátit za ')+SKY_RESPEC+' '+MAT_NAME.ess)+'</button><button class="btn alt sm" id="skyRB">'+_t('Zpět')+'</button></div></div>';
   pop.hidden=false;$('#skyRB').onclick=()=>{sfx('ui');pop.hidden=true;};
   $('#skyR').onclick=()=>{if(free)S.rw=weekKey();else{if((save.mats.ess||0)<SKY_RESPEC)return;save.mats.ess-=SKY_RESPEC;}for(const C of SKY)S.lit[C.id]=0;persist();sfx('ui');pop.hidden=true;skySel=0;renderSky();};}
 // screen
@@ -7390,7 +7390,7 @@ function renderSky(){const C=SKY_OF[skyCon],pts=skyPts();
   const bb=$('#skyBuy');if(bb)bb.onclick=()=>skyBuy(C.id,skySel);
   const src=skySrc();$('#skySrc').innerHTML='<div class="fsec">'+_t('Jak získat body')+'</div><p class="hint">'+_t('Hvězdné body se nedají koupit. Dostaneš je jen za výkony:')+'</p>'+
     src.map(s=>'<div class="sk-src"><img alt="" src="'+dataUrl(SPR.icon[s.ic]||SPR.icon.star)+'"><span>'+s.t+'<small>+'+s.per+' ✦ '+s.u+'</small></span><b>'+(s.n*s.per)+' ✦</b></div>').join('')+
-    '<div class="sk-sum">'+_t('Získáno ')+skyEarned()+' ✦ · '+_t('rozsvíceno za ')+skySpent()+' ✦</div><button class="btn alt sm" id="skyRs"'+(skySpent()?'':' disabled')+'>'+_t('Zhasnout hvězdy')+'</button>';
+    '<div class="sk-sum">'+_t('Získáno ')+skyEarned()+' ✦ · '+_t('rozsvíceno za ')+skySpent()+' ✦</div><button class="btn alt sm" id="skyRs"'+(skySpent()?'':' disabled')+'>'+_t('Vrátit body')+'</button>';
   $('#skyRs').onclick=()=>{sfx('ui');skyRespec();};}
 // the night sky canvas: 160×160 pixel art, scaled up
 const SKY_W=128;
@@ -8864,6 +8864,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09p',d:'9. 11. 2026',t:_t('Souhvězdí srozumitelněji'),hl:[
+  {ic:'star',t:_t('Vrátit body'),d:_t('Tlačítko „Zhasnout hvězdy“ se teď jmenuje <b>Vrátit body</b>. Všechny hvězdy přestanou svítit a body dostaneš zpátky, jednou týdně zdarma.')}]},
  {v:'2026-11-09o',d:'9. 11. 2026',t:_t('Oprava ukládání'),hl:[
   {ic:'scroll',t:_t('Postup se ukládá celý'),d:_t('Runy, rozsvícené hvězdy Souhvězdí, týdenní výzva a odemčené mechaniky se po zavření hry ztrácely. Teď se ukládají i do cloudu.')},
   {ic:'star',t:_t('Karta Cesta mechanik'),d:_t('Už se neukazuje při každém spuštění hry, jen jednou.')}]},
@@ -8877,7 +8879,7 @@ const NEWS=[
   {ic:'star',t:_t('Nová mechanika: Souhvězdí'),d:_t('Po poražení <b>Zatmění</b> (finále kapitoly VI) se otevře noční obloha s pěti souhvězdími: <b>Válečník, Strážce, Stavitel, Krotitel a Hudebník</b>. Každá hvězda dá malý trvalý bonus všem hrdinům.')},
   {ic:'trophy',t:_t('Body jen za výkony'),d:_t('Hvězdné body se nedají koupit. Dostaneš je za <b>první výhru každé mapy na Noční můře</b>, finále kapitol, zlatou medaili v týdenní výzvě a Mistrovství. Započítá se i to, co už máš.')},
   {ic:'tower',t:_t('Celé souhvězdí'),d:_t('Dokončené souhvězdí přidá silný bonus: například <b>o věž víc v běhu</b>, <b>štít, který tě jednou za běh zachrání</b>, nebo širší okno pro Perfektní ťuknutí.')}],
-  items:[_t('Hvězdy jde jednou týdně zdarma zhasnout a body rozdat znovu, jindy to stojí 10 Esence.')]},
+  items:[_t('Body z hvězd si můžeš jednou týdně zdarma vrátit a dát je jinam, jindy to stojí 10 Esence.')]},
  {v:'2026-11-09l',d:'9. 11. 2026',t:_t('Nový vzhled Nástěnky a run'),hl:[
   {ic:'seal_r',t:_t('Nástěnka jako ze dřeva a papíru'),d:_t('Úkoly jsou <b>potrhané lístky</b> s pečetí na korkové desce v dřevěném rámu, svíčky stojí na polici a kontrakty jsou <b>svitky</b> na dřevěných tyčích.')},
   {ic:'rune_ice',t:_t('Runy vytesané do kamene'),d:_t('Vkládání run, sloty v předmětech i váček run v Kovárně mají <b>kamenné desky</b>, zářící objímky a ukazatel úrovně.')}],

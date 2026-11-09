@@ -293,7 +293,7 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 - Data `SKY` (war, guard, build, tame, music): 7 hvězd (`st` souřadnice 0–100, `ln` čáry, `b` bonus), ceny `SKY_COST` 1,1,2,2,3,3,4 (16 na souhvězdí, 80 celkem). Hvězda jde rozsvítit od první nebo od rozsvíceného souseda.
 - Body (`skySrc`) se **počítají ze save**, nekupují se: výhry `save.nmw` (1), finále `SKY_FIN` (3), zlaté medaile týdenní výzvy `save.sky.wg` (2, počítá se v `wkResult`), Mistrovství ze `SKY_ACH` (1). Uloženo `save.sky={lit:{id:bitmaska},wg,rw}`.
 - Bonusy `skyApply(B)` na konci `heroBonus`. Dokončené: `skyW` +15 % na bossy/elity (`hurtEnemy`), `skyG` jednou za běh přežití se 40 % HP (`hurtPlayer`), `skyB` +1 věž (`tmax`), `skyP` mazlíčci, `skyM` širší okno fúze (`startFuse` wide).
-- Zhasnutí (`skyRespec`) jednou týdně zdarma (`rw`=weekKey), jinak 10 Esence. Test `tests/tools/sky.js`.
+- Vrácení bodů (`skyRespec`, ve hře „Vrátit body“, dřív „Zhasnout hvězdy“, uživateli to nebylo jasné) jednou týdně zdarma (`rw`=weekKey), jinak 10 Esence. Test `tests/tools/sky.js`, snímky `skyrs.js`.
 
 ## Předávka 2026-11-09 (verze 09m)
 - Hotovo: 09l nový vzhled Nástěnky a run (textury), 09m Souhvězdí. Další: ladění obtížnosti kapitol V–VI a ekonomiky Nástěnky podle telemetrie, kapitola VII Prázdnota (most `zatmeni` → void připraven, nová mechanika do `FEATS`), co-op kampaň jen jako nápad.
