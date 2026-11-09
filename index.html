@@ -599,6 +599,66 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .wk-t>img{width:44px;height:44px;image-rendering:pixelated;flex:none;filter:grayscale(.85) brightness(.75)}.wk-t>div{flex:1;min-width:0}.wk-t b{display:block;font-size:16px}.wk-t>div>span:not(.rw){display:block;font-size:13px;color:var(--muted);margin-bottom:3px}
 .wk-t.got{box-shadow:inset 0 0 0 3px var(--gold)}.wk-t.got>img,.wk-t.cl>img{filter:none}.wk-t.got>img{animation:qbob .6s ease-in-out infinite alternate}.wk-t .ok{font-style:normal;color:var(--green);font-size:22px;font-weight:700}
 .wk-btns{display:flex;gap:8px;margin:12px 0 4px}.wk-btns .btn{flex:1}
+/* 09l: the Board, hand-made pixel look (textures from qTexInit) */
+.qboard{gap:18px;padding:20px 12px 18px;background:var(--tx-cork) 0 0/72px 72px;image-rendering:pixelated;clip-path:none;
+ box-shadow:inset 0 0 0 3px #2a1a0e,inset 0 0 0 9px transparent,inset 0 0 26px #1a0e0699;border:9px solid transparent;border-image:var(--tx-wood) 8 repeat;position:relative}
+.qboard::before{content:'';position:absolute;inset:-9px;border:3px solid #1c1008;pointer-events:none}
+.qnote{background:none;padding:0;box-shadow:none;filter:drop-shadow(0 3px 0 #0000005c) drop-shadow(0 6px 8px #00000040);transform:rotate(-.8deg)}
+.qnote.n1{transform:rotate(.9deg)}.qnote.n2{transform:rotate(-.35deg)}
+.qnote .qn-in{position:relative;padding:16px 14px 12px;background:var(--tx-paper) 0 0/96px 96px;image-rendering:pixelated;color:#2e1c0e;
+ box-shadow:inset 0 0 22px #8a6a3a55,inset 0 -6px 10px #7a5a2e33}
+.qnote .pin{top:-9px;z-index:2}
+.qnote .seal{position:absolute;top:8px;right:10px;width:26px;height:26px;image-rendering:pixelated;opacity:.92;filter:drop-shadow(0 2px 0 #0004)}
+.qnote h3{font-family:var(--font-px);font-size:16px;letter-spacing:.04em;color:#5a1a0c;text-shadow:0 1px 0 #f0e2c0;margin:0 30px 0 0;line-height:1.15}
+.qnote p{color:#3a2412;font-size:14px;margin:8px 0 6px;font-weight:600}
+.qn-ic{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:#3a2a1a;box-shadow:inset 0 0 0 2px #1e140a,inset 0 0 0 4px #8a6a3e,0 2px 0 #0003;transform:rotate(-2deg)}
+.qn-ic img{width:34px;height:34px;image-rendering:pixelated;object-fit:contain;filter:drop-shadow(0 2px 0 #0008)}
+.qn-top>img{display:none}
+.qnote .stars{gap:3px;margin-top:4px}.qnote .qs{width:18px;height:18px;image-rendering:pixelated;filter:grayscale(1) brightness(.55) sepia(.6) opacity(.55)}
+.qnote .qs.on{filter:drop-shadow(0 1px 0 #6a3a08) drop-shadow(0 0 4px #ffd27a);animation:qstar .5s ease-out}
+.qprog{margin:2px 0 0}.qprog>span{display:block;text-align:right;font-size:12px;font-weight:700;color:#5a3a1c;margin-bottom:3px}
+.qnote .qbar{height:12px;background:#6a5236;box-shadow:inset 0 2px 0 #3e2c18,inset 0 0 0 2px #2e2010;overflow:hidden}
+.qnote .qbar i{background:repeating-linear-gradient(90deg,#ffd27a 0 4px,#f0b440 4px 6px);box-shadow:inset 0 2px 0 #fff2c0,inset 0 -2px 0 #b07818}
+.qnote .qbar b{display:block;top:0;bottom:0;width:2px;margin-left:-1px;background:#2e2010}.qnote .qbar span{display:none}
+.qnote .rw{color:#3a2412}.qnote .rw .mt{font-weight:700}
+.qnote .btn .bst{display:inline-flex;gap:1px;vertical-align:-3px;margin-left:6px}.qnote .btn .bst img{width:14px;height:14px;image-rendering:pixelated}
+.qnote.done .qn-in{filter:sepia(.5) brightness(.85)}.qnote.done{opacity:.75}
+.qnote.done .qn-in::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-35deg,#0000 0 18px,#7a1a0c18 18px 20px)}
+.qcandles{background:none;min-height:96px;position:relative;padding-top:4px;clip-path:none}
+.qcandles:not(.wk)::after{content:'';position:absolute;left:0;right:0;top:44px;height:14px;background:var(--tx-wood) 0 0/16px 32px;box-shadow:0 4px 0 #1c1008,inset 0 2px 0 #8a5e36;z-index:0}
+.qc{z-index:1}.qms{position:relative;top:16px;background:var(--tx-wood) 0 0/16px 32px;box-shadow:inset 0 0 0 2px #1c1008,inset 0 0 0 4px #8a5e36}
+.qms.ready{box-shadow:inset 0 0 0 2px #1c1008,inset 0 0 0 4px var(--gold),0 0 12px #f6c74488}
+.qms::before{content:'';position:absolute;left:50%;top:-12px;width:2px;height:12px;background:#c8a070;margin-left:-1px}
+.qcandles.wk .qms::before{display:none}.qcandles.wk .qms{top:10px}
+.qwax{background:var(--tx-wood) 0 0/16px 32px;box-shadow:inset 0 0 0 2px #1c1008,0 3px 0 #0006;height:14px}
+.qscroll{background:var(--tx-paper) 0 0/96px 96px;image-rendering:pixelated;clip-path:none;margin:22px 4px;padding:16px 16px 12px;color:#2e1c0e;
+ box-shadow:inset 0 0 22px #8a6a3a55,0 6px 12px #0005}
+.qscroll::before,.qscroll::after{content:'';position:absolute;left:-8px;right:-8px;height:12px;background:var(--tx-wood) 0 0/16px 32px;box-shadow:inset 0 2px 0 #9a6a3e,inset 0 -2px 0 #2a1a0c,0 3px 0 #0005;border-radius:6px}
+.qscroll::before{top:-9px}.qscroll::after{bottom:-9px}
+.qs-top h3{font-family:var(--font-px);font-size:16px;letter-spacing:.04em;color:#5a1a0c}.qs-top img{box-shadow:0 0 0 2px #1e140a,0 0 0 4px #8a6a3e}
+.qscroll li{color:#4a3420;font-weight:600}.qscroll li.cur{color:#2e1c0e}
+.qscroll .ck{background:#efe0bc;box-shadow:inset 0 0 0 2px #3a2412;font-family:var(--font-px);color:#a8201a;font-size:16px}
+.qbar.sm{background:#6a5236;box-shadow:inset 0 2px 0 #3e2c18,inset 0 0 0 2px #2e2010}.qbar.sm i{background:repeating-linear-gradient(90deg,#ffd27a 0 4px,#f0b440 4px 6px)}
+.qbar.sm span{color:#fff6d8;text-shadow:0 1px 0 #000}
+.qs-fin{border-top:2px dashed #8a6a3e}
+/* rune tablets: picker, sockets and the bag */
+.pop-card.stone{background:var(--tx-stone) 0 0/96px 96px;image-rendering:pixelated;box-shadow:inset 0 0 0 3px #0e0c16,inset 0 0 0 5px #6a5a8a,inset 0 0 30px #000a,0 0 30px #8a6aff33}
+.pop-card.stone h3{font-family:var(--font-px);letter-spacing:.08em;text-align:center;color:#e8dcff;text-shadow:0 2px 0 #000,0 0 10px #8a6aff}
+.pop-card.stone h3 img{width:22px;height:22px;image-rendering:pixelated;vertical-align:-4px;margin:0 8px}
+.rpick .rp,.rsock .rs{position:relative;gap:12px!important;padding:8px 12px 8px 8px!important;background:linear-gradient(#1c1828,#241f34)!important;clip-path:none;
+ box-shadow:inset 0 2px 0 #0a0810,inset 0 -2px 0 #3e3858,inset 0 0 0 1px #0a0810!important}
+.rp .rsk,.rs .rsk{flex:none;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,color-mix(in srgb,var(--rc,#8a84b0) 35%,#0000) 0 45%,#0e0c16 47% 60%,#3e3858 62% 66%,#0000 68%)}
+.rp .rsk img,.rs .rsk img{width:30px;height:30px;image-rendering:pixelated;filter:drop-shadow(0 0 6px var(--rc))}
+.rs .rsk i{font-style:normal;font-size:22px;color:#6a6488;font-family:var(--font-px)}
+.rp b,.rs b{color:var(--rc,#e8e0ff);font-family:var(--font-px);letter-spacing:.03em;font-size:14px;text-shadow:0 1px 0 #000}.rs:not(.on) b{color:#a8a0c8}
+.rp em,.rs em{color:#b8b0d0!important}
+.rpick .rp .rpip,.rsock .rs .rpip,.rpip{display:inline-flex!important;flex-direction:row!important;gap:3px;margin-left:8px;vertical-align:1px}.rpip i{width:6px;height:6px;transform:rotate(45deg);background:#3e3858;box-shadow:inset 0 0 0 1px #0a0810}.rpip i.on{background:var(--rc);box-shadow:0 0 4px var(--rc)}
+.rp .rcnt{position:absolute;top:6px;right:10px;font-style:normal;font-family:var(--font-px);color:var(--gold);font-size:13px;text-shadow:0 1px 0 #000}
+.rsock{padding:10px;background:var(--tx-stone) 0 0/96px 96px;image-rendering:pixelated;box-shadow:inset 0 0 0 2px #0e0c16,inset 0 0 0 3px #4a4462}
+.rsock>small{font-family:var(--font-px);color:#c8b8ff;text-align:center}
+.rb{background:var(--tx-stone) 0 0/96px 96px;image-rendering:pixelated;box-shadow:inset 0 0 0 2px #0e0c16,inset 0 0 0 4px color-mix(in srgb,var(--rc) 60%,#2a2638),0 0 10px color-mix(in srgb,var(--rc) 25%,transparent)}
+.rb .rsk{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,color-mix(in srgb,var(--rc) 35%,#0000) 0 45%,#0e0c16 47% 60%,#3e3858 62% 66%,#0000 68%)}
+.rb .rsk img{width:32px;height:32px}
 .cx{background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:10px;display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center}
 .cx img{width:40px;height:40px;image-rendering:pixelated;filter:brightness(0) opacity(.35)}.cx.on img{filter:none}.cx.on{box-shadow:inset 0 0 0 3px var(--gold)}
 .cx b{font-size:15px}.cx small{color:var(--muted);font-size:12px}
@@ -1403,6 +1463,9 @@ const ICONS={
  medal_s:{pal:{r:'#4a7ac8',u:'#e8453c',y:'#d8dce8',o:'#7a8090'},rows:['.rr..uu.','..rr.u..','...ru...','..yyyy..','.yyooyy.','.yoyyoy.','.yyooyy.','..yyyy..']},
  medal_g:{pal:{r:'#e8453c',u:'#4aa3e8',y:'#ffd84a',o:'#c28a10'},rows:['.rr..uu.','..rr.u..','...ru...','..yyyy..','.yyooyy.','.yoyyoy.','.yyooyy.','..yyyy..']},
  candle_off:{pal:{w:'#9a9284',s:'#6a6458',n:'#4a3424',k:'#2a2420'},rows:['........','........','........','...k....','..www...','..wws...','..wws...','.nnnnn..']},
+ seal_r:{pal:{r:'#b8302a',h:'#e8604a',d:'#7a1a16',k:'#5a1210'},rows:['..rrr...','.rhrrr..','rhrrrrr.','rrrkrrd.','rrrrrrd.','.rrrdd..','..rdd...','...d....']},
+ seal_b:{pal:{r:'#2a5ab8',h:'#5a8ae8',d:'#163a7a',k:'#10285a'},rows:['..rrr...','.rhrrr..','rhrrrrr.','rrrkrrd.','rrrrrrd.','.rrrdd..','..rdd...','...d....']},
+ seal_g:{pal:{r:'#2f8a3a',h:'#5ac06a',d:'#1a5a22',k:'#123e18'},rows:['..rrr...','.rhrrr..','rhrrrrr.','rrrkrrd.','rrrrrrd.','.rrrdd..','..rdd...','...d....']},
  lock:{pal:{k:'#2a2420',s:'#c8ccd8',g:'#f6c744',o:'#c28a10'},rows:['..sss...','.s...s..','.s...s..','ggggggg.','gggkggg.','gggkggo.','ggggggo.','.ooooo..']},
  pin:{pal:{r:'#e8453c',h:'#ff9a8a',d:'#8a1e1a',s:'#9aa0ac'},rows:['..rrr...','.rhrrr..','.rrrrd..','..rdd...','...s....','...s....','........','........']},
  gear:{pal:{s:'#d8d4e8',S:'#8a86a0'},rows:['.s.ss.s.','.ssssss.','ssSSSSss','.sS..Ss.','.sS..Ss.','ssSSSSss','.ssssss.','.s.ss.s.']},
@@ -3877,7 +3940,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09k';
+const GAME_VER='2026-11-09l';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7052,23 +7115,25 @@ function runeBeat(s){const n=st&&st.rn;if(!n||run.over)return;const p=run.p;
   if(n.bolt&&s%8===4&&run.t>1){let x=p.x,y=p.y-4;const hit=new Set();for(let j=0;j<1+n.bolt;j++){let b=null,bd=110;for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit||hit.has(e))continue;const d=Math.hypot(e.x-x,e.y-y);if(d<bd){bd=d;b=e;}}
       if(!b)break;hit.add(b);hurtEnemy(b,(6+5*n.bolt)*st.dmg,0,0);run.fx.push({k:'ray',x,y,x2:b.x,y2:b.y-3,w:1,life:.15,max:.15});x=b.x;y=b.y-3;}if(hit.size)sfx('zap');}}
 // sockets in the item popup
-function runeSockHtml(it){const n=runeSlots(it);if(!n||!featOn('runes'))return '';it.rn=it.rn||[];let h='<div class="rsock"><small>'+_t('Runy')+'</small><div>';
-  for(let i=0;i<n;i++){const k=it.rn[i];h+=k?'<button class="rs on" data-rs="'+i+'" style="--rc:'+RUNES[runeOf(k).t].col+'"><img alt="" src="'+runeIcon(runeOf(k).t)+'"><span><b>'+runeName(k)+'</b><em>'+RUNES[runeOf(k).t].d(runeOf(k).l)+'</em></span></button>':
-    '<button class="rs" data-rs="'+i+'"><i>+</i><span><b>'+_t('Prázdný slot')+'</b><em>'+_t('Vlož runu')+'</em></span></button>';}
+function runeSockHtml(it){qTexInit();const n=runeSlots(it);if(!n||!featOn('runes'))return '';it.rn=it.rn||[];let h='<div class="rsock"><small>'+_t('Runy')+'</small><div>';
+  for(let i=0;i<n;i++){const k=it.rn[i];h+=k?'<button class="rs on" data-rs="'+i+'" style="--rc:'+RUNES[runeOf(k).t].col+'"><span class="rsk"><img alt="" src="'+runeIcon(runeOf(k).t)+'"></span><span><b>'+runeName(k)+runePip(runeOf(k).l)+'</b><em>'+RUNES[runeOf(k).t].d(runeOf(k).l)+'</em></span></button>':
+    '<button class="rs" data-rs="'+i+'"><span class="rsk"><i>+</i></span><span><b>'+_t('Prázdný slot')+'</b><em>'+_t('Vlož runu')+'</em></span></button>';}
   return h+'</div></div>';}
 const RUNE_OUT=5;
-function runeSock(u,i,back){const it=itemById(u);if(!it)return;it.rn=it.rn||[];const cur=it.rn[i],pop=$('#itemPop');
-  if(cur){pop.innerHTML='<div class="pop-card"><h3>'+runeName(cur)+'</h3><p class="hint">'+_t('Vyjmutí stojí ')+RUNE_OUT+' '+MAT_NAME.ess+_t('. Runa se ti vrátí.')+'</p><div class="pop-btns"><button class="btn sm" id="rsOut"'+((save.mats.ess||0)<RUNE_OUT?' disabled':'')+'>'+_t('Vyjmout')+'</button><button class="btn alt sm" id="rsBack">'+_t('Zpět')+'</button></div></div>';
+const runePip=l=>'<span class="rpip">'+[1,2,3,4,5].map(i=>'<i'+(i<=l?' class="on"':'')+'></i>').join('')+'</span>';
+const runeH3=t=>'<h3><img alt="" src="'+runeIcon('rhythm')+'">'+t+'<img alt="" src="'+runeIcon('rhythm')+'"></h3>';
+function runeSock(u,i,back){qTexInit();const it=itemById(u);if(!it)return;it.rn=it.rn||[];const cur=it.rn[i],pop=$('#itemPop');
+  if(cur){pop.innerHTML='<div class="pop-card stone">'+runeH3(runeName(cur))+'<div class="rpick"><div class="rp" style="--rc:'+RUNES[runeOf(cur).t].col+'"><span class="rsk"><img alt="" src="'+runeIcon(runeOf(cur).t)+'"></span><span><b>'+runeName(cur)+runePip(runeOf(cur).l)+'</b><em>'+RUNES[runeOf(cur).t].d(runeOf(cur).l)+'</em></span></div></div><p class="hint">'+_t('Vyjmutí stojí ')+RUNE_OUT+' '+MAT_NAME.ess+_t('. Runa se ti vrátí.')+'</p><div class="pop-btns"><button class="btn sm" id="rsOut"'+((save.mats.ess||0)<RUNE_OUT?' disabled':'')+'>'+_t('Vyjmout')+'</button><button class="btn alt sm" id="rsBack">'+_t('Zpět')+'</button></div></div>';
     $('#rsOut').onclick=()=>{if((save.mats.ess||0)<RUNE_OUT)return;save.mats.ess-=RUNE_OUT;it.rn[i]=null;runeAdd(cur);sfx('ui');back();};$('#rsBack').onclick=()=>{sfx('ui');back();};return;}
   const have=Object.keys(save.runes||{}).filter(k=>save.runes[k]>0).sort((a,b)=>runeOf(b).l-runeOf(a).l||a.localeCompare(b));
-  pop.innerHTML='<div class="pop-card"><h3>'+_t('Vlož runu')+'</h3>'+(have.length?'<div class="rpick">'+have.map(k=>'<button class="rp" data-k="'+k+'" style="--rc:'+RUNES[runeOf(k).t].col+'"><img alt="" src="'+runeIcon(runeOf(k).t)+'"><span><b>'+runeName(k)+' <i>×'+save.runes[k]+'</i></b><em>'+RUNES[runeOf(k).t].d(runeOf(k).l)+'</em></span></button>').join('')+'</div>':
+  pop.innerHTML='<div class="pop-card stone">'+runeH3(_t('Vlož runu'))+(have.length?'<div class="rpick">'+have.map(k=>'<button class="rp" data-k="'+k+'" style="--rc:'+RUNES[runeOf(k).t].col+'"><span class="rsk"><img alt="" src="'+runeIcon(runeOf(k).t)+'"></span><i class="rcnt">×'+save.runes[k]+'</i><span><b>'+runeName(k)+runePip(runeOf(k).l)+'</b><em>'+RUNES[runeOf(k).t].d(runeOf(k).l)+'</em></span></button>').join('')+'</div>':
     '<p class="hint">'+_t('Nemáš žádné runy. Padají z bossů na Noční můře, vzácně z Okované a Královské truhly a za týdenní kontrakty.')+'</p>')+'<div class="pop-btns"><button class="btn alt sm" id="rsBack">'+_t('Zpět')+'</button></div></div>';
   pop.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(!save.runes[k])return;save.runes[k]--;it.rn[i]=k;persist();sfx('level');back();});$('#rsBack').onclick=()=>{sfx('ui');back();};}
 // forge: the rune bag and merging (3 of a kind = one level up)
-function runeForgeHtml(){if(!featOn('runes'))return '';const R=save.runes||{},ks=Object.keys(R).filter(k=>R[k]>0).sort((a,b)=>a.localeCompare(b));
+function runeForgeHtml(){qTexInit();if(!featOn('runes'))return '';const R=save.runes||{},ks=Object.keys(R).filter(k=>R[k]>0).sort((a,b)=>a.localeCompare(b));
   let h='<div class="fsec">'+_t('Runy')+'</div><p class="hint">'+_t('Tři stejné runy sliješ v jednu o úroveň vyšší. Do předmětů je vkládáš ve Vybavení.')+'</p>';
   if(!ks.length)return h+'<p class="hint">'+_t('Zatím žádné runy. Padají z bossů na Noční můře (nejvýš 3 denně), vzácně z Okované a Královské truhly a za týdenní kontrakty.')+'</p>';
-  return h+'<div class="rbag">'+ks.map(k=>{const o=runeOf(k),can=R[k]>=3&&o.l<5;return '<div class="rb" style="--rc:'+RUNES[o.t].col+'"><img alt="" src="'+runeIcon(o.t)+'"><b>'+RUNE_ROM[o.l]+'</b><i>×'+R[k]+'</i>'+(can?'<button class="btn sm" data-rm="'+k+'">'+_t('Sloučit')+'</button>':'')+'</div>';}).join('')+'</div>';}
+  return h+'<div class="rbag">'+ks.map(k=>{const o=runeOf(k),can=R[k]>=3&&o.l<5;return '<div class="rb" style="--rc:'+RUNES[o.t].col+'"><span class="rsk"><img alt="" src="'+runeIcon(o.t)+'"></span><b>'+RUNE_ROM[o.l]+'</b><i>×'+R[k]+'</i>'+(can?'<button class="btn sm" data-rm="'+k+'">'+_t('Sloučit')+'</button>':'')+'</div>';}).join('')+'</div>';}
 function runeMerge(k){const R=save.runes||{},o=runeOf(k);if((R[k]||0)<3||o.l>=5)return;R[k]-=3;const nk=runeKey(o.t,o.l+1);R[nk]=(R[nk]||0)+1;persist();sfx('level');note(_t('Nová runa: ')+runeName(nk));}
 function openRunes(){renderForge();setState('forge');setTimeout(()=>{const e=document.querySelector('#forgeList .rbag')||document.querySelector('#forgeList .fsec:last-of-type');if(e)e.scrollIntoView({block:'center',behavior:'smooth'});},120);}
 
@@ -8040,6 +8105,31 @@ function qClaimMs(week,i,btn){const Q=qEnsure(),W=save.qw,L=week?Q_WMS:Q_DMS,o=w
   if(m.chest&&save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return;}
   o.ms[i]=1;qPay({g:m.g,m:m.mat,chest:m.chest},btn);renderQuests(true);}
 
+// ----- 09l: hand-made pixel textures for the Board, scrolls and rune tablets (generated once, as CSS variables) -----
+function pxTex(w,h,fn,sc){const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');fn(g,mulberry32(w*31+h),w,h);return c.toDataURL();}
+function qTexInit(){if(qTexInit.done)return;qTexInit.done=1;const R=document.documentElement.style,px=(g,x,y,c)=>{g.fillStyle=c;g.fillRect(x,y,1,1);};
+  // aged paper: mottled warm base, fibres, a few stains
+  R.setProperty('--tx-paper','url('+pxTex(32,32,(g,r,w,h)=>{const P=['#d3bd93','#cbb489','#c4ab80','#d9c49c'];for(let y=0;y<h;y++)for(let x=0;x<w;x++){const n=Math.sin(x*.4)+Math.cos(y*.33)+r()*1.6;px(g,x,y,P[Math.min(3,Math.max(0,Math.floor(n+1.4)))]);}
+    for(let i=0;i<14;i++){const y=(r()*h)|0,x=(r()*w)|0,l=2+(r()*6)|0;g.fillStyle='#e2cfa8';g.fillRect(x,y,l,1);}
+    for(let i=0;i<4;i++){const x=r()*w,y=r()*h,rr=1+r()*2.5;g.fillStyle='rgba(140,104,60,.35)';g.beginPath();g.arc(x,y,rr,0,6.283);g.fill();}})+')');
+  // cork: warm brown with grain speckles
+  R.setProperty('--tx-cork','url('+pxTex(24,24,(g,r,w,h)=>{g.fillStyle='#8a5e36';g.fillRect(0,0,w,h);const C=['#a87444','#6e4626','#b98a56','#7a5230','#5c3a20'];
+    for(let i=0;i<150;i++){const x=(r()*w)|0,y=(r()*h)|0;px(g,x,y,C[(r()*C.length)|0]);if(r()<.3)px(g,(x+1)%w,y,C[(r()*C.length)|0]);}})+')');
+  // wood planks (frame, shelf, scroll rods)
+  R.setProperty('--tx-wood','url('+pxTex(16,32,(g,r,w,h)=>{for(let x=0;x<w;x++)for(let y=0;y<h;y++){const b=x%8===0?'#3a2414':(Math.sin(y*.5+x*1.7)+r()*.6>1?'#6e4628':'#5c3a20');px(g,x,y,b);}
+    for(let i=0;i<5;i++){const x=1+((r()*7)|0)+((r()*2)|0)*8,y=(r()*h)|0;px(g,x,y,'#3e2616');px(g,x,y+1,'#3e2616');}})+')');
+  // dark carved stone (rune tablet)
+  R.setProperty('--tx-stone','url('+pxTex(32,32,(g,r,w,h)=>{const P=['#2a2638','#2f2a3f','#262234','#332e46'];for(let y=0;y<h;y++)for(let x=0;x<w;x++)px(g,x,y,P[(r()*4)|0]);
+    for(let i=0;i<5;i++){let x=(r()*w)|0,y=(r()*h)|0;for(let k=0;k<6;k++){px(g,x,y,'#1c1828');x+=r()<.5?1:0;y+=1;}}
+    for(let i=0;i<10;i++)px(g,(r()*w)|0,(r()*h)|0,'#4a4462');})+')');
+  // torn paper edges: three random outlines, so no two notes look alike
+  let css='';for(let v=0;v<3;v++){const r=mulberry32(77+v),pts=[];const N=26;
+    for(let i=0;i<=N;i++)pts.push((i/N*100).toFixed(1)+'% '+(r()*1.6).toFixed(2)+'%');for(let i=0;i<=N;i++)pts.push((100-r()*1.1).toFixed(2)+'% '+(i/N*100).toFixed(1)+'%');
+    for(let i=N;i>=0;i--)pts.push((i/N*100).toFixed(1)+'% '+(100-r()*2.2).toFixed(2)+'%');for(let i=N;i>=0;i--)pts.push((r()*1.1).toFixed(2)+'% '+(i/N*100).toFixed(1)+'%');
+    css+='.qnote.n'+v+' .qn-in{clip-path:polygon('+pts.join(',')+')}';}
+  const st=document.createElement('style');st.textContent=css;document.head.appendChild(st);}
+const qStarImg=on=>'<img class="qs'+(on?' on':'')+'" alt="" src="'+dataUrl(SPR.icon.star)+'">';
+
 // ----- board screen (09e): cork board with three tabs -----
 let qTab='day';
 function openQuests(){econInit();qEnsure();renderQuests();setState('quests');}
@@ -8058,12 +8148,13 @@ function candleRow(L,o,week){const max=L[L.length-1].at,ms=o.ms||[];let h='<div 
   else{const c=Math.min(o.c,max);h+='<div class="qwax"><i style="width:'+(c/max*100)+'%"></i></div>'+L.map((m,i)=>'<button class="qms abs '+(ms[i]?'got':o.c>=m.at?'ready':'')+'" data-ms="1,'+i+'" style="left:'+(m.at/max*100)+'%"><img alt="" src="'+msIcon(m)+'"><b>'+m.at+'</b></button>').join('');}
   return h+'</div>';}
 function qNoteHtml(q,i,Q){const k=qStars(q),nx=Math.min(2,k),top=q.ns[2],full=k===3,ready=k>q.cl,rr=(Q.rr<(qTheme(Q.d).id==='feast'?2:1)||save.cheat)&&!q.cl&&!q.v;
-  const stars=[0,1,2].map(j=>'<i class="st'+(j<k?' on':'')+(j<q.cl?' cl':'')+'">★</i>').join(''),ticks=q.ns.map(n=>'<b style="left:'+(n/top*100)+'%"></b>').join('');
-  return '<div class="qnote n'+i+(full&&q.cl===3?' done':'')+'"><img class="pin" alt="" src="'+dataUrl(SPR.icon.pin)+'">'+
-    '<div class="qn-top"><img alt="" src="'+qIcon(q.ico)+'"><div><h3>'+q.t+'</h3><div class="stars">'+stars+'</div></div></div>'+
-    '<p>'+q.xs[nx]+'</p><div class="qbar"><i style="width:'+(Math.min(q.v,top)/top*100)+'%"></i>'+ticks+'<span>'+(full?_t('Všechny hvězdy!'):qFmtN(q,q.v,q.ns[nx]))+'</span></div>'+
+  const stars=[0,1,2].map(j=>qStarImg(j<k)).join(''),ticks=q.ns.slice(0,2).map(n=>'<b style="left:'+(n/top*100)+'%"></b>').join(''),seal=['seal_r','seal_b','seal_g'][i%3];
+  return '<div class="qnote n'+i+(full&&q.cl===3?' done':'')+'"><img class="pin" alt="" src="'+dataUrl(SPR.icon.pin)+'"><div class="qn-in">'+
+    '<img class="seal" alt="" src="'+dataUrl(SPR.icon[seal])+'">'+
+    '<div class="qn-top"><span class="qn-ic"><img alt="" src="'+qIcon(q.ico)+'"></span><div><h3>'+q.t+'</h3><div class="stars">'+stars+'</div></div></div>'+
+    '<p>'+q.xs[nx]+'</p><div class="qprog"><span>'+(full?_t('Všechny hvězdy!'):qFmtN(q,q.v,q.ns[nx]))+'</span><div class="qbar"><i style="width:'+(Math.min(q.v,top)/top*100)+'%"></i>'+ticks+'</div></div>'+
     '<div class="qn-bot">'+(q.cl<3?qRwHtml(qSum(Q_SR.slice(q.cl,Math.max(q.cl+1,k)))):'<span class="rw"><b class="ok">'+_t('Vyzvednuto')+'</b></span>')+
-    (ready?'<button class="btn sm" data-claim="'+i+'">'+_t('Vyzvednout')+' '+'★'.repeat(k-q.cl)+'</button>':rr?'<button class="btn alt sm" data-rr="'+i+'">'+_t('Jiný úkol')+'</button>':'')+'</div></div>';}
+    (ready?'<button class="btn sm" data-claim="'+i+'">'+_t('Vyzvednout')+' <span class="bst">'+qStarImg(1).repeat(k-q.cl)+'</span></button>':rr?'<button class="btn alt sm" data-rr="'+i+'">'+_t('Jiný úkol')+'</button>':'')+'</div></div></div>';}
 function qDayHtml(Q){const th=qTheme(Q.d),now=new Date(),mid=new Date(now);mid.setHours(24,0,0,0);
   let h='<div class="qtheme" style="--tc:'+th.col+'"><img alt="" src="'+qIcon(th.ic)+'"><div><small>'+Q_DAYN[qDow(Q.d)]+'</small><b>'+th.name+'</b><span>'+_t('Bonus dne: ')+th.bonus+'</span></div></div>';
   h+='<div class="qrow"><span>'+_t('Dnešní svíčky')+' <b>'+Q.c+'</b></span><span class="qleft">'+_t('nové úkoly za ')+qLeft(mid-now)+'</span></div>'+candleRow(Q_DMS,Q,0);
@@ -8097,7 +8188,7 @@ function qWkHtml(){const I=wkInfo(),W=save.wk,M=MAPS[I.map],H=HEROES[I.hero],end
   h+='<p class="qrow"><span>'+_t('Tvůj nejlepší pokus: ')+'<b>'+(W.best?(W.best.tier>=0?WK_TIER[W.best.tier].name+' · ':'')+fmtTime(W.best.t):'—')+'</b></span></p>';
   h+='<div class="wk-btns"><button class="btn" id="wkGo">'+_t('Hrát výzvu')+'</button><button class="btn alt" id="wkBoard">'+_t('Žebříček Týden')+'</button></div>';
   return h+'<p class="hint">'+_t('Všichni hrají stejnou mapu, hrdinu i modifikátory. Pokusů máš neomezeně, každá medaile se vyplatí jednou za týden.')+'</p>';}
-function renderQuests(keep){const Q=qEnsure(),box=$('#qBody'),sc=keep?screens.quests.scrollTop:0,K=save.qw.k,X=save.wk;
+function renderQuests(keep){qTexInit();const Q=qEnsure(),box=$('#qBody'),sc=keep?screens.quests.scrollTop:0,K=save.qw.k,X=save.wk;
   const lk=[0,!featOn('contracts'),!featOn('weekly')];if((qTab==='week'&&lk[1])||(qTab==='wk'&&lk[2]))qTab='day';
   const dot=[Q.q.some(q=>qStars(q)>q.cl)||Q.w.st===2||Q_DMS.some((m,i)=>Q.c>=m.at&&!Q.ms[i]),K.some(qkClaimable)||Q_WMS.some((m,i)=>save.qw.c>=m.at&&!(save.qw.ms||[])[i]),X.got.some((g,i)=>g&&!X.cl[i])];
   let h='<div class="tabs sectabs qtabs">'+[['day',_t('Dnes')],['week',_t('Týden')],['wk',_t('Výzva')]].map(([id,n],i)=>'<button data-qt="'+id+'" class="'+(qTab===id?'on':'')+(lk[i]?' flock':'')+'">'+n+(dot[i]&&!lk[i]?'<i class="dot"></i>':'')+'</button>').join('')+'</div>';
@@ -8460,6 +8551,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09l',d:'9. 11. 2026',t:_t('Nový vzhled Nástěnky a run'),hl:[
+  {ic:'seal_r',t:_t('Nástěnka jako ze dřeva a papíru'),d:_t('Úkoly jsou <b>potrhané lístky</b> s pečetí na korkové desce v dřevěném rámu, svíčky stojí na polici a kontrakty jsou <b>svitky</b> na dřevěných tyčích.')},
+  {ic:'rune_ice',t:_t('Runy vytesané do kamene'),d:_t('Vkládání run, sloty v předmětech i váček run v Kovárně mají <b>kamenné desky</b>, zářící objímky a ukazatel úrovně.')}],
+  items:[_t('Hvězdy úkolů svítí, když je získáš, a jsou vidět i na tlačítku Vyzvednout.')]},
  {v:'2026-11-09k',d:'9. 11. 2026',t:_t('Runy'),hl:[
   {ic:'rune_fire',t:_t('Nová mechanika: Runy'),d:_t('Do <b>Epických</b> předmětů vložíš jednu runu, do <b>Legendárních a setových</b> dvě. Oheň, led a blesk útočí do rytmu, další runy přidají zdraví, rychlost, štěstí, brnění nebo sílu fúzí.')},
   {ic:'rune_bolt',t:_t('Kde je vzít'),d:_t('Jen jako kořist: z <b>bossů na Noční můře</b> (nejvýš 3 denně), vzácně z Okované a Královské truhly a za každý dokončený týdenní kontrakt.')},

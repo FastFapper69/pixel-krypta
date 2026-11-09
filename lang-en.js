@@ -2280,4 +2280,10 @@ window.KRYPTA_EN={
 "Pod názvem kapitoly je teď jasně napsané, kolik jejích map máš pokořených (na Nočních můrách na daném stupni, v Nekonečné kryptě se neukazuje).":"The chapter header now clearly says how many of its maps you have beaten (on Nightmares for that tier; hidden in the Endless Crypt).",
 "Noční můry v Přípravě píšou přesně, kolik zlata a Úlomků navíc dávají.":"Nightmares in Preparation now say exactly how much extra gold and Shards they give.",
 "Výsledek běhu už neukazuje „Odemčeno: Noční můra“, když ji máš odemčenou z dřívějška.":"The run result no longer shows „Unlocked: Nightmare“ when you already had it unlocked.",
+"Nový vzhled Nástěnky a run":"A new look for the Board and runes",
+"Nástěnka jako ze dřeva a papíru":"A Board of wood and paper",
+"Úkoly jsou <b>potrhané lístky</b> s pečetí na korkové desce v dřevěném rámu, svíčky stojí na polici a kontrakty jsou <b>svitky</b> na dřevěných tyčích.":"Quests are <b>torn notes</b> with wax seals on a cork board in a wooden frame, candles stand on a shelf and contracts are <b>scrolls</b> on wooden rods.",
+"Runy vytesané do kamene":"Runes carved in stone",
+"Vkládání run, sloty v předmětech i váček run v Kovárně mají <b>kamenné desky</b>, zářící objímky a ukazatel úrovně.":"Inserting runes, item sockets and the rune bag in the Forge now use <b>stone tablets</b>, glowing sockets and a level marker.",
+"Hvězdy úkolů svítí, když je získáš, a jsou vidět i na tlačítku Vyzvednout.":"Quest stars light up when you earn them and also show on the Claim button.",
 };

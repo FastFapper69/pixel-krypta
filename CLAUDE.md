@@ -282,3 +282,8 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## Údržba tohoto souboru
 Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / plán“ a případně strukturu.
+
+## 09l – vzhled Nástěnky a run (2026-11-09)
+- Uživatel: bílé bloky na Nástěnce a stránka vkládání run působily „cheap“. Nově procedurální pixelové textury `qTexInit()` (CSS proměnné `--tx-paper`, `--tx-cork`, `--tx-wood`, `--tx-stone`, generované canvasem, žádné obrázky).
+- Úkol = `.qnote` (připínáček, náklon, stín) + `.qn-in` (potrhaný papír přes clip-path, pečeť `seal_r/b/g`, rámeček ikony `.qn-ic`, hvězdy `qStarImg`). Svitky kontraktů mají dřevěné tyče (`.qscroll::before/after`), svíčky stojí na polici.
+- Runy: `.pop-card.stone` (kamenná deska), řádky s objímkou `.rsk`, ukazatel úrovně `runePip(l)`, počet `.rcnt`; stejné pro sloty v předmětu a váček v Kovárně. Nové obrazovky ve stejném duchu: textury z `qTexInit`, ne ploché barvy.
