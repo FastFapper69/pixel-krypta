@@ -359,3 +359,13 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 - Skilly projektu: `.claude/skills/pixel-ui-art-direction`, `.claude/skills/gamedev-zasady` (+ `nova-kapitola`).
 - Pravidla od uživatele: po každé vizuální změně zvětšený snímek a opravdu ho prohlédnout (CZ i EN, malý iPhone); pushovat jen když projdou testy; ověřit nasazení přes `gh api …/actions/runs`.
 - Otevřené: makety menu H1/H2 odložené (`tests/tools/mock`); kapitola VII Prázdnota; ladění kap. V–VI podle telemetrie; před vydáním: jméno/e-mail provozovatele do `PRIVACY.md`, vlastní doména, rozhodnutí o truhlách za peníze (PEGI 16, Belgie), TMview; moderovat `reports` do 24 h.
+
+## 09z – kované tlačítka hlavního menu (2026-11-09)
+- Podle předlohy uživatele (herní, ale pixelová duše). Rámy kreslí `bartDraw(kind,aw,ah,ex)` po pixelech (1 px kresby = `BART_S`=3 css px), obrázek je v `<i class="bart">` uvnitř tlačítka (ne `::before` – ten používá zámek `.flock`). Kreslí se v přesné velikosti tlačítka a hned se zvětší po celých pixelech na rozlišení displeje (Safari jinak rozmaže).
+- Druhy `BART_KIND`: `play` zlatá deska v železném rámu, `coop` fialový, `hero` rohy, `forge` výheň (teplý nádech dole), `shop` markýza, `quest` dřevěný rám s hřeby, `sky` hvězdné nebe ve zlatém rámu (hvězdy se vyhýbají textu – `ex` z naměřené šířky popisku), `ico`/`cur` malé rámy nahoře. Nové ikony 16×16 `MICO` + `micoUrl` (meč, helma, kovadlina, truhla, svitek).
+- `bartAll()` = `bartFit()` (stejná velikost písma ve dvojicích, zmenší se jen když se nevejde) + překreslení; volá se z `refreshMenu`, ResizeObserveru a po načtení písem; `fitMenuCur` po přepsání obsahu volá `bartApply`.
+- Zamčené: neprůhledné, šedé, zámek visí na horním okraji vlevo. Krátké displeje (≤700 px) mají menší mezery.
+- Snímky: `tests/tools/homeshot.js prefix [cs|en] [šířka] [výška]` (env `ZOOM=1` výřez, `PRESS=1` stisk, `FRESH=1` nový účet, `SKY=1` Souhvězdí).
+
+## Předávka 2026-11-09 ~20:30 (verze 09z)
+- Hotovo: 09z kované menu. Další podle uživatele; stejný styl se dá přenést na tlačítka v Přípravě a výsledcích běhu.
