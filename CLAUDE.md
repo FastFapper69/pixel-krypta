@@ -377,5 +377,5 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 
 ## Předávka 2026-11-09 20:05 (verze 09z, vše na main, Pages nasazené)
 - Hotovo: 09z kované menu (pixelové rámy tlačítek a horní lišty, ikony MICO, štítky NOVÉ, lišta pod rozmazáním iOS 26, materiály a Souhvězdí opravené), povinná kontrola `tests/tools/menucheck.js`, poučení ve skillu pixel-ui-art-direction.
-- Čeká na uživatele: potvrzení z iPhonu, že ikony nahoře už nejsou rozmazané. Kdyby byly, poslat screenshot celé obrazovky a posunout lištu níž.
+- Uživatel potvrdil na iPhonu (20:11): ikony nahoře ostré – posun lišty na `--sat + 30px` funguje, platí i pro další obrazovky.
 - Možné další kroky: stejné rozmazání iOS u HUD ve hře a hlaviček obrazovek; kovaný styl i pro tlačítka v Přípravě a výsledcích běhu; kapitola VII Prázdnota; ladění podle telemetrie.
