@@ -109,10 +109,10 @@ button{font-family:inherit}
   background:linear-gradient(90deg,var(--gold) 0 26%,var(--line) 26% 100%) 16px 100%/calc(100% - 32px) 3px no-repeat,#130f1c}
 /* "new" markers */
 #mPlay,#mHero,#mChest,#mForge{position:relative}
-#mPlay.new::after,#mHero.new::after,#mChest.new::after,#mForge.new::after{content:attr(data-new);position:absolute;top:5px;right:7px;font:700 10px/1 var(--font);letter-spacing:.06em;color:#1a1020;background:var(--gold);padding:3px 5px 2px;box-shadow:0 0 0 2px #2a1430;animation:qdot 1.6s ease-in-out infinite}
+#mPlay.new::after,#mHero.new::after,#mChest.new::after,#mForge.new::after{content:attr(data-new);position:absolute;top:5px;right:7px;font:700 10px/1 var(--font);letter-spacing:.06em;color:#1a1020;text-shadow:none;-webkit-text-stroke:0;background:var(--gold);padding:3px 5px 2px;box-shadow:0 0 0 2px #2a1430;animation:qdot 1.6s ease-in-out infinite}
 .nw{position:absolute;top:3px;right:3px;width:8px;height:8px;background:var(--gold);box-shadow:0 0 0 2px #2a1430;pointer-events:none}
 .co-pick .nw{top:4px;right:4px}
-.newtag{display:inline-block;margin-left:6px;font:700 10px/1 var(--font);letter-spacing:.06em;color:#1a1020;background:var(--gold);padding:3px 5px 2px;vertical-align:middle}
+.newtag{display:inline-block;margin-left:6px;font:700 10px/1 var(--font);letter-spacing:.06em;color:#1a1020;text-shadow:none;background:var(--gold);padding:3px 5px 2px;vertical-align:middle}
 /* currencies as a second row of the sticky head: always visible while scrolling */
 .head>.mats{flex:1 0 100%;order:3;margin:0;padding:0;background:none;box-shadow:none;clip-path:none;justify-content:flex-start;gap:4px 14px;font-size:14px}
 .head>.mats .mt:first-child{color:var(--gold)}
@@ -9200,7 +9200,7 @@ const NEWS=[
  {v:'2026-11-09z',d:'9. 11. 2026',t:_t('Kované menu'),hl:[
   {ic:'blade',t:_t('Nová tlačítka v menu'),d:_t('Hlavní menu má ručně kreslená tlačítka: zlaté Hrát v železném rámu s nýty, rohy na Vybavení, výheň u Kovárny, markýza nad Obchodem a dřevěná Nástěnka.')},
   {ic:'hammer',t:_t('Kovové ikony nahoře'),d:_t('Peníze a tlačítka Síň slávy, Novinky, Průvodce a Nastavení mají stejné kované rámy.')}],
-  items:[_t('Zamčená tlačítka mají visací zámek na horním okraji.'),_t('Popisky se na úzkých telefonech zmenší, aby se vešly do rámu.')]},
+  items:[_t('Zamčená tlačítka mají visací zámek na horním okraji.'),_t('Popisky se na úzkých telefonech zmenší, aby se vešly do rámu.'),_t('Štítky NOVÉ mají na všech tlačítkách stejné písmo.')]},
  {v:'2026-11-09y',d:'9. 11. 2026',t:_t('Soukromí a bezpečnost'),hl:[
   {ic:'shield',t:_t('Soukromí a licence'),d:_t('V Nastavení najdeš, co hra ukládá a kdo to vidí, a jedním tlačítkem si můžeš smazat všechna svá data.')},
   {ic:'scroll',t:_t('Nahlásit nebo skrýt hráče'),d:_t('Ťukni na hráče v žebříčku a můžeš ho nahlásit nebo skrýt. Nevhodné přezdívky hra nepovolí.')},

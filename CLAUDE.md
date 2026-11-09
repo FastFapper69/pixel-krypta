@@ -364,6 +364,7 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 - Podle předlohy uživatele (herní, ale pixelová duše). Rámy kreslí `bartDraw(kind,aw,ah,ex)` po pixelech (1 px kresby = `BART_S`=3 css px), obrázek je v `<i class="bart">` uvnitř tlačítka (ne `::before` – ten používá zámek `.flock`). Kreslí se v přesné velikosti tlačítka a hned se zvětší po celých pixelech na rozlišení displeje (Safari jinak rozmaže).
 - Druhy `BART_KIND`: `play` zlatá deska v železném rámu, `coop` fialový, `hero` rohy, `forge` výheň (teplý nádech dole), `shop` markýza, `quest` dřevěný rám s hřeby, `sky` hvězdné nebe ve zlatém rámu (hvězdy se vyhýbají textu – `ex` z naměřené šířky popisku), `ico`/`cur` malé rámy nahoře. Nové ikony 16×16 `MICO` + `micoUrl` (meč, helma, kovadlina, truhla, svitek).
 - `bartAll()` = `bartFit()` (stejná velikost písma ve dvojicích, zmenší se jen když se nevejde) + překreslení; volá se z `refreshMenu`, ResizeObserveru a po načtení písem; `fitMenuCur` po přepsání obsahu volá `bartApply`.
+- Štítky NOVÉ (`.new::after`, `.newtag`) mají `text-shadow:none` – jinak dědí stín z tlačítka a na každém vypadají jinak tučně.
 - Zamčené: neprůhledné, šedé, zámek visí na horním okraji vlevo. Krátké displeje (≤700 px) mají menší mezery.
 - Snímky: `tests/tools/homeshot.js prefix [cs|en] [šířka] [výška]` (env `ZOOM=1` výřez, `PRESS=1` stisk, `FRESH=1` nový účet, `SKY=1` Souhvězdí).
 

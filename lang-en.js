@@ -2456,6 +2456,7 @@ window.KRYPTA_EN={
 "nejsi připojený k serveru":"you are not connected to the server",
 "nejsi připojený k serveru, zkus to za chvíli":"you are not connected to the server, try again in a moment",
 "Kované menu":"Forged menu",
+"Štítky NOVÉ mají na všech tlačítkách stejné písmo.":"NEW tags look the same on every button.",
 "Nová tlačítka v menu":"New menu buttons",
 "Hlavní menu má ručně kreslená tlačítka: zlaté Hrát v železném rámu s nýty, rohy na Vybavení, výheň u Kovárny, markýza nad Obchodem a dřevěná Nástěnka.":"The main menu has hand-drawn buttons: a golden Play in a riveted iron frame, horns on Loadout, a glowing Forge, an awning over the Shop and a wooden Quest Board.",
 "Kovové ikony nahoře":"Iron icons on top",
