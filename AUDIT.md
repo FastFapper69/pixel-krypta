@@ -1,4 +1,4 @@
-# Audit projektu – 9. 11. 2026 (verze 09z3)
+# Audit projektu – 9. 11. 2026 (verze 09z3, opravy v 09z4)
 
 Opakovat: skill `.claude/skills/audit-projektu`, příkaz `node tests/tools/audit.js` (rychlý, ~2 min) nebo `node tests/tools/audit.js plny` (s boty a výkonem). Serverovou část kontroluje skill přes Supabase nástroje.
 
@@ -11,11 +11,11 @@ Opakovat: skill `.claude/skills/audit-projektu`, příkaz `node tests/tools/audi
 ## Nalezené chyby a rizika (podle priority)
 
 ### Vysoká
-1. **Převzetí cizího účtu hádáním PINu** (server). `claim_profile(přezdívka, PIN)` nemá žádný limit pokusů. Přezdívky jsou vidět v žebříčku, PIN má 4 číslice → stačí ≤ 10 000 pokusů a útočník si přesune cizí profil (postup, výbavu) k sobě. Před vydáním a před prodejem truhel nutné opravit: tabulka pokusů + zámek (např. 5 chybných za hodinu na přezdívku), delší PIN.
+1. **Převzetí cizího účtu hádáním PINu** (server). `claim_profile(přezdívka, PIN)` nemá žádný limit pokusů. Přezdívky jsou vidět v žebříčku, PIN má 4 číslice → stačí ≤ 10 000 pokusů a útočník si přesune cizí profil (postup, výbavu) k sobě. ✅ **Opraveno v 09z4:** `claim_profile_v2` – 5 chybných / hodinu nebo 20 / den na přezdívku, 15 / hodinu z jednoho účtu, pak zámek; stará `claim_profile` smazaná. Ověřeno na serveru v transakci (útok → zámek, majitel po hodině projde).
 2. **Ztlumení hudby při bossovi, smrti a ultimátce nikdy nefungovalo** – funkce `duckMusic` byla v kódu dvakrát s jinými parametry, platila ta druhá. ✅ **Opraveno v 09z3** (druhá přejmenovaná na `duckBeat`), ověřeno měřením hlasitosti (−10 dB a návrat). Audit teď duplicitní funkce hlídá.
 
 ### Střední
-3. **Žebříček stahuje celé savy všech hráčů** (`select('id,nick,stats,save,hidden')`, až 300 řádků) – a přitom z nich čte jen profilový obrázek (`save.av`). Zároveň si kdokoli bez přihlášení může přečíst save kteréhokoli hráče. Oprava: `av` ukládat do `stats`, žebříček bez `save`, sloupec `save` číst jen vlastní (RPC), odebrat `SELECT(save)` pro `anon`.
+3. **Žebříček stahoval celé savy všech hráčů** (až 300 řádků) kvůli obrázku, titulu a počtu map a hrdinů; save kohokoli šel přečíst i bez přihlášení. ✅ **Opraveno v 09z4:** vizitka `stats.card` {av, tl, cl, hc}, žebříček bez `save`, vlastní profil přes `my_profile()`, ukládání přes `save_profile()` (upsert by po zavření sloupce nefungoval), `SELECT(save)` odebraný `anon` i `authenticated`, zbytečná práva TRUNCATE/TRIGGER pryč.
 4. **Výsledky v žebříčku si hráč zapisuje sám** (`stats` v `profiles`) → přes API jde podvádět. Pro kamarády OK, před vydáním aspoň kontrola věrohodnosti v triggeru (max. výhry/kombo za čas) nebo zápis jen přes RPC.
 5. **iOS 26 rozmazává horní okraj stránky** – menu je opravené (lišta od `--sat + 30px`), ale HUD ve hře a hlavičky obrazovek (Příprava, Zpět) začínají těsně pod stavovým řádkem. Ověřit na iPhonu, případně posunout stejně.
 6. **Plynulost menu v klidu klesla** po kovaných rámech 09z: na simulovaném pomalém telefonu 60 → ~53 fps (měřeno opakovaně po commitech; s obrázkovými rámy d25c926 bylo 61). Pravděpodobně plátna rámů pod animovanými prvky (jiskry, štítky NOVÉ). Na iPhonu ověřit; případná oprava: rámy jako obrázek v přesných pixelech displeje místo živého plátna.

@@ -4291,7 +4291,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09z3';
+const GAME_VER='2026-11-09z4';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7137,7 +7137,7 @@ async function onlineInit(){
     let {data:{session}}=await ON.sb.auth.getSession();
     if(!session){const r=await ON.sb.auth.signInAnonymously();if(r.error)throw r.error;session=r.data.session;}
     ON.me=session.user;
-    const {data,error}=await ON.sb.from('profiles').select('nick,save,updated_at').eq('id',ON.me.id).maybeSingle();
+    const {data,error}=await ON.sb.rpc('my_profile').maybeSingle();
     if(error)throw error;
     if(data){save.nick=data.nick;const rs=data.save||{};if(rs.pinSet)save.pinSet=true;
       // the newer of the two saves wins, so playing on a second device never loses progress
@@ -7154,7 +7154,7 @@ async function cloudFlush(){
   if(!ON.ready||!ON.dirty||ON.busy||!save.nick)return;ON.busy=true;ON.dirty=false;
   const payload={pinSet:!!save.pinSet};for(const k of syncKeys())payload[k]=save[k]===undefined?null:save[k];payload.updated=save.updated||Date.now();
   let err=null;
-  try{const {error}=await ON.sb.from('profiles').upsert({id:ON.me.id,nick:save.nick,save:payload,stats:save.stats||{},updated_at:new Date().toISOString()});if(error)throw error;ON.err='';}
+  try{const {error}=await ON.sb.rpc('save_profile',{p_nick:save.nick,p_save:payload,p_stats:Object.assign({},save.stats||{},{card:boardCard(save)})});if(error)throw error;ON.err='';}
   catch(e){err=e;ON.err=errText(e);if(!(e&&e.code==='23505'))ON.dirty=true;}
   ON.busy=false;if(ON.dirty){clearTimeout(cloudT);cloudT=setTimeout(cloudFlush,5000);}
   return err;
@@ -7205,8 +7205,10 @@ async function saveNick(){
   msg.textContent=_t('Ukládám…');
   try{
     if(nickMode==='login'){
-      const {error}=await ON.sb.rpc('claim_profile',{p_nick:v,p_pin:pin});if(error)throw error;
-      const {data,error:e2}=await ON.sb.from('profiles').select('nick,save').eq('id',ON.me.id).maybeSingle();if(e2)throw e2;
+      const {data:st,error}=await ON.sb.rpc('claim_profile_v2',{p_nick:v,p_pin:pin});if(error)throw error;
+      if(st==='locked'){msg.textContent=_t('Moc pokusů s PINem. Z bezpečnosti je přezdívka na hodinu zamčená, zkus to pak znovu.');return;}
+      if(st!=='ok'){msg.textContent=_t('Špatná přezdívka nebo PIN.');return;}
+      const {data,error:e2}=await ON.sb.rpc('my_profile').maybeSingle();if(e2)throw e2;
       if(data){save.nick=data.nick;const rs=data.save||{};if(rs.ch==null){delete save.ch;delete save.unl;}cloudApply(rs);
         if(!save.heroes.knight)save.heroes.knight=true;econInit();}
       save.pinSet=true;persist();
@@ -7246,7 +7248,7 @@ let boardTab='celkem',boardRows=null;
 async function openBoard(){
   setState('board');renderBoard();if(!ON.ready)return;
   $('#boardMsg').textContent=_t('Načítám…');
-  try{const {data,error}=await ON.sb.from('profiles').select('id,nick,stats,save,hidden').order('updated_at',{ascending:false}).limit(300);if(error)throw error;
+  try{const {data,error}=await ON.sb.from('profiles').select('id,nick,stats,hidden').order('updated_at',{ascending:false}).limit(300);if(error)throw error;
     boardRows=data||[];$('#boardMsg').textContent='';}
   catch(e){$('#boardMsg').textContent=_t('Žebříček se nepodařilo načíst: ')+errText(e);}
   renderBoard();
@@ -7255,7 +7257,7 @@ let boardCh=null,boardIO=null;
 // one leaderboard row: rank, nick + title, what they reached
 function boardRow(r,i){const el=document.createElement('div');el.className='brow'+(ON.me&&r.id===ON.me.id?' me':'');if(!(ON.me&&r.id===ON.me.id)){el.tabIndex=0;el.setAttribute('role','button');el.onclick=()=>playerMenu(r);}
   const rk=document.createElement('b');rk.className='rk';rk.textContent=(i+1)+'.';
-  const nm=document.createElement('div');nm.className='nm';const n1=document.createElement('strong');n1.textContent=r.nick;const tl=titleOf(r.sv);if(tl){const t=document.createElement('span');t.className='ttl';t.textContent=tl;n1.appendChild(t);}
+  const nm=document.createElement('div');nm.className='nm';const n1=document.createElement('strong');n1.textContent=r.nick;const tl=bTitle(r.sv);if(tl){const t=document.createElement('span');t.className='ttl';t.textContent=tl;n1.appendChild(t);}
   const n2=document.createElement('div');n2.className='mini';n2.innerHTML=boardFacts(r).filter(f=>!f.n).map(f=>'<span><img alt="" src="'+dataUrl(f.ic)+'">'+f.v+'</span>').join('');nm.append(n1,n2);
   const val=document.createElement('div');val.className='val';const v1=document.createElement('span'),v2=document.createElement('small');v1.textContent=boardVal(r,true);v2.textContent=boardSub(r);val.append(v1,v2);const av=document.createElement('img');av.className='bav';av.alt='';av.src=dataUrl(avImg(r.sv&&r.sv.av||AV_BASE[0]));el.append(rk,av,nm,val);return el;}
 // main result (wins, or NM · win · time) and the line under it (kills, hero of the daily run)
@@ -7263,7 +7265,7 @@ const bCombo=st=>(st&&st.tot&&+st.tot.combo)||0;
 function boardVal(r){if(boardTab==='celkem')return (r.st.wins||0)+_t(' výher');if(boardTab==='kombo')return '×'+bCombo(r.st).toLocaleString(EN?'en':'cs');const b=r.b;return (b.nm?_t('NM ')+b.nm+' · ':'')+(b.won?_t('Výhra · '):'')+fmtTime(b.t);}
 // the numbers of a player as even tiles: icon, value and (on the champion card) a label; the list rows use a compact inline form
 const bNum=(n,short)=>{n=+n||0;return short&&n>=10000?(Math.round(n/100)/10).toLocaleString(EN?'en':'cs')+'k':n.toLocaleString(EN?'en':'cs');};
-function boardFacts(r){const sv=r.sv||{},cl=MAP_IDS.filter(m=>(sv.cleared||{})[m]).length,hc=Object.keys(sv.heroes||{}).filter(k=>HEROES[k]&&sv.heroes[k]).length,
+function boardFacts(r){const sv=r.sv||{},cl=sv.cl||0,hc=sv.hc||0,
   kills=boardTab==='celkem'||boardTab==='kombo'?(r.st.kills||0):r.b.kills;
   return [boardTab!=='kombo'&&(boardTab==='celkem')?{ic:SPR.icon.note,v:'×'+bNum(bCombo(r.st),1),l:_t('kombo')}:null,{ic:SPR.icon.skull,v:kills,l:_t('zabití'),n:1},
     {ic:SPR.icon.scroll,v:cl+'/'+MAP_IDS.length,l:_t('mapy')},{ic:SPR.hero.knight,v:hc+'/'+HERO_LIVE.length,l:_t('hrdinů')}].filter(Boolean);}
@@ -7323,7 +7325,7 @@ function renderBoard(){
   if(!ON.ready){msg.textContent=ON.err?_t('Připojení k serveru se nezdařilo: ')+ON.err:_t('Připojuji se…');return;}
   if(!boardRows)return;
   const blk=save.blk||[];
-  const rows=boardRows.filter(r=>!(r.hidden&&!(ON.me&&r.id===ON.me.id))&&!blk.includes(r.id)).map(r=>{const st=r.stats||{},sv=r.save||{},b=boardTab==='celkem'||boardTab==='kombo'?null:boardTab==='dnes'?(st.daily&&st.daily.d===today()?st.daily:null):boardTab==='tyden'?(st.weekly&&st.weekly.w===weekKey()?st.weekly:null):(st.best||{})[boardTab];
+  const rows=boardRows.filter(r=>!(r.hidden&&!(ON.me&&r.id===ON.me.id))&&!blk.includes(r.id)).map(r=>{const st=r.stats||{},sv=st.card||boardCard(r.save||{}),b=boardTab==='celkem'||boardTab==='kombo'?null:boardTab==='dnes'?(st.daily&&st.daily.d===today()?st.daily:null):boardTab==='tyden'?(st.weekly&&st.weekly.w===weekKey()?st.weekly:null):(st.best||{})[boardTab];
     return{id:r.id,nick:r.nick||'?',st,sv,b,score:boardTab==='celkem'?((st.runs||0)?(st.wins||0)*1e6+(st.kills||0):-1):boardTab==='kombo'?(bCombo(st)||-1):mapScore(b)};})
     .filter(r=>r.score>=0).sort((a,b)=>b.score-a.score);
   const di=dailyInfo();
@@ -7333,7 +7335,7 @@ function renderBoard(){
   if(rows.length){pod.hidden=false;const MC=['#f6c744','#c8ccd8','#d08850'];
     for(let i=0;i<Math.min(3,rows.length);i++){const r=rows[i],d=document.createElement('div');
       d.className='tc p'+(i+1)+(ON.me&&r.id===ON.me.id?' me':'');d.style.setProperty('--mc',MC[i]);
-      const hero=r.b&&HEROES[r.b.hero]?r.b.hero:null,tl=titleOf(r.sv);
+      const hero=r.b&&HEROES[r.b.hero]?r.b.hero:null,tl=bTitle(r.sv);
       d.innerHTML='<div class="tt"><div class="av"><img alt="" src="'+dataUrl(r.sv&&r.sv.av?avImg(r.sv.av):hero?SPR.hero[hero]:i?SPR.icon.medal:SPR.icon.trophy)+'"><b class="rk">'+(i+1)+'</b></div>'+
         '<div class="who"><strong></strong>'+(tl?'<span class="ttl"></span>':'')+'<span class="big"></span></div></div>'+boardStats(r,!i);
       if(!(ON.me&&r.id===ON.me.id)){d.style.cursor='pointer';d.onclick=()=>playerMenu(r);}
@@ -8546,6 +8548,9 @@ const ACHM={};for(const A of ACH){ACHM[A.id]=A;if(!A.n)A.n=A.id==='fuse'?Object.
 function achProg(A){const S=achInit();return Math.min(A.n,Math.max(0,A.v(S)|0));}
 const achDone=A=>achProg(A)>=A.n;
 const achClaimable=()=>{try{return ACH.some(A=>!save.ach[A.id]&&achDone(A));}catch(_){return false;}};
+// 09z4: veřejná vizitka hráče pro žebříček (stats.card) – save ostatních hráčů už není čitelný
+function boardCard(sv){sv=sv||{};const t=titleOf(sv);return {av:sv===save?avCur():(sv.av||null),tl:t?sv.title:null,cl:MAP_IDS.filter(m=>(sv.cleared||{})[m]).length,hc:Object.keys(sv.heroes||{}).filter(k=>HEROES[k]&&sv.heroes[k]).length};}
+const bTitle=c=>c&&c.tl&&ACHM[c.tl]?ACHM[c.tl].title:'';
 const titleOf=sv=>{const A=sv&&sv.title&&ACHM[sv.title];return A&&sv.ach&&sv.ach[A.id]?A.title:'';};
 // end of a run: lifetime counters (both co-op sides; C = the run counters as qFinishC() returns them)
 function achTrack(C,won){const S=achInit(),T=S.tot,before=ACH.filter(achDone).map(A=>A.id);
@@ -9267,6 +9272,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09z4',d:'9. 11. 2026',t:_t('Bezpečnější účty'),hl:[
+  {ic:'lock',t:_t('PIN nejde uhádnout'),d:_t('Po pěti špatných PINech se přezdívka na hodinu zamkne. Nikdo tak nemůže zkoušet čísla a převzít ti účet.')},
+  {ic:'shield',t:_t('Tvůj postup vidíš jen ty'),d:_t('Žebříček ukazuje jen přezdívku, výsledky, obrázek, titul a počet map a hrdinů. Tvoje uložená hra je soukromá.')}]},
  {v:'2026-11-09z3',d:'9. 11. 2026',t:_t('Oprava zvuku'),hl:[
   {ic:'music',t:_t('Hudba ustoupí velkým chvílím'),d:_t('Když přijde boss, padneš nebo poprvé odpálíš ultimátku, hudba se na chvíli ztiší, ať vyniknou efekty. Slibovali jsme to už dřív, ale kvůli chybě se to nedělo.')}]},
  {v:'2026-11-09z2',d:'9. 11. 2026',t:_t('Kámen a železo'),hl:[

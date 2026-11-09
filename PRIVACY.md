@@ -22,7 +22,7 @@ Neukládáme jméno, e-mail, telefon ani polohu. Žádné reklamy, žádné sled
 Právní základ: plnění smlouvy (hraní, synchronizace, žebříček) a oprávněný zájem (ladění hry, moderace).
 
 ## Kdo údaje vidí
-- Ostatní hráči: přezdívku, titul, profilový obrázek, statistiky a postup v žebříčku.
+- Ostatní hráči: přezdívku, titul, profilový obrázek, statistiky v žebříčku a počet pokořených map a hrdinů. Tvoje uložená hra (výbava, měna, nastavení) je soukromá – čte ji jen tvoje zařízení.
 - Autor hry: vše výše kvůli ladění, opravám a moderaci.
 - Zpracovatelé: Supabase (databáze, EU), GitHub Pages (hosting – vidí IP adresu jako každý web), Google STUN server (jen při hře s kamarádem, kvůli navázání spojení – vidí IP adresu).
 - Písma a knihovny hra načítá ze svého serveru, ne od Googlu ani z CDN.

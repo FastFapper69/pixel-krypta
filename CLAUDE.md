@@ -391,3 +391,9 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 ## Předávka 2026-11-09 ~21:00 (verze 09z3)
 - Hotovo: audit projektu (`AUDIT.md`), skill `audit-projektu`, `tests/tools/audit.js` + `lib.js`, oprava duplicitní `duckMusic` (ztlumení hudby z 09r konečně funguje).
 - Čeká na rozhodnutí uživatele (viz AUDIT.md): limit pokusů PINu (vysoká), žebříček bez cizích savů, ověřit horní okraj HUD na iPhonu, plynulost menu, úklid tests/tools a zeštíhlení tohoto souboru.
+
+## 09z4 – bezpečnější účty (2026-11-09)
+- **Server mluví s hrou jen přes funkce:** `my_profile()` (vlastní nick+save), `save_profile(p_nick,p_save,p_stats)` (ukládání; max 256 kB savu), `claim_profile_v2(nick,pin)` → `'ok'|'bad'|'locked'|'auth'` (zámek: 5 chyb/h nebo 20/den na přezdívku, 15/h z účtu; pokusy v `private.pin_fail`). Stará `claim_profile` smazaná. **Sloupec `profiles.save` nikdo kromě funkcí nečte** – nepřidávat `select('…save…')` ani `upsert` do `profiles` (upsert potřebuje SELECT na všech sloupcích).
+- Žebříček čte jen `id,nick,stats,hidden`; vizitka hráče `stats.card={av,tl,cl,hc}` z `boardCard(sv)` (pro staré řádky fallback ze savu). Nová veřejná informace v žebříčku = přidat do `boardCard`, ne číst save.
+- Migrace v `supabase/migrations/` (číslované podle data). Serverové změny nejdřív nanečisto: `DO $$ … raise exception 'VYSLEDEK: %' $$` se `set local role authenticated` a `request.jwt.claims` – vše se vrátí.
+- Test bez serveru: `tests/tools/cloudstub.js` (je v auditu).
