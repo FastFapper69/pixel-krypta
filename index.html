@@ -520,6 +520,7 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .featpop small{display:block;font-family:var(--font-px);font-size:15px;letter-spacing:.14em;color:var(--gold);text-shadow:0 2px 0 #000}
 .featpop img{width:72px;height:72px;image-rendering:pixelated;margin:12px 0 6px;filter:drop-shadow(0 4px 0 #0008) drop-shadow(0 0 12px #f6c74488)}
 .featpop h3{margin:0 0 6px;font-size:24px;color:#fff;text-shadow:0 3px 0 #000}.featpop p{margin:0 0 8px;font-size:15px;line-height:1.35;color:#ddd4ea}.featpop .fc-l{font-size:13px;color:var(--muted)}.featpop .fc-l b{color:var(--gold)}
+.featpop .fc.story img.th{width:200px;height:120px;object-fit:cover;image-rendering:pixelated;box-shadow:0 0 0 3px #0c0912,0 0 0 5px var(--gold)}.featpop .fc.story p{font-style:italic}
 .featpop .fc-b{display:flex;gap:8px;margin-top:10px}.featpop .fc-b .btn{flex:1}
 .featpop.in .fc{animation:fcin .45s cubic-bezier(.2,1.4,.4,1)}.featpop.in img{animation:fcpop .7s .15s cubic-bezier(.2,1.6,.4,1) both}
 @keyframes fcin{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}@keyframes fcpop{from{transform:scale(0) rotate(-20deg)}to{transform:none}}
@@ -3793,7 +3794,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09h';
+const GAME_VER='2026-11-09i';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -5943,6 +5944,7 @@ function render(){
   {const few=PQ.lv>1&&run.nums.length>16;for(const n of run.nums){if(few&&!n.big)continue;g.globalAlpha=clamp(n.life*5,0,1);const c=n.big&&n.t<.08?'#ffffff':n.col;drawNum(g,n.txt,n.x+ox+(n.big&&n.t<.15?rnd(-.5,.5):0),n.y+oy,c,n.big?(n.t<.12?3:2):(n.t<.06?2:1));}}g.globalAlpha=1;
   if(run.map.grade){g.globalCompositeOperation='soft-light';g.globalAlpha=run.map.gradeA||.2;g.fillStyle=run.map.grade;g.fillRect(0,0,VW,VH);g.globalAlpha=1;g.globalCompositeOperation='source-over';}
   if(vig.width===VW*Z&&vig.height===VH*Z)g.drawImage(vig,0,0,VW,VH);
+  if(run.map.finale&&!run.endless&&!run.over)try{bridgeDraw(g,ox,oy);}catch(_){}
   if(run.flashScr>0){if(!RM){g.globalAlpha=Math.min(.6,run.flashScr);g.fillStyle=run.flashCol||'#fff8e0';g.fillRect(0,0,VW,VH);g.globalAlpha=1;}run.flashScr=Math.max(0,run.flashScr-frameDt*2.5);if(run.flashScr<=0)run.flashCol=null;}
 }
 
@@ -6795,7 +6797,7 @@ function runRewards(won){
   // 08e: the campaign pays gear only once per map and tier (first win); chests are the renewable source and the only one of the common legendaries
   if(won&&R.nm>0){const k=Math.min(NM_MAX,R.nm);save.nmw=save.nmw||{};nmFirst=!save.nmw[k+'|'+R.mapId];save.nmw[k+'|'+R.mapId]=1;if(nmFirst&&k>=3&&R.map.boss)out.av='b:'+R.map.boss;
     if(nmFirst&&save.inv.length<INV_MAX){const it=makeItem(ECON.nmItem[k]);addItem(it);out.item=it;}}
-  if(won&&fin&&!R.trial){save.fin=save.fin||{};if(!save.fin[R.mapId]){save.fin[R.mapId]=1;const it=makeItem(rollRarity(ECON.chests[2]));addItem(it);out.fin=it;}
+  if(won&&fin&&!R.trial){save.fin=save.fin||{};if(!save.fin[R.mapId]){save.fin[R.mapId]=1;if(STORY[R.mapId])save.storyNew=R.mapId;const it=makeItem(rollRarity(ECON.chests[2]));addItem(it);out.fin=it;}
     const lg=FIN_LEG[R.mapId];if(lg&&(R.nm||0)>=3&&Math.random()<.25){const it=makeItem(4,null,null,lg);addItem(it);out.leg=it;}
     const sid=SET_OF_CH[CH_OF[R.mapId].id];if(sid){save.setP=save.setP||{};const miss=save.setP[sid]||0;
       // the first win of a finale on each Nightmare tier always gives a piece; otherwise a chance with pity
@@ -6804,6 +6806,43 @@ function runRewards(won){
   if(R.wk&&!R.coop)out.wkT=wkResult(won);
   if(R.mod&&!R.wk&&!R.coop&&(won||R.t>=180)&&save.daily.chal!==today()){save.daily.chal=today();achInit().tot.dc++;qkAdd('daily',1);save.mats[mid]+=20;if(out.mat)out.mat[1]+=20;const it=makeItem(rollRarity(ECON.chests[1]));addItem(it);out.daily=it;}
   return out;}
+
+// ----- 09i: the Fallen Star story — in the last phase of a chapter finale the next chapter seeps in, then a "Cesta dál" card -----
+const BRIDGE={trun:{k:'sun',line:_t('Z Morvanovy lebky sálá žár pouštního slunce…')},brana:{k:'magma',line:_t('Pod Bránou slunce se probouzí žár hor…')},
+  srdce:{k:'snow',line:_t('Srdce hory chladne, do jeskyně začíná sněžit…')},zima:{k:'thaw',line:_t('Ledový trůn taje, voda stoupá…')},paluba:{k:'stars',line:_t('Z roztržené oblohy padají hvězdy…')}};
+const STORY={trun:_t('Z Morvanovy lebky vypadl žhnoucí střep hvězdy. Ukazuje na jih, kde slunce spaluje písek.'),
+  brana:_t('Sfinga padla a Brána slunce se propadla. Ze tmy pod ní stoupá žár hor.'),
+  srdce:_t('Srdce hory vychladlo. Popel ztuhl ve sníh a nad horou se zvedá věčná zima.'),
+  zima:_t('Ledový trůn praskl. Roztátá voda se valí z hor až k moři, kde kotví prokleté lodě.'),
+  paluba:_t('Kraken klesl ke dnu a obloha se roztrhla. Střepy hvězdy padají z nebe a někdo nahoře je pozoruje…')};
+function bridgeDraw(g,ox,oy){const B=BRIDGE[run.mapId],e=run.boss;if(!B||!run.map.finale)return;
+  if(!run.brOn){if(!e||e.dead||e.hp>e.max*.35)return;run.brOn=1;run.brA=0;run.brP=[];if(!RM)toast(B.line,2600);}
+  const dt=Math.min(.05,frameDt||.016);run.brA=Math.min(1,run.brA+dt*.4);const a=run.brA,P=run.brP,k=B.k;if(RM&&P.length>20)P.length=20;
+  const spawn=(n,f)=>{for(let i=0;i<n;i++)if(Math.random()<dt*f*a&&P.length<220)P.push(bridgeNew(k));};
+  if(k==='sun'){spawn(2,70);const gr=g.createLinearGradient(0,0,0,VH*.5);gr.addColorStop(0,'rgba(255,190,90,'+(.32*a)+')');gr.addColorStop(1,'rgba(255,190,90,0)');g.fillStyle=gr;g.fillRect(0,0,VW,VH*.5);
+    if(e&&!e.dead){const x=e.x+ox,y=e.y+oy-(e.h||20)*.7,r=7+Math.sin(run.t*4)*1.2;g.globalAlpha=.55*a;g.strokeStyle='#ffd27a';g.lineWidth=1;g.beginPath();g.arc(x,y,r,0,6.283);g.stroke();
+      for(let i=0;i<8;i++){const an=i/8*6.283+run.t*.6;g.beginPath();g.moveTo(x+Math.cos(an)*(r+2),y+Math.sin(an)*(r+2));g.lineTo(x+Math.cos(an)*(r+6),y+Math.sin(an)*(r+6));g.stroke();}g.globalAlpha=1;}}
+  else if(k==='magma'){spawn(2,50);const gr=g.createLinearGradient(0,VH,0,VH*.55);gr.addColorStop(0,'rgba(255,90,30,'+(.42*a*(.8+.2*Math.sin(run.t*3)))+')');gr.addColorStop(1,'rgba(255,90,30,0)');g.fillStyle=gr;g.fillRect(0,VH*.55,VW,VH*.45);
+    if(!run.brC){run.brC=[];for(let i=0;i<9;i++){const pts=[[Math.random()*VW,VH-rnd(2,30)]];for(let j=0;j<5;j++){const q=pts[pts.length-1];pts.push([q[0]+rnd(-9,9),q[1]+rnd(-8,3)]);}run.brC.push(pts);}}
+    g.globalAlpha=a*(.6+.4*Math.sin(run.t*5));g.strokeStyle='#ffb04a';g.lineWidth=1;for(const c of run.brC){g.beginPath();g.moveTo(c[0][0],c[0][1]);for(const q of c)g.lineTo(q[0],q[1]);g.stroke();}g.globalAlpha=1;}
+  else if(k==='snow'){spawn(2,70);g.fillStyle='rgba(200,230,255,'+(.16*a)+')';g.fillRect(0,0,VW,VH);}
+  else if(k==='thaw'){spawn(2,30);const h=VH*.24*a,y0=VH-h;g.fillStyle='rgba(40,110,170,.45)';g.fillRect(0,y0,VW,h);g.fillStyle='rgba(190,230,255,.8)';
+    for(let x=0;x<VW;x+=2)g.fillRect(x,y0+Math.sin(x*.12+run.t*3)*1.5,2,2);}
+  else if(k==='stars'){spawn(2,9);g.fillStyle='rgba(20,20,60,'+(.32*a)+')';g.fillRect(0,0,VW,VH);
+    for(let i=0;i<40;i++){const x=(i*97.3)%VW,y=(i*53.1)%(VH*.6),tw=.5+.5*Math.sin(run.t*3+i);g.globalAlpha=a*tw;g.fillStyle=i%5?'#fff6d8':'#ffe27a';g.fillRect(x,y,i%4?1:2,i%4?1:2);}g.globalAlpha=1;}
+  for(const q of P){q.t+=dt;q.x+=q.vx*dt;q.y+=q.vy*dt;if(q.k==='snow')q.x+=Math.sin(run.t*2+q.s)*8*dt;
+    const al=Math.min(1,q.t*3)*Math.min(1,(q.life-q.t)*2)*a;if(al<=0)continue;g.globalAlpha=al;
+    if(q.k==='stars'){const gr2=g.createLinearGradient(q.x,q.y,q.x-q.vx*.25,q.y-q.vy*.25);gr2.addColorStop(0,'#fff6d8');gr2.addColorStop(1,'rgba(255,220,140,0)');g.strokeStyle=gr2;g.lineWidth=2;g.beginPath();g.moveTo(q.x,q.y);g.lineTo(q.x-q.vx*.25,q.y-q.vy*.25);g.stroke();g.fillStyle='#ffffff';g.fillRect(q.x-1.5,q.y-1.5,3,3);}
+    else{g.fillStyle=q.c;g.fillRect(q.x,q.y,q.sz,q.sz);}}
+  g.globalAlpha=1;run.brP=P.filter(q=>q.t<q.life&&q.y<VH+10&&q.y>-20&&q.x>-30&&q.x<VW+30);}
+function bridgeNew(k){if(k==='sun')return{k,x:rnd(-20,VW),y:-4,vx:rnd(14,26),vy:rnd(40,70),t:0,life:6,sz:pick([1,2,2]),c:pick(['#e8c88a','#c9a566','#f0dcae'])};
+  if(k==='magma')return{k,x:rnd(0,VW),y:VH+2,vx:rnd(-6,6),vy:-rnd(20,45),t:0,life:4,sz:2,c:pick(['#ffb04a','#ff7a2a','#ffe27a'])};
+  if(k==='snow')return{k,x:rnd(0,VW),y:-4,vx:rnd(-4,4),vy:rnd(12,24),t:0,life:12,sz:pick([1,2,2,3]),s:rnd(0,6),c:pick(['#ffffff','#e0f0ff'])};
+  if(k==='thaw')return{k,x:rnd(0,VW),y:-4,vx:0,vy:rnd(70,110),t:0,life:3,sz:2,c:'#9fd8ff'};
+  return{k,x:rnd(-40,VW*.6),y:rnd(-10,VH*.25),vx:rnd(110,170),vy:rnd(60,100),t:0,life:1.6,sz:1,c:'#fff'};}
+// a small night sky for the teaser of a chapter that is not here yet
+function skyThumb(){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');const gr=g.createLinearGradient(0,0,0,64);gr.addColorStop(0,'#0a0820');gr.addColorStop(1,'#2a1a4a');g.fillStyle=gr;g.fillRect(0,0,64,64);
+  for(let i=0;i<40;i++){g.fillStyle=i%7?'#cfd8ff':'#ffe27a';g.fillRect((i*37)%64,(i*23)%48,1,1);}g.fillStyle='#ffe9a8';g.fillRect(44,10,2,2);g.fillRect(41,13,2,2);g.fillRect(38,16,2,2);return c.toDataURL();}
 
 // ----- Cesta mechanik (09h): features unlock one by one with map wins, each with a "new mechanic" card -----
 const FEATS=[
@@ -6831,7 +6870,8 @@ function featCheck(){featInit();const out=[];for(const F of FEATS)if(!save.feat[
 const featAt=map=>FEATS.filter(F=>F.at===map&&!featOn(F.id));
 // the card: one at a time, after the run, on the menu or the campaign screen
 function featShow(){featInit();if(state!=='menu'&&state!=='select')return;if($('#featPop')&&!$('#featPop').hidden)return;
-  let F=null,sum=false;if(save.featSum){sum=true;save.featSum=0;}else if(save.featNew&&save.featNew.length){F=FEAT_OF[save.featNew.shift()];}if(!F&&!sum)return;persist();
+  let F=null,sum=false;if(save.featSum){sum=true;save.featSum=0;}else if(save.featNew&&save.featNew.length){F=FEAT_OF[save.featNew.shift()];}
+  if(!F&&!sum&&save.storyNew){storyShow(save.storyNew);save.storyNew=null;persist();return;}if(!F&&!sum)return;persist();
   let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
   const nx=FEATS.find(x=>!save.feat[x.id]);
   pop.innerHTML='<div class="fc"><div class="fc-rays"></div>'+(sum?'<small>'+_t('NOVINKA')+'</small><img alt="" src="'+dataUrl(SPR.icon.star)+'"><h3>'+_t('Cesta mechanik')+'</h3><p>'+_t('Noví hráči teď odemykají mechaniky postupně výhrami map, ať mají z každé radost. Ty už máš všechno, co jsi používal, nic se ti nezamklo.')+'</p>'+
@@ -6842,6 +6882,11 @@ function featShow(){featInit();if(state!=='menu'&&state!=='select')return;if($('
   const close=()=>{pop.hidden=true;setTimeout(featShow,250);};
   $('#fcOk').onclick=()=>{sfx('ui');close();};const g=$('#fcGo');if(g)g.onclick=()=>{sfx('ui');pop.hidden=true;F.go();};}
 // menu buttons and tabs: locked ones stay visible, dimmed with a lock, and say where they unlock
+function storyShow(mp){const C=CH_OF[mp],N=CHAPTERS[C.i+1];let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
+  pop.innerHTML='<div class="fc story"><div class="fc-rays"></div><small>'+_t('CESTA DÁL')+'</small><img class="th" alt="" src="'+(N?qMapImg(N.maps[0]):skyThumb())+'"><h3>'+(N?_t('Kapitola ')+ROMAN_CH[N.i]+' · '+N.name:_t('Kapitola ')+ROMAN_CH[C.i+1]+' · '+_t('připravujeme'))+'</h3><p>'+STORY[mp]+'</p>'+
+    '<div class="fc-b"><button class="btn" id="fcOk">'+(N?_t('Vydat se dál'):_t('Pokračovat'))+'</button></div></div>';
+  pop.hidden=false;pop.classList.remove('in');void pop.offsetWidth;pop.classList.add('in');sfx('win');
+  $('#fcOk').onclick=()=>{sfx('ui');pop.hidden=true;if(N){sel.map=N.maps[0];sel.nm=0;sel.picked=1;chSel=null;renderSelect();setState('select');}else setTimeout(featShow,250);};}
 function featUi(){featInit();if(!featUi.img){featUi.img=1;document.documentElement.style.setProperty('--lockimg','url('+dataUrl(SPR.icon.lock)+')');}const L=[['#mHero','gear'],['#mChest','gear'],['#mForge','forge'],['#mQuest','quests']];
   for(const [sel2,id] of L){const b=$(sel2);if(b)b.classList.toggle('flock',!featOn(id));}
   document.querySelectorAll('.sectabs [data-to=towers]').forEach(b=>b.classList.toggle('flock',!featOn('arsenal')));
@@ -8134,6 +8179,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09i',d:'9. 11. 2026',t:_t('Příběh Padlé hvězdy'),hl:[
+  {ic:'stars',t:_t('Kapitoly do sebe zapadají'),d:_t('Na konci každého finále začne prosakovat další kapitola: písek, žár, sníh, voda, padající hvězdy.')},
+  {ic:'map:poust',t:_t('CESTA DÁL'),d:_t('Po první výhře finále tě karta <b>Cesta dál</b> pošle do další kapitoly a prozradí kousek příběhu.')}],
+  items:[_t('Úlomky, které sbíráš, jsou střepy padlé hvězdy.')]},
  {v:'2026-11-09h',d:'9. 11. 2026',t:_t('Cesta mechanik'),hl:[
   {ic:'star',t:_t('Mechaniky se odemykají postupně'),d:_t('Noví hráči začnou jen s během, zbraněmi a věžemi. Každá další mechanika se odemkne <b>výhrou na určité mapě</b> a ukáže se karta <b>NOVÁ MECHANIKA!</b>')},
   {ic:'lock',t:_t('Uvidíš, na co se těšit'),d:_t('Zamčená tlačítka mají zámek a řeknou, kde se odemknou. V Přípravě mapa ukáže, co za její výhru dostaneš.')}],
