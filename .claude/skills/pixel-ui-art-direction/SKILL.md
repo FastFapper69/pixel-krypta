@@ -20,7 +20,8 @@ Testeři (11/2026): menu „vypadá jako AI slop“ kvůli **stejným fialovým 
 4. **Nezakázaná tlačítka bez vysvětlení.** Místo šedého disabled ukaž proč (zámek + „Odemkneš výhrou na …“).
 5. **Písmo nese osobnost.** Max 2–3 rodiny: nadpis (charakter), UI popisky (pixelové, čitelné), drobný text (čitelné, ne pixelové). Věty malými písmeny (sentence case), ne VERZÁLKY.
 6. **Efektový rozpočet.** Rutinní akce klidné, velké chvíle (legendárka, boss, nová mechanika) dostanou záblesk, třes, zvuk. Viz Balatro: tři úrovně barev – neutrál, aktivní, výjimečné.
-7. **Kontrola na snímku vždy se skutečnými písmy** (iPhone 393×852). Sandbox nestáhne Google Fonts – bez nich snímky lžou.
+7. **Po každé vizuální změně zvětšený snímek (deviceScaleFactor 3, výřez dané části) a opravdu ho prohlédnout**: zarovnání na střed, oříznutý text, zdvojený text/stín, stejné velikosti v řadě, CZ i EN, nejdelší texty. Měření „vejde se“ nestačí – uživatel to opakovaně vytýká.
+8. **Kontrola na snímku vždy se skutečnými písmy** (iPhone 393×852). Sandbox nestáhne Google Fonts – bez nich snímky lžou.
 
 ## Písma (ověřeno s českou diakritikou, 9. 11. 2026)
 - **Jacquard 12** – gotické pixelové, krásné na nadpisy a logo („Pixel Krypta“ malými písmeny, verzálky jsou nečitelné). Jen velké velikosti (≥32 px).

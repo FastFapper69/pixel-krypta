@@ -834,6 +834,10 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 .vols input[type=range]::-moz-range-progress{height:10px;background:var(--gold)}
 .vols input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:26px;margin-top:-8px;background:#ffe08a;box-shadow:inset 0 -4px 0 #c8902a,inset 0 0 0 2px #2a1a08;border:0}
 .vols input[type=range]::-moz-range-thumb{width:22px;height:26px;background:#ffe08a;box-shadow:inset 0 -4px 0 #c8902a,inset 0 0 0 2px #2a1a08;border:0;border-radius:0}
+.hlock{display:flex;gap:8px;align-items:center;margin:10px 0 4px;padding:10px 12px;background:#00000040;box-shadow:inset 0 0 0 2px var(--line);clip-path:var(--px);font-size:14px;line-height:1.35;text-align:left;color:var(--fg)}.hlock img{width:22px;height:22px;image-rendering:pixelated;flex:none}
+.pop-card li.miss{color:#ff8a7a}
+.pop-card .hcost{list-style:none;margin:12px 0 6px;padding:10px 12px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;background:#00000040;box-shadow:inset 0 0 0 2px var(--line);clip-path:var(--px);font-size:14px}
+.pop-card .hcost li{display:contents}.pop-card .hcost li>span{color:var(--muted)}.pop-card .hcost li>b{text-align:right;font-variant-numeric:tabular-nums}.pop-card .hcost li.miss>span,.pop-card .hcost li.miss>b{color:#ff8a7a}
 :root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}</style>
 <style>/* 09n: rooms – Vybavení = zbrojnice, Obchod = tržní stánek, Kovárna = výheň, Síň slávy = pamětní síň (textures from qTexInit) */
 :root{--rv:radial-gradient(circle at 8px 8px,#d8dce6 0 1px,#8a90a0 1.5px 2.2px,#1a1c22 2.6px 3.4px,#0000 3.6px),radial-gradient(circle at calc(100% - 8px) 8px,#d8dce6 0 1px,#8a90a0 1.5px 2.2px,#1a1c22 2.6px 3.4px,#0000 3.6px),
@@ -882,12 +886,16 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
  border:8px solid transparent;border-image:var(--tx-wood,#5c3a20) 8 repeat;box-shadow:0 4px 0 #0008}
 .armory .itile,.armory .ttile{background-color:#1c1426}
 /* towers = blueprints pinned on a board */
-#scr-towers .tdeck{padding:12px 10px 10px;background:var(--tx-cork,#8a5e36) 0 0/72px 72px;image-rendering:pixelated;border:8px solid transparent;border-image:var(--tx-wood,#5c3a20) 8 repeat;box-shadow:inset 0 0 18px #1a0e0699,0 4px 0 #0008}
+#scr-towers .tdeck{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;padding:12px 7px 10px;background:var(--tx-cork,#8a5e36) 0 0/72px 72px;image-rendering:pixelated;border:8px solid transparent;border-image:var(--tx-wood,#5c3a20) 8 repeat;box-shadow:inset 0 0 18px #1a0e0699,0 4px 0 #0008}
 #scr-towers .tslot{background:linear-gradient(#ffffff12,#0000 40%),var(--tx-blue,#244c80) 0 0/32px 32px;image-rendering:pixelated;transform:rotate(-1deg);color:#eaf4ff;text-shadow:0 2px 0 #0c2440}
 #scr-towers .tslot:nth-child(2n){transform:rotate(1.2deg)}#scr-towers .tslot.empty{background:#00000038;transform:none}
 #scr-towers .tslot img{filter:drop-shadow(0 2px 0 #0c2440)}
 /* 09s: the rarity label must not inherit the blueprint/basket text shadow (it looked like a second line of text) and stays on one line */
-.tslot small.rp{text-shadow:none;white-space:nowrap;overflow:hidden;letter-spacing:-.01em;text-transform:none;font-size:9.5px;padding:3px 2px 2px;max-width:100%}
+.tslot small.rp{display:block;align-self:center;width:auto;max-width:calc(100% - 6px);margin:auto 0 2px;padding:3px 3px 2px;text-align:center;white-space:nowrap;overflow:hidden;
+ text-shadow:none;letter-spacing:0;text-transform:none;font-size:9.5px;font-weight:800;line-height:1.1;color:#140f1c;background:var(--rc);clip-path:none;
+ box-shadow:0 0 0 1px #0c0912a0} /* 09u: a small centred chip at the bottom of the card, not a left-aligned bar across it */
+.tslot:not(.empty){padding-bottom:9px}
+.tslot b{max-width:100%;overflow:hidden;padding:0 2px}
 .tslot .tlv{position:absolute;top:5px;left:5px;font-style:normal;font-weight:800;font-size:11px;line-height:1;padding:2px 3px;color:#ffe08a;background:#0c0912d8;box-shadow:0 0 0 1px #ffe08a66;text-shadow:none}
 #scr-towers .ttile{background:var(--tx-blue,#244c80) 0 0/32px 32px;image-rendering:pixelated}
 #scr-towers .tcard{background:linear-gradient(90deg,#0000 0 70%,#00000030),var(--tx-blue,#244c80) 0 0/32px 32px;image-rendering:pixelated;color:#eaf4ff;box-shadow:inset 0 0 0 3px #12305a,inset 0 0 0 5px #5a8ac4}
@@ -4174,7 +4182,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09t';
+const GAME_VER='2026-11-09u';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -6579,16 +6587,21 @@ function mapThumb(id){if(thumbs[id])return thumbs[id];
     g.fillStyle='rgba(0,0,0,.45)';g.fillRect(Math.round(bx+bw*.15),Math.round(TH-3),Math.round(bw*.7),2);g.drawImage(b.c,Math.round(bx),Math.round(by),Math.round(bw),Math.round(bh));}
   g.fillStyle='#0c0912';g.fillRect(0,0,TH,2);g.fillRect(0,TH-2,TH,2);g.fillRect(0,0,2,TH);g.fillRect(TH-2,0,2,TH);g.fillStyle='rgba(255,255,255,.12)';g.fillRect(2,2,TH-4,1);
   return thumbs[id]=c;}
+function heroLock(id){const h=HEROES[id];if(h.soon)return _t('Přijde s kapitolou ')+SOON_CH[h.soon]+'.';
+  if(h.need&&!mapUnlocked(h.need))return _t('Odemkneš, až se dostaneš na mapu ')+MAPS[h.need].name+_t(' (kapitola ')+ROMAN_CH[CH_OF[h.need].i]+').';
+  if(h.ach){const A=ACHM[h.ach];return achDone(A)?_t('Splněno, vyzvedni si ho v Mistrovství.'):_t('Odemkneš v Mistrovství: ')+A.desc;}return '';}
 function confirmHero(id){const h=HEROES[id],pop=$('#newsPop'),coin='<img alt="" src="'+dataUrl(SPR.icon.coin)+'" style="width:14px;vertical-align:-2px">';
-  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Koupit hrdinu?')+'</h2>'+
+  const lock=heroLock(id),miss=lock?0:Math.max(0,h.cost-save.coins);
+  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+(lock?_t('Zamčený hrdina'):miss?_t('Hrdina za zlato'):_t('Koupit hrdinu?'))+'</h2>'+
     '<div class="hbuy"><img alt="" src="'+dataUrl(SPR.hero[id])+'"><h3>'+h.name+'</h3><p class="hdesc">'+h.desc+'</p></div>'+
     '<div class="hweap"><img alt="" src="'+dataUrl(SPR.icon[h.start])+'"><div><small>'+_t('Začíná se zbraní')+'</small><b>'+WEAPONS[h.start].name+'</b><span>'+WEAPONS[h.start].desc+'</span></div></div>'+
     (TALENTS[id]?'<div class="htal"><small>'+_t('Talenty s úrovní hrdiny')+'</small>'+TALENTS[id].map(([l,t])=>'<div><b>'+_t('úr. ')+l+'</b>'+t+'</div>').join('')+'</div>':'')+
-    '<ul><li>'+_t('Cena: ')+coin+' <b>'+h.cost+'</b></li><li>'+_t('Máš: ')+coin+' '+save.coins+'</li><li>'+_t('Zbude ti: ')+coin+' <b>'+(save.coins-h.cost)+'</b></li></ul>'+
-    '<div class="stack"><button class="btn" id="buyYes">'+_t('Koupit')+'</button><button class="btn alt" id="buyNo">'+_t('Zpět')+'</button></div></div>';
+    (lock?'<p class="hlock"><img alt="" src="'+dataUrl(SPR.icon.lock||SPR.icon.medal)+'">'+lock+'</p>':
+     '<ul class="hcost"><li><span>'+_t('Cena: ')+'</span><b>'+coin+' '+h.cost+'</b></li><li><span>'+_t('Máš: ')+'</span><b>'+coin+' '+save.coins+'</b></li>'+(miss?'<li class="miss"><span>'+_t('Chybí ti: ')+'</span><b>'+coin+' '+miss+'</b></li>':'<li><span>'+_t('Zbude ti: ')+'</span><b>'+coin+' '+(save.coins-h.cost)+'</b></li>')+'</ul>')+
+    '<div class="stack">'+(lock||miss?'':'<button class="btn" id="buyYes">'+_t('Koupit')+'</button>')+'<button class="btn'+(lock||miss?'':' alt')+'" id="buyNo">'+(lock||miss?_t('Rozumím'):_t('Zpět'))+'</button></div></div>';
   pop.hidden=false;
   $('#buyNo').onclick=()=>{pop.hidden=true;sfx('ui');};
-  $('#buyYes').onclick=()=>{pop.hidden=true;if(heroOwned(id)||save.coins<h.cost)return renderSelect();
+  if($('#buyYes'))$('#buyYes').onclick=()=>{pop.hidden=true;if(heroOwned(id)||save.coins<h.cost)return renderSelect();
     save.coins-=h.cost;save.heroes[id]=true;sel.hero=id;persist();sfx('coin');note(_t('Odemčeno: ')+h.name);renderSelect();};}
 // ----- campaign: one chapter at a time, its maps as a dotted path; postcards are built lazily and kept small -----
 let chSel=null;
@@ -6684,7 +6697,7 @@ function refreshNew(){try{const it=newOf('item').length+newOf('hero').length,tw=
   document.querySelectorAll('.sectabs [data-to=shop]').forEach(b=>b.classList.toggle('has',!!rk));}catch(_){}}
 // one row of hero portraits (Prep and Hero screens); keeps the chosen one in view
 function heroStrip(box,ids,cur,label,pick){box.innerHTML='';let on=null;
-  for(const id of ids){const own=heroOwned(id),h=HEROES[id],b=document.createElement('button');b.className='co-pick'+(id===cur&&own?' on':'')+(own?'':' lock');
+  for(const id of ids){const own=heroOwned(id),h=HEROES[id],b=document.createElement('button');b.className='co-pick'+(id===cur&&own?' on':'')+(own?'':' lock');b.dataset.h=id;
     b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><span>'+(h.sname||h.name)+'</span><small>'+label(id,own)+'</small>'+(own&&isFresh('hero','h'+id)?'<i class="nw"></i>':'');b.onclick=()=>pick(id,own);box.appendChild(b);if(id===cur)on=b;}
   // a long name shrinks to fit its tile instead of being cut off
   requestAnimationFrame(()=>{for(const sp of box.querySelectorAll('.co-pick>span')){let f=12;while(sp.scrollWidth>sp.clientWidth+1&&f>9){f-=.5;sp.style.fontSize=f+'px';}}});
@@ -6703,11 +6716,7 @@ function renderSelect(){
   const hl=$('#heroList');
   heroStrip(hl,HERO_IDS,sel.hero,(id,own)=>{const h=HEROES[id];return own?_t('úr. ')+heroLv(id):h.soon?_t('kap. ')+SOON_CH[h.soon]:h.need&&!mapUnlocked(h.need)?_t('kap. ')+ROMAN_CH[CH_OF[h.need].i]:h.ach?'<img alt="" src="'+dataUrl(SPR.icon.medal)+'">':'<img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+h.cost;},(id,own)=>{const h=HEROES[id];
       if(own){if(sel.hero!==id){sel.hero=id;sfx('ui');renderSelect();}}
-      else if(h.soon)note(h.name+': '+_t('přijde s kapitolou ')+SOON_CH[h.soon]);
-      else if(h.need&&!mapUnlocked(h.need))note(h.name+': '+_t('odemkneš, až dojdeš do kapitoly ')+ROMAN_CH[CH_OF[h.need].i]);
-      else if(h.ach){const A=ACHM[h.ach];note(achDone(A)?_t('Vyzvedni si ho v Mistrovství'):_t('Odemkni v Mistrovství: ')+A.desc);}
-      else if(save.coins>=h.cost){sfx('ui');confirmHero(id);}
-      else{note(_t('Chybí ti ')+(h.cost-save.coins)+_t(' zlata'));}});
+      else{sfx('ui');confirmHero(id);}}); // 09u: a locked hero always opens its detail (what it can do) – the reason or missing gold is shown there
   {const id=heroOwned(sel.hero)?sel.hero:'knight',h=HEROES[id];
    $('#heroInfo').innerHTML='<div class="hi-t"><h3>'+h.name+'</h3><small>'+_t('Start: ')+WEAPONS[h.start].name+'</small></div><p>'+h.desc+'</p>';}
   renderCampaign();
@@ -7734,7 +7743,14 @@ function twCardHtml(c){const R=RAR[c.r],I=TW_INFO[c.k],C=TOWERS[c.k].ch?CHAPTERS
     Object.keys(c.b||{}).map(k=>'<li class="bon"><span>'+TW_BON[k].name+'</span><b>+'+cz(Math.round(c.b[k]*1000)/10)+' %</b></li>').join('')+'</ul>'+
     '<div class="tperk"><p class="'+(c.r>=3?'on':'')+'"><i style="--rc:'+RAR[3].col+'">E</i><span>'+I[1]+'</span></p><p class="'+(c.r>=4?'on':'')+'"><i style="--rc:'+RAR[4].col+'">L</i><span>'+I[2]+'</span></p></div>';}
 function openTowers(){econInit();twPick=null;renderTowers();setState('towers');}
-function renderTowers(){twInit();$('#twMats').innerHTML=matsHtml();const T=save.tw,d=T.deck;
+// 09u: names and rarity chips on the narrow deck cards shrink (down to 8 px) only when they would not fit – no cut-off text, no
+// word broken in the middle; everything else keeps its normal size. Runs after layout (the screen is shown in the same tick).
+function fitCards(root){requestAnimationFrame(()=>{if(!root)return;
+  // shrink each that does not fit, then give every name / every chip in the row the same (smallest) size so the row looks even
+  for(const sel of ['.tslot b','.tslot small.rp'])for(const row of root.querySelectorAll('.tdeck,.ptslot')){const els=[...row.querySelectorAll(sel)];let min=99;
+    for(const el of els){el.style.fontSize='';let f=parseFloat(getComputedStyle(el).fontSize),n=0;while(el.clientWidth>0&&el.scrollWidth>el.clientWidth+.5&&f>8&&n++<12){f-=.5;el.style.fontSize=f+'px';}min=Math.min(min,f);}
+    if(min<99)for(const el of els)el.style.fontSize=min+'px';}});}
+function renderTowers(){fitCards(document.getElementById('scr-towers'));twInit();$('#twMats').innerHTML=matsHtml();const T=save.tw,d=T.deck;
   $('#twDeck').innerHTML=[0,1,2,3,4].map(i=>{const c=twCard(d[i]),b=i===4;
     return '<button class="tslot'+(b?' bld':'')+(twPick?' pick':'')+(c?' r'+c.r:' empty')+'" data-i="'+i+'">'+(c?'<img alt="" src="'+dataUrl(SPR.tower[c.k])+'"><b>'+TOWERS[c.k].name+'</b><small class="rp" style="--rc:'+RAR[c.r].col+'">'+RAR[c.r].name+'</small>'+(c.lv?'<i class="tlv">+'+c.lv+'</i>':''):'<span class="plus">+</span>')+
       (b?'<i class="bt" title="'+_t('jen Stavitel')+'"><img alt="" src="'+dataUrl(SPR.hero.builder)+'"></i>':'')+'</button>';}).join('');
@@ -7925,7 +7941,7 @@ function petCardHtml(c){const R=RAR[c.r],D=PETS[c.k];
     Object.keys(c.b||{}).map(k=>'<li class="bon"><span>'+PET_BON[k].name+'</span><b>+'+cz(Math.round(c.b[k]*1000)/10)+' %</b></li>').join('')+(c.rb?'<li class="bon"><span>'+_t('Síla z rytmu')+'</span><b>+'+cz(Math.round(c.rb*1000)/10)+' %</b></li>':'')+'</ul>'+
     '<div class="tperk"><p class="on"><i style="--rc:'+R.col+'">★</i><span>'+D.ab+'</span></p></div>';}
 function openPets(){econInit();petInit();renderPets();setState('pets');}
-function renderPets(){petInit();$('#ptMats').innerHTML=matsHtml();const S=save.pets,cur=petCard(S.sel);
+function renderPets(){fitCards(document.getElementById('scr-pets'));petInit();$('#ptMats').innerHTML=matsHtml();const S=save.pets,cur=petCard(S.sel);
   const c2=save.heroes.tamer?petCard(S.sel2):null;
   $('#ptSlot').innerHTML=(!cur?'<button class="tslot empty" id="ptCur"><span class="plus">+</span></button>':'')+(cur?'<button class="tslot r'+cur.r+'" id="ptCur"><img alt="" src="'+dataUrl(SPR.pet[cur.k])+'"><b>'+PETS[cur.k].name+'</b><small class="rp" style="--rc:'+RAR[cur.r].col+'">'+RAR[cur.r].name+'</small>'+(cur.lv?'<i class="tlv">+'+cur.lv+'</i>':'')+'</button>':'')+(save.heroes.tamer?(c2&&c2.u!==S.sel?'<button class="tslot r'+c2.r+'" id="ptCur2"><img alt="" src="'+dataUrl(SPR.pet[c2.k])+'"><b>'+PETS[c2.k].name+'</b><small class="rp" style="--rc:'+RAR[c2.r].col+'">'+RAR[c2.r].name+(c2.lv?' +'+c2.lv:'')+'</small><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>':'<button class="tslot empty" id="ptCur2"><span class="plus">+</span><i class="bt" title="'+_t('jen Krotitel')+'"><img alt="" src="'+dataUrl(SPR.hero.tamer)+'"></i></button>'):'');
   $('#ptHint').textContent=save.heroes.tamer?_t('Do běhu bereš jednoho mazlíčka, Krotitel dva. Nové a vzácnější najdeš v Kouzelném košíku v Obchodu.'):_t('Do běhu bereš jednoho mazlíčka. Nové a vzácnější najdeš v Kouzelném košíku v Obchodu.');
@@ -8958,6 +8974,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09u',d:'9. 11. 2026',t:_t('Hrdinové a věže'),hl:[
+  {ic:'skull',t:_t('Náhled zamčeného hrdiny'),d:_t('Ťukni na kteréhokoli zamčeného hrdinu a uvidíš, co umí, jakou má zbraň a talenty. Dole je napsané, jak ho odemkneš, nebo kolik zlata ti chybí.')},
+  {ic:'tower',t:_t('Úhledné karty věží'),d:_t('Štítky rarity jsou vycentrované a stejně velké, všech pět karet v Arzenálu má stejnou šířku.')}]},
  {v:'2026-11-09t',d:'9. 11. 2026',t:_t('Srozumitelnější strom vylepšení'),hl:[
   {ic:'hammer',t:_t('Předěl „Nové schopnosti“'),d:_t('Místo nápisu „Klíčové“ odděluje sloupec inkoustová linka s nápisem Nové schopnosti. Nad ní jsou bonusy k číslům, pod ní vylepšení, která přidají novou schopnost.')}]},
  {v:'2026-11-09s',d:'9. 11. 2026',t:_t('Přejíždění prstem'),hl:[

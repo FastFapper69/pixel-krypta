@@ -1,15 +1,16 @@
-// Štítek rarity na kartách věží a mazlíčků v Arzenálu: bez stínu, jeden řádek, nejdelší text se vejde. node rplabel.js [prefix] [cs|en]
-const {chromium}=require('playwright');const pre=process.argv[2],lang=process.argv[3]||'cs';
-(async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:393,height:852},deviceScaleFactor:2,isMobile:true});
+// Štítky rarity na kartách Arzenálu (09u): skutečné vykreslení + fitCards, všechny rarity a nejdelší jména –
+// nic se neořízne, čip je vycentrovaný, bez stínu, celá řada stejně velká. node rplabel.js [cs|en]
+const {chromium}=require('playwright');const lang=process.argv[2]||'cs';
+(async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:393,height:852},isMobile:true});
  await c.addInitScript(l=>localStorage.setItem('pixel-krypta-lang',l),lang);const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
  await p.goto('file://'+__dirname+'/off.html');await p.waitForTimeout(500);const E=x=>p.evaluate(x=>window.__krypta._ev(x),x);
- await E("save.tut=1;save.newsSeen=GAME_VER;save.stats={runs:30};featInit();for(const F of FEATS)save.feat[F.id]=1;save.featSum=0;twInit();persist();openMenu();openTowers()");await p.waitForTimeout(400);
- let bad=0;
- for(const r of [0,1,2,3,4])for(const lv of [0,1,3]){
-  const m=await p.evaluate(([r,lv])=>{const el=document.querySelector('#scr-towers .tslot:not(.empty) small.rp');if(!el)return null;el.textContent=window.__krypta._ev('RAR['+r+'].name'); // úroveň je zvlášť jako odznak .tlv v rohu
-    const cs=getComputedStyle(el);return {t:el.textContent,over:el.scrollWidth>el.clientWidth+1,h:el.offsetHeight,ts:cs.textShadow};},[r,lv]);
-  if(!m){console.log('žádná karta');bad++;break;}
-  if(m.over||m.h>16||m.ts!=='none'){bad++;console.log('PROBLÉM',m);}}
- console.log(bad?'chyb: '+bad:'všechny rarity a úrovně se vejdou na jeden řádek, bez stínu');
- if(pre){await E("renderTowers()");await p.evaluate(()=>{const t=document.querySelector('#scr-towers .tslot:not(.empty)');if(t&&!t.querySelector('.tlv')){const i=document.createElement('i');i.className='tlv';i.textContent='+2';t.appendChild(i);}});await p.waitForTimeout(300);await p.screenshot({path:pre+'.png'});}
- console.log('chyby',errs);await b.close();process.exit(bad?1:0);})();
+ await E("save.tut=1;featInit();for(const F of FEATS)save.feat[F.id]=1;twInit();openMenu();openTowers()");await p.waitForTimeout(300);
+ await p.evaluate(()=>{const E=x=>window.__krypta._ev(x);const ks=E('Object.keys(TOWERS).sort((a,b)=>TOWERS[b].name.length-TOWERS[a].name.length)');
+   [...document.querySelectorAll('#scr-towers .tdeck .tslot')].forEach((t,i)=>{const r=i%5,k=ks[i%ks.length];t.className='tslot r'+r;
+     t.innerHTML='<img alt="" src="'+E("dataUrl(SPR.tower['"+k+"'])")+'"><b>'+E("TOWERS['"+k+"'].name")+'</b><small class="rp" style="--rc:'+E('RAR['+r+'].col')+'">'+E('RAR['+r+'].name')+'</small>'+(i%2?'<i class="tlv">+'+i+'</i>':'');});});
+ await E("fitCards(document.getElementById('scr-towers'))");await p.waitForTimeout(300);
+ const m=await p.evaluate(()=>[...document.querySelectorAll('#scr-towers .tdeck .tslot')].map(t=>{const el=t.querySelector('small.rp'),n=t.querySelector('b'),a=el.getBoundingClientRect(),c=t.getBoundingClientRect();
+   return {t:el.textContent,over:el.scrollWidth>el.clientWidth+.5||n.scrollWidth>n.clientWidth+.5,off:Math.abs((a.left+a.width/2)-(c.left+c.width/2)),ts:getComputedStyle(el).textShadow,fs:getComputedStyle(el).fontSize,w:Math.round(c.width)};}));
+ const bad=m.filter(x=>x.over||x.off>2||x.ts!=='none');const sizes=new Set(m.map(x=>x.fs)),widths=new Set(m.map(x=>x.w));
+ console.log(bad.length||sizes.size>1||widths.size>1?'PROBLÉM '+JSON.stringify({bad,sizes:[...sizes],widths:[...widths]}):'ok: '+m.map(x=>x.t).join(', ')+' | velikost '+[...sizes]+' | šířka karet '+[...widths]);
+ console.log('chyby',errs);await b.close();process.exit(bad.length||sizes.size>1||widths.size>1||errs.length?1:0);})();

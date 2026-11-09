@@ -333,3 +333,7 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 
 ## 09t – strom Vylepšení (2026-11-09)
 - Nadpis „Klíčové“ (`.tsep`) uživatele mátl (vypadal jako štítek jen prvního uzlu). Teď je to předěl přes celý sloupec: inkoustová linka s kosočtvercem + „Nové schopnosti“ (nad = bonusy k číslům, pod = uzly s novou schopností). Snímek `tests/tools/treesep.js`.
+
+## 09u – karty věží a náhled hrdinů (2026-11-09)
+- **Štítek rarity** na kartách Arzenálu/mazlíčků: malý vycentrovaný čip dole (`.tslot small.rp`), `fitCards(root)` zmenší jména a čipy jen když se nevejdou (min. 8 px) a celé řadě dá stejnou velikost. Arzenál má 5 stejně širokých sloupců. Kontrola vzhledu **zvětšeným výřezem** `tests/tools/chipshot.js prefix [cs|en]` (všechny rarity, nejdelší jména) – uživatel opakovaně žádá: po každé vizuální změně udělat zvětšený snímek a opravdu ho prohlédnout (zarovnání, oříznutí, zdvojení), ne jen měřit, že se text vejde.
+- **Zamčený hrdina v Přípravě:** ťuknutí vždy otevře detail (`confirmHero`), `heroLock(id)` vrací důvod (kapitola/mapa, Mistrovství, „přijde s kapitolou“); bez zámku a bez zlata ukáže „Chybí ti“ a jen „Rozumím“. Cena jako tabulka `.hcost`. Test `tests/tools/heroprev.js`.
