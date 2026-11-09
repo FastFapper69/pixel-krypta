@@ -1,0 +1,33 @@
+/* A – Krypta při svíčkách: teplý kámen, saze, světlo svíčky, pergamen; nadpis gotickým pixelovým písmem */
+:root{--bg:#15100c;--panel:#2a221c;--panel-hi:#3a3029;--line:#5a4a3c;--fg:#f1e4c6;--muted:#b8a588;--ink:#1c120a;--gold:#f2b84b;--gold-dk:#9a6418;
+ --font:'Chakra Petch',system-ui,sans-serif;--font-ui:'Jersey 10','Pixelify Sans',sans-serif}
+body{font-family:var(--font)}
+.scr{background:linear-gradient(#15100ce0,#15100cf2),var(--tx-soot) 0 0/96px 96px}
+#scr-menu{background:radial-gradient(70% 45% at 50% 30%,#f2b84b14,#0000 70%),linear-gradient(#15100c55,#15100ccc 62%,#15100cf6)}
+#mTop{background:var(--tx-wood) 0 0/16px 32px;image-rendering:pixelated;box-shadow:inset 0 -3px 0 #2a1a0c,inset 0 2px 0 #9a6a3e,0 4px 0 #0009}
+#mTop .mats{background:#1c120ad0;box-shadow:inset 0 0 0 2px #0d0805}
+.logo{font-family:'Jacquard 12',serif;font-weight:400;font-size:clamp(66px,20vw,96px);line-height:.82;letter-spacing:.01em;color:#f2b84b;
+ text-shadow:0 4px 0 #6a3a10,0 -2px 0 #ffe2a0,4px 0 0 #3a1c08,-4px 0 0 #3a1c08,0 8px 0 #1c0e04,0 0 24px #f2b84b55;text-transform:none}
+.crest{filter:drop-shadow(0 0 10px #f2b84b88) drop-shadow(0 3px 0 #0008)}
+.spark{background:#ffd27a!important;box-shadow:0 0 6px #f2b84b!important}
+/* buttons: carved stone slabs; Play = brass plate lit by candles */
+html .btn{font-family:var(--font-ui);font-weight:400;letter-spacing:.02em;text-transform:none;font-size:26px;color:#2a1606;
+ background:linear-gradient(#ffe2a0 0 3px,#0000 3px),linear-gradient(#f6c96a,#e3a23e 55%,#c9862a);clip-path:var(--px);
+ box-shadow:inset 0 -5px 0 #8a5216,inset 3px 0 0 #ffd88a,inset -3px 0 0 #a8661c,0 0 0 #0000;text-shadow:0 1px 0 #ffe7b0}
+html .btn.alt{color:#f1e4c6;font-size:24px;background:linear-gradient(#ffffff10 0 3px,#0000 3px),var(--tx-wst,#3d352e) 0 0/64px 64px;image-rendering:pixelated;
+ box-shadow:inset 0 -5px 0 #1c1612,inset 3px 0 0 #5a4e42,inset -3px 0 0 #241d18,inset 0 0 0 1px #120d0a;text-shadow:0 2px 0 #120d0a}
+html .btn:active{transform:translateY(2px);box-shadow:inset 0 -2px 0 #8a5216,inset 3px 0 0 #ffd88a,inset -3px 0 0 #a8661c}
+html .btn.alt:active{box-shadow:inset 0 -2px 0 #1c1612,inset 3px 0 0 #5a4e42,inset -3px 0 0 #241d18}
+#mStack{gap:10px}#mPlay{font-size:36px;min-height:70px}
+#mStack .row2 .btn{font-size:24px}
+#mStack .bi img{filter:drop-shadow(0 2px 0 #0009)}
+/* candle sconces at the sides of Play */
+#mPlay{position:relative;overflow:visible}
+#mTop .btn.ic{background:var(--tx-wst) 0 0/64px 64px;box-shadow:inset 0 -3px 0 #1c1612,inset 0 0 0 1px #120d0a,inset 2px 0 0 #5a4e42}
+.skybtn{background:linear-gradient(#0000,#0000),var(--tx-wst) 0 0/64px 64px!important}
+/* headers & panels on inner screens */
+.scr:not(.clear)>.wrap>.head{background:linear-gradient(#0000 0 0) ,#15100c;box-shadow:0 3px 0 #2a1a0c}
+.head h2{font-family:'Jacquard 12',serif;font-weight:400;font-size:40px;color:#f2b84b;text-shadow:0 3px 0 #3a1c08,0 0 14px #f2b84b33}
+.card,.co-pick,.chh,.mnode,.daily{background:linear-gradient(#0000,#0000),var(--tx-wst) 0 0/64px 64px}
+.sec{color:#cdb48a;letter-spacing:.04em;text-transform:none;font-family:var(--font-ui);font-size:22px}
+.sec::before{background:#f2b84b;box-shadow:0 0 6px #f2b84b}
