@@ -1,5 +1,5 @@
 // renders the map postcards into ../../thumbs/<map>.png (shipped with the game, so phones never build maps just for previews)
-// run after changing any map's look, then bump MAP_ART in index.html: node thumbgen.js
+// run after changing any map's look, then bump MAP_ART in game.js: node thumbgen.js
 const {chromium}=require('playwright'),fs=require('fs'),path=require('path');
 (async()=>{const b=await chromium.launch();const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
 await p.goto('file://'+__dirname+'/off.html');await p.waitForTimeout(600);

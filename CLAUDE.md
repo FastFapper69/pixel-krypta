@@ -27,14 +27,15 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Audit:** `node tests/tools/audit.js` (rychlý) / `audit.js plny` – skill `audit-projektu`, poslední zpráva `AUDIT.md`. Nové testy psát nad `tests/tools/lib.js`.
 - **Skilly projektu** jsou v `.claude/skills/` (html5-mobile-game-dev, survivors-design-balance, mobile-store-launch, **nova-kapitola, novy-hrdina**). Když je session nenačte sama, přečti si příslušný `SKILL.md` ručně.
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
-- **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak v kořeni `sed "s#url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'[^']*'#url:'',key:''#" index.html > tests/tools/off.html`, `cp lang-en.js tests/tools/`, `ln -s ../../thumbs tests/tools/thumbs`. Playwright je předinstalovaný.
+- **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak `cd tests/tools && node -e "require('./lib').prep()"` (vytvoří off.html bez klíče a vedle něj game.js, krypta.css, lang-en.js a symlinky). Audit to dělá sám. Playwright je předinstalovaný.
 
-## Aktuální stav (verze 09z6, 9. 11. 2026 ~21:40, vše na main, Pages nasazené)
+## Aktuální stav (verze 09z7, 9. 11. 2026 ~22:30, vše na main, Pages nasazené)
 - Hra: 6 kapitol (30 map, I–VI), 11 hrdinů, Noční můry I–III, Nekonečná krypta na finále, Runy, Souhvězdí, Nástěnka (denní úkoly, kontrakty, týdenní výzva), co-op beta, mazlíčci, věže jen z bedny. Podrobnosti kapitol `KAMPAN.md`, ekonomika `EKONOMIKA.md`, historie všech verzí `docs/HISTORIE.md`, mapa kódu `docs/KOD.md`.
 - Vzhled: kámen a železo (paleta 09z2), kovaná tlačítka všude, fialová jen pro Epické a kouzla. Hlavní menu = pixelové rámy v plátně (`bartDraw`), ostatní tlačítka = CSS rám `.btn:not(.art)` měněný jen proměnnými.
 - Server: hra mluví s `profiles` jen přes `my_profile` / `save_profile` / `claim_profile_v2` (limit PINu), skóre čistí `stats_clean`, protokoly `private.pin_fail` a `private.cheat_log`. Migrace v `supabase/migrations/`.
-- Hotovo dnes večer: audit (`AUDIT.md`), bezpečnější účty (09z4), kontrola skóre, pauza se záložkami, oslava hrdiny a nové zbraně, horní okraj (09z5), úder ultimátky před nabídkou úrovně (09z6), úklid CLAUDE.md a testů.
-- Otevřené: kapitola VII Prázdnota (most `zatmeni` → void připraven); balanc kap. III–VI (boti vyhrávají první mapy kapitol moc snadno, ověřit telemetrií); hráč s rasistickou přezdívkou v žebříčku (z doby před filtrem) – čeká na rozhodnutí uživatele; plynulost menu na iPhonu (pokles po rámech 09z); `lang-en.js` načítat jen pro EN; rozdělit `index.html`.
+- Hotovo dnes večer: audit (`AUDIT.md`), bezpečnější účty (09z4), kontrola skóre, pauza se záložkami, oslava hrdiny a nové zbraně, horní okraj (09z5), úder ultimátky před nabídkou úrovně (09z6), úklid CLAUDE.md a testů; **09z7** rozdělení na index.html + krypta.css + game.js, `lang-en.js` jen pro EN, vynucené přejmenování (`profiles.rename_req`, migrace 20261109e/f; `save_profile` teď dělá UPDATE, takže starý profil se závadnou přezdívkou se dál ukládá, jen zůstane skrytý).
+- Otevřené: kapitola VII Prázdnota (most `zatmeni` → void připraven); balanc kap. III–VI (boti vyhrávají první mapy kapitol moc snadno, ověřit telemetrií); plynulost menu na iPhonu (pokles po rámech 09z).
+- Moderace přezdívek: `update public.profiles set rename_req = true, hidden = true where id = '<uuid>';` – hráč si při dalším spuštění musí vybrat novou přezdívku (nejde přeskočit), pak se sám vrátí do žebříčku i se skóre.
 
 ## Pravidla kódu, na která se snadno zapomene
 - **Nový klíč `save.X`** se ukládá a synchronizuje sám; klíč jen pro zařízení přidej do `LOCAL_KEYS`. Test `savekeys.js`.
@@ -46,10 +47,14 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Rytmus:** útoky se počítají jen ve stavu `play`, hudba běží dál. Cokoli, co otevře okno během běhu, musí počítat s tím, že zahodí kroky (viz `ultHold` u nabídky úrovně).
 
 ## Soubory
-- `index.html` – celá hra v jednom souboru (~330 kB, jedno IIFE). Obsahuje konfiguraci Supabase:
+- **Od 09z7 je hra ve třech souborech** (dřív jeden 1,1MB `index.html`):
+  - `index.html` (~20 kB) – kostra: HTML obrazovek, výběr jazyka a odkazy `game.js?v=GAME_VER`, `krypta.css?v=GAME_VER`. **Při každé nové verzi přepiš `?v=` v index.html na nový `GAME_VER`** (hlídá audit „Verze souborů“), jinak by prohlížeč mohl spojit novou kostru se starým kódem z cache.
+  - `krypta.css` – všechny styly. `game.js` – celý herní kód (jedno IIFE), mapa v `docs/KOD.md`.
+  - Statické kontroly v testech čtou zdroják přes `require('./lib').src()` (spojí všechny tři soubory dohromady jako dřív).
+  - `index.html` obsahuje konfiguraci Supabase:
   `window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_publishable_…'}` (publishable klíč je veřejný, to je v pořádku).
   Prázdné `url/key` = offline režim (tak běží i verze publikovaná jako claude.ai artefakt).
-- `lang-en.js` – anglický překlad `window.KRYPTA_EN` = {český text: anglický text}, načítá se před hrou.
+- `lang-en.js` – anglický překlad `window.KRYPTA_EN` = {český text: anglický text}. Od 09z7 ho stahuje **jen anglický hráč** (malý skript v index.html rozhodne jazyk, uloží `window.KRYPTA_LANG` a případně přes `document.write` vloží `lang-en.js` před `game.js`).
 - `EKONOMIKA.md` – dlouhodobá progrese: návrh, stav (fáze 1–5 hotové) a co zbývá (serverový inventář, monetizace).
 - `COOP.md` – co-op: architektura, pravidla, stav fází a co zbývá.
 - `KAMPAN.md` – kampaň: kapitoly po 5 mapách (bez nových materiálů), finále, rámec map `MF`, nové mapy, nepřátelé a bossové, balanc. **Při práci na mapách čti nejdřív tohle.**

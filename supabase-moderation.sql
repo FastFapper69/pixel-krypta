@@ -1,3 +1,5 @@
 -- 09y: moderace přezdívek a smazání dat (už aplikováno přes migrace moderation_and_data_deletion_09y + nick_filter_exceptions_09y)
 -- Moderace: select * from public.reports where not done order by created_at;
 --           update public.profiles set hidden = true where id = '<target>';  update public.reports set done = true where id = <id>;
+-- 09z7: vynutit přejmenování (hráč si musí vybrat novou přezdívku, pak se sám vrátí do žebříčku):
+--           update public.profiles set rename_req = true, hidden = true where id = '<target>';

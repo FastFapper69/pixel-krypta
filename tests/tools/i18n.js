@@ -1,10 +1,10 @@
 // English localization check.
 // 1) static: every _t('…') key has a translation in lang-en.js, and no Czech string literal is left unwrapped
 // 2) live (needs off.html + lang-en.js next to it): opens all screens in English and lists visible text with Czech letters
-//    sed "s#url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'[^']*'#url:'',key:''#" ../../index.html > off.html; cp ../../lang-en.js .
+//    node -e "require('./lib').prep()"   (off.html, game.js, krypta.css, lang-en.js vedle sebe)
 //    node i18n.js            (static only: node i18n.js static)
 const fs=require('fs'),path=require('path');
-const root=path.join(__dirname,'..','..');const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const root=path.join(__dirname,'..','..');const html=require('./lib').src(); // 09z7: index.html + krypta.css + game.js jako jeden zdroják
 global.window={};eval(fs.readFileSync(path.join(root,'lang-en.js'),'utf8'));const EN=window.KRYPTA_EN;
 const CZ=/[ěščřžýáíéůúňťďĚŠČŘŽÝÁÍÉŮÚŇŤĎ]/;
 let acorn,walk;for(const d of ['/opt/node-tools/node_modules/','/opt/npm-tools/node_modules/','']){try{acorn=require(d+'acorn');walk=require(d+'acorn-walk');break;}catch(e){}}

@@ -1,7 +1,7 @@
 // Společný základ pro testy a snímky (audit 2026-11-09): jeden způsob, jak připravit stránku, iPhone, okraje, jazyk a účet.
 // Použití:
 //   const L=require('./lib');
-//   L.prep();                                   // off.html + lang-en.js + symlinky (thumbs, fonts, vendor, licenses, ikony)
+//   L.prep();                                   // off.html + game.js + krypta.css + lang-en.js + symlinky (thumbs, fonts, vendor, licenses, ikony)
 //   const {b,p,E,errs,close}=await L.open({lang:'en',phone:'se',save:'late'});
 //   await E("openHero()");await L.shot(p,'out.png');console.log(errs);await close();
 // Telefony: se 375×667 (okraje 20/0), 13 390×844, 15 393×852 (59/34), 16 402×874 (62/34), max 430×932 (59/34), small 360×640.
@@ -17,9 +17,14 @@ const SAVES={
 const SCREENS={menu:"openMenu()",select:"openMenu();$('#mPlay').click()",hero:"openHero()",towers:"openTowers()",pets:"openPets()",chests:"openChestShop()",forge:"openForge()",shop:"renderShop();setState('shop')",
  quests:"openQuests()",master:"openMaster()",codex:"openCodex()",board:"openBoard&&openBoard()",guide:"openGuide()",sky:"openSky()",settings:"openMenu();$('#mSet').click()",news:"openMenu();openNews()",
  coop:"openMenu();$('#mCoop').click()",confirm:"openMenu();$('#mPlay').click();confirmHero('mage')"};
+// 09z7: hra je rozdělená na index.html (kostra) + krypta.css (styly) + game.js (kód). src() je vrátí jako jeden „starý“ index.html
+// s vloženými <style>/<script>, takže statické kontroly (regexy nad zdrojákem) fungují beze změny.
+function src(){const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'),r=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
+ return h.replace(/<link rel="stylesheet" href="krypta\.css[^"]*">/,()=>'<style>\n'+r('krypta.css')+'</style>').replace(/<script src="game\.js[^"]*"><\/script>/,()=>'<script>\n'+r('game.js')+'</script>');}
 function prep(){
  const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8').replace(/url:'https:\/\/mpxfppuigwvwlfhsnbgr\.supabase\.co',key:'[^']*'/,"url:'',key:''");
  fs.writeFileSync(path.join(DIR,'off.html'),h);fs.copyFileSync(path.join(ROOT,'lang-en.js'),path.join(DIR,'lang-en.js'));
+ for(const f of ['game.js','krypta.css'])fs.copyFileSync(path.join(ROOT,f),path.join(DIR,f)); // kopie, ne symlink: testy smí běžet i nad upravenou kopií
  for(const d of ['thumbs','fonts','vendor','licenses','icon-192.png','icon-512.png','icon-180.png','manifest.webmanifest']){const t=path.join(DIR,d);if(!fs.existsSync(t)&&fs.existsSync(path.join(ROOT,d)))fs.symlinkSync(path.join('..','..',d),t);}
 }
 async function open(o={}){
@@ -36,4 +41,4 @@ async function open(o={}){
  return {b,c,p,E,errs,close:async()=>{if(o.browser)await c.close();else await b.close();}};
 }
 async function shot(p,file,clip){await p.screenshot(clip?{path:file,clip}:{path:file});}
-module.exports={prep,open,shot,PHONES,SAVES,SCREENS,DIR,ROOT};
+module.exports={src,prep,open,shot,PHONES,SAVES,SCREENS,DIR,ROOT};

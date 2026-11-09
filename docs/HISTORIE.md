@@ -252,3 +252,10 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 ## 09z6 – úder ultimátky (2026-11-09)
 - Rytmus (`conductor`) běží i mimo stav `play`, `gameStep` jen ve hře → nabídka úrovně otevřená během náběhu zahodila úder `ULT_DROP` (krok `s%64===0`). `ultHold(dt)` v `update` odloží `openLevelUp`, když hráč má ultimátku s úderem a další krok `M.step%64` je ≥ 46 nebo 0; max 3 s (`run.ultHoldT`), ne v co-opu. Test `tests/tools/ulthold.js`.
 - Úklid: CLAUDE.md 112 → 15 kB, historie sem, mapa kódu `docs/KOD.md`, 39 skriptů do `tests/tools/archiv/`, opravené `nmtest.js` (karta Cesty mechanik zakrývala klikání) a `pets.js` (mazlíčci zamčení Cestou).
+
+## 09z7 – rozdělení souborů, angličtina jen pro EN, vynucené přejmenování (2026-11-09)
+- `index.html` (1,1 MB) rozdělen na `index.html` (kostra, ~20 kB), `krypta.css` (styly, pořadí bloků zachované) a `game.js` (celé IIFE). Odkazy nesou `?v=GAME_VER` kvůli cache GitHub Pages (max-age 600) a Instagram prohlížeči bez service workeru; audit „Verze souborů“ hlídá shodu. Rozdělení ověřené pixelovým porovnáním 38 snímků obrazovek před/po (rozdíly jen v náhodném pozadí).
+- Jazyk rozhoduje malý skript v `index.html` (`window.KRYPTA_LANG`, stejné pravidlo jako `LANG`), `lang-en.js` se přes `document.write` stáhne jen pro EN. Čeština ušetří 227 kB.
+- `sw.js` cache `krypta-v4`: předem game.js a krypta.css (lang-en.js už ne), z cache se mažou staré `?v=` kopie, offline se soubor najde i bez dotazu.
+- Testy: `lib.src()` vrací spojený zdroják pro statické kontroly (audit, i18n, savekeys), `lib.prep()` kopíruje game.js a krypta.css k off.html; `cloudstub.js` testuje vynucené přejmenování.
+- Server: `profiles.rename_req`; `my_profile()` ho vrací; `save_profile()` nově dělá UPDATE místo INSERT … ON CONFLICT (trigger filtru přezdívek běžel i na pokus o INSERT, takže starý profil se závadnou přezdívkou se nemohl uložit ani beze změny jména). Nová přezdívka zruší `rename_req` i `hidden`. Hra při `rename_req` otevře okno „Nová přezdívka“ bez tlačítka Zpět a bez PINu, z menu se do něj vrací, dokud se nové jméno neuloží. Jediný takový hráč v žebříčku je označený.

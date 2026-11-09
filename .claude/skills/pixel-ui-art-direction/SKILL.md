@@ -43,7 +43,7 @@ Testeři (11/2026): menu „vypadá jako AI slop“ kvůli **stejným fialovým 
 ## Nástroje
 - `tests/tools/menu_mock3.js <prefix> <base|A|B|C> [cs|en]` – maketa vzhledu (CSS z `tests/tools/mock/menuX.css` + `menuX.js`) se skutečnými písmy, env `SCR=select,chests,hero,quests`.
 - `tests/tools/texshot.js` – snímky obrazovek místností.
-- Textury: `qTexInit` v `index.html` (`--tx-paper, cork, wood, stone, wall, dwood, iron, bronze, velvet, blue, wicker, cloth`), nové kresli přes `pxTex`.
+- Textury: `qTexInit` v `game.js` (`--tx-paper, cork, wood, stone, wall, dwood, iron, bronze, velvet, blue, wicker, cloth`), nové kresli přes `pxTex`.
 
 ## Postup pro nový vzhled
 1. 2–3 opravdu odlišné směry (moodboard), maketa jedné klíčové obrazovky v každém.

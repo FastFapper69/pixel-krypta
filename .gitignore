@@ -13,3 +13,5 @@ tests/tools/icon-192.png
 tests/tools/icon-512.png
 tests/tools/icon-180.png
 tests/tools/manifest.webmanifest
+tests/tools/game.js
+tests/tools/krypta.css

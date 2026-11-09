@@ -1,7 +1,7 @@
 // Ukládání (09r): každý klíč save.X, který hra používá, se načte i pošle do cloudu (kromě nastavení zařízení v LOCAL_KEYS),
 // poškozený save se obnoví ze zálohy, save má verzi. node savekeys.js
 const {chromium}=require('playwright'),fs=require('fs');
-const src=fs.readFileSync(__dirname+'/../../index.html','utf8');
+const src=require('./lib').src(); // 09z7: celý zdroják hry
 const used=[...new Set([...src.matchAll(/\bsave\.([a-zA-Z_]\w*)/g)].map(m=>m[1]))];
 (async()=>{const b=await chromium.launch();const c=await b.newContext();const p=await c.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
  const url='file://'+__dirname+'/off.html';await p.goto(url);await p.waitForTimeout(500);

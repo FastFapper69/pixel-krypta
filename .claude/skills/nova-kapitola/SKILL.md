@@ -5,7 +5,7 @@ description: "Postup a kontrolní seznam pro novou kapitolu Pixel Krypty (5 map,
 
 # Nová kapitola Pixel Krypty
 
-Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN.md` (rámec map, schodiště obtížnosti, co mají předchozí kapitoly). Stavebnice je v `index.html` v oddílu **chapter kit (08y)**, zkouška stavebnice `tests/tools/kitdemo.js`.
+Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN.md` (rámec map, schodiště obtížnosti, co mají předchozí kapitoly). Stavebnice je v `game.js` v oddílu **chapter kit (08y)**, zkouška stavebnice `tests/tools/kitdemo.js`.
 
 ## Pravidla uživatele (neporušovat)
 - **Žádné nové materiály** (jen Úlomky a Esence). Kapitola = 5 map, pátá je finále se speciálním bossem.

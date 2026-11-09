@@ -19,7 +19,7 @@ Nové testy a kontroly piš nad `tests/tools/lib.js` (`prep()`, `open({phone,lan
 ## 2. Hlubší kontrola kódu (ESLint, ~1 min)
 ```
 mkdir -p /tmp/lint && cd /tmp/lint && npm i -s eslint@8.57.0 >/dev/null
-python3 -c "import re;h=open('$HOME/pixel-krypta/index.html').read();open('game.js','w').write('\n;\n'.join(s for s in re.findall(r'<script>(.*?)</script>',h,re.S) if len(s)>1000))"
+cp $HOME/pixel-krypta/game.js game.js   # 09z7: herní kód je v game.js
 npx eslint --no-eslintrc --env browser,es2022 --parser-options ecmaVersion:2022 --global supabase,KRYPTA_EN \
   --rule '{"no-redeclare":2,"no-dupe-keys":2,"no-undef":2,"no-unreachable":1,"no-self-assign":1,"no-unused-vars":[1,{"args":"none"}]}' game.js
 ```

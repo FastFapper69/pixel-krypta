@@ -11,7 +11,7 @@ const er=(a,t)=>{bad++;out.push('✗ '+a+' – '+t);console.log('✗',a,'–',t)
 const sh=(cmd,args,t=300)=>{try{return {ok:true,o:execFileSync(cmd,args,{cwd:L.DIR,timeout:t*1000,encoding:'utf8',stdio:['ignore','pipe','pipe']})};}catch(e){return {ok:false,o:(e.stdout||'')+(e.stderr||'')+String(e.message||'')};}};
 (async()=>{
 L.prep();
-const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
+const html=L.src(); // 09z7: index.html + krypta.css + game.js jako jeden zdroják
 const js=(html.match(/<script>([\s\S]*?)<\/script>/g)||[]).join('\n'),css=(html.match(/<style>([\s\S]*?)<\/style>/g)||[]).join('\n');
 console.log('\n== STATICKÉ KONTROLY ==');
 { // 1) stejná funkce definovaná dvakrát (platí ta poslední – takhle zmizelo ztlumení hudby 09r)
@@ -30,7 +30,10 @@ console.log('\n== STATICKÉ KONTROLY ==');
  n>25?wr('Fialová v UI',n+' tlumených fialových barev v CSS (cíl: jen rarity a kouzla)'):ok('Fialová v UI',n+' tlumených fialových v CSS');}
 { // 5) velikosti
  const kb=f=>Math.round(fs.statSync(path.join(ROOT,f)).size/1024);
- ok('Velikost','index.html '+kb('index.html')+' kB, lang-en.js '+kb('lang-en.js')+' kB');
+ ok('Velikost','index.html '+kb('index.html')+' kB, game.js '+kb('game.js')+' kB, krypta.css '+kb('krypta.css')+' kB, lang-en.js '+kb('lang-en.js')+' kB');
+ { // 09z7: verze v odkazech index.html (?v=) = GAME_VER, jinak by prohlížeč mohl spojit novou kostru se starým kódem z cache
+  const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'),v=(html.match(/const GAME_VER='([^']+)'/)||[])[1],bad=['game.js','krypta.css','lang-en.js'].filter(f=>!ih.includes(f+'?v='+v));
+  bad.length?er('Verze souborů','v index.html chybí ?v='+v+' u '+bad.join(', ')):ok('Verze souborů','game.js, krypta.css, lang-en.js ?v='+v);}
  kb('CLAUDE.md')>40?wr('CLAUDE.md',kb('CLAUDE.md')+' kB – popisy verzí patří do docs/HISTORIE.md, sem jen pravidla a aktuální stav'):ok('CLAUDE.md',kb('CLAUDE.md')+' kB');}
 console.log('\n== TESTY ==');
 for(const [n,args,t] of [['Překlady',['i18n.js']],['Ukládání',['savekeys.js']],['Kapitoly a hrdinové',['chapcheck.js','all','/tmp/audit-cc']],['Stejná denní výzva',['dailysame.js']],['Mechaniky po restartu',['featreload.js','/tmp/audit-fr']],['Hlavní menu',['menucheck.js'],400],['Server (stub): ukládání, PIN, žebříček',['cloudstub.js']],['Horní okraj pod rozmazáním iOS',['topcheck.js']],['Pauza: záložky a rámeček',['pausetabs.js','/tmp/audit-pause']],['Oslava hrdiny a nové zbraně',['celeb.js','/tmp/audit-celeb']],['Úder ultimátky před nabídkou úrovně',['ulthold.js']]]){

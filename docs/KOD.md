@@ -1,8 +1,10 @@
-# Struktura kódu index.html
+# Struktura kódu (game.js)
+
+**Od 09z7 je hra rozdělená:** `index.html` = kostra (HTML obrazovek, konfigurace Supabase, výběr jazyka), `krypta.css` = všechny styly, `game.js` = celý herní kód (jedno IIFE). Sekce níže jsou v `game.js`.
 
 Přesunuto z CLAUDE.md 9. 11. 2026. Mapa sekcí `/* ==== … ==== */` a hlavních funkcí. Čti, když hledáš, kde co v kódu je.
 
-## Struktura kódu (sekce `/* ==== … ==== */` v index.html)
+## Struktura kódu (sekce `/* ==== … ==== */` v game.js)
 helpers → save → pixel sprites → maps → weapons and passives → meta shop → audio (music + rhythm) → canvas → state → input → run → level-up → end of run → HUD → rendering → loop → menus → online (Supabase) → boot.
 
 Obsah:
