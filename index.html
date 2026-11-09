@@ -505,6 +505,17 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .poster .btn{margin-top:4px}
 .stamp{position:absolute;top:58px;right:8px;transform:rotate(-14deg);font-style:normal;font-family:var(--font-px);font-size:22px;color:#c8301a;border:3px solid #c8301a;padding:0 6px;opacity:.85}
 /* 09e: the Board — cork, pinned notes, candles, scrolls, weekly poster */
+/* 09k runes */
+.rpick .rp,.rsock .rs{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;padding:6px 10px!important;background:var(--ink)!important;color:var(--text,#e8e0f0)!important;text-transform:none!important;letter-spacing:0!important;font-family:inherit!important;min-height:0}
+.rsock{margin:8px 0 4px}.rsock>small{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}.rsock>div{display:flex;flex-direction:column;gap:6px}
+.rs,.rp{display:flex;align-items:center;gap:10px;width:100%;padding:6px 10px;border:0;text-align:left;background:var(--ink);box-shadow:inset 0 0 0 2px var(--line);clip-path:var(--px);color:inherit;font:inherit;cursor:pointer}
+.rs.on,.rp{box-shadow:inset 0 0 0 2px var(--rc),0 0 10px color-mix(in srgb,var(--rc) 30%,transparent)}
+.rs img,.rp img{width:28px;height:28px;image-rendering:pixelated;flex:none}.rs i{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:22px;color:var(--muted);box-shadow:inset 0 0 0 2px var(--line)}
+.rs span,.rp span{display:flex;flex-direction:column;min-width:0}.rs b,.rp b{font-size:14px}.rs em,.rp em{font-style:normal;font-size:12px;color:var(--muted)}.rp b i{font-style:normal;color:var(--gold)}
+.rpick{display:flex;flex-direction:column;gap:6px;max-height:50vh;overflow:auto;margin:8px 0}
+.rbag{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;margin:6px 0 12px}
+.rb{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 6px;background:var(--panel);box-shadow:inset 0 0 0 2px var(--rc);clip-path:var(--px)}
+.rb img{width:34px;height:34px;image-rendering:pixelated;filter:drop-shadow(0 0 6px var(--rc))}.rb b{font-size:13px;color:var(--rc)}.rb i{position:absolute;top:4px;right:6px;font-style:normal;font-size:12px;color:var(--gold)}.rb .btn{margin-top:4px;padding:4px 8px;font-size:12px}
 /* 09h Cesta mechanik */
 .flock{position:relative;filter:grayscale(.85);opacity:.55}
 .flock::before{content:'';position:absolute;top:5px;left:6px;width:16px;height:16px;background:var(--lockimg) center/contain no-repeat;image-rendering:pixelated;z-index:2}
@@ -3866,7 +3877,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09j';
+const GAME_VER='2026-11-09k';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3956,7 +3967,7 @@ function recalc(){
   const B=run.bonus||ZERO_B;
   st={max:Math.round((120+h.hp+mB('hp',m.hp)+L('heart')*20+B.hp)*(1+B.hpPct)),speed:58*(1+h.spd+mB('spd',m.spd)+L('boots')*.08+B.spd),dmg:1+h.dmg+mB('dmg',m.dmg)+L('power')*.12+B.dmg,
     cdMul:Math.max(.4,(1-L('haste')*.08)*(1-B.cd)),mag:30*(1+mB('mag',m.mag)+L('magnet')*.25+B.mag),armor:h.armor+L('shield')+B.armor,regen:L('regen')*.4+B.regen,xpMul:1+mB('xp',m.xp)+B.xp,
-    crit:.1+B.crit+L('eye')*.06,fuse:B.fuse,gold:B.gold+L('greed')*.1,tcost:B.tcost,thp:B.thp,tmax:B.tmax,lg:B.lg,tal:B.tal,af:B.af||{},dodge:Math.min(.3,B.dodge||0),tdmg:B.tdmg||0};
+    crit:.1+B.crit+L('eye')*.06,fuse:B.fuse,gold:B.gold+L('greed')*.1,tcost:B.tcost,thp:B.thp,tmax:B.tmax,lg:B.lg,tal:B.tal,af:B.af||{},rn:B.rn||{},dodge:Math.min(.3,B.dodge||0),tdmg:B.tdmg||0};
   {const T={};for(const k of TREE_KEYS)T[k]=m.treeV===2?Math.min(KEY_MAX,m[k]||0):0;st.tr=T;st.thp=(st.thp||0)+.06*T.d3;st.armor+=.2*T.d4;st.regen+=hasMod('noheal')?0:.05*T.d5;st.gold+=.02*T.l3;st.fuse=(st.fuse||0)+.03*T.a4;
    st.dmg+=.005*(m.ma||0);st.max=Math.round(st.max*(1+.01*(m.md||0)));st.gold+=.01*(m.ml||0);}
   if(hasMod('glass')){st.dmg*=1.5;st.max=Math.round(st.max*.5);}if(hasMod('horde'))st.xpMul+=.3;if(run.thm==='alch')st.xpMul+=.15;if(hasMod('noheal'))st.regen=0;
@@ -4460,7 +4471,7 @@ function constellation(){const W=run.W.stars,S=(run.stars||[]).filter(f=>f.life>
   const hit=new Set();for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i],dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L;
     for(const e of run.enemies){if(e.dead||e.bur||hit.has(e))continue;const rx=e.x-a.x,ry=e.y-a.y,al=rx*ux+ry*uy;if(al<0||al>L)continue;if(Math.abs(rx*uy-ry*ux)<e.r+5){hit.add(e);hurtEnemy(e,P.dmg,0,0);}}}
   run.fx.push({k:'cline',x:pts[0].x,y:pts[0].y,pts,life:.4,max:.4});sfx('zap');}
-function fireAll(s){
+function fireAll(s){runeBeat(s);
   if(run.W.stars&&(s%16===0||(s%16===8&&(run.W.stars.xn||{}).bt)))constellation();
   if(st.lg&&st.lg.ss4&&s%16===0&&run.t>1)sunDisk(Math.floor(s/16));
   if(st.lg&&st.lg.sb4&&s%16===8&&run.t>1)boneSpikes();
@@ -5540,6 +5551,7 @@ function showOver(){
   if(run.endless)rows.unshift([_t('Poražení bossové'),'<b>'+(run.enW||0)+'</b>'+((run.enW||0)>(run.endPrev||0)?' <b style="color:var(--gold)">'+_t('nový rekord!')+'</b>':' · '+_t('rekord ')+(run.endPrev||0))]);
   if(W.item)rows.push([_t('Kořist z bosse'),'<b style="color:'+RAR[W.item.r].col+'">'+itemName(W.item)+'</b>']);
   if(W.fin)rows.push([_t('Poklad finále'),'<b style="color:'+RAR[W.fin.r].col+'">'+itemName(W.fin)+'</b>']);
+  if(W.rune)rows.push(['<img class="cdl" alt="" src="'+runeIcon(runeOf(W.rune).t)+'"> '+_t('Runa'),'<b style="color:'+RUNES[runeOf(W.rune).t].col+'">'+runeName(W.rune)+'</b>']);
   if(W.leg)rows.push([_t('Legendárka kapitoly'),'<b style="color:'+RAR[4].col+'">'+itemName(W.leg)+'</b>']);
   if(W.twU)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.tower[W.twU])+'"> '+_t('Odemčená věž'),'<b style="color:var(--gold)">'+TOWERS[W.twU].name+'</b> · '+_t('ve Stavitelově bedně')]);
   if(W.set)rows.push(['<img class="cdl" alt="" src="'+itIcon(W.set)+'"> '+_t('Kus setu'),'<b style="color:'+SETS[W.set.set].col+'">'+itemName(W.set)+'</b>']);
@@ -6894,9 +6906,10 @@ function equippedBy(u){for(const h in save.eq)for(const s in save.eq[h])if(save.
 function addItem(it){save.inv.push(it);if(it.lg)save.codex.l[it.lg]=true;if(it.set){const c=save.codex.s||(save.codex.s={});(c[it.set]||(c[it.set]={}))[it.s]=1;}}
 // total bonus of a hero: gear + hero level + talents (also sent to the host in co-op)
 function heroBonus(h){
-  const B={hp:0,hpPct:0,armor:0,regen:0,dmg:0,crit:0,fuse:0,cd:0,spd:0,mag:0,xp:0,gold:0,dodge:0,tdmg:0,tcost:0,thp:0,tmax:0,lg:{},tal:{},af:{}};
+  const B={hp:0,hpPct:0,armor:0,regen:0,dmg:0,crit:0,fuse:0,cd:0,spd:0,mag:0,xp:0,gold:0,dodge:0,tdmg:0,tcost:0,thp:0,tmax:0,lg:{},tal:{},af:{},rn:{}};
   const eq=(save.eq&&save.eq[h])||{};
-  const sc={};for(const s of SLOT_IDS){const it=eq[s]&&itemById(eq[s]);if(!it)continue;const S=itemStats(it);for(const k in S)B[k]+=S[k];if(it.lg)B.lg[it.lg]=1;if(it.af&&AFX[it.af])B.af[it.af]=(B.af[it.af]||0)+afVal(it);if(it.set)sc[it.set]=(sc[it.set]||0)+1;}
+  const sc={};for(const s of SLOT_IDS){const it=eq[s]&&itemById(eq[s]);if(!it)continue;const S=itemStats(it);for(const k in S)B[k]+=S[k];if(it.lg)B.lg[it.lg]=1;if(it.af&&AFX[it.af])B.af[it.af]=(B.af[it.af]||0)+afVal(it);if(it.set)sc[it.set]=(sc[it.set]||0)+1;if(it.rn&&featOn('runes'))runeBonus(B,it);}
+  runeApply(B);
   if(sc.star>=2){B.crit+=.06;B.fuse+=.10;}if(sc.star>=4)B.lg.sst4=1;if(sc.bone>=2){B.hpPct+=.10;B.lg.sb2=1;}if(sc.bone>=4)B.lg.sb4=1;if(sc.sun>=2){B.cd+=.08;B.spd+=.06;}if(sc.sun>=4)B.lg.ss4=1;if(sc.forge>=2){B.dmg+=.10;B.armor+=1;}if(sc.forge>=4)B.lg.sf4=1;if(sc.frost>=2){B.hpPct+=.10;B.lg.sfr2=1;}if(sc.frost>=4)B.lg.sfr4=1;if(sc.tide>=2){B.spd+=.08;B.mag+=.15;}if(sc.tide>=4)B.lg.st4=1;if(sc.tide>=6){B.lg.st6=1;B.dmg+=.10;B.hpPct+=.10;}B.sets=sc;
   const L=heroLv(h),L1=Math.min(L,20)-1,L2=Math.max(0,L-20),pr=heroPr(h)*PR_PCT;B.hpPct+=.02*L1+.01*L2+pr;B.dmg+=.02*L1+.01*L2+pr;
   const TO=featOn('talents');
@@ -6925,7 +6938,7 @@ function rollRarity(C){const p=C.pity,key=C.id;let r;
 const INV_MAX=200;
 function openChest(id,free){const C=ECON.chests.find(c=>c.id===id);if(!C||save.inv.length>=INV_MAX)return null;
   if(!free){if(save.coins<C.cost||chLeft(id)<=0)return null;save.coins-=C.cost;chUse(id);}
-  const it=makeItem(rollRarity(C));addItem(it);persist();return it;}
+  const it=makeItem(rollRarity(C));addItem(it);const rk=runeDrop('chest',{id});if(rk)setTimeout(()=>note('+ '+runeName(rk)),900);persist();return it;}
 const dailyChestReady=()=>save.daily.chest!==today();
 
 // ----- forge -----
@@ -6990,7 +7003,8 @@ function runRewards(won){
   let nmFirst=false;
   // 08e: the campaign pays gear only once per map and tier (first win); chests are the renewable source and the only one of the common legendaries
   if(won&&R.nm>0){const k=Math.min(NM_MAX,R.nm);save.nmw=save.nmw||{};nmFirst=!save.nmw[k+'|'+R.mapId];save.nmw[k+'|'+R.mapId]=1;if(nmFirst&&k>=3&&R.map.boss)out.av='b:'+R.map.boss;
-    if(nmFirst&&save.inv.length<INV_MAX){const it=makeItem(ECON.nmItem[k]);addItem(it);out.item=it;}}
+    if(nmFirst&&save.inv.length<INV_MAX){const it=makeItem(ECON.nmItem[k]);addItem(it);out.item=it;}
+    if(R.map.boss&&!R.coop&&!R.trial){const rk=runeDrop('boss',{nm:R.nm});if(rk)out.rune=rk;}}
   if(won&&fin&&!R.trial){save.fin=save.fin||{};if(!save.fin[R.mapId]){save.fin[R.mapId]=1;if(STORY[R.mapId])save.storyNew=R.mapId;const it=makeItem(rollRarity(ECON.chests[2]));addItem(it);out.fin=it;}
     const lg=FIN_LEG[R.mapId];if(lg&&(R.nm||0)>=3&&Math.random()<.25){const it=makeItem(4,null,null,lg);addItem(it);out.leg=it;}
     const sid=SET_OF_CH[CH_OF[R.mapId].id];if(sid){save.setP=save.setP||{};const miss=save.setP[sid]||0;
@@ -7000,6 +7014,63 @@ function runRewards(won){
   if(R.wk&&!R.coop)out.wkT=wkResult(won);
   if(R.mod&&!R.wk&&!R.coop&&(won||R.t>=180)&&save.daily.chal!==today()){save.daily.chal=today();achInit().tot.dc++;qkAdd('daily',1);save.mats[mid]+=20;if(out.mat)out.mat[1]+=20;const it=makeItem(rollRarity(ECON.chests[1]));addItem(it);out.daily=it;}
   return out;}
+
+// ----- 09k: Runy — a rune goes into an Epic (1 slot) or Legendary/set item (2 slots); only loot, never bought -----
+const RUNES={
+ fire:{name:_t('Runa ohně'),col:'#ff7a3a',sym:['.c..','.cc.','cccc','.cc.'],d:l=>{const n=1+(l>2?1:0)+(l>4?1:0);return (n===1?_t('Každý takt zapálí nejbližšího nepřítele ('):_t('Každý takt zapálí ')+n+_t(' nejbližší nepřátele ('))+(8+6*l)+_t(' poškození).');}},
+ ice:{name:_t('Runa ledu'),col:'#8ad8ff',sym:['c..c','.cc.','.cc.','c..c'],d:l=>_t('Každý takt zpomalí nepřátele do ')+(40+8*l)+_t(' px kolem tebe.')},
+ bolt:{name:_t('Runa blesku'),col:'#ffe27a',sym:['..cc','.cc.','cc..','.c..'],d:l=>_t('Každé dvě doby přeskočí blesk po ')+(1+l)+_t(' nepřátelích (')+(6+5*l)+_t(' poškození).')},
+ life:{name:_t('Runa života'),col:'#6ae07a',sym:['.cc.','cccc','.cc.','.cc.'],d:l=>_t('Regenerace +')+cz((.3*l).toFixed(1))+_t(' zdraví za sekundu.')},
+ haste:{name:_t('Runa spěchu'),col:'#e8e8ff',sym:['c...','cc..','cc..','c...'],d:l=>_t('Rychlost útoků +')+3*l+' %.'},
+ luck:{name:_t('Runa štěstí'),col:'#f6c744',sym:['.cc.','c..c','c..c','.cc.'],d:l=>_t('Zlato +')+4*l+_t(' % a dosah sbírání +')+5*l+' %.'},
+ ward:{name:_t('Runa ochrany'),col:'#9aa0ac',sym:['cccc','cccc','.cc.','.cc.'],d:l=>_t('Brnění +')+l+'.'},
+ rhythm:{name:_t('Runa rytmu'),col:'#d87aff',sym:['..cc','..c.','.cc.','cc..'],d:l=>_t('Ultimátky z fúzí +')+5*l+_t(' % a kritický zásah +')+l+' %.'}};
+const RUNE_IDS=Object.keys(RUNES),RUNE_ROM=['','I','II','III','IV','V'];
+const runeKey=(t,l)=>t+l,runeOf=k=>({t:k.replace(/\d$/,''),l:+k.slice(-1)});
+const runeName=k=>{const R=runeOf(k);return RUNES[R.t].name+' '+RUNE_ROM[R.l];};
+const runeSlots=it=>it.r>=4||it.set?2:it.r===3?1:0;
+function runeIcon(t){const k='rune_'+t;if(!SPR.icon[k]){const R=RUNES[t],rows=['.kkkkkk.','kaaaaaak','kabbbbak','kabbbbak','kabbbbak','kabbbbak','kaaaaaak','.kkkkkk.'].map(r=>r.split(''));
+    R.sym.forEach((sr,y)=>sr.split('').forEach((ch,x)=>{if(ch==='c')rows[y+2][x+2]='c';}));SPR.icon[k]=buildSprite(rows.map(r=>r.join('')),{mirror:false,shade:false,pal:{k:'#1a1426',a:'#6a6488',b:'#34304a',c:R.col}});}
+  return dataUrl(SPR.icon[k]);}
+function runeAdd(k,n){save.runes=save.runes||{};save.runes[k]=(save.runes[k]||0)+(n||1);persist();}
+function runeRoll(maxL){const t=pick(RUNE_IDS),l=1+Math.floor(Math.random()*(maxL||1));return runeKey(t,Math.min(5,l));}
+// loot: NM bosses (max 1 per run and 3 per day), Ironbound/Royal chests rarely, a finished weekly contract
+function runeDrop(src,o){if(!featOn('runes'))return null;let k=null;
+  if(src==='boss'){const d=today();save.runeDay=save.runeDay&&save.runeDay.d===d?save.runeDay:{d,n:0};if(save.runeDay.n>=3)return null;
+    if(Math.random()>.35+.15*(o.nm||1))return null;save.runeDay.n++;k=runeRoll(o.nm>=3?2:o.nm>=2?2:1);}
+  else if(src==='chest'){if(Math.random()>(o.id==='gold'?.15:o.id==='iron'?.06:0))return null;k=runeRoll(o.id==='gold'?2:1);}
+  else if(src==='contract')k=runeKey(pick(RUNE_IDS),2);
+  if(k)runeAdd(k);return k;}
+// effect of the equipped runes on a hero (sum of levels per kind)
+function runeBonus(B,it){if(!it.rn)return;for(const k of it.rn){if(!k)continue;const R=runeOf(k);B.rn[R.t]=(B.rn[R.t]||0)+R.l;}}
+function runeApply(B){const n=B.rn;if(n.life)B.regen+=.3*n.life;if(n.haste)B.cd+=.03*n.haste;if(n.luck){B.gold+=.04*n.luck;B.mag+=.05*n.luck;}if(n.ward)B.armor+=n.ward;if(n.rhythm){B.fuse+=.05*n.rhythm;B.crit+=.01*n.rhythm;}}
+// in a run: fire / ice / lightning on the beat
+function runeBeat(s){const n=st&&st.rn;if(!n||run.over)return;const p=run.p;
+  if(n.fire&&s%16===0&&run.t>1){const L=Math.min(5,n.fire),c=run.enemies.filter(e=>!e.dead&&!e.bur&&!e.d.noHit&&Math.hypot(e.x-p.x,e.y-p.y)<140).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y)).slice(0,1+(n.fire>2?1:0)+(n.fire>4?1:0));
+    for(const e of c){hurtEnemy(e,(8+6*n.fire)*st.dmg,0,0);for(let i=0;i<5;i++)addP({x:e.x+rnd(-4,4),y:e.y-4,vx:rnd(-12,12),vy:rnd(-40,-15),life:.4,col:pick(['#ff7a3a','#ffd27a']),sz:1});}}
+  if(n.ice&&s%16===8&&run.t>1){const R=40+8*n.ice;for(const e of run.enemies)if(!e.dead&&!e.boss&&Math.hypot(e.x-p.x,e.y-p.y)<R)e.slowT=Math.max(e.slowT,1.5);run.fx.push({k:'shock',x:p.x,y:p.y,r:3,t:0,life:.35,max:R,col:'#8ad8ff'});}
+  if(n.bolt&&s%8===4&&run.t>1){let x=p.x,y=p.y-4;const hit=new Set();for(let j=0;j<1+n.bolt;j++){let b=null,bd=110;for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit||hit.has(e))continue;const d=Math.hypot(e.x-x,e.y-y);if(d<bd){bd=d;b=e;}}
+      if(!b)break;hit.add(b);hurtEnemy(b,(6+5*n.bolt)*st.dmg,0,0);run.fx.push({k:'ray',x,y,x2:b.x,y2:b.y-3,w:1,life:.15,max:.15});x=b.x;y=b.y-3;}if(hit.size)sfx('zap');}}
+// sockets in the item popup
+function runeSockHtml(it){const n=runeSlots(it);if(!n||!featOn('runes'))return '';it.rn=it.rn||[];let h='<div class="rsock"><small>'+_t('Runy')+'</small><div>';
+  for(let i=0;i<n;i++){const k=it.rn[i];h+=k?'<button class="rs on" data-rs="'+i+'" style="--rc:'+RUNES[runeOf(k).t].col+'"><img alt="" src="'+runeIcon(runeOf(k).t)+'"><span><b>'+runeName(k)+'</b><em>'+RUNES[runeOf(k).t].d(runeOf(k).l)+'</em></span></button>':
+    '<button class="rs" data-rs="'+i+'"><i>+</i><span><b>'+_t('Prázdný slot')+'</b><em>'+_t('Vlož runu')+'</em></span></button>';}
+  return h+'</div></div>';}
+const RUNE_OUT=5;
+function runeSock(u,i,back){const it=itemById(u);if(!it)return;it.rn=it.rn||[];const cur=it.rn[i],pop=$('#itemPop');
+  if(cur){pop.innerHTML='<div class="pop-card"><h3>'+runeName(cur)+'</h3><p class="hint">'+_t('Vyjmutí stojí ')+RUNE_OUT+' '+MAT_NAME.ess+_t('. Runa se ti vrátí.')+'</p><div class="pop-btns"><button class="btn sm" id="rsOut"'+((save.mats.ess||0)<RUNE_OUT?' disabled':'')+'>'+_t('Vyjmout')+'</button><button class="btn alt sm" id="rsBack">'+_t('Zpět')+'</button></div></div>';
+    $('#rsOut').onclick=()=>{if((save.mats.ess||0)<RUNE_OUT)return;save.mats.ess-=RUNE_OUT;it.rn[i]=null;runeAdd(cur);sfx('ui');back();};$('#rsBack').onclick=()=>{sfx('ui');back();};return;}
+  const have=Object.keys(save.runes||{}).filter(k=>save.runes[k]>0).sort((a,b)=>runeOf(b).l-runeOf(a).l||a.localeCompare(b));
+  pop.innerHTML='<div class="pop-card"><h3>'+_t('Vlož runu')+'</h3>'+(have.length?'<div class="rpick">'+have.map(k=>'<button class="rp" data-k="'+k+'" style="--rc:'+RUNES[runeOf(k).t].col+'"><img alt="" src="'+runeIcon(runeOf(k).t)+'"><span><b>'+runeName(k)+' <i>×'+save.runes[k]+'</i></b><em>'+RUNES[runeOf(k).t].d(runeOf(k).l)+'</em></span></button>').join('')+'</div>':
+    '<p class="hint">'+_t('Nemáš žádné runy. Padají z bossů na Noční můře, vzácně z Okované a Královské truhly a za týdenní kontrakty.')+'</p>')+'<div class="pop-btns"><button class="btn alt sm" id="rsBack">'+_t('Zpět')+'</button></div></div>';
+  pop.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(!save.runes[k])return;save.runes[k]--;it.rn[i]=k;persist();sfx('level');back();});$('#rsBack').onclick=()=>{sfx('ui');back();};}
+// forge: the rune bag and merging (3 of a kind = one level up)
+function runeForgeHtml(){if(!featOn('runes'))return '';const R=save.runes||{},ks=Object.keys(R).filter(k=>R[k]>0).sort((a,b)=>a.localeCompare(b));
+  let h='<div class="fsec">'+_t('Runy')+'</div><p class="hint">'+_t('Tři stejné runy sliješ v jednu o úroveň vyšší. Do předmětů je vkládáš ve Vybavení.')+'</p>';
+  if(!ks.length)return h+'<p class="hint">'+_t('Zatím žádné runy. Padají z bossů na Noční můře (nejvýš 3 denně), vzácně z Okované a Královské truhly a za týdenní kontrakty.')+'</p>';
+  return h+'<div class="rbag">'+ks.map(k=>{const o=runeOf(k),can=R[k]>=3&&o.l<5;return '<div class="rb" style="--rc:'+RUNES[o.t].col+'"><img alt="" src="'+runeIcon(o.t)+'"><b>'+RUNE_ROM[o.l]+'</b><i>×'+R[k]+'</i>'+(can?'<button class="btn sm" data-rm="'+k+'">'+_t('Sloučit')+'</button>':'')+'</div>';}).join('')+'</div>';}
+function runeMerge(k){const R=save.runes||{},o=runeOf(k);if((R[k]||0)<3||o.l>=5)return;R[k]-=3;const nk=runeKey(o.t,o.l+1);R[nk]=(R[nk]||0)+1;persist();sfx('level');note(_t('Nová runa: ')+runeName(nk));}
+function openRunes(){renderForge();setState('forge');setTimeout(()=>{const e=document.querySelector('#forgeList .rbag')||document.querySelector('#forgeList .fsec:last-of-type');if(e)e.scrollIntoView({block:'center',behavior:'smooth'});},120);}
 
 // ----- 09i: the Fallen Star story — in the last phase of a chapter finale the next chapter seeps in, then a "Cesta dál" card -----
 const BRIDGE={trun:{k:'sun',line:_t('Z Morvanovy lebky sálá žár pouštního slunce…')},brana:{k:'magma',line:_t('Pod Bránou slunce se probouzí žár hor…')},
@@ -7059,6 +7130,7 @@ const FEATS=[
  {id:'pets',at:'brana',ic:'chest_pet',name:_t('Mazlíčci'),d:_t('Mazlíček běhá s tebou, útočí a dává bonusy. Získáš je z Kouzelného košíku v Obchodě.'),go:()=>openPets()},
  {id:'talents',at:'doly',ic:'star',name:_t('Talenty hrdinů'),d:_t('Každých 5 úrovní hrdiny se zapne nový talent, který mění, jak hrdina hraje.'),go:()=>openHero()},
  {id:'contracts',at:'reka',ic:'scroll',name:_t('Týdenní kontrakty'),d:_t('Tři větší úkoly na celý týden. Za celý kontrakt Okovaná truhla, Stavitelova bedna nebo Esence.'),go:()=>{qTab='week';openQuests();}},
+ {id:'runes',at:'zima',ic:'rune_fire',name:_t('Runy'),d:_t('Do Epických a Legendárních předmětů vložíš runu se zvláštní silou. Runy padají z bossů na Noční můře a vzácně z truhel.'),go:()=>openRunes()},
  {id:'weekly',at:'srdce',ic:'medal_g',name:_t('Týdenní výzva'),d:_t('Jedna mapa, jeden hrdina a dva modifikátory pro všechny na celý týden. Bronz, stříbro a zlato.'),go:()=>{qTab='wk';openQuests();}}];
 const FEAT_OF={};for(const F of FEATS)FEAT_OF[F.id]=F;
 function featInit(){if(save.feat)return;save.feat={};
@@ -7070,7 +7142,7 @@ function featCheck(){featInit();const out=[];for(const F of FEATS)if(!save.feat[
   if(out.length){save.featNew=(save.featNew||[]).concat(out);}return out;}
 const featAt=map=>FEATS.filter(F=>F.at===map&&!featOn(F.id));
 // the card: one at a time, after the run, on the menu or the campaign screen
-function featShow(){featInit();if(state!=='menu'&&state!=='select')return;if($('#featPop')&&!$('#featPop').hidden)return;
+function featShow(){featInit();featCheck();if(state!=='menu'&&state!=='select')return;if($('#featPop')&&!$('#featPop').hidden)return;
   let F=null,sum=false;if(save.featSum){sum=true;save.featSum=0;}else if(save.featNew&&save.featNew.length){F=FEAT_OF[save.featNew.shift()];}
   if(!F&&!sum&&save.storyNew){storyShow(save.storyNew);save.storyNew=null;persist();return;}if(!F&&!sum)return;persist();
   let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
@@ -7088,7 +7160,7 @@ function storyShow(mp){const C=CH_OF[mp],N=CHAPTERS[C.i+1];let pop=$('#featPop')
     '<div class="fc-b"><button class="btn" id="fcOk">'+(N?_t('Vydat se dál'):_t('Pokračovat'))+'</button></div></div>';
   pop.hidden=false;pop.classList.remove('in');void pop.offsetWidth;pop.classList.add('in');sfx('win');
   $('#fcOk').onclick=()=>{sfx('ui');pop.hidden=true;if(N){sel.map=N.maps[0];sel.nm=0;sel.picked=1;chSel=null;renderSelect();setState('select');}else setTimeout(featShow,250);};}
-function featUi(){featInit();if(!featUi.img){featUi.img=1;document.documentElement.style.setProperty('--lockimg','url('+dataUrl(SPR.icon.lock)+')');}const L=[['#mHero','gear'],['#mChest','gear'],['#mForge','forge'],['#mQuest','quests']];
+function featUi(){featInit();if(!featUi.rn){featUi.rn=1;RUNE_IDS.forEach(runeIcon);}if(!featUi.img){featUi.img=1;document.documentElement.style.setProperty('--lockimg','url('+dataUrl(SPR.icon.lock)+')');}const L=[['#mHero','gear'],['#mChest','gear'],['#mForge','forge'],['#mQuest','quests']];
   for(const [sel2,id] of L){const b=$(sel2);if(b)b.classList.toggle('flock',!featOn(id));}
   document.querySelectorAll('.sectabs [data-to=towers]').forEach(b=>b.classList.toggle('flock',!featOn('arsenal')));
   document.querySelectorAll('.sectabs [data-to=pets]').forEach(b=>b.classList.toggle('flock',!featOn('pets')));
@@ -7471,7 +7543,7 @@ function renderHero(){
 }
 function openItem(u){const it=itemById(u);if(!it)return;if(seeOne('i'+u)&&state==='hero')renderHero();const pop=$('#itemPop'),h=heroSel,who=equippedBy(u),on=who===h,c=ECON.upCost(it),rf=ECON.refund(it);
   pop.innerHTML='<div class="pop-card r'+it.r+(it.set?' set set-'+it.set:'')+'">'+itemCardHtml(it)+
-    (who&&!on?_t('<p class="hint">Nosí ho ')+HEROES[who].name+'.</p>':'')+
+    runeSockHtml(it)+(who&&!on?_t('<p class="hint">Nosí ho ')+HEROES[who].name+'.</p>':'')+
     '<div class="pop-btns"><button class="btn sm" id="ipEq">'+(on?_t('Sundat'):_t('Nasadit ')+(HERO_DAT[h]||HEROES[h].name))+'</button>'+
     (!featOn('forge')?'<p class="hint">'+_t('Vylepšování: ')+featLock('forge')+'</p>':it.lv<10?_t('<button class="btn alt sm" id="ipUp">Vylepšit +')+(it.lv+1)+' <span class="costs">'+costHtml(c,1)+'</span></button>'+missHint(c):_t('<p class="hint">Maximální vylepšení.</p>'))+''+
     (who?'':'<button class="btn alt sm" id="ipDel">'+_t('Rozebrat ')+'<span class="costs">'+costHtml(rf).replace(/ no/g,'')+'</span></button>'+(it.lv?_t('<p class="hint">Rozebrání vrátí i polovinu vylepšení.</p>'):''))+
@@ -7481,6 +7553,7 @@ function openItem(u){const it=itemById(u);if(!it)return;if(seeOne('i'+u)&&state=
   const ub=$('#ipUp');if(ub){ub.disabled=!canPay(c);ub.onclick=()=>{if(upgradeItem(u)){sfx('level');openItem(u);renderHero();}};}
   const rb=$('#ipRf');if(rb)rb.onclick=()=>{pop.hidden=true;sfx('ui');openReforge('item',it,()=>{renderHero();openItem(u);});};
   const db=$('#ipDel');if(db)db.onclick=()=>{if(db.dataset.sure){dismantleItem(u);sfx('coin');pop.hidden=true;renderHero();}else{db.dataset.sure=1;db.firstChild.textContent=_t('Opravdu rozebrat? ');}};
+  pop.querySelectorAll('[data-rs]').forEach(b=>b.onclick=()=>{sfx('ui');runeSock(u,+b.dataset.rs,()=>{openItem(u);if(state==='hero')renderHero();});});
   $('#ipClose').onclick=()=>{pop.hidden=true;};
 }
 
@@ -7519,7 +7592,7 @@ function openReforge(kind,o,back){const pop=$('#newsPop');let last=null,was=null
   draw();pop.hidden=false;}
 // ----- Kovárna (08a): merging 3 identical pieces (same slot, rarity, set) into one of the next rarity -----
 function openForge(){econInit();renderForge();setState('forge');}
-function renderForge(){$('#fMats').innerHTML=matsHtml();const fb=$('#forgeList'),G=mergeGroups();fb.innerHTML='';
+function renderForge(){$('#fMats').innerHTML=matsHtml();const fb=$('#forgeList'),G=mergeGroups();fb.innerHTML=runeForgeHtml();fb.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{runeMerge(b.dataset.rm);renderForge();});
   const row=(ic,h3,sub,go)=>{const r=document.createElement('div');r.className='card chest';r.innerHTML='<img alt="" src="'+dataUrl(ic)+'"><div class="t"><h3>'+h3+'</h3><small>'+sub+'</small></div>';
     const b=document.createElement('button');b.className='btn sm';b.textContent=_t('Sloučit');b.onclick=()=>{sfx('ui');go();};r.appendChild(b);fb.appendChild(r);};
   const head=t=>fb.insertAdjacentHTML('beforeend','<div class="fsec">'+t+'</div>');let any=0;
@@ -7538,7 +7611,7 @@ function renderForge(){$('#fMats').innerHTML=matsHtml();const fb=$('#forgeList')
    const pk=Object.keys(PG).filter(k=>PG[k].length>=3);if(pk.length){head(_t('Mazlíčci'));any=1;}
    for(const k of pk){const c=PG[k].sort((a,b)=>(b.lv||0)-(a.lv||0))[0],n=c.st||0;
      row(SPR.pet[c.k],'3× '+petStars(n,1)+' → '+petStars(n+1,1),PETS[c.k].name+' · '+_t('máš ')+PG[k].length+_t(' ks'),()=>petStarGo(c,'forge'));}}
-  if(!any)fb.innerHTML='<div class="card"><p class="hint" style="margin:0">'+_t('Zatím nemáš co slučovat. Potřebuješ 3 stejné kusy: předměty stejného druhu a rarity, karty stejné věže a rarity, nebo 3 stejné mazlíčky se stejným počtem hvězd. Nasazené předměty a věže v arzenálu se neslučují.')+'</p></div>';}
+  if(!any)fb.insertAdjacentHTML('afterbegin','<div class="card"><p class="hint" style="margin:0">'+_t('Zatím nemáš co slučovat. Potřebuješ 3 stejné kusy: předměty stejného druhu a rarity, karty stejné věže a rarity, nebo 3 stejné mazlíčky se stejným počtem hvězd. Nasazené předměty a věže v arzenálu se neslučují.')+'</p></div>');}
 function openMerge(key){const used=mergeUsed(key),back=mergeRefund(used),pop=$('#newsPop'),[sl,r0,set]=key.split('|'),r=+r0,nm=set?SETS[set].pieces[sl].name:SLOTS[sl].name;
   pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Sloučení')+'</h2><div class="mslots"><div class="card mslot sel"><img alt="" src="'+dataUrl(itemSpr(sl,r+1,set||undefined))+'"><b style="color:'+RAR[r+1].col+'">'+nm+'</b><small>'+RAR[r+1].name+'</small></div></div>'+
     '<small>'+_t('Použijí se: ')+used.map(i=>'<b style="color:'+RAR[i.r].col+'">'+itemName(i)+(i.lv?' +'+i.lv:'')+'</b>').join(', ')+'.</small>'+
@@ -7954,7 +8027,7 @@ function qClaim(i,btn){const Q=qEnsure(),q=Q.q[i];if(!q)return;const k=qStars(q)
   qTear(card,()=>{qPay(rw,btn);renderQuests(true);});}
 function qClaimK(i,btn){qEnsure();const K=save.qw.k[i],T=K&&QK_TPL.find(t=>t.id===K.id);if(!K||!qkClaimable(K))return;
   const L=[],js=[];K.d.forEach((d,j)=>{if(d&&!K.cl[j]){L.push(QK_SRW[j]);js.push(j);}});const last=K.cl.filter(Boolean).length+js.length===3;if(last)L.push(T.rw);const rw=qSum(L);
-  if(rw.chest&&save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return;}js.forEach(j=>K.cl[j]=1);qPay(rw,btn);renderQuests(true);}
+  if(rw.chest&&save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return;}js.forEach(j=>K.cl[j]=1);qPay(rw,btn);if(last){const rk=runeDrop('contract');if(rk)setTimeout(()=>note('+ '+runeName(rk)),900);}renderQuests(true);}
 function wkClaim(i,btn){qEnsure();const W=save.wk;if(!W.got[i]||W.cl[i])return;const rw=WK_TIER[i].rw;
   if(rw.chest&&save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return;}W.cl[i]=1;qPay(rw,btn);renderQuests(true);}
 function qClaimWanted(btn){const Q=qEnsure(),w=Q.w;if(w.st!==2)return;w.st=3;achInit().tot.want++;const W=WANTED[w.id];qkAdd('want',1);
@@ -8269,7 +8342,7 @@ function guestStartRun(o){
     cam:{x:0,y:0},lastHud:{},mate:{isMate:true,heroId:o.hh,x:map.size/2,y:map.size/2,hp:1,max:1,face:{x:0,y:1},moving:false,down:false,rev:0,inv:0,flash:0},mateW:{},
     eMap:new Map(),sMap:new Map(),gst:[58,120],crystal:map.crystal?{isCrystal:true,x:map.size/2,y:map.size/2,hp:1300,max:1300,r:9,flash:0,spr:SPR.misc.crystal}:null};
   run.deck=runDeck(!!(hero&&hero.builder));run.tws=runTwStats(!!(hero&&hero.builder));buildBarInit();
-  {const B=heroBonus(o.gh);st={speed:58,mag:30,dmg:1,cdMul:1,armor:0,regen:0,max:120,xpMul:1,crit:.1,gold:B.gold,lg:B.lg,tal:B.tal,tcost:B.tcost,tmax:B.tmax,thp:B.thp,af:B.af||{},dodge:0,tdmg:B.tdmg||0};}
+  {const B=heroBonus(o.gh);st={speed:58,mag:30,dmg:1,cdMul:1,armor:0,regen:0,max:120,xpMul:1,crit:.1,gold:B.gold,lg:B.lg,tal:B.tal,tcost:B.tcost,tmax:B.tmax,thp:B.thp,af:B.af||{},rn:B.rn||{},dodge:0,tdmg:B.tdmg||0};}
   $('#icoMat').src=matIcon(MAT_OF[o.map]);$('#hudMat').hidden=false;
   $('#bossbar').hidden=true;$('#crbar').hidden=!run.crystal;$('#repBtn').hidden=true;
   run.allies=[];mfCall('init');
@@ -8387,6 +8460,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09k',d:'9. 11. 2026',t:_t('Runy'),hl:[
+  {ic:'rune_fire',t:_t('Nová mechanika: Runy'),d:_t('Do <b>Epických</b> předmětů vložíš jednu runu, do <b>Legendárních a setových</b> dvě. Oheň, led a blesk útočí do rytmu, další runy přidají zdraví, rychlost, štěstí, brnění nebo sílu fúzí.')},
+  {ic:'rune_bolt',t:_t('Kde je vzít'),d:_t('Jen jako kořist: z <b>bossů na Noční můře</b> (nejvýš 3 denně), vzácně z Okované a Královské truhly a za každý dokončený týdenní kontrakt.')},
+  {ic:'hammer',t:_t('Silnější runy'),d:_t('Tři stejné runy sliješ v Kovárně v jednu o úroveň vyšší, až do úrovně V. Vyjmutí z předmětu stojí 5 Esence a runa se vrátí.')}],
+  items:[_t('Runy se odemknou poražením Zimní královny (finále kapitoly IV).')]},
  {v:'2026-11-09j',d:'9. 11. 2026',t:_t('Kapitola VI: Nebeská hvězdárna'),hl:[
   {ic:'map:hvezdarna',t:_t('Pět map mezi hvězdami'),d:_t('Hvězdárna s <b>pálícími paprsky dalekohledu</b>, temná Mlhovina, Plovoucí ostrovy s <b>hvězdnými mosty do rytmu</b>, Souhvězdí, kde <b>rozsvítíš hvězdy v pořadí</b>, a finále Brána zatmění.')},
   {ic:'boss:eclipse',t:_t('Zatmění'),d:_t('Finální boss, který bojuje dvakrát tvrději, když slunce mizí. Za ním se otevírá <b>Prázdnota</b>, cesta do kapitoly VII.')},
