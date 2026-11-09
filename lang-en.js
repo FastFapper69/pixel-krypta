@@ -1918,5 +1918,16 @@ window.KRYPTA_EN={
   'Nekonečnou kryptu kapitoly odemkneš poražením jejího finále.':'Beat the chapter finale to unlock its endless crypt.',
   "Každá kapitola má jednu: po poražení jejího finále si v Přípravě zapneš ∞. Bojuješ s finálním bossem kapitoly znovu a znovu: po každém zabití se vrátí silnější a s novým útokem. Za každého padne Esence (denně plně 20), rekord je počet poražených bossů.":"Every chapter has one: beat its finale and switch on ∞ in Prepare. You fight the chapter's final boss again and again: every time you kill it, it comes back stronger and with a new attack. Each kill drops Essence (up to 20 a day at full rate); your record is the number of bosses beaten.",
   "Nekonečná krypta pro každou kapitolu":"An endless crypt for every chapter",
-  "Nekonečná krypta už není na každé mapě: <b>každá kapitola má jednu</b>, souboj s jejím finálním bossem. Odemkneš ji poražením finále kapitoly.":"The endless crypt is no longer on every map: <b>each chapter has one</b>, a duel with its final boss. Beat the chapter finale to unlock it."
+  "Nekonečná krypta už není na každé mapě: <b>každá kapitola má jednu</b>, souboj s jejím finálním bossem. Odemkneš ji poražením finále kapitoly.":"The endless crypt is no longer on every map: <b>each chapter has one</b>, a duel with its final boss. Beat the chapter finale to unlock it.",
+"Ledový lučištník":"Ice Archer",
+"Drží si odstup a střílí dvojice ledových šípů, které zpomalí.":"Keeps its distance and shoots pairs of icy arrows that slow you.",
+"Tvrdší Ledová říše a zuřivější bossové":"Tougher Frozen Realm and angrier bosses",
+"Nový nepřítel Ledové říše. Drží si odstup a střílí <b>dvojice ledových šípů</b>, které zpomalí.":"A new Frozen Realm enemy. Keeps its distance and shoots <b>pairs of icy arrows</b> that slow you.",
+"Silnější Ledová říše":"Stronger Frozen Realm",
+"Yeti, přízraky a sněhuláci vydrží víc a kostlivci z první kapitoly odtud zmizeli. Kapitola IV je teď <b>skutečná zeď</b>.":"Yetis, wraiths and snowmen are tougher and the chapter I skeletons are gone. Chapter IV is now <b>a real wall</b>.",
+"Prokleté pobřeží o stupeň tvrdší":"Cursed Coast one step harder",
+"Nepřátelé kapitoly V mají víc zdraví a bolí víc.":"Chapter V enemies have more health and hit harder.",
+"Zuřivý boss tě dožene":"A raging boss catches up",
+"Když bosse dlouho jen obíháš, začne se <b>vrhat přímo na tebe</b>. Každou minutu častěji a dál, později i s kruhy střel.":"If you just keep running from a boss, it starts <b>lunging right at you</b>. More often and further every minute, later with rings of shots too.",
+"Kapitola IV má nové elity a vlny s Ledovými lučištníky.":"Chapter IV has new elites and waves with Ice Archers.",
 };

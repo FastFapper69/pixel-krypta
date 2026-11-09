@@ -1076,12 +1076,14 @@ const ENEMY_DEFS={
  magslime:{name:_t('Magmový sliz'),hp:28,spd:17,dmg:7,r:6,xp:3,beh:'chase',die:'magma',pal:{a:'#e8602c',b:'#8a2418',c:'#ffd060',k:'#3a1a14'},rows:['......', '...k..', '..kaak', '.kaaaa', '.aacaa', 'kaayaa', '.aapaa', 'aacaaa', 'abbbbb', '.bbbbb']},
  miner:{name:_t('Duch horníka'),hp:26,spd:24,dmg:7,r:5,xp:3,beh:'ranged',pal:{a:'#a8d8e8',b:'#5a6a8a',c:'#c89a2a',y:'#fff6a0',n:'#7a5232'},rows:['...ccc', '..cccc', '..ccyy', '..aaaa', '..apaa', '..aaaa', '.bbbbb', 'nbbbbb', 'n.bbbb', '..bbbb', '..b..b']},
  // chapter IV
- yeti:{name:_t('Yeti'),hp:52,spd:14,dmg:9,r:7,xp:6,beh:'yeti',pal:{a:'#eef4fa',b:'#9aaac4',c:'#7a8ab0'},rows:[
+ yeti:{name:_t('Yeti'),hp:75,spd:15,dmg:11,r:7,xp:6,beh:'yeti',pal:{a:'#eef4fa',b:'#9aaac4',c:'#7a8ab0'},rows:[
   '...aaa','..aaaa','.aaccc','.acpcc','.acccc','aaabbb','aaaaaa','aaaaaa','baaaaa','baaaaa','.aaaaa','.aa.aa','.bb.bb']},
- wraith:{name:_t('Ledový přízrak'),hp:22,spd:25,dmg:6,r:5,xp:3,beh:'ghost',touch:'slow',pal:{a:'#bfeaff',b:'#5a8ab8',e:'#e8fbff'},rows:[
+ wraith:{name:_t('Ledový přízrak'),hp:32,spd:27,dmg:7,r:5,xp:3,beh:'ghost',touch:'slow',pal:{a:'#bfeaff',b:'#5a8ab8',e:'#e8fbff'},rows:[
   '...aaa','..aaaa','.aaaaa','.apaaa','.apaaa','.aaaaa','aaaaba','aaaaaa','.abaab','..a.ab','...b..']},
- snowman:{name:_t('Sněhulák'),hp:30,spd:14,dmg:8,r:6,xp:3,beh:'chase',die:'snow',pal:{a:'#f4f8ff',b:'#b8c8e0',k:'#2a2a3a',n:'#7a4a2a'},rows:[
+ snowman:{name:_t('Sněhulák'),hp:44,spd:15,dmg:9,r:6,xp:3,beh:'chase',die:'snow',pal:{a:'#f4f8ff',b:'#b8c8e0',k:'#2a2a3a',n:'#7a4a2a'},rows:[
   '....kk','...kkk','..kkkk','..aaaa','..apaa','..aaao','...aaa','.naaaa','n.aaba','..aaaa','.aaaaa','.aaaba','.aaaaa','..aaaa']},
+ icearcher:{name:_t('Ledový lučištník'),hp:34,spd:24,dmg:8,r:5,xp:4,beh:'icearcher',pal:{a:'#d4ecfa',b:'#6a96c8',n:'#2e4a78',c:'#9ae8ff'},rows:[
+  '...nnn','..nnnn','.nnaaa','.nnpaa','..aaaa','..a.a.','.cnaaa','cnnaba','.n.bab','..aaba','..a..a']},
  // chapter V
  crab:{name:_t('Krab'),hp:42,spd:24,dmg:9,r:6,xp:3,beh:'charger',wet:1,pal:{a:'#e8603a',b:'#9a3020',e:'#ffffff',k:'#14101c'},rows:[
   '......','a.....','aa..e.','.a..k.','.aaaaa','aaaaaa','abbbbb','b.b.b.']},
@@ -1352,28 +1354,28 @@ const MAPS={
  // ----- chapter IV: the frozen realm -----
  jezero:{name:_t('Zamrzlé jezero'),desc:_t('Rozlehlé zamrzlé jezero. <b>Na ledu kloužeš</b> a těžko zastavuješ, pod ním se plíží Stín pod ledem. Vydrž 5:30 a poraz ho.'),dur:330,size:1000,seed:151,style:'ice',ice:'lake',grade:'#9ad8ff',gradeA:.2,dark:.2,amb:'#06101e',ambient:'snow',c1:'#d8e8f4',
   speedMul:1.0,base:.97,boss:'serpent',pools:0,
-  spawns:[{e:'wraith',from:0,w:4},{e:'snowman',from:0,w:4},{e:'wolf',from:2,w:2},{e:'skeleton',from:0,w:3},{e:'bat',from:1,w:2},{e:'ghost',from:1,w:2},{e:'yeti',from:2,w:1}],
-  elites:[{t:60,e:'snowman'},{t:130,e:'yeti'},{t:200,e:'wolf'},{t:270,e:'wraith'}],
+  spawns:[{e:'wraith',from:0,w:4},{e:'snowman',from:0,w:4},{e:'icearcher',from:1,w:2},{e:'wolf',from:2,w:2},{e:'yeti',from:1,w:2}],
+  elites:[{t:60,e:'snowman'},{t:130,e:'yeti'},{t:200,e:'icearcher'},{t:270,e:'wraith'}],
   events:[{t:90,type:'ring',e:'wolf',n:14},{t:170,type:'ring',e:'wraith',n:18},{t:250,type:'ring',e:'snowman',n:18}]},
  pevnost:{name:_t('Ledová pevnost'),desc:_t('Nádvoří pevnosti z ledu, kde stráží zmrzlí vojáci a sochy rytířů. Vydrž 5:30 a poraz Mrazivého rytíře.'),dur:330,size:940,seed:157,style:'ice',ice:'fort',grade:'#8ab8ff',gradeA:.22,dark:.42,amb:'#040a1a',ambient:'snow',c1:'#9ab0c8',
   speedMul:1.0,base:.98,boss:'fknight',pools:0,
-  spawns:[{e:'skeleton',from:0,w:4},{e:'wraith',from:0,w:3},{e:'snowman',from:0,w:3},{e:'bonearcher',from:1,w:2},{e:'yeti',from:2,w:1},{e:'golem',from:3,w:1}],
-  elites:[{t:60,e:'skeleton'},{t:130,e:'yeti'},{t:200,e:'bonearcher'},{t:270,e:'golem'}],
-  events:[{t:90,type:'ring',e:'skeleton',n:20},{t:170,type:'ring',e:'wraith',n:18},{t:250,type:'ring',e:'bat',n:26}]},
+  spawns:[{e:'skeleton',from:0,w:2},{e:'wraith',from:0,w:3},{e:'snowman',from:0,w:3},{e:'icearcher',from:0,w:3},{e:'yeti',from:1,w:2},{e:'golem',from:3,w:1}],
+  elites:[{t:60,e:'icearcher'},{t:130,e:'yeti'},{t:200,e:'icearcher'},{t:270,e:'golem'}],
+  events:[{t:90,type:'ring',e:'snowman',n:20},{t:170,type:'ring',e:'wraith',n:18},{t:250,type:'ring',e:'icearcher',n:12}]},
  tajga:{name:_t('Tajga'),desc:_t('Noční les v mrazu. <b>Zima tě postupně zpomaluje</b> a nakonec zraňuje, <b>zahřeješ se u táborových ohňů</b>. Vydrž 5:30 a poraz Wendiga.'),dur:330,size:1000,seed:163,style:'ice',ice:'taiga',grade:'#7aa8e8',gradeA:.24,dark:.56,amb:'#02060e',ambient:'snow',c1:'#c8d8ea',
   speedMul:1.0,base:.98,boss:'wendigo',pools:0,
-  spawns:[{e:'wolf',from:2,w:2},{e:'snowman',from:0,w:4},{e:'bat',from:0,w:3},{e:'wraith',from:1,w:3},{e:'yeti',from:2,w:1},{e:'spider',from:2,w:2}],
-  elites:[{t:60,e:'wolf'},{t:130,e:'yeti'},{t:200,e:'wraith'},{t:270,e:'wolf'}],
+  spawns:[{e:'wolf',from:1,w:3},{e:'snowman',from:0,w:4},{e:'bat',from:0,w:1},{e:'wraith',from:0,w:3},{e:'yeti',from:1,w:2},{e:'icearcher',from:2,w:2},{e:'spider',from:2,w:1}],
+  elites:[{t:60,e:'wolf'},{t:130,e:'yeti'},{t:200,e:'icearcher'},{t:270,e:'yeti'}],
   events:[{t:90,type:'ring',e:'wolf',n:16},{t:170,type:'ring',e:'snowman',n:18},{t:250,type:'ring',e:'wolf',n:20}]},
  soutezka:{name:_t('Lavinová soutěska'),desc:_t('Úzké údolí pod zasněženými svahy. Každých pár taktů se ukáže pruh a na první dobu dalšího taktu přes něj <b>sjede lavina</b>, která smete i nepřátele. Vydrž 6 minut a poraz Krále yetiů.'),dur:360,size:960,seed:167,style:'ice',ice:'gorge',grade:'#a8d0ff',gradeA:.2,dark:.2,amb:'#08101c',ambient:'snow',c1:'#d0dcea',
   speedMul:1.0,base:.98,boss:'yetiking',pools:0,
-  spawns:[{e:'yeti',from:2,w:1},{e:'snowman',from:0,w:5},{e:'wolf',from:2,w:2},{e:'skeleton',from:0,w:3},{e:'wraith',from:1,w:3},{e:'bonearcher',from:2,w:2},{e:'golem',from:3,w:1}],
-  elites:[{t:60,e:'yeti'},{t:130,e:'snowman'},{t:200,e:'golem'},{t:270,e:'yeti'},{t:330,e:'wolf'}],
+  spawns:[{e:'yeti',from:1,w:2},{e:'snowman',from:0,w:5},{e:'wolf',from:2,w:2},{e:'wraith',from:0,w:3},{e:'icearcher',from:1,w:3},{e:'golem',from:3,w:1}],
+  elites:[{t:60,e:'yeti'},{t:130,e:'icearcher'},{t:200,e:'golem'},{t:270,e:'yeti'},{t:330,e:'icearcher'}],
   events:[{t:90,type:'ring',e:'snowman',n:20},{t:170,type:'ring',e:'wolf',n:16},{t:260,type:'ring',e:'yeti',n:8},{t:320,type:'ring',e:'wraith',n:24}]},
  zima:{name:_t('Trůn zimy'),desc:_t('Finále kapitoly. Pod polární září čeká Zimní královna. Když ji raníš pod polovinu, aréna začne zamrzat: <b>v bezpečí jsi jen v zářící runě</b>. Vydrž 7 minut.'),dur:420,size:940,seed:173,style:'ice',ice:'throne',grade:'#7ac8ff',gradeA:.24,dark:.5,amb:'#020814',ambient:'snow',c1:'#8aa8cc',finale:1,
   speedMul:1.0,base:1.0,boss:'queen',pools:0,
-  spawns:[{e:'wraith',from:0,w:4},{e:'yeti',from:2,w:1},{e:'snowman',from:0,w:3},{e:'skeleton',from:0,w:3},{e:'ghost',from:2,w:2},{e:'wolf',from:2,w:2},{e:'golem',from:3,w:1}],
-  elites:[{t:50,e:'wraith'},{t:110,e:'yeti'},{t:170,e:'snowman'},{t:230,e:'golem'},{t:290,e:'yeti'},{t:350,e:'wraith'},{t:400,e:'golem'}],
+  spawns:[{e:'wraith',from:0,w:4},{e:'yeti',from:1,w:2},{e:'snowman',from:0,w:3},{e:'icearcher',from:0,w:3},{e:'wolf',from:2,w:2},{e:'golem',from:3,w:1}],
+  elites:[{t:50,e:'icearcher'},{t:110,e:'yeti'},{t:170,e:'snowman'},{t:230,e:'golem'},{t:290,e:'icearcher'},{t:350,e:'yeti'},{t:400,e:'golem'}],
   events:[{t:80,type:'ring',e:'wraith',n:20},{t:150,type:'ring',e:'snowman',n:18},{t:220,type:'ring',e:'yeti',n:8},{t:300,type:'ring',e:'wolf',n:18},{t:380,type:'ring',e:'wraith',n:28}]},
  // ----- chapter V: the cursed coast -----
  vrakoviste:{name:_t('Vrakoviště'),desc:_t('Pláž plná rozbitých lodí. Přichází <b>příliv a odliv</b>: voda pravidelně zaplaví velký kus pláže a <b>zpomaluje</b>, krabům a utopencům ale nevadí. Vydrž 5:30 a poraz Obřího kraba.'),dur:330,size:1000,seed:181,style:'coast',coast:'wreck',grade:'#ff9a6a',gradeA:.22,dark:.3,amb:'#140a18',ambient:'mote',c1:'#a68c68',
@@ -1448,8 +1450,8 @@ const MAPS={
 const MAP_TIER={hrbitov:[1,0,0],bazina:[1.05,.1,15],kostnice:[1.1,.2,30],zvonice:[1.15,.3,45],trun:[1.32,.45,90],
   poust:[1.3,.45,60,1.1],kanon:[1.34,.48,75,1.1],karavana:[1.38,.5,90,1.1],hrobka:[1.42,.52,105,1.1],brana:[1.55,.6,150,1.15],
   doly:[1.7,.55,110,1.2],kovarna:[1.75,.58,125,1.2],reka:[1.8,.6,140,1.2],krystaly:[1.85,.62,155,1.2],srdce:[2,.7,240,1.25],
-  jezero:[2.2,.65,170,1.3],pevnost:[2.27,.68,185,1.3],tajga:[2.33,.7,200,1.3],soutezka:[2.4,.72,215,1.3],zima:[2.6,.8,320,1.35],
-  vrakoviste:[2.7,.82,230,1.45],pristav:[2.8,.84,245,1.45],majak:[2.9,.86,260,1.45],vir:[2.95,.86,275,1.45],paluba:[3.2,.98,380,1.55]};
+  jezero:[2.3,.7,170,1.38],pevnost:[2.37,.72,185,1.38],tajga:[2.44,.74,200,1.4],soutezka:[2.5,.76,215,1.42],zima:[2.75,.84,320,1.48],
+  vrakoviste:[2.95,.86,230,1.55],pristav:[3.05,.88,245,1.57],majak:[3.15,.9,260,1.6],vir:[3.22,.92,275,1.62],paluba:[3.5,1.02,380,1.72]};
 for(const id in MAPS){const T=MAP_TIER[id]||[1,0,0];MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];MAPS[id].dmm=T[3]||1;}
 // campaign: a chapter = one theme, five maps and one material; its last map is the finale with a special boss
 const CHAPTERS=[
@@ -3701,7 +3703,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-08y';
+const GAME_VER='2026-11-09a';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4022,6 +4024,7 @@ function updateEnemies(dt){
       default:{const r=BEH[beh];if(r){const v=r(e,dt,{cx,cy,ux,uy,dist,sp,t,tp});vx=v[0];vy=v[1];}else{vx=cx*sp;vy=cy*sp;}}
     }
     if(e.evo>1)bossEvo(e,tp);
+    if(e.boss&&e.rage)rageHunt(e,tp,pd,dt);
     e.x+=(vx+e.kx)*dt;e.y+=(vy+e.ky)*dt;
     const kd=Math.max(0,1-9*dt);e.kx*=kd;e.ky*=kd;
     const sz=run.map.size;e.x=clamp(e.x,14,sz-14);e.y=clamp(e.y,14,sz-14);
@@ -4034,7 +4037,14 @@ function updateEnemies(dt){
 const BOSS_RAGE=120;
 function bossRage(e){const over=run.t-(e.born===undefined?run.t:e.born)-BOSS_RAGE;if(over<=0)return 1;
   if(!e.rage){e.rage=1;e.dmg0=e.dmg;toast(e.d.name+_t(' zuří!'),2400);sfx('boss');run.shake=5;$('#bossbar').classList.add('rage');}
-  const k=over/60;e.dmg=e.dmg0*(1+.6*k);return 1.3+.2*Math.min(k,3);}
+  const k=over/60;e.dmg=e.dmg0*(1+.6*k);return Math.min(3.2,1.3+.3*k);}
+// a raging boss also lunges at a player who keeps running away: telegraph (1 beat), then a dash; more often and further every minute, so kiting ends
+function rageHunt(e,tp,pd,dt){if(!e.rage||run.endless||!e.d)return;const k=Math.max(0,(run.t-e.born-BOSS_RAGE)/60);
+  if(e.rhD>0){e.rhD-=dt;e.x+=e.rhx*dt;e.y+=e.rhy*dt;if(Math.random()<.7)sparks(e.x,e.y,1,'#ff5a3a',-e.rhx,-e.rhy,60);return;}
+  if(e.rhW>0){e.rhW-=dt;if(e.rhW<=0){const a=Math.atan2(tp.y-e.y,tp.x-e.x),L=Math.max(0,Math.min(pd-12,90+45*k)),T=.3;e.rhx=Math.cos(a)*L/T;e.rhy=Math.sin(a)*L/T;e.rhD=T;sfx('boom');run.shake=Math.max(run.shake||0,4);
+      if(k>=1.5)ring(e.x,e.y,10+Math.min(8,Math.floor(k)*2),54,e.dmg*.4,Math.random()*6,srcOf(e));}return;}
+  e.rhT=(e.rhT===undefined?2:e.rhT)-dt;
+  if(e.rhT<=0&&pd>64&&run.beatNow){e.rhT=Math.max(2,5.5-1.1*k);e.rhW=M.stepDur*4;run.fx.push({k:'shock',x:e.x,y:e.y,r:4,t:0,life:.5,col:'#ff4a3a'});}}
 /* ----- juicy effects: particle helper, sprite shatter, sparks, smoke ----- */
 const P_MAX=520;
 function addP(q){if(run.parts.length<pCap())run.parts.push(q);}
@@ -4656,6 +4666,10 @@ const BEH={
      else fan(e.x,e.y,Math.atan2(c.uy,c.ux),ph===2?7:5,.22,60,e.dmg*.5,srcOf(e));
      if(e.bc%3===0)summonAt(Math.random()<.5?'imp':'magslime',e.x,e.y,ph===2?4:3,30);}
    if(ph===2)return dashMove(e,dt,c,3.0);const w=c.dist>80?1:c.dist<50?-.4:0;return[c.cx*c.sp*w,c.cy*c.sp*w];},
+ // ice archer: keeps its distance and shoots a pair of icy arrows that slow
+ icearcher(e,dt,c){e.tA=(e.tA===undefined?1.2+Math.random()*2:e.tA)-dt;if(e.tA<=0&&c.dist<160&&run.beatNow){e.tA=e.elite?1.9:2.6;const a=Math.atan2(c.uy,c.ux),d=8*(1+c.t/60*.08)*(e.elite?1.2:1);
+     for(const o of e.elite?[-.2,0,.2]:[-.1,.1])run.eshots.push({x:e.x,y:e.y-3,vx:Math.cos(a+o)*66,vy:Math.sin(a+o)*66,dmg:d,r:3,life:4,src:srcOf(e),snow:1,slw:.45});sfx('shoot',1);}
+   const w=c.dist>100?1:c.dist<70?-.8:0;return[c.cx*c.sp*w,c.cy*c.sp*w];},
  // yeti: lumbers after you and throws snowballs that slow
  yeti(e,dt,c){e.tA=(e.tA===undefined?2:e.tA)-dt;if(e.tA<=0&&c.dist<150&&run.beatNow){e.tA=e.elite?2.8:3.8;const a=Math.atan2(c.uy,c.ux);
      run.eshots.push({x:e.x,y:e.y-4,vx:Math.cos(a)*58,vy:Math.sin(a)*58,dmg:6*(1+c.t/60*.08),r:5,life:4,src:srcOf(e),snow:1,slw:.6});sfx('shoot',2);}
@@ -7171,7 +7185,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('power'),_t('Vylepšení věže'),_t('Stoupni si k věži a ťukni na Vylepšit. Maximum je úroveň 3.')],
    [I('heart'),_t('Oprava'),_t('Nepřátelé věže ničí. Plně vylepšenou věž opravíš stejným tlačítkem.')],
    [dataUrl(SPR.hero.builder),HEROES.builder.name,HEROES.builder.desc]].map(r=>gdRow(...r)).join('');}
-  else if(tab==='world'){const N={'slime':_t('Pomalý, chodí v houfech.'),'bat':_t('Rychlý, létá v kličkách.'),'skeleton':_t('Jde rovnou po tobě.'),'ghost':_t('Pomalu kličkuje k tobě.'),'spider':_t('Malý a hodně rychlý.'),'zombie':_t('Pomalý, ale hodně vydrží.'),'mage':_t('Drží si odstup a střílí.'),'golem':_t('Obr, vydrží hodně a tvrdě bije.'),'wolf':_t('Rozběhne se proti tobě.'),'flameskull':_t('Řítí se na tebe v plamenech.'),'drowned':_t('Pomalý, ve vodě ho nic nezdrží. Po smrti nechá louži, která zpomaluje.'),'bonearcher':_t('Kostlivec s lukem, drží si odstup.'),'digger':_t('Každých pár taktů vykope z hrobu kostlivce.'),'scorp':_t('Vrhá se na tebe a jeho žihadlo otráví.'),'mummy':_t('Odolná. Když tě chytí, zpomalí tě.'),'cultist':_t('Hází vějíř tří nožů.'),'imp':_t('Malý a rychlý, poletuje v kličkách.'),'magslime':_t('Po smrti nechá kaluž magmatu, která pálí.'),'miner':_t('Drží si odstup a hází krumpáče.'),'yeti':_t('Pomalý a odolný. Hází sněhové koule, které zpomalí.'),'wraith':_t('Kličkuje k tobě a jeho dotek zpomaluje.'),'snowman':_t('Po smrti se rozletí na střepy ledu.'),'crab':_t('Na chvíli se zastaví a pak vyrazí přímo na tebe.'),'pirate':_t('Odolný a po smrti nechá louži, která zpomaluje.'),'jelly':_t('Na každou dobu poskočí k tobě, její dotek zpomaluje.'),'gull':_t('Krouží kolem a střemhlav se vrhá dolů.')},B={'slimeking':_t('Svolává další slizy.'),'lich':_t('Střílí kruhy střel.'),'demon':_t('Vrhá se na tebe a pálí kruhy střel.'),'priest':_t('Volá utopence a pod nohy ti plive louže.'),'warden':_t('Vrhá se, dupe a zhasíná pochodně.'),'ringer':_t('Každý úder zvonu je kruh střel.'),'morvan':_t('Chrání ho tři fylaktérie. Pod polovinou zdraví uzavře arénu.'),'scorpking':_t('Vrhá se a nechává za sebou jed.'),'worm':_t('Plave pod pískem, kde je nezranitelný, a vyráží pod tebou.'),'priestess':_t('Kletbou ti na chvíli obrátí ovládání.'),'sphinx':_t('Nejdřív hlídá sluneční paprsek, pak tě loví, potápí obelisky a volá vojáky.'),'forgelord':_t('Každý úder kladiva je kruh jisker, volá skřety a pod nohy ti lije magma.'),'eel':_t('Plave pod vodou, kde je nezranitelný, a vyráží pod tebou.'),'colossus':_t('Vrhá se a při dopadu se roztříští do kruhu krystalů.'),'titan':_t('Střídá vějíř a kruh magmatu. Pod polovinou zdraví se hora probudí a vybuchuje častěji.'),'crab':_t('Vrhá se bokem na tebe. Voda mu nevadí.'),'pirate':_t('Pomalý a odolný. Voda mu nevadí, po smrti nechá louži.'),'jelly':_t('Pluje do rytmu, na každou dobu vyrazí kupředu. Dotek tě zpomalí.'),'gull':_t('Krouží kolem tebe a střemhlav se vrhá.'),'crabking':_t('Vrhá se na tebe a dopad rozstříkne vějíř bublin. Volá kraby.'),'captain':_t('Pálí salvy dělových koulí a volá utopené piráty.'),'seawitch':_t('Mizí v mlze a objevuje se u tebe. Kruhy bublin a medúzy.'),'seasnake':_t('Krouží kolem tebe, plive vějíře a každý čtvrtý takt se vrhne napříč.'),'kraken':_t('Číhá u okraje paluby, pálí inkoust a útočí chapadly. Pod polovinou zdraví bouře zesílí a chapadla lámou palubu.'),'serpent':_t('Plave pod ledem, kde ho nezraníš. Vynoří se s kruhem střepů a chvíli útočí.'),'fknight':_t('Vrhá se na tebe, dopad rozmetá kruh ledu. Volá ledové přízraky.'),'wendigo':_t('Bleskové výpady končí vějířem střepů. Každé tři takty zavyje a přivolá vlky.'),'yetiking':_t('Střídá obří sněhové koule a dupnutí. Volá sněhuláky a yetie.'),'queen':_t('Kruhy ledových střepů a pomocníci. Pod polovinou zdraví začne aréna zamrzat a v bezpečí jsi jen v zářící runě.')};
+  else if(tab==='world'){const N={'slime':_t('Pomalý, chodí v houfech.'),'bat':_t('Rychlý, létá v kličkách.'),'skeleton':_t('Jde rovnou po tobě.'),'ghost':_t('Pomalu kličkuje k tobě.'),'spider':_t('Malý a hodně rychlý.'),'zombie':_t('Pomalý, ale hodně vydrží.'),'mage':_t('Drží si odstup a střílí.'),'golem':_t('Obr, vydrží hodně a tvrdě bije.'),'wolf':_t('Rozběhne se proti tobě.'),'flameskull':_t('Řítí se na tebe v plamenech.'),'drowned':_t('Pomalý, ve vodě ho nic nezdrží. Po smrti nechá louži, která zpomaluje.'),'bonearcher':_t('Kostlivec s lukem, drží si odstup.'),'digger':_t('Každých pár taktů vykope z hrobu kostlivce.'),'scorp':_t('Vrhá se na tebe a jeho žihadlo otráví.'),'mummy':_t('Odolná. Když tě chytí, zpomalí tě.'),'cultist':_t('Hází vějíř tří nožů.'),'imp':_t('Malý a rychlý, poletuje v kličkách.'),'magslime':_t('Po smrti nechá kaluž magmatu, která pálí.'),'miner':_t('Drží si odstup a hází krumpáče.'),'yeti':_t('Pomalý a odolný. Hází sněhové koule, které zpomalí.'),'wraith':_t('Kličkuje k tobě a jeho dotek zpomaluje.'),'icearcher':_t('Drží si odstup a střílí dvojice ledových šípů, které zpomalí.'),'snowman':_t('Po smrti se rozletí na střepy ledu.'),'crab':_t('Na chvíli se zastaví a pak vyrazí přímo na tebe.'),'pirate':_t('Odolný a po smrti nechá louži, která zpomaluje.'),'jelly':_t('Na každou dobu poskočí k tobě, její dotek zpomaluje.'),'gull':_t('Krouží kolem a střemhlav se vrhá dolů.')},B={'slimeking':_t('Svolává další slizy.'),'lich':_t('Střílí kruhy střel.'),'demon':_t('Vrhá se na tebe a pálí kruhy střel.'),'priest':_t('Volá utopence a pod nohy ti plive louže.'),'warden':_t('Vrhá se, dupe a zhasíná pochodně.'),'ringer':_t('Každý úder zvonu je kruh střel.'),'morvan':_t('Chrání ho tři fylaktérie. Pod polovinou zdraví uzavře arénu.'),'scorpking':_t('Vrhá se a nechává za sebou jed.'),'worm':_t('Plave pod pískem, kde je nezranitelný, a vyráží pod tebou.'),'priestess':_t('Kletbou ti na chvíli obrátí ovládání.'),'sphinx':_t('Nejdřív hlídá sluneční paprsek, pak tě loví, potápí obelisky a volá vojáky.'),'forgelord':_t('Každý úder kladiva je kruh jisker, volá skřety a pod nohy ti lije magma.'),'eel':_t('Plave pod vodou, kde je nezranitelný, a vyráží pod tebou.'),'colossus':_t('Vrhá se a při dopadu se roztříští do kruhu krystalů.'),'titan':_t('Střídá vějíř a kruh magmatu. Pod polovinou zdraví se hora probudí a vybuchuje častěji.'),'crab':_t('Vrhá se bokem na tebe. Voda mu nevadí.'),'pirate':_t('Pomalý a odolný. Voda mu nevadí, po smrti nechá louži.'),'jelly':_t('Pluje do rytmu, na každou dobu vyrazí kupředu. Dotek tě zpomalí.'),'gull':_t('Krouží kolem tebe a střemhlav se vrhá.'),'crabking':_t('Vrhá se na tebe a dopad rozstříkne vějíř bublin. Volá kraby.'),'captain':_t('Pálí salvy dělových koulí a volá utopené piráty.'),'seawitch':_t('Mizí v mlze a objevuje se u tebe. Kruhy bublin a medúzy.'),'seasnake':_t('Krouží kolem tebe, plive vějíře a každý čtvrtý takt se vrhne napříč.'),'kraken':_t('Číhá u okraje paluby, pálí inkoust a útočí chapadly. Pod polovinou zdraví bouře zesílí a chapadla lámou palubu.'),'serpent':_t('Plave pod ledem, kde ho nezraníš. Vynoří se s kruhem střepů a chvíli útočí.'),'fknight':_t('Vrhá se na tebe, dopad rozmetá kruh ledu. Volá ledové přízraky.'),'wendigo':_t('Bleskové výpady končí vějířem střepů. Každé tři takty zavyje a přivolá vlky.'),'yetiking':_t('Střídá obří sněhové koule a dupnutí. Volá sněhuláky a yetie.'),'queen':_t('Kruhy ledových střepů a pomocníci. Pod polovinou zdraví začne aréna zamrzat a v bezpečí jsi jen v zářící runě.')};
     h=gdSec(_t('Hrdinové'))+Object.keys(HEROES).map(id=>gdRow(dataUrl(SPR.hero[id]),HEROES[id].name,HEROES[id].desc+(HEROES[id].soon?' '+_t('Přijde s kapitolou ')+SOON_CH[HEROES[id].soon]+_t('. Jeho zbraň dostanou všichni, až ho vylepšíš na úroveň 8.'):''))).join('')
      +CHAPTERS.map(C=>gdSec(_t('Kapitola ')+ROMAN_CH[C.i]+' · '+C.name)+C.maps.map(id=>gdRow(thumbs[id]?thumbs[id].toDataURL():thumbUrl(id),MAPS[id].name+(MAPS[id].finale?_t(' (finále)'):''),MAPS[id].desc)).join('')).join('')
      +gdSec(_t('Nepřátelé'))+ENEMY_IDS.filter(id=>!ENEMY_DEFS[id].noHit).map(id=>gdRow(dataUrl(SPR.enemy[id]),ENEMY_DEFS[id].name,N[id]||'')).join('')
@@ -7779,6 +7793,12 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09a',d:'9. 11. 2026',t:_t('Tvrdší Ledová říše a zuřivější bossové'),hl:[
+  {ic:'enemy:icearcher',t:_t('Ledový lučištník'),d:_t('Nový nepřítel Ledové říše. Drží si odstup a střílí <b>dvojice ledových šípů</b>, které zpomalí.')},
+  {ic:'enemy:yeti',t:_t('Silnější Ledová říše'),d:_t('Yeti, přízraky a sněhuláci vydrží víc a kostlivci z první kapitoly odtud zmizeli. Kapitola IV je teď <b>skutečná zeď</b>.')},
+  {ic:'enemy:pirate',t:_t('Prokleté pobřeží o stupeň tvrdší'),d:_t('Nepřátelé kapitoly V mají víc zdraví a bolí víc.')},
+  {ic:'boss:lich',t:_t('Zuřivý boss tě dožene'),d:_t('Když bosse dlouho jen obíháš, začne se <b>vrhat přímo na tebe</b>. Každou minutu častěji a dál, později i s kruhy střel.')}],
+  items:[_t('Kapitola IV má nové elity a vlny s Ledovými lučištníky.')]},
  {v:'2026-11-08y',d:'8. 11. 2026',t:_t('Doplněné Prokleté pobřeží'),hl:[
   {ic:'set:tide',t:_t('Nové obrázky setu'),d:_t('Klobouk, kabát, perla a prsten <b>Výstroje mořského vlka</b> mají vlastní obrázky.')},
   {ic:'enemy:crab',t:_t('Průvodce'),d:_t('Krab, utopený pirát, medúza a racek mají v Průvodci popis.')}],items:[_t('Pod kapotou: nová stavebnice pro další kapitoly, ať přibývají rychleji.')]},
