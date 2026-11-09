@@ -297,3 +297,13 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 
 ## Předávka 2026-11-09 (verze 09m)
 - Hotovo: 09l nový vzhled Nástěnky a run (textury), 09m Souhvězdí. Další: ladění obtížnosti kapitol V–VI a ekonomiky Nástěnky podle telemetrie, kapitola VII Prázdnota (most `zatmeni` → void připraven, nová mechanika do `FEATS`), co-op kampaň jen jako nápad.
+
+## 09n – místnosti v menu (2026-11-09)
+- Přání uživatele: ručně dělaný vzhled i mimo Nástěnku. Sekce mají třídu `room` + druh: `armory` (Vybavení: hero, towers, pets), `market` (Obchod: chests), `smithy` (Kovárna: forge, shop), `hall` (Síň slávy: master, codex, board). CSS blok „09n: rooms“ na konci stylů.
+- Nové textury v `qTexInit`: `--tx-wall` (cihly), `--tx-dwood` (tmavá prkna), `--tx-iron`, `--tx-bronze`, `--tx-velvet`, `--tx-blue` (plánek), `--tx-wicker`, `--tx-cloth`/`--tx-cloth-d` (praporky); nýty `--rv` (4 radial-gradienty do rohů). `qTexInit` se volá v `setState` pro `room` obrazovky a hlavně **v klidu ~1 s po startu** (requestIdleCallback), aby první otevření nesekalo.
+- **Záložky `.sectabs` všude** = látkové praporky na dřevěné tyči (aktivní červený se zlatým lemem a delší). Nadpisy `.room .sec` a `.smithy .fsec` = dřevěné cedulky se dvěma hřebíky.
+- Vybavení: karta hrdiny tmavé dřevo v železném rámu, sloty železné pláty s nýty (rarita stále jako vnitřní rámeček), inventář otevřená truhla, věže modré plánky na korkové desce, mazlíčci proutěné košíky. Obchod: markýza (mask se zaoblením), truhly na policích, ceny = papírové visačky (`.card.chest>.btn`). Kovárna: železné pláty, kovadlina pod úvodem, strom Vylepšení na pergamenu s dřevěnými tyčemi. Síň slávy: Mistrovství kamenné (zamčené) / bronzové plakety, Sbírka vitrína se sametem.
+- Snímky: `tests/tools/texshot.js prefix [cs|en] [obrazovky]` (env `SCROLL=1` přidá snímky v polovině a na konci), struktura DOM `tests/tools/domdump.js obrazovky`.
+
+## Předávka 2026-11-09 (verze 09n)
+- Hotovo: 09n místnosti v menu. Další: ladění kapitol V–VI a ekonomiky Nástěnky podle telemetrie (zatím jen ~24 běhů), kapitola VII Prázdnota, případně stejný vzhled pro Přípravu, Průvodce a co-op.
