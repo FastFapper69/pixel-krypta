@@ -5,6 +5,8 @@ description: "Kompletní audit Pixel Krypty: chyby v kódu, chyby za běhu, test
 
 # Audit projektu Pixel Krypta
 
+**Celý audit spouštěj jen na výslovné přání uživatele** (pravidlo 9. 11. 2026). Po běžných změnách stačí rychlý test v dotčené oblasti, viz „Testy po změně“ v CLAUDE.md.
+
 Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Výsledek zapiš do `AUDIT.md` (přepiš, datum a verze nahoře) a krátce shrň uživateli: co prošlo, chyby podle priority, kde si ulehčit práci. **Chyby jen hlas, neopravuj bez souhlasu** – výjimka: malá jednoznačná oprava (přejmenování, překlep), kterou hned ověříš měřením. Bezpečnostní a serverové změny vždy nejdřív navrhni.
 
 ## 1. Automatická část (vždy)

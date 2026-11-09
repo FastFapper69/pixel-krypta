@@ -24,7 +24,14 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
   - **Na konci každé akce** (nejen na „zálohuj se“): commit všeho podstatného (kód, `lang-en.js`, testy, skilly v `.claude/skills/`, tenhle soubor se stavem a dalšími kroky) a push na `main`. Před pushem znovu `git fetch` + `git pull --rebase`; při konfliktu ho vyřeš ručně a nic nepřepisuj.
   - **Nikdy** `push --force`. Nic důležitého nesmí zůstat jen v paměti účtu nebo v sandboxu.
   - Když push nejde (sandbox nemá repo v sezení), přidej repo do sezení s právem zápisu a zkus to znovu. Token do repa ani do paměti nikdy neukládej.
-- **Audit:** `node tests/tools/audit.js` (rychlý) / `audit.js plny` – skill `audit-projektu`, poslední zpráva `AUDIT.md`. Nové testy psát nad `tests/tools/lib.js`.
+- **Testy po změně (pravidlo uživatele 9. 11.):** celý audit (`node tests/tools/audit.js`, `audit.js plny`, skill `audit-projektu`, zpráva `AUDIT.md`) **jen když o něj uživatel řekne**. Po běžné změně pusť jen malý rychlý test v oblasti, které se změna týká, a u vizuálních změn snímky (CZ i EN, malý iPhone):
+  - menu a tlačítka → `menucheck.js` (+ `topcheck.js` u horního okraje); obrazovky → snímky přes `lib.open` + `SCREENS`
+  - texty a Novinky → `i18n.js static` a `newsshot.js prefix cs|en od-verze`
+  - ukládání → `savekeys.js`; server, přezdívky, žebříček → `cloudstub.js` (+ SQL v transakci, která se vrátí)
+  - kapitoly, mapy, hrdinové → `chapcheck.js <kapitola>`; mechaniky Cesty → `featreload.js`; denní/týdenní výzva → `dailysame.js`
+  - během běhu: pauza `pausetabs.js`, oslava `celeb.js`, ultimátka `ulthold.js`
+  - Vždy aspoň: hra se načte bez chyb JS a `?v=` v index.html = `GAME_VER`.
+  Nové testy psát nad `tests/tools/lib.js`.
 - **Skilly projektu** jsou v `.claude/skills/` (html5-mobile-game-dev, survivors-design-balance, mobile-store-launch, **nova-kapitola, novy-hrdina**). Když je session nenačte sama, přečti si příslušný `SKILL.md` ručně.
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak `cd tests/tools && node -e "require('./lib').prep()"` (vytvoří off.html bez klíče a vedle něj game.js, krypta.css, lang-en.js a symlinky). Audit to dělá sám. Playwright je předinstalovaný.
