@@ -2341,4 +2341,9 @@ window.KRYPTA_EN={
 "Síň slávy s plaketami":"Hall of Fame with plaques",
 "Mistrovství jsou <b>kamenné a bronzové plakety</b> (splněné se lesknou) a Sbírka je <b>vitrína se sametovými přihrádkami</b>.":"Masteries are <b>stone and bronze plaques</b> (completed ones shine) and the Collection is a <b>display cabinet with velvet compartments</b>.",
 "Záložky ve všech menu jsou látkové praporky na dřevěné tyči, nadpisy sekcí malé dřevěné cedulky.":"Tabs in every menu are cloth pennants on a wooden rod, section titles are small wooden signs.",
+"Oprava ukládání":"Save fix",
+"Postup se ukládá celý":"All progress is saved",
+"Runy, rozsvícené hvězdy Souhvězdí, týdenní výzva a odemčené mechaniky se po zavření hry ztrácely. Teď se ukládají i do cloudu.":"Runes, lit Constellation stars, the weekly challenge and unlocked mechanics were lost after closing the game. Now they are saved, in the cloud too.",
+"Karta Cesta mechanik":"Path of Mechanics card",
+"Už se neukazuje při každém spuštění hry, jen jednou.":"No longer shows on every launch, only once.",
 };

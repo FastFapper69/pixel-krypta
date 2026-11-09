@@ -309,3 +309,7 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 
 ## Předávka 2026-11-09 (verze 09n)
 - Hotovo: 09n místnosti v menu. Další: ladění kapitol V–VI a ekonomiky Nástěnky podle telemetrie (zatím jen ~24 běhů), kapitola VII Prázdnota, případně stejný vzhled pro Přípravu, Průvodce a co-op.
+
+## 09o – oprava ukládání (2026-11-09)
+- Chyba od 09h: `loadSave` načítá jen vyjmenované klíče a `SYNC_KEYS` posílá do cloudu taky jen vyjmenované. Chyběly `feat, featNew, featSum, storyNew, runes, runeDay, sky, wk, twU` → karta Cesta mechanik při každém spuštění, runy, Souhvězdí a týdenní výzva se po restartu ztrácely.
+- **Pravidlo: každý nový klíč `save.X` přidej do seznamu v `loadSave` i do `SYNC_KEYS`.** Kontrola `node tests/tools/savekeys.js` (spusť před každým pushem, když přibude nový klíč), test restartu `tests/tools/featreload.js`.
