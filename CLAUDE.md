@@ -353,3 +353,9 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 - Přezdívky: `nickBad()` ve hře = `public.nick_bad()` na serveru (stejný seznam kořenů a výjimek – měnit oboje), trigger `profiles_nick_check` kontroluje jen novou/změněnou přezdívku. Žebříček: ťuknutí na hráče → `playerMenu` (nahlásit do `public.reports`, skrýt do `save.blk`), `profiles.hidden=true` skryje profil všem (moderace: projít `reports where done=false` do 24 h).
 - Nastavení → Soukromí a licence (`openPrivacy`): zásady (zkrácený `PRIVACY.md`), licence, zobrazit skryté hráče, Smazat moje data (`rpc delete_my_data` smaže feedback, runs, reports, profil i auth uživatele + localStorage). Test `tests/tools/privacy.js prefix [cs|en]`.
 - Zásady v `PRIVACY.md` – před vydáním v obchodech doplnit jméno/firmu a e-mail provozovatele.
+
+## Předávka 2026-11-09 18:45 (verze 09y, vše na main, Pages nasazené)
+- Dnes hotovo: 09n místnosti v menu, 09o–09r oprava a pojistky ukládání (verze, záloha, sync všeho kromě `LOCAL_KEYS`), férová denní/týdenní výzva, plynulé otřesy, posuvníky hlasitosti, ducking; 09s–09w gesta (přejetí mezi záložkami, zpět na iPhonu), štítky věží, náhled zamčených hrdinů, předěl Nové schopnosti, návod Přidat na plochu podle prohlížeče; 09x zjasňování hvězd v Souhvězdí; 09y soukromí, moderace přezdívek, smazání dat, písma ve hře.
+- Skilly projektu: `.claude/skills/pixel-ui-art-direction`, `.claude/skills/gamedev-zasady` (+ `nova-kapitola`).
+- Pravidla od uživatele: po každé vizuální změně zvětšený snímek a opravdu ho prohlédnout (CZ i EN, malý iPhone); pushovat jen když projdou testy; ověřit nasazení přes `gh api …/actions/runs`.
+- Otevřené: makety menu H1/H2 odložené (`tests/tools/mock`); kapitola VII Prázdnota; ladění kap. V–VI podle telemetrie; před vydáním: jméno/e-mail provozovatele do `PRIVACY.md`, vlastní doména, rozhodnutí o truhlách za peníze (PEGI 16, Belgie), TMview; moderovat `reports` do 24 h.
