@@ -11,7 +11,7 @@ const js=dir!=='base'&&fs.existsSync(path.join(__dirname,'mock','menu'+dir+'.js'
  await p.goto('file://'+__dirname+'/off.html');await p.waitForTimeout(600);
  await p.evaluate(([ff,css])=>{const s=document.createElement('style');s.textContent=ff+css;document.head.appendChild(s);},[ff,css]);
  await p.evaluate(()=>window.__krypta._ev("save.sound=false;save.music=false;save.tut=1;save.newsSeen=GAME_VER;save.coins=6000;save.mats.shard=900;save.mats.ess=40;save.stats={runs:30};featInit();for(const F of FEATS)save.feat[F.id]=1;save.featSum=0;for(const C of CHAPTERS.slice(0,4))for(const m of C.maps)save.cleared[m]=true;persist();openMenu();refreshMenu&&refreshMenu()"));
- if(js)await p.evaluate(js);
+ if(js){await p.evaluate(src=>{window.__PROPS=src;},fs.readFileSync(path.join(__dirname,'mock','props.js'),'utf8'));await p.evaluate(js);}
  await p.evaluate(()=>document.fonts.ready);await p.waitForTimeout(900);await p.screenshot({path:`${pre}_menu.png`});
  const scr=(process.env.SCR||'select').split(',');
  for(const s of scr){await p.evaluate(s=>window.__krypta._ev(s==='select'?"openMenu();document.getElementById('mPlay').click()":s==='chests'?"openMenu();openChestShop()":s==='hero'?"openMenu();openHero()":"openMenu();openQuests()"),s);await p.waitForTimeout(700);await p.screenshot({path:`${pre}_${s}.png`});}

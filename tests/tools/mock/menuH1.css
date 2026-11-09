@@ -1,0 +1,15 @@
+/* koncept 1: rozcestník – předměty stojí na podlaze krypty, žádné obdélníky */
+#hub{position:relative;display:grid;grid-template-columns:repeat(4,1fr);align-items:end;margin:14px -16px 4px;padding:0 6px 18px;min-height:150px}
+#hub .floor{position:absolute;left:0;right:0;bottom:0;height:58px;image-rendering:pixelated;
+ height:64px;background:linear-gradient(#5a5070 0 3px,#2a2438 3px 5px,#0000 5px),linear-gradient(#0000 40%,#130f1cd0),var(--tx-stone) 0 0/48px 48px;
+ -webkit-mask:linear-gradient(90deg,#0000,#000 12%,#000 88%,#0000);mask:linear-gradient(90deg,#0000,#000 12%,#000 88%,#0000)}
+.prop{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0;color:var(--fg);font:inherit;cursor:pointer;z-index:1}
+.prop img{width:84px;height:84px;image-rendering:pixelated;filter:drop-shadow(0 6px 0 #0008);transition:transform .12s ease-out}
+.prop.p-chest img{width:84px;height:75px;margin-top:9px}
+.prop:active img{transform:translateY(3px) scale(.96)}
+.prop .glow{position:absolute;left:50%;bottom:20px;width:78px;height:16px;margin-left:-39px;background:radial-gradient(closest-side,#00000090,#0000)}
+.p-anvil .glow{background:radial-gradient(closest-side,#ff8a2a40,#0000);bottom:46px;height:50px}
+.prop b{font-size:15px;font-weight:700;letter-spacing:.02em;text-shadow:0 2px 0 #000,0 0 6px #000;margin-top:-2px}
+.prop .pnew{position:absolute;top:2px;right:2px;font-style:normal;font-size:11px;font-weight:800;color:var(--ink);background:var(--gold);padding:1px 4px;box-shadow:0 2px 0 #0008}
+.prop .pdot{position:absolute;top:10px;right:16px;width:9px;height:9px;background:var(--red);box-shadow:0 0 0 2px #2a0a10}
+#mCoop{min-height:52px!important;font-size:18px}
