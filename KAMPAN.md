@@ -79,6 +79,19 @@ Bot 8. 11. (2 běhy na mapu, bez výbavy): `zkuseny` trun 50 %, poust 50 %, bran
 Starší balanc (08o, bot `zkuseny`, 3–4 běhy na mapu): jezero ~50 %, zima ~17 %; po úpravě `MAP_TIER` V: vrakoviste ~100 % → zvednuto na 1,78/0,58, pristav ~50 %, majak ~83 %, vir ~33 %, paluba ~50 % (Kraken 15 500). Bot zná vír, chapadla a díry (`bot.js`). Ladit podle telemetrie.
 Nepřátelé: `crab` (charger, `wet`), `pirate` (chase, louže, `wet`), `jelly` (BEH `jelly`: na každou dobu vyrazí, dotek zpomalí), `gull` (BEH `gull`: krouží a střemhlav, `fly`). Věže `cannon` Lodní dělo (koule skáče po zemi, odemkne přístav) a `harpoon` Harpunářská věž (přitáhne a drží nejodolnějšího, odemkne vír), od 09c karty jen ze Stavitelovy bedny. Set `tide` Výstroj mořského vlka (2 = pohyb +8 %, sbírání +15 %; 4 = `lg.st4` vlna na 3. dobu každého 2. taktu, `kb` u `ring`), legendárka `kheart` Oko krakena (prsten, chapadla inkoustu na 3 nejbližší každé 2 takty). Hledaný `seawolf` Mořský vlk. Námořnice `need:'vrakoviste'`, 1500 zlata. Mistrovství `kraken` Pán moří. Testy `tests/tools/c5shots.js <prefix> [mapy] [s]` (level-upy vybírá sám), pohlednice nových map `thumbgen5.js mapa,…`.
 
+## Kapitola VI Nebeská hvězdárna (09j, stavebnice)
+Příběh Padlé hvězdy: po Krakenovi padají hvězdy, Hvězdářka je sleduje; finále Zatmění otevírá Prázdnotu (most do kap. VII, `BRIDGE.zatmeni` k:'void'). Paleta `C6G/C6W/C6T/C6B`, rekvizity `c6_*` v `KIT_PROPS`, hudba `songKit` styl `frost`.
+
+| Mapa | Rozvržení | Mechanika |
+|---|---|---|
+| hvezdarna Hvězdárna | plaza | `beam`: 2 paprsky dalekohledu ze středu (od 15 s), pálí hrdinu i nepřátele (40/0,3 s) |
+| mlhovina Mlhovina | open, tma .86 | `slow` v hvězdném plynu, světlušky jako světla |
+| ostrovy Plovoucí ostrovy | paths + zóna prázdnoty | `gaps`: prázdnota bolí a zpomaluje, na každý 2. takt hvězdné mosty (bezpečné); `push` hvězdný vítr |
+| souhvezdi Souhvězdí | paths | `stars`: 5 hvězd v pořadí (stůj 0,35 s), celé souhvězdí zasáhne nepřátele do 300 px (60 % HP + 60, boss 3 %), ukazatel na další hvězdu; `links` čáry mezi `starwolf` pálí |
+| zatmeni Brána zatmění | arena, finále | `strike` střepy hvězdy (od 60 s), `links`; boss Zatmění (`KIT_OWN.eclipse` dvojitý kruh + tma) |
+
+Nepřátelé: `starimp` (fast, `BEH.blink` přenos k hrdinovi na takt), `meteor` (charger), `starwolf` (grunt, čáry), `comet` (tank, letí, `BEH.comet` průlet s ohnivým ohonem). Bossové kit: astrolab (keep, spirály), nebula (chase, sliz, přenos), griffin (dash, hvězdy z nebe), orion (keep, šípy, strike, vlci), eclipse (finále). Věže `scope` Dalekohled (odemkne mlhovina) a `gwell` Gravitační studna (souhvezdi). Set `star` (armor, amulet, ring, boots; 4 = padající hvězda `lg.sst4`), legendárka `eheart` Srdce zatmění. Hledaný `comet` Bludná kometa. Hrdinka `astro` Hvězdářka (`need:'hvezdarna'`, 1500 zl). Kontrola `tests/tools/c6shots.js prefix`.
+
 ## Zbývá / nápady
 - Kapitola VI (Hvězdářka): podle stejného rámce, mechanika jen u některých map, pár nových nepřátel, bez nového materiálu. Kapitola V má od 09c vlastní věže (Lodní dělo, Harpunářská věž).
 - Úkoly a Mistrovství pro nové mechaniky (zapálené pochodně `run.qc.torch`, zvony `bell`, pasti `trap` se už počítají).

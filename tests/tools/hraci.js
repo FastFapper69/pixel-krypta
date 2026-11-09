@@ -27,7 +27,8 @@ const UCTY=[
  {hlv:16,meta:14,rev:1,tiers:1,tlv:2,gear:[2,2],slots:4,sets:['bone',2],pet:['owl',3],tw:[['arrow',1],['fire',1],['frost',1],['tesla',1],['obelisk',0]]},
  {hlv:19,meta:17,rev:2,tiers:2,tlv:3,gear:[2,3],slots:5,sets:['forge',2],pet:['fox',4],tw:[['arrow',1],['fire',1],['frost',1],['tesla',1],['forge',1]]},
  {hlv:22,meta:20,rev:2,tiers:3,tlv:3,gear:[2,4],slots:6,sets:['frost',2],pet:['salamander',3],tw:[['arrow',1],['fire',2],['frost',1],['tesla',2],['hearth',1]]},
- {hlv:25,meta:22,rev:2,tiers:4,tlv:4,gear:[3,4],slots:6,sets:['tide',2],pet:['drake',4],tw:[['arrow',2],['fire',2],['frost',2],['tesla',2],['icelance',1]]}];
+ {hlv:25,meta:22,rev:2,tiers:4,tlv:4,gear:[3,4],slots:6,sets:['tide',2],pet:['drake',4],tw:[['arrow',2],['fire',2],['frost',2],['tesla',2],['icelance',1]]},
+ {hlv:29,meta:25,rev:3,tiers:5,tlv:5,gear:[3,5],slots:6,sets:['tide',4],pet:['drake',5],tw:[['arrow',2],['fire',2],['frost',2],['tesla',2],['cannon',1]]}];
 // finále hraje hráč, který prošel 4 mapy kapitoly (o kousek silnější než na vstupu)
 const fin=A=>Object.assign({},A,{hlv:A.hlv+2,meta:Math.min(30,A.meta+2)});
 const grind=A=>Object.assign({},A,{hlv:Math.min(40,A.hlv+4),meta:Math.min(30,A.meta+3),gear:A.gear?[Math.min(3,A.gear[0]+1),A.gear[1]+2]:[1,2],slots:Math.min(6,(A.slots||0)+1)||3,sets:A.sets?[A.sets[0],Math.min(4,A.sets[1]+2)]:null,tlv:A.tlv+2});
