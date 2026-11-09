@@ -259,3 +259,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - `sw.js` cache `krypta-v4`: předem game.js a krypta.css (lang-en.js už ne), z cache se mažou staré `?v=` kopie, offline se soubor najde i bez dotazu.
 - Testy: `lib.src()` vrací spojený zdroják pro statické kontroly (audit, i18n, savekeys), `lib.prep()` kopíruje game.js a krypta.css k off.html; `cloudstub.js` testuje vynucené přejmenování.
 - Server: `profiles.rename_req`; `my_profile()` ho vrací; `save_profile()` nově dělá UPDATE místo INSERT … ON CONFLICT (trigger filtru přezdívek běžel i na pokus o INSERT, takže starý profil se závadnou přezdívkou se nemohl uložit ani beze změny jména). Nová přezdívka zruší `rename_req` i `hidden`. Hra při `rename_req` otevře okno „Nová přezdívka“ bez tlačítka Zpět a bez PINu, z menu se do něj vrací, dokud se nové jméno neuloží. Jediný takový hráč v žebříčku je označený.
+
+## 09z8 – jednotné menu (2026-11-09)
+- `bartDraw`: co-op a Nástěnka z bronzu/dřeva na železo (palety `pur`/`wood` odstraněné, i léta dřeva a hřeby), Vybavení bez kostěných rohů. Vlastní vzhled zůstal jen Hrát a Souhvězdí.

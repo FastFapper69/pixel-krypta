@@ -2883,7 +2883,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09z7';
+const GAME_VER='2026-11-09z8';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -5558,18 +5558,16 @@ function openMenu(){if(BI){BI=null;$('#hud').classList.remove('bi');}seedRng(nul
 const BART_S=3;
 const BART_PAL={
  iron:{o:'#0e0b14',hi:'#d6d9e2',lt:'#a3a8b8',md:'#6f7487',dk:'#464a5e',dd:'#2a2c3c'},
- pur:{o:'#120a06',hi:'#f2c89a',lt:'#d0945a',md:'#a0673a',dk:'#6e4224',dd:'#45260f'},
- wood:{o:'#120a06',hi:'#d9a066',lt:'#b07a44',md:'#8c5a2e',dk:'#653d1c',dd:'#42260e'},
  gold:{o:'#140c06',hi:'#fff2b4',lt:'#f2c650',md:'#c98f22',dk:'#8e5c12',dd:'#5a3606'}};
 const BART_KIND={mPlay:'play',mCoop:'coop',mHero:'hero',mForge:'forge',mChest:'shop',mQuest:'quest',mSky:'sky',mBoard:'ico',mNews:'ico',mGuide:'ico',mSet:'ico',mCur:'cur'};
 function bartDraw(kind,aw,ah,ex){ // ex = [od,do] v pixelech kresby (od levého okraje tlačítka), kde je text – tam nesmí být hvězdy
  const isPlay=kind==='play',small=kind==='ico'||kind==='cur';
  const M={t:1,l:1,r:1,b:2};
- if(kind==='shop')M.t=3;if(kind==='hero'){M.t=4;M.l=M.r=3;}if(kind==='sky')M.t=2;
+ if(kind==='shop')M.t=3;if(kind==='sky')M.t=2;
  const W=aw+M.l+M.r,H=ah+M.t+M.b,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');
  const R=mulberry32(kind.length*977+aw*13+ah),P=(x,y,col)=>{g.fillStyle=col;g.fillRect(x,y,1,1);},F=(x,y,w,h,col)=>{if(w>0&&h>0){g.fillStyle=col;g.fillRect(x,y,w,h);}};
  const x0=M.l,y0=M.t,x1=x0+aw-1,y1=y0+ah-1;
- const fr=kind==='coop'?BART_PAL.pur:kind==='quest'?BART_PAL.wood:kind==='sky'?BART_PAL.gold:BART_PAL.iron;
+ const fr=kind==='sky'?BART_PAL.gold:BART_PAL.iron; // 09z7b: co-op a Nástěnka už nejsou hnědé (bronz/dřevo), jen kované železo
  // stín pod tlačítkem
  F(x0+1,y1+1,aw-2,1,'rgba(6,4,10,.6)');F(x0+2,y1+2,aw-4,1,'rgba(6,4,10,.28)');
  // obrys se seříznutými rohy
@@ -5579,19 +5577,16 @@ function bartDraw(kind,aw,ah,ex){ // ex = [od,do] v pixelech kresby (od levého 
  F(x0+1,y0+1,aw-2,ah-2,fr.md);
  F(x0+2,y0+1,aw-4,1,fr.hi);F(x0+1,y0+2,1,ah-4,fr.lt);F(x0+2,y0+2,aw-4,1,fr.lt);
  F(x1-1,y0+2,1,ah-4,fr.dk);F(x0+2,y1-1,aw-4,1,fr.dd);F(x0+2,y1-2,aw-4,1,fr.dk);
- if(kind==='quest'){ // dřevo: léta v rámu
-  for(let i=0;i<aw/3;i++){const x=x0+3+Math.floor(R()*(aw-8));const y=R()<.5?y0+2:y1-2;F(x,y,2+Math.floor(R()*4),1,R()<.5?fr.dk:fr.lt);}
-  for(let i=0;i<ah/4;i++){const y=y0+4+Math.floor(R()*(ah-10));const x=R()<.5?x0+2:x1-2;F(x,y,1,2+Math.floor(R()*3),fr.dk);}}
  // vnitřní linka (zapuštění) a výplň
  const ix=x0+1+t,iy=y0+1+t,iw=aw-2-2*t,ih=ah-2-2*t;
  F(ix-1,iy-1,iw+2,ih+2,fr.o);
- const fill={play:['#fff3b8','#ffe07a','#f6c443','#eeb236','#d79826','#b8781a'],coop:['#5a4636','#46362c','#3a2e28','#342924','#2e241f','#251d19'],
+ const fill={play:['#fff3b8','#ffe07a','#f6c443','#eeb236','#d79826','#b8781a'],coop:['#626a84','#4a5068','#3a3f52','#353a4c','#2e3242','#252836'],
   hero:['#626a84','#4a5068','#3a3f52','#353a4c','#2e3242','#252836'],forge:['#626a84','#4a5068','#3a3f52','#3a3644','#4a3030','#6a3018'],
-  shop:['#626a84','#4a5068','#3a3f52','#353a4c','#2e3242','#252836'],ico:['#5a6178','#454b60','#363a4c','#32364a','#2c2f40','#24273a'],cur:['#0c0a12','#13101c','#17131f','#17131f','#15121c','#120f18'],quest:['#6e5a4a','#54443a','#40342e','#3b302b','#342a26','#2a211e'],
+  shop:['#626a84','#4a5068','#3a3f52','#353a4c','#2e3242','#252836'],ico:['#5a6178','#454b60','#363a4c','#32364a','#2c2f40','#24273a'],cur:['#0c0a12','#13101c','#17131f','#17131f','#15121c','#120f18'],quest:['#626a84','#4a5068','#3a3f52','#353a4c','#2e3242','#252836'],
   sky:['#2c3e60','#1f2d4a','#152238','#131e33','#101a2c','#0c1424']}[kind];
- for(let y=0;y<ih;y++){const f=y/(ih-1);let col=y===0?fill[0]:y===1?fill[1]:f<.55?fill[2]:f<.8?fill[3]:y>=ih-2?(y===ih-1?fill[5]:fill[4]):fill[3];if(kind==='coop'&&y===1)col='#4c3a2e';F(ix,iy+y,iw,1,col);}
+ for(let y=0;y<ih;y++){const f=y/(ih-1);let col=y===0?fill[0]:y===1?fill[1]:f<.55?fill[2]:f<.8?fill[3]:y>=ih-2?(y===ih-1?fill[5]:fill[4]):fill[3];F(ix,iy+y,iw,1,col);}
  // šum a škrábance
- const spk=isPlay?['#e5a630','#ffe892']:kind==='sky'?['#ffffff','#a8c4e8']:kind==='quest'?['#2c221e','#5e4c40']:kind==='coop'?['#2c221d','#4e3d31']:['#2b2f3e','#4d5468'];
+ const spk=isPlay?['#e5a630','#ffe892']:kind==='sky'?['#ffffff','#a8c4e8']:['#2b2f3e','#4d5468'];
  const n=small?0:Math.floor(iw*ih*(kind==='sky'?.012:.035));
  for(let i=0;i<n;i++){let x=ix+Math.floor(R()*iw);const y=iy+2+Math.floor(R()*(ih-4));if(kind==='sky'&&(x<ix+4||x>ix+iw-5||(ex&&x>=x0+ex[0]-3&&x<=x0+ex[1]+3)))continue;P(x,y,R()<.6?spk[0]:spk[1]);}
  if(isPlay){for(let i=0;i<Math.max(3,iw/18);i++){const x=ix+4+Math.floor(R()*(iw-10)),y=iy+3+Math.floor(R()*(ih-8)),l=2+Math.floor(R()*3);for(let k=0;k<l;k++)P(x+k,y+(k>>1),'#ffe892');}
@@ -5601,16 +5596,14 @@ function bartDraw(kind,aw,ah,ex){ // ex = [od,do] v pixelech kresby (od levého 
   for(let y=0;y<3;y++)for(let x=ix;x<ix+iw;x++)if(R()<.55-y*.15)P(x,iy+ih-1-y,y?'#4a2c2a':'#62301e');
 }
  if(kind==='sky'){for(let i=0;i<4;i++){const L=ex?ex[0]-5:iw*.2,Rr=ex?aw-ex[1]-6:iw*.2;const side=i%2?Rr:L;if(side<6)continue;const e=Math.floor(side-5),x=i%2?x1-4-Math.floor(R()*e):ix+3+Math.floor(R()*e),y=iy+2+Math.floor(R()*(ih-5));P(x,y,'#fff6c8');P(x-1,y,'#7a9ad0');P(x+1,y,'#7a9ad0');P(x,y-1,'#7a9ad0');P(x,y+1,'#7a9ad0');}}
- // rohové pláty s nýtem (dřevo: kovaný hřeb)
+ // rohové pláty s nýtem
  const plate=(px,py,sz)=>{F(px+1,py,sz-2,sz,fr.o);F(px,py+1,sz,sz-2,fr.o);F(px+1,py+1,sz-2,sz-2,fr.md);F(px+1,py+1,sz-2,1,fr.hi);F(px+1,py+2,1,sz-3,fr.lt);F(px+sz-2,py+2,1,sz-3,fr.dk);F(px+2,py+sz-2,sz-3,1,fr.dd);
   const cx=px+(sz>>1)-1,cy=py+(sz>>1)-1;P(cx,cy,fr.hi);P(cx+1,cy,fr.lt);P(cx,cy+1,fr.lt);P(cx+1,cy+1,fr.dk);P(cx+2,cy+1,fr.dd);P(cx+1,cy+2,fr.dd);};
  const ps=isPlay||kind==='coop'?7:6;
- if(kind==='quest'){const nail=(x,y)=>{F(x,y,2,2,'#9aa0b0');P(x,y,'#e4e6ee');P(x+1,y+1,'#4a4e60');P(x+2,y+1,'#120a06');P(x+1,y+2,'#120a06');P(x+2,y+2,'#120a06');};
-  nail(x0+2,y0+2);nail(x1-4,y0+2);nail(x0+2,y1-4);nail(x1-4,y1-4);}
- else if(small){for(const [x,y] of [[x0+1,y0+1],[x1-2,y0+1],[x0+1,y1-2],[x1-2,y1-2]]){P(x,y,fr.hi);P(x+1,y,fr.lt);P(x,y+1,fr.lt);P(x+1,y+1,fr.dd);}}
+ if(small){for(const [x,y] of [[x0+1,y0+1],[x1-2,y0+1],[x0+1,y1-2],[x1-2,y1-2]]){P(x,y,fr.hi);P(x+1,y,fr.lt);P(x,y+1,fr.lt);P(x+1,y+1,fr.dd);}}
  else{plate(x0,y0,ps);plate(x1-ps+1,y0,ps);plate(x0,y1-ps+1,ps);plate(x1-ps+1,y1-ps+1,ps);}
  // drobné nýty po délce rámu
- if(!isPlay&&!small&&kind!=='quest'){const step=kind==='coop'?16:14;for(let x=x0+ps+5;x<x1-ps-3;x+=step){for(const y of [y0+2,y1-2]){P(x,y,fr.hi);P(x+1,y,fr.lt);P(x+1,y+1,fr.dd);}}}
+ if(!isPlay&&!small){const step=kind==='coop'?16:14;for(let x=x0+ps+5;x<x1-ps-3;x+=step){for(const y of [y0+2,y1-2]){P(x,y,fr.hi);P(x+1,y,fr.lt);P(x+1,y+1,fr.dd);}}}
  // ozdoby
  if(kind==='shop'){ // markýza obchodu: tyč nad rámem, krátké pruhy visí jen přes horní pás rámu
   const aw2=Math.min(44,Math.round(aw*.4))&~3,ax=x0+((aw-aw2)>>1),ay=y0-2,sw=4;
@@ -5618,12 +5611,6 @@ function bartDraw(kind,aw,ah,ex){ // ex = [od,do] v pixelech kresby (od levého 
   for(let x=0;x<aw2;x++){const st=Math.floor(x/sw)%2,inS=x%sw,len=(inS===0||inS===sw-1)?4:5;
    F(ax+x,ay+2,1,len,st?'#f2ead8':'#d8383a');P(ax+x,ay+2,st?'#ffffff':'#f0645a');P(ax+x,ay+1+len,st?'#c9bfa8':'#a02024');P(ax+x,ay+2+len,'#120a06');if(len===4)P(ax+x,ay+1+len,'#120a06');}
   F(ax-1,ay+2,1,4,'#120a06');F(ax+aw2,ay+2,1,4,'#120a06');}
- if(kind==='hero'){ // kostěné rohy vyrůstající z horních rohů
-  const horn=['b.......','bb......','cbb.....','.cbbb...','.ccrbbbb','..cccrcc'];
-  const draw=(ox,oy,flip)=>{const at=(x,y)=>(x<0||y<0||x>7||y>=horn.length)?'.':horn[y][flip?7-x:x];
-   for(let y=-1;y<=horn.length;y++)for(let x=-1;x<=8;x++)if(at(x,y)==='.'&&(at(x-1,y)!=='.'||at(x+1,y)!=='.'||at(x,y-1)!=='.'||at(x,y+1)!=='.'))P(ox+x,oy+y,'#120a06');
-   for(let y=0;y<horn.length;y++)for(let x=0;x<8;x++){const ch=at(x,y);if(ch!=='.')P(ox+x,oy+y,ch==='b'?'#f0e4c6':ch==='r'?'#7a6a4e':'#b8a684');}};
-  draw(x0-2,y0-3,false);draw(x1-5,y0-3,true);}
  return {cv:c,M,W,H};}
 function bartApply(b){
  const kind=BART_KIND[b.id];if(!kind||b.hidden)return;const w=b.offsetWidth,h=b.offsetHeight;if(!w||!h)return;
@@ -7916,6 +7903,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09z8',d:'9. 11. 2026',t:_t('Sjednocené menu'),hl:[
+  {ic:'hammer',t:_t('Bez hnědých tlačítek'),d:_t('Hrát s kamarádem a Nástěnka mají stejný kovaný železný rám jako ostatní tlačítka v menu a Vybavení už nemá rohy.')}]},
  {v:'2026-11-09z7',d:'9. 11. 2026',t:_t('Rychlejší načítání'),hl:[
   {ic:'haste',t:_t('Hra se načte rychleji'),d:_t('Hra je rozdělená na menší soubory a v češtině už nestahuje anglické texty. Na pomalém připojení naběhne dřív.')}],
   items:[_t('Přezdívku, která porušuje pravidla, si hráč musí změnit. Postup mu zůstane.')]},
