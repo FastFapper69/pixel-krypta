@@ -298,6 +298,8 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 ## Předávka 2026-11-09 (verze 09m)
 - Hotovo: 09l nový vzhled Nástěnky a run (textury), 09m Souhvězdí. Další: ladění obtížnosti kapitol V–VI a ekonomiky Nástěnky podle telemetrie, kapitola VII Prázdnota (most `zatmeni` → void připraven, nová mechanika do `FEATS`), co-op kampaň jen jako nápad.
 
+- **Ověření nasazení na Pages (funguje):** `gh api repos/FastFapper69/pixel-krypta/actions/runs --jq '.workflow_runs[0] | [.head_sha[0:7],.status,.conclusion] | @tsv'` – běh „pages build and deployment“ pro poslední commit musí být `completed success`. Přímo `*.github.io` je ze sandboxu blokované (curl i WebFetch), proto vždy přes `gh`.
+
 ## 09n – místnosti v menu (2026-11-09)
 - Přání uživatele: ručně dělaný vzhled i mimo Nástěnku. Sekce mají třídu `room` + druh: `armory` (Vybavení: hero, towers, pets), `market` (Obchod: chests), `smithy` (Kovárna: forge, shop), `hall` (Síň slávy: master, codex, board). CSS blok „09n: rooms“ na konci stylů.
 - Nové textury v `qTexInit`: `--tx-wall` (cihly), `--tx-dwood` (tmavá prkna), `--tx-iron`, `--tx-bronze`, `--tx-velvet`, `--tx-blue` (plánek), `--tx-wicker`, `--tx-cloth`/`--tx-cloth-d` (praporky); nýty `--rv` (4 radial-gradienty do rohů). `qTexInit` se volá v `setState` pro `room` obrazovky a hlavně **v klidu ~1 s po startu** (requestIdleCallback), aby první otevření nesekalo.
