@@ -10,6 +10,13 @@ Orientační přehled sestavený z veřejných zdrojů, **není to právní rada
 - **Název Pixel Krypta** – hra stejného jména nenalezena. Existují „Krypta“ (itch.io, IndieDB) a „Pixel Crypt“ (game jam na itch.io). Před vydáním ověřit ochranné známky v TMview / ÚPV (nebylo hledáno přímo v databázích).
 - **Supabase** běží v EU (eu-west-1, Irsko).
 
+## Hotovo ve verzi 09y
+- Písma a supabase-js jsou přímo ve hře (`fonts/`, `vendor/`), žádné načítání z Google Fonts ani jsDelivr. Licence v `licenses/`.
+- Filtr přezdívek ve hře (`nickBad`) i na serveru (`public.nick_bad` + trigger), nahlášení hráče (`public.reports`), skrytí hráče lokálně (`save.blk`) a moderátorem (`profiles.hidden`). Jeden existující urážlivý profil skrytý.
+- Smazání všech dat ve hře (`public.delete_my_data()` smaže i anonymní účet).
+- Zásady ochrany osobních údajů: `PRIVACY.md` + okno Nastavení → Soukromí a licence (CZ/EN).
+- **Zbývá:** doplnit jméno/firmu a e-mail provozovatele do zásad, vlastní doména, rozhodnutí o truhlách za peníze, ochranné známky v TMview.
+
 ## Potřeba vyřešit před vydáním
 1. **Osobní údaje (GDPR)** – hra ukládá anonymní účet, přezdívku, postup, statistiky běhů včetně údaje o prohlížeči, zpětnou vazbu (volný text) a IP adresy jdou na Supabase, Google Fonts, jsDelivr a Google STUN (co-op).
    - Zásady ochrany osobních údajů (povinné i pro App Store a Google Play).

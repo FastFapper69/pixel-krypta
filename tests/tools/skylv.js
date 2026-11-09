@@ -22,5 +22,6 @@ const {chromium}=require('playwright');const pre=process.argv[2],lang=process.ar
  await E("save.sky.rw='';skyRespec()");await p.waitForTimeout(200);await p.click('#skyR');await p.waitForTimeout(200);
  ok(await E('skySpent()')===0&&await E("skyLv('war',6)")===0,'Vrátit body vrátí i úrovně');
  // save round trip
- await E("skyBuy('war',0);persist()");await p.reload();await p.waitForTimeout(500);ok(await E("skyLv('war',0)")===1,'po restartu zůstane');
+ await E("skyBuy('war',0);persist()");const lsB=await p.evaluate(()=>JSON.parse(localStorage.getItem('pixel-krypta-v1')).sky.lit.war);const ptsB=await E('skyPts()+\'/\'+skyEarned()');
+ await p.reload();await p.waitForTimeout(500);const lv=await E("skyLv('war',0)");ok(lv===1,'po restartu zůstane'+(lv===1?'':' (uloženo před restartem: '+lsB+', body '+ptsB+', po: '+await p.evaluate(()=>JSON.parse(localStorage.getItem('pixel-krypta-v1')).sky.lit.war)+')'));
  console.log('chyby',errs);await b.close();process.exit(bad||errs.length?1:0);})();

@@ -12,10 +12,18 @@
 <meta name="apple-mobile-web-app-title" content="Pixel Krypta">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Pixel Krypta</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- fonts load without blocking the first paint (a slow connection used to keep the screen black) -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Pixelify+Sans:wght@500;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<!-- 09y: fonts are served from the game itself (no Google Fonts → no visitor IP sent to Google; licences in licenses/) -->
+<style>@font-face{font-family:'Pixelify Sans';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/pixelify-sans-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Pixelify Sans';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/pixelify-sans-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Pixelify Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/pixelify-sans-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Pixelify Sans';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/pixelify-sans-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Chakra Petch';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/chakra-petch-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Chakra Petch';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/chakra-petch-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Chakra Petch';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/chakra-petch-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Chakra Petch';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/chakra-petch-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Chakra Petch';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/chakra-petch-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Chakra Petch';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/chakra-petch-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+</style>
 <style>
 /* Layout: one-screen app. Canvas stage fills the frame, HUD and menus are HTML layers above it.
    Look: dusk-violet dungeon, gold as the reward colour, hard pixel edges, no rounding. */
@@ -851,6 +859,11 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 @keyframes igB{50%{transform:translateY(8px)}}@keyframes igT{50%{transform:translateY(-8px)}}
 .sk-pips{display:inline-flex;gap:4px;margin-left:auto}.sk-pips i{width:9px;height:9px;background:#2a2450;box-shadow:inset 0 0 0 1px #5a5490;transform:rotate(45deg)}.sk-pips i.on{background:var(--sc);box-shadow:0 0 6px var(--sc)}
 .sk-star .sk-h{display:flex;align-items:center;gap:8px}.sk-star>p{grid-column:1;grid-row:2}.sk-star>.sk-st{grid-column:1;grid-row:3;margin:0}.sk-star>.btn{grid-column:2;grid-row:2/span 2}.sk-next{display:block;margin-top:2px;font-size:12px;color:var(--muted)}.sk-st{display:block;font-size:12px;color:var(--muted);margin:2px 0 6px}
+.priv .priv-body{max-height:min(52vh,460px);overflow:auto;text-align:left;padding:10px 6px 14px 2px;margin:0 0 6px;-webkit-overflow-scrolling:touch;
+ -webkit-mask:linear-gradient(#0000,#000 12px,#000 calc(100% - 16px),#0000);mask:linear-gradient(#0000,#000 12px,#000 calc(100% - 16px),#0000)}
+.priv .priv-body h3{font-size:14px;margin:12px 0 3px}.priv .priv-body h3:first-child{margin-top:0}.priv .priv-body p{margin:0;font-size:13px;line-height:1.45;color:#d8d0ec}
+.btn.alt.danger{color:#ff9a8a;box-shadow:0 4px 0 #0c0912,inset 0 0 0 3px #7a2a30}
+.pm .hint{margin:6px 0 12px}
 :root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}</style>
 <style>/* 09n: rooms – Vybavení = zbrojnice, Obchod = tržní stánek, Kovárna = výheň, Síň slávy = pamětní síň (textures from qTexInit) */
 :root{--rv:radial-gradient(circle at 8px 8px,#d8dce6 0 1px,#8a90a0 1.5px 2.2px,#1a1c22 2.6px 3.4px,#0000 3.6px),radial-gradient(circle at calc(100% - 8px) 8px,#d8dce6 0 1px,#8a90a0 1.5px 2.2px,#1a1c22 2.6px 3.4px,#0000 3.6px),
@@ -1055,6 +1068,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       </div>
       <div class="tabs langsw" id="mLang"><button data-l="cs">Čeština</button><button data-l="en">English</button></div>
       <button class="btn alt sm" id="mFb">Napsat názor na hru</button>
+      <button class="btn alt sm" id="mPriv">Soukromí a licence</button>
       <button class="btn alt sm" id="mInstall" hidden>Přidat hru na plochu</button>
       <button class="btn alt sm" id="mCheat" hidden>Testovací režim: vyp</button>
       <button class="btn alt sm" id="mGold" hidden>+1000 zlata</button>
@@ -1309,7 +1323,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_publishable_X7rB8j45EHq79TnlzSxxsw_slxNAD8G'};
 </script>
 <script src="lang-en.js"></script>
-<script id="sbjs" async src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script id="sbjs" async src="vendor/supabase-2.45.4.js"></script><!-- MIT, licenses/MIT-supabase-js.txt -->
 <script>
 (()=>{
 'use strict';
@@ -4196,7 +4210,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09x';
+const GAME_VER='2026-11-09y';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -6824,7 +6838,7 @@ function bindUi(){
     const w=document.createElement('span');w.className='bi';for(const s of srcs){const i=document.createElement('img');i.alt='';i.src=s;w.appendChild(i);}b.insertBefore(w,lbl);};
   ico('#mPlay',[dataUrl(SPR.icon.blade)]);ico('#mCoop',[dataUrl(SPR.hero.knight),dataUrl(SPR.hero.mage)]);ico('#mHero',[dataUrl(SPR.hero.knight)]);
   ico('#mChest',[dataUrl(SPR.icon.chest_gold)]);ico('#mForge',[dataUrl(SPR.icon.hammer)]);$('#icBoard').src=dataUrl(SPR.icon.trophy);ico('#mQuest',[dataUrl(SPR.icon.scroll)]);ico('#ovShare',[dataUrl(SPR.icon.share)]);$('#icNews').src=dataUrl(SPR.icon.bell);$('#icGuide').src=dataUrl(SPR.icon.book);$('#icSet').src=dataUrl(SPR.icon.gear);ico('#mInstall',[dataUrl(SPR.icon.phone)]);
-  ico('#mSound',[dataUrl(SPR.icon.sound)]);ico('#mMusic',[dataUrl(SPR.icon.music)]);ico('#mStick',[dataUrl(SPR.icon.stick)]);ico('#mFb',[dataUrl(SPR.icon.scroll)]);
+  ico('#mSound',[dataUrl(SPR.icon.sound)]);ico('#mMusic',[dataUrl(SPR.icon.music)]);ico('#mStick',[dataUrl(SPR.icon.stick)]);ico('#mFb',[dataUrl(SPR.icon.scroll)]);ico('#mPriv',[dataUrl(SPR.icon.shield)]);
   $('#crest').src=dataUrl(SPR.icon.skull);
   pic('#icoCoin',SPR.icon.coin);pic('#icoSkull',SPR.icon.skull);
   const par=$('#parade');[SPR.hero.knight,SPR.enemy.slime,SPR.enemy.skeleton,SPR.enemy.bat,SPR.enemy.zombie,SPR.enemy.ghost].forEach(sp=>{const i=document.createElement('img');i.alt='';i.src=dataUrl(sp);par.appendChild(i);});
@@ -6843,6 +6857,7 @@ function bindUi(){
   $('#mSet').onclick=()=>{audioInit();sfx('ui');setSheet(true);requestAnimationFrame(()=>setTimeout(refreshSettings,0));};
   $('#setClose').onclick=()=>{sfx('ui');setSheet(false);};
   $('#mFb').onclick=()=>{audioInit();sfx('ui');openFeedback();};
+  $('#mPriv').onclick=()=>{audioInit();sfx('ui');openPrivacy();};
   $('#setPop').onclick=e=>{if(e.target.id==='setPop'){sfx('ui');setSheet(false);}};
   // 09r: volume and screen shake sliders (device settings, not synced)
   {const V=[['vMus','m'],['vSfx','s'],['vShk','k']];
@@ -6976,9 +6991,14 @@ function renderTitlePick(){const W=$('#ttlWrap');W.hidden=nickMode==='new'||nick
   $('#ttlList').innerHTML=got.length?'<button data-t=""'+(cur?'':' class="on"')+'>'+_t('Bez titulu')+'</button>'+got.map(A=>'<button data-t="'+A.id+'"'+(cur===A.id?' class="on"':'')+'>'+A.title+'</button>').join(''):'';
   $('#ttlHint').textContent=got.length?_t('Titul vidí ostatní v žebříčku.'):_t('Tituly získáš za splněná Mistrovství v Síni slávy.');
   $('#ttlList').querySelectorAll('button').forEach(b=>b.onclick=()=>{save.title=b.dataset.t;persist();sfx('ui');renderTitlePick();});}
+// 09y: nickname filter – same roots and exceptions as public.nick_bad() on the server (keep both in sync)
+const NICK_BAD=['kurv','prdel','hovno','hovna','kokot','mrdat','mrdka','mrdk','zmrd','jebat','jeban','jebn','pica','picu','picus','picovin','curak','cural','buzna','buzerant','negr','cigos','cikan','kunda','sracka','posran','chcip','hajzl','debil','fuck','shit','bitch','cunt','nigg','fagg','whore','slut','rapist','nazi','hitler','heil','penis','porn','asshole','bastard','retard','cocksuck','dick','kys'];
+function nickBad(v){const A='0134578@$!',B='oieastbass';let t='';for(const ch of String(v||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')){const i=A.indexOf(ch);t+=i>=0?B[i]:ch;}
+  t=t.replace(/[^a-z]/g,'').replace(/picass|shitak|dicken|scunthorp|cocktail|pican|spica|epicas/g,'');return NICK_BAD.some(w=>t.includes(w));}
 async function saveNick(){
   const msg=$('#nickMsg'),v=$('#nickInput').value.trim().replace(/\s+/g,' '),pin=$('#pinInput').value.trim();
   if(nickMode!=='pin'&&(v.length<2||v.length>16)){msg.textContent=_t('Přezdívka musí mít 2 až 16 znaků.');return;}
+  if(nickMode!=='pin'&&nickMode!=='login'&&nickBad(v)){msg.textContent=_t('Tahle přezdívka není povolená. Vyber si prosím jinou.');return;}
   if(nickMode!=='rename'&&!/^\d{4,8}$/.test(pin)){msg.textContent=_t('PIN musí mít 4 až 8 číslic.');return;}
   if(!ON.ready){msg.textContent=_t('Nejsi připojený k serveru. Zkus to za chvíli znovu.');return;}
   msg.textContent=_t('Ukládám…');
@@ -6991,7 +7011,7 @@ async function saveNick(){
       save.pinSet=true;persist();
     }else{
       if(nickMode!=='pin'){const prev=save.nick;save.nick=v;ON.dirty=true;clearTimeout(cloudT);const e=await cloudFlush();
-        if(e){save.nick=prev;msg.textContent=e.code==='23505'?(nickMode==='new'?_t('Tahle přezdívka už existuje. Jestli je tvoje, přepni na „Mám přezdívku“ a zadej PIN.'):_t('Tuhle přezdívku už někdo má.')):_t('Uložení se nepovedlo: ')+errText(e);return;}}
+        if(e){save.nick=prev;msg.textContent=e.code==='23505'?(nickMode==='new'?_t('Tahle přezdívka už existuje. Jestli je tvoje, přepni na „Mám přezdívku“ a zadej PIN.'):_t('Tuhle přezdívku už někdo má.')):/Nevhodna/.test(errText(e))?_t('Tahle přezdívka není povolená. Vyber si prosím jinou.'):_t('Uložení se nepovedlo: ')+errText(e);return;}}
       if(nickMode!=='rename'){const {error}=await ON.sb.rpc('set_pin',{p_pin:pin});if(error)throw error;save.pinSet=true;}
       persist();
     }
@@ -7025,14 +7045,14 @@ let boardTab='celkem',boardRows=null;
 async function openBoard(){
   setState('board');renderBoard();if(!ON.ready)return;
   $('#boardMsg').textContent=_t('Načítám…');
-  try{const {data,error}=await ON.sb.from('profiles').select('id,nick,stats,save').order('updated_at',{ascending:false}).limit(300);if(error)throw error;
+  try{const {data,error}=await ON.sb.from('profiles').select('id,nick,stats,save,hidden').order('updated_at',{ascending:false}).limit(300);if(error)throw error;
     boardRows=data||[];$('#boardMsg').textContent='';}
   catch(e){$('#boardMsg').textContent=_t('Žebříček se nepodařilo načíst: ')+errText(e);}
   renderBoard();
 }
 let boardCh=null,boardIO=null;
 // one leaderboard row: rank, nick + title, what they reached
-function boardRow(r,i){const el=document.createElement('div');el.className='brow'+(ON.me&&r.id===ON.me.id?' me':'');
+function boardRow(r,i){const el=document.createElement('div');el.className='brow'+(ON.me&&r.id===ON.me.id?' me':'');if(!(ON.me&&r.id===ON.me.id)){el.tabIndex=0;el.setAttribute('role','button');el.onclick=()=>playerMenu(r);}
   const rk=document.createElement('b');rk.className='rk';rk.textContent=(i+1)+'.';
   const nm=document.createElement('div');nm.className='nm';const n1=document.createElement('strong');n1.textContent=r.nick;const tl=titleOf(r.sv);if(tl){const t=document.createElement('span');t.className='ttl';t.textContent=tl;n1.appendChild(t);}
   const n2=document.createElement('div');n2.className='mini';n2.innerHTML=boardFacts(r).filter(f=>!f.n).map(f=>'<span><img alt="" src="'+dataUrl(f.ic)+'">'+f.v+'</span>').join('');nm.append(n1,n2);
@@ -7048,6 +7068,41 @@ function boardFacts(r){const sv=r.sv||{},cl=MAP_IDS.filter(m=>(sv.cleared||{})[m
     {ic:SPR.icon.scroll,v:cl+'/'+MAP_IDS.length,l:_t('mapy')},{ic:SPR.hero.knight,v:hc+'/'+HERO_LIVE.length,l:_t('hrdinů')}].filter(Boolean);}
 function boardStats(r,big){const F=boardFacts(r);return '<div class="stg n'+F.length+(big?' big':'')+'">'+F.map(f=>'<div><img alt="" src="'+dataUrl(f.ic)+'"><b>'+(f.n?bNum(f.v,!big):f.v)+'</b>'+(big?'<small>'+f.l+'</small>':'')+'</div>').join('')+'</div>';}
 function boardSub(r){if(boardTab==='celkem')return bNum(r.st.kills||0)+_t(' zabití');if(boardTab==='kombo')return bNum(r.st.kills||0)+_t(' zabití');const b=r.b;return ((boardTab==='dnes'||boardTab==='tyden')&&HEROES[b.hero]?HEROES[b.hero].name+' · ':'')+bNum(b.kills)+_t(' zabití');}
+
+// 09y: privacy policy (short version of PRIVACY.md – keep both in sync), licences of what the game uses, deleting all own data
+function openPrivacy(){const pop=$('#newsPop'),L=(t,d)=>'<h3>'+t+'</h3><p>'+d+'</p>',blk=(save.blk||[]).length;
+  pop.innerHTML='<div class="pop-card news priv"><h2 class="title" style="font-size:26px">'+_t('Soukromí a licence')+'</h2><div class="priv-body">'+
+    L(_t('Co hra ukládá'),_t('Na tomto zařízení tvůj postup a nastavení. Na serveru (Supabase, EU – Irsko): anonymní účet, přezdívku a otisk PINu, pokud si je nastavíš, postup a statistiky pro synchronizaci a žebříček, souhrn každého běhu (mapa, hrdina, čas, zabití, verze, jazyk), zpětnou vazbu, kterou napíšeš (s typem zařízení a prohlížeče, ať jde chybu najít), a nahlášení hráčů. Neukládáme jméno, e-mail ani polohu.'))+
+    L(_t('Kdo to vidí'),_t('Přezdívku, titul, statistiky a postup vidí ostatní v žebříčku. Zbytek vidí jen autor hry, aby mohl hru ladit a opravovat chyby. Žádné reklamy, žádné sledování, nic neprodáváme.'))+
+    L(_t('Komu se posílá tvoje IP adresa'),_t('Jako u každého webu ji vidí hosting hry (GitHub Pages) a server Supabase. Při hře s kamarádem se kvůli spojení posílá i serveru Google STUN. Písma a knihovny má hra u sebe.'))+
+    L(_t('Tvoje práva'),_t('Data si můžeš kdykoli smazat tlačítkem níže. S dotazem nebo žádostí o výpis dat napiš přes Napsat názor na hru. Stížnost můžeš podat Úřadu pro ochranu osobních údajů.'))+
+    L(_t('Pravidla pro přezdívky'),_t('Urážlivé, vulgární a nenávistné přezdívky nejsou povolené. Nevhodného hráče můžeš v žebříčku nahlásit nebo skrýt, nahlášení autor prověří do 24 hodin.'))+
+    L(_t('Licence'),_t('Grafiku, hudbu i zvuky vytváří kód hry. Písma Pixelify Sans a Chakra Petch: SIL Open Font License 1.1. Knihovna supabase-js: licence MIT. Plné texty licencí jsou ve složce licenses.'))+
+    '</div><div class="stack">'+(blk?'<button class="btn alt" id="prUnblk">'+_t('Zobrazit skryté hráče')+' ('+blk+')</button>':'')+
+    '<button class="btn alt danger" id="prDel">'+_t('Smazat moje data')+'</button><button class="btn" id="newsOk">'+_t('Zavřít')+'</button></div></div>';
+  pop.hidden=false;$('#newsOk').onclick=()=>{pop.hidden=true;sfx('ui');};
+  const ub=$('#prUnblk');if(ub)ub.onclick=()=>{save.blk=[];persist();sfx('ui');note(_t('Skrytí hráči jsou zase vidět.'));openPrivacy();};
+  $('#prDel').onclick=()=>{sfx('ui');confirmDelete();};}
+function confirmDelete(){const pop=$('#newsPop');
+  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:24px">'+_t('Smazat všechna data?')+'</h2><p class="hint">'+_t('Smaže se tvůj účet na serveru, přezdívka, postup, statistiky, zpětná vazba i nahlášení a také postup v tomhle zařízení. Hra začne úplně od začátku. Nejde to vrátit.')+'</p>'+
+    '<div class="stack"><button class="btn alt danger" id="delYes">'+_t('Ano, smazat všechno')+'</button><button class="btn" id="delNo">'+_t('Zpět')+'</button></div><p class="hint" id="delMsg"></p></div>';
+  $('#delNo').onclick=()=>{sfx('ui');openPrivacy();};
+  $('#delYes').onclick=async()=>{const b=$('#delYes'),m=$('#delMsg');b.disabled=true;m.textContent=_t('Mažu…');
+    try{if(onlineConfigured()){if(!ON.ready||!ON.sb)throw new Error(_t('nejsi připojený k serveru, zkus to za chvíli'));const {error}=await ON.sb.rpc('delete_my_data');if(error)throw error;try{await ON.sb.auth.signOut();}catch(_){}}
+      try{for(const k of Object.keys(localStorage))if(/^pixel-krypta/.test(k)&&k!=='pixel-krypta-lang')localStorage.removeItem(k);}catch(_){}
+      m.textContent=_t('Hotovo, všechno je smazané.');setTimeout(()=>location.reload(),900);}
+    catch(e){b.disabled=false;m.textContent=_t('Smazání se nepovedlo: ')+errText(e);}};}
+// 09y: a player in the leaderboard – report the nickname (goes to public.reports, checked by the author) or hide them on this device
+function playerMenu(r){const pop=$('#newsPop');sfx('ui');
+  pop.innerHTML='<div class="pop-card news pm"><h2 class="title" style="font-size:24px"></h2><p class="hint">'+_t('Přezdívka je nevhodná nebo hráč obtěžuje? Nahlas ho, autor hry to do 24 hodin prověří. Hráče si můžeš i skrýt, pak ho v žebříčku neuvidíš.')+'</p>'+
+    '<div class="stack"><button class="btn" id="pmRep">'+_t('Nahlásit přezdívku')+'</button><button class="btn alt" id="pmHide">'+_t('Skrýt hráče')+'</button><button class="btn alt" id="pmNo">'+_t('Zpět')+'</button></div></div>';
+  pop.querySelector('h2').textContent=r.nick;pop.hidden=false;
+  $('#pmNo').onclick=()=>{pop.hidden=true;sfx('ui');};
+  $('#pmHide').onclick=()=>{save.blk=[...new Set([...(save.blk||[]),r.id])].slice(-200);persist();pop.hidden=true;sfx('ui');note(_t('Hráč je skrytý. Zpátky ho vrátíš v Nastavení → Soukromí a licence.'));renderBoard();};
+  $('#pmRep').onclick=async()=>{const b=$('#pmRep');b.disabled=true;
+    try{if(!ON.ready)throw new Error(_t('nejsi připojený k serveru'));const {error}=await ON.sb.from('reports').insert({target:r.id,nick:String(r.nick||'').slice(0,40),reason:'nick'});if(error)throw error;
+      pop.hidden=true;sfx('ui');note(_t('Díky, nahlášení jsme dostali.'));}
+    catch(e){b.disabled=false;note(_t('Nahlášení se nepovedlo: ')+errText(e));}};}
 function renderBoard(){
   document.querySelectorAll('#boardTabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===boardTab||(b.dataset.t==='map'&&!!MAPS[boardTab])));
   // map picker: one chapter at a time, its maps as postcards
@@ -7066,7 +7121,8 @@ function renderBoard(){
   if(!onlineConfigured()){msg.textContent=_t('Žebříček zatím není připojený k serveru. Tahle verze hraje offline a postup se ukládá jen v tomhle prohlížeči.');return;}
   if(!ON.ready){msg.textContent=ON.err?_t('Připojení k serveru se nezdařilo: ')+ON.err:_t('Připojuji se…');return;}
   if(!boardRows)return;
-  const rows=boardRows.map(r=>{const st=r.stats||{},sv=r.save||{},b=boardTab==='celkem'||boardTab==='kombo'?null:boardTab==='dnes'?(st.daily&&st.daily.d===today()?st.daily:null):boardTab==='tyden'?(st.weekly&&st.weekly.w===weekKey()?st.weekly:null):(st.best||{})[boardTab];
+  const blk=save.blk||[];
+  const rows=boardRows.filter(r=>!(r.hidden&&!(ON.me&&r.id===ON.me.id))&&!blk.includes(r.id)).map(r=>{const st=r.stats||{},sv=r.save||{},b=boardTab==='celkem'||boardTab==='kombo'?null:boardTab==='dnes'?(st.daily&&st.daily.d===today()?st.daily:null):boardTab==='tyden'?(st.weekly&&st.weekly.w===weekKey()?st.weekly:null):(st.best||{})[boardTab];
     return{id:r.id,nick:r.nick||'?',st,sv,b,score:boardTab==='celkem'?((st.runs||0)?(st.wins||0)*1e6+(st.kills||0):-1):boardTab==='kombo'?(bCombo(st)||-1):mapScore(b)};})
     .filter(r=>r.score>=0).sort((a,b)=>b.score-a.score);
   const di=dailyInfo();
@@ -7079,6 +7135,7 @@ function renderBoard(){
       const hero=r.b&&HEROES[r.b.hero]?r.b.hero:null,tl=titleOf(r.sv);
       d.innerHTML='<div class="tt"><div class="av"><img alt="" src="'+dataUrl(r.sv&&r.sv.av?avImg(r.sv.av):hero?SPR.hero[hero]:i?SPR.icon.medal:SPR.icon.trophy)+'"><b class="rk">'+(i+1)+'</b></div>'+
         '<div class="who"><strong></strong>'+(tl?'<span class="ttl"></span>':'')+'<span class="big"></span></div></div>'+boardStats(r,!i);
+      if(!(ON.me&&r.id===ON.me.id)){d.style.cursor='pointer';d.onclick=()=>playerMenu(r);}
       d.querySelector('strong').textContent=r.nick;if(tl)d.querySelector('.ttl').textContent=tl;d.querySelector('.big').textContent=boardVal(r);
       if(!i&&(hero||(r.sv&&r.sv.av))){const cr=document.createElement('img');cr.className='crown';cr.alt='';cr.src=dataUrl(SPR.icon.trophy);d.appendChild(cr);}
       pod.appendChild(d);}}
@@ -9008,6 +9065,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09y',d:'9. 11. 2026',t:_t('Soukromí a bezpečnost'),hl:[
+  {ic:'shield',t:_t('Soukromí a licence'),d:_t('V Nastavení najdeš, co hra ukládá a kdo to vidí, a jedním tlačítkem si můžeš smazat všechna svá data.')},
+  {ic:'scroll',t:_t('Nahlásit nebo skrýt hráče'),d:_t('Ťukni na hráče v žebříčku a můžeš ho nahlásit nebo skrýt. Nevhodné přezdívky hra nepovolí.')},
+  {ic:'note',t:_t('Písma přímo ve hře'),d:_t('Písma se načítají ze hry samotné, takže se hra rychleji spustí a funguje i bez internetu.')}]},
  {v:'2026-11-09x',d:'9. 11. 2026',t:_t('Souhvězdí na dlouho'),hl:[
   {ic:'star',t:_t('Zjasňování hvězd'),d:_t('Když dokreslíš celé souhvězdí, můžeš každou hvězdu zjasnit až na 3. úroveň. Každá úroveň přidá její bonus znovu a stojí víc bodů, takže je na čem pracovat dlouho.')},
   {ic:'stars',t:_t('Výraznější hvězdy'),d:_t('Hvězdy, které můžeš rozsvítit, září a pulzují, ostatní jsou na obloze lépe vidět.')}]},
