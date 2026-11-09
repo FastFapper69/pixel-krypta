@@ -1931,5 +1931,11 @@ window.KRYPTA_EN={
 "Když bosse dlouho jen obíháš, začne se <b>vrhat přímo na tebe</b>. Každou minutu častěji a dál, později i s kruhy střel.":"If you just keep running from a boss, it starts <b>lunging right at you</b>. More often and further every minute, later with rings of shots too.",
 "Kapitola IV má nové elity a vlny s Ledovými lučištníky.":"Chapter IV has new elites and waves with Ice Archers.",
 "Pokořené mapy":"Maps beaten",
-"Pod názvem kapitoly je teď jasně napsané, kolik jejích map máš pokořených.":"The chapter header now clearly says how many of its maps you have beaten.",
+"Pokořené na ":"Beaten on ",
+"Nekonečná krypta tě nakonec pohltila.":"The Endless Crypt swallowed you in the end.",
+"Silnější nepřátelé, zlato +":"Stronger enemies, gold +",
+" %, Úlomky +":" %, Shards +",
+"Pod názvem kapitoly je teď jasně napsané, kolik jejích map máš pokořených (na Nočních můrách na daném stupni, v Nekonečné kryptě se neukazuje).":"The chapter header now clearly says how many of its maps you have beaten (on Nightmares for that tier; hidden in the Endless Crypt).",
+"Noční můry v Přípravě píšou přesně, kolik zlata a Úlomků navíc dávají.":"Nightmares in Preparation now say exactly how much extra gold and Shards they give.",
+"Výsledek běhu už neukazuje „Odemčeno: Noční můra“, když ji máš odemčenou z dřívějška.":"The run result no longer shows „Unlocked: Nightmare“ when you already had it unlocked.",
 };

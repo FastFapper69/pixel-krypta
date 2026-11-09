@@ -3703,7 +3703,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09a';
+const GAME_VER='2026-11-09b';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -5175,7 +5175,7 @@ const rewT=()=>run.endless?run.t:Math.min(run.t,run.map.dur+BOSS_RAGE+60);
 const keepGold=c=>.3*Math.min(c,2000)+.1*Math.max(0,c-2000);
 function endCoins(won){return Math.round((keepGold(Math.max(0,run.coins+(run.spent||0)-run.startCoins))+Math.floor(rewT()/4)+(won?100+(run.map.gb||0):0))*(1+((st&&st.gold)||0)+.3*(run.nm||0))*petGoldMul());}
 function finish(won){
-  if(run.over)return;run.over=true;run.won=won;seedRng(null);if(run.tut){save.tut=1;$('#tut').hidden=true;}
+  if(run.over)return;run.over=true;run.won=won;run.nmOpenNew=won&&!run.coop&&!run.endless&&!!run.map.finale&&(run.nm||0)<NM_MAX&&!nmWin(run.mapId,run.nm||0);seedRng(null);if(run.tut){save.tut=1;$('#tut').hidden=true;}
   tmSend(won?'win':run.crystalDead?'crystal':'death');if(!run.coop)recordRun(won);
   if(run.pls){netSend({t:'end',won,cd:!!run.crystalDead,tt:run.t,c:run.coins,sp:run.spent||0,mt:run.mat||0,k:run.kills,lv:run.level,q:run.qc});setTimeout(()=>{netClose();CO.on=false;CO.role=null;},1500);}
   const gain=endCoins(won);save.coins+=gain;run.rw=runRewards(won);if(run.endless){save.endW=save.endW||{};run.endPrev=save.endW[run.mapId]||0;if((run.enW||0)>run.endPrev)save.endW[run.mapId]=run.enW||0;}const QC=qFinishC();run.qres=qCommit(QC);run.achNew=achTrack(QC,won);
@@ -5204,7 +5204,7 @@ function showOver(){
     $('#ovW').innerHTML=Object.keys(run.W).map(id=>'<div class="it'+(WEAPONS[id].ult?' ult':'')+'"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><em>'+(WEAPONS[id].ult?ROMAN[run.W[id].lv-1]:run.W[id].lv)+'</em></div>').join('')+
       Object.keys(run.P).map(id=>'<div class="it"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><em>'+run.P[id]+'</em></div>').join('');}catch(_){}
   $('#ovTitle').textContent=run.won?_t('Vítězství!'):_t('Konec běhu');$('#ovTitle').className='title'+(run.won?'':' bad');
-  $('#ovSub').textContent=run.won?(run.map.boss&&_t('Boss poražen: ')+BOSS_DEFS[run.map.boss].name+'.'+(run.unlocked?_t(' Odemčeno: ')+run.unlocked+'.':'')):(run.crystalDead?(run.map.caravan?_t('Karavanu vykradli a krypta zvítězila.'):_t('Krystal se rozbil a krypta zvítězila.')):_t('Krypta si tě tentokrát vzala.'));
+  $('#ovSub').textContent=run.won?(run.map.boss&&_t('Boss poražen: ')+BOSS_DEFS[run.map.boss].name+'.'+(run.unlocked?_t(' Odemčeno: ')+run.unlocked+'.':'')):(run.crystalDead?(run.map.caravan?_t('Karavanu vykradli a krypta zvítězila.'):_t('Krystal se rozbil a krypta zvítězila.')):run.endless?_t('Nekonečná krypta tě nakonec pohltila.'):_t('Krypta si tě tentokrát vzala.'));
   const rows=[[_t('Čas'),fmtTime(run.t)],[_t('Zabití'),run.kills],[_t('Úroveň'),run.level],[_t('Zlato celkem'),'+'+run.gain]];const W=run.rw||{};
   if(run.nm)rows.unshift([_t('Obtížnost'),NM_NAME[run.nm]]);
   if(W.mat&&W.mat[1])rows.push([MAT_NAME[W.mat[0]],'<span class="mt"><img alt="" src="'+matIcon(W.mat[0])+'">+'+W.mat[1]+'</span>']);
@@ -5221,7 +5221,7 @@ function showOver(){
   ovSetBtn();
   if(W.tre)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"> '+_t('Poklad kapitoly'),_t('<b style="color:var(--gold)">Čeká na tebe v Přípravě!</b>')]);
   if(W.daily)rows.push([_t('Denní výzva'),'<b style="color:'+RAR[W.daily.r].col+'">'+itemName(W.daily)+'</b>']);
-  if(run.won&&!run.coop&&run.map.finale&&(run.nm||0)<NM_MAX)rows.push([_t('Odemčeno'),NM_NAME[(run.nm||0)+1]+' · '+CH_OF[run.mapId].name]);
+  if(run.nmOpenNew)rows.push([_t('Odemčeno'),NM_NAME[(run.nm||0)+1]+' · '+CH_OF[run.mapId].name]);
   for(const r of run.qres||[]){if(r.w){rows.push([_t('Hledaný'),_t('<b style="color:var(--gold)">Dopaden!</b> Odměna na nástěnce')]);continue;}const q=r.q;
     rows.push(['<img class="cdl" alt="" src="'+qIcon(q.ico)+'"> '+q.t,q.done?_t('<b style="color:var(--green)">Splněno!</b>'):qFmt(q,q.v)]);}
   for(const A of run.achNew||[])rows.push(['<img class="cdl" alt="" src="'+dataUrl(A.hero?SPR.hero[A.hero]:SPR.icon[A.ic]||SPR.icon.trophy)+'"> '+A.name,_t('<b style="color:var(--gold)">Mistrovství!</b>')]);
@@ -5936,10 +5936,10 @@ function renderCampaign(){
   const NK=sel.nm,done=C.maps.filter(m=>nmWin(m,NK)).length,open=mapOpenAt(C.maps[0],NK);
   box.style.setProperty('--chc',C.col);
   let h='<div class="chbar"><button class="btn alt sm" id="chPrev"'+(chSel?'':' disabled')+' aria-label="'+_t('Předchozí kapitola')+'">‹</button>'+
-    '<div class="chh"><small>'+_t('KAPITOLA ')+ROMAN_CH[chSel]+'</small><h3>'+C.name+'</h3><span class="mt" data-mat="'+C.mat+'">'+_t('Pokořené mapy')+' '+done+' / '+C.maps.length+'</span></div>'+
+    '<div class="chh"><small>'+_t('KAPITOLA ')+ROMAN_CH[chSel]+'</small><h3>'+C.name+'</h3>'+(EN?'':'<span class="mt">'+(NK?_t('Pokořené na ')+NM_SHORT[NK]+': ':_t('Pokořené mapy')+' ')+done+' / '+C.maps.length+'</span>')+'</div>'+
     '<button class="btn alt sm" id="chNext"'+(chSel<CHAPTERS.length-1?'':' disabled')+' aria-label="'+_t('Další kapitola')+'">›</button></div>';
   if(!C.soon){h+='<div class="nmtabs">';for(let k=0;k<=NM_MAX;k++){const ok=nmChapterOpen(C,k);h+='<button data-k="'+k+'" class="'+(k===NK&&!EN?'on':'')+(ok?'':' lk')+'">'+NM_SHORT[k]+'</button>';}
-    h+=(save.fin&&Object.keys(save.fin).length?'<button data-k="e" class="endt'+(EN?' on':'')+(ENok?'':' lk')+'" aria-label="'+_t('Nekonečná krypta')+'">∞</button>':'')+'</div>'+(EN?'<p class="hint nmh">'+_t('<b>Nekonečná krypta kapitoly:</b> souboj s finálním bossem. Po každém zabití se vrátí <b>silnější a s novým útokem</b>. Esence za každého bosse, denně plně 20.')+'</p>':NK?'<p class="hint nmh">'+_t('Silnější nepřátelé, odměny +')+(50*NK)+_t(' %. Mapy jdeš znovu postupně, první výhra finále dá kus setu.')+'</p>':'');}
+    h+=(save.fin&&Object.keys(save.fin).length?'<button data-k="e" class="endt'+(EN?' on':'')+(ENok?'':' lk')+'" aria-label="'+_t('Nekonečná krypta')+'">∞</button>':'')+'</div>'+(EN?'<p class="hint nmh">'+_t('<b>Nekonečná krypta kapitoly:</b> souboj s finálním bossem. Po každém zabití se vrátí <b>silnější a s novým útokem</b>. Esence za každého bosse, denně plně 20.')+'</p>':NK?'<p class="hint nmh">'+_t('Silnější nepřátelé, zlato +')+(30*NK)+_t(' %, Úlomky +')+(50*NK)+_t(' %. Mapy jdeš znovu postupně, první výhra finále dá kus setu.')+'</p>':'');}
   h+='<div class="mpath"></div>';
   box.innerHTML=h;const path=box.querySelector('.mpath');
   box.querySelectorAll('.nmtabs button').forEach(b=>b.onclick=()=>{if(b.dataset.k==='e'){if(!ENok){note(_t('Nekonečnou kryptu kapitoly odemkneš poražením jejího finále.'));return;}sel.endless=!EN;sfx('ui');if(!sel.endless){const c=C.maps.find(m=>mapOpenAt(m,sel.nm||0)&&!nmWin(m,sel.nm||0))||FIN;sel.map=c;}renderSelect();return;}const wasE=EN;sel.endless=false;const k=+b.dataset.k;if(wasE&&k===sel.nm){sfx('ui');renderSelect();return;}
@@ -5953,7 +5953,7 @@ function renderCampaign(){
     const d=document.createElement('div');
     d.innerHTML='<h3><span class="num">'+(k+1)+'</span>'+m.name+(m.finale?'<span class="badge fin">'+_t('Finále')+'</span>':'')+(ok?'':_t('<span class="badge lk">Zamčeno</span>'))+'</h3>'+
       (st?'<small>'+st+'</small>':'')+(on&&!EN?'<p>'+m.desc+'</p>':'');
-    if(ok&&!NK&&isFresh('map','m'+id))d.querySelector('h3').insertAdjacentHTML('beforeend',NEW_TAG());
+    if(ok&&!NK&&!EN&&isFresh('map','m'+id))d.querySelector('h3').insertAdjacentHTML('beforeend',NEW_TAG());
     b.appendChild(cv);b.appendChild(d);
     b.addEventListener('click',()=>{if(ok){sel.picked=1;if(sel.map!==id){sel.map=id;sfx('ui');renderSelect();}}else note(st);});
     path.appendChild(b);});
@@ -7793,12 +7793,12 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
- {v:'2026-11-09a',d:'9. 11. 2026',t:_t('Tvrdší Ledová říše a zuřivější bossové'),hl:[
+ {v:'2026-11-09b',d:'9. 11. 2026',t:_t('Tvrdší Ledová říše a zuřivější bossové'),hl:[
   {ic:'enemy:icearcher',t:_t('Ledový lučištník'),d:_t('Nový nepřítel Ledové říše. Drží si odstup a střílí <b>dvojice ledových šípů</b>, které zpomalí.')},
   {ic:'enemy:yeti',t:_t('Silnější Ledová říše'),d:_t('Yeti, přízraky a sněhuláci vydrží víc a kostlivci z první kapitoly odtud zmizeli. Kapitola IV je teď <b>skutečná zeď</b>.')},
   {ic:'enemy:pirate',t:_t('Prokleté pobřeží o stupeň tvrdší'),d:_t('Nepřátelé kapitoly V mají víc zdraví a bolí víc.')},
   {ic:'boss:lich',t:_t('Zuřivý boss tě dožene'),d:_t('Když bosse dlouho jen obíháš, začne se <b>vrhat přímo na tebe</b>. Každou minutu častěji a dál, později i s kruhy střel.')}],
-  items:[_t('Kapitola IV má nové elity a vlny s Ledovými lučištníky.'),_t('Pod názvem kapitoly je teď jasně napsané, kolik jejích map máš pokořených.')]},
+  items:[_t('Kapitola IV má nové elity a vlny s Ledovými lučištníky.'),_t('Pod názvem kapitoly je teď jasně napsané, kolik jejích map máš pokořených (na Nočních můrách na daném stupni, v Nekonečné kryptě se neukazuje).'),_t('Noční můry v Přípravě píšou přesně, kolik zlata a Úlomků navíc dávají.'),_t('Výsledek běhu už neukazuje „Odemčeno: Noční můra“, když ji máš odemčenou z dřívějška.')]},
  {v:'2026-11-08y',d:'8. 11. 2026',t:_t('Doplněné Prokleté pobřeží'),hl:[
   {ic:'set:tide',t:_t('Nové obrázky setu'),d:_t('Klobouk, kabát, perla a prsten <b>Výstroje mořského vlka</b> mají vlastní obrázky.')},
   {ic:'enemy:crab',t:_t('Průvodce'),d:_t('Krab, utopený pirát, medúza a racek mají v Průvodci popis.')}],items:[_t('Pod kapotou: nová stavebnice pro další kapitoly, ať přibývají rychleji.')]},
