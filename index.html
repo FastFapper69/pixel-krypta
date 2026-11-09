@@ -3774,7 +3774,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09f';
+const GAME_VER='2026-11-09g';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3793,7 +3793,7 @@ function setState(s){const prevS=state;if(s!==state){const np=$('#newsPop');if(n
   if(s!=='play'){const tt=$('#toast');if(tt)tt.classList.remove('on');}{const tu=$('#tut');if(tu)tu.style.visibility=s==='play'?'':'hidden';}
   {const NO={select:['map','hero'],hero:['hero'],towers:[],shop:['rank'],forge:[]}[s];if(NO&&s!==prevS){seeNew(...NO);try{({select:renderSelect,hero:renderHero,towers:renderTowers,shop:renderShop,forge:renderForge})[s]();}catch(_){}}}
   try{refreshNew();}catch(_){}
-  showScreen(s==='play'?null:s);document.querySelectorAll('.sectabs button').forEach(b=>b.classList.toggle('on',b.dataset.to===s));if(s!=='menu')setSheet(false);try{showStickRest();}catch(_){}
+  showScreen(s==='play'?null:s);document.querySelectorAll('.sectabs:not(.qtabs) button').forEach(b=>b.classList.toggle('on',b.dataset.to===s));if(s!=='menu')setSheet(false);try{showStickRest();}catch(_){}
   muffle(s==='pause'||s==='levelup'||s==='over');
   try{if(s!=='menu')navArm();}catch(_){}
 }
