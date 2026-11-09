@@ -33,7 +33,7 @@ console.log('\n== STATICKÉ KONTROLY ==');
  ok('Velikost','index.html '+kb('index.html')+' kB, lang-en.js '+kb('lang-en.js')+' kB');
  kb('CLAUDE.md')>60?wr('CLAUDE.md',kb('CLAUDE.md')+' kB – starší historii přesuň do docs/HISTORIE.md (čte se při každém startu)'):ok('CLAUDE.md',kb('CLAUDE.md')+' kB');}
 console.log('\n== TESTY ==');
-for(const [n,args,t] of [['Překlady',['i18n.js']],['Ukládání',['savekeys.js']],['Kapitoly a hrdinové',['chapcheck.js','all','/tmp/audit-cc']],['Stejná denní výzva',['dailysame.js']],['Mechaniky po restartu',['featreload.js','/tmp/audit-fr']],['Hlavní menu',['menucheck.js'],400],['Server (stub): ukládání, PIN, žebříček',['cloudstub.js']]]){
+for(const [n,args,t] of [['Překlady',['i18n.js']],['Ukládání',['savekeys.js']],['Kapitoly a hrdinové',['chapcheck.js','all','/tmp/audit-cc']],['Stejná denní výzva',['dailysame.js']],['Mechaniky po restartu',['featreload.js','/tmp/audit-fr']],['Hlavní menu',['menucheck.js'],400],['Server (stub): ukládání, PIN, žebříček',['cloudstub.js']],['Horní okraj pod rozmazáním iOS',['topcheck.js']],['Pauza: záložky a rámeček',['pausetabs.js','/tmp/audit-pause']],['Oslava hrdiny a nové zbraně',['celeb.js','/tmp/audit-celeb']]]){
  const r=sh('node',args,t||300),last=r.o.trim().split('\n').slice(-2).join(' ').slice(0,160);
  const fail=!r.ok||/chyby \[(?!\])|errors \[(?!\])|NEPROŠLO|CHYBÍ|✗/.test(r.o);fail?er(n,last):ok(n);}
 console.log('\n== OBRAZOVKY (chyby JS, chybějící soubory) ==');

@@ -1094,6 +1094,57 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 .nmtabs button:first-child.on{background:linear-gradient(#0e0d10 0 0) 0 0/100% 2px no-repeat,linear-gradient(#0e0d10 0 0) 0 100%/100% 2px no-repeat,linear-gradient(#0e0d10 0 0) 0 0/2px 100% no-repeat,linear-gradient(#0e0d10 0 0) 100% 0/2px 100% no-repeat,
   linear-gradient(#fff3b8 0 0) 0 2px/100% 2px no-repeat,linear-gradient(#a97a14 0 0) 0 calc(100% - 2px)/100% 2px no-repeat,
   linear-gradient(#f6c443 0 55%,#dba230 55%)!important;color:var(--ink)!important;text-shadow:none}
+
+/* 09z5: iOS 26 rozmazává pruh pod stavovým řádkem – HUD ve hře i hlavičky obrazovek začínají až pod ním (stejně jako menu) */
+#hud{padding-top:calc(30px + var(--sat,0px))!important}
+.scr:not(.clear)>.wrap>.head{padding-top:calc(32px + var(--sat,0px))!important}
+
+/* 09z5: oslava nového hrdiny / zbraně */
+.featpop.celeb .fc{box-shadow:inset 0 0 0 3px var(--gold),0 0 70px #f6c74480}
+.featpop.celeb .fc-rays{top:118px;background:repeating-conic-gradient(#f6c74438 0 9deg,#0000 9deg 18deg)}
+.featpop.celeb img.hc-hero{width:112px;height:112px;margin:10px 0 4px;filter:drop-shadow(0 5px 0 #000a) drop-shadow(0 0 18px #ffd86a)}
+.featpop.celeb.in img.hc-hero{animation:hcRise .9s .1s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes hcRise{0%{transform:translateY(40px) scale(.15);filter:brightness(6) drop-shadow(0 0 0 #fff)}55%{filter:brightness(2.2) drop-shadow(0 0 26px #fff)}100%{transform:none}}
+.hc-burst{position:absolute;left:50%;top:118px;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:radial-gradient(#fff 0 30%,#ffe9a0 50%,#f6c74400 70%);opacity:0;pointer-events:none}
+.featpop.celeb.in .hc-burst{animation:hcBurst .8s .12s ease-out both}@keyframes hcBurst{0%{opacity:1;transform:scale(.2)}100%{opacity:0;transform:scale(9)}}
+.hc-sp{position:absolute;left:50%;top:118px;width:0;height:0;pointer-events:none}
+.hc-sp .hs{position:absolute;left:-3px;top:-3px;width:6px;height:6px;background:#ffe27a;box-shadow:0 0 6px #ffd04a;opacity:0}
+.featpop.celeb.in .hs{animation:hcSpark 1.6s calc(.25s + var(--d)) ease-out infinite}
+@keyframes hcSpark{0%{opacity:1;transform:rotate(var(--a)) translateY(-30px) scale(1)}70%{opacity:.9}100%{opacity:0;transform:rotate(var(--a)) translateY(calc(var(--r) * -1)) scale(.3)}}
+.featpop.celeb h3{font-family:var(--font-px);font-size:30px;color:var(--gold)}
+.hc-w{display:flex;gap:10px;align-items:center;text-align:left;margin:6px 0 4px;padding:8px 10px;background:#0c0d0fcc;box-shadow:inset 0 0 0 2px #a97a14;clip-path:var(--px)}
+.featpop .hc-w img{width:36px;height:36px;margin:0;flex:none;animation:none!important;filter:drop-shadow(0 2px 0 #0008)}
+.hc-w small{font-family:var(--font);font-size:11px;letter-spacing:.1em;text-transform:uppercase;text-shadow:none}.hc-w b{display:block;color:#fff;font-size:16px}.hc-w span{display:block;font-size:12px;color:var(--muted);line-height:1.3}
+/* nově odemčená zbraň v nabídce nové úrovně */
+#scr-levelup .card.fresh{position:relative;box-shadow:inset 0 0 0 3px var(--gold),inset 0 0 22px #f6c74440;background:linear-gradient(100deg,#3a3120,#24262b 60%)}
+#scr-levelup .card.fresh img{animation:frPulse 1s ease-in-out infinite alternate}@keyframes frPulse{to{filter:drop-shadow(0 0 8px #ffd86a) brightness(1.25)}}
+#scr-levelup .card .k.frk{background:var(--gold);color:var(--ink);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+
+/* 09z5: pauza – přehled postavy, rámeček neprotéká textem */
+.pbuild{box-shadow:none!important;border:3px solid #4b4f5a;padding:10px 12px!important;max-height:52vh!important;scrollbar-width:thin}
+.pinfo{display:flex;gap:6px;margin-bottom:8px}.pinfo span{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:5px 4px;background:#0e0f11;box-shadow:inset 0 0 0 2px #2d3036;font-weight:700;font-size:14px;color:var(--fg);white-space:nowrap}
+.pinfo img{width:14px;height:14px;image-rendering:pixelated}.pinfo img[src=""]{display:none}
+.phb{position:relative;height:22px;background:#0e0f11;box-shadow:inset 0 0 0 2px #2d3036;margin-bottom:4px}.phb i{position:absolute;left:2px;top:2px;bottom:2px;max-width:calc(100% - 4px);background:linear-gradient(#ff7a6a,#d83a3a 55%,#a82a2a)}
+.phb span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:700;font-size:13px;color:#fff;text-shadow:0 1px 0 #000,0 0 3px #000}.phb img{width:14px;height:14px;image-rendering:pixelated}
+.ptg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-bottom:4px}
+.pt{display:grid;grid-template-columns:18px 1fr;grid-template-rows:auto auto;column-gap:5px;align-items:center;padding:5px 6px;background:#1a1c20;box-shadow:inset 0 0 0 2px #2d3036;min-width:0}
+.pt img{grid-row:1/3;width:18px;height:18px;image-rendering:pixelated;opacity:.55;filter:grayscale(.6)}.pt b{font-size:14px;line-height:1.1;color:#c8c5be;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pt small{font-size:10px;line-height:1.15;color:var(--muted);overflow-wrap:anywhere;hyphens:none}
+.pt.up{box-shadow:inset 0 0 0 2px #6a5418;background:linear-gradient(#2a2416,#1a1c20)}.pt.up img{opacity:1;filter:none}.pt.up b{color:var(--gold)}
+
+.ptabs{margin:6px 0 6px}.ptabs button{min-width:0;font-size:13px;padding:7px 4px}
+.ppane{max-height:42vh;overflow:auto;overscroll-behavior:contain;padding-right:2px}
+.phero{display:flex;align-items:center;gap:10px;margin:2px 0 8px}.phero img{width:34px;height:34px;image-rendering:pixelated}.phero b{display:block;font-size:16px}.phero small{color:var(--muted);font-size:12px}
+.pnote{margin:8px 0 2px;font-size:11px;color:var(--muted);line-height:1.35}
+.pq{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:2px solid #2a2c31}.pq>img{width:26px;height:26px;image-rendering:pixelated;flex:none;object-fit:cover}
+.pq>div{flex:1;min-width:0}.pq b{display:block;font-size:13px}.pq b i{font-style:normal;color:var(--gold);font-size:11px;letter-spacing:1px}.pq b i u{text-decoration:none;color:#4b4f5a}
+.pq small{display:block;font-size:11px;color:var(--muted);line-height:1.25}.pq strong{font-size:12px;color:var(--gold);white-space:nowrap}.pq.done{opacity:.6}
+.pqb{position:relative;display:block;height:5px;margin-top:4px;background:#0e0f11;box-shadow:inset 0 0 0 1px #2d3036}.pqb em{position:absolute;left:0;top:0;bottom:0;background:#8a8f9e}.pqb em.nw{background:var(--gold)}
+.pk{padding:6px 0;border-bottom:2px solid #2a2c31}.pk>b{display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px}.pk>b i{font-style:normal;color:var(--gold);font-size:12px}
+.pks{display:flex;gap:8px;justify-content:space-between;font-size:11px;color:var(--muted);padding:1px 0 1px 8px}.pks em{font-style:normal;white-space:nowrap}.pks.done{color:#8fd08a}
+.pbuild{max-height:none!important;overflow:visible!important}
+#scr-pause{background:#0c0d0ff2!important}
+@media (max-height:700px){.ppane{max-height:31vh}#scr-pause .stack .btn{min-height:44px;padding-top:8px;padding-bottom:8px}#scr-pause .title{margin:0}#scr-pause .wrap{gap:8px}}
 @media (max-height:700px){#mStack{gap:10px}#mStack .btn.art-play{min-height:58px}#mStack .btn.art:not(.art-play){min-height:54px}#scr-menu .logo{font-size:clamp(38px,11vw,54px)}#scr-menu .wrap{gap:8px}#scr-menu .crest{width:34px;height:34px}#scr-menu .parade{min-height:40px}#scr-menu .parade img{height:30px}#scr-menu .parade img:first-child{height:38px}}
 </style>
 </head>
@@ -4291,7 +4342,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09z4';
+const GAME_VER='2026-11-09z5';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4409,6 +4460,7 @@ function startRun(heroId,mapId,o){metaInit();treeMigrate();if(BI){BI=null;$('#hu
     spawnT:.4,eliteI:0,evI:0,combo:0,comboT:0,hitstop:0,flashScr:0,amb:[],beatNow:false,barNow:false,gemChain:0,boss:null,bossSpawned:false,revived:false,shake:0,over:false,won:false,cam:{x:0,y:0},lastHud:{}};
   run.nm=o.nm||0;run.mod=o.mod||null;run.mods=o.mods||(o.mod?[o.mod]:[]);run.wk=!!o.wk;run.mat=0;run.endless=!!o.endless;run.trial=!!o.mod&&!mapUnlocked(mapId);
   run.thm=o.mod||o.endless?null:qTheme().id; // theme of the day bonus (not in the challenges)
+  {const nw=(save.wNew||[]).filter(id=>WEAPONS[id]&&wOpen(id)&&id!==hero.start);if(nw.length&&!o.coop)setTimeout(()=>{if(run&&!run.over)toast(_t('Nová zbraň: ')+nw.map(id=>WEAPONS[id].name).join(', '),3200);},2400);}
   run.tut=!save.tut&&!(save.stats&&save.stats.runs)&&!o.mod?{s:0,t:0,mv:0}:null;if(run.tut)run.tip=true;$('#tut').hidden=true;run.bonus=heroBonus(heroId);run.qc=qNewC();
   recalc();run.p.max=st.max;run.p.hp=st.max;
   $('#icoMat').src=matIcon(MAT_OF[mapId]);$('#hudMat').hidden=false;
@@ -5839,8 +5891,9 @@ function openLevelUp0(){
       opts=[{k:'fuse',f:fo}].concat(opts.filter(o=>!(o.k==='w'&&(o.id===fo.a||o.id===fo.b))).slice(0,2));}
     else run.fuseMiss=(run.fuseMiss||0)+1;}
   opts.forEach(o=>{const i=optInfo(o);
-    const b=document.createElement('button');b.className='card'+(i.fuse?' fuse':'');
-    b.innerHTML='<img alt="" src="'+dataUrl(SPR.icon[i.icon])+'"><div><h3>'+i.name+(i.tag?'<span class="k">'+i.tag+'</span>':'')+'</h3><p>'+i.desc+'</p></div>';
+    const fr=o.k==='w'&&o.lv===1&&wFresh(o.id)&&!run.pls;const b=document.createElement('button');b.className='card'+(i.fuse?' fuse':'')+(fr?' fresh':'');
+    b.innerHTML='<img alt="" src="'+dataUrl(SPR.icon[i.icon])+'"><div><h3>'+i.name+(fr?'<span class="k frk">'+_t('Nově odemčeno')+'</span>':i.tag?'<span class="k">'+i.tag+'</span>':'')+'</h3><p>'+i.desc+'</p></div>';
+    if(fr){save.wNew=save.wNew.filter(x=>x!==o.id);persist();}
     b.addEventListener('click',()=>{applyOption(o);});list.appendChild(b);});
   if(run.pls)coLevelOpen(chest);
   // light time pressure: 10 s to choose, then a random card (not in the first run, not in co-op – that has its own wait)
@@ -6004,20 +6057,49 @@ function togglePause(force,remote){
 
 /* ============ HUD ============ */
 // pause: what the run has so far (weapons, passives, fusion partners) + a few live numbers
+let pauseTab='run';
+// 09z5: pauza se záložkami – Výbava běhu (zbraně, pasivky), Hrdina (staty), Úkoly (denní úkoly a kontrakty s průběhem i z tohoto běhu)
 function renderPauseBuild(){const box=$('#pBuild');if(!box||!run)return;const p=run.p;let h='';
-  const pct=v=>cz(Math.round(v*100))+' %';
-  h+=_t('<div class="ps"><span>Čas <b>')+fmtTime(run.t)+_t('</b></span><span>Úroveň <b>')+run.level+_t('</b></span><span>Zabití <b>')+run.kills+_t('</b></span><span>Zdraví <b>')+Math.ceil(p.hp)+' / '+Math.round(p.max)+'</b></span>'+
-    (st&&st.dmg>1.005?_t('<span>Poškození <b>+')+pct(st.dmg-1)+'</b></span>':'')+'</div>';
-  const row=(id,name,lv,max,sub,cls)=>'<div class="pr'+(cls||'')+'"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><span>'+name+(sub?'<small>'+sub+'</small>':'')+'</span><b>'+lv+(max?' / '+max:'')+'</b></div>';
-  const known=(save.codex&&save.codex.f)||{};
-  h+=_t('<h4>Zbraně ')+nWeapons()+' / '+maxW()+'</h4>';
-  for(const id in run.W){const W=WEAPONS[id],w=run.W[id];
+  const ic=k=>SPR.icon[k]?dataUrl(SPR.icon[k]):'',sg=v=>(v>0?'+':'')+cz(Math.round(v*100))+' %';
+  const hpP=Math.max(0,Math.min(1,p.hp/(p.max||1))),qOn=featOn('quests')&&!isGuest();if(pauseTab==='q'&&!qOn)pauseTab='run';
+  h+='<div class="pinfo"><span><img alt="" src="'+ic('clock')+'">'+fmtTime(run.t)+'</span><span>'+_t('Úr. ')+run.level+'</span><span><img alt="" src="'+ic('skull')+'">'+run.kills+'</span></div>';
+  h+='<div class="phb"><i style="width:'+(hpP*100).toFixed(1)+'%"></i><span><img alt="" src="'+ic('heart')+'">'+Math.ceil(p.hp)+' / '+Math.round(p.max)+'</span></div>';
+  h+='<div class="tabs ptabs">'+[['run',_t('Výbava')],['hero',_t('Hrdina')]].concat(qOn?[['q',_t('Úkoly')]]:[]).map(([k,t])=>'<button data-pt="'+k+'" class="'+(pauseTab===k?'on':'')+'">'+t+'</button>').join('')+'</div><div class="ppane">';
+  if(pauseTab==='hero'){const S=st||{},T=[];
+   const tile=(k,v,l,up)=>T.push('<div class="pt'+(up?' up':'')+'"><img alt="" src="'+ic(k)+'"><b>'+v+'</b><small>'+l+'</small></div>');
+   tile('heart',Math.round(p.max),_t('max. zdraví'),p.max>120.5);
+   tile('regen',S.regen>0?'+'+cz(+S.regen.toFixed(2))+'/s':'0',_t('regenerace'),S.regen>0);
+   tile('shield',S.armor>0?'−'+cz(+(+S.armor).toFixed(1)):'0',_t('brnění'),S.armor>0);
+   tile('power',sg((S.dmg||1)-1),_t('poškození'),(S.dmg||1)>1.005);
+   tile('haste',sg(1/(S.cdMul||1)-1),_t('rychlost útoků'),(S.cdMul||1)<.995);
+   tile('eye',cz(Math.round((S.crit||0)*100))+' %',_t('kritický zásah'),(S.crit||0)>.105);
+   tile('boots',sg((S.speed||58)/58-1),_t('pohyb'),(S.speed||58)>58.3);
+   tile('magnet',sg((S.mag||30)/30-1),_t('dosah sběru'),(S.mag||30)>30.2);
+   if(S.dodge>0)tile('dodge',cz(Math.round(S.dodge*100))+' %',_t('úhyb'),true);
+   if((S.xpMul||1)>1.005)tile('xp',sg(S.xpMul-1),_t('zkušenosti'),true);
+   if(S.gold>0.005)tile('greed',sg(S.gold),_t('zlato'),true);
+   h+='<div class="phero"><img alt="" src="'+dataUrl(SPR.hero[run.heroId])+'"><div><b>'+run.hero.name+'</b><small>'+_t('úroveň hrdiny ')+heroLv(run.heroId)+'</small></div></div>';
+   h+='<div class="ptg">'+T.join('')+'</div><p class="pnote">'+_t('Zlatě je to, co máš nad základem – z pasivek, výbavy, stromu a talentů.')+'</p>';}
+  else if(pauseTab==='q'){const Q=qEnsure(),C=qSnap();
+   h+=_t('<h4>Dnešní úkoly</h4>');
+   for(const q of Q.q){const pr=qProg(q,C),top=q.ns[2],k=q.ns.filter(n=>pr>=n).length,nx=q.ns[Math.min(2,k)],add=pr-q.v,fmt=QT[q.id]&&QT[q.id].fmt;
+    h+='<div class="pq'+(k>=3?' done':'')+'"><img alt="" src="'+qIcon(q.ico)+'"><div><b>'+q.t+' <i>'+'★'.repeat(k)+'<u>'+'★'.repeat(3-k)+'</u></i></b><small>'+((q.xs||[])[Math.min(2,k)]||'')+'</small>'+
+      '<span class="pqb"><em style="width:'+Math.min(100,pr/top*100).toFixed(1)+'%"></em>'+(add>0&&!fmt?'<em class="nw" style="left:'+Math.min(100,q.v/top*100).toFixed(1)+'%;width:'+Math.min(100,add/top*100).toFixed(1)+'%"></em>':'')+'</span></div><strong>'+(k>=3?'✓':qFmtN(q,pr,nx))+'</strong></div>';}
+   if(featOn('contracts')&&save.qw&&save.qw.k){h+=_t('<h4>Týdenní kontrakty</h4>');
+    for(const K of save.qw.k){const T=QK_TPL.find(t=>t.id===K.id),Ch=CHAPTERS.find(c=>c.id===K.ch)||CHAPTERS[0];if(!T)continue;
+     h+='<div class="pk"><b>'+T.t(Ch)+' <i>'+qkDone(K)+' / '+K.steps.length+'</i></b>'+K.steps.map((s,j)=>'<div class="pks'+(K.d[j]?' done':'')+'"><span>'+(K.d[j]?'✓ ':'')+(QK_STEP[s.k]?QK_STEP[s.k].x(s.n,Ch):s.k)+'</span><em>'+Math.min(K.v[j],s.n)+' / '+s.n+'</em></div>').join('')+'</div>';}}
+   h+='<p class="pnote">'+_t('Průběh se započítá po skončení běhu. Žlutě je to, co přidává tenhle běh.')+'</p>';}
+  else{const row=(id,name,lv,max,sub,cls)=>'<div class="pr'+(cls||'')+'"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><span>'+name+(sub?'<small>'+sub+'</small>':'')+'</span><b>'+lv+(max?' / '+max:'')+'</b></div>';
+   const known=(save.codex&&save.codex.f)||{};
+   h+=_t('<h4>Zbraně ')+nWeapons()+' / '+maxW()+'</h4>';
+   for(const id in run.W){const W=WEAPONS[id],w=run.W[id];
     if(W.ult){h+=row(id,W.name,_t('Úr. ')+ROMAN[w.lv-1],'',w.mul>1?_t('síla z rytmu +')+Math.round((w.mul-1)*100)+' %':'',' ult');continue;}
     const f=featOn('fuse')&&FUSIONS.find(f=>f.a===id||f.b===id),mate=f&&(f.a===id?f.b:f.a);
     const sub=f?_t('Fúze s: ')+WEAPONS[mate].name+(known[f.id]?' → '+WEAPONS[f.id].name:'')+_t(' (obě na úr. 5)'):'';
     h+=row(id,W.name,w.lv,W.lv.length,sub);}
-  if(Object.keys(run.P).length){h+=_t('<h4>Pasivky ')+nPassives()+' / '+MAX_P+'</h4>';for(const id in run.P)h+=row(id,PASSIVES[id].name,run.P[id],MAX_PLV,PASSIVES[id].txt);}
-  box.innerHTML=h;}
+   if(Object.keys(run.P).length){h+=_t('<h4>Pasivky ')+nPassives()+' / '+MAX_P+'</h4>';for(const id in run.P)h+=row(id,PASSIVES[id].name,run.P[id],MAX_PLV,PASSIVES[id].txt);}}
+  h+='</div>';box.innerHTML=h;
+  box.querySelectorAll('[data-pt]').forEach(b=>b.onclick=()=>{if(pauseTab===b.dataset.pt)return;pauseTab=b.dataset.pt;sfx('ui');renderPauseBuild();});}
 function buildItemsHud(){
   const box=$('#items');box.innerHTML='';
   const fz=new Set();for(const f of fusable()){fz.add(f.a);fz.add(f.b);}
@@ -6711,7 +6793,22 @@ function confirmHero(id){const h=HEROES[id],pop=$('#newsPop'),coin='<img alt="" 
   pop.hidden=false;
   $('#buyNo').onclick=()=>{pop.hidden=true;sfx('ui');};
   if($('#buyYes'))$('#buyYes').onclick=()=>{pop.hidden=true;if(heroOwned(id)||save.coins<h.cost)return renderSelect();
-    save.coins-=h.cost;save.heroes[id]=true;sel.hero=id;persist();sfx('coin');note(_t('Odemčeno: ')+h.name);renderSelect();};}
+    save.coins-=h.cost;save.heroes[id]=true;sel.hero=id;persist();sfx('coin');renderSelect();heroCelebrate(id);};}
+// 09z5: oslava nového hrdiny a nové zbraně (karta s výbuchem, paprsky a jiskrami)
+function celebPop(cls,html,after){let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
+  let sp='';for(let i=0;i<14;i++)sp+='<i class="hs" style="--a:'+(i*360/14+(i%2?8:0))+'deg;--d:'+(i%3)*.12+'s;--r:'+(110+(i%4)*18)+'px"></i>';
+  pop.className='featpop celeb '+cls;pop.innerHTML='<div class="fc"><div class="fc-rays"></div><i class="hc-burst"></i><div class="hc-sp">'+sp+'</div>'+html+'</div>';
+  pop.hidden=false;pop.classList.remove('in');void pop.offsetWidth;pop.classList.add('in');sfx('win');try{duckMusic(-8,1.4)}catch(_){}
+  const done=()=>{pop.hidden=true;pop.className='featpop';if(after)after();};const ok=$('#fcOk');if(ok)ok.onclick=()=>{sfx('ui');done();};const go=$('#fcGo');if(go)go.onclick=()=>{sfx('ui');done();};}
+function heroCelebrate(id){const h=HEROES[id];if(!h)return;const wid=W_HERO[h.start]===id?h.start:null,w=wid&&WEAPONS[wid];
+  celebPop('hero','<small>'+_t('NOVÝ HRDINA!')+'</small><img class="hc-hero" alt="" src="'+dataUrl(SPR.hero[id])+'"><h3>'+h.name+'</h3><p>'+h.desc+'</p>'+
+    (w?'<div class="hc-w"><img alt="" src="'+dataUrl(SPR.icon[wid])+'"><div><small>'+_t('Nová zbraň')+'</small><b>'+w.name+'</b><span>'+_t('Začíná s ní. Od ')+W_UNL_LV+_t('. úrovně hrdiny ji najdou i ostatní.')+'</span></div></div>':'')+
+    '<div class="fc-b"><button class="btn" id="fcGo">'+_t('Vybrat hrdinu')+'</button></div>',()=>{sel.hero=id;if(state==='select')renderSelect();});}
+function weaponCelebrate(wid){const w=WEAPONS[wid];if(!w)return;wNewAdd(wid);
+  celebPop('weap','<small>'+_t('NOVÁ ZBRAŇ!')+'</small><img class="hc-hero" alt="" src="'+dataUrl(SPR.icon[wid])+'"><h3>'+w.name+'</h3><p>'+w.desc+'</p>'+
+    '<p class="fc-l">'+_t('Od teď ji můžou najít všichni hrdinové při nové úrovni v běhu.')+'</p><div class="fc-b"><button class="btn" id="fcOk">'+_t('Super!')+'</button></div>');}
+function wNewAdd(id){save.wNew=save.wNew||[];if(!save.wNew.includes(id))save.wNew.push(id);persist();}
+const wFresh=id=>!!(save.wNew&&save.wNew.includes(id));
 // ----- campaign: one chapter at a time, its maps as a dotted path; postcards are built lazily and kept small -----
 let chSel=null;
 const thumbImg={};
@@ -8286,7 +8383,7 @@ function renderHero(){
       return '<div class="tch'+(open?(c>=0?' on':' ask'):' lock')+'"><b>'+t+'</b>'+TAL_CH[t].map((o,i)=>'<button data-t="'+t+'" data-i="'+i+'" class="'+(c===i?'pick':'')+'"><img alt="" src="'+dataUrl(o.ic==='*'?SPR.icon[HEROES[h].start]:SPR.icon[o.ic])+'"><span><em>'+o.t+'</em>'+(o.ic==='*'?WEAPONS[HEROES[h].start].name+': +30 %':o.d).replace(/ %/g,'\u00a0%')+'</span></button>').join('')+'</div>';}).join('')+'</div>'+
     (L<HERO_MAX?'<div class="hc-up"><div class="costs">'+costHtml(c,1)+'</div><button class="btn sm" id="hUp"'+(canHeroUp(h)?'':' disabled')+_t('>Vylepšit na ')+(L+1)+'</button></div>'+missHint(c):
       (()=>{const pc=prCost(h),pr=heroPr(h);return '<div class="prs"><img alt="" src="'+dataUrl(SPR.icon.star)+'">'+_t('Prestiž ')+pr+'<small style="color:var(--muted);font-weight:600">'+_t(' · každá +0,5 % zdraví a poškození')+'</small></div><div class="hc-up"><div class="costs">'+costHtml(pc,1)+'</div><button class="btn sm" id="hPr"'+(canPay(pc)?'':' disabled')+'>'+_t('Prestiž +1')+'</button></div>'+missHint(pc);})());
-  const up=$('#hUp');if(up)up.onclick=()=>{if(heroUp(h)){sfx('level');note(HEROES[h].name+_t(': úroveň ')+heroLv(h)+(TAL_TIERS.includes(heroLv(h))?_t(' · vyber si talent!'):''));renderHero();}};
+  const up=$('#hUp');if(up)up.onclick=()=>{if(heroUp(h)){{const wid=Object.keys(W_HERO).find(k=>W_HERO[k]===h);if(wid&&heroLv(h)===W_UNL_LV)setTimeout(()=>weaponCelebrate(wid),300);}sfx('level');note(HEROES[h].name+_t(': úroveň ')+heroLv(h)+(TAL_TIERS.includes(heroLv(h))?_t(' · vyber si talent!'):''));renderHero();}};
   const prb=$('#hPr');if(prb)prb.onclick=()=>{const pc=prCost(h);if(!canPay(pc))return;payC(pc);save.hpr=save.hpr||{};save.hpr[h]=heroPr(h)+1;persist();sfx('level');note(HEROES[h].name+_t(': prestiž ')+heroPr(h));renderHero();};
   $('#hCard').querySelectorAll('.tch button').forEach(b=>b.onclick=()=>{const t=+b.dataset.t,i=+b.dataset.i,c=heroTal(h,t);
     if(L<t){note(_t('Odemkne se na úrovni ')+t);return;}if(c===i)return;
@@ -8558,7 +8655,7 @@ function achTrack(C,won){const S=achInit(),T=S.tot,before=ACH.filter(achDone).ma
   if(won){S.hw[run.heroId]=1;if(run.nm)T.nmw=Math.max(T.nmw,run.nm);if(run.coop)T.cw++;}
   return ACH.filter(A=>achDone(A)&&!before.includes(A.id)&&!save.ach[A.id]);}
 function achClaim(id){const A=ACHM[id];if(!A||save.ach[id]||!achDone(A))return false;save.ach[id]=1;save.coins+=A.g;
-  if(A.hero)save.heroes[A.hero]=true;if(!save.title)save.title=id;persist();sfx('win');
+  const newH=A.hero&&!save.heroes[A.hero];if(A.hero)save.heroes[A.hero]=true;if(!save.title)save.title=id;persist();sfx('win');if(newH)setTimeout(()=>heroCelebrate(A.hero),400);
   note(_t('Mistrovství ')+A.name+': +'+A.g+_t(' zlata')+(A.hero?_t(' · odemčen hrdina ')+HEROES[A.hero].name:'')+_t(' · titul ')+A.title);return true;}
 function openMaster(){achInit();renderMaster();setState('master');}
 function renderMaster(){const S=achInit();
@@ -9272,6 +9369,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09z5',d:'9. 11. 2026',t:_t('Pauza a odemykání'),hl:[
+  {ic:'book',t:_t('Pauza se třemi záložkami'),d:_t('Výbava ukáže zbraně a pasivky běhu, Hrdina všechny tvoje staty (zdraví, regenerace, brnění, poškození, rychlost, krit…) a Úkoly průběh dnešních úkolů a kontraktů včetně toho, co přidává tenhle běh.')},
+  {ic:'star',t:_t('Oslava nového hrdiny'),d:_t('Koupený nebo vybojovaný hrdina se ukáže se zábleskem, paprsky a jiskrami a hned si ho můžeš vybrat.')},
+  {ic:'hammer',t:_t('Nová zbraň ve hře'),d:_t('Když hrdina dosáhne 8. úrovně a jeho zbraň se odemkne všem, dozvíš se to. V běhu tě na ni upozorní hláška a v nabídce nové úrovně je zlatě označená.')}],
+  items:[_t('Výsledky v žebříčku hlídá server – nemožné hodnoty ořízne.'),_t('Horní lišta ve hře a nadpisy obrazovek jsou níž, mimo pruh, který iPhone rozmazává.')]},
  {v:'2026-11-09z4',d:'9. 11. 2026',t:_t('Bezpečnější účty'),hl:[
   {ic:'lock',t:_t('PIN nejde uhádnout'),d:_t('Po pěti špatných PINech se přezdívka na hodinu zamkne. Nikdo tak nemůže zkoušet čísla a převzít ti účet.')},
   {ic:'shield',t:_t('Tvůj postup vidíš jen ty'),d:_t('Žebříček ukazuje jen přezdívku, výsledky, obrázek, titul a počet map a hrdinů. Tvoje uložená hra je soukromá.')}]},

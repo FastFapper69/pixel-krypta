@@ -399,3 +399,9 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 - Test bez serveru: `tests/tools/cloudstub.js` (je v auditu).
 
 - Uživatel potvrdil (21:02): po 09z4 přihlášení, ukládání i žebříček fungují.
+
+## 09z5 – pauza se záložkami, oslava hrdiny, kontrola skóre (2026-11-09)
+- **Skóre:** `save_profile` volá `stats_clean(old,new,čas od posledního uložení)` – ořízne nemožné hodnoty (běhy max +3 + 1 za 20 s, výhry ≤ běhy, zabití ≤ 40/s běhu a 40 000/běh, čas ≤ 3600 s, kombo ≤ 20 000) a zapíše do `private.cheat_log` (projít v auditu: `select * from private.cheat_log order by at desc`). Přímý INSERT/UPDATE do `profiles` je zakázaný. Migrace `20261109d_stats_check.sql`.
+- **Horní okraj:** `#hud` a `.head` obrazovek začínají na `--sat + 30/32px` (iOS 26 rozmazání). Test `tests/tools/topcheck.js`.
+- **Pauza:** `renderPauseBuild` + `pauseTab` ('run'|'hero'|'q'): nahoře čas/úroveň/zabití + pruh zdraví, záložky Výbava (zbraně, pasivky), Hrdina (dlaždice `.pt`, zlatě `.up` nad základem; hodnoty z `st` po `recalc`), Úkoly (`Q.q` s živým `qProg(q,qSnap())`, popis `q.xs[k]`, kontrakty `save.qw.k`). Rámeček `.pbuild` má skutečný `border` (inset stín text při posunu přetékal). Test `tests/tools/pausetabs.js`.
+- **Oslava:** `celebPop(cls,html,after)` (záblesk, paprsky, jiskry `.hs`), `heroCelebrate(id)` po koupi v `confirmHero` a po Mistrovství s hrdinou, `weaponCelebrate(wid)` při dosažení `W_UNL_LV` hrdiny v Hrdinovi. `save.wNew` = nově odemčené zbraně: hláška na začátku běhu, v nabídce úrovně karta `.fresh` se štítkem `.frk` (pak se z `wNew` smaže). Test `tests/tools/celeb.js`.
