@@ -2440,12 +2440,10 @@ const M={song:null,step:0,acc:0,stepDur:.125,lastAudio:0,int:1,beatPos:0,pulse:0
 const NOTE=m=>440*Math.pow(2,(m-69)/12);
 function audioInit(){
   try{if(!ac){const C=window.AudioContext||window.webkitAudioContext;if(!C)return;ac=new C();
-      const comp=ac.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=4;
-      const master=ac.createGain();master.gain.value=.9;
-      M.filter=ac.createBiquadFilter();M.filter.type='lowpass';M.filter.frequency.value=18000;
-      M.musicBus=ac.createGain();M.musicBus.gain.value=busVol('m');
+      const master=ac.createGain();master.gain.value=.9;const comp=masterChain(ac,master);
+      musicGraph(ac,comp);M.musicBus.gain.value=busVol('m');if(M.song)songMix();
       M.sfxBus=ac.createGain();M.sfxBus.gain.value=busVol('s');
-      M.duck=ac.createGain();M.musicBus.connect(M.duck);M.duck.connect(M.filter);M.filter.connect(comp);M.sfxBus.connect(comp);comp.connect(master);master.connect(ac.destination);
+      M.sfxBus.connect(comp);master.connect(ac.destination);
       const len=ac.sampleRate,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;M.noise=buf;}
     // iOS leaves the context 'interrupted' (not 'suspended') after the phone was locked, and sometimes reports
     // 'running' while staying silent: resume from any state, and rebuild the context on the next tap if the clock is stuck
@@ -2457,10 +2455,42 @@ let awT=0;
 function audioWatch(){if(!ac||document.hidden)return;const t0=ac.currentTime;clearTimeout(awT);
   awT=setTimeout(()=>{if(!ac||document.hidden)return;if(ac.state!=='running'||ac.currentTime===t0)M.dead=true;},800);}
 // 09r: volume sliders – the toggle still mutes, the slider (0–1, squared so the whole travel is audible) scales the bus
+/* 09z9: music graph – every instrument plays into its own role bus (stereo place + reverb send), then
+   musicBus (volume slider) → trim (evens out styles) → energy (calm/run/boss) → duck → muffle → 35 Hz highpass →
+   out, plus a "phone bass" path: the lows are saturated into harmonics around 200–600 Hz, which an iPhone speaker can play. */
+const STYLE_TRIM={forge:-8};
+const MUSIC_LVL=1;                         // music level inside the mix
+const MASTER_PRE=.32;                       // music + effects into the master; the old soft-knee compressor took ~10 dB, this keeps the overall loudness                 // dB, measured so all chapters sit at the same loudness
+const STYLE_REV={grave:.22,desert:.16,forge:.1,frost:.28,sea:.15}; // reverb return per style
+const ENERGY_GAIN=[.74,.88,1,1.22];          // M.int 0 calm intro, 1 run, 2 late run, 3 boss (≈ -2.6 / -1.1 / 0 / +1.7 dB)
+// master: gentle glue compressor (hard knee, so quiet parts keep their dynamics and the boss is really louder) + a safety limiter.
+// The old one had the default 30 dB soft knee and squashed everything above ~-29 dB, which flattened calm vs boss.
+function masterChain(c,out,old){const comp=c.createDynamicsCompressor();
+  if(old){comp.threshold.value=-14;comp.ratio.value=4;comp.connect(out);return comp;}
+  comp.threshold.value=-16;comp.knee.value=6;comp.ratio.value=2.5;comp.attack.value=.006;comp.release.value=.2;
+  const lim=c.createDynamicsCompressor();lim.threshold.value=-3;lim.knee.value=0;lim.ratio.value=20;lim.attack.value=.001;lim.release.value=.12;
+  comp.connect(lim);lim.connect(out);const pre=c.createGain();pre.gain.value=MASTER_PRE;pre.connect(comp);return pre;}
+function musicGraph(c,out){const G=()=>c.createGain(),F=(type,f,q)=>{const n=c.createBiquadFilter();n.type=type;n.frequency.value=f;if(q!=null)n.Q.value=q;return n;};
+  const bus=G(),trim=G(),energy=G(),duck=G(),filter=F('lowpass',18000),hp=F('highpass',35,.7),ls=F('lowshelf',110),lvl=G();ls.gain.value=-3;lvl.gain.value=MUSIC_LVL;
+  bus.connect(trim);trim.connect(energy);energy.connect(duck);duck.connect(filter);filter.connect(hp);hp.connect(ls);ls.connect(lvl);lvl.connect(out);
+  // phone bass: low band → soft clip → keep only the new harmonics
+  const lo=F('lowpass',190,.7),sh=c.createWaveShaper(),hh=F('highpass',170,.7),hg=G();const cv=new Float32Array(1024);
+  for(let i=0;i<1024;i++){const x=i/511.5-1;cv[i]=Math.tanh(x*4)/Math.tanh(4);}sh.curve=cv;hg.gain.value=.8;
+  filter.connect(lo);lo.connect(sh);sh.connect(hh);hh.connect(hg);hg.connect(lvl);
+  // reverb: generated stereo room (no files), fed by the role sends, returns into the music bus so volume and ducking apply
+  const rev=c.createConvolver(),rr=G(),len=Math.floor(c.sampleRate*1.7),ir=c.createBuffer(2,len,c.sampleRate);
+  for(let ch=0;ch<2;ch++){const d=ir.getChannelData(ch);for(let i=0;i<len;i++){const t=i/c.sampleRate;d[i]=t<.012?0:(Math.random()*2-1)*Math.pow(1-i/len,2.2)*Math.exp(-t*2.2);}}
+  rev.buffer=ir;const rlp=F('lowpass',4200);rev.connect(rlp);rlp.connect(rr);rr.connect(bus);rr.gain.value=.2;
+  const pan=v=>{if(c.createStereoPanner){const n=c.createStereoPanner();n.pan.value=v;return n;}return G();};
+  const role=(p,send)=>{const g=G(),pn=pan(p);g.connect(pn);pn.connect(bus);if(send){const s=G();s.gain.value=send;g.connect(s);s.connect(rev);}return g;};
+  const R={drums:role(0,.08),bass:role(0,0),arp:role(-.32,.35),lead:role(.1,.3),fx:role(.22,.2)};
+  // pad: Haas widening (one side 14 ms later) so chords spread around the player
+  {const g=G(),pl=pan(-.7),pr=pan(.7),dl=c.createDelay(.05);dl.delayTime.value=.014;g.connect(pl);pl.connect(bus);g.connect(dl);dl.connect(pr);pr.connect(bus);const s=G();s.gain.value=.5;g.connect(s);s.connect(rev);R.pad=g;}
+  M.musicBus=bus;M.trim=trim;M.energy=energy;M.duck=duck;M.filter=filter;M.revRet=rr;M.roles=R;return R;}
 function busVol(k){const v=save.vol?save.vol[k]:1,on=k==='m'?save.music:save.sound,base=k==='m'?.3:.5;return on?base*Math.pow(v==null?1:v,2):0;}
 function setBuses(){if(!M.musicBus)return;M.musicBus.gain.setTargetAtTime(busVol('m'),ac.currentTime,.05);M.sfxBus.gain.setTargetAtTime(busVol('s'),ac.currentTime,.05);}
 // music ducks under the big moments (boss, death, ultimate drops) so they punch through, then comes back
-function duckMusic(db,hold){if(!M.duck||!ac)return;const g=M.duck.gain,t=ac.currentTime;try{g.cancelScheduledValues(t);g.setValueAtTime(g.value,t);g.setTargetAtTime(Math.pow(10,(db||-9)/20),t,.02);g.setTargetAtTime(1,t+(hold||.35),.22);}catch(_){}}
+function duckMusic(db,hold){if(!M.duck||!ac)return;const g=M.duck.gain,t=ac.currentTime;try{g.cancelScheduledValues(t);g.setValueAtTime(g.value,t);g.setTargetAtTime(Math.pow(10,(db||-9)/20),t,.02);g.setTargetAtTime(1,t+(hold||.35),(hold||.35)>1?.4:.22);}catch(_){}}
 function muffle(on){if(!M.filter)return;try{M.filter.frequency.setTargetAtTime(on?650:18000,ac.currentTime,.08);}catch(e){}}
 function env(g,t,a,d,v){g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,v),t+a);g.gain.exponentialRampToValueAtTime(.0001,t+a+d);}
 function osc(type,f,t,dur,vol,bus,slide,lp){const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,t);
@@ -2469,7 +2499,8 @@ function osc(type,f,t,dur,vol,bus,slide,lp){const o=ac.createOscillator(),g=ac.c
   g.connect(bus);env(g,t,.003,dur,vol);o.start(t);o.stop(t+dur+.05);}
 function noiz(t,dur,vol,bus,type,freq){const n=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();n.buffer=M.noise;f.type=type||'bandpass';f.frequency.value=freq||2000;
   n.connect(f);f.connect(g);g.connect(bus);env(g,t,.002,dur,vol);n.start(t,Math.random()*.5);n.stop(t+dur+.05);}
-function setSong(id){M.song=SONGS[id]||(CH_OF[id]&&SONGS[CH_OF[id].maps[0]])||SONGS.menu;M.stepDur=60/M.song.bpm/4;M.step=0;M.acc=0;M.int=id==='menu'?1:0;M.bossBar=null;M.lastLead=null;}
+function setSong(id){M.song=SONGS[id]||(CH_OF[id]&&SONGS[CH_OF[id].maps[0]])||SONGS.menu;songMix();M.stepDur=60/M.song.bpm/4;M.step=0;M.acc=0;M.int=id==='menu'?1:0;M.bossBar=null;M.lastLead=null;}
+function songMix(){if(!ac||!M.trim)return;const st=M.song.style,t=ac.currentTime;try{M.trim.gain.setTargetAtTime(Math.pow(10,(STYLE_TRIM[st]||0)/20),t,.05);M.revRet.gain.setTargetAtTime(STYLE_REV[st]!=null?STYLE_REV[st]:.2,t,.05);}catch(_){}}
 const SCALES={dorian:[0,2,3,5,7,9,10],minor:[0,2,3,5,7,8,10],harm:[0,2,3,5,7,8,11],hijaz:[0,1,4,5,7,8,10]};
 const CHORD={m:[0,3,7],M:[0,4,7],d:[0,3,6],p:[0,7,12]};
 const _=null;
@@ -2759,10 +2790,12 @@ function playStep(s,t){
   const S=M.song,s16=s%16,P=songPos(s),c=chordAt(s),I=M.int,B=M.musicBus,sd=M.stepDur,bar=P.bar,ST=STYLES[S.style]||STYLES.grave;
   // energy: the section's own energy, capped by how far the run is (quiet start, boss = full)
   const E=I>=3?3:P.sec.e===0?0:Math.min(P.sec.e,I>=2?2:1),x={s16,t,c,I,E,sd,bs:P.bs,cyc:P.cyc,key0:S.root+P.key,bar};
+  const R=M.roles,MB=M.musicBus,to=k=>{if(R)M.musicBus=R[k];};
+  if(s16===0&&M.energy)try{M.energy.gain.setTargetAtTime(ENERGY_GAIN[Math.max(0,Math.min(3,I))],t,.6);}catch(_){}
   try{
-  ST.pad(x);ST.bass(x);
-  if(I>=1||E>=1)ST.drums(x);else if(s16===0)ST.drums(Object.assign({},x,{E:0}));
-  if(E>=1&&I>=1)ST.arp(x);
+  to('pad');ST.pad(x);to('bass');ST.bass(x);
+  to('drums');if(I>=1||E>=1)ST.drums(x);else if(s16===0)ST.drums(Object.assign({},x,{E:0}));
+  to('arp');if(E>=1&&I>=1)ST.arp(x);to('lead');
   // lead: written motif; every loop varies it (octave lift on the answer, passing notes in the gaps), harmony at high energy
   if(s16%2===0&&(I>=2||E===0||E>=3||(I>=1&&P.sec.e>=2)||M.song===SONGS.menu)){const L=P.sec.lead,i=P.bs*8+(s16>>1);let d=L[i],soft=1;
     const v=(P.cyc+bar)%3;
@@ -2770,8 +2803,8 @@ function playStep(s,t){
     if(d!==null){if(v===1&&P.bs>=2&&d<5&&P.cyc>0)d+=7;let len=1;while(len<4&&i+len<L.length&&L[i+len]===null)len++;
       const f=NOTE(S.root+P.key+12+scaleNote(d)),dur=sd*2*len*.9;ST.lead(f,t,dur,soft);
       if(E>=2&&soft===1)tone('triangle',NOTE(S.root+P.key+12+scaleNote(d-2)),t,dur*.8,.035);}}
-  if(I>=3&&s16===0)osc('sawtooth',NOTE(c.root-24),t,sd*14,.07,B,null,500);                                    // boss drone
-  if(run&&!run.over&&state!=='menu'){const W=run.W;                                                          // ultimate layers
+  if(I>=3&&s16===0)osc('sawtooth',NOTE(c.root-24),t,sd*14,.07,R?R.bass:B,null,500);                                    // boss drone
+  if(run&&!run.over&&state!=='menu'){const W=run.W,B=R?R.fx:MB;                                                          // ultimate layers
     if(W.vortex)osc('triangle',NOTE(c.root+24+c.tones[s16%3]),t,sd*.6,.03,B,null,5000);
     if(W.storm&&s16%2===0)osc('sawtooth',NOTE(c.root-12+(s16%8===6?7:0)),t,sd*1.6,.045,B,null,800);
     if(W.meteor&&(s16===0||s16===10||s16===12)){osc('sine',110,t,.28,.6,B,38);noiz(t,.18,.15,B,'lowpass',500);}
@@ -2782,24 +2815,28 @@ function playStep(s,t){
     if(W.frostblade&&s16%4===2)osc('sine',NOTE(c.root+36+c.tones[(s16>>2)%3]),t,sd*1.5,.03,B);
     if(W.arcane&&s16%2===1)osc('square',NOTE(c.root+24+c.tones[(s16>>1)%3]),t,sd*.5,.016,B,null,2600);
     if(W.flamering&&s16%4===0){osc('sine',90,t,.18,.35,B,40);noiz(t,.1,.06,B,'lowpass',700);}}
-  }catch(e){M.err=e;}
+  }catch(e){M.err=e;}finally{M.musicBus=MB;}
 }
 // dev/test: render a song offline (int(sec) gives the intensity over time, boss = second the boss arrives) -> mono samples
 async function musicRender(id,secs,o){o=o||{};const sr=o.sr||22050,oac=new OfflineAudioContext(1,Math.ceil(sr*secs),sr),keep={ac,bus:M.musicBus,song:M.song,step:M.step,int:M.int,bb:M.bossBar,mus:save.music,noise:M.noise};
-  ac=oac;M.offline=true;const comp=oac.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=4;comp.connect(oac.destination);
-  M.musicBus=oac.createGain();M.musicBus.gain.value=.3;M.musicBus.connect(comp);save.music=true;
+  const keepG={trim:M.trim,energy:M.energy,duck:M.duck,filter:M.filter,revRet:M.revRet,roles:M.roles};
+  ac=oac;M.offline=true;const comp=masterChain(oac,oac.destination,o.raw);
+  if(o.raw){M.musicBus=oac.createGain();M.musicBus.connect(comp);M.roles=null;M.trim=M.energy=null;}else musicGraph(oac,comp);M.musicBus.gain.value=.3;save.music=true;
   if(!M.noise){const b=oac.createBuffer(1,sr,sr),d=b.getChannelData(0);for(let i=0;i<sr;i++)d[i]=Math.random()*2-1;M.noise=b;}
-  setSong(id);const sd=M.stepDur,n=Math.floor((secs-.5)/sd);
+  setSong(id);if(!o.raw)songMix();const sd=M.stepDur,n=Math.floor((secs-.5)/sd);
   try{for(let s=0;s<n;s++){const tt=s*sd;if(s%16===0){M.int=o.int?o.int(tt):1;if(o.boss!=null&&tt>=o.boss&&M.bossBar==null)M.bossBar=Math.floor(s/16);}M.step=s+1;playStep(s,tt+.02);}}
-  finally{ac=keep.ac;M.musicBus=keep.bus;M.offline=false;save.music=keep.mus;M.noise=keep.noise||M.noise;}
+  finally{ac=keep.ac;M.musicBus=keep.bus;Object.assign(M,keepG);M.offline=false;save.music=keep.mus;M.noise=keep.noise||M.noise;}
   const buf=await oac.startRendering();M.song=keep.song;M.step=keep.step;M.int=keep.int;M.bossBar=keep.bb;M.stepDur=60/M.song.bpm/4;return buf.getChannelData(0);}
 function conductor(dt){
   if(!M.song)return;
-  M.acc+=dt;
+  M.acc+=dt;M.gt=(M.gt||0)+dt;
+  // 09z9: audio clock minus game clock, smoothed – a late or uneven frame no longer shifts the notes (iPhone frame drops);
+  // a big jump (tab in background, long stall) snaps at once
+  if(ac){const d=ac.currentTime-M.gt;if(M.off==null||Math.abs(d-M.off)>.12)M.off=d;else M.off+=(d-M.off)*.06;}
   while(M.acc>=M.stepDur){M.acc-=M.stepDur;const s=M.step++;
     if(s%16===0&&run){M.int=run.over?0:run.boss?3:run.t<35?0:run.t<110?1:2;
       if(M.int===3&&M.bossBar==null)M.bossBar=Math.floor(s/16);else if(!run.boss&&M.bossBar!=null&&!run.over)M.bossBar=null;}
-    const when=ac?ac.currentTime+.05-M.acc:0;M.lastAudio=when;
+    const when=ac?Math.max(ac.currentTime+.005,M.gt-M.acc+M.off+.05):0;M.lastAudio=when;
     playStep(s,when);
     if(state==='play'&&run&&!run.over&&!isGuest()&&!BI)gameStep(s);
     if(s%4===0)M.pulse=s%16===0?1:.65;}
@@ -2839,7 +2876,7 @@ function noizSweep(t,dur,vol,type,f0,f1,q,att){const n=ac.createBufferSource(),f
   f.frequency.setValueAtTime(f0,t);f.frequency.exponentialRampToValueAtTime(Math.max(30,f1),t+dur);n.connect(f);f.connect(g);g.connect(M.sfxBus);
   const a=att||.004;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,vol),t+a);g.gain.exponentialRampToValueAtTime(.0001,t+dur);n.start(t,Math.random()*.5);n.stop(t+dur+.05);}
 // the music ducks for a moment under the drop so it hits harder (sidechain feel)
-function duckBeat(t,depth,rel){if(!M.musicBus||!save.music)return;const g=M.musicBus.gain;try{g.cancelScheduledValues(t);g.setValueAtTime(.3,t);g.linearRampToValueAtTime(.3*depth,t+.02);g.setTargetAtTime(.3,t+.08,rel||.18);}catch(e){}}
+function duckBeat(t,depth,rel){if(!M.duck||!save.music)return;const g=M.duck.gain;try{g.cancelScheduledValues(t);g.setValueAtTime(1,t);g.linearRampToValueAtTime(depth,t+.02);g.setTargetAtTime(1,t+.08,rel||.18);}catch(e){}} // 09z9: duck node, not the volume bus
 const ULT_SND={
  storm(t,sd,B,c){noizSweep(t,.12,.34,'highpass',7000,2500);noizSweep(t+.03,1.6,.3,'lowpass',900,90,0,.06);osc('sawtooth',NOTE(c.root+36),t,.5,.07,B,NOTE(c.root),2200);
    for(let i=1;i<4;i++){const u=t+i*sd;osc('sawtooth',NOTE(c.root+24+c.tones[i%3]),u,.07,.05,B,null,3400);noiz(u,.05,.07,B,'highpass',6000);}},
@@ -2883,7 +2920,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09z8';
+const GAME_VER='2026-11-09z9';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3324,7 +3361,7 @@ function hurtPlayer(d,src){
 // the hero falls: hit-stop, the sprite bursts into pieces, red flash, the music ducks, then the world runs in slow motion until the end screen
 function startDeath(){const p=run.p;p.hp=0;p.dead=1;run.dying=1.5;run.deathFx=1;run.hitstop=.14;run.shake=9;run.flashScr=.5;run.flashCol='#ff3a3a';
   const s=SPR.hero[run.heroId]||SPR.hero.knight;shatter(s.c,p.x,p.y-s.h/2,p.y+2,4,1.4);smokePuff(p.x,p.y-6,9,'#4a3a48',1.3);sparks(p.x,p.y-6,14,'#ff6a5a',0,0,140);
-  sfx('death');if(ac&&M.musicBus&&save.music){const T=ac.currentTime,G=M.musicBus.gain;G.cancelScheduledValues(T);G.setTargetAtTime(.06,T,.08);G.setTargetAtTime(.3,T+2.4,.4);}}
+  sfx('death');duckMusic(-14,2.4);}
 function addXP(v){if(isGuest())return;
   run.xp+=v*st.xpMul;
   while(run.xp>=run.need){run.xp-=run.need;run.level++;run.need=needXP(run.level);run.pending++;
@@ -7903,6 +7940,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09z9',d:'9. 11. 2026',t:_t('Nový zvuk'),hl:[
+  {ic:'music',t:_t('Hudba zní i z telefonu'),d:_t('Basy a buben uslyšíš i z mobilu a nástroje mají kolem sebe prostor.')},
+  {ic:'skull',t:_t('Boss zní mohutněji'),d:_t('Hudba začíná tišeji a s bossem zesílí. Kapitoly hrají stejně nahlas.')},
+  {ic:'note',t:_t('Přesnější rytmus'),d:_t('Beat drží takt, i když se hra na chvíli zasekne.')}],
+  items:[_t('Hlasitost hudby po ultimátce a smrti drží tvůj posuvník.')]},
  {v:'2026-11-09z8',d:'9. 11. 2026',t:_t('Sjednocené menu'),hl:[
   {ic:'hammer',t:_t('Bez hnědých tlačítek'),d:_t('Hrát s kamarádem a Nástěnka mají stejný kovaný železný rám jako ostatní tlačítka v menu a Vybavení už nemá rohy.')}]},
  {v:'2026-11-09z7',d:'9. 11. 2026',t:_t('Rychlejší načítání'),hl:[

@@ -262,3 +262,11 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 09z8 – jednotné menu (2026-11-09)
 - `bartDraw`: co-op a Nástěnka z bronzu/dřeva na železo (palety `pur`/`wood` odstraněné, i léta dřeva a hřeby), Vybavení bez kostěných rohů. Vlastní vzhled zůstal jen Hrát a Souhvězdí.
+
+## 09z9 – nový zvuk (2026-11-09)
+- Měření (offline render, `tests/tools/zvuk.js`): 65–80 % energie pod 200 Hz, téměř žádné výšky, klid/běh/boss se lišily o 1–3 dB (master kompresor s měkkým kolenem 30 dB stlačoval vše nad ~−29 dB), styl forge o 4 dB hlasitější, plánování not kolísalo s FPS (9 % not o víc než 10 ms vedle při zasekávání).
+- `musicGraph()`: role nástrojů se stereem (pad Haas 14 ms, arp vlevo, lead mírně vpravo) a generovaným dozvukem, `STYLE_TRIM` (forge −8 dB), `STYLE_REV`, `ENERGY_GAIN`, telefonní basy (saturace + highpass 170 Hz), highpass 35 Hz, lowshelf −3 dB.
+- `masterChain()`: `MASTER_PRE` .32 → kompresor (tvrdé koleno, poměr 2,5) → limiter −3 dB. Výsledek: klid→boss ~12 dB místo ~8, běh všech stylů kolem −31 dB.
+- Časování: `M.off` = vyhlazený rozdíl zvukových a herních hodin (krok .06, skok nad .12 s) → simulace zasekávání: noty o víc než 10 ms vedle 9 % → 3 %.
+- Opravy: `duckBeat` a smrt zapisovaly do `musicBus` pevné .3 a přebily posuvník hlasitosti (teď přes `M.duck`).
+- Skill `.claude/skills/zvuk-a-hudba`.
