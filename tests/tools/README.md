@@ -65,3 +65,4 @@ Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav 
 - `tabswipe.js` – přejetí mezi záložkami + historie jen mimo iPhone aplikaci; `edgeback.js [snímek]` – tah zpět od okraje s menu pod obrazovkou; `rplabel.js [cs|en]` – štítky rarity na kartách věží (skutečné fitCards, nejdelší jména)
 - `treesep.js <prefix> [cs|en]` – předěl Nové schopnosti ve stromu Vylepšení
 - `chipshot.js <prefix> [cs|en]` – zvětšený výřez Arzenálu (všechny rarity, nejdelší jména) a mazlíčka; `heroprev.js <prefix> [cs|en]` – náhled zamčených hrdinů v Přípravě
+- `fitrow.js W cs|en [snímek]` – Arzenál na šířce displeje W (nejdelší jména, všechny rarity), exit 1 při oříznutí

@@ -886,16 +886,17 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
  border:8px solid transparent;border-image:var(--tx-wood,#5c3a20) 8 repeat;box-shadow:0 4px 0 #0008}
 .armory .itile,.armory .ttile{background-color:#1c1426}
 /* towers = blueprints pinned on a board */
-#scr-towers .tdeck{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;padding:12px 7px 10px;background:var(--tx-cork,#8a5e36) 0 0/72px 72px;image-rendering:pixelated;border:8px solid transparent;border-image:var(--tx-wood,#5c3a20) 8 repeat;box-shadow:inset 0 0 18px #1a0e0699,0 4px 0 #0008}
+#scr-towers .tdeck{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:12px 5px 10px;background:var(--tx-cork,#8a5e36) 0 0/72px 72px;image-rendering:pixelated;border:8px solid transparent;border-image:var(--tx-wood,#5c3a20) 8 repeat;box-shadow:inset 0 0 18px #1a0e0699,0 4px 0 #0008}
 #scr-towers .tslot{background:linear-gradient(#ffffff12,#0000 40%),var(--tx-blue,#244c80) 0 0/32px 32px;image-rendering:pixelated;transform:rotate(-1deg);color:#eaf4ff;text-shadow:0 2px 0 #0c2440}
 #scr-towers .tslot:nth-child(2n){transform:rotate(1.2deg)}#scr-towers .tslot.empty{background:#00000038;transform:none}
 #scr-towers .tslot img{filter:drop-shadow(0 2px 0 #0c2440)}
 /* 09s: the rarity label must not inherit the blueprint/basket text shadow (it looked like a second line of text) and stays on one line */
-.tslot small.rp{display:block;align-self:center;width:auto;max-width:calc(100% - 6px);margin:auto 0 2px;padding:3px 3px 2px;text-align:center;white-space:nowrap;overflow:hidden;
+.tslot small.rp{display:block;align-self:center;width:auto;max-width:calc(100% - 4px);margin:auto 0 2px;padding:3px 2px 2px;text-align:center;white-space:nowrap;overflow:hidden;
  text-shadow:none;letter-spacing:0;text-transform:none;font-size:9.5px;font-weight:800;line-height:1.1;color:#140f1c;background:var(--rc);clip-path:none;
  box-shadow:0 0 0 1px #0c0912a0} /* 09u: a small centred chip at the bottom of the card, not a left-aligned bar across it */
 .tslot:not(.empty){padding-bottom:9px}
-.tslot b{max-width:100%;overflow:hidden;padding:0 2px}
+.tslot b{max-width:100%;overflow:hidden;padding:0;-webkit-hyphens:manual;hyphens:manual;letter-spacing:-.01em}
+@media (max-width:370px){#scr-towers .tdeck{gap:3px;padding-left:3px;padding-right:3px}#scr-towers .tdeck .tslot{padding-left:1px;padding-right:1px}}
 .tslot .tlv{position:absolute;top:5px;left:5px;font-style:normal;font-weight:800;font-size:11px;line-height:1;padding:2px 3px;color:#ffe08a;background:#0c0912d8;box-shadow:0 0 0 1px #ffe08a66;text-shadow:none}
 #scr-towers .ttile{background:var(--tx-blue,#244c80) 0 0/32px 32px;image-rendering:pixelated}
 #scr-towers .tcard{background:linear-gradient(90deg,#0000 0 70%,#00000030),var(--tx-blue,#244c80) 0 0/32px 32px;image-rendering:pixelated;color:#eaf4ff;box-shadow:inset 0 0 0 3px #12305a,inset 0 0 0 5px #5a8ac4}
@@ -4182,7 +4183,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09u';
+const GAME_VER='2026-11-09v';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7745,11 +7746,12 @@ function twCardHtml(c){const R=RAR[c.r],I=TW_INFO[c.k],C=TOWERS[c.k].ch?CHAPTERS
 function openTowers(){econInit();twPick=null;renderTowers();setState('towers');}
 // 09u: names and rarity chips on the narrow deck cards shrink (down to 8 px) only when they would not fit – no cut-off text, no
 // word broken in the middle; everything else keeps its normal size. Runs after layout (the screen is shown in the same tick).
-function fitCards(root){requestAnimationFrame(()=>{if(!root)return;
+function fitCards(root){const go=()=>requestAnimationFrame(()=>fitCards0(root));go();if(document.fonts&&document.fonts.status!=='loaded')document.fonts.ready.then(go);}
+function fitCards0(root){{if(!root)return;
   // shrink each that does not fit, then give every name / every chip in the row the same (smallest) size so the row looks even
-  for(const sel of ['.tslot b','.tslot small.rp'])for(const row of root.querySelectorAll('.tdeck,.ptslot')){const els=[...row.querySelectorAll(sel)];let min=99;
-    for(const el of els){el.style.fontSize='';let f=parseFloat(getComputedStyle(el).fontSize),n=0;while(el.clientWidth>0&&el.scrollWidth>el.clientWidth+.5&&f>8&&n++<12){f-=.5;el.style.fontSize=f+'px';}min=Math.min(min,f);}
-    if(min<99)for(const el of els)el.style.fontSize=min+'px';}});}
+  for(const sel of ['.tslot b','.tslot small.rp'])for(const row of root.querySelectorAll('.tdeck,.ptslot')){const els=[...row.querySelectorAll(sel)],same=sel!=='.tslot b';let min=99; // chips: one size for the row; names: each only as small as it must be
+    for(const el of els){el.style.fontSize='';let f=parseFloat(getComputedStyle(el).fontSize),n=0;while(el.clientWidth>0&&el.scrollWidth>el.clientWidth&&f>7.5&&n++<14){f-=.5;el.style.fontSize=f+'px';}min=Math.min(min,f);}
+    if(same&&min<99)for(const el of els)el.style.fontSize=min+'px';}}}
 function renderTowers(){fitCards(document.getElementById('scr-towers'));twInit();$('#twMats').innerHTML=matsHtml();const T=save.tw,d=T.deck;
   $('#twDeck').innerHTML=[0,1,2,3,4].map(i=>{const c=twCard(d[i]),b=i===4;
     return '<button class="tslot'+(b?' bld':'')+(twPick?' pick':'')+(c?' r'+c.r:' empty')+'" data-i="'+i+'">'+(c?'<img alt="" src="'+dataUrl(SPR.tower[c.k])+'"><b>'+TOWERS[c.k].name+'</b><small class="rp" style="--rc:'+RAR[c.r].col+'">'+RAR[c.r].name+'</small>'+(c.lv?'<i class="tlv">+'+c.lv+'</i>':''):'<span class="plus">+</span>')+
