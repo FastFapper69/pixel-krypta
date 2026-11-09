@@ -383,7 +383,9 @@ html,body,#stage{touch-action:none}
 .popwrap{position:fixed;inset:0;z-index:30;background:#0c0912d8;display:flex;align-items:center;justify-content:center;padding:16px}
 .popwrap:not([hidden]){animation:popFade .18s ease-out}.popwrap:not([hidden])>.pop-card:not(.reveal){animation:popIn .26s cubic-bezier(.16,1,.3,1);will-change:transform,opacity}
 @keyframes popFade{from{opacity:0}to{opacity:1}}@keyframes popIn{from{transform:translateY(14px) scale(.97);opacity:0}to{transform:none;opacity:1}}
-.scr:not([hidden]):not(#scr-levelup):not(#scr-fuse){animation:scrIn .2s ease-out}@keyframes scrIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.scr:not([hidden]):not(#scr-levelup):not(#scr-fuse){animation:scrIn .2s ease-out}
+/* 09q: switching tabs of one group (Kování↔Vylepšení, Hrdina↔Věže↔Mazlíčci…): the screen and its header stay put, only the content fades in – no flash of the map behind */
+.scr.tabsw:not([hidden]):not(#scr-levelup):not(#scr-fuse){animation:none}.scr.tabsw:not([hidden])>.wrap>:not(.head):not(.sectabs){animation:scrIn .18s ease-out}@keyframes scrIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .pop-card{width:100%;max-width:420px;background:var(--panel);padding:16px;display:flex;flex-direction:column;gap:10px}
 .ic-head{display:flex;gap:12px;align-items:center}.ic-head img{width:56px;height:56px;image-rendering:pixelated}.ic-head h3{font-size:19px}.ic-head small{color:var(--muted)}
 .ic-lg{color:#ffe9a8;font-size:14px;background:#3a2a10;padding:8px;box-shadow:inset 0 0 0 2px #a97a14}
@@ -926,14 +928,14 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 .smithy .tree::before{top:-8px}.smithy .tree::after{bottom:-8px}
 .smithy .tcol{background:none;clip-path:none;box-shadow:none;padding:6px 2px 4px}
 .smithy .tcol+.tcol{background:repeating-linear-gradient(#6a4a2a 0 6px,#0000 6px 10px) 0 0/2px 100% no-repeat}
-.smithy .tcol h3{color:#3a1c0c;text-shadow:0 1px 0 #f0e2c0;padding-bottom:4px;background:linear-gradient(var(--bc),var(--bc)) 50% 100%/60% 3px no-repeat;font-family:var(--font-px)}
+.smithy .tcol h3{color:#3a1c0c;text-shadow:0 1px 0 #f0e2c0;padding-bottom:4px;background:linear-gradient(#6a4a2a,#6a4a2a) 50% 100%/50% 2px no-repeat;font-family:var(--font-px)}
 .smithy .tn{background:#2a2034;box-shadow:inset 0 0 0 2px #2e1c0e,inset 0 0 0 4px #8a6a3e}
 .smithy .tn.key{background:#231a2c}.smithy .tn.part{box-shadow:inset 0 0 0 2px #2e1c0e,inset 0 0 0 4px color-mix(in srgb,var(--bc) 60%,#8a6a3e)}
 .smithy .tn.on{background:color-mix(in srgb,var(--bc) 30%,#2a2034);box-shadow:inset 0 0 0 2px #2e1c0e,inset 0 0 0 4px var(--bc),inset 0 0 14px color-mix(in srgb,var(--bc) 55%,transparent)}
 .smithy .tn.can{box-shadow:inset 0 0 0 2px #2e1c0e,inset 0 0 0 4px var(--gold),inset 0 0 12px #f6c74455}
 .smithy .tn.lock{background:#4a3c30}
 .smithy .tnm{color:#2e1c0e;font-weight:700}.smithy .tnm.dim{color:#8a6a48;font-weight:600}
-.smithy .tln{background:#7a5a3a;width:3px}.smithy .tln.on{background:var(--bc);box-shadow:none}
+.smithy .tln,.smithy .tln.on{width:2px;height:12px;margin:2px auto;background:repeating-linear-gradient(#6a4a2a 0 3px,#0000 3px 5px);box-shadow:none} /* 09q: jednotné inkoustové spojnice, bez barev jen u koupených */
 .smithy .tsep{color:#6a3a1a;font-weight:800}
 .smithy #shopList>.hint{color:#e8dcc4}
 /* ---- Síň slávy: plakety a vitrína ---- */
@@ -4120,7 +4122,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09p';
+const GAME_VER='2026-11-09q';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4139,6 +4141,7 @@ function setState(s){const prevS=state;if(screens[s]&&screens[s].classList.conta
   if(s!=='play'){const tt=$('#toast');if(tt)tt.classList.remove('on');}{const tu=$('#tut');if(tu)tu.style.visibility=s==='play'?'':'hidden';}
   {const NO={select:['map','hero'],hero:['hero'],towers:[],shop:['rank'],forge:[]}[s];if(NO&&s!==prevS){seeNew(...NO);try{({select:renderSelect,hero:renderHero,towers:renderTowers,shop:renderShop,forge:renderForge})[s]();}catch(_){}}}
   try{refreshNew();}catch(_){}
+  {const ns=screens[s];if(ns){const tw=prevS!==s&&[...document.querySelectorAll('.sectabs:not(.qtabs)')].some(t=>t.querySelector('[data-to="'+s+'"]')&&t.querySelector('[data-to="'+prevS+'"]'));for(const k in screens)screens[k].classList.toggle('tabsw',tw&&k===s);}}
   showScreen(s==='play'?null:s);document.querySelectorAll('.sectabs:not(.qtabs) button').forEach(b=>b.classList.toggle('on',b.dataset.to===s));try{featUi();if(s==='menu'||s==='select')setTimeout(featShow,450);}catch(_){}if(s!=='menu')setSheet(false);try{showStickRest();}catch(_){}
   muffle(s==='pause'||s==='levelup'||s==='over');
   try{if(s!=='menu')navArm();}catch(_){}
@@ -8864,6 +8867,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09q',d:'9. 11. 2026',t:_t('Plynulejší Kovárna'),hl:[
+  {ic:'hammer',t:_t('Přepínání záložek'),d:_t('Mezi Kováním a Vylepšením (i ve Vybavení a Síni slávy) už při přepnutí neprobliká pozadí, mění se jen obsah.')},
+  {ic:'scroll',t:_t('Čistší strom vylepšení'),d:_t('Spojnice mezi okénky stromu jsou všude stejné, už nejsou barevné jen u některých.')}]},
  {v:'2026-11-09p',d:'9. 11. 2026',t:_t('Souhvězdí srozumitelněji'),hl:[
   {ic:'star',t:_t('Vrátit body'),d:_t('Tlačítko „Zhasnout hvězdy“ se teď jmenuje <b>Vrátit body</b>. Všechny hvězdy přestanou svítit a body dostaneš zpátky, jednou týdně zdarma.')}]},
  {v:'2026-11-09o',d:'9. 11. 2026',t:_t('Oprava ukládání'),hl:[

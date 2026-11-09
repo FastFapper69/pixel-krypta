@@ -2348,4 +2348,9 @@ window.KRYPTA_EN={
 "Body z hvězd si můžeš jednou týdně zdarma vrátit a dát je jinam, jindy to stojí 10 Esence.":"Once a week you can get your star points back for free and put them elsewhere, otherwise it costs 10 Essence.",
 "Souhvězdí srozumitelněji":"Clearer Constellation",
 "Tlačítko „Zhasnout hvězdy“ se teď jmenuje <b>Vrátit body</b>. Všechny hvězdy přestanou svítit a body dostaneš zpátky, jednou týdně zdarma.":"The “Dim the stars” button is now called <b>Refund points</b>. All stars go out and you get your points back, free once a week.",
+"Plynulejší Kovárna":"Smoother Forge",
+"Přepínání záložek":"Switching tabs",
+"Mezi Kováním a Vylepšením (i ve Vybavení a Síni slávy) už při přepnutí neprobliká pozadí, mění se jen obsah.":"Switching between Forging and Upgrades (and in Loadout and Hall of Fame) no longer flashes the background, only the content changes.",
+"Čistší strom vylepšení":"Cleaner upgrade tree",
+"Spojnice mezi okénky stromu jsou všude stejné, už nejsou barevné jen u některých.":"The lines between nodes in the tree all look the same, no more colours on just some of them.",
 };

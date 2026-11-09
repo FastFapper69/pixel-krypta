@@ -60,3 +60,4 @@ Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav 
 - `savekeys.js` – každý klíč save se načítá i synchronizuje; `featreload.js` – karta Cesta mechanik a runy/Souhvězdí/týdenní výzva po restartu
 - `skyrs.js <prefix> [cs|en]` – Souhvězdí: tlačítko Vrátit body a okno potvrzení
 - `menu_mock3.js <prefix> <base|A|B|C> [cs|en]` – makety vzhledu menu se skutečnými písmy (CSS v `mock/`), viz skill pixel-ui-art-direction
+- `tabflash.js` – přepnutí záložek bez probliknutí; `treeshot.js` – strom Vylepšení s koupenými uzly

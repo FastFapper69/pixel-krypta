@@ -313,3 +313,8 @@ Na konci každé pracovní session aktualizuj sekce „Hotovo“ a „Nápady / 
 ## 09o – oprava ukládání (2026-11-09)
 - Chyba od 09h: `loadSave` načítá jen vyjmenované klíče a `SYNC_KEYS` posílá do cloudu taky jen vyjmenované. Chyběly `feat, featNew, featSum, storyNew, runes, runeDay, sky, wk, twU` → karta Cesta mechanik při každém spuštění, runy, Souhvězdí a týdenní výzva se po restartu ztrácely.
 - **Pravidlo: každý nový klíč `save.X` přidej do seznamu v `loadSave` i do `SYNC_KEYS`.** Kontrola `node tests/tools/savekeys.js` (spusť před každým pushem, když přibude nový klíč), test restartu `tests/tools/featreload.js`.
+
+## 09q – Kovárna (2026-11-09)
+- Přepnutí záložek jedné skupiny (sectabs) dá nové obrazovce třídu `tabsw` (v `setState`): obrazovka se neanimuje z průhlednosti, animuje se jen obsah pod hlavičkou → neprobliká mapa v pozadí. Pozor na specifičnost: pravidlo `.scr:not([hidden]):not(#scr-levelup):not(#scr-fuse)` obsahuje ID, přebíjet stejným `:not(#…)`. Test `tests/tools/tabflash.js`.
+- Strom Vylepšení: spojnice `.tln` jednotné inkoustové (dřív barevné jen u koupených = působilo levně), podtržení nadpisů sloupců taky jednotné. Snímek `tests/tools/treeshot.js`.
+- Menu makety (09q odpoledne): uživatel zamítl A/B/C (jen obdélníky s texturou), koncepty H1 rozcestník s předměty a H2 výklenky jsou v `tests/tools/mock`, zatím odloženo („zatím to nech být“).
