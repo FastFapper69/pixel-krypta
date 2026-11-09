@@ -3774,7 +3774,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09e';
+const GAME_VER='2026-11-09f';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7473,7 +7473,7 @@ const QK_STEP={
  elite:{x:n=>_t('Poraz ')+n+_t(' elitních nepřátel')},
  boss:{x:n=>_t('Poraz ')+n+qPl(n,_t(' bosse'),_t(' bosse'),_t(' bossů'))},
  nmBoss:{x:n=>_t('Poraz ')+n+qPl(n,_t(' bosse'),_t(' bosse'),_t(' bossů'))+_t(' na Noční můře')},
- want:{x:n=>n===1?_t('Dopaď hledaného'):_t('Dopaď ')+n+_t(' hledané')},
+ want:{x:n=>n===1?_t('Ulov hledaného'):_t('Ulov ')+n+_t(' hledané')},
  combo:{max:1,x:n=>_t('Dosáhni komba ')+n},
  tower:{x:n=>_t('Postav celkem ')+n+_t(' věží')},
  stars:{x:n=>_t('Získej ')+n+_t(' hvězd z denních úkolů')},
