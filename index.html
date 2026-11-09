@@ -1017,7 +1017,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 
 /* 09z: herní tlačítka menu – rám je obrázek v <i class=bart> (procedurálně kreslený, viz bartDraw) */
 #mStack .btn.art,#mTop .art{background:none!important;box-shadow:none!important;clip-path:none!important;position:relative;isolation:isolate;overflow:visible!important;border:0}
-#mStack .btn.art>.bart,#mTop .art>.bart{position:absolute;z-index:-1;pointer-events:none;background:0 0/100% 100% no-repeat;image-rendering:pixelated;image-rendering:crisp-edges}
+#mStack .btn.art>.bart,#mTop .art>.bart{position:absolute;z-index:-1;pointer-events:none;background-repeat:no-repeat;background-position:0 0;image-rendering:pixelated}
 #mStack .btn.art:active,#mTop .btn.art:active{transform:translateY(2px)}#mStack .btn.art:active>.bart,#mTop .btn.art:active>.bart{filter:brightness(.88)}
 #mStack .btn.art .lbl{position:relative;color:#f6efe0;text-shadow:0 2px 0 #0b0810,2px 0 0 #0b081066,-2px 0 0 #0b081066;letter-spacing:.04em}
 #mStack .btn.art-play .lbl{color:#2a1606;text-shadow:0 2px 0 #ffeeaa80}
@@ -1028,7 +1028,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #mStack .btn.art.flock::before{top:-7px;left:28px;width:18px;height:18px;filter:drop-shadow(0 2px 0 #0b0810)}
 #mStack .btn.art.new::after{top:-9px;right:26px;z-index:2}#mQuest.art.has::after{top:-3px;right:-3px}
 #mStack .skybtn.art{color:#fff4d0!important}#mStack .skybtn.art::after{display:none}
-#mTop{background:linear-gradient(180deg,#0c0912e6 0%,#0c0912b0 60%,#0c091200 100%)!important;box-shadow:none!important;padding-bottom:18px!important}
+#mTop{background:#0e0b14!important;box-shadow:0 3px 0 #2b2340,0 6px 0 #0e0b14b0!important;padding-bottom:10px!important}
 #mTop .btn.ic.art{width:42px;height:42px}#mCur.art{padding:7px 11px}
 #mStack{gap:14px}#mStack .row2{column-gap:12px}
 @media (max-height:700px){#mStack{gap:11px}#mStack .btn.art-play{min-height:62px}}
@@ -6930,7 +6930,7 @@ function bartApply(b){
  const key=kind+aw+'x'+ah+(ex?ex.join('-'):'');let el=b.querySelector(':scope>.bart');if(el&&b.dataset.art===key)return;b.dataset.art=key;
 if(!el){el=document.createElement('i');el.className='bart';b.insertBefore(el,b.firstChild);}
  const a=bartDraw(kind,aw,ah,ex),ox=off-a.M.l*S,oy=Math.floor((h-ah*S)/2)-a.M.t*S;
- el.style.cssText=`left:${ox}px;top:${oy}px;width:${a.W*S}px;height:${a.H*S}px;background-image:url(${a.url})`;}
+ el.style.cssText=`left:${ox}px;top:${oy}px;width:${a.W*S}px;height:${a.H*S}px;background-size:${a.W*S}px ${a.H*S}px;background-image:url(${a.url})`;}
 function bartFit(){ // popisky ve dvojicích tlačítek: stejná velikost písma v celé mřížce, zmenší se jen když se nevejdou
  const bs=[...document.querySelectorAll('#mStack .row2 .btn')].filter(b=>!b.hidden&&b.offsetWidth);if(!bs.length)return;
  let fs=18;const need=b=>{const l=b.querySelector('.lbl'),i=b.querySelector('.bi');return (l?l.scrollWidth:0)+(i?i.offsetWidth+8:0)>b.clientWidth-30;};
