@@ -14,7 +14,7 @@ Zdroj: github.com/gamedev-skills/awesome-gamedev-agent-skills (77 skillů, vět�
 - Pohyb UI s easingem: „pop“ = ease-out-back (přestřelí a usadí), dosednutí = ease-out, nikdy lineárně.
 - Přístupnost: posuvník síly otřesů, vypnutí záblesků (max 3 velké záblesky za sekundu).
 - **Hra už má:** `run.hitstop` (elity .08, boss .25, smrt .14), `run.flashScr`, `RM` (omezení pohybu), SFX zarovnané na beat přes `qTime` a tóny z akordu (lepší než náhodná výška).
-- **Chybí:** otřes je `rnd(-1,1)*run.shake` každý snímek (bzučivý, lineární) a události ho jen přepisují `Math.max` → přepsat na trauma model; jednotná tabulka úrovní.
+- **09r:** otřes přes `shakeOff()` (trauma², hladký šum, posuvník `save.shk`). Zbývá: jednotná tabulka úrovní důležitosti pro všechny události.
 
 ## 2. Ukládání (save-systems)
 - Ukládej data, ne objekty. **Každý save má `version`** a řetěz migrací v→v+1 (čisté funkce). Starší save se postupně převede, novější se odmítne.
@@ -22,7 +22,7 @@ Zdroj: github.com/gamedev-skills/awesome-gamedev-agent-skills (77 skillů, vět�
 - Zápis atomicky (v localStorage stačí zapsat záložní klíč před přepsáním hlavního).
 - Autosave na bezpečných hranicích (konec běhu, nákup), ne uprostřed boje.
 - Ověření: uložit, úplně zavřít, znovu otevřít, porovnat; načíst save z minulé verze.
-- **Hra:** whitelist klíčů v `loadSave` způsobil ztrátu run/Souhvězdí/týdne (opraveno 09o + `tests/tools/savekeys.js`). Chybí `save.version`, migrace jsou roztroušené (`treeMigrate`, …), chybí záložní kopie pro poškozený JSON.
+- **Hra:** whitelist klíčů v `loadSave` způsobil ztrátu run/Souhvězdí/týdne (opraveno 09o + `tests/tools/savekeys.js`). 09r: `SAVE_VER`/`SAVE_MIG`/`migrateSave`, načítá a synchronizuje vše kromě `LOCAL_KEYS`, záloha savu. Převody vázané na herní data (`treeMigrate` …) dál běží líně.
 
 ## 3. UI/UX
 - Rozložení přes flex/grid a kotvy, ne absolutní pixely; bezpečné oblasti (`env(safe-area-inset-*)` hra má).
@@ -35,7 +35,7 @@ Zdroj: github.com/gamedev-skills/awesome-gamedev-agent-skills (77 skillů, vět�
 - **Ducking:** při důležitém zvuku (boss, legendárka, ultimátka) hudba na ~0,25 s klesne o ~6–12 dB a vrátí se.
 - Opakované SFX variovat (výška/hlasitost/vzorky); u nás variace přes tóny akordu – zachovat.
 - Mobil: cílová hlasitost kolem −18 LUFS, špičky pod −1 dBTP.
-- **Hra:** `M.sfxBus`, `muffle()`; zvuk/hudba jen zapnuto/vypnuto (chybí posuvníky), ducking chybí.
+- **Hra:** `M.sfxBus`, `muffle()`; 09r: posuvníky (`busVol`) a ducking (`duckMusic`).
 
 ## 5. Výkon
 - Rozpočet snímku 16,7 ms (60 FPS); nejdřív změřit (`tests/tools/menuperf.js`, profil běhu), opravit největší položku, znovu změřit, uvést čísla.
@@ -49,7 +49,7 @@ Zdroj: github.com/gamedev-skills/awesome-gamedev-agent-skills (77 skillů, vět�
 - Čísla nad ~1e15 ztrácí přesnost (u nás nehrozí).
 
 ## 7. Náhoda a výzvy
-- Generování z vlastního seedovaného RNG, ne globálního. **Hra:** `mulberry32` + `seedRng('daily|'+today())` – správně, vlastní PRNG přežije aktualizace prohlížeče. Pozor: kód, který během denní/týdenní výzvy volá `Math.random()` (163×), rozbíjí „stejný běh pro všechny“, pokud ovlivňuje herní dění (spawny, nabídky).
+- Generování z vlastního seedovaného RNG, ne globálního. **Hra:** `mulberry32` + `seedRng('daily|'+today())` – správně, vlastní PRNG přežije aktualizace prohlížeče. Efekty spotřebovávaly stejnou řadu → běhy se lišily; 09r oddělilo řady `GR.s/p/u` (test `dailysame.js`). Nová herní náhoda, která má být stejná pro všechny, patří do vlastní řady přes `withRng`.
 - Ladit s pevným seedem, pak projet víc seedů (`tests/tools/hraci.js`).
 
 ## 8. Tower defense a roguelite
@@ -61,7 +61,7 @@ Zdroj: github.com/gamedev-skills/awesome-gamedev-agent-skills (77 skillů, vět�
 ## 9. Postup prototypu
 - Jedna otázka na prototyp, časový limit, šedé tvary, předem napsané „zahodit, pokud …“, dát to zkusit někomu bez vysvětlování.
 
-## Nápady z auditu (zatím neudělané, čekají na souhlas)
+## Nápady z auditu – hotovo ve verzi 09r (viz CLAUDE.md)
 1. Otřes obrazovky na trauma model + posuvník síly otřesů v Nastavení.
 2. `save.version` + migrace na jednom místě + záložní kopie savu.
 3. Ducking hudby při velkých momentech.

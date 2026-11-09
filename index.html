@@ -824,6 +824,16 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 </style>
 
 <style>/* safe areas (notch, home bar): the canvas runs edge to edge, HUD and screens pad themselves */
+.vols{display:flex;flex-direction:column;gap:10px;padding:12px 14px;background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);clip-path:var(--px)}
+.vols label{display:grid;grid-template-columns:1fr 58px;grid-template-rows:auto auto;column-gap:10px;align-items:center;font-size:15px;color:var(--fg)}
+.vols label span{grid-column:1/-1;font-weight:600;font-size:14px;color:var(--muted)}
+.vols b{white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums;color:var(--gold)}
+.vols input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;margin:0;background:none;touch-action:pan-y}
+.vols input[type=range]::-webkit-slider-runnable-track{height:10px;background:linear-gradient(90deg,var(--gold) 0 var(--v,100%),#0c0912 var(--v,100%));box-shadow:inset 0 0 0 2px var(--line)}
+.vols input[type=range]::-moz-range-track{height:10px;background:#0c0912;box-shadow:inset 0 0 0 2px var(--line)}
+.vols input[type=range]::-moz-range-progress{height:10px;background:var(--gold)}
+.vols input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:26px;margin-top:-8px;background:#ffe08a;box-shadow:inset 0 -4px 0 #c8902a,inset 0 0 0 2px #2a1a08;border:0}
+.vols input[type=range]::-moz-range-thumb{width:22px;height:26px;background:#ffe08a;box-shadow:inset 0 -4px 0 #c8902a,inset 0 0 0 2px #2a1a08;border:0;border-radius:0}
 :root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}</style>
 <style>/* 09n: rooms – Vybavení = zbrojnice, Obchod = tržní stánek, Kovárna = výheň, Síň slávy = pamětní síň (textures from qTexInit) */
 :root{--rv:radial-gradient(circle at 8px 8px,#d8dce6 0 1px,#8a90a0 1.5px 2.2px,#1a1c22 2.6px 3.4px,#0000 3.6px),radial-gradient(circle at calc(100% - 8px) 8px,#d8dce6 0 1px,#8a90a0 1.5px 2.2px,#1a1c22 2.6px 3.4px,#0000 3.6px),
@@ -1006,6 +1016,11 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
       <div class="head"><h2>Nastavení</h2><button class="btn alt sm" id="setClose">Zavřít</button></div>
       <button class="btn alt sm" id="mNick" hidden></button>
       <div class="row3"><button class="btn alt sm" id="mSound">Zvuk</button><button class="btn alt sm" id="mMusic">Hudba</button><button class="btn alt sm" id="mStick">Ovládání</button></div>
+      <div class="vols" id="mVols">
+        <label><span>Hlasitost hudby</span><input type="range" min="0" max="100" step="5" id="vMus"><b id="vMusN"></b></label>
+        <label><span>Hlasitost efektů</span><input type="range" min="0" max="100" step="5" id="vSfx"><b id="vSfxN"></b></label>
+        <label><span>Otřesy obrazovky</span><input type="range" min="0" max="100" step="10" id="vShk"><b id="vShkN"></b></label>
+      </div>
       <div class="tabs langsw" id="mLang"><button data-l="cs">Čeština</button><button data-l="en">English</button></div>
       <button class="btn alt sm" id="mFb">Napsat názor na hru</button>
       <button class="btn alt sm" id="mInstall" hidden>Přidat hru na plochu</button>
@@ -1298,14 +1313,37 @@ const setDev=v=>{devMem=v;try{v?localStorage.setItem(DEV_KEY,'1'):localStorage.r
 const SAVE_KEY='pixel-krypta-v1';
 const STICK_MODES=['touch','fixed','follow'],STICK_TXT={touch:_t('pevný v místě dotyku'),fixed:_t('pevný vlevo dole'),follow:_t('plovoucí')};
 let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0,mag:0,xp:0,revive:0,build:0},sound:true,music:true,tipTower:false,cheat:false,stick:'touch'};
-function loadSave(){try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object'){
-  save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});
-  Object.assign(save.meta,s.meta||{});if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.stats)save.stats=s.stats;if(s.nick)save.nick=s.nick;if(s.updated)save.updated=s.updated;for(const k of ['mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','lastMap','fb','fzIntro','setP','chT','tw','pets','metaV','seen','nmw','nmV','econV','esF','esD','endD','endB','chD','endW','setCh','htal','hpr','av','feat','featNew','featSum','storyNew','runes','runeDay','sky','wk','twU'])if(s[k]!==undefined&&s[k]!==null)save[k]=s[k];}}catch(e){}}
+// 09r: save system – version + migration chain in one place, backup copy, everything is loaded and synced except device settings.
+// Adding a new save.X needs no list anymore; only device-only settings go to LOCAL_KEYS. Feature migrations that need game data
+// (chMigrate, treeMigrate, econ2Migrate, nmMigrate, metaInit…) still run lazily where that data exists; SAVE_MIG is for whole-save changes.
+const SAVE_VER=1,SAVE_BAK=SAVE_KEY+'-bak';
+const LOCAL_KEYS=new Set(['sound','music','tipTower','cheat','stick','pinSet','nick','lastMap','treeBack','vol','shk']);
+const SAVE_MIG=[ // SAVE_MIG[v] turns a save of version v into v+1 (pure function on plain data)
+  d=>d // 0→1: saves before 09r had no version; the shape is the same
+];
+function migrateSave(d){let v=d.version|0;if(v>SAVE_VER)return d;while(v<SAVE_VER){d=SAVE_MIG[v](d)||d;v++;d.version=v;}return d;}
+function saveParse(raw){try{const d=JSON.parse(raw||'null');return d&&typeof d==='object'&&!Array.isArray(d)?d:null;}catch(_){return null;}}
+function loadSave(){let raw=null,s=null;try{raw=localStorage.getItem(SAVE_KEY);}catch(_){}
+  s=saveParse(raw);
+  if(raw&&!s){try{s=saveParse(localStorage.getItem(SAVE_BAK));if(s)loadSave.fromBak=1;}catch(_){}} // corrupted main save → last good copy
+  if(!s)return;s=migrateSave(s);
+  save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});Object.assign(save.meta,s.meta||{});
+  if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;
+  if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.nick)save.nick=s.nick;if(s.lastMap)save.lastMap=s.lastMap;
+  if(s.vol&&typeof s.vol==='object')save.vol={m:clamp01(+s.vol.m),s:clamp01(+s.vol.s)};if(s.shk!=null&&isFinite(+s.shk))save.shk=clamp01(+s.shk);
+  for(const k in s)if(!LOCAL_KEYS.has(k)&&!['coins','heroes','cleared','best','meta'].includes(k)&&s[k]!==undefined&&s[k]!==null)save[k]=s[k];
+  save.version=Math.max(SAVE_VER,s.version|0);
+  if(!loadSave.fromBak)try{localStorage.setItem(SAVE_BAK,raw);}catch(_){} // this session started from a good save → keep it as the backup
+}
+function clamp01(x){return isFinite(x)?Math.max(0,Math.min(1,x)):1;}
 const SYNC_KEYS=['coins','heroes','cleared','best','meta','stats','updated','mats','hlv','inv','eq','nm','pity','daily','codex','uidc','qd','qw','coopPlayed','ach','title','tut','newsSeen','unl','ch','fin','fb','fzIntro','setP','chT','tw','pets','metaV','seen','nmw','nmV','econV','esF','esD','endD','endB','chD','endW','setCh','htal','hpr','av',
   // 09h–09m keys (Cesta mechanik, příběh, runy, Souhvězdí, týdenní výzva, věže) – každý nový klíč v save patří sem i do loadSave, kontrola tests/tools/savekeys.js
   'feat','featNew','featSum','storyNew','runes','runeDay','sky','wk','twU'];
-function persist(){save.updated=Date.now();if(save.mats&&save.mats.shard>6000){const x=save.mats.shard-6000;save.mats.shard=6000;save.coins=(save.coins||0)+Math.floor(x/3);}try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
+function persist(){save.updated=Date.now();save.version=save.version||SAVE_VER;if(save.mats&&save.mats.shard>6000){const x=save.mats.shard-6000;save.mats.shard=6000;save.coins=(save.coins||0)+Math.floor(x/3);}try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}cloudSave();}
 loadSave();
+// every key the game keeps (old SYNC_KEYS list + anything in save) except device settings; cloud saves pass the same migration chain
+const syncKeys=()=>{const k=new Set(SYNC_KEYS);for(const x in save)k.add(x);for(const x of LOCAL_KEYS)k.delete(x);k.delete('pinSet');return [...k];};
+function cloudApply(rs){rs=migrateSave(Object.assign({},rs));for(const k in rs)if(!LOCAL_KEYS.has(k)&&k!=='pinSet'&&rs[k]!==undefined&&rs[k]!==null)save[k]=rs[k];save.version=Math.max(SAVE_VER,rs.version|0);}
 
 /* ============ pixel sprites ============ */
 const PAL={k:'#14101c',w:'#ffffff',s:'#aab4c6',S:'#6c768a',r:'#e8453c',y:'#f6c744',g:'#5cc45c',G:'#2f7a3a',u:'#4aa3e8',n:'#8a5a3a',o:'#f08a3c',m:'#c869e0',i:'#bfeaff',f:'#f0c8a0',p:'#1a1423',e:'#ffffff',d:'#3a2c52'};
@@ -3686,9 +3724,9 @@ function audioInit(){
       const comp=ac.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=4;
       const master=ac.createGain();master.gain.value=.9;
       M.filter=ac.createBiquadFilter();M.filter.type='lowpass';M.filter.frequency.value=18000;
-      M.musicBus=ac.createGain();M.musicBus.gain.value=save.music?.3:0;
-      M.sfxBus=ac.createGain();M.sfxBus.gain.value=save.sound?.5:0;
-      M.musicBus.connect(M.filter);M.filter.connect(comp);M.sfxBus.connect(comp);comp.connect(master);master.connect(ac.destination);
+      M.musicBus=ac.createGain();M.musicBus.gain.value=busVol('m');
+      M.sfxBus=ac.createGain();M.sfxBus.gain.value=busVol('s');
+      M.duck=ac.createGain();M.musicBus.connect(M.duck);M.duck.connect(M.filter);M.filter.connect(comp);M.sfxBus.connect(comp);comp.connect(master);master.connect(ac.destination);
       const len=ac.sampleRate,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;M.noise=buf;}
     // iOS leaves the context 'interrupted' (not 'suspended') after the phone was locked, and sometimes reports
     // 'running' while staying silent: resume from any state, and rebuild the context on the next tap if the clock is stuck
@@ -3699,7 +3737,11 @@ function audioInit(){
 let awT=0;
 function audioWatch(){if(!ac||document.hidden)return;const t0=ac.currentTime;clearTimeout(awT);
   awT=setTimeout(()=>{if(!ac||document.hidden)return;if(ac.state!=='running'||ac.currentTime===t0)M.dead=true;},800);}
-function setBuses(){if(!M.musicBus)return;M.musicBus.gain.setTargetAtTime(save.music?.3:0,ac.currentTime,.05);M.sfxBus.gain.setTargetAtTime(save.sound?.5:0,ac.currentTime,.05);}
+// 09r: volume sliders – the toggle still mutes, the slider (0–1, squared so the whole travel is audible) scales the bus
+function busVol(k){const v=save.vol?save.vol[k]:1,on=k==='m'?save.music:save.sound,base=k==='m'?.3:.5;return on?base*Math.pow(v==null?1:v,2):0;}
+function setBuses(){if(!M.musicBus)return;M.musicBus.gain.setTargetAtTime(busVol('m'),ac.currentTime,.05);M.sfxBus.gain.setTargetAtTime(busVol('s'),ac.currentTime,.05);}
+// music ducks under the big moments (boss, death, ultimate drops) so they punch through, then comes back
+function duckMusic(db,hold){if(!M.duck||!ac)return;const g=M.duck.gain,t=ac.currentTime;try{g.cancelScheduledValues(t);g.setValueAtTime(g.value,t);g.setTargetAtTime(Math.pow(10,(db||-9)/20),t,.02);g.setTargetAtTime(1,t+(hold||.35),.22);}catch(_){}}
 function muffle(on){if(!M.filter)return;try{M.filter.frequency.setTargetAtTime(on?650:18000,ac.currentTime,.08);}catch(e){}}
 function env(g,t,a,d,v){g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,v),t+a);g.gain.exponentialRampToValueAtTime(.0001,t+a+d);}
 function osc(type,f,t,dur,vol,bus,slide,lp){const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,t);
@@ -4059,9 +4101,9 @@ function sfx(k,arg){
    case'coin':{const t=qTime(.5);osc('square',NOTE(chordNote(3,2)),t,.06,.045,B,null,5200);osc('square',NOTE(chordNote(5,2)),t+sd*.5,.09,.045,B,null,5200);break;}
    case'hurt':osc('sawtooth',170,T,.2,.12,B,55,1800);noiz(T,.1,.1,B,'lowpass',900);break;
    case'level':{const t=qTime(1);for(let i=0;i<6;i++)osc('square',NOTE(chordNote(i,1)),t+i*sd*.5,.16,.055,B,null,4200);break;}
-   case'boss':{const t=qTime(4);osc('sawtooth',NOTE(chordNote(0,-2)),t,1.4,.16,B,NOTE(chordNote(0,-3)),900);noiz(t,.8,.12,B,'lowpass',400);break;}
+   case'boss':{const t=qTime(4);duckMusic(-10,1.2);osc('sawtooth',NOTE(chordNote(0,-2)),t,1.4,.16,B,NOTE(chordNote(0,-3)),900);noiz(t,.8,.12,B,'lowpass',400);break;}
    case'win':{const t=qTime(2);for(let i=0;i<9;i++)osc('square',NOTE(chordNote(i,1)),t+i*sd*.5,.22,.06,B,null,4500);break;}
-   case'death':osc('square',240,T,.45,.13,B,45,1400);osc('sawtooth',120,T,.8,.09,B,32,900);noiz(T,.3,.22,B,'lowpass',800);noiz(T+.06,.7,.07,B,'bandpass',320);
+   case'death':duckMusic(-12,1.5);osc('square',240,T,.45,.13,B,45,1400);osc('sawtooth',120,T,.8,.09,B,32,900);noiz(T,.3,.22,B,'lowpass',800);noiz(T+.06,.7,.07,B,'bandpass',320);
      for(let i=0;i<4;i++)osc('triangle',NOTE(chordNote(3-i,1)),T+.4+i*.2,.6,.07,B,null,2200);break;
    case'lose':for(let i=0;i<5;i++)osc('sawtooth',NOTE(chordNote(4-i,0)),T+i*.16,.25,.06,B,null,1400);break;
    case'ui':osc('square',NOTE(chordNote(2,2)),T,.05,.035,B,null,4000);break;
@@ -4096,7 +4138,7 @@ const ULT_SND={
  flamering(t,sd,B,c){noizSweep(t,1.1,.3,'lowpass',2600,180,0,.02);noizSweep(t+.05,.7,.12,'bandpass',900,300,1.5);osc('sawtooth',NOTE(c.root-12),t,.6,.07,B,NOTE(c.root-24),700);},
  steam(t,sd,B,c){noizSweep(t,1.4,.2,'highpass',2500,6000,0,.03);noizSweep(t,.6,.24,'lowpass',1800,150);osc('sine',NOTE(c.root+36),t+sd*2,.4,.03,B,NOTE(c.root+24));}
 };
-function ultDropSfx(id,first){if(!save.sound||!ac||!M.sfxBus||!M.song||(ac.state!=='running'&&!M.offline))return;
+function ultDropSfx(id,first){if(!save.sound||!ac||!M.sfxBus||!M.song||(ac.state!=='running'&&!M.offline))return;if(first)duckMusic(-6,.25);
   const B=M.sfxBus,sd=M.stepDur,t=Math.max(ac.currentTime+.01,M.lastAudio||ac.currentTime),c=chordAt(Math.max(0,M.step-1));
   try{if(first){osc('sine',165,t,.55,.62,B,34);osc('square',90,t,.12,.12,B,40,600);noiz(t,.35,.26,B,'lowpass',1000);noizSweep(t,1.3,.13,'highpass',7000,4000);
       for(const n of c.tones)osc('square',NOTE(c.root+12+n),t,.28,.035,B,null,2600);duckMusic(t,.25,.22);}
@@ -4122,7 +4164,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09q';
+const GAME_VER='2026-11-09r';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4220,7 +4262,17 @@ function recalc(){
   for(const id in run.W)run.W[id].xn=talentW(id),run.W[id]._p=null;
 }
 // the daily challenge runs on a seed of the day (map, spawns and level-up offers start out the same for everyone)
-const RNG0=Math.random;function seedRng(seed){Math.random=seed==null?RNG0:mulberry32(qHash(seed));}
+const RNG0=Math.random;let GR=null;
+// 09r: in the daily/weekly challenge spawns (s) and level-up offers (u) draw from their OWN seeded streams. Particles, sparks and
+// other effects keep using Math.random, whose amount depends on the phone's frame rate – sharing one stream made every player's
+// challenge different from the first enemy. Test tests/tools/dailysame.js.
+// 09r: screen shake as "trauma" – run.shake (0–9, events raise it, it decays) is turned into trauma 0–1 and the offset is trauma² × max
+// along smooth layered sines (a fresh random offset every frame buzzed instead of shaking). Strength slider save.shk, Reduce motion = none.
+function shakeOff(){const sh=run&&run.shake||0,k=RM?0:(save.shk==null?1:save.shk);if(sh<=0||k<=0)return {x:0,y:0};
+  const tr=Math.min(1,sh/9),a=tr*tr*6*k,t=performance.now()/1000;
+  return {x:RZ(a*(.6*Math.sin(t*41)+.4*Math.sin(t*89+1.7))),y:RZ(a*(.6*Math.sin(t*47+.9)+.4*Math.sin(t*83+3.1)))};}
+function seedRng(seed){Math.random=seed==null?RNG0:mulberry32(qHash(seed));GR=seed==null?null:{s:mulberry32(qHash(seed+'|s')),u:mulberry32(qHash(seed+'|u')),p:mulberry32(qHash(seed+'|p'))};}
+function withRng(k,f){const S=GR&&GR[k];if(!S)return f();const prev=Math.random;Math.random=S;try{return f();}finally{Math.random=prev;}}
 function startRun(heroId,mapId,o){metaInit();treeMigrate();if(BI){BI=null;$('#hud').classList.remove('bi');}
   o=o||{};if(o.wk){const W=wkInfo();o.mod=W.mods[0];o.mods=W.mods;}seedRng(o.wk?'weekly|'+weekKey():o.mod?'daily|'+today():null);audioInit();setSong(mapId);
   const hero=HEROES[heroId],map=MAPS[mapId],built=buildMap(mapId);for(const k in mapsBuilt)if(k!==mapId)delete mapsBuilt[k];save.lastMap=mapId;MB.id=mapId;
@@ -4266,7 +4318,8 @@ function edgePos(margin){
     if(x>16&&y>16&&x<sz-16&&y<sz-16)return{x,y};}
   return{x:clamp(p.x+rnd(-dist,dist),16,sz-16),y:clamp(p.y+rnd(-dist,dist),16,sz-16)};
 }
-function spawnEnemy(id,elite){if(run.enemies.length>=170&&!elite)return null;const q=edgePos(18);const e=makeEnemy(id,q.x,q.y,elite);run.enemies.push(e);return e;}
+function spawnEnemy(id,elite){return withRng('p',()=>spawnEnemy0(id,elite));} // where it appears depends on the player, so it has its own stream (p) and the choice of WHO comes (s) stays the same for everyone
+function spawnEnemy0(id,elite){if(run.enemies.length>=170&&!elite)return null;const q=edgePos(18);const e=makeEnemy(id,q.x,q.y,elite);run.enemies.push(e);return e;}
 function spawnBoss(){
   const id=run.map.boss,d=BOSS_DEFS[id],sp=SPR.boss[id],q=edgePos(30);
   const bh=d.hp*(run.pls?1.8:1)*(1+NM_HP*(run.nm||0))*(run.thm==='boss'?.85:1);
@@ -5305,7 +5358,8 @@ function updatePickups0(dt){
 }
 
 /* ----- spawning and progress ----- */
-function updateSpawns(dt){
+function updateSpawns(dt){return withRng('s',()=>updateSpawns0(dt));}
+function updateSpawns0(dt){
   const m=run.endless?Math.min(run.t/60,3+(run.enW||0)*.3):run.t/60,map=run.map;
   run.spawnT-=dt;
   if(run.spawnT<=0&&run.beatNow&&!(run.bossSpawned&&run.boss===null)){
@@ -5647,7 +5701,8 @@ function optInfo(o){
   if(o.k==='heal')return{name:_t('Léčivý lektvar'),icon:'potion',tag:'',desc:_t('Doplní 40 % zdraví')};
   return{name:_t('Měšec zlata'),icon:'coin',tag:'',desc:_t('+40 zlata')};
 }
-function openLevelUp(){
+function openLevelUp(){return withRng('u',openLevelUp0);}
+function openLevelUp0(){
   const chest=run.chestOpen;run.chestOpen=false;
   $('#luTitle').textContent=chest?_t('Poklad!'):_t('Nová úroveň!');
   const list=$('#luList');list.innerHTML='';
@@ -6148,7 +6203,7 @@ function render(){
   const cam=run.cam,p=run.p,sz=run.map.size;
   // camera on the art-pixel grid, rounded the same way as sprites -> the hero stays perfectly still on screen
   let sx=RZ(cam.x),sy=RZ(cam.y);
-  if(run.shake>0&&!RM){sx+=RZ(rnd(-1,1)*run.shake*.5);sy+=RZ(rnd(-1,1)*run.shake*.5);}
+  {const o=shakeOff();sx+=o.x;sy+=o.y;}
   const ox=-sx,oy=-sy;
   g.fillStyle='#0c0912';g.fillRect(0,0,VW,VH);
   {const s0x=Math.max(0,sx),s0y=Math.max(0,sy),dx0=s0x-sx,dy0=s0y-sy,fw=Math.min(VW-dx0,sz-s0x),fh=Math.min(VH-dy0,sz-s0y);
@@ -6439,7 +6494,8 @@ addEventListener('popstate',()=>{navArmed=false;if(!goBack()&&state==='menu'){tr
       if(go){el.style.transform='translateX(100%)';el.style.opacity='0';setTimeout(()=>{el.style.transition=el.style.transform=el.style.opacity='';goBack();},150);}
       else{el.style.transform='';el.style.opacity='';setTimeout(()=>{el.style.transition='';},200);}};
     addEventListener('touchend',end,{passive:true});addEventListener('touchcancel',end,{passive:true});}}
-function refreshSettings(){setLbl('#mSound',_t('Zvuk'),!save.sound);setLbl('#mMusic',_t('Hudba'),!save.music);stickLabels();
+let showVols=()=>{};
+function refreshSettings(){showVols();setLbl('#mSound',_t('Zvuk'),!save.sound);setLbl('#mMusic',_t('Hudba'),!save.music);stickLabels();
   {const I=fitApp.info||{};$('#mVer').textContent=_t('verze ')+GAME_VER;$('#mVer').title=(I.sa?_t('aplikace'):_t('prohlížeč'))+' '+(I.ih||0)+'/'+(I.sh||0)+'/'+(I.h||0);}
   setLbl('#mFb',fbRewardToday()?_t('Napsat názor · +60 zlata'):_t('Napsat názor na hru'));
   $('#mInstall').hidden=!pwaCan();nickBtn();
@@ -6738,6 +6794,14 @@ function bindUi(){
   $('#setClose').onclick=()=>{sfx('ui');setSheet(false);};
   $('#mFb').onclick=()=>{audioInit();sfx('ui');openFeedback();};
   $('#setPop').onclick=e=>{if(e.target.id==='setPop'){sfx('ui');setSheet(false);}};
+  // 09r: volume and screen shake sliders (device settings, not synced)
+  {const V=[['vMus','m'],['vSfx','s'],['vShk','k']];
+   const get=k=>k==='k'?(save.shk==null?1:save.shk):(save.vol&&save.vol[k]!=null?save.vol[k]:1);
+   const show=()=>V.forEach(([id,k])=>{const el=$('#'+id),v=Math.round(get(k)*100);el.value=v;el.style.setProperty('--v',v+'%');$('#'+id+'N').textContent=v+' %';});
+   V.forEach(([id,k])=>{const el=$('#'+id);
+     el.oninput=()=>{const v=el.value/100;if(k==='k')save.shk=v;else{save.vol=save.vol||{m:1,s:1};save.vol[k]=v;audioInit();setBuses();}show();};
+     el.onchange=()=>{persist();if(k==='s')sfx('ui');if(k==='k'&&!RM&&+el.value>0){const w=$('#setPop .sheet');if(w&&w.animate)w.animate([{transform:'translate(0,0)'},{transform:'translate('+(4*el.value/100)+'px,-'+(3*el.value/100)+'px)'},{transform:'translate(-'+(4*el.value/100)+'px,'+(2*el.value/100)+'px)'},{transform:'translate(0,0)'}],{duration:220});}};});
+   showVols=show;show();}
   $('#mSound').onclick=()=>{audioInit();save.sound=!save.sound;persist();setBuses();refreshMenu();sfx('ui');};
   {const mb=$('#mMusic');let lpT=0,lpDone=false;
    const lpStop=()=>{clearTimeout(lpT);lpT=0;};
@@ -6811,7 +6875,7 @@ async function onlineInit(){
     if(error)throw error;
     if(data){save.nick=data.nick;const rs=data.save||{};if(rs.pinSet)save.pinSet=true;
       // the newer of the two saves wins, so playing on a second device never loses progress
-      if((rs.updated||0)>(save.updated||0)){if(rs.ch==null){delete save.ch;delete save.unl;}for(const k of SYNC_KEYS)if(rs[k]!==undefined&&rs[k]!==null)save[k]=rs[k];
+      if((rs.updated||0)>(save.updated||0)){if(rs.ch==null){delete save.ch;delete save.unl;}cloudApply(rs);
         if(!save.heroes.knight)save.heroes.knight=true;econInit();try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}}
       else if((save.updated||0)>(rs.updated||0))ON.dirty=true;}
     ON.ready=true;ON.err='';refreshMenu();
@@ -6822,7 +6886,7 @@ let cloudT=null;
 function cloudSave(){if(!ON.ready||!save.nick)return;ON.dirty=true;clearTimeout(cloudT);cloudT=setTimeout(cloudFlush,1500);}
 async function cloudFlush(){
   if(!ON.ready||!ON.dirty||ON.busy||!save.nick)return;ON.busy=true;ON.dirty=false;
-  const payload={pinSet:!!save.pinSet};for(const k of SYNC_KEYS)payload[k]=save[k]===undefined?null:save[k];payload.updated=save.updated||Date.now();
+  const payload={pinSet:!!save.pinSet};for(const k of syncKeys())payload[k]=save[k]===undefined?null:save[k];payload.updated=save.updated||Date.now();
   let err=null;
   try{const {error}=await ON.sb.from('profiles').upsert({id:ON.me.id,nick:save.nick,save:payload,stats:save.stats||{},updated_at:new Date().toISOString()});if(error)throw error;ON.err='';}
   catch(e){err=e;ON.err=errText(e);if(!(e&&e.code==='23505'))ON.dirty=true;}
@@ -6872,7 +6936,7 @@ async function saveNick(){
     if(nickMode==='login'){
       const {error}=await ON.sb.rpc('claim_profile',{p_nick:v,p_pin:pin});if(error)throw error;
       const {data,error:e2}=await ON.sb.from('profiles').select('nick,save').eq('id',ON.me.id).maybeSingle();if(e2)throw e2;
-      if(data){save.nick=data.nick;const rs=data.save||{};if(rs.ch==null){delete save.ch;delete save.unl;}for(const k of SYNC_KEYS)if(rs[k]!==undefined&&rs[k]!==null)save[k]=rs[k];
+      if(data){save.nick=data.nick;const rs=data.save||{};if(rs.ch==null){delete save.ch;delete save.unl;}cloudApply(rs);
         if(!save.heroes.knight)save.heroes.knight=true;econInit();}
       save.pinSet=true;persist();
     }else{
@@ -8867,6 +8931,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09r',d:'9. 11. 2026',t:_t('Férovější výzvy a lepší pocit'),hl:[
+  {ic:'trophy',t:_t('Stejná výzva pro všechny'),d:_t('Denní a týdenní výzva teď dá všem opravdu stejné nepřátele a nabídky úrovní, i na pomalejším telefonu. Dřív se běhy lišily už od prvního nepřítele.')},
+  {ic:'scroll',t:_t('Bezpečnější ukládání'),d:_t('Hra si drží záložní kopii postupu a z poškozeného uložení se sama obnoví. Ukládá se a synchronizuje úplně všechno.')},
+  {ic:'storm',t:_t('Plynulé otřesy obrazovky'),d:_t('Otřesy jsou plynulé místo trhání, malé zásahy jemné, velké pořádně. Sílu nastavíš v Nastavení.')},
+  {ic:'music',t:_t('Hlasitost a zvuk'),d:_t('Posuvníky hlasitosti hudby a efektů. Při bossovi, smrti a ultimátkách hudba na chvilku ztichne, ať vyniknou.')}]},
  {v:'2026-11-09q',d:'9. 11. 2026',t:_t('Plynulejší Kovárna'),hl:[
   {ic:'hammer',t:_t('Přepínání záložek'),d:_t('Mezi Kováním a Vylepšením (i ve Vybavení a Síni slávy) už při přepnutí neprobliká pozadí, mění se jen obsah.')},
   {ic:'scroll',t:_t('Čistší strom vylepšení'),d:_t('Spojnice mezi okénky stromu jsou všude stejné, už nejsou barevné jen u některých.')}]},

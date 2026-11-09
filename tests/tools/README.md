@@ -61,3 +61,4 @@ Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav 
 - `skyrs.js <prefix> [cs|en]` – Souhvězdí: tlačítko Vrátit body a okno potvrzení
 - `menu_mock3.js <prefix> <base|A|B|C> [cs|en]` – makety vzhledu menu se skutečnými písmy (CSS v `mock/`), viz skill pixel-ui-art-direction
 - `tabflash.js` – přepnutí záložek bez probliknutí; `treeshot.js` – strom Vylepšení s koupenými uzly
+- `dailysame.js` – denní/týdenní výzva stejná při jiném FPS; `vols.js <prefix> [cs|en]` – posuvníky hlasitosti a otřesů; `savekeys.js` teď testuje i zálohu a verzi savu
