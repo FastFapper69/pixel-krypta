@@ -70,3 +70,5 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
   - Účet nové kapitoly: přidej řádek do `UCTY` v `hraci.js` (vstup do kapitoly N+1 = o ~5 úrovní hrdiny, ~3 Vylepšení a 1 úroveň výbavy víc, set předchozí kapitoly). Mechaniky ze stavebnice (`kst`, `kp`) boti znají sami; vlastní nebezpečí finále doplň do `decide()` (vyhýbání) nebo jako cíl (bezpečná místa).
   - Starý `bot.js` je jeden „průměrný“ hráč se zastaralými účty, nepoužívat pro nové kapitoly.
 - Smoke `shot.js`, `heavy.js` (výkon), `newsshot.js` (Novinky s ikonami), `i18n.js static`.
+
+- Nástěnka (09e): každý nový nepřítel potřebuje množný tvar v `Q_PL` (jinak úkol píše „Zabij 40× Jméno“), kapitola hledaného v `WANTED` + `WANT_OF`; kontrakty a týdenní výzva si novou kapitolu/mapy vezmou samy.

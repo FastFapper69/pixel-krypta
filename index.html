@@ -504,6 +504,71 @@ img.cdl{width:16px;height:16px;image-rendering:pixelated;vertical-align:-3px}
 .poster .rw{justify-content:center;color:#3a2414;margin:4px 0}.poster .pz-st{font-size:12px;font-style:italic;color:#6a4a28}
 .poster .btn{margin-top:4px}
 .stamp{position:absolute;top:58px;right:8px;transform:rotate(-14deg);font-style:normal;font-family:var(--font-px);font-size:22px;color:#c8301a;border:3px solid #c8301a;padding:0 6px;opacity:.85}
+/* 09e: the Board — cork, pinned notes, candles, scrolls, weekly poster */
+.qtabs .dot{position:absolute;top:6px;right:calc(50% - 34px);width:8px;height:8px;background:#e8453c;box-shadow:0 0 0 2px #2a1430}
+.qpane.in{animation:qpin .28s ease-out}@keyframes qpin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.qtheme{display:flex;gap:12px;align-items:center;margin:10px 0 4px;padding:10px 12px;background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 28%,var(--panel)),var(--panel));box-shadow:inset 4px 0 0 var(--tc);clip-path:var(--px)}
+.qtheme img{width:40px;height:40px;image-rendering:pixelated;object-fit:contain;flex:none;filter:drop-shadow(0 2px 0 #0008)}
+.qtheme small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.qtheme b{display:block;font-size:18px;color:var(--tc);text-shadow:0 2px 0 #0009}
+.qtheme span{display:block;font-size:13px;color:var(--text,#e8e0f0)}
+.qrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:12px 2px 4px;font-size:14px}.qrow b{color:var(--gold);font-size:17px}.qleft{font-size:12px;color:var(--muted)}
+.qcandles{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 6px 0;min-height:84px;background:linear-gradient(#0000 58%,#3a2a1e 58%,#2a1e14);clip-path:var(--px)}
+.qc{display:flex;flex-direction:column;align-items:center;width:10%;position:relative}
+.qc .cw{position:relative;display:block;width:30px;height:36px;margin-top:4px}.qc .cw img{width:30px;height:30px;image-rendering:pixelated;position:absolute;bottom:0;left:0}
+.qc.lit .cw img{filter:drop-shadow(0 0 6px #ffb04a)}
+.qc .fl{position:absolute;left:10px;top:-3px;width:10px;height:14px;border-radius:50% 50% 45% 45%;background:radial-gradient(circle at 50% 70%,#fff6c8,#ffd27a 40%,#ff8a30 70%,#ff8a3000 72%);filter:blur(.3px);transform-origin:50% 100%;animation:qfl .9s ease-in-out infinite alternate}
+@keyframes qfl{0%{transform:scale(1,1) rotate(-3deg);opacity:.95}50%{transform:scale(.9,1.15) rotate(2deg)}100%{transform:scale(1.05,.92) rotate(-1deg);opacity:.8}}
+.qms{margin-top:4px;width:34px;height:34px;border:0;padding:0;background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);clip-path:var(--px);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.qms img{width:22px;height:22px;image-rendering:pixelated;filter:grayscale(.7) brightness(.7)}.qms b{position:absolute;bottom:-1px;right:2px;font-size:11px;color:var(--muted);text-shadow:0 1px 0 #000}
+.qms.ready{box-shadow:inset 0 0 0 3px var(--gold);background:#4a3414;animation:qbob .6s ease-in-out infinite alternate}.qms.ready img{filter:none}.qms.ready b{color:var(--gold)}
+@keyframes qbob{to{translate:0 -3px}}
+.qms.got{opacity:.55}.qms.got img{filter:grayscale(1)}.qms.got::after{content:'✓';position:absolute;color:var(--green);font-weight:700;font-size:20px;text-shadow:0 2px 0 #000}
+.qcandles.wk{display:block;position:relative;height:62px;min-height:0;margin:0 18px;background:none;clip-path:none}
+.qwax{position:absolute;left:0;right:0;top:22px;height:12px;background:#2a1e14;box-shadow:inset 0 0 0 2px #5a4028}
+.qwax i{position:absolute;left:2px;top:2px;bottom:2px;max-width:calc(100% - 4px);background:linear-gradient(#fff0b0,#f6c744 50%,#e08a2a);box-shadow:0 0 10px #f6c74488}
+.qms.abs{position:absolute;top:10px;transform:translateX(-50%);margin:0;width:38px;height:38px}.qms.abs.ready{animation:qbob .6s ease-in-out infinite alternate}
+.qboard{display:flex;flex-direction:column;gap:14px;margin:12px 0 4px;padding:16px 10px 14px;clip-path:var(--px);
+ background:radial-gradient(circle at 20% 30%,#0000 0 1px,#0000 2px),radial-gradient(#7a5434 1px,#0000 1.6px) 0 0/7px 7px,radial-gradient(#b68a5a 1px,#0000 1.6px) 3px 4px/9px 9px,linear-gradient(#9a7048,#86603c);box-shadow:inset 0 0 0 4px #5a3a22,inset 0 0 24px #3a24148a}
+.qnote{position:relative;background:linear-gradient(#f4ead0,#e8dab4);color:#3a2a1a;padding:14px 12px 10px;box-shadow:0 4px 0 #0000004a,0 8px 14px #0000002e;transform:rotate(-.6deg);transition:transform .2s,opacity .2s}
+.qnote.n1{transform:rotate(.7deg)}.qnote.n2{transform:rotate(-.3deg)}
+.qnote .pin{position:absolute;top:-8px;left:50%;width:22px;height:22px;margin-left:-11px;image-rendering:pixelated;filter:drop-shadow(0 2px 0 #0006)}
+.qnote h3{margin:0;font-size:17px;color:#4a1e10}.qnote p{margin:6px 0 8px;font-size:14px;color:#4a3420;line-height:1.3}
+.qn-top{display:flex;gap:10px;align-items:center}.qn-top>img{width:36px;height:36px;image-rendering:pixelated;object-fit:contain;flex:none;filter:drop-shadow(0 2px 0 #0003)}
+.qnote .stars{display:flex;gap:2px;margin-top:2px}.qnote .st{font-style:normal;font-size:17px;line-height:1;color:#c8b48a;text-shadow:0 1px 0 #fff8}
+.qnote .st.on{color:#e8a020;text-shadow:0 1px 0 #7a4a10,0 0 6px #ffd27a;animation:qstar .5s ease-out}.qnote .st.on.cl{animation:none}
+@keyframes qstar{0%{transform:scale(1.8);opacity:.3}100%{transform:none;opacity:1}}
+.qnote .qbar{background:#cbb88e;box-shadow:inset 0 0 0 2px #8a6a40}.qnote .qbar i{background:linear-gradient(#ffd27a,#e8a020)}
+.qnote .qbar b{position:absolute;top:2px;bottom:2px;width:2px;margin-left:-3px;background:#8a6a40}.qnote .qbar b:last-of-type{display:none}
+.qnote .qbar span,.qbar.sm span{color:#3a2414;text-shadow:0 1px 0 #fff8}
+.qnote .btn{white-space:nowrap;padding-left:14px;padding-right:14px}
+.qn-bot{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:36px;margin-top:8px}.qnote .rw{color:#4a3420}.qnote .ok{color:#2f7a3a}
+.qnote.done{opacity:.62;filter:saturate(.5)}
+.qnote.tear{animation:qtear .34s ease-in forwards}@keyframes qtear{to{transform:translateY(-18px) rotate(-7deg) scale(.96);opacity:0}}
+.qburst{position:fixed;z-index:99;transform:translate(-50%,-50%);pointer-events:none;font-weight:700;font-size:15px;color:var(--gold);white-space:nowrap;text-shadow:0 2px 0 #000,0 0 8px #000;animation:qburst 1.25s ease-out forwards}
+@keyframes qburst{0%{opacity:0;margin-top:0}15%{opacity:1}100%{opacity:0;margin-top:-56px}}
+.qscroll{position:relative;margin:12px 0;padding:14px 14px 12px;background:linear-gradient(#efe0bc,#e2cfa2);color:#3a2a1a;box-shadow:inset 0 6px 0 #c9b080,inset 0 -6px 0 #c9b080,0 6px 14px #0004;clip-path:var(--px)}
+.qs-top{display:flex;align-items:center;gap:10px}.qs-top img{width:38px;height:38px;object-fit:cover;image-rendering:pixelated;flex:none;box-shadow:0 0 0 2px #8a6a40}
+.qs-top h3{margin:0;flex:1;font-size:17px;color:#4a1e10}.qs-top em{font-style:normal;font-weight:700;color:#7a5a32}
+.qscroll ol{list-style:none;margin:10px 0 6px;padding:0;display:flex;flex-direction:column;gap:8px}
+.qscroll li{display:grid;grid-template-columns:22px 1fr;gap:4px 8px;align-items:start;font-size:14px;color:#6a5a44}
+.qscroll li>.rw{grid-column:2;color:#5a4430;font-size:12px}.qscroll li.cur{color:#3a2a1a;font-weight:600}.qscroll li.ok{color:#5a7a4a}.qscroll li.ok>div>span{text-decoration:line-through}.qscroll li.ok>.rw{opacity:.6}
+.qscroll .ck{width:20px;height:20px;box-shadow:inset 0 0 0 2px #8a6a40;background:#f8f0dc;font-style:normal;display:flex;align-items:center;justify-content:center;color:#2f7a3a;font-weight:700}
+.qscroll li.cur .ck{box-shadow:inset 0 0 0 2px #c8301a}
+.qbar.sm{height:14px;margin-top:4px;background:#cbb88e;box-shadow:inset 0 0 0 2px #8a6a40}.qbar.sm i{background:linear-gradient(#ffd27a,#e8a020)}.qbar.sm span{font-size:10px}
+.qs-fin{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0 4px;border-top:2px dashed #b89a68;font-weight:700;font-size:13px;color:#4a1e10}.qs-fin .rw{color:#4a1e10}
+.qscroll .btn{width:100%;margin-top:4px}.qscroll .stamp{top:12px;right:10px}.qscroll.done{opacity:.8}
+.mt.big{font-size:12px}.mt.big img{width:18px!important;height:18px!important}
+.wkposter{margin:12px 0 6px;background:var(--panel);box-shadow:inset 0 0 0 3px var(--gold);clip-path:var(--px);overflow:hidden}
+.wk-map{height:120px;background-size:cover;background-position:center;image-rendering:pixelated;position:relative;box-shadow:inset 0 -30px 30px -10px var(--panel)}
+.wk-map img{position:absolute;left:50%;bottom:6px;width:64px;height:64px;margin-left:-32px;image-rendering:pixelated;object-fit:contain;filter:drop-shadow(0 3px 0 #0008);animation:qidle 1.6s ease-in-out infinite alternate}
+@keyframes qidle{to{translate:0 -3px}}
+.wk-b{padding:6px 14px 14px;text-align:center}.wk-b small{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}.wk-b h3{margin:2px 0 4px;font-size:22px}.wk-b p{margin:0 0 6px;font-size:14px}
+.wk-mods{display:flex;flex-direction:column;gap:6px;text-align:left;margin-top:8px}.wk-mods div{padding:6px 10px;background:var(--ink);box-shadow:inset 3px 0 0 #e8453c}.wk-mods b{display:block;color:#ff9a8a}.wk-mods span{font-size:13px;color:var(--muted)}
+.wk-tiers{display:flex;flex-direction:column;gap:8px}
+.wk-t{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);clip-path:var(--px)}
+.wk-t>img{width:44px;height:44px;image-rendering:pixelated;flex:none;filter:grayscale(.85) brightness(.75)}.wk-t>div{flex:1;min-width:0}.wk-t b{display:block;font-size:16px}.wk-t>div>span:not(.rw){display:block;font-size:13px;color:var(--muted);margin-bottom:3px}
+.wk-t.got{box-shadow:inset 0 0 0 3px var(--gold)}.wk-t.got>img,.wk-t.cl>img{filter:none}.wk-t.got>img{animation:qbob .6s ease-in-out infinite alternate}.wk-t .ok{font-style:normal;color:var(--green);font-size:22px;font-weight:700}
+.wk-btns{display:flex;gap:8px;margin:12px 0 4px}.wk-btns .btn{flex:1}
 .cx{background:var(--panel);box-shadow:inset 0 0 0 3px var(--line);padding:10px;display:flex;flex-direction:column;gap:4px;align-items:center;text-align:center}
 .cx img{width:40px;height:40px;image-rendering:pixelated;filter:brightness(0) opacity(.35)}.cx.on img{filter:none}.cx.on{box-shadow:inset 0 0 0 3px var(--gold)}
 .cx b{font-size:15px}.cx small{color:var(--muted);font-size:12px}
@@ -894,7 +959,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
     <div class="wrap">
       <div class="head"><h2>Síň slávy</h2><button class="btn alt sm" data-back>Zpět</button></div>
       <div class="tabs sectabs" data-sec="hall"><button data-to="board">Žebříček</button><button data-to="master">Mistrovství</button><button data-to="codex">Sbírka</button></div>
-      <div class="tabs" id="boardTabs"><button data-t="celkem">Celkem</button><button data-t="dnes">Dnes</button><button data-t="kombo">Kombo</button><button data-t="map">Mapy</button></div>
+      <div class="tabs" id="boardTabs"><button data-t="celkem">Celkem</button><button data-t="dnes">Dnes</button><button data-t="tyden">Týden</button><button data-t="kombo">Kombo</button><button data-t="map">Mapy</button></div>
       <div class="bmaps" id="boardMaps" hidden></div>
       <p class="hint" id="boardMsg"></p>
       <div class="podium" id="boardPod" hidden></div>
@@ -1272,6 +1337,11 @@ const ICONS={
  eye:{pal:{w:'#ffffff',u:'#4aa3e8',k:'#14101c'},rows:['........','..wwww..','.wuuuuw.','wuukkuuw','wuukkuuw','.wuuuuw.','..wwww..','........']},
  greed:{pal:{n:'#8a5a3a',y:'#f6c744',o:'#c28a10'},rows:['...nn...','..n..n..','...nn...','.yyyyyy.','yyoyyoyy','yyyooyyy','yyoyyoyy','.yyyyyy.']},
  medal:{pal:{r:'#e8453c',u:'#4aa3e8',y:'#f6c744',o:'#c28a10'},rows:['.rr..uu.','..rr.u..','...ru...','..yyyy..','.yyooyy.','.yoyyoy.','.yyooyy.','..yyyy..']},
+ medal_b:{pal:{r:'#a8302a',u:'#4a6a8a',y:'#d8884a',o:'#8a4a22'},rows:['.rr..uu.','..rr.u..','...ru...','..yyyy..','.yyooyy.','.yoyyoy.','.yyooyy.','..yyyy..']},
+ medal_s:{pal:{r:'#4a7ac8',u:'#e8453c',y:'#d8dce8',o:'#7a8090'},rows:['.rr..uu.','..rr.u..','...ru...','..yyyy..','.yyooyy.','.yoyyoy.','.yyooyy.','..yyyy..']},
+ medal_g:{pal:{r:'#e8453c',u:'#4aa3e8',y:'#ffd84a',o:'#c28a10'},rows:['.rr..uu.','..rr.u..','...ru...','..yyyy..','.yyooyy.','.yoyyoy.','.yyooyy.','..yyyy..']},
+ candle_off:{pal:{w:'#9a9284',s:'#6a6458',n:'#4a3424',k:'#2a2420'},rows:['........','........','........','...k....','..www...','..wws...','..wws...','.nnnnn..']},
+ pin:{pal:{r:'#e8453c',h:'#ff9a8a',d:'#8a1e1a',s:'#9aa0ac'},rows:['..rrr...','.rhrrr..','.rrrrd..','..rdd...','...s....','...s....','........','........']},
  gear:{pal:{s:'#d8d4e8',S:'#8a86a0'},rows:['.s.ss.s.','.ssssss.','ssSSSSss','.sS..Ss.','.sS..Ss.','ssSSSSss','.ssssss.','.s.ss.s.']},
  bell:{pal:{y:'#f6c744',w:'#fff6c8',o:'#a97a14'},rows:['...yy...','..yyyy..','.yywyyy.','.ywyyyy.','.yyyyyy.','yyyyyyyy','oooooooo','...oo...']},
  book:{pal:{B:'#8a5ad0',b:'#5a3a9a',p:'#ecdcae',y:'#f6c744'},rows:['.BBBBBB.','Bbbbbbbp','Bbyyyybp','Bbybbybp','Bbyyyybp','Bbbbbbbp','Bbbbbbbp','.pppppp.']},
@@ -2261,7 +2331,7 @@ MF.caravan={
   update(dt){const c=run.crystal;if(!c)return;const P=run.pls?players():[run.p];const near=P.some(p=>!p.down&&Math.hypot(p.x-c.x,p.y-c.y)<70);
     run.cv.walk=near?1:0;if(near){run.cv.s+=dt*12;const q=routePos(run.cv.s);c.x=q.x;c.y=q.y;run.cv.face=q.dx>=0?1:-1;}},
   // the caravan's water skins: staying close to the camel slowly heals
-  pl(p,dt){const c=run.crystal;if(!c||p.down||run.mod==='noheal'||Math.hypot(p.x-c.x,p.y-c.y)>42){p.cvh=0;return;}p.cvh=(p.cvh||0)+dt;
+  pl(p,dt){const c=run.crystal;if(!c||p.down||hasMod('noheal')||Math.hypot(p.x-c.x,p.y-c.y)>42){p.cvh=0;return;}p.cvh=(p.cvh||0)+dt;
     if(p.cvh>=.6){p.cvh-=.6;if(p.hp<p.max){p.hp=Math.min(p.max,p.hp+1);if(Math.random()<.3)run.nums.push({x:p.x+rnd(-4,4),y:p.y-10,txt:'+1',life:.5,col:'#7cf0a0'});if(!run.cvTip){run.cvTip=1;toast(_t('U velblouda se napiješ a doplníš zdraví'),2400);}}}},
   snap(){return[+run.cv.s.toFixed(1),run.cv.walk];},
   apply(o){run.cv.s=o[0];run.cv.walk=o[1];const q=routePos(o[0]);if(run.crystal){run.crystal.x=q.x;run.crystal.y=q.y;}run.cv.face=q.dx>=0?1:-1;},
@@ -3704,7 +3774,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09d';
+const GAME_VER='2026-11-09e';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3795,21 +3865,22 @@ function recalc(){
   st={max:Math.round((120+h.hp+mB('hp',m.hp)+L('heart')*20+B.hp)*(1+B.hpPct)),speed:58*(1+h.spd+mB('spd',m.spd)+L('boots')*.08+B.spd),dmg:1+h.dmg+mB('dmg',m.dmg)+L('power')*.12+B.dmg,
     cdMul:Math.max(.4,(1-L('haste')*.08)*(1-B.cd)),mag:30*(1+mB('mag',m.mag)+L('magnet')*.25+B.mag),armor:h.armor+L('shield')+B.armor,regen:L('regen')*.4+B.regen,xpMul:1+mB('xp',m.xp)+B.xp,
     crit:.1+B.crit+L('eye')*.06,fuse:B.fuse,gold:B.gold+L('greed')*.1,tcost:B.tcost,thp:B.thp,tmax:B.tmax,lg:B.lg,tal:B.tal,af:B.af||{},dodge:Math.min(.3,B.dodge||0),tdmg:B.tdmg||0};
-  {const T={};for(const k of TREE_KEYS)T[k]=m.treeV===2?Math.min(KEY_MAX,m[k]||0):0;st.tr=T;st.thp=(st.thp||0)+.06*T.d3;st.armor+=.2*T.d4;st.regen+=run.mod==='noheal'?0:.05*T.d5;st.gold+=.02*T.l3;st.fuse=(st.fuse||0)+.03*T.a4;
+  {const T={};for(const k of TREE_KEYS)T[k]=m.treeV===2?Math.min(KEY_MAX,m[k]||0):0;st.tr=T;st.thp=(st.thp||0)+.06*T.d3;st.armor+=.2*T.d4;st.regen+=hasMod('noheal')?0:.05*T.d5;st.gold+=.02*T.l3;st.fuse=(st.fuse||0)+.03*T.a4;
    st.dmg+=.005*(m.ma||0);st.max=Math.round(st.max*(1+.01*(m.md||0)));st.gold+=.01*(m.ml||0);}
-  if(run.mod==='glass'){st.dmg*=1.5;st.max=Math.round(st.max*.5);}if(run.mod==='horde')st.xpMul+=.3;if(run.mod==='noheal')st.regen=0;
+  if(hasMod('glass')){st.dmg*=1.5;st.max=Math.round(st.max*.5);}if(hasMod('horde'))st.xpMul+=.3;if(run.thm==='alch')st.xpMul+=.15;if(hasMod('noheal'))st.regen=0;
   for(const id in run.W)run.W[id].xn=talentW(id),run.W[id]._p=null;
 }
 // the daily challenge runs on a seed of the day (map, spawns and level-up offers start out the same for everyone)
 const RNG0=Math.random;function seedRng(seed){Math.random=seed==null?RNG0:mulberry32(qHash(seed));}
 function startRun(heroId,mapId,o){metaInit();treeMigrate();if(BI){BI=null;$('#hud').classList.remove('bi');}
-  o=o||{};seedRng(o.mod?'daily|'+today():null);audioInit();setSong(mapId);
+  o=o||{};if(o.wk){const W=wkInfo();o.mod=W.mods[0];o.mods=W.mods;}seedRng(o.wk?'weekly|'+weekKey():o.mod?'daily|'+today():null);audioInit();setSong(mapId);
   const hero=HEROES[heroId],map=MAPS[mapId],built=buildMap(mapId);for(const k in mapsBuilt)if(k!==mapId)delete mapsBuilt[k];save.lastMap=mapId;MB.id=mapId;
   run={heroId,hero,mapId,map,built,idx:MAP_IDS.indexOf(mapId),t:0,kills:0,coins:25,startCoins:25,towers:[],nearTower:null,tip:false,level:1,xp:0,need:needXP(1),pending:0,
     p:{x:map.size/2,y:map.size/2,hp:100,max:100,inv:0,r:4,face:{x:0,y:1},moving:false,anim:0,flash:0,haz:0,reg:0},
     W:{},P:{},enemies:[],shots:[],eshots:[],gems:[],items:[],fx:[],parts:[],nums:[],
     spawnT:.4,eliteI:0,evI:0,combo:0,comboT:0,hitstop:0,flashScr:0,amb:[],beatNow:false,barNow:false,gemChain:0,boss:null,bossSpawned:false,revived:false,shake:0,over:false,won:false,cam:{x:0,y:0},lastHud:{}};
-  run.nm=o.nm||0;run.mod=o.mod||null;run.mat=0;run.endless=!!o.endless;run.trial=!!o.mod&&!mapUnlocked(mapId);
+  run.nm=o.nm||0;run.mod=o.mod||null;run.mods=o.mods||(o.mod?[o.mod]:[]);run.wk=!!o.wk;run.mat=0;run.endless=!!o.endless;run.trial=!!o.mod&&!mapUnlocked(mapId);
+  run.thm=o.mod||o.endless?null:qTheme().id; // theme of the day bonus (not in the challenges)
   run.tut=!save.tut&&!(save.stats&&save.stats.runs)&&!o.mod?{s:0,t:0,mv:0}:null;if(run.tut)run.tip=true;$('#tut').hidden=true;run.bonus=heroBonus(heroId);run.qc=qNewC();
   recalc();run.p.max=st.max;run.p.hp=st.max;
   $('#icoMat').src=matIcon(MAT_OF[mapId]);$('#hudMat').hidden=false;
@@ -3822,7 +3893,7 @@ function startRun(heroId,mapId,o){metaInit();treeMigrate();if(BI){BI=null;$('#hu
   for(let i=0;i<6;i++)spawnEnemy(chooseEnemy());
   $('#bossbar').hidden=true;$('#toast').classList.remove('on');$('#crbar').hidden=!run.crystal;$('#repBtn').hidden=true;
   buildItemsHud();setState('play');updateHud(true);
-  toast((run.endless?_t('Nekonečná krypta')+' · '+map.name:run.mod?_t('Denní výzva: ')+DAILY_MODS.find(d=>d.id===run.mod).name:run.nm?NM_NAME[run.nm]:map.caravan?_t('Doprovoď karavanu!'):map.crystal?_t('Chraň krystal!'):map.name),2200);
+  toast((run.endless?_t('Nekonečná krypta')+' · '+map.name:run.wk?_t('Týdenní výzva: ')+run.mods.map(m=>DAILY_MODS.find(d=>d.id===m).name).join(' + '):run.mod?_t('Denní výzva: ')+DAILY_MODS.find(d=>d.id===run.mod).name:run.nm?NM_NAME[run.nm]:map.caravan?_t('Doprovoď karavanu!'):map.crystal?_t('Chraň krystal!'):map.name),2200);
 }
 function addWeapon(id){run.W[id]={lv:1,cd:.4,ang:0,tick:0,xn:talentW(id)};}
 function nWeapons(){return Object.keys(run.W).length}
@@ -3836,7 +3907,7 @@ function chooseEnemy(){
 function makeEnemy(id,x,y,elite){
   const d=ENEMY_DEFS[id],m=run.t/60,sc=(1+m*.45)*(run.map.hpm||1)*(1+NM_HP*(run.nm||0))*(run.endless?1+.08*Math.max(0,m-EN_T0):1),sp=elite?eliteSprite(id):SPR.enemy[id];
   const hp=d.hp*sc*(elite?7:1)*(run.pls?(elite?1.5:1.25):1);
-  return{id,d,x,y,hp,max:hp,spd:d.spd*run.map.speedMul*rnd(.9,1.1)*(run.mod==='fast'?1.3:1),dmg:d.dmg*(1+m*.08)*(elite?1.5:1)*(run.map.dmm||1)*(1+NM_DMG*(run.nm||0))*(run.endless?1+.05*Math.max(0,m-EN_T0):1),r:d.r*(elite?2:1),spr:sp,w:sp.w,h:sp.h,
+  return{id,d,x,y,hp,max:hp,spd:d.spd*run.map.speedMul*rnd(.9,1.1)*(hasMod('fast')?1.3:1),dmg:d.dmg*(1+m*.08)*(elite?1.5:1)*(run.map.dmm||1)*(1+NM_DMG*(run.nm||0))*(run.endless?1+.05*Math.max(0,m-EN_T0):1),r:d.r*(elite?2:1),spr:sp,w:sp.w,h:sp.h,
     kx:0,ky:0,flash:0,slowT:0,elite:!!elite,boss:false,phase:Math.random()*6.28,off:{x:rnd(-9,9),y:rnd(-9,9)},mode:0,mT:rnd(1,2.5),dx:0,dy:0,
     kbm:elite?.3:1,xp:d.xp*(elite?5:1),hc:{},shootT:rnd(1,2.5),dead:false,par:Math.random()<.5};
 }
@@ -3849,7 +3920,8 @@ function edgePos(margin){
 function spawnEnemy(id,elite){if(run.enemies.length>=170&&!elite)return null;const q=edgePos(18);const e=makeEnemy(id,q.x,q.y,elite);run.enemies.push(e);return e;}
 function spawnBoss(){
   const id=run.map.boss,d=BOSS_DEFS[id],sp=SPR.boss[id],q=edgePos(30);
-  const e={id,d,x:q.x,y:q.y,hp:d.hp*(run.pls?1.8:1)*(1+NM_HP*(run.nm||0)),max:d.hp*(run.pls?1.8:1)*(1+NM_HP*(run.nm||0)),spd:d.spd,dmg:d.dmg*(1+NM_DMG*(run.nm||0)),r:d.r,spr:sp,w:sp.w,h:sp.h,kx:0,ky:0,flash:0,slowT:0,elite:false,boss:true,phase:0,off:{x:0,y:0},
+  const bh=d.hp*(run.pls?1.8:1)*(1+NM_HP*(run.nm||0))*(run.thm==='boss'?.85:1);
+  const e={id,d,x:q.x,y:q.y,hp:bh,max:bh,spd:d.spd,dmg:d.dmg*(1+NM_DMG*(run.nm||0)),r:d.r,spr:sp,w:sp.w,h:sp.h,kx:0,ky:0,flash:0,slowT:0,elite:false,boss:true,phase:0,off:{x:0,y:0},
     mode:0,mT:3,dx:0,dy:0,kbm:0,xp:60,hc:{},shootT:2.5,tA:3,tB:6,dead:false,par:false};
   if(run.endless){const w=run.enW||0;e.evo=w+1;e.hp=e.max=e.max*(1+.5*w);e.dmg*=1+.15*w;e.spd*=(1+.04*w)*(e.evo>=4?1.2:1);e.bc=0;}
   e.born=run.t;run.boss=e;run.enemies.push(e);run.bossSpawned=true;mfCall('boss',e);
@@ -4059,7 +4131,7 @@ function smokePuff(x,y,n,col,size){for(let i=0;i<n;i++)addP({k:'smoke',x:x+rnd(-
 function hurtEnemy(e,dmg,kx,ky){
   if(e.dead||e.bur||isGuest())return;
   if(e.shield){e.flash=.05;if(Math.random()<.3)sparks(e.x,e.y-4,2,'#b07aff',kx,ky,90);if(!e.shT||run.t-e.shT>2.5){e.shT=run.t;toast(e.shield,1600);}return;}
-  let d=dmg*st.dmg*(mfCall('dmgMul',e)||1)*(st.af&&st.af.hunter&&(e.boss||e.elite)?1+st.af.hunter:1),crit=false;if(e.mk>run.t)d*=e.mkm||1.2;if(st.tr&&st.tr.a5)d*=1+Math.min(.025*st.tr.a5,run.combo/1000);if(Math.random()<(st.crit||.1)+(st.tr&&st.tr.a1&&(M.step%16)<4?.03*st.tr.a1:0)+(st.af&&st.af.rhythm&&(M.step%16)<4?st.af.rhythm:0)){d*=st.tal&&st.tal.a20?2:1.6;crit=true;}if(st.lg&&st.lg.metro&&(M.step%16)>=12)d*=2;d=Math.max(1,Math.round(d));
+  let d=dmg*st.dmg*(mfCall('dmgMul',e)||1)*(st.af&&st.af.hunter&&(e.boss||e.elite)?1+st.af.hunter:1),crit=false;if(e.mk>run.t)d*=e.mkm||1.2;if(e.elite&&run.thm==='hunt')d*=1.2;if(st.tr&&st.tr.a5)d*=1+Math.min(.025*st.tr.a5,run.combo/1000);if(Math.random()<(st.crit||.1)+(st.tr&&st.tr.a1&&(M.step%16)<4?.03*st.tr.a1:0)+(st.af&&st.af.rhythm&&(M.step%16)<4?st.af.rhythm:0)){d*=st.tal&&st.tal.a20?2:1.6;crit=true;}if(st.lg&&st.lg.metro&&(M.step%16)>=12)d*=2;d=Math.max(1,Math.round(d));
   if(crit&&st.lg&&st.lg.storm&&run.t-(run.sgT||-9)>.5){run.sgT=run.t;explode(e.x,e.y,26,10+run.level*1.5);}
   run.tdm=(run.tdm||0)+d;e.hp-=d;if(st.lg&&st.lg.sfr2&&!e.boss)e.slowT=Math.max(e.slowT,.8);e.flash=.09;e.sq=1;e.kx+=(kx||0)*e.kbm;e.ky+=(ky||0)*e.kbm;
   if(run.nums.length<40)run.nums.push({x:e.x+rnd(-3,3),y:e.y-e.h/2,vx:rnd(-14,14),vy:crit?-70:-55,txt:String(d)+(crit?'!':''),life:crit?.8:.6,col:crit?'#f6c744':'#ffffff',big:crit,t:0});
@@ -4069,7 +4141,7 @@ function hurtEnemy(e,dmg,kx,ky){
 }
 function killEnemy(e){
   e.dead=true;if(run.pls){(CO.kills||(CO.kills=[])).push(e.nid||0);}run.kills++;
-  if(st&&st.af&&!e.d.noHit){if(st.af.vamp&&!run.p.down)run.p.hp=Math.min(run.p.max,run.p.hp+st.af.vamp);if(st.af.gold&&e.elite)run.coins+=Math.round(st.af.gold);}run.combo++;run.comboT=st&&st.tal&&st.tal.d5?2.4:1.6;sfx('kill');
+  if(st&&st.af&&!e.d.noHit){if(st.af.vamp&&!run.p.down)run.p.hp=Math.min(run.p.max,run.p.hp+st.af.vamp);if(st.af.gold&&e.elite)run.coins+=Math.round(st.af.gold);}run.combo++;run.comboT=(st&&st.tal&&st.tal.d5?2.4:1.6)+(run.thm==='rhythm'?1:0);sfx('kill');
   const Q=run.qc;if(Q){Q.k[e.id]=(Q.k[e.id]||0)+1;if(e.elite)Q.el++;if(e.boss)Q.boss++;if(run.combo>Q.combo)Q.combo=run.combo;
     if(e.want){Q.want=e.want;run.wanted=null;toast(_t('Hledaný dopaden! Odměnu si vyzvedni na Nástěnce'),2800);run.items.push({x:e.x-6,y:e.y,k:'mat',v:8});for(let i=0;i<3;i++)run.items.push({x:e.x+rnd(-8,8),y:e.y+rnd(-8,8),k:'coin'});}}
   // combo milestones pay more the longer the combo lasts: 25 → 5, 50 → 10 … up to 40 gold (spent in the run on towers; only
@@ -4554,7 +4626,7 @@ function upgradeTower(){
 }
 function enemiesNear(x,y,r){const out=[];for(const e of run.enemies){if(e.dead)continue;if(Math.abs(e.x-x)>r||Math.abs(e.y-y)>r)continue;if(Math.hypot(e.x-x,e.y-y)<=r)out.push(e);}return out;}
 function towerFire(t){
-  const D=TOWERS[t.k],lv=t.lv,range=towerRange(t),dmg=D.dmg*(1+.5*(lv-1))*twM(t)*(1+.03*((st&&st.tr&&st.tr.d3)||0))*(1+((st&&st.tdmg)||0)),p3=!!(t.ts&&t.ts.p3),p5=!!(t.ts&&t.ts.p5);
+  const D=TOWERS[t.k],lv=t.lv,range=towerRange(t),dmg=D.dmg*(1+.5*(lv-1))*twM(t)*(1+.03*((st&&st.tr&&st.tr.d3)||0))*(1+((st&&st.tdmg)||0))*(run.thm==='build'?1.25:1),p3=!!(t.ts&&t.ts.p3),p5=!!(t.ts&&t.ts.p5);
   switch(t.k){
     case'arrow':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;
       let e=c[0],bd=1e9;for(const q of c){const d=(q.x-t.x)**2+(q.y-t.y)**2;if(d<bd){bd=d;e=q;}}
@@ -4662,6 +4734,7 @@ function repairCrystal(){
 
 /* ============ chapters: new enemy and boss behaviour, player effects, allies, map feature hooks ============ */
 // every map style can hook into a run: init/update (host), gupdate (guest), ground/top/over drawing, lights/glows, move/psp (player), espd, dmgMul, snap/apply (co-op)
+const hasMod=id=>!!(run&&run.mods&&run.mods.includes(id));
 const mfCall=(k,a,b,c)=>{const f=run&&run.map&&MF[run.map.style];return f&&f[k]?f[k](a,b,c):undefined;};
 function summonAt(id,x,y,n,r){const sz=run.map.size;for(let i=0;i<n;i++){const a=Math.random()*6.283,q=makeEnemy(id,clamp(x+Math.cos(a)*(r||24),16,sz-16),clamp(y+Math.sin(a)*(r||24),16,sz-16),false);run.enemies.push(q);dirtPuff(q.x,q.y);}}
 function dirtPuff(x,y,col){for(let i=0;i<6;i++)addP({k:'smoke',x:x+rnd(-4,4),y:y+2,vx:rnd(-20,20),vy:rnd(-14,-4),life:.5,max:.5,sz:1.5,grow:4,drag:3,g:0,col:col||'#5a4630',a:.5});}
@@ -4854,7 +4927,7 @@ function updatePickups0(dt){
     if(d<(it.k==='chest'?9:6)){it.dead=true;
       if(it.k==='coin'){run.coins+=rndi(3,6);sfx('coin');}
       else if(it.k==='mat'){run.mat=(run.mat||0)+(it.v||1);sfx('coin');if(run.parts.length<420)for(let i=0;i<5;i++)addP({x:p.x,y:p.y-6,vx:rnd(-30,30),vy:rnd(-60,-20),life:.4,col:'#ffd27a',sz:1,g:0});}
-      else if(it.k==='heart'&&run.mod==='noheal'){}
+      else if(it.k==='heart'&&hasMod('noheal')){}
       else if(it.k==='heart'){p.hp=Math.min(p.max,p.hp+Math.round(p.max*.3));toast(_t('Zdraví +'),900);sfx('level');}
       else if(it.k==='magnet'){run.gems.forEach(g=>g.pull=true);toast(_t('Magnet!'),900);sfx('level');}
       else if(it.k==='chest'){run.coins+=rndi(15,30);run.pending+=st.tr&&Math.random()<.08*st.tr.l1?2:1;sfx('coin');run.chestOpen=true;}}}
@@ -4867,7 +4940,7 @@ function updateSpawns(dt){
   run.spawnT-=dt;
   if(run.spawnT<=0&&run.beatNow&&!(run.bossSpawned&&run.boss===null)){
     run.spawnT=Math.max(.32,map.base-m*.13);
-    const n=Math.round((1+Math.floor(m*1.15+(run.map.spx||0)))*(run.pls?1.7:1)*(run.mod==='horde'?1.6:1)*(1+.15*(run.nm||0))*(run.endless?.6:1));
+    const n=Math.round((1+Math.floor(m*1.15+(run.map.spx||0)))*(run.pls?1.7:1)*(hasMod('horde')?1.6:1)*(1+.15*(run.nm||0))*(run.endless?.6:1));
     for(let i=0;i<n;i++)spawnEnemy(chooseEnemy());
   }
   while(run.barNow&&run.eliteI<map.elites.length&&run.t>=map.elites[run.eliteI].t){const el=map.elites[run.eliteI++];spawnEnemy(el.e,true);toast(_t('Elitní nepřítel!'),1500);}
@@ -4914,7 +4987,7 @@ function envPl(dt){
   // oasis water slowly heals (desert) - a reason to leave the crystal for a moment
   if(run.built.oases){let inO=false;for(const o of run.built.oases)if(Math.hypot((p.x-o.x)/(o.r*1.35),(p.y-o.y)/o.r)<.9){inO=true;break;}
     if(inO){if(!run.oasisTip){run.oasisTip=true;toast(_t('Oáza tě léčí'),2200);}p.oas=(p.oas||0)+dt;
-      if(run.mod==='noheal')p.oas=0;else if(p.oas>=(st.lg&&st.lg.compass?.2:.4)){p.oas-=.4;if(p.hp<p.max){p.hp=Math.min(p.max,p.hp+1);if(run.qc)run.qc.oas++;if(Math.random()<.4)run.nums.push({x:p.x+rnd(-4,4),y:p.y-10,txt:'+1',life:.5,col:'#7cf0a0'});}}}else p.oas=0;}
+      if(hasMod('noheal'))p.oas=0;else if(p.oas>=(st.lg&&st.lg.compass?.2:.4)){p.oas-=.4;if(p.hp<p.max){p.hp=Math.min(p.max,p.hp+1);if(run.qc)run.qc.oas++;if(Math.random()<.4)run.nums.push({x:p.x+rnd(-4,4),y:p.y-10,txt:'+1',life:.5,col:'#7cf0a0'});}}}else p.oas=0;}
   if(run.built.pools.length){p.haz-=dt;if(p.haz<=0){for(const pl of run.built.pools){if(Math.hypot(pl.x-p.x,pl.y-p.y)<pl.r-1){p.haz=.5;hurtPlayerHaz();break;}}}}
   plEffects(p,dt);
 }
@@ -5216,7 +5289,7 @@ const rewT=()=>run.endless?run.t:Math.min(run.t,run.map.dur+BOSS_RAGE+60);
 // gold kept after a run: part of the gold collected in it (the rest is meant for towers and repairs) – 30 % of the first
 // 2000, 10 % above that, so very long fights don't pay thousands – plus time and the win bonus
 const keepGold=c=>.3*Math.min(c,2000)+.1*Math.max(0,c-2000);
-function endCoins(won){return Math.round((keepGold(Math.max(0,run.coins+(run.spent||0)-run.startCoins))+Math.floor(rewT()/4)+(won?100+(run.map.gb||0):0))*(1+((st&&st.gold)||0)+.3*(run.nm||0))*petGoldMul());}
+function endCoins(won){return Math.round((keepGold(Math.max(0,run.coins+(run.spent||0)-run.startCoins))+Math.floor(rewT()/4)+(won?100+(run.map.gb||0):0))*(1+((st&&st.gold)||0)+.3*(run.nm||0)+(run.thm==='feast'?.2:0))*petGoldMul());}
 function finish(won){
   if(run.over)return;run.over=true;run.won=won;run.nmOpenNew=won&&!run.coop&&!run.endless&&!!run.map.finale&&(run.nm||0)<NM_MAX&&!nmWin(run.mapId,run.nm||0);seedRng(null);if(run.tut){save.tut=1;$('#tut').hidden=true;}
   tmSend(won?'win':run.crystalDead?'crystal':'death');if(!run.coop)recordRun(won);
@@ -5246,12 +5319,14 @@ function showOver(){
     oh.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[run.heroId]||SPR.hero.knight)+'">';
     $('#ovW').innerHTML=Object.keys(run.W).map(id=>'<div class="it'+(WEAPONS[id].ult?' ult':'')+'"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><em>'+(WEAPONS[id].ult?ROMAN[run.W[id].lv-1]:run.W[id].lv)+'</em></div>').join('')+
       Object.keys(run.P).map(id=>'<div class="it"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><em>'+run.P[id]+'</em></div>').join('');}catch(_){}
-  const dOk=run.mod&&!run.coop&&(run.won||run.t>=180),dSub=!run.mod||run.coop?null:run.rw&&run.rw.daily?_t('Přežil jsi 3 minuty a dnešní výzvu máš splněnou.'):dOk?_t('Dnešní výzvu už máš splněnou. Tenhle pokus se počítá do žebříčku Dnes.'):_t('Do splnění výzvy chybělo ')+Math.ceil(180-run.t)+_t(' s. Zkus to znovu.');
-  $('#ovTitle').textContent=run.won?_t('Vítězství!'):dOk?_t('Výzva splněna!'):_t('Konec běhu');$('#ovTitle').className='title'+(run.won||dOk?'':' bad');
+  const wkR=run.wk&&!run.coop?(run.rw&&run.rw.wkT)||{got:[],best:-1}:null;
+  const dOk=run.mod&&!run.wk&&!run.coop&&(run.won||run.t>=180),dSub=wkR?wkSub(wkR):!run.mod||run.coop?null:run.rw&&run.rw.daily?_t('Přežil jsi 3 minuty a dnešní výzvu máš splněnou.'):dOk?_t('Dnešní výzvu už máš splněnou. Tenhle pokus se počítá do žebříčku Dnes.'):_t('Do splnění výzvy chybělo ')+Math.ceil(180-run.t)+_t(' s. Zkus to znovu.');
+  $('#ovTitle').textContent=wkR&&wkR.best>=0?WK_TIER[wkR.best].name+'!':run.won?_t('Vítězství!'):dOk?_t('Výzva splněna!'):_t('Konec běhu');$('#ovTitle').className='title'+(run.won||dOk||(wkR&&wkR.best>=0)?'':' bad');
   $('#ovSub').textContent=dSub&&!run.won?dSub:run.won?(run.map.boss&&_t('Boss poražen: ')+BOSS_DEFS[run.map.boss].name+'.'+(run.unlocked?_t(' Odemčeno: ')+run.unlocked+'.':'')):(run.crystalDead?(run.map.caravan?_t('Karavanu vykradli a krypta zvítězila.'):_t('Krystal se rozbil a krypta zvítězila.')):run.endless?_t('Nekonečná krypta tě nakonec pohltila.'):_t('Krypta si tě tentokrát vzala.'));
   const rows=[[_t('Čas'),fmtTime(run.t)],[_t('Zabití'),run.kills],[_t('Úroveň'),run.level],[_t('Zlato celkem'),'+'+run.gain]];const W=run.rw||{};
   if(run.nm)rows.unshift([_t('Obtížnost'),NM_NAME[run.nm]]);
-  if(run.mod&&!run.coop){const M=DAILY_MODS.find(x=>x.id===run.mod);rows.unshift([_t('Denní výzva'),(M?M.name:'')+(run.trial?' · '+_t('zkušební'):'')]);}
+  if(wkR){rows.unshift([_t('Týdenní výzva'),run.mods.map(m=>DAILY_MODS.find(x=>x.id===m).name).join(' + ')]);for(const i of wkR.got)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.icon[WK_TIER[i].ic])+'"> '+WK_TIER[i].name,_t('<b style="color:var(--gold)">odměna čeká na Nástěnce</b>')]);}
+  else if(run.mod&&!run.coop){const M=DAILY_MODS.find(x=>x.id===run.mod);rows.unshift([_t('Denní výzva'),(M?M.name:'')+(run.trial?' · '+_t('zkušební'):'')]);}
   if(W.mat&&W.mat[1])rows.push([MAT_NAME[W.mat[0]],'<span class="mt"><img alt="" src="'+matIcon(W.mat[0])+'">+'+W.mat[1]+'</span>']);
   if(W.ess)rows.push([MAT_NAME.ess,'<span class="mt"><img alt="" src="'+matIcon('ess')+'">+'+W.ess+'</span>']);
   if(W.ovf)rows.push([_t('Plný sklad Úlomků'),'+'+W.ovf+_t(' zlata')]);
@@ -5268,7 +5343,7 @@ function showOver(){
   if(W.daily)rows.push([_t('Odměna výzvy'),'<b style="color:'+RAR[W.daily.r].col+'">'+itemName(W.daily)+'</b>']);
   if(run.nmOpenNew)rows.push([_t('Odemčeno'),NM_NAME[(run.nm||0)+1]+' · '+CH_OF[run.mapId].name]);
   for(const r of run.qres||[]){if(r.w){rows.push([_t('Hledaný'),_t('<b style="color:var(--gold)">Dopaden!</b> Odměna na nástěnce')]);continue;}const q=r.q;
-    rows.push(['<img class="cdl" alt="" src="'+qIcon(q.ico)+'"> '+q.t,q.done?_t('<b style="color:var(--green)">Splněno!</b>'):qFmt(q,q.v)]);}
+    const k=qStars(q),kb=q.ns.filter(n=>r.b>=n).length;rows.push(['<img class="cdl" alt="" src="'+qIcon(q.ico)+'"> '+q.t,k>kb?'<b style="color:var(--gold)">'+'★'.repeat(k)+'</b>'+(k<3?' · '+qFmt(q,q.v):''):qFmt(q,q.v)]);}
   for(const A of run.achNew||[])rows.push(['<img class="cdl" alt="" src="'+dataUrl(A.hero?SPR.hero[A.hero]:SPR.icon[A.ic]||SPR.icon.trophy)+'"> '+A.name,_t('<b style="color:var(--gold)">Mistrovství!</b>')]);
   $('#ovTable').innerHTML=rows.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('');
   setState('over');
@@ -6237,7 +6312,7 @@ function bindUi(){
   $('#pResume').onclick=()=>{sfx('ui');togglePause();};
   $('#pQuit').onclick=()=>{if(run&&run.coop&&!run.over)netSend(CO.role==='guest'?{t:'quit'}:{t:'end',won:false});if(run&&!run.over){tmSend('quit');run.over=true;if(run.tut)save.tut=1;const gain=endCoins(false);save.coins+=gain;if(!isGuest())qCommit(qSnap());persist();}openMenu();};
   $('#ovShare').onclick=()=>{sfx('ui');shareResult();};
-  $('#ovAgain').onclick=()=>{sfx('ui');if(run.coop){openMenu();return;}if(run.won&&!run.mod){const nx=nextMap(run.mapId);sel.map=nx&&mapUnlocked(nx)?nx:run.mapId;}else sel.map=run.mapId;sel.picked=true;chSel=null;
+  $('#ovAgain').onclick=()=>{sfx('ui');if(run.coop){openMenu();return;}if(run.wk){qTab='wk';openQuests();return;}if(run.won&&!run.mod){const nx=nextMap(run.mapId);sel.map=nx&&mapUnlocked(nx)?nx:run.mapId;}else sel.map=run.mapId;sel.picked=true;chSel=null;
     // leave the run like openMenu does, so the live menu background replaces the frozen last frame
     seedRng(null);$('#tut').hidden=true;run=null;setSong('menu');stick.active=false;stickEl.hidden=true;refreshMenu();renderSelect();setState('select');};
   $('#ovMenu').onclick=()=>{sfx('ui');openMenu();};
@@ -6354,7 +6429,8 @@ function recordRun(won){
   S.runs=(S.runs||0)+1;S.kills=(S.kills||0)+run.kills;if(won)S.wins=(S.wins||0)+1;
   const cur={t:Math.floor(run.t),kills:run.kills,won:!!won,lv:run.level,hero:run.heroId,nm:run.nm||0},b=S.best[run.mapId];
   if(!b||mapScore(cur)>mapScore(b))S.best[run.mapId]=cur;
-  if(run.mod){const d=today(),c=Object.assign({d,map:run.mapId,mod:run.mod},cur);if(!S.daily||S.daily.d!==d||mapScore(c)>mapScore(S.daily))S.daily=c;}
+  if(run.wk){const w=weekKey(),c=Object.assign({w,map:run.mapId},cur);if(!S.weekly||S.weekly.w!==w||mapScore(c)>mapScore(S.weekly))S.weekly=c;}
+  else if(run.mod){const d=today(),c=Object.assign({d,map:run.mapId,mod:run.mod},cur);if(!S.daily||S.daily.d!==d||mapScore(c)>mapScore(S.daily))S.daily=c;}
 }
 // map best: higher nightmare first, then a win beats any loss; wins rank by the FASTEST time, losses by the longest survival
 const mapScore=b=>{if(!b)return -1;const t=Math.min(b.t||0,9999);return (b.nm||0)*1e7+(b.won?1e6+(9999-t)*100:t*100+Math.min(b.kills||0,99));};
@@ -6384,7 +6460,7 @@ function boardFacts(r){const sv=r.sv||{},cl=MAP_IDS.filter(m=>(sv.cleared||{})[m
   return [boardTab!=='kombo'&&(boardTab==='celkem')?{ic:SPR.icon.note,v:'×'+bNum(bCombo(r.st),1),l:_t('kombo')}:null,{ic:SPR.icon.skull,v:kills,l:_t('zabití'),n:1},
     {ic:SPR.icon.scroll,v:cl+'/'+MAP_IDS.length,l:_t('mapy')},{ic:SPR.hero.knight,v:hc+'/'+HERO_LIVE.length,l:_t('hrdinů')}].filter(Boolean);}
 function boardStats(r,big){const F=boardFacts(r);return '<div class="stg n'+F.length+(big?' big':'')+'">'+F.map(f=>'<div><img alt="" src="'+dataUrl(f.ic)+'"><b>'+(f.n?bNum(f.v,!big):f.v)+'</b>'+(big?'<small>'+f.l+'</small>':'')+'</div>').join('')+'</div>';}
-function boardSub(r){if(boardTab==='celkem')return bNum(r.st.kills||0)+_t(' zabití');if(boardTab==='kombo')return bNum(r.st.kills||0)+_t(' zabití');const b=r.b;return (boardTab==='dnes'&&HEROES[b.hero]?HEROES[b.hero].name+' · ':'')+bNum(b.kills)+_t(' zabití');}
+function boardSub(r){if(boardTab==='celkem')return bNum(r.st.kills||0)+_t(' zabití');if(boardTab==='kombo')return bNum(r.st.kills||0)+_t(' zabití');const b=r.b;return ((boardTab==='dnes'||boardTab==='tyden')&&HEROES[b.hero]?HEROES[b.hero].name+' · ':'')+bNum(b.kills)+_t(' zabití');}
 function renderBoard(){
   document.querySelectorAll('#boardTabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===boardTab||(b.dataset.t==='map'&&!!MAPS[boardTab])));
   // map picker: one chapter at a time, its maps as postcards
@@ -6403,11 +6479,11 @@ function renderBoard(){
   if(!onlineConfigured()){msg.textContent=_t('Žebříček zatím není připojený k serveru. Tahle verze hraje offline a postup se ukládá jen v tomhle prohlížeči.');return;}
   if(!ON.ready){msg.textContent=ON.err?_t('Připojení k serveru se nezdařilo: ')+ON.err:_t('Připojuji se…');return;}
   if(!boardRows)return;
-  const rows=boardRows.map(r=>{const st=r.stats||{},sv=r.save||{},b=boardTab==='celkem'||boardTab==='kombo'?null:boardTab==='dnes'?(st.daily&&st.daily.d===today()?st.daily:null):(st.best||{})[boardTab];
+  const rows=boardRows.map(r=>{const st=r.stats||{},sv=r.save||{},b=boardTab==='celkem'||boardTab==='kombo'?null:boardTab==='dnes'?(st.daily&&st.daily.d===today()?st.daily:null):boardTab==='tyden'?(st.weekly&&st.weekly.w===weekKey()?st.weekly:null):(st.best||{})[boardTab];
     return{id:r.id,nick:r.nick||'?',st,sv,b,score:boardTab==='celkem'?((st.runs||0)?(st.wins||0)*1e6+(st.kills||0):-1):boardTab==='kombo'?(bCombo(st)||-1):mapScore(b)};})
     .filter(r=>r.score>=0).sort((a,b)=>b.score-a.score);
   const di=dailyInfo();
-  msg.textContent=boardTab==='celkem'?'':boardTab==='kombo'?_t('Nejvyšší kombo, jaké kdo udržel v jednom běhu. Kombo shodí každý zásah, který schytáš.'):boardTab==='dnes'?_t('Dnešní výzva: ')+MAPS[di.map].name+' · '+di.mod.name+_t('. Všichni hrají stejný běh, počítá se tvůj nejlepší pokus dne.'):_t('Nahoře jsou výhry na nejvyšší Noční můře. Výhry se řadí podle nejrychlejšího času.');
+  msg.textContent=boardTab==='celkem'?'':boardTab==='kombo'?_t('Nejvyšší kombo, jaké kdo udržel v jednom běhu. Kombo shodí každý zásah, který schytáš.'):boardTab==='dnes'?_t('Dnešní výzva: ')+MAPS[di.map].name+' · '+di.mod.name+_t('. Všichni hrají stejný běh, počítá se tvůj nejlepší pokus dne.'):boardTab==='tyden'?(()=>{const I=wkInfo();return _t('Týdenní výzva: ')+MAPS[I.map].name+' · '+HEROES[I.hero].name+' · '+I.mods.map(m=>DAILY_MODS.find(x=>x.id===m).name).join(' + ')+_t('. Počítá se tvůj nejlepší pokus týdne.');})():_t('Nahoře jsou výhry na nejvyšší Noční můře. Výhry se řadí podle nejrychlejšího času.');
   if(!rows.length){msg.textContent=(msg.textContent?msg.textContent+' ':'')+_t('Zatím tu nikdo nemá výsledek. Buď první!');}
   // top three: champion card, then 2nd and 3rd side by side, each with its numbers as chips
   if(rows.length){pod.hidden=false;const MC=['#f6c744','#c8ccd8','#d08850'];
@@ -6688,7 +6764,7 @@ function runRewards(won){
   const R=run,out={};const mid=MAT_OF[R.mapId];if(!mid)return out;
   const fin=!!R.map.finale;
   let m=(R.mat||0)+Math.floor(rewT()/60*2)+(won?(fin?25:10):0);if(won)m*=1.5; // the boss share is paid directly: a win ends the run before it could be picked up
-  const chi=Math.max(0,CHAPTERS.indexOf(CH_OF[R.mapId]));m*=(1+.5*(R.nm||0))*(fin?1.25:1)*SH_K*(1+.15*chi);m=Math.round(m);
+  const chi=Math.max(0,CHAPTERS.indexOf(CH_OF[R.mapId]));if(R.thm==='loot')m*=1.25;m*=(1+.5*(R.nm||0))*(fin?1.25:1)*SH_K*(1+.15*chi);m=Math.round(m);
   save.mats.shard=(save.mats.shard||0)+m;out.mat=['shard',m];
   {const e=essGain(won,fin);if(e){save.mats.ess=(save.mats.ess||0)+e;out.ess=e;}}
   if(save.mats.shard>SH_CAP){const x=save.mats.shard-SH_CAP;save.mats.shard=SH_CAP;const g=Math.floor(x/3);save.coins+=g;out.ovf=g;}
@@ -6703,7 +6779,8 @@ function runRewards(won){
       // the first win of a finale on each Nightmare tier always gives a piece; otherwise a chance with pity
       if((nmFirst&&!R.coop)||miss>=SET_PITY||Math.random()<SET_DROP+.05*(R.nm||0)){(save.setCh=save.setCh||[]).push({sid,r:setRarity(R.nm||0,sid)});out.setCh=sid;save.setP[sid]=0;}else save.setP[sid]=miss+1;
       save.chT=save.chT||{};if(!save.chT[CH_OF[R.mapId].id])out.tre=1;}}
-  if(R.mod&&!R.coop&&(won||R.t>=180)&&save.daily.chal!==today()){save.daily.chal=today();achInit().tot.dc++;save.mats[mid]+=20;if(out.mat)out.mat[1]+=20;const it=makeItem(rollRarity(ECON.chests[1]));addItem(it);out.daily=it;}
+  if(R.wk&&!R.coop)out.wkT=wkResult(won);
+  if(R.mod&&!R.wk&&!R.coop&&(won||R.t>=180)&&save.daily.chal!==today()){save.daily.chal=today();achInit().tot.dc++;qkAdd('daily',1);save.mats[mid]+=20;if(out.mat)out.mat[1]+=20;const it=makeItem(rollRarity(ECON.chests[1]));addItem(it);out.daily=it;}
   return out;}
 
 // ----- UI: shared bits -----
@@ -6924,7 +7001,8 @@ const petRefund=c=>refundF(c.r,c.lv||0);
 const petName=c=>PETS[c.k].name+(c.lv?' +'+c.lv:'');
 function openPetChest(){if(!petCan(PET_CHEST.cost)||chLeft('pet')<=0)return null;chUse('pet');petPay(PET_CHEST.cost);petInit();
   const r=rollRarity(PET_CHEST),k=pick(PET_IDS.filter(x=>PETS[x].r===r)),c=petRoll(k);save.pets.cards.push(c);persist();return c;}
-function openTowerChest(){if(!petCan(TW_CHEST_COST)||chLeft('tower')<=0)return null;chUse('tower');petPay(TW_CHEST_COST);twInit();
+function openTowerChest(){if(!petCan(TW_CHEST_COST)||chLeft('tower')<=0)return null;chUse('tower');petPay(TW_CHEST_COST);return twCrateRoll();}
+function twCrateRoll(){twInit();
   const pool=T_IDS.filter(k=>T_BASE.includes(k)||twMapWon(k)),wt=pool.map(k=>twOpen(k)?1:3);let x=Math.random()*wt.reduce((a,b)=>a+b,0),k=pool[pool.length-1];
   for(let i=0;i<pool.length;i++){x-=wt[i];if(x<0){k=pool[i];break;}}const r=rollRarity(TW_CHEST),c=twRoll(k,r);save.tw.cards.push(c);persist();return c;}
 // --- in the run ---
@@ -7267,7 +7345,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('shield'),_t('Kovárna'),_t('3 stejné kusy sliješ v jeden lepší: předměty a věže o raritu výš, mazlíčky o hvězdu víc.')],
    [I('haste'),_t('Vylepšení'),_t('Strom trvalých bonusů v Kovárně: tři větve (Útok, Obrana, Kořist), klíčové uzly s novými schopnostmi, každá kapitola otevře další patro a na konci je nekonečné Mistrovství.')],
    [I('skull'),_t('Noční můry'),_t('Těžší obtížnost celé kapitoly (I–III). Mapy jdeš znovu postupně až k finále a jeho první výhra na každém stupni dá truhlu setu, ze které si kus vylosuješ.')],
-   [I('scroll'),_t('Nástěnka'),_t('Denní úkoly a hledané elity za svíčky a truhly.')],
+   [I('scroll'),_t('Nástěnka'),_t('Denní úkoly s tématem dne, týdenní kontrakty, týdenní výzva a hledané elity.')],
    [I('candle'),_t('Denní výzva'),_t('Stejný běh pro všechny hráče a vlastní žebříček Dnes.')],
    [I('medal'),_t('Mistrovství'),_t('Dlouhodobé cíle. Za splnění dostaneš zlato a titul.')],
    [dataUrl(itemSpr('amulet',4)),_t('Sbírka'),_t('Objevené fúze, sety a legendární předměty.')]].map(r=>gdRow(...r)).join('');}
@@ -7368,9 +7446,50 @@ const Q_TPL=[
  {id:'level',max:1,gen(r,c,d){const n=[12,18,24][d];return{n,ico:'power',t:_t('Vzestup'),x:_t('Dosáhni úrovně ')+n+_t(' v jednom běhu')};},val:(q,C)=>C.lv||0},
  {id:'rev',ok:(c,d)=>c.coop&&d===0,gen(r,c,d){return{n:2,ico:['hero','mage'],t:_t('Spolu'),x:_t('V co-opu oživ kamaráda 2×')};},val:(q,C)=>C.rev||0}];
 const QT={};for(const t of Q_TPL)QT[t.id]=t;
-const Q_RW={g:[60,100,150],m:[6,10,15],c:[1,2,3]};
-const Q_DMS=[{at:2,g:60},{at:4,mat:8},{at:6,chest:'wood'}];
-const Q_WMS=[{at:6,g:150},{at:12,chest:'iron'},{at:18,mat:15},{at:24,g:400},{at:30,chest:'iron'},{at:40,chest:'gold'}];
+// 09e: every day of the week has a theme (Monday first) that steers the quests and gives a small bonus in normal runs
+const Q_THEMES=[
+ {id:'hunt',name:_t('Lovecký den'),ic:'blade',col:'#e8604a',bonus:_t('+20 % poškození proti elitám'),pool:['kill','kills','elite']},
+ {id:'build',name:_t('Stavitelský den'),ic:['tower','arrow'],col:'#d89a4a',bonus:_t('Věže dávají o 25 % víc poškození'),pool:['tower','crystal','oasis','cart']},
+ {id:'rhythm',name:_t('Rytmický den'),ic:'music',col:'#b07aff',bonus:_t('Kombo vydrží o sekundu déle'),pool:['combo','perf','level']},
+ {id:'boss',name:_t('Den bossů'),ic:'skull',col:'#ff6a5a',bonus:_t('Bossové mají o 15 % méně zdraví'),pool:['boss','survive','hero']},
+ {id:'alch',name:_t('Alchymistický den'),ic:'vortex',col:'#4ad8c8',bonus:_t('+15 % zkušeností'),pool:['fuse','perf','level','mat']},
+ {id:'loot',name:_t('Den pokladů'),ic:'shard',col:'#6ab8ff',bonus:_t('+25 % Úlomků z běhů'),pool:['mat','kills','survive']},
+ {id:'feast',name:_t('Nedělní hostina'),ic:'coin',col:'#f6c744',bonus:_t('+20 % zlata z běhů a dvě přehození úkolu'),pool:[]}];
+const Q_DAYN=[_t('Pondělí'),_t('Úterý'),_t('Středa'),_t('Čtvrtek'),_t('Pátek'),_t('Sobota'),_t('Neděle')];
+const qDow=day=>(new Date((day||today())+'T12:00:00').getDay()+6)%7;
+const qTheme=day=>Q_THEMES[qDow(day)];
+// each quest has three stars; rewards per star
+const Q_SR=[{g:30,m:3,c:1},{g:40,m:4,c:1},{g:60,m:6,c:2}];
+const Q_DMS=[{at:3,g:60},{at:6,mat:8},{at:10,chest:'wood'}];
+const Q_WMS=[{at:10,g:150},{at:25,mat:15},{at:45,chest:'iron'}];
+// weekly contracts: three chains of three steps; the steps follow where the player is in the campaign
+const qPl=(n,a,b,c)=>n===1?a:n<5?b:c;
+const QK_STEP={
+ chWin:{x:(n,C)=>_t('Vyhraj ')+n+qPl(n,_t(' mapu'),_t(' mapy'),_t(' map'))+_t(' kapitoly ')+ROMAN_CH[C.i]},
+ chKill:{x:(n,C)=>_t('Zabij ')+n+_t(' nepřátel v kapitole ')+ROMAN_CH[C.i]},
+ chElite:{x:(n,C)=>_t('Poraz ')+n+_t(' elitních nepřátel v kapitole ')+ROMAN_CH[C.i]},
+ chBoss:{x:(n,C)=>_t('Poraz ')+n+qPl(n,_t(' bosse'),_t(' bosse'),_t(' bossů'))+_t(' v kapitole ')+ROMAN_CH[C.i]},
+ chBossNm:{x:(n,C)=>_t('Poraz bosse kapitoly ')+ROMAN_CH[C.i]+_t(' na Noční můře')+(n>1?' '+n+'×':'')},
+ elite:{x:n=>_t('Poraz ')+n+_t(' elitních nepřátel')},
+ boss:{x:n=>_t('Poraz ')+n+qPl(n,_t(' bosse'),_t(' bosse'),_t(' bossů'))},
+ nmBoss:{x:n=>_t('Poraz ')+n+qPl(n,_t(' bosse'),_t(' bosse'),_t(' bossů'))+_t(' na Noční můře')},
+ want:{x:n=>n===1?_t('Dopaď hledaného'):_t('Dopaď ')+n+_t(' hledané')},
+ combo:{max:1,x:n=>_t('Dosáhni komba ')+n},
+ tower:{x:n=>_t('Postav celkem ')+n+_t(' věží')},
+ stars:{x:n=>_t('Získej ')+n+_t(' hvězd z denních úkolů')},
+ daily:{x:n=>n===1?_t('Splň denní výzvu'):_t('Splň ')+n+_t('× denní výzvu')},
+ wkB:{x:()=>_t('Získej bronz v týdenní výzvě')}};
+const QK_TPL=[
+ {id:'camp',t:C=>_t('Tažení: ')+C.name,ic:C=>['map',C.maps[0]],rw:{chest:'iron'},
+  steps:[[C=>({k:'chWin',n:2})],[C=>({k:'chKill',n:1200}),C=>({k:'chElite',n:15})],[(C,c)=>c.nmOn?{k:'chBossNm',n:1}:{k:'chBoss',n:3}]]},
+ {id:'hunt',t:()=>_t('Lovecká smlouva'),ic:()=>['elite','zombie'],rw:{tower:1},
+  steps:[[()=>({k:'elite',n:25}),()=>({k:'boss',n:3})],[()=>({k:'want',n:2})],[(C,c)=>c.nmOn?{k:'nmBoss',n:3}:{k:'boss',n:5}]]},
+ {id:'master',t:()=>_t('Mistrovská zkouška'),ic:()=>'trophy',rw:{ess:10,g:200},
+  steps:[[()=>({k:'stars',n:12}),()=>({k:'tower',n:40})],[()=>({k:'daily',n:2}),()=>({k:'combo',n:80})],[()=>({k:'wkB',n:1})]]}];
+const QK_SRW=[{g:100,c:3},{g:120,m:10,c:3},{g:150,m:15,c:4}];
+// weekly challenge: one map, one hero and two modifiers for everybody, all week
+const WK_TIER=[{name:_t('Bronz'),ic:'medal_b',x:_t('Přežij, dokud nepřijde boss'),rw:{g:150,m:15}},{name:_t('Stříbro'),ic:'medal_s',x:_t('Poraz bosse'),rw:{g:300,m:30}},
+ {name:_t('Zlato'),ic:'medal_g',x:_t('Poraz bosse a měj aspoň polovinu zdraví'),rw:{chest:'gold'}}];
 const WANTED={baron:{map:'hrbitov',e:'skeleton',name:_t('Kostěný baron'),desc:_t('Metá kruhy kostí a svolává kostlivce.')},
   widow:{map:'poust',e:'spider',name:_t('Písečná vdova'),desc:_t('Zahrabe se do písku a vyskočí přímo u tebe.')},
   smith:{map:'doly',e:'golem',name:_t('Kovář z hlubin'),desc:_t('Vozíky ho jen odstrčí. Chrlí kruhy žhavé strusky.')},
@@ -7381,31 +7500,63 @@ const W_RW={g:150,m:20,c:2,itemP:.35};
 
 const qHash=s=>{let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;};
 function weekKey(){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function qCtx(){return{maps:MAP_IDS.filter(mapUnlocked),heroes:HERO_IDS.filter(heroOwned),fused:Object.keys((save.codex&&save.codex.f)||{}).length>0,coop:!!save.coopPlayed};}
-function qGen(day,d,seq,used,c){const r=mulberry32(qHash(day+'|'+d+'|'+seq));
-  const el=Q_TPL.filter(t=>!used.includes(t.id)&&!(t.grp&&used.some(id=>QT[id]&&QT[id].grp===t.grp))&&(!t.ok||t.ok(c,d)));const t=el[Math.floor(r()*el.length)]||QT.kills;const g=t.gen(r,c,d);
-  return Object.assign({id:t.id,d,seq,v:0,done:0,cl:0,p:{}},g,{mat:g.mat||MAT_OF[c.maps[Math.floor(r()*c.maps.length)]]});}
-function qNewDay(day){const c=qCtx(),used=[],q=[];for(let d=0;d<3;d++){const x=qGen(day,d,0,used,c);used.push(x.id);q.push(x);}
-  const chs=[...new Set(c.maps.map(m=>CH_OF[m].maps[0]))],wm=chs[qHash(day+'|w')%chs.length];return{d:day,q,rr:0,c:0,ms:[],w:{id:WANT_OF[wm],st:0}};}
-function qEnsure(){const d=today();if(!save.qd||save.qd.d!==d||!Array.isArray(save.qd.q))save.qd=qNewDay(d);
-  const w=weekKey();if(!save.qw||save.qw.w!==w)save.qw={w,c:0,ms:[]};return save.qd;}
+function qCtx(){const maps=MAP_IDS.filter(mapUnlocked);return{maps,heroes:HERO_IDS.filter(heroOwned),fused:Object.keys((save.codex&&save.codex.f)||{}).length>0,coop:!!save.coopPlayed,
+  front:CH_OF[maps[maps.length-1]||'hrbitov'],nmOn:Object.keys(save.fin||{}).length>0};}
+// one quest = one template with three thresholds (the old easy / medium / hard numbers become the three stars)
+function qGen(day,slot,seq,used,c){const r=mulberry32(qHash(day+'|'+slot+'|'+seq)),th=qTheme(day);
+  const okT=t=>!used.includes(t.id)&&!(t.grp&&used.some(id=>QT[id]&&QT[id].grp===t.grp))&&(!t.ok||t.ok(c,t.id==='rev'?0:1));
+  let el=slot<2?Q_TPL.filter(t=>th.pool.includes(t.id)&&okT(t)):[];if(!el.length)el=Q_TPL.filter(okT);
+  const t=el[Math.floor(r()*el.length)]||QT.kills,s2=qHash(day+'|'+slot+'|'+seq+'|p'),G=[0,1,2].map(d=>t.gen(mulberry32(s2),c,d)),ns=G.map(g=>g.n);
+  if(!t.fmt)for(let k=1;k<3;k++)if(ns[k]<=ns[k-1])ns[k]=ns[k-1]===1?k+1:Math.ceil(ns[k-1]*(k===1?2:1.5));
+  const xs=G.map((g,k)=>{if(ns[k]===g.n&&(k===0||ns[k]!==ns[k-1]))return g.x;const x0=G[0].x,r2=x0.replace(String(G[0].n),String(ns[k]));return r2!==x0&&G[0].n!==1?r2:x0+' · '+ns[k]+'×';});
+  return{id:t.id,slot,seq,v:0,cl:0,p:G[0].p||{},ico:G[0].ico,t:G[0].t,ns,xs};}
+function qNewDay(day,old){const c=qCtx(),used=[],q=[];for(let k=0;k<3;k++){const x=qGen(day,k,0,used,c);used.push(x.id);q.push(x);}
+  const chs=[...new Set(c.maps.map(m=>CH_OF[m].maps[0]))],wm=chs[qHash(day+'|w')%chs.length];
+  const keep=old&&old.d===day;return{v:2,d:day,q,rr:0,c:keep?old.c||0:0,ms:keep?old.ms||[]:[],w:keep&&old.w?old.w:{id:WANT_OF[wm],st:0}};}
+function qkNewWeek(w){const c=qCtx(),C=c.front;return QK_TPL.map((T,i)=>{const r=mulberry32(qHash(w+'|k'+i));
+  return{id:T.id,ch:C.id,v:[0,0,0],d:[0,0,0],cl:[0,0,0],steps:T.steps.map(alts=>{const st=alts[Math.floor(r()*alts.length)](C,c);if(st.k.startsWith('ch'))st.ch=C.id;return st;})};});}
+function qEnsure(){const d=today();if(!save.qd||save.qd.d!==d||save.qd.v!==2||!Array.isArray(save.qd.q))save.qd=qNewDay(d,save.qd);
+  const w=weekKey();if(!save.qw||save.qw.w!==w)save.qw={w,c:0,ms:[]};if(!save.qw.k||!Array.isArray(save.qw.k[0]&&save.qw.k[0].d))save.qw.k=qkNewWeek(w);
+  if(!save.wk||save.wk.w!==w)save.wk={w,got:[0,0,0],cl:[0,0,0],best:null};return save.qd;}
+const qStars=q=>q.ns.filter(n=>q.v>=n).length;
+const qNext=q=>Math.min(2,qStars(q));
 const qVal=(q,C)=>C&&QT[q.id]?QT[q.id].val(q,C):0;
-function qProg(q,C){if(q.done)return q.n;const v=qVal(q,C);return Math.min(q.n,QT[q.id]&&QT[q.id].max?Math.max(q.v,v):q.v+v);}
-const qFmt=(q,v)=>QT[q.id]&&QT[q.id].fmt?fmtTime(v)+' / '+fmtTime(q.n):v+' / '+q.n;
-function qIcon(ic){if(Array.isArray(ic)){const [k,id]=ic;return dataUrl(k==='enemy'?SPR.enemy[id]:k==='elite'?eliteSprite(id):k==='hero'?SPR.hero[id]:k==='tower'?SPR.tower[id]:SPR.icon.skull);}
+function qProg(q,C){const top=q.ns[2];if(q.v>=top)return top;const v=qVal(q,C);return Math.min(top,QT[q.id]&&QT[q.id].max?Math.max(q.v,v):q.v+v);}
+const qFmtN=(q,v,n)=>QT[q.id]&&QT[q.id].fmt?fmtTime(v)+' / '+fmtTime(n):v+' / '+n;
+const qFmt=(q,v)=>qFmtN(q,v,q.ns[qNext(Object.assign({},q,{v}))]);
+// contracts
+// steps of a contract can be done in any order; the big reward comes with the last one
+function qkAdd(k,n,o){if(!n||!save.qw||!save.qw.k)return;for(const K of save.qw.k)K.steps.forEach((st,j)=>{if(K.d[j]||st.k!==k||(st.ch&&(!o||o.ch!==st.ch)))return;
+  if(QK_STEP[k].max)K.v[j]=Math.max(K.v[j],n);else K.v[j]+=n;if(K.v[j]>=st.n)K.d[j]=1;});}
+const qkClaimable=K=>K.d.some((d,j)=>d&&!K.cl[j]);
+const qkDone=K=>K.d.filter(Boolean).length;
+// weekly challenge
+function wkInfo(){const w=weekKey(),h=qHash('wk|'+w),m1=(h>>>4)%DAILY_MODS.length,m2=(m1+1+(h>>>12)%(DAILY_MODS.length-1))%DAILY_MODS.length;
+  return{w,map:MAP_IDS[h%MAP_IDS.length],hero:HERO_LIVE[(h>>>8)%HERO_LIVE.length],mods:[DAILY_MODS[m1].id,DAILY_MODS[m2].id]};}
+function wkResult(won){qEnsure();const W=save.wk,R=run,hp=R.p&&R.p.max?R.p.hp/R.p.max:0,reach=[won||R.t>=R.map.dur,!!won,!!won&&hp>=.5],got=[];let best=-1;
+  reach.forEach((x,i)=>{if(!x)return;best=i;if(!W.got[i]){W.got[i]=1;got.push(i);if(i===0)qkAdd('wkB',1);}});
+  const cur={t:Math.floor(R.t),won:!!won,tier:best};if(!W.best||best>W.best.tier||(best===W.best.tier&&(won?cur.t<W.best.t:cur.t>W.best.t)))W.best=cur;
+  return{got,best,left:Math.max(0,Math.ceil(R.map.dur-R.t))};}
+function wkSub(R){if(R.got.length)return _t('Nová medaile! Odměnu si vyzvedni na Nástěnce.');if(R.best===2)return _t('Zlato už máš. Teď už jen honíš žebříček Týden.');
+  if(R.best>=0)return _t('Tuhle medaili už máš. Další stupeň: ')+WK_TIER[R.best+1].x.toLowerCase()+'.';return _t('Do bronzu chybělo ')+R.left+_t(' s. Zkus to znovu.');}
+const qMapImg=id=>{try{if(thumbs[id])return thumbs[id].toDataURL();}catch(_){}return thumbUrl(id);};
+function qIcon(ic){if(Array.isArray(ic)){const [k,id]=ic;if(k==='map')return qMapImg(id);return dataUrl(k==='enemy'?SPR.enemy[id]:k==='elite'?eliteSprite(id):k==='hero'?SPR.hero[id]:k==='tower'?SPR.tower[id]:SPR.icon.skull);}
   return dataUrl(SPR.icon[ic]||SPR.icon.skull);}
 
 // ----- per-run counters -----
 const qNewC=()=>({k:{},el:0,cart:0,oas:0,tw:{},combo:0,crys:0,crysX:0,boss:0,perf:0,fus:0,pf:0,rev:0,revG:0,want:null});
-function qSnap(){if(!run||!run.qc)return null;return Object.assign({},run.qc,{mat:run.mat||0,t:run.t,lv:run.level,kills:run.kills,map:run.mapId,heroes:[run.heroId]});}
+function qSnap(){if(!run||!run.qc)return null;return Object.assign({},run.qc,{mat:run.mat||0,t:run.t,lv:run.level,kills:run.kills,map:run.mapId,heroes:[run.heroId],won:!!run.won,nm:run.nm||0,trial:!!run.trial});}
 function qFinishC(){if(!run)return null;if(!isGuest())return qSnap();const R=run.qcR;if(!R)return null;const L=run.qcL||{};
-  return Object.assign({},R,{rev:R.revG||0,fus:L.fus||0,perf:L.perf||0,pf:L.pf||0,mat:run.mat||0,t:run.t,lv:run.level,kills:run.kills,map:run.mapId,heroes:[run.heroId]});}
+  return Object.assign({},R,{rev:R.revG||0,fus:L.fus||0,perf:L.perf||0,pf:L.pf||0,mat:run.mat||0,t:run.t,lv:run.level,kills:run.kills,map:run.mapId,heroes:[run.heroId],won:!!run.won,nm:run.nm||0,trial:!!run.trial});}
 function qCommit(C){if(!C)return[];const Q=qEnsure(),out=[];
-  for(const q of Q.q){if(q.done)continue;const v=qVal(q,C);if(!v)continue;const b=q.v;q.v=Math.min(q.n,QT[q.id].max?Math.max(q.v,v):q.v+v);if(q.v>=q.n)q.done=1;if(q.v!==b)out.push({q,b});}
+  for(const q of Q.q){const top=q.ns[2];if(q.v>=top)continue;const v=qVal(q,C);if(!v)continue;const b=q.v;q.v=Math.min(top,QT[q.id].max?Math.max(q.v,v):q.v+v);if(q.v!==b)out.push({q,b});}
   if(C.want&&Q.w&&Q.w.id===C.want&&Q.w.st===1){Q.w.st=2;out.push({w:Q.w.id});}
+  const ch={ch:CH_OF[C.map]&&CH_OF[C.map].id},tw=Object.values(C.tw||{}).reduce((a,b)=>a+b,0);
+  if(C.won&&!C.trial)qkAdd('chWin',1,ch);qkAdd('chKill',C.kills||0,ch);qkAdd('chElite',C.el||0,ch);qkAdd('chBoss',C.boss||0,ch);if(C.nm)qkAdd('chBossNm',C.boss||0,ch);
+  qkAdd('elite',C.el||0);qkAdd('boss',C.boss||0);if(C.nm)qkAdd('nmBoss',C.boss||0);qkAdd('tower',tw);qkAdd('combo',C.combo||0);
   return out;}
-function qClaimable(){if(!save.qd||save.qd.d!==today())return true;const Q=save.qd,W=save.qw||{c:0,ms:[]};
-  return Q.q.some(q=>q.done&&!q.cl)||Q.w.st===2||Q_DMS.some((m,i)=>Q.c>=m.at&&!Q.ms[i])||Q_WMS.some((m,i)=>W.c>=m.at&&!(W.ms||[])[i]);}
+function qClaimable(){if(!save.qd||save.qd.d!==today()||save.qd.v!==2)return true;const Q=save.qd,W=save.qw||{c:0,ms:[]},K=(save.qw&&save.qw.k)||[],X=save.wk||{got:[],cl:[]};
+  return Q.q.some(q=>qStars(q)>q.cl)||Q.w.st===2||Q_DMS.some((m,i)=>Q.c>=m.at&&!Q.ms[i])||Q_WMS.some((m,i)=>W.c>=m.at&&!(W.ms||[])[i])||K.some(qkClaimable)||X.got.some((g,i)=>g&&!X.cl[i]);}
 
 // live in-run: the pinned quest in the HUD and a toast when one is done
 function qLive(dt){if(!run||run.over)return;run.qT=(run.qT||0)-dt;if(run.qT>0)return;run.qT=.4;
@@ -7414,8 +7565,8 @@ function qLive(dt){if(!run||run.over)return;run.qT=(run.qT||0)-dt;if(run.qT>0)re
       el.innerHTML='<img alt="" src="'+dataUrl(SPR.icon.skull)+'"><span>'+WANTED[wE.want].name+(wE.wT?_t(' · uteče za ')+Math.ceil(wE.wT)+' s':'')+'</span>';}return;}
   if(isGuest()){if(run.qPin!==''){run.qPin='';el.hidden=true;}return;}
   const Q=qEnsure(),C=qSnap();if(!C)return;run.qHit=run.qHit||{};let pin=null,pv=0,best=-1;
-  Q.q.forEach((q,i)=>{if(q.done)return;const pr=qProg(q,C);
-    if(pr>=q.n){if(!run.qHit[i]){run.qHit[i]=1;toast0(_t('Úkol splněn: ')+q.t,1900);sfx('coin');}return;}
+  Q.q.forEach((q,i)=>{if(q.v>=q.ns[2])return;const pr=qProg(q,C),k=q.ns.filter(n=>pr>=n).length,k0=qStars(q);
+    if(k>k0&&(run.qHit[i]||0)<k){run.qHit[i]=k;toast0('★'.repeat(k)+' '+q.t,1900);sfx('coin');}if(k>=3)return;
     const t=QT[q.id],rel=(q.p.m?q.p.m===run.mapId:1)&&(q.p.h?q.p.h===run.heroId:1)&&(q.id==='cart'?run.mapId==='doly':1)&&((q.id==='oasis'||q.id==='crystal')?run.mapId==='poust':1)&&(q.id==='rev'?!!run.coop:1);
     const sc=rel?(qVal(q,C)>0?2:1):0;if(sc>best){best=sc;pin=q;pv=pr;}});
   if(!pin||best<1){if(run.qPin!==''){run.qPin='';el.hidden=true;}return;}
@@ -7428,7 +7579,7 @@ function spawnWanted(id){const W=WANTED[id],e=spawnEnemy(W.e,true);if(!e)return;
   run.wanted=e;toast(_t('HLEDÁ SE: ')+W.name+'!',2800);sfx('boss');run.shake=5;}
 function updateWanted(dt){
   if(!run.qc||isGuest())return;
-  if(run.wantT===undefined){const Q=save.qd,w=Q&&Q.d===today()&&Q.w;run.wantT=(w&&w.st===1&&!run.mod&&WANTED[w.id]&&CH_OF[WANTED[w.id].map]===CH_OF[run.mapId])?rnd(110,165):-1;}
+  if(run.wantT===undefined){const Q=save.qd,w=Q&&Q.d===today()&&Q.w;run.wantT=(w&&w.st===1&&!run.mod&&!run.wk&&WANTED[w.id]&&CH_OF[WANTED[w.id].map]===CH_OF[run.mapId])?rnd(110,165):-1;}
   if(run.wantT>0&&!run.wantDone&&run.t>=run.wantT&&run.barNow&&!run.bossSpawned){run.wantDone=true;spawnWanted(save.qd.w.id);}
   const e=run.wanted;if(!e)return;if(e.dead){run.wanted=null;return;}
   e.wT-=dt;
@@ -7459,63 +7610,119 @@ function updateWanted(dt){
 // ----- rewards -----
 function qGiveMat(m,n){if(!m)return'';m=MATX(m);save.mats[m]=(save.mats[m]||0)+n;return n+'× '+MAT_NAME[m];}
 function qAddCandles(n){const Q=save.qd,W=save.qw;Q.c+=n;W.c+=n;}
-function qClaim(i){const Q=qEnsure(),q=Q.q[i];if(!q||!q.done||q.cl)return;q.cl=1;const g=Q_RW.g[q.d],m=Q_RW.m[q.d],c=Q_RW.c[q.d];
-  save.coins+=g;qGiveMat(q.mat,m);qAddCandles(c);persist();sfx('level');note('+'+g+_t(' zlata · +')+m+' '+MAT_NAME[MATX(q.mat)]+' · +'+c+' '+(c>1?(c>4?_t('svíček'):_t('svíčky')):_t('svíčka')));renderQuests(true);}
-function qClaimWanted(){const Q=qEnsure(),w=Q.w;if(w.st!==2)return;w.st=3;achInit().tot.want++;const W=WANTED[w.id];
-  save.coins+=W_RW.g;qGiveMat(MAT_OF[W.map],W_RW.m);qAddCandles(W_RW.c);
+const qCdl=n=>n+' '+(n>1?(n>4?_t('svíček'):_t('svíčky')):_t('svíčka'));
+// pays a reward bundle {g,m,c,ess,chest,tower}; returns the text and the item/card to reveal
+function qGive(rw){const t=[];let rev=null;
+  if(rw.g){save.coins+=rw.g;t.push('+'+rw.g+_t(' zlata'));}
+  if(rw.m){qGiveMat('shard',rw.m);t.push('+'+rw.m+_t(' Úlomků'));}
+  if(rw.ess){save.mats.ess=(save.mats.ess||0)+rw.ess;t.push('+'+rw.ess+' '+MAT_NAME.ess);}
+  if(rw.c){qAddCandles(rw.c);t.push('+'+qCdl(rw.c));}
+  if(rw.chest){const it=openChest(rw.chest,true);if(it)rev=[it,rw.chest];}
+  if(rw.tower){const c=twCrateRoll();if(c)rev=[c,'tower'];}
+  return{txt:t.join(' · '),rev};}
+const qSum=L=>L.reduce((a,r)=>{for(const k in r)a[k]=typeof r[k]==='number'?(a[k]||0)+r[k]:r[k];return a;},{});
+function qPay(rw,btn){if((rw.chest)&&save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return false;}
+  const R=qGive(rw);persist();sfx(R.rev?'win':'level');if(R.txt){note(R.txt);qBurst(btn,R.txt);}
+  if(R.rev)revealItem(R.rev[0],R.rev[1],null,{pop:$('#qPop'),done:()=>renderQuests(true)});return true;}
+function qBurst(el,txt){if(!el)return;const r=el.getBoundingClientRect(),b=document.createElement('div');b.className='qburst';b.textContent=txt;
+  b.style.left=(r.left+r.width/2)+'px';b.style.top=r.top+'px';document.body.appendChild(b);setTimeout(()=>b.remove(),1300);}
+// tear the note off, then pay
+function qTear(card,fn){if(!card){fn();return;}card.classList.add('tear');setTimeout(fn,330);}
+function qClaim(i,btn){const Q=qEnsure(),q=Q.q[i];if(!q)return;const k=qStars(q);if(k<=q.cl)return;
+  const rw=qSum(Q_SR.slice(q.cl,k)),got=k-q.cl;q.cl=k;qkAdd('stars',got);const card=k===3?btn&&btn.closest('.qnote'):null;
+  qTear(card,()=>{qPay(rw,btn);renderQuests(true);});}
+function qClaimK(i,btn){qEnsure();const K=save.qw.k[i],T=K&&QK_TPL.find(t=>t.id===K.id);if(!K||!qkClaimable(K))return;
+  const L=[],js=[];K.d.forEach((d,j)=>{if(d&&!K.cl[j]){L.push(QK_SRW[j]);js.push(j);}});const last=K.cl.filter(Boolean).length+js.length===3;if(last)L.push(T.rw);const rw=qSum(L);
+  if(rw.chest&&save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return;}js.forEach(j=>K.cl[j]=1);qPay(rw,btn);renderQuests(true);}
+function wkClaim(i,btn){qEnsure();const W=save.wk;if(!W.got[i]||W.cl[i])return;const rw=WK_TIER[i].rw;
+  if(rw.chest&&save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return;}W.cl[i]=1;qPay(rw,btn);renderQuests(true);}
+function qClaimWanted(btn){const Q=qEnsure(),w=Q.w;if(w.st!==2)return;w.st=3;achInit().tot.want++;const W=WANTED[w.id];qkAdd('want',1);
+  save.coins+=W_RW.g;qGiveMat('shard',W_RW.m);qAddCandles(W_RW.c);
   let it=null;if(Math.random()<W_RW.itemP&&save.inv.length<INV_MAX){it=makeItem(rollRarity(ECON.chests[1]));addItem(it);}
-  persist();sfx('win');note(_t('Odměna za ')+W.name+': +'+W_RW.g+_t(' zlata · +')+W_RW.m+_t(' Úlomků')+_t(' · +2 svíčky'));
+  persist();sfx('win');const txt='+'+W_RW.g+_t(' zlata · +')+W_RW.m+_t(' Úlomků')+_t(' · +2 svíčky');note(_t('Odměna za ')+W.name+': '+txt);qBurst(btn,txt);
   if(it)revealItem(it,'iron',_t('Kořist z lovu!'),{pop:$('#qPop'),done:()=>renderQuests()});renderQuests(true);}
-function qClaimMs(week,i){const Q=qEnsure(),W=save.qw,L=week?Q_WMS:Q_DMS,o=week?W:Q,m=L[i];o.ms=o.ms||[];if(!m||o.ms[i])return;
+function qClaimMs(week,i,btn){const Q=qEnsure(),W=save.qw,L=week?Q_WMS:Q_DMS,o=week?W:Q,m=L[i];o.ms=o.ms||[];if(!m||o.ms[i])return;
   if(o.c<m.at){note(_t('Potřebuješ ')+m.at+_t(' svíček'));return;}
   if(m.chest&&save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return;}
-  o.ms[i]=1;
-  if(m.g){save.coins+=m.g;note('+'+m.g+_t(' zlata'));sfx('coin');}
-  if(m.mat){const ms=[...new Set(MAP_IDS.filter(mapUnlocked).map(id=>MAT_OF[id]))];ms.forEach(x=>qGiveMat(x,m.mat));note('+'+m.mat+_t(' Úlomků'));sfx('coin');}
-  persist();
-  if(m.chest){const it=openChest(m.chest,true);if(it)revealItem(it,m.chest,null,{pop:$('#qPop'),done:()=>renderQuests()});}
-  renderQuests(true);}
+  o.ms[i]=1;qPay({g:m.g,m:m.mat,chest:m.chest},btn);renderQuests(true);}
 
-// ----- board screen -----
+// ----- board screen (09e): cork board with three tabs -----
+let qTab='day';
 function openQuests(){econInit();qEnsure();renderQuests();setState('quests');}
+const qRwHtml=rw=>{const h=[],ci='<img class="cdl" alt="" src="'+dataUrl(SPR.icon.candle)+'">';
+  if(rw.g)h.push('<span class="mt"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+rw.g+'</span>');if(rw.m)h.push('<span class="mt"><img alt="" src="'+matIcon('shard')+'">'+rw.m+'</span>');
+  if(rw.ess)h.push('<span class="mt"><img alt="" src="'+matIcon('ess')+'">'+rw.ess+'</span>');if(rw.c)h.push('<span class="mt">'+ci+rw.c+'</span>');
+  if(rw.chest)h.push('<span class="mt big"><img alt="" src="'+dataUrl(SPR.icon['chest_'+rw.chest])+'">'+ECON.chests.find(c=>c.id===rw.chest).name+'</span>');
+  if(rw.tower)h.push('<span class="mt big"><img alt="" src="'+dataUrl(SPR.icon.chest_tower)+'">'+_t('Stavitelova bedna')+'</span>');return '<span class="rw">'+h.join('')+'</span>';};
 function msIcon(m){return dataUrl(m.chest?SPR.icon['chest_'+m.chest]:m.mat?SPR.icon.shard:SPR.icon.coin);}
-function trackHtml(L,o,week){const max=L[L.length-1].at,c=Math.min(o.c,max),ms=o.ms||[];
-  return '<div class="qtrack"><div class="qt-bar"><i style="width:'+(c/max*100)+'%"></i></div>'+
-    L.map((m,i)=>{const cls=ms[i]?'got':o.c>=m.at?'ready':'';return '<button class="qt-node '+cls+'" data-ms="'+(week?1:0)+','+i+'" style="left:'+(m.at/max*100)+'%"><img alt="" src="'+msIcon(m)+'"><b>'+m.at+'</b></button>';}).join('')+'</div>';}
-function renderQuests(keep){const Q=qEnsure(),W=save.qw,box=$('#qBody'),sc=keep?screens.quests.scrollTop:0;
-  const now=new Date(),mid=new Date(now);mid.setHours(24,0,0,0);const left=Math.max(0,mid-now),hh=Math.floor(left/3600000),mm=Math.floor(left%3600000/60000);
-  const candle='<img class="cdl" alt="" src="'+dataUrl(SPR.icon.candle)+'">';
-  let h=_t('<p class="hint">Nové úkoly za ')+hh+' h '+mm+_t(' min. ')+(Q.rr<1||save.cheat?_t('Jeden úkol dnes můžeš přehodit za jiný.'):_t('Přehození na dnešek už máš využité.'))+'</p>';
-  h+='<div class="qhead">'+candle+_t('<span>Dnešní svíčky <b>')+Q.c+'</b></span></div>'+trackHtml(Q_DMS,Q,0);
-  h+=_t('<div class="sec">Dnešní úkoly</div><div class="stack">');
-  Q.q.forEach((q,i)=>{const pr=q.done?q.n:q.v,f=pr/q.n,diff=[_t('Lehký'),_t('Střední'),_t('Těžký')][q.d];
-    h+='<div class="card qcard'+(q.cl?' cl':q.done?' dn':'')+'"><div class="qc-top"><img alt="" src="'+qIcon(q.ico)+'"><div class="t"><h3>'+q.t+' <small class="qd d'+q.d+'">'+diff+'</small></h3><p>'+q.x+'</p></div></div>'+
-      '<div class="qbar"><i style="width:'+(f*100)+'%"></i><span>'+(q.cl?_t('Vyzvednuto'):q.done?_t('Splněno!'):qFmt(q,pr))+'</span></div>'+
-      '<div class="qc-bot"><span class="rw"><span class="mt"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+Q_RW.g[q.d]+'</span><span class="mt"><img alt="" src="'+matIcon(q.mat)+'">'+Q_RW.m[q.d]+'</span><span class="mt">'+candle+Q_RW.c[q.d]+'</span></span>'+
-      (q.cl?'':q.done?'<button class="btn sm" data-claim="'+i+_t('">Vyzvednout</button>'):(Q.rr<1||save.cheat)?'<button class="btn alt sm" data-rr="'+i+_t('">Jiný úkol</button>'):'')+'</div></div>';});
-  h+=_t('</div><div class="sec">Lov na hledané</div>');
+function qLeft(ms){const h=Math.floor(ms/3600000),d=Math.floor(h/24);return d>=1?d+(d<5?_t(' dny'):_t(' dní'))+' '+(h%24)+' h':h+' h '+Math.floor(ms%3600000/60000)+_t(' min');}
+// a row of candles that light up one by one; the milestones hang under their candle
+function candleRow(L,o,week){const max=L[L.length-1].at,ms=o.ms||[];let h='<div class="qcandles'+(week?' wk':'')+'">';
+  if(!week){for(let i=1;i<=max;i++){const lit=o.c>=i,m=L.findIndex(x=>x.at===i);
+      h+='<div class="qc'+(lit?' lit':'')+'"><span class="cw"><img alt="" src="'+dataUrl(SPR.icon[lit?'candle':'candle_off'])+'">'+(lit?'<i class="fl" style="animation-delay:-'+(i*.13).toFixed(2)+'s"></i>':'')+'</span>'+
+        (m>=0?'<button class="qms '+(ms[m]?'got':o.c>=i?'ready':'')+'" data-ms="0,'+m+'"><img alt="" src="'+msIcon(L[m])+'"></button>':'')+'</div>';}}
+  else{const c=Math.min(o.c,max);h+='<div class="qwax"><i style="width:'+(c/max*100)+'%"></i></div>'+L.map((m,i)=>'<button class="qms abs '+(ms[i]?'got':o.c>=m.at?'ready':'')+'" data-ms="1,'+i+'" style="left:'+(m.at/max*100)+'%"><img alt="" src="'+msIcon(m)+'"><b>'+m.at+'</b></button>').join('');}
+  return h+'</div>';}
+function qNoteHtml(q,i,Q){const k=qStars(q),nx=Math.min(2,k),top=q.ns[2],full=k===3,ready=k>q.cl,rr=(Q.rr<(qTheme(Q.d).id==='feast'?2:1)||save.cheat)&&!q.cl&&!q.v;
+  const stars=[0,1,2].map(j=>'<i class="st'+(j<k?' on':'')+(j<q.cl?' cl':'')+'">★</i>').join(''),ticks=q.ns.map(n=>'<b style="left:'+(n/top*100)+'%"></b>').join('');
+  return '<div class="qnote n'+i+(full&&q.cl===3?' done':'')+'"><img class="pin" alt="" src="'+dataUrl(SPR.icon.pin)+'">'+
+    '<div class="qn-top"><img alt="" src="'+qIcon(q.ico)+'"><div><h3>'+q.t+'</h3><div class="stars">'+stars+'</div></div></div>'+
+    '<p>'+q.xs[nx]+'</p><div class="qbar"><i style="width:'+(Math.min(q.v,top)/top*100)+'%"></i>'+ticks+'<span>'+(full?_t('Všechny hvězdy!'):qFmtN(q,q.v,q.ns[nx]))+'</span></div>'+
+    '<div class="qn-bot">'+(q.cl<3?qRwHtml(qSum(Q_SR.slice(q.cl,Math.max(q.cl+1,k)))):'<span class="rw"><b class="ok">'+_t('Vyzvednuto')+'</b></span>')+
+    (ready?'<button class="btn sm" data-claim="'+i+'">'+_t('Vyzvednout')+' '+'★'.repeat(k-q.cl)+'</button>':rr?'<button class="btn alt sm" data-rr="'+i+'">'+_t('Jiný úkol')+'</button>':'')+'</div></div>';}
+function qDayHtml(Q){const th=qTheme(Q.d),now=new Date(),mid=new Date(now);mid.setHours(24,0,0,0);
+  let h='<div class="qtheme" style="--tc:'+th.col+'"><img alt="" src="'+qIcon(th.ic)+'"><div><small>'+Q_DAYN[qDow(Q.d)]+'</small><b>'+th.name+'</b><span>'+_t('Bonus dne: ')+th.bonus+'</span></div></div>';
+  h+='<div class="qrow"><span>'+_t('Dnešní svíčky')+' <b>'+Q.c+'</b></span><span class="qleft">'+_t('nové úkoly za ')+qLeft(mid-now)+'</span></div>'+candleRow(Q_DMS,Q,0);
+  h+='<div class="qboard">'+Q.q.map((q,i)=>qNoteHtml(q,i,Q)).join('')+'</div>';
   const w=Q.w,WD=WANTED[w.id];
-  if(WD){const C=CH_OF[WD.map],map={name:_t('kapitola ')+ROMAN_CH[C.i]+' · '+C.name},stTxt=[_t('Přijmi lov a v příští hře na kterékoli mapě kapitoly ')+ROMAN_CH[C.i]+_t(' se kolem 2. minuty objeví (v denní výzvě ne). Máš 80 s, pak uteče.'),
+  if(WD){const C=CH_OF[WD.map],stTxt=[_t('Přijmi lov a v příští hře na kterékoli mapě kapitoly ')+ROMAN_CH[C.i]+_t(' se kolem 2. minuty objeví (v denní výzvě ne). Máš 80 s, pak uteče.'),
       _t('Lov přijat. Čeká na tebe na mapách kapitoly ')+ROMAN_CH[C.i]+_t(' kolem 2. minuty (mimo denní výzvu).'),_t('Dopaden! Vyzvedni si odměnu.'),_t('Dopaden. Nový plakát visí zítra.')][w.st];
-    h+='<div class="poster'+(w.st>=2?' got':'')+_t('"><div class="pz-h">HLEDÁ SE</div><div class="pz-img"><img alt="" src="')+dataUrl(eliteSprite(WD.e))+'"></div>'+
-      '<h3>'+WD.name+'</h3><small>'+map.name+'</small><p>'+WD.desc+'</p>'+
-      '<div class="rw"><span class="mt"><img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+W_RW.g+'</span><span class="mt"><img alt="" src="'+matIcon(MAT_OF[WD.map])+'">'+W_RW.m+'</span><span class="mt">'+candle+W_RW.c+_t('</span><span class="mt">+ šance na předmět</span></div>')+
+    h+='<div class="sec">'+_t('Lov na hledané')+'</div><div class="poster'+(w.st>=2?' got':'')+'"><div class="pz-h">'+_t('HLEDÁ SE')+'</div><div class="pz-img"><img alt="" src="'+dataUrl(eliteSprite(WD.e))+'"></div>'+
+      '<h3>'+WD.name+'</h3><small>'+_t('kapitola ')+ROMAN_CH[C.i]+' · '+C.name+'</small><p>'+WD.desc+'</p>'+qRwHtml({g:W_RW.g,m:W_RW.m,c:W_RW.c})+'<p class="pz-st">'+_t('+ šance na předmět')+'</p>'+
       '<p class="pz-st">'+stTxt+'</p>'+
-      (w.st===0?_t('<button class="btn sm" id="qAccept">Přijmout lov</button>'):w.st===1?(mapUnlocked(WD.map)?_t('<button class="btn sm" id="qHunt">Jít na lov</button>'):''):w.st===2?_t('<button class="btn sm" id="qWClaim">Vyzvednout odměnu</button>'):'')+
-      (w.st>=2?_t('<i class="stamp">DOPADEN</i>'):'')+'</div>';}
-  h+=_t('<div class="sec">Týdenní svíčky</div><div class="qhead">')+candle+_t('<span>Tento týden <b>')+W.c+_t('</b> · nový týden v pondělí</span></div>')+trackHtml(Q_WMS,W,1);
-  h+=_t('<p class="hint">Svíčky dostaneš za splněné úkoly a dopadené hledané. Když den vynecháš, nic se neztratí.</p>');
+      (w.st===0?'<button class="btn sm" id="qAccept">'+_t('Přijmout lov')+'</button>':w.st===1?(mapUnlocked(WD.map)?'<button class="btn sm" id="qHunt">'+_t('Jít na lov')+'</button>':''):w.st===2?'<button class="btn sm" id="qWClaim">'+_t('Vyzvednout odměnu')+'</button>':'')+
+      (w.st>=2?'<i class="stamp">'+_t('DOPADEN')+'</i>':'')+'</div>';}
+  return h;}
+function qWeekHtml(){const W=save.qw,end=new Date(weekKey()+'T00:00:00');end.setDate(end.getDate()+7);
+  let h='<div class="qrow"><span>'+_t('Svíčky tento týden')+' <b>'+W.c+'</b></span><span class="qleft">'+_t('nový týden za ')+qLeft(end-new Date())+'</span></div>'+candleRow(Q_WMS,W,1);
+  h+='<div class="sec">'+_t('Týdenní kontrakty')+'</div>';
+  W.k.forEach((K,i)=>{const T=QK_TPL.find(t=>t.id===K.id),C=CHAPTERS.find(c=>c.id===K.ch)||CHAPTERS[0],done=K.cl.every(Boolean);
+    h+='<div class="qscroll'+(done?' done':'')+'"><div class="qs-top"><img alt="" src="'+qIcon(T.ic(C))+'"><h3>'+T.t(C)+'</h3><em>'+qkDone(K)+' / 3</em></div><ol>'+
+      K.steps.map((st,j)=>{const S=QK_STEP[st.k],ok=!!K.d[j];return '<li class="'+(ok?'ok':'cur')+'"><i class="ck">'+(ok?'✓':'')+'</i><div><span>'+S.x(st.n,C)+'</span>'+
+        (!ok&&st.n>1?'<div class="qbar sm"><i style="width:'+(Math.min(K.v[j],st.n)/st.n*100)+'%"></i><span>'+Math.min(K.v[j],st.n)+' / '+st.n+'</span></div>':'')+'</div>'+qRwHtml(QK_SRW[j])+'</li>';}).join('')+'</ol>'+
+      '<div class="qs-fin"><span>'+_t('Za celý kontrakt:')+'</span>'+qRwHtml(T.rw)+'</div>'+
+      (qkClaimable(K)?'<button class="btn sm" data-k="'+i+'">'+_t('Vyzvednout')+'</button>':done?'<i class="stamp">'+_t('SPLNĚNO')+'</i>':'')+'</div>';});
+  return h+'<p class="hint">'+_t('Kontrakty se řídí tím, kam jsi v kampani došel. Postup se počítá ze všech běhů, i z výzev a co-opu.')+'</p>';}
+function qWkHtml(){const I=wkInfo(),W=save.wk,M=MAPS[I.map],H=HEROES[I.hero],end=new Date(weekKey()+'T00:00:00');end.setDate(end.getDate()+7);
+  let h='<div class="wkposter"><div class="wk-map" style="background-image:url('+qMapImg(I.map)+')"><img alt="" src="'+dataUrl(SPR.hero[I.hero])+'"></div>'+
+    '<div class="wk-b"><small>'+_t('Týdenní výzva · končí za ')+qLeft(end-new Date())+'</small><h3>'+M.name+'</h3><p>'+_t('Hrdina: ')+'<b>'+H.name+'</b>'+(heroOwned(I.hero)?'':' · '+_t('vyzkoušíš si ho'))+'</p>'+
+    '<div class="wk-mods">'+I.mods.map(m=>{const D=DAILY_MODS.find(x=>x.id===m);return '<div><b>'+D.name+'</b><span>'+D.desc+'</span></div>';}).join('')+'</div>'+
+    (mapUnlocked(I.map)?'':'<p class="hint">'+_t('Mapu ještě nemáš, výhra se do kampaně nepočítá.')+'</p>')+'</div></div>';
+  h+='<div class="sec">'+_t('Medaile')+'</div><div class="wk-tiers">'+WK_TIER.map((T,i)=>'<div class="wk-t'+(W.cl[i]?' cl':W.got[i]?' got':'')+'"><img alt="" src="'+dataUrl(SPR.icon[T.ic])+'"><div><b>'+T.name+'</b><span>'+T.x+'</span>'+qRwHtml(T.rw)+'</div>'+
+    (W.got[i]&&!W.cl[i]?'<button class="btn sm" data-wk="'+i+'">'+_t('Vyzvednout')+'</button>':W.cl[i]?'<i class="ok">✓</i>':'')+'</div>').join('')+'</div>';
+  h+='<p class="qrow"><span>'+_t('Tvůj nejlepší pokus: ')+'<b>'+(W.best?(W.best.tier>=0?WK_TIER[W.best.tier].name+' · ':'')+fmtTime(W.best.t):'—')+'</b></span></p>';
+  h+='<div class="wk-btns"><button class="btn" id="wkGo">'+_t('Hrát výzvu')+'</button><button class="btn alt" id="wkBoard">'+_t('Žebříček Týden')+'</button></div>';
+  return h+'<p class="hint">'+_t('Všichni hrají stejnou mapu, hrdinu i modifikátory. Pokusů máš neomezeně, každá medaile se vyplatí jednou za týden.')+'</p>';}
+function renderQuests(keep){const Q=qEnsure(),box=$('#qBody'),sc=keep?screens.quests.scrollTop:0,K=save.qw.k,X=save.wk;
+  const dot=[Q.q.some(q=>qStars(q)>q.cl)||Q.w.st===2||Q_DMS.some((m,i)=>Q.c>=m.at&&!Q.ms[i]),K.some(qkClaimable)||Q_WMS.some((m,i)=>save.qw.c>=m.at&&!(save.qw.ms||[])[i]),X.got.some((g,i)=>g&&!X.cl[i])];
+  let h='<div class="tabs sectabs qtabs">'+[['day',_t('Dnes')],['week',_t('Týden')],['wk',_t('Výzva')]].map(([id,n],i)=>'<button data-qt="'+id+'" class="'+(qTab===id?'on':'')+'">'+n+(dot[i]?'<i class="dot"></i>':'')+'</button>').join('')+'</div>';
+  h+='<div class="qpane">'+(qTab==='week'?qWeekHtml():qTab==='wk'?qWkHtml():qDayHtml(Q))+'</div>';
   box.innerHTML=h;screens.quests.scrollTop=sc;
-  box.querySelectorAll('[data-claim]').forEach(b=>b.onclick=()=>qClaim(+b.dataset.claim));
+  box.querySelectorAll('[data-qt]').forEach(b=>b.onclick=()=>{if(qTab===b.dataset.qt)return;qTab=b.dataset.qt;sfx('ui');renderQuests();const p=box.querySelector('.qpane');if(p)p.classList.add('in');});
+  box.querySelectorAll('[data-claim]').forEach(b=>b.onclick=()=>qClaim(+b.dataset.claim,b));
   box.querySelectorAll('[data-rr]').forEach(b=>b.onclick=()=>qReroll(+b.dataset.rr));
-  box.querySelectorAll('[data-ms]').forEach(b=>b.onclick=()=>{const [wk,i]=b.dataset.ms.split(',').map(Number);const m=(wk?Q_WMS:Q_DMS)[i],o=wk?W:Q;
-    if((o.ms||[])[i]){note(_t('Už vyzvednuto'));return;}if(o.c<m.at){note(m.at+_t(' svíček: ')+(m.chest?ECON.chests.find(c=>c.id===m.chest).name:m.mat?m.mat+_t('× každý materiál'):m.g+_t(' zlata')));return;}qClaimMs(wk,i);});
+  box.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>qClaimK(+b.dataset.k,b));
+  box.querySelectorAll('[data-wk]').forEach(b=>b.onclick=()=>wkClaim(+b.dataset.wk,b));
+  box.querySelectorAll('[data-ms]').forEach(b=>b.onclick=()=>{const [wk,i]=b.dataset.ms.split(',').map(Number);const m=(wk?Q_WMS:Q_DMS)[i],o=wk?save.qw:Q;
+    if((o.ms||[])[i]){note(_t('Už vyzvednuto'));return;}if(o.c<m.at){note(m.at+_t(' svíček: ')+(m.chest?ECON.chests.find(c=>c.id===m.chest).name:m.mat?m.mat+_t(' Úlomků'):m.g+_t(' zlata')));return;}qClaimMs(wk,i,b);});
   const a=$('#qAccept');if(a)a.onclick=()=>{Q.w.st=1;persist();sfx('level');renderQuests(true);};
-  const hb=$('#qHunt');if(hb)hb.onclick=()=>{sfx('ui');sel.map=WD.map;sel.nm=0;renderSelect();setState('select');};
-  const wc=$('#qWClaim');if(wc)wc.onclick=()=>qClaimWanted();
+  const hb=$('#qHunt');if(hb)hb.onclick=()=>{sfx('ui');sel.map=WANTED[Q.w.id].map;sel.nm=0;renderSelect();setState('select');};
+  const wc=$('#qWClaim');if(wc)wc.onclick=()=>qClaimWanted(wc);
+  const g=$('#wkGo');if(g)g.onclick=()=>{sfx('ui');const I=wkInfo();startRun(I.hero,I.map,{wk:1});};
+  const wb=$('#wkBoard');if(wb)wb.onclick=()=>{sfx('ui');boardTab='tyden';openBoard();};
 }
-function qReroll(i){const Q=qEnsure(),q=Q.q[i];if(!q||q.done||(Q.rr>=1&&!save.cheat))return;
-  const used=Q.q.map(x=>x.id);const nq=qGen(Q.d,q.d,q.seq+1,used,qCtx());Q.q[i]=nq;Q.rr++;persist();sfx('ui');renderQuests(true);}
+function qReroll(i){const Q=qEnsure(),q=Q.q[i],lim=qTheme(Q.d).id==='feast'?2:1;if(!q||q.cl||q.v||(Q.rr>=lim&&!save.cheat))return;
+  const used=Q.q.map(x=>x.id);const nq=qGen(Q.d,q.slot,q.seq+1,used,qCtx());Q.q[i]=nq;Q.rr++;persist();sfx('ui');renderQuests(true);}
 
 /* ============ co-op (extra mode for 2 players) ============
    Host simulates the whole world incl. the partner's hero; each player moves their own hero locally.
@@ -7858,6 +8065,12 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-09e',d:'9. 11. 2026',t:_t('Nová Nástěnka'),hl:[
+  {ic:'candle',t:_t('Nástěnka v novém'),d:_t('Korková deska se záložkami <b>Dnes · Týden · Výzva</b>, svíčky, které se postupně rozsvěcují, a úkoly na připíchnutých papírcích.')},
+  {ic:'star',t:_t('Téma dne a tři hvězdy'),d:_t('Každý den v týdnu má téma s malým bonusem do běhů. Každý úkol má <b>tři hvězdy</b> a za každou je odměna.')},
+  {ic:'scroll',t:_t('Týdenní kontrakty'),d:_t('Tři větší úkoly na celý týden podle toho, kam jsi v kampani došel. Za splnění <b>Okovaná truhla, Stavitelova bedna nebo Esence</b>.')},
+  {ic:'medal_g',t:_t('Týdenní výzva'),d:_t('Jedna mapa, jeden hrdina a dva modifikátory pro všechny na celý týden. <b>Bronz, stříbro a zlato</b> s odměnami a nový žebříček <b>Týden</b>.')}],
+  items:[_t('Odměny za svíčky jsou přeskupené: denní stezka má 10 svíček, týdenní 45.'),_t('Dnešní úkoly se s novou verzí vygenerovaly znovu.')]},
  {v:'2026-11-09d',d:'9. 11. 2026',t:_t('Texty, které sedí'),hl:[
   {ic:'trophy',t:_t('Denní výzva má vlastní konec'),d:_t('Když přežiješ 3 minuty, uvidíš <b>Výzva splněna!</b> a odměnu výzvy. Jinak se dozvíš, kolik sekund chybělo.')},
   {ic:'map:krystaly',t:_t('Zkušební mapa se nepočítá'),d:_t('Výhra v denní výzvě na mapě, kterou ještě nemáš, <b>neodemyká kampaň</b>. Mapu si jen vyzkoušíš.')}],
