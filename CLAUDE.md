@@ -22,6 +22,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Synchronizace dvou účtů (pravidlo uživatele od 8. 11. 2026, vždy dodržuj):** uživatel pracuje se dvěma Claude účty **souběžně** na stejném repu.
   - **Na začátku každé akce** (i krátké): `git fetch origin main` a porovnej `HEAD` s `origin/main`. Když je repo napřed, nejdřív `git pull --rebase` a přečti si nové commity a změny v tomhle souboru. Teprve pak začni pracovat.
   - **Na konci každé akce** (nejen na „zálohuj se“): commit všeho podstatného (kód, `lang-en.js`, testy, skilly v `.claude/skills/`, tenhle soubor se stavem a dalšími kroky) a push na `main`. Před pushem znovu `git fetch` + `git pull --rebase`; při konfliktu ho vyřeš ručně a nic nepřepisuj.
+  - **Po pushi ověř Pages:** `bash tests/tools/pagescheck.sh` (čeká na běh „pages build and deployment“ pro HEAD přes `gh api …/actions/runs`; stránka *.github.io ani API `/pages` ze sandboxu nejdou). Vypíše „Pages nasazené: <commit>“.
   - **Nikdy** `push --force`. Nic důležitého nesmí zůstat jen v paměti účtu nebo v sandboxu.
   - Když push nejde (sandbox nemá repo v sezení), přidej repo do sezení s právem zápisu a zkus to znovu. Token do repa ani do paměti nikdy neukládej.
 - **Testy po změně (pravidlo uživatele 9. 11.):** celý audit (`node tests/tools/audit.js`, `audit.js plny`, skill `audit-projektu`, zpráva `AUDIT.md`) **jen když o něj uživatel řekne**. Po běžné změně pusť jen malý rychlý test v oblasti, které se změna týká, a u vizuálních změn snímky (CZ i EN, malý iPhone):
