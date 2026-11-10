@@ -49,12 +49,13 @@ Komunikuj česky. Kód je v `game.js`, oddíl `audio: music + rhythm` (mapa v `d
 - **Gradace**: bang skladby mají `M.int` 1 od 10 s a 2 od 60 s (dřív 35/110 s). **Tempo neměnit** – spawny, bouře a další herní události jsou navázané na takty.
 - **Hi-haty** dřív nebyly na spektrogramu vůbec vidět (vršky −18 dB pod kopákem) – v kitu jsou o ~8 dB silnější; neubírat.
 
-## Menu = vlastní skladba (10h, vybral uživatel po třech kolech náčrtů)
-- `SONGS.menu`: `free:true` (hraje vlastní energii sekcí, `M.int` v menu = 2), `pure:true` (engine nepřidává osmibitové vrstvy – pulzní arpeggio, ozvěnu, tercii; styl dělá celý zvuk), styl `title` (outrun: kopák s rychlým pádem výšky + klik, virbl s tleskem a dozvukem od E2, otevřený hi-hat na „a“, pad ze 4 pil pumpující s kopákem, melodie ze 3 rozladěných pil s ozvěnou na tečkovanou osminu, arpeggio ve střední poloze od E2), E moll, 118 BPM.
-- Stavba: intro (náznak háčku) → sloka (opakovaný tón h-h-h-c-h posouvaný po akordech Em C Am H) → sloka s virblem → **refrén v G dur** s háčkem 3+3+2 (dvakrát níž, potřetí jednou nahoru na e2) → refrén s jiným koncem → breakdown → build (jeden tón stoupá po taktech, riser) → refrén ×2.
-- Melodie `lead[64]` (šestnáctiny, hraje se přesně), sekce smí mít `bass[64]` a `cm[64]`.
-- **Co uživatel odmítl** (ať se to neopakuje): hustý běh šestnáctin po stupnici místo motivu, okoukané akordy i–VI–III–V bez nápadu, přeplácané aranžmá, drop „o oktávu výš“, vysoké pípavé osmibitové vrstvy nad synťákovým zvukem, melodie bez myšlenky (jen tvar). Funguje: krátký rytmický motiv, který se opakuje a posouvá, střední poloha, nejvyšší tón jen jednou ve vrcholu, zvuk s údernými bicími a širokými pumpujícími akordy.
-- Náčrty se dělají jako dočasné `SONGS.skN` + styl a renderují `node tests/tools/poslech-offline.js skN <s> 999 <prefix>` (volné skladby renderuje s int 2), ukázky MP3 přes ffmpeg `loudnorm` na stejnou hlasitost.
+## Menu = vlastní skladba (10i, vybral uživatel po šesti kolech náčrtů)
+- `SONGS.menu`: hypnotický darksynth, cis moll, 112 BPM, `free` + `pure`, styl `title`. **Žádná melodie** – háček je basový sekvencer `[0,12,0,10,0,7,0,3,…]` (půltóny od kořene akordu; nad durovými akordy durová tercie/septima, jinak se tloukl s akordem). Vše ostatní vyrůstá z něj: filtr (`cut`/`ramp` v sekci), `echo` (stejné tóny o oktávu výš o tečkovanou osminu později), `dbl` (zdvojení v dropu).
+- Stavba: I sekvence se zavřeným filtrem → A kopák + hi-hat, filtr se otevírá → B tlesk + ozvěna → **ticho na poslední době** → C drop → K breakdown (bez basy, kopák jen jako klik, jiné akordy) → R build (riser přes celou sekci, bez sub-basy, virbl 4→8→16, poslední takt bez kopáku) → **ticho** → C2 (jednorázový úder + sbor, začne mimo domov) → A.
+- Producentské triky (uživatel schválil, platí i pro další skladby): přízvuky v sekvenci (doba 1, osmina .82, šestnáctina .62), ticho před dropem + „delay throw“ posledního tónu do ticha, ubírání před dropem, jednorázový prvek ve druhém dropu, variace konce fráze.
+- **Co uživatel odmítl** (neopakovat): melodie „tůůt“ / dlouhé náhodné tóny nad sekvencí, hustý běh šestnáctin místo motivu, okoukané akordy bez nápadu, přeplácané aranžmá, drop „o oktávu výš“, vysoké pípavé osmibitové vrstvy, žánrová cvičení bez vztahu ke hře. Funguje: jeden silný motiv a vrstvy z něj, gradace filtrem a ubíráním.
+- Engine umí `lead[64]`, `bass[64]`, `cm[64]`, `pure`, `free`, `spb` (12 = 3/4 nebo 6/8, jen pro psané skladby do menu – herní logika počítá takty po 16), stupnici `phryg`, saturaci `drive(k)` a nástroje `IN` (kick, tom, snare, clap, hat, bone, bell, xylo, fiddle, pluck, brass, choir).
+- Náčrty: dočasné `SONGS.skN` + styl ve větvi, render `node tests/tools/poslech-offline.js skN <s> 999 <prefix>`, MP3 přes ffmpeg `loudnorm` na stejnou hlasitost.
 
 ## Kontrola po změně zvuku (rychlá, ne celý audit)
 - `node tests/tools/zvuk.js <skladby>`: běh všech stylů kolem −31 dB (±1,5), boss o 3–5 dB výš, špička pod −3 dB, žádné `musicErr`.

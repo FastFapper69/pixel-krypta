@@ -37,6 +37,10 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak `cd tests/tools && node -e "require('./lib').prep()"` (vytvoří off.html bez klíče a vedle něj game.js, krypta.css, lang-en.js a symlinky). Audit to dělá sám. Playwright je předinstalovaný.
 
+## Předávka 2026-11-10 ~17:30 (verze 10i = menu skladba hypnotický darksynth, vše na main)
+- Menu: nová skladba vybraná po 6 kolech náčrtů (postup, co prošlo a co ne, je ve skillu `zvuk-a-hudba` „Menu“). Styl `title` = basový sekvencer + vrstvy, bez melodie. Engine: `spb` (3/4, 6/8 jen pro menu), `drive()`, nástroje `IN`, `pure` skladby bez enginového víru. `hudba-pravidla.js`: takt bez melodie projde, když ho nese psaný basový riff.
+- Novinky 10i (ikona `tune`). Hlasitost menu: běh −29,6 dB (`zvuk.js menu`).
+
 ## Předávka 2026-11-10 ~16:40 (verze 10h = banger hudba + nová menu skladba, vše na main, Pages nasazené)
 - **Banger ve všech skladbách** (uživatel schválil podle poslechu pilotu na Hřbitově): `bangKit` šablona (táhlá oktávová basa, kopák do čtvrtin od E2, virbl s tleskem, 16. hi-haty, pumpování `pumpAt`/`M.pump`), kit pro každý styl (`STYLES.x.bang`), `BANG_TRIM` po stylech (běh −31 dB v `zvuk.js`), náběhy (vír + riser) a crash na nové sekci, pulzní vlny `p12`/`p25`, rychlejší gradace (int 1 od 10 s, 2 od 60 s). Tempo beze změny (spawny na taktech). `skladby.js`: změřeno 11/30 (hrbitov, poust, bazina, kostnice, zvonice, doly, kovarna, reka, pristav, majak, vir), všechny VERDIKT v cíli; zbytek uživatel nechtěl doměřovat.
 - **Menu**: nová skladba (outrun E moll 118, refrén 3+3+2), styl `title`, `free`+`pure`; vybraná po 3 kolech náčrtů – co neprošlo, je ve skillu `zvuk-a-hudba` („Menu“). Engine umí `lead[64]`, `bass[64]`, `cm[64]`, `pure`, stupnici `phryg`.
@@ -60,7 +64,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
 - Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
 
-## Aktuální stav (verze 10h, 10. 11. 2026 ~13:00, vše na main, Pages nasazené)
+## Aktuální stav (verze 10i, 10. 11. 2026 ~13:00, vše na main, Pages nasazené)
 - Hra: 6 kapitol (30 map, I–VI), 11 hrdinů, Noční můry I–III, Nekonečná krypta na finále, Runy, Souhvězdí, Nástěnka (denní úkoly, kontrakty, týdenní výzva), co-op beta, mazlíčci, věže jen z bedny. Podrobnosti kapitol `KAMPAN.md`, ekonomika `EKONOMIKA.md`, historie všech verzí `docs/HISTORIE.md`, mapa kódu `docs/KOD.md`.
 - Vzhled: kámen a železo (paleta 09z2), kovaná tlačítka všude; **v hlavním menu mají vlastní vzhled jen Hrát (zlato) a Souhvězdí (noční nebe), ostatní jsou jednotné železo** (09z8: uživateli vadil hnědý co-op a Nástěnka i rohy na Vybavení – nepřidávat), fialová jen pro Epické a kouzla. Hlavní menu = pixelové rámy v plátně (`bartDraw`), ostatní tlačítka = CSS rám `.btn:not(.art)` měněný jen proměnnými.
 - Server: hra mluví s `profiles` jen přes `my_profile` / `save_profile` / `claim_profile_v2` (limit PINu), skóre čistí `stats_clean`, protokoly `private.pin_fail` a `private.cheat_log`. Migrace v `supabase/migrations/`.
