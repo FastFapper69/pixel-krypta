@@ -2927,7 +2927,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10a';
+const GAME_VER='2026-11-10b';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7947,6 +7947,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10b',d:'10. 11. 2026',t:_t('Oprava HUD'),items:[_t('Kombo už na iPhonech s výřezem nepřekrývá tlačítko pauzy.')]},
  {v:'2026-11-10a',d:'10. 11. 2026',t:_t('Melodie dopředu'),hl:[
   {ic:'music',t:_t('Slyšíš melodii'),d:_t('Melodie, arpeggia a akordy byly schované pod bubny. Teď jsou slyšet i z reproduktoru mobilu.')}],
   items:[_t('Hra je celkově o něco hlasitější a efekty víc vyniknou.')]},

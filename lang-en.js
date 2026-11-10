@@ -1686,6 +1686,8 @@ window.KRYPTA_EN={
 "Sjednocené menu":"Unified menu",
 "Nový zvuk":"New sound",
 "Melodie dopředu":"Melody up front",
+"Oprava HUD":"HUD fix",
+"Kombo už na iPhonech s výřezem nepřekrývá tlačítko pauzy.":"The combo counter no longer covers the pause button on iPhones with a notch.",
 "Slyšíš melodii":"You can hear the melody",
 "Melodie, arpeggia a akordy byly schované pod bubny. Teď jsou slyšet i z reproduktoru mobilu.":"Melodies, arpeggios and chords were buried under the drums. Now you can hear them even on a phone speaker.",
 "Hra je celkově o něco hlasitější a efekty víc vyniknou.":"The game is a bit louder overall and sound effects stand out more.",

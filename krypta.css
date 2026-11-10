@@ -75,7 +75,7 @@ button{font-family:inherit}
 #note{position:absolute;left:50%;bottom:calc(22px + var(--sab,0px));transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--fg);padding:10px 16px;
   box-shadow:inset 0 0 0 3px var(--gold);font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%;text-align:center}
 #note.on{opacity:1}
-#combo{position:absolute;right:10px;top:100px;text-align:right;font-weight:700;color:var(--gold);text-shadow:0 3px 0 #000a;line-height:1}
+#combo{position:absolute;right:10px;top:calc(100px + var(--sat,0px));text-align:right;font-weight:700;color:var(--gold);text-shadow:0 3px 0 #000a;line-height:1}
 #combo b{display:block;font-size:30px}
 #combo span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#ffe9a8}
 #combo.pop b{animation:cpop .16s steps(3)}
