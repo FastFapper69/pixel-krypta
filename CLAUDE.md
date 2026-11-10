@@ -40,6 +40,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 ## Předávka 2026-11-10 ~17:30 (verze 10i = menu skladba hypnotický darksynth, vše na main)
 - Menu: nová skladba vybraná po 6 kolech náčrtů (postup, co prošlo a co ne, je ve skillu `zvuk-a-hudba` „Menu“). Styl `title` = basový sekvencer + vrstvy, bez melodie. Engine: `spb` (3/4, 6/8 jen pro menu), `drive()`, nástroje `IN`, `pure` skladby bez enginového víru. `hudba-pravidla.js`: takt bez melodie projde, když ho nese psaný basový riff.
 - Novinky 10i (ikona `tune`). Hlasitost menu: běh −29,6 dB (`zvuk.js menu`).
+- Celý audit 10. 11. večer: `AUDIT.md` (vše prošlo; otevřené: slabší zeď kapitol II a IV, tiché selhání uložení, plynulost menu na pomalém telefonu, drobnosti na serveru).
 
 ## Předávka 2026-11-10 ~16:40 (verze 10h = banger hudba + nová menu skladba, vše na main, Pages nasazené)
 - **Banger ve všech skladbách** (uživatel schválil podle poslechu pilotu na Hřbitově): `bangKit` šablona (táhlá oktávová basa, kopák do čtvrtin od E2, virbl s tleskem, 16. hi-haty, pumpování `pumpAt`/`M.pump`), kit pro každý styl (`STYLES.x.bang`), `BANG_TRIM` po stylech (běh −31 dB v `zvuk.js`), náběhy (vír + riser) a crash na nové sekci, pulzní vlny `p12`/`p25`, rychlejší gradace (int 1 od 10 s, 2 od 60 s). Tempo beze změny (spawny na taktech). `skladby.js`: změřeno 11/30 (hrbitov, poust, bazina, kostnice, zvonice, doly, kovarna, reka, pristav, majak, vir), všechny VERDIKT v cíli; zbytek uživatel nechtěl doměřovat.

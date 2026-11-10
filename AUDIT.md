@@ -1,43 +1,32 @@
-# Audit projektu – 9. 11. 2026 (verze 09z3, opravy v 09z4)
+# Audit projektu – 10. 11. 2026 (verze 10i)
 
-Opakovat: skill `.claude/skills/audit-projektu`, příkaz `node tests/tools/audit.js` (rychlý, ~2 min) nebo `node tests/tools/audit.js plny` (s boty a výkonem). Serverovou část kontroluje skill přes Supabase nástroje.
+Opakovat: skill `.claude/skills/audit-projektu`, příkaz `node tests/tools/audit.js` (rychlý, ~2 min) nebo `node tests/tools/audit.js plny` (s boty a výkonem). Serverovou část kontroluje skill přes Supabase nástroje. Předchozí audit (9. 11., 09z3) je v historii gitu.
 
 ## Co prošlo
-- **Hra běží bez chyb:** 18 obrazovek × nový i pokročilý účet × CZ/EN, všech 30 map 20 s + boss, běh do konce (nová úroveň, pauza, výsledky), 48 běhů hráčů-botů přes kapitoly I–VI – žádná chyba JS ani chybějící soubor.
-- **Testy:** překlady, ukládání (verze, záloha, sync), kapitoly a hrdinové (`chapcheck all`), stejná denní/týdenní výzva, mechaniky po restartu, hlavní menu, runy, Souhvězdí, soukromí, Nástěnka, mosty kapitol, Nekonečná krypta, sety, úrovně hrdinů, popisky v režimech.
-- **Bezpečnost klientu:** v repu nejsou tajné klíče, localStorage je všude v try/catch, service worker je „nejdřív síť“ (aktualizace dorazí hned).
-- **Výkon:** těžký boj 61 fps (simulovaný telefon ×4), start do menu ~3,3 s (×4), ~0,7 s bez zpomalení.
+- **Hra běží bez chyb:** 18 obrazovek × nový i pokročilý účet × CZ/EN, všech 30 map 20 s + boss, konec běhu (nová úroveň, pauza, výsledky), 48 běhů hráčů-botů přes kapitoly I–VI – žádná chyba JS ani chybějící soubor.
+- **Testy:** překlady, ukládání, kapitoly a hrdinové (`chapcheck all`), denní výzva, mechaniky po restartu, hlavní menu, server (stub: ukládání, PIN, žebříček), horní okraj pod rozmazáním iOS, pauza se záložkami, oslava hrdiny, úder ultimátky.
+- **Statické kontroly:** žádné duplicitní funkce, verze = první Novinka (10i) i v odkazech na soubory, žádné tajné klíče v repu, fialová jen 1 tlumená v CSS, CLAUDE.md 24 kB.
+- **ESLint:** žádné `no-undef` ani `no-redeclare`.
+- **Hudba (10h–10i):** `hudbacheck` v pořádku, `zvuk.js` všech 6 stylů běh −31 ±1,5 dB, menu −29,6 dB, `skladby.js` 11/30 skladeb VERDIKT v cíli (zbytek uživatel nechtěl doměřovat).
+- **Server:** 0 otevřených nahlášení, 0 podvodů (`cheat_log`) a 0 chybných PINů za 2 dny, žádná viditelná závadná přezdívka. Exporty (`runs_export`, `feedback_export`, `feedback_done`) chrání `dev_key_ok` (klíč 32 znaků, kratší než 24 se odmítne). Za 24 h 12 běhů v telemetrii.
 
-## Nalezené chyby a rizika (podle priority)
-
-### Vysoká
-1. **Převzetí cizího účtu hádáním PINu** (server). `claim_profile(přezdívka, PIN)` nemá žádný limit pokusů. Přezdívky jsou vidět v žebříčku, PIN má 4 číslice → stačí ≤ 10 000 pokusů a útočník si přesune cizí profil (postup, výbavu) k sobě. ✅ **Opraveno v 09z4:** `claim_profile_v2` – 5 chybných / hodinu nebo 20 / den na přezdívku, 15 / hodinu z jednoho účtu, pak zámek; stará `claim_profile` smazaná. Ověřeno na serveru v transakci (útok → zámek, majitel po hodině projde).
-2. **Ztlumení hudby při bossovi, smrti a ultimátce nikdy nefungovalo** – funkce `duckMusic` byla v kódu dvakrát s jinými parametry, platila ta druhá. ✅ **Opraveno v 09z3** (druhá přejmenovaná na `duckBeat`), ověřeno měřením hlasitosti (−10 dB a návrat). Audit teď duplicitní funkce hlídá.
+## Nálezy (podle priority)
 
 ### Střední
-3. **Žebříček stahoval celé savy všech hráčů** (až 300 řádků) kvůli obrázku, titulu a počtu map a hrdinů; save kohokoli šel přečíst i bez přihlášení. ✅ **Opraveno v 09z4:** vizitka `stats.card` {av, tl, cl, hc}, žebříček bez `save`, vlastní profil přes `my_profile()`, ukládání přes `save_profile()` (upsert by po zavření sloupce nefungoval), `SELECT(save)` odebraný `anon` i `authenticated`, zbytečná práva TRUNCATE/TRIGGER pryč.
-4. ✅ **Opraveno v 09z5:** výsledky čistí server (`stats_clean` v `save_profile`), přímý zápis do `profiles` zakázaný, podezřelé do `private.cheat_log`. Dřív: **výsledky v žebříčku si hráč zapisoval sám** (`stats` v `profiles`) → přes API šlo podvádět. Pro kamarády OK, před vydáním aspoň kontrola věrohodnosti v triggeru (max. výhry/kombo za čas) nebo zápis jen přes RPC.
-5. ✅ **Opraveno v 09z5** (`#hud` a `.head` od `--sat + 30px`, test `topcheck.js`). **iOS 26 rozmazává horní okraj stránky** – menu je opravené (lišta od `--sat + 30px`), ale HUD ve hře a hlavičky obrazovek (Příprava, Zpět) začínají těsně pod stavovým řádkem. Ověřit na iPhonu, případně posunout stejně.
-6. **Plynulost menu v klidu klesla** po kovaných rámech 09z: na simulovaném pomalém telefonu 60 → ~53 fps (měřeno opakovaně po commitech; s obrázkovými rámy d25c926 bylo 61). Pravděpodobně plátna rámů pod animovanými prvky (jiskry, štítky NOVÉ). Na iPhonu ověřit; případná oprava: rámy jako obrázek v přesných pixelech displeje místo živého plátna.
-7. **Tiché selhání uložení** – `persist()` při plném/zablokovaném úložišti chybu jen spolkne; hráč offline by přišel o postup bez varování. Přidat hlášku a pokus o uvolnění místa (mezipaměť pohlednic `pk-th-*`).
+1. **Balanc – zeď na vstupu kapitol II a IV je slabá.** Boti s účtem „při vstupu“ vyhráli Poušť i Ledové jezero 2/2 (ostatní první mapy kapitol 1/2, Trůn 0/2). Jen 2 běhy na mapu – ověřit `node hraci.js kapitola:c2 3` a `kapitola:c4 3`, případně telemetrií (`fbread.js runs`, potřebuje `dev_key`).
+2. **Tiché selhání uložení** (z minula, pořád otevřené): `persist()` chybu `localStorage` spolkne (`catch(e){}`), hráč offline / s plným úložištěm přijde o postup bez varování. Návrh: hláška + uvolnění mezipaměti pohlednic `pk-th-*` a nový pokus.
+3. **Plynulost menu na pomalém telefonu** (známé, ne regrese – 10g měřeno stejně): CPU 4× zpomalené, menu v klidu ~38 fps, otevření Hrát / Hrdina jednou 200–270 ms. `audit.js plny` to hlásí jako ⚠. Ověřit na iPhonu, jestli je to znát.
 
 ### Nízká
-8. RLS pravidla volají `auth.uid()` pro každý řádek (5 pravidel) a chybí indexy `feedback.uid`, `runs.uid` – na výkon při větším počtu hráčů, jednoduchá migrace.
-9. `lang-en.js` (222 kB, 85 kB zabalené) se načítá i českým hráčům – načítat jen pro EN.
-10. 28 nepoužitých proměnných a funkcí (např. `CHEST_ROWS`, `teleRing`, `EN_RATE`, `FEAT_BTN`, `CO_ABC`) – mrtvý kód k úklidu.
-11. `storyShow` spadne, když `save.storyNew` není id mapy (jen při poškozeném savu) – přidat pojistku.
-12. **Balanc (boti, 1 běh na mapu):** první mapy kapitol III–VI (Doly, Jezero, Vrakoviště, Hvězdárna) vyhraje i Nováček na 100 % s účtem při vstupu – to je v rozporu s přáním „každá kapitola je zeď“. Ověřit víc běhy (`hraci.js kapitola:cN 3`) a telemetrií (`runs` má zatím 26 běhů).
+4. **Server – výkon** (z minula): 5 RLS pravidel volá `auth.uid()` pro každý řádek (`auth_rls_initplan`), chybí indexy `feedback.uid` a `runs.uid`. Jednoduchá migrace, až bude víc hráčů.
+5. **Server – `stats_clean` a `stats_entry_ok` nemají pevný `search_path`** (WARN). Jedna řádka migrace (`set search_path = public`).
+6. **`storyShow`** (z minula): spadne, když `save.storyNew` není id mapy (jen poškozený save). Pojistka `if(!CH_OF[mp])return;`.
+7. **Mrtvý kód:** 28 nepoužitých proměnných (`CHEST_ROWS`, `teleRing`, `EN_RATE`, `FEAT_BTN`, `CO_ABC`…); 3 duplicitní klíče v testovacím exportu `window.__krypta` (neškodné).
+8. **Upozornění serveru, která jsou v pořádku:** SECURITY DEFINER funkce volatelné přihlášenými (záměr – `my_profile`, `save_profile`… kontrolují `auth.uid()`), RLS bez pravidel na `private.*` (záměr – nikdo zvenku), „leaked password protection“ (hra hesla nepoužívá).
+9. Jeden hráč má pořád vynucené přejmenování (`rename_req`) – ještě nespustil hru, nic dělat.
+10. `hudbacheck menu` varuje „málo pestrá: 0 taktů“ – menu nemá melodii (háček je basový riff), varování je očekávané.
 
 ## Kde si ulehčit práci
-1. **Audit jedním příkazem** ✅ hotovo: `tests/tools/audit.js` + skill `audit-projektu`. Spouštět před každým větším nasazením.
-2. **Společný základ testů** ✅ hotovo: `tests/tools/lib.js` (`prep()` připraví off.html a symlinky, `open({phone,lang,save})` dá iPhone s okraji, jazykem a účtem `fresh/mid/late`, chytá chyby JS i chybějící soubory, `SCREENS` = jak otevřít každou obrazovku). Nové testy psát nad ním – odpadne opisování 10 řádků přípravy a ruční `sed` na off.html.
-3. ✅ **Hotovo:** 39 jednorázových skriptů v `tests/tools/archiv/`, `nmtest` a `pets` opravené, `edgeback`/`chap`/`coopmaps` fungují s jinými argumenty. Dřív: **Úklid `tests/tools`** (141 souborů): skutečných testů je ~30, zbytek jsou jednorázové snímky starých verzí a makety. Návrh: přesunout do `tests/tools/archiv/`, sjednotit argumenty (všude `prefix`, ne jednou soubor, jednou složka). Zastaralé testy: `nmtest` (zasekne se o okno nové mechaniky), `pets` (mazlíčci jsou teď zamčení Cestou mechanik), `edgeback`, `chap`, `coopmaps` (jiné pořadí argumentů) – opravit přes `lib.js`.
-4. ✅ **Hotovo 9. 11. večer:** CLAUDE.md 15 kB (pravidla + aktuální stav), historie `docs/HISTORIE.md`, mapa kódu `docs/KOD.md`. Dřív: **CLAUDE.md měl 108 kB** a čte se při každém startu obou účtů: 13 předávek a 9 „Stav k…“, které si navzájem odporují („další krok: kapitola VI“ je dávno hotové). Návrh: CLAUDE.md jen pravidla + jak pracovat + aktuální stav (~15 kB), historie verzí do `docs/HISTORIE.md`.
-5. **Automatická kontrola na GitHubu:** GitHub Actions může po každém pushi spustit `audit.js` a u commitu ukázat ✓/✗ – oba účty hned vidí, když druhý něco rozbil, i bez sandboxu.
-6. **`index.html` má 1,1 MB v jednom souboru** – úpravy se dělají skripty, dva účty si snadno lezou do stejných řádků. Postupně oddělit: nejdřív CSS (124 kB, nejmenší riziko) do `style.css`, pak datové tabulky (mapy, nepřátelé, Novinky). Service worker už umí cachovat víc souborů.
-7. **Migrace databáze** jsou rozházené v `supabase-*.sql` bez pořadí – číslované soubory v `supabase/migrations/` (co a kdy se na server pustilo).
-8. **Číslování verzí:** po `09z` přišlo `09z2`, `09z3`. Další den začít `10a`; případně přejít na datum + písmeno bez závislosti na abecedě.
-
-## Nové nálezy po auditu
-- **Úder ultimátky mizel v nabídce nové úrovně** (hlášeno uživatelem): rytmus běží i v nabídce, útoky jen ve hře. ✅ 09z6: `ultHold` počká na úder (max 3 s), test `ulthold.js`. Obecné riziko: každé okno otevřené během běhu zahodí kroky rytmu.
-- **Hráč s rasistickou přezdívkou** v žebříčku z doby před filtrem (filtr kontroluje jen nové a změněné přezdívky). Čeká na rozhodnutí uživatele (skrýt `profiles.hidden=true` / vynutit přejmenování).
+1. **Automatická kontrola na GitHubu** (z minula): GitHub Actions spustí po pushi `audit.js` a u commitu ukáže ✓/✗ – oba účty hned vidí, když druhý něco rozbil.
+2. **Rozbor skladeb je pomalý** (~5 min na skladbu na 2 jádrech, 30 skladeb > 2 h): `skladby.js` renderovat s nižší vzorkovací frekvencí nebo jen klíčové úseky (klid, běh, boss), aby šel pustit celý.
+3. **Náčrty hudby:** postup pro rychlé návrhy (dočasné `SONGS.skN`, render, MP3 se stejnou hlasitostí) je ve skillu `zvuk-a-hudba` – při dalších hudebních přáních začít rovnou náčrty k poslechu.
