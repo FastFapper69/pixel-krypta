@@ -624,9 +624,9 @@ const MAPS={
 // difficulty per map (enemy HP multiplier, extra spawns, win gold bonus, optional enemy damage multiplier); a new chapter is meant to be a wall you climb by farming the previous chapters' Nightmares: rises gently in a chapter, the finale jumps
 const MAP_TIER={hrbitov:[1,0,0],bazina:[1.05,.1,15],kostnice:[1.1,.2,30],zvonice:[1.15,.3,45],trun:[1.32,.45,90],
   poust:[1.3,.45,60,1.1],kanon:[1.34,.48,75,1.1],karavana:[1.38,.5,90,1.1],hrobka:[1.42,.52,105,1.1],brana:[1.55,.6,150,1.15],
-  doly:[1.7,.55,110,1.2],kovarna:[1.75,.58,125,1.2],reka:[1.8,.6,140,1.2],krystaly:[1.85,.62,155,1.2],srdce:[2,.7,240,1.25],
-  jezero:[2.38,.72,170,1.42],pevnost:[2.37,.72,185,1.38],tajga:[2.5,.76,200,1.44],soutezka:[2.5,.76,215,1.42],zima:[2.75,.84,320,1.48],
-  vrakoviste:[3.35,.92,230,1.7],pristav:[3.45,.94,245,1.72],majak:[3.55,.96,260,1.75],vir:[3.4,.94,275,1.68],paluba:[3.8,1.06,380,1.85]};
+  doly:[2.2,.8,110,1.4],kovarna:[2.25,.82,125,1.4],reka:[2.3,.84,140,1.4],krystaly:[2.35,.86,155,1.4],srdce:[2.45,.9,240,1.45], // 10d: III víc tlaku (boti při vstupu 85 %, hráč prošel napoprvé)
+  jezero:[2.85,1.02,170,1.65],pevnost:[2.7,.95,185,1.52],tajga:[2.8,.98,200,1.58],soutezka:[2.8,.98,215,1.56],zima:[3,1.02,320,1.62], // 10d: IV nad finále III
+  vrakoviste:[4.1,1.2,230,2.05],pristav:[3.65,1.06,245,1.88],majak:[3.7,1.08,260,1.9],vir:[3.65,1.06,275,1.86],paluba:[3.8,1.1,380,1.95]}; // 10d: V víc tlaku (vstup 80 %), finále zůstává nejtěžší
 for(const id in MAPS){const T=MAP_TIER[id]||[1,0,0];MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];MAPS[id].dmm=T[3]||1;}
 // campaign: a chapter = one theme, five maps and one material; its last map is the finale with a special boss
 const CHAPTERS=[
@@ -2929,7 +2929,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10c';
+const GAME_VER='2026-11-10d';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4228,8 +4228,9 @@ const KIT_PROPS={},kitSpr={};
 const kitSprite=k=>kitSpr[k]||(kitSpr[k]=buildSprite(KIT_PROPS[k].rows,{pal:KIT_PROPS[k].pal,mirror:KIT_PROPS[k].mirror!==false,scale:KIT_PROPS[k].big?2:1}));
 // difficulty staircase (08p): every chapter is a wall, +~4 % per map, the finale clearly harder
 function kitTier(id){const C=CH_OF[id];if(!C)return null;const ci=C.i,mi=C.maps.indexOf(id),fin=mi===C.maps.length-1;
-  const E=[1,1.3,1.7,2.2,2.7][ci]||2.7*Math.pow(1.22,ci-4);
-  return[+(E*(fin?1.18:1+.035*mi)).toFixed(2),+Math.min(1.3,(.45+.09*ci)+(fin?.14:.02*mi)).toFixed(2),Math.round(60*ci+15*mi+(fin?120:0)),+((1+.1*ci+(ci>=4?.05*(ci-3):0))+(fin?.08:0)).toFixed(2)];}
+  // 10d: from chapter VI on the base follows the real table (V entry 3.75, finale 3.8) – the old 2.7×1.22 made VI's first map easier than V's finale
+  const E=ci>=5?3.85*Math.pow(1.25,ci-5):[1,1.3,1.7,2.2,2.7][ci],ff=ci>=5?1.1:1.18;
+  return[+(E*(fin?ff:1+.035*mi)).toFixed(2),+Math.min(1.3,(.45+.09*ci)+(fin?.14:.02*mi)).toFixed(2),Math.round(60*ci+15*mi+(fin?120:0)),+((ci>=5?2+.12*(ci-5):1+.1*ci+(ci>=4?.05*(ci-3):0))+(fin?.08:0)).toFixed(2)];}
 // boss and enemy numbers by chapter index (0 = chapter I): calibrated on chapter V, ×1.25 HP per chapter
 function kitBoss(ci,mi,fin){const k=Math.pow(1.25,ci-4);return{hp:Math.round((fin?25600:11000*(1+.07*mi))*k/100)*100,dmg:Math.round(22+2*(ci-4)+(fin?2:0)+.3*mi)};}
 function kitFoe(ci,role){const R=KIT_ROLE[role]||KIT_ROLE.grunt,h=Math.pow(1.25,ci-4),d=Math.pow(1.1,ci-4);return{hp:Math.round(R[0]*h),spd:R[1],dmg:Math.round(R[2]*d),r:R[3],xp:R[4]};}
@@ -7959,6 +7960,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10d',d:'10. 11. 2026',t:_t('Každá kapitola je zeď'),hl:[
+  {ic:'skull',t:_t('Těžší vstup do kapitol'),d:_t('Hlubiny, Ledová říše, Prokleté pobřeží a Nebeská hvězdárna mají víc nepřátel, kteří víc bolí. Na novou kapitolu se vyplatí posílit v Nočních můrách.')},
+  {ic:'haste',t:_t('Plynulejší menu'),d:_t('Obrazovky se otevírají rychleji, hlavně Novinky, Nastavení a Hrdina. Okna s paprsky už telefon nebrzdí.')}]},
  {v:'2026-11-10c',d:'10. 11. 2026',t:_t('Čitelný boss'),hl:[
   {ic:'skull',t:_t('Hlášku bosse přečteš'),d:_t('Představení bosse trvá déle a jeho hláška je velkým čitelným písmem. Ťuknutím ho dál přeskočíš.')}],
   items:[_t('Kombo už na iPhonech s výřezem nepřekrývá tlačítko pauzy.')]},

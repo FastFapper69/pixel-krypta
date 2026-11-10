@@ -36,7 +36,8 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak `cd tests/tools && node -e "require('./lib').prep()"` (vytvoří off.html bez klíče a vedle něj game.js, krypta.css, lang-en.js a symlinky). Audit to dělá sám. Playwright je předinstalovaný.
 
-## Předávka 2026-11-10 09:45 (verze 10c, vše na main, Pages nasazené)
+## Předávka 2026-11-10 ~11:00 (verze 10d, vše na main, Pages nasazené)
+- 10d: balanc všech kapitol (viz KAMPAN.md „10d“) + plynulost menu (paprsky `.fc-rays` na GPU vrstvě, `heroStrip`/`bartFit` bez layout thrash, dozvuk levněji a po prvním snímku, Novinky po 6 + dočítání). Měření: `menuperf.js`; zaseknutí obrazovek dřív 200–340 ms, teď 60–130 ms (CPU 4× zpomalené).
 - 10c: představení bosse trvá podle délky hlášky (`BI_TYPE` 30 znaků/s + 2,6 s čtení, finále 3,2 s; dřív 5/7 dob ≈ 2,7 s), hláška je HTML `#biLine` písmem UI (dřív 10px pixel font v canvasu = nečitelné háčky). Ověřeno SE/15, CZ/EN, nejdelší hláška (Orion), přeskočení i odchod do menu.
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
 - **Další úkol (zadal uživatel): projet všech 31 skladeb** přes poslech a doladit je. Postup ve skillu `zvuk-a-hudba` (oddíl Poslech):
@@ -52,7 +53,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - Server: hra mluví s `profiles` jen přes `my_profile` / `save_profile` / `claim_profile_v2` (limit PINu), skóre čistí `stats_clean`, protokoly `private.pin_fail` a `private.cheat_log`. Migrace v `supabase/migrations/`.
 - Hotovo dnes večer: audit (`AUDIT.md`), bezpečnější účty (09z4), kontrola skóre, pauza se záložkami, oslava hrdiny a nové zbraně, horní okraj (09z5), úder ultimátky před nabídkou úrovně (09z6), úklid CLAUDE.md a testů; **09z7** rozdělení na index.html + krypta.css + game.js, `lang-en.js` jen pro EN, vynucené přejmenování (`profiles.rename_req`, migrace 20261109e/f; `save_profile` teď dělá UPDATE, takže starý profil se závadnou přezdívkou se dál ukládá, jen zůstane skrytý).; **09z8** jednotné menu; **09z9** nový zvuk (role, stereo, dozvuk, telefonní basy, gradace, srovnané styly, nový master, přesnější rytmus, oprava posuvníku hudby) – pravidla ve skillu `zvuk-a-hudba`, měření `tests/tools/zvuk.js`
 - 10. 11.: **poslech** (`tests/tools/poslech.js`, `poslech-offline.js`, `poslech.py` – nahrávka skutečného zvuku hry + spektrogram, telefon, stereo), podle něj **10a** mix nástrojů (`ROLE_DB`, `STYLE_ROLE`), jas 2,5 kHz, telefonní harmonické na 400 Hz, hlasitější celek. Podrobnosti ve skillu `zvuk-a-hudba`.
-- Otevřené: kapitola VII Prázdnota (most `zatmeni` → void připraven); balanc kap. III–VI (boti vyhrávají první mapy kapitol moc snadno, ověřit telemetrií); plynulost menu na iPhonu (pokles po rámech 09z).
+- Otevřené: kapitola VII Prázdnota (most `zatmeni` → void připraven); balanc: zeď proti stylu „drž odstup“ jen mechanikami (návrh pro uživatele), Vrakoviště lehké.
 - Moderace přezdívek: `update public.profiles set rename_req = true, hidden = true where id = '<uuid>';` – hráč si při dalším spuštění musí vybrat novou přezdívku (nejde přeskočit), pak se sám vrátí do žebříčku i se skóre.
 
 ## Pravidla kódu, na která se snadno zapomene
