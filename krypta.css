@@ -1192,3 +1192,27 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 .pq.done{opacity:.6}
 .pk{padding:8px 6px}.pk>b{display:block;font-weight:400;color:#ffd75e;text-shadow:0 2px 0 #000}.pk>b i{font-style:normal;color:#bdb7a8}
 .pks{display:flex;justify-content:space-between;gap:10px;color:#bdb7a8;text-shadow:0 2px 0 #000}.pks em{font-style:normal;color:#fffbe6;white-space:nowrap}.pks.done{color:#76c84e}
+/* hlavní menu: síň krypty a tlačítka z materiálů (10l) */
+#scr-menu{background:#0c0b0f!important}
+#mScene{position:absolute;left:0;z-index:0;pointer-events:none;box-shadow:0 2px 0 #050507,0 -2px 0 #050507}
+#scr-menu>.wrap{position:relative;z-index:1}
+.k-flame{position:absolute;width:14px;height:18px}
+.k-flame img,.k-fire img{position:absolute;left:0;top:0}
+.k-flame .fb,.k-fire .fb{animation:kfl .44s steps(1) infinite}.k-flame .fa,.k-fire .fa{animation:kfl .44s steps(1) infinite reverse}
+@keyframes kfl{0%,49.9%{opacity:0}50%,100%{opacity:1}}
+.k-flame+.k-flame .fa,.k-flame+.k-flame .fb{animation-delay:-.17s}
+.k-fire{position:relative;width:30px;height:36px;flex:none;align-self:flex-end}
+.k-fire img:first-child{top:auto;bottom:0}.k-fire .fa,.k-fire .fb{left:4px;top:auto;bottom:8px}
+.paradebox{background:none!important;padding:0 6px 0!important}
+.parade{align-items:flex-end;gap:8px!important}.parade img{height:auto;filter:none!important;image-rendering:pixelated}
+#mStack .btn.art .lbl{font:var(--k30);letter-spacing:0;text-transform:none;color:#f8f1dd;text-shadow:0 2px 0 #0b0b0d,2px 0 0 #0b0b0d88,-2px 0 0 #0b0b0d88;top:-3px}
+#mStack.k20 .row2 .btn.art .lbl{font:var(--k20)}
+#mStack .btn.art-play .lbl{font:var(--k40);color:#3a2208;text-shadow:0 2px 0 #fff3b0}
+#mStack .btn.art .bi{position:relative;top:-3px;margin-right:8px}
+#mStack .btn.art .bi img,#mStack .btn.art-play .bi img{width:auto;height:32px}
+#mStack .btn.art-coop .bi img{height:auto}
+#mStack .row2 .btn{padding:0 6px!important;font-size:0}
+#mStack .btn.art{min-height:60px}#mStack .btn.art-play{min-height:72px}
+#mStack .skybtn.art .lbl,#mStack .skybtn.art{color:#dfe8ff!important}
+#mStack .skybtn.art img{width:32px;height:32px;position:relative;top:-3px;filter:none}
+@media (max-height:700px){#mStack .btn.art-play{min-height:60px}#mStack .btn.art:not(.art-play){min-height:52px}}

@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Pixel Krypta</title>
 <!-- 09y: fonts are served from the game itself (no Google Fonts → no visitor IP sent to Google; licences in licenses/) -->
-<link rel="stylesheet" href="krypta.css?v=2026-11-10k">
+<link rel="stylesheet" href="krypta.css?v=2026-11-10l">
 </head>
 <body>
 <div id="splash"><img src="icon-192.png" alt=""><b>PIXEL KRYPTA</b><i></i></div>
@@ -42,7 +42,7 @@
   </div>
 
   <section class="scr" id="scr-menu">
-    <div id="mTop"><div class="mats" id="mCur"></div><button class="btn alt ic" id="mBoard" aria-label="Síň slávy"><img alt="" id="icBoard"></button><button class="btn alt ic" id="mNews" aria-label="Novinky"><img alt="" id="icNews"></button><button class="btn alt ic" id="mGuide" aria-label="Průvodce"><img alt="" id="icGuide"></button><button class="btn alt ic" id="mSet" aria-label="Nastavení"><img alt="" id="icSet"></button></div>
+    <div id="mScene" data-k="crypt" aria-hidden="true"><i class="k-flame"></i><i class="k-flame"></i></div><div id="mTop"><div class="mats" id="mCur"></div><button class="btn alt ic" id="mBoard" aria-label="Síň slávy"><img alt="" id="icBoard"></button><button class="btn alt ic" id="mNews" aria-label="Novinky"><img alt="" id="icNews"></button><button class="btn alt ic" id="mGuide" aria-label="Průvodce"><img alt="" id="icGuide"></button><button class="btn alt ic" id="mSet" aria-label="Nastavení"><img alt="" id="icSet"></button></div>
     <div class="wrap">
       <div class="sp"></div>
       <div class="logobox"><img class="crest" id="crest" alt=""><h1 class="logo">PIXEL<br>KRYPTA</h1><i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i></div>
@@ -325,9 +325,9 @@ window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_pub
 <script>/* 09z7: English texts are downloaded only for English players (same language rule as LANG in game.js) */
 (function(){var l=null;try{l=localStorage.getItem('pixel-krypta-lang');}catch(e){}
 if(l!=='cs'&&l!=='en')l=/^(cs|sk)\b/i.test(String((navigator.languages&&navigator.languages[0])||navigator.language||''))?'cs':'en';
-window.KRYPTA_LANG=l;if(l==='en')document.write('<script src="lang-en.js?v=2026-11-10k"><\/script>');})();
+window.KRYPTA_LANG=l;if(l==='en')document.write('<script src="lang-en.js?v=2026-11-10l"><\/script>');})();
 </script>
-<script src="game.js?v=2026-11-10k"></script>
+<script src="game.js?v=2026-11-10l"></script>
 
 </body>
 </html>
