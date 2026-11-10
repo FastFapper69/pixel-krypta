@@ -1362,7 +1362,7 @@ window.KRYPTA_EN={
 "Vločka":"Frost Shaman",
 "Hudba naplno":"Music at full blast",
 "Nová hudba v menu":"New menu music",
-"Menu má vlastní rychlou skladbu: chytlavý motiv, cválající basa, breakdown a drop.":"The menu has its own fast track: a catchy hook, a galloping bass, a breakdown and a drop.",
+"Menu má vlastní skladbu: temná noční jízda se syntezátory a refrénem, který se zaryje do hlavy.":"The menu has its own track: a dark night ride with synths and a chorus that sticks in your head.",
 "Všechny mapy víc táhnou":"Every map hits harder",
 "Basa žene skladbu dopředu, bicí bubnují do každé doby a hudba při každém úderu kopáku dýchá.":"The bass drives the track forward, the drums pound every beat and the music breathes with every kick.",
 "Rozjezd hned":"Kicks in right away",

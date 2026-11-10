@@ -2462,17 +2462,17 @@ function audioWatch(){if(!ac||document.hidden)return;const t0=ac.currentTime;cle
    out, plus a "phone bass" path: the lows are saturated into harmonics around 200–600 Hz, which an iPhone speaker can play. */
 // 10h: every song is a 'bang' song unless it says bang:false; the denser arrangement is louder, BANG_TRIM brings each style back to the run level (zvuk.js ~-31 dB)
 const isBang=S=>!!S&&S.bang!==false;
-const BANG_TRIM={grave:-3.6,desert:-3.6,forge:-1.7,frost:-4.4,sea:-2,star:-2.7,title:-5};
-const STYLE_TRIM={desert:1,forge:-3.6,frost:.9,sea:-1.4,star:-1};
+const BANG_TRIM={grave:-3.6,desert:-3.6,forge:-1.7,frost:-4.4,sea:-2,star:-2.7,title:-7.7};
+const STYLE_TRIM={desert:1,forge:-3.6,frost:.9,sea:-1.4,star:-1,title:0};
 // 09z10: hlasitost nástrojů (dB) podle stylu – změřeno sólo (tests/tools/poslech-offline.js, rolecal): melodie, arpeggio a akordy
 // byly o 15–40 dB pod bicími, mix byl z 95 % basy 100–300 Hz → mono, tmavý, z telefonu skoro neslyšný.
 // Cíl vůči bicím: basa −3, melodie −4, arpeggio −9, akordy −10. Bicí všude −8 dB kvůli rezervě.
 const ROLE_DB={drums:-8,bass:-8,lead:-8,arp:-8,pad:-8,fx:0};
 const STYLE_ROLE={grave:{bass:0,lead:19.3,arp:20,pad:9},desert:{bass:4.8,lead:21.9,arp:19.7,pad:10.5},forge:{bass:8,lead:22,arp:22,pad:20.9},
-  frost:{bass:1.5,lead:16.4,arp:19.4,pad:16},sea:{bass:6.4,lead:19.4,arp:22,pad:16.7},star:{bass:.3,lead:17.5,arp:22.8,pad:18.7},title:{bass:10.4,lead:26.6,arp:29,pad:15.6}};
+  frost:{bass:1.5,lead:16.4,arp:19.4,pad:16},sea:{bass:6.4,lead:19.4,arp:22,pad:16.7},star:{bass:.3,lead:17.5,arp:22.8,pad:18.7},title:{bass:15.1,lead:30.9,arp:32,pad:27.7}};
 const MUSIC_LVL=1.9;                        // music level inside the mix
 const MASTER_PRE=.55;                       // music + effects into the master; the old soft-knee compressor took ~10 dB, this keeps the overall loudness                 // dB, measured so all chapters sit at the same loudness
-const STYLE_REV={grave:.22,desert:.16,forge:.1,frost:.28,sea:.15,star:.3,title:.2}; // reverb return per style
+const STYLE_REV={grave:.22,desert:.16,forge:.1,frost:.28,sea:.15,star:.3,title:.32}; // reverb return per style
 const ENERGY_GAIN=[.82,.92,1,1.3];           // M.int 0 calm intro, 1 run, 2 late run, 3 boss (≈ -1.7 / -0.7 / 0 / +2.3 dB; 10b: boss was only +1–2 dB over the run)
 // master: gentle glue compressor (hard knee, so quiet parts keep their dynamics and the boss is really louder) + a safety limiter.
 // The old one had the default 30 dB soft knee and squashed everything above ~-29 dB, which flattened calm vs boss.
@@ -2523,16 +2523,17 @@ const _=null;
    (keys) and varies the lead (octave lift, passing notes), and each map has its own instruments (style). The boss
    switches to bossForm on the next bar. */
 const SONGS={
- // 10h title theme: D harmonic minor at 144 – a 16th-note hook over a galloping bass riff, organ off-beats, a breakdown, a build and a drop with a counter-melody.
- // free: plays each section's own energy (no run to wait for); keys shift the loop up and back so it never sits still
- menu:{free:true,bpm:144,root:50,scale:'harm',style:'title',keys:[0,2,0,-2],form0:['I','A'],form:['A','A2','B','D','K','R','D','A2'],bossForm:['A'],sec:{
-  I:{e:0,prog:[[0,'m'],[-4,'M'],[3,'M'],[7,'M']],lead:[7,_,_,_,_,_,4,_,_,_,2,_,_,_,_,_,5,_,_,_,_,_,4,_,_,_,2,_,_,_,_,_,4,_,_,_,_,_,2,_,_,_,0,_,_,_,2,_,1,_,_,_,_,_,_,_,4,_,_,_,6,_,_,_]},
-  A:{e:2,prog:[[0,'m'],[-4,'M'],[3,'M'],[7,'M']],lead:[7,_,4,_,2,4,7,_,6,7,_,8,9,_,8,7,9,_,_,9,8,_,7,_,5,_,7,_,8,_,9,_,9,_,7,_,4,7,9,_,8,9,_,10,11,_,10,9,8,_,6,_,4,_,6,_,8,_,_,_,11,10,8,6],bass:[0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_,0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_,0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_,0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_]},
-  A2:{e:2,prog:[[0,'m'],[-4,'M'],[3,'M'],[7,'M']],lead:[7,_,4,_,2,4,7,_,6,7,_,8,9,_,8,7,9,_,_,9,8,_,7,_,5,_,7,_,8,_,9,_,9,_,7,_,4,7,9,_,8,9,_,10,11,_,10,9,8,_,_,6,_,_,8,_,9,_,_,8,6,_,4,_],bass:[0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_,0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_,0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_,0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_]},
-  B:{e:2,prog:[[5,'m'],[0,'m'],[-4,'M'],[7,'M']],lead:[10,_,_,9,_,_,7,_,5,_,_,7,_,_,9,_,7,_,_,4,_,_,2,_,4,_,_,5,_,_,4,_,5,_,_,7,_,_,9,_,12,_,_,11,_,_,9,_,8,_,_,_,6,_,_,_,8,_,9,_,10,_,11,_]},
-  D:{e:3,prog:[[0,'m'],[-4,'M'],[3,'M'],[7,'M']],lead:[14,_,11,_,9,11,14,_,13,14,_,15,16,_,15,14,9,_,_,9,8,_,7,_,5,_,7,_,8,_,9,_,9,_,7,_,4,7,9,_,8,9,_,10,11,_,10,9,8,_,6,_,4,_,6,_,8,_,9,_,10,_,11,_],cm:[2,_,_,2,_,_,0,_,2,_,_,4,_,_,2,_,5,_,_,5,_,_,4,_,2,_,_,4,_,_,5,_,4,_,_,4,_,_,2,_,4,_,_,7,_,_,4,_,6,_,_,6,_,_,4,_,1,_,_,4,_,_,6,_],bass:[0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_,0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_,0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_,0,_,12,0,_,12,0,_,0,12,_,0,10,_,7,_]},
-  K:{e:0,prog:[[-4,'M'],[-2,'M'],[0,'m'],[7,'M']],lead:[9,_,_,_,_,_,8,_,7,_,_,_,5,_,_,_,10,_,_,_,_,_,8,_,10,_,_,_,8,_,_,_,7,_,_,_,_,_,9,_,11,_,_,_,9,_,7,_,8,_,_,_,_,_,_,_,6,_,_,_,4,_,_,_]},
-  R:{e:1,prog:[[0,'m'],[0,'m'],[-4,'M'],[7,'M']],lead:[7,_,4,_,7,_,4,_,7,_,4,_,7,_,4,_,7,_,4,_,7,_,4,_,9,_,4,_,7,_,4,_,9,_,5,_,9,_,5,_,9,_,5,_,10,_,5,_,8,_,6,_,8,_,6,_,10,8,6,8,10,11,12,13]}}},
+ // 10h title theme (chosen by the user from three rounds of sketches, 'C3'): E minor outrun at 118 – a repeated-note verse motif moving along the chords,
+ // a chorus in G major on a 3+3+2 hook (twice lower, the third time up to E5 once), breakdown, a build on one rising note, the chorus again.
+ // pure: none of the engine's 8-bit layers – the title style owns the whole sound; free: plays the sections' own energy
+ menu:{free:true,pure:true,bpm:118,root:52,scale:'minor',style:'title',keys:[0],form0:['I','V'],form:['W','C','C2','K','R','C','C2','V'],bossForm:['C'],sec:{
+  I:{e:0,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[4,_,_,4,_,_,5,_,_,_,_,_,_,_,_,_,3,_,_,3,_,_,4,_,_,_,_,_,_,_,_,_,4,_,_,4,_,_,5,_,_,_,_,_,_,_,_,_,4,_,_,_,_,_,_,_,3,_,_,_,1,_,_,_]},
+  V:{e:1,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[4,_,4,_,4,_,5,4,_,_,2,_,_,_,_,_,4,_,4,_,4,_,5,4,_,_,7,_,_,_,_,_,5,_,5,_,5,_,6,5,_,_,3,_,_,_,_,_,4,_,_,_,_,_,_,_,3,_,_,_,1,_,_,_]},
+  W:{e:2,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[4,_,4,_,4,_,5,4,_,_,2,_,_,_,_,_,4,_,4,_,4,_,5,4,_,_,7,_,_,_,_,_,5,_,5,_,5,_,6,5,_,_,3,_,_,_,_,_,4,_,_,_,_,_,_,_,3,_,4,_,5,_,6,_]},
+  C:{e:3,prog:[[3,'M'],[-2,'M'],[0,'m'],[-4,'M']],lead:[4,_,_,4,_,_,5,_,4,_,_,2,_,_,_,_,3,_,_,3,_,_,4,_,3,_,_,1,_,_,_,_,4,_,_,4,_,_,5,_,7,_,_,6,_,_,4,_,5,_,_,_,4,_,_,_,2,_,_,_,3,_,_,_]},
+  C2:{e:3,prog:[[3,'M'],[-2,'M'],[0,'m'],[-4,'M']],lead:[4,_,_,4,_,_,5,_,4,_,_,2,_,_,_,_,3,_,_,3,_,_,4,_,3,_,_,1,_,_,_,_,4,_,_,4,_,_,5,_,7,_,_,6,_,_,4,_,5,_,_,_,4,_,_,_,2,_,_,_,0,_,_,_]},
+  K:{e:0,prog:[[-4,'M'],[-2,'M'],[0,'m'],[0,'m']],lead:[4,_,_,_,_,_,5,_,4,_,_,_,2,_,_,_,3,_,_,_,_,_,4,_,3,_,_,_,1,_,_,_,4,_,_,_,_,_,5,_,7,_,_,_,6,_,_,_,4,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]},
+  R:{e:1,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[4,_,_,4,_,_,4,_,4,_,_,4,_,_,4,_,5,_,_,5,_,_,5,_,5,_,_,5,_,_,5,_,6,_,_,6,_,_,6,_,6,_,_,6,_,_,6,_,7,_,_,7,_,_,7,_,7,_,7,_,7,7,7,7]}}},
  // graveyard: A harmonic minor, a slow spooky folk waltz feel – music box, chapel organ, upright bass, rim clicks, a bell
  hrbitov:{bossDb:1.6,bpm:112,root:57,scale:'harm',style:'grave',keys:[0,0,2,-1],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','X','Y','X'],sec:{
   I:{e:0,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[7,_,_,_,4,_,_,_, 5,_,4,_,2,_,_,_, 4,_,_,_,2,_,_,_, 1,_,_,_,_,_,_,_]},
@@ -2870,76 +2871,24 @@ STYLES.sea.bang=bangKit({kick:120,snare:1900,bass:{run:[0,12,7,12,0,12,7,12],ful
 STYLES.star.bang=bangKit({kick:118,snare:2400,hat:9500,
   voice:(f,t,d,a,E)=>{tone('sawtooth',f,t,d,.05*a,{lp:E>=3?1000:640});tone('sine',f,t,d*1.1,.22*a);tone('p25',f,t,d*.6,.016*a,{lp:1300});},
   extra:x=>{const {s16,t,E,bs,key0}=x;if(bs===3&&s16>=8&&E<3&&s16%2===0)tone('sine',NOTE(key0+36+(s16-8)),t,.08,.03);}});
-// 10h title theme (menu only): a crypt-synth sound – offbeat organ stabs, pulse lead with a saw edge, the graveyard bell
+// 10h title theme (menu only), outrun sound: punchy kick (fast pitch drop + click), clap snare with a tail from the second energy, open hat on the 'and',
+// a four-saw pad pumped by the kick, a three-saw lead with a dotted-8th echo, a mid-register arpeggio from energy 2
 STYLES.title={
- pad(x){const {s16,t,c,sd,E}=x;
-  if(E===0){if(s16!==0)return;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sawtooth',f,t,sd*15,.014,{lp:1100,a:.4,det:-9});tone('sawtooth',f,t,sd*15,.014,{lp:1100,a:.4,det:9});}return;}
-  if(s16%4!==2&&!(E>=3&&s16===0))return;
-  for(const k of c.tones){const f=NOTE(c.root+12+k);tone('square',f,t,sd*1.4,E>=3?.03:.024,{lp:2200,det:-6});tone('sawtooth',f,t,sd*1.4,.016,{lp:1800,det:6});}},
- arp(x){const {s16,t,c,sd,cyc,E}=x;if(E>=2||s16%2)return;const P=[[0,1,2,3,2,1,2,3],[3,2,1,0,1,2,3,2]][cyc%2],k=P[s16>>1];
-  const f=NOTE(c.root+24+(k===3?12:c.tones[k]));tone('p12',f,t,sd*1.6,.035,{lp:4200});},
- lead(f,t,dur,v){tone('p25',f,t,dur,.075*v,{vib:5.5,a:.005});tone('sawtooth',f,t,dur*.9,.02*v,{lp:2600,det:7});tone('p12',f*2,t,dur*.3,.012*v,{lp:5000});}};
-STYLES.title.bang=bangKit({kick:140,snare:2200,extra:toll,
-  voice:(f,t,d,a,E)=>{tone('triangle',f,t,d,.28*a);tone('p25',f,t,d*.85,.05*a,{lp:E>=3?1800:1200});}});
-STYLES.title.drums=STYLES.title.bang.drums;STYLES.title.bass=STYLES.title.bang.bass;
-
-// ---- SKICA (dočasné, nevydávat): návrhy menu skladby, kolo 2 – 'pure' (bez osmibitových vrstev enginu), melodie ve střední poloze ----
-function synthStyle(o){const S={drums(){},bass(){},
- pad(x){const {s16,t,c,sd,E}=x;if(s16!==0||E<(o.padFrom||0))return;const v=o.padV||.015;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sawtooth',f,t,sd*16,v,{lp:o.padLp||1800,a:.35,det:-10});tone('sawtooth',f,t,sd*16,v,{lp:o.padLp||1800,a:.35,det:10});}},
- arp(x){const {s16,t,c,sd,E}=x;if(E<(o.arpFrom||3))return;const k=[0,1,2,1][s16%4],f=NOTE(c.root+12+c.tones[k]+(s16%8>=4?12:0));tone('triangle',f,t,sd*.9,.03,{lp:2200});tone('p12',f,t,sd*.5,.008,{lp:2000});tone('triangle',f,t+sd*3,sd*.7,.012,{lp:1800});},
- lead:o.lead};
- S.bang={play(x,n){const {t,c,sd,s16,E}=x,f=NOTE(c.root-12+n);o.bvoice(f,t,o.blen?sd*o.blen:sd*1.7,s16%4===0?1:.8,E);},
-  bass(x){const {s16,E}=x;if(E===0&&s16%8)return;if(s16%2)return;S.bang.play(x,o.bpat?o.bpat[s16>>1]:0);},
-  drums(x){const {s16,t,E}=x,B=M.musicBus;if(E===0){if(o.calmKick&&s16===0)tone('sine',110,t,.3,.4,{slide:40});return;}
-   const K=(E>=3&&o.kick3)||o.kick;if(K.includes(s16)){tone('sine',o.kf||118,t,.28,.85,{slide:40});tone('square',300,t,.012,.05,{lp:1600});pumpAt(t,o.pump||.45);}
-   if(o.snare.includes(s16)){noiz(t,.14,.3,B,'bandpass',o.sf||1900);noiz(t,o.tail||.32,.11,B,'highpass',4500);tone('triangle',190,t,.08,.14,{slide:130});}
-   if(E>=3&&o.hat16?true:s16%2===0)noiz(t,.03,s16%4===2?.22:.08,B,'highpass',8000);}};
- return S;}
-STYLES.dusk=synthStyle({kick:[0,10],kick3:[0,6,10],snare:[8],tail:.45,kf:112,pump:.4,padLp:1700,arpFrom:3,hat16:true,blen:1.7,
- bvoice:(f,t,d,a,E)=>{tone('sawtooth',f,t,d,.06*a,{lp:E>=3?900:600});tone('sine',f,t,d*1.1,.22*a);},
- lead(f,t,dur,v){const from=M.lastLead&&M.lastLead!==f?M.lastLead:null;M.lastLead=f;tone('sawtooth',f,t,dur,.04*v,{lp:1800,det:-8,vib:4.5,a:.03,from,glide:.05});tone('sawtooth',f,t,dur,.04*v,{lp:1800,det:8,a:.03,from,glide:.05});tone('triangle',f,t,dur,.05*v,{a:.02});}});
-STYLES.crypt=synthStyle({kick:[0,8],snare:[4,12],tail:.25,kf:120,pump:.5,padFrom:2,padLp:1100,padV:.013,arpFrom:9,hat16:false,blen:.9,calmKick:false,
- bvoice:(f,t,d,a,E)=>{tone('sawtooth',f,t,d,.07*a,{lp:900});tone('square',f,t,d*.8,.025*a,{lp:1400});tone('sine',f,t,d,.2*a);},
- lead(f,t,dur,v){tone('square',f,t,dur,.035*v,{lp:1600,vib:5,a:.02});tone('sawtooth',f,t,dur,.03*v,{lp:1300,det:6,a:.02});tone('sawtooth',f/2,t,dur,.02*v,{lp:800});}});
-STYLES.ride=synthStyle({kick:[0,4,8,12],snare:[4,12],tail:.35,kf:125,pump:.5,padLp:2200,arpFrom:3,hat16:true,blen:1.6,bpat:[0,12,0,12,0,12,0,12],
- bvoice:(f,t,d,a,E)=>{tone('sawtooth',f,t,d,.055*a,{lp:E>=3?1000:750});tone('sine',f,t,d,.2*a);},
- lead(f,t,dur,v){const from=M.lastLead&&M.lastLead!==f?M.lastLead:null;M.lastLead=f;tone('sawtooth',f,t,dur,.04*v,{lp:2600,det:-9,vib:5,a:.015,from,glide:.04});tone('sawtooth',f,t,dur,.04*v,{lp:2600,det:9,a:.015,from,glide:.04});tone('square',f,t,dur*.9,.018*v,{lp:2000});}});
-Object.assign(STYLE_ROLE,{dusk:{bass:4.7,lead:23.8,arp:26.5,pad:16},crypt:{bass:5.3,lead:24.2,arp:31,pad:20.2},ride:{bass:8.1,lead:28.1,arp:31.1,pad:22.7}});
-Object.assign(BANG_TRIM,{dusk:-3,crypt:-3,ride:-3});Object.assign(STYLE_REV,{dusk:.35,crypt:.25,ride:.3});
-Object.assign(SONGS,{
- sk4:{free:true,pure:true,bpm:90,root:54,scale:'minor',style:'dusk',keys:[0],form0:[],form:['I','A','C'],bossForm:['A'],sec:{
-  I:{e:0,prog:[[0,'m'],[0,'m'],[-4,'M'],[-5,'M']],lead:[4,_,_,_,_,_,_,_,4,_,3,_,2,_,_,_,_,_,_,_,2,_,3,_,4,_,_,_,3,_,_,_,5,_,_,_,_,_,_,_,5,_,4,_,2,_,_,_,_,_,_,_,2,_,_,_,1,_,_,_,_,_,_,_],bass:[0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,-2,_,-2,_,-2,_,-2,_,-2,_,-2,_,-2,_,-2,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_]},
-  A:{e:1,prog:[[0,'m'],[0,'m'],[-4,'M'],[-5,'M']],lead:[4,_,_,_,_,_,_,_,4,_,3,_,2,_,_,_,_,_,_,_,2,_,3,_,4,_,_,_,3,_,_,_,5,_,_,_,_,_,_,_,5,_,4,_,2,_,_,_,_,_,_,_,2,_,_,_,1,_,_,_,_,_,_,_],bass:[0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,-2,_,-2,_,-2,_,-2,_,-2,_,-2,_,-2,_,-2,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_,0,_]},
-  C:{e:3,prog:[[-4,'M'],[3,'M'],[-2,'M'],[0,'m']],lead:[7,_,_,_,6,_,_,_,5,_,_,4,_,_,2,_,4,_,_,_,_,_,_,_,2,_,4,_,6,_,_,_,8,_,_,_,_,_,_,_,6,_,_,_,3,_,_,_,4,_,_,_,_,_,3,_,2,_,_,_,0,_,_,_]}}},
- sk5:{free:true,pure:true,bpm:108,root:54,scale:'phryg',style:'crypt',keys:[0],form0:[],form:['I','A','B'],bossForm:['A'],sec:{
-  I:{e:1,prog:[[0,'m'],[0,'m'],[0,'m'],[1,'M']],lead:[4,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,5,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,4,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,2,_,_,_,_,_,_,_,_,_,_,_,1,_,_,_],bass:[0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_,0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_,0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_,0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_]},
-  A:{e:2,prog:[[0,'m'],[0,'m'],[0,'m'],[1,'M']],lead:[4,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,5,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,4,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,2,_,_,_,_,_,_,_,_,_,_,_,1,_,_,_],bass:[0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_,0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_,0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_,0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_]},
-  B:{e:3,prog:[[0,'m'],[0,'m'],[0,'m'],[1,'M']],lead:[4,_,_,_,_,_,_,_,3,_,4,_,_,_,_,_,5,_,_,_,_,_,4,_,_,_,_,_,2,_,_,_,4,_,_,_,_,_,_,_,3,_,4,_,_,_,6,_,5,_,_,_,_,_,_,_,2,_,_,_,1,_,_,_],bass:[0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_,0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_,0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_,0,_,_,0,_,_,12,_,0,_,_,0,10,_,7,_]}}},
- sk6:{free:true,pure:true,bpm:118,root:52,scale:'minor',style:'ride',keys:[0],form0:[],form:['V','W','C'],bossForm:['V'],sec:{
-  V:{e:1,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[4,_,4,_,4,_,5,4,_,_,2,_,_,_,_,_,4,_,4,_,4,_,5,4,_,_,7,_,_,_,_,_,5,_,5,_,5,_,6,5,_,_,3,_,_,_,_,_,4,_,_,_,_,_,_,_,3,_,_,_,1,_,_,_]},
-  W:{e:2,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[4,_,4,_,4,_,5,4,_,_,2,_,_,_,_,_,4,_,4,_,4,_,5,4,_,_,7,_,_,_,_,_,5,_,5,_,5,_,6,5,_,_,3,_,_,_,_,_,4,_,_,_,_,_,_,_,3,_,_,_,1,_,_,_]},
-  C:{e:3,prog:[[3,'M'],[-2,'M'],[0,'m'],[-4,'M']],lead:[7,_,_,_,6,_,_,_,4,_,_,_,2,_,_,_,3,_,_,_,_,_,_,_,1,_,3,_,4,_,_,_,4,_,_,_,7,_,_,_,6,_,_,_,4,_,_,_,5,_,_,_,_,_,_,_,4,_,_,_,3,_,_,_]}}}});
-// SKICA kolo 3: varianty návrhu C – C1 zvuk, C2 energie (dense), C3 háček 3+3+2
-STYLES.ride2={drums(){},bass(){},
  pad(x){const {s16,t,c,sd}=x;if(s16!==0)return;for(const k of c.tones){const f=NOTE(c.root+12+k);for(const d of [-15,-6,6,15])tone('sawtooth',f,t,sd*16,.009,{lp:2400,a:.08,det:d});}},
  arp(x){const {s16,t,c,sd,E}=x;if(E<2)return;const k=[0,1,2,1][s16%4],f=NOTE(c.root+12+c.tones[k]+(s16%8>=4?12:0));tone('sawtooth',f,t,sd*.6,.022,{lp:2000});tone('sawtooth',f,t+sd*3,sd*.5,.008,{lp:1600});},
  lead(f,t,dur,v){const from=M.lastLead&&M.lastLead!==f?M.lastLead:null;M.lastLead=f;
   for(const d of [-12,0,12])tone('sawtooth',f,t,dur,.03*v,{lp:2800,det:d,vib:d?0:5,a:.012,from,glide:.04});
   const sd=M.stepDur;tone('sawtooth',f,t+sd*3,dur*.8,.011*v,{lp:2200,det:-6});tone('sawtooth',f,t+sd*6,dur*.7,.005*v,{lp:1800,det:6});}};
-STYLES.ride2.bang={
- play(x,n){const {t,c,sd,s16,E}=x,f=NOTE(c.root-12+n),D=M.song.dense;tone('sawtooth',f,t,sd*(D?.8:1.6),.06*(s16%4===0?1:.8),{lp:E>=3?1000:750});if(s16%4===0)tone('sine',f,t,sd*(D?3:3.5),.22);},
- bass(x){const D=M.song.dense,s16=x.s16;if(!D&&s16%2)return;STYLES.ride2.bang.play(x,D?[0,0,12,0][s16%4]:(s16%4===2?12:0));},
- drums(x){const {s16,t,E}=x,B=M.musicBus,D=M.song.dense;if(E===0)return;
+STYLES.title.bang={
+ play(x,n){const {t,c,sd,s16,E}=x,f=NOTE(c.root-12+n);tone('sawtooth',f,t,sd*1.6,.06*(s16%4===0?1:.8),{lp:E>=3?1000:750});if(s16%4===0)tone('sine',f,t,sd*3.5,.22);},
+ bass(x){const s16=x.s16;if(s16%2)return;STYLES.title.bang.play(x,s16%4===2?12:0);},
+ drums(x){const {s16,t,E}=x,B=M.musicBus;if(E===0)return;
   if(s16%4===0){tone('sine',52,t,.32,.95,{from:190,glide:.035});noiz(t,.008,.3,B,'highpass',3000);pumpAt(t,.4);}
   if(E>=2&&(s16===4||s16===12)){noiz(t,.18,.34,B,'bandpass',1800);noiz(t,.26,.16,B,'highpass',3500);tone('triangle',230,t,.07,.18,{from:300,glide:.03});noiz(t+.011,.02,.12,B,'bandpass',1300);noiz(t+.022,.06,.12,B,'bandpass',1250);}
   if(s16%4===2)noiz(t,.12,.17,B,'highpass',7000);
-  if(D||E>=3){if(s16%2)noiz(t,.02,.07,B,'highpass',9000);}}};
-Object.assign(STYLE_ROLE,{ride2:{bass:15.1,lead:30.9,arp:32,pad:27.7}});Object.assign(BANG_TRIM,{ride2:-3});Object.assign(STYLE_REV,{ride2:.32});
-Object.assign(SONGS,{
- sk7:Object.assign({},SONGS.sk6,{style:'ride2'}),
- sk8:Object.assign({},SONGS.sk6,{style:'ride2',bpm:132,dense:true}),
- sk9:Object.assign({},SONGS.sk6,{style:'ride2',sec:Object.assign({},SONGS.sk6.sec,{C:{e:3,prog:[[3,'M'],[-2,'M'],[0,'m'],[-4,'M']],lead:[4,_,_,4,_,_,5,_,4,_,_,2,_,_,_,_,3,_,_,3,_,_,4,_,3,_,_,1,_,_,_,_,4,_,_,4,_,_,5,_,7,_,_,6,_,_,4,_,5,_,_,_,4,_,_,_,2,_,_,_,3,_,_,_]}})})});
-// ---- konec SKICA ----
+  if(E>=3&&s16%2)noiz(t,.02,.07,B,'highpass',9000);}};
+STYLES.title.drums=STYLES.title.bang.drums;STYLES.title.bass=STYLES.title.bang.bass;
+
 function playStep(s,t){
   if(!ac||!save.music||!M.musicBus||(ac.state!=='running'&&!M.offline))return;
   const S=M.song,s16=s%16,P=songPos(s),c=chordAt(s),I=M.int,B=M.musicBus,sd=M.stepDur,bar=P.bar,ST=STYLES[S.style]||STYLES.grave;
@@ -8145,7 +8094,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
  {v:'2026-11-10h',d:'10. 11. 2026',t:_t('Hudba naplno'),hl:[
-  {ic:'tune',t:_t('Nová hudba v menu'),d:_t('Menu má vlastní rychlou skladbu: chytlavý motiv, cválající basa, breakdown a drop.')},
+  {ic:'tune',t:_t('Nová hudba v menu'),d:_t('Menu má vlastní skladbu: temná noční jízda se syntezátory a refrénem, který se zaryje do hlavy.')},
   {ic:'drum',t:_t('Všechny mapy víc táhnou'),d:_t('Basa žene skladbu dopředu, bicí bubnují do každé doby a hudba při každém úderu kopáku dýchá.')},
   {ic:'haste',t:_t('Rozjezd hned'),d:_t('Hudba se rozjede po 10 sekundách a naplno hraje po minutě, ne až po dvou.')}],
   items:[_t('Před silnější částí skladby přijde vír na bubny, na jejím začátku činel.'),_t('Melodie a arpeggia mají ostřejší osmibitový zvuk.')]},
