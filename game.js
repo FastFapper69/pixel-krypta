@@ -2882,6 +2882,61 @@ STYLES.title={
 STYLES.title.bang=bangKit({kick:140,snare:2200,extra:toll,
   voice:(f,t,d,a,E)=>{tone('triangle',f,t,d,.28*a);tone('p25',f,t,d*.85,.05*a,{lp:E>=3?1800:1200});}});
 STYLES.title.drums=STYLES.title.bang.drums;STYLES.title.bass=STYLES.title.bang.bass;
+
+// ---- SKICA (dočasné, nevydávat): tři náčrty menu skladby k výběru ----
+STYLES.goth={drums(){},bass(){},
+ pad(x){const {s16,t,c,sd,E}=x;if(s16!==0)return;const v=E>=3?.016:.02;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('square',f,t,sd*15.5,v,{lp:1500,a:.05,det:-5});tone('sawtooth',f,t,sd*15.5,v*.7,{lp:1300,a:.05,det:5});tone('square',f/2,t,sd*15.5,v*.5,{lp:900,a:.05});}},
+ arp(){},
+ lead(f,t,dur,v){tone('p25',f,t,dur,.085*v,{vib:6,a:.004});tone('p12',f/2,t,dur*.9,.025*v,{lp:2400});}};
+STYLES.goth.bang={
+ play(x,n){const {t,c,sd,s16}=x,f=NOTE(c.root-12+n),a=s16%4===0?1:.75;tone('triangle',f,t,sd*.9,.3*a);tone('p25',f,t,sd*.75,.045*a,{lp:1300});},
+ bass(x){const n=[0,null,0,0][x.s16%4];if(n!=null)STYLES.goth.bang.play(x,n);},
+ drums(x){const {s16,t,E,bs}=x,B=M.musicBus;
+  const kick=v=>{tone('sine',140,t,.2,v,{slide:45});tone('square',340,t,.012,.05*v,{lp:1800});pumpAt(t,.6);};
+  const snare=v=>{noiz(t,.11,.3*v,B,'bandpass',2300);noiz(t,.06,.16*v,B,'highpass',5000);tone('triangle',200,t,.06,.14*v,{slide:140});};
+  if(E===0){if(s16===0)kick(.4);}else{if(s16%4===0)kick(.8);if(s16===4||s16===12)snare(1);if(E>=3||s16%2===0)noiz(t,.03,s16%4===2?.28:.13,B,'highpass',7800);}
+  toll(x);}};
+STYLES.wave={drums(){},bass(){},
+ pad(x){const {s16,t,c,sd}=x;if(s16!==0)return;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sawtooth',f,t,sd*16,.016,{lp:2200,a:.3,det:-12});tone('sawtooth',f,t,sd*16,.016,{lp:2200,a:.3,det:12});tone('triangle',f*2,t,sd*16,.008,{a:.4});}},
+ arp(x){const {s16,t,c,sd,E}=x;if(E>=2)return;const k=s16%4,f=NOTE(c.root+24+(k===3?12:c.tones[k]));tone('p12',f,t,sd*.8,.03,{lp:3500});tone('p12',f,t+sd*3,sd*.6,.012,{lp:3000});},
+ lead(f,t,dur,v){const from=M.lastLead&&M.lastLead!==f?M.lastLead:null;M.lastLead=f;tone('sawtooth',f,t,dur,.045*v,{lp:2400,det:-10,vib:5,a:.02,from,glide:.06});tone('sawtooth',f,t,dur,.045*v,{lp:2400,det:10,a:.02,from,glide:.06});tone('sine',f/2,t,dur,.03*v,{a:.02});}};
+STYLES.wave.bang={
+ play(x,n){const {t,c,sd,s16,E}=x,f=NOTE(c.root-12+n);tone('sawtooth',f,t,sd*.8,.055,{lp:E>=3?1100:700});if(s16%4===0)tone('sine',f,t,sd*3,.2);},
+ bass(x){STYLES.wave.bang.play(x,[0,0,12,0][x.s16%4]);},
+ drums(x){const {s16,t,E}=x,B=M.musicBus;if(s16%4===0)pumpAt(t,.35);
+  const kick=v=>{tone('sine',120,t,.28,v,{slide:40});tone('square',300,t,.012,.05*v,{lp:1600});};
+  if(E===0){if(s16===0)kick(.45);return;}
+  if(s16===0||s16===10||(E>=3&&s16===6))kick(.85);
+  if(s16===8){noiz(t,.14,.32,B,'bandpass',1900);noiz(t,.35,.12,B,'highpass',4500);tone('triangle',190,t,.08,.15,{slide:130});}
+  if(E>=3||s16%2===0)noiz(t,.03,s16%4===2?.26:.1,B,'highpass',8000);}};
+STYLES.metal={drums(){},bass(){},pad(){},arp(){},
+ lead(f,t,dur,v){tone('sawtooth',f,t,dur,.045*v,{lp:3000,vib:6.5,a:.01});tone('square',f,t,dur,.03*v,{lp:2600,det:8});tone('sawtooth',f*2,t,dur*.5,.012*v,{lp:4000});}};
+STYLES.metal.bang={
+ play(x,n){const {t,c,sd}=x,f=NOTE(c.root-12+n),gg=NOTE(c.root+12+n),d=sd*.8,gb=M.roles?M.roles.pad:M.musicBus;tone('sawtooth',f,t,d,.08,{lp:1200});   // guitars on the wide pad role (double-tracked)
+  tone('sawtooth',gg,t,d,.045,{lp:3200,det:-7,bus:gb});tone('sawtooth',gg,t,d,.045,{lp:3200,det:7,bus:gb});tone('sawtooth',gg*1.498,t,d,.035,{lp:3000,bus:gb});tone('square',gg,t,d,.03,{lp:4200,bus:gb});},
+ bass(x){STYLES.metal.bang.play(x,0);},
+ drums(x){const {s16,t,E}=x,B=M.musicBus;
+  const kick=v=>{tone('sine',130,t,.16,v,{slide:50});tone('square',380,t,.01,.06*v,{lp:2200});pumpAt(t,.75);};
+  if(E>=3)kick(s16%4===0?.85:.5);else if(s16%2===0)kick(s16%4===0?.85:.42);
+  if(s16===4||s16===12){noiz(t,.13,.34,B,'bandpass',2100);noiz(t,.08,.18,B,'highpass',4800);tone('triangle',210,t,.06,.15,{slide:150});}
+  if(s16%2===0)noiz(t,.05,s16%4===0?.14:.09,B,'highpass',6200);
+  if(E>=3&&s16===0)noiz(t,.9,.14,B,'highpass',5000);}};
+Object.assign(STYLE_ROLE,{goth:{bass:9,lead:25.2,arp:29,pad:16.9},wave:{bass:11.2,lead:23.7,arp:31,pad:17},metal:{bass:9,lead:29.2,arp:29,pad:22}});
+Object.assign(BANG_TRIM,{goth:-3,wave:-3,metal:-3});Object.assign(STYLE_REV,{goth:.28,wave:.35,metal:.12});
+Object.assign(SONGS,{
+ sk1:{free:true,bpm:152,root:57,scale:'harm',style:'goth',keys:[0],form0:[],form:['I','H','D'],bossForm:['H'],sec:{
+  I:{e:0,prog:[[0,'m'],[-2,'M'],[-4,'M'],[-5,'M']],lead:[4,_,4,7,_,_,_,_,_,_,_,_,_,_,_,_,3,_,3,7,_,_,_,_,_,_,_,_,_,_,_,_,2,_,2,7,_,_,_,_,_,_,_,_,_,_,_,_,6,_,_,_,_,_,_,_,4,_,_,_,1,_,_,_]},
+  H:{e:2,prog:[[0,'m'],[-2,'M'],[-4,'M'],[-5,'M']],lead:[4,_,4,7,_,4,_,3,2,_,3,_,4,_,_,_,3,_,3,7,_,3,_,2,1,_,2,_,3,_,_,_,2,_,2,7,_,2,_,1,0,_,1,_,2,_,_,_,6,_,6,8,_,6,_,4,1,_,4,_,6,_,_,_],bass:[0,_,0,0,12,_,0,0,0,_,0,0,12,_,7,_,0,_,0,0,12,_,0,0,0,_,0,0,12,_,7,_,0,_,0,0,12,_,0,0,0,_,0,0,12,_,7,_,0,_,0,0,12,_,0,0,0,_,0,0,12,_,7,_]},
+  D:{e:3,prog:[[0,'m'],[-2,'M'],[-4,'M'],[-5,'M']],lead:[11,_,11,14,_,11,_,10,9,_,10,_,11,_,_,_,10,_,10,14,_,10,_,9,8,_,9,_,10,_,_,_,9,_,9,14,_,9,_,8,7,_,8,_,9,_,_,_,13,_,13,15,_,13,_,11,8,_,11,_,13,_,14,_],bass:[0,_,0,0,12,_,0,0,0,_,0,0,12,_,7,_,0,_,0,0,12,_,0,0,0,_,0,0,12,_,7,_,0,_,0,0,12,_,0,0,0,_,0,0,12,_,7,_,0,_,0,0,12,_,0,0,0,_,0,0,12,_,7,_]}}},
+ sk2:{free:true,bpm:100,root:54,scale:'minor',style:'wave',keys:[0],form0:[],form:['I','H','D'],bossForm:['H'],sec:{
+  I:{e:0,prog:[[0,'m'],[-4,'M'],[3,'M'],[-2,'M']],lead:[4,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,2,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,4,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,6,_,_,_,_,_,_,_,_,_,_,_,4,_,_,_]},
+  H:{e:1,prog:[[0,'m'],[-4,'M'],[3,'M'],[-2,'M']],lead:[0,_,_,2,_,_,4,_,_,_,_,_,3,_,2,_,2,_,_,_,_,_,_,_,_,_,_,_,0,_,-1,_,0,_,_,2,_,_,4,_,_,_,_,_,7,_,6,_,6,_,_,_,_,_,_,_,4,_,_,_,1,_,_,_]},
+  D:{e:3,prog:[[0,'m'],[-4,'M'],[3,'M'],[-2,'M']],lead:[7,_,_,9,_,_,11,_,_,_,_,_,10,_,9,_,9,_,_,_,_,_,_,_,_,_,_,_,7,_,6,_,7,_,_,9,_,_,11,_,_,_,_,_,14,_,13,_,13,_,_,_,_,_,_,_,11,_,_,_,8,_,_,_]}}},
+ sk3:{free:true,bpm:168,root:52,scale:'harm',style:'metal',keys:[0],form0:[],form:['R','H','D'],bossForm:['H'],sec:{
+  R:{e:2,prog:[[0,'m'],[0,'m'],[-4,'M'],[-5,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,0,_,0,0,_,3,_,0,0,_,0,5,_,3,_,0,0,_,0,0,_,3,_,0,0,_,0,6,_,5,3,0,0,_,0,0,_,3,_,0,0,_,0,5,_,3,_,0,0,_,0,0,_,3,_,0,0,_,0,6,_,5,3]},
+  H:{e:2,prog:[[0,'m'],[0,'m'],[-4,'M'],[-5,'M']],lead:[4,_,_,_,7,_,_,_,6,_,_,_,5,_,4,_,3,_,_,_,2,_,_,_,3,_,4,_,5,_,6,_,7,_,_,_,9,_,_,_,8,_,_,_,7,_,5,_,6,_,_,_,_,_,_,_,8,_,6,_,4,_,1,_],bass:[0,0,_,0,0,_,3,_,0,0,_,0,5,_,3,_,0,0,_,0,0,_,3,_,0,0,_,0,6,_,5,3,0,0,_,0,0,_,3,_,0,0,_,0,5,_,3,_,0,0,_,0,0,_,3,_,0,0,_,0,6,_,5,3]},
+  D:{e:3,prog:[[0,'m'],[0,'m'],[-4,'M'],[-5,'M']],lead:[11,_,_,_,14,_,_,_,13,_,_,_,12,_,11,_,10,_,_,_,9,_,_,_,10,_,11,_,12,_,13,_,14,_,_,_,16,_,_,_,15,_,_,_,14,_,12,_,13,_,_,_,_,_,_,_,15,_,13,_,11,_,8,_],bass:[0,0,_,0,0,_,3,_,0,0,_,0,5,_,3,_,0,0,_,0,0,_,3,_,0,0,_,0,6,_,5,3,0,0,_,0,0,_,3,_,0,0,_,0,5,_,3,_,0,0,_,0,0,_,3,_,0,0,_,0,6,_,5,3]}}}});
+// ---- konec SKICA ----
 function playStep(s,t){
   if(!ac||!save.music||!M.musicBus||(ac.state!=='running'&&!M.offline))return;
   const S=M.song,s16=s%16,P=songPos(s),c=chordAt(s),I=M.int,B=M.musicBus,sd=M.stepDur,bar=P.bar,ST=STYLES[S.style]||STYLES.grave;
