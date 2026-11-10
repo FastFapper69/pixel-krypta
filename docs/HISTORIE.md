@@ -310,3 +310,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 ## 10t – nová Nástěnka a oprava kolize `data-k` (2026-11-10)
 - Uživatel: Nástěnka „furt stejná a hnusná“. `qNoteHtml` → `.kq` (pergamen `KIT` slab parch, ikona v dubovém lůžku, koryto `.kq-bar` s číslem vedle), kontrakty → `.kc` (zaškrtávátka `boxOn/boxOff`, pohár + odměna), deska `.qboard` = dub, plakát hledaného = pergamen. Svíčky a týdenní pruh bez textur.
 - **Chyba z 10n:** stavebnice používá `data-k` a `kAuto` přepisovala herní `data-k` u tlačítek → nefungovalo vyzvednutí týdenního kontraktu (`data-kc`), volba druhu zpětné vazby (`data-fk`) a staré přeskování (`data-rk`). Pravidlo do CLAUDE.md.
+
+## 10u – vybraná mapa v Přípravě (2026-11-10)
+- Připomínka uživatele: výběr mapy nebyl vidět. Kamenný rám karet z 10q přebil `.mnode.sel` a popis mapy byl od 10o pod otazníkem. Teď `.card.mnode.sel` zlatý rám + `.mdesc` s popisem vybrané mapy.

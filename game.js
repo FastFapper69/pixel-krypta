@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10t';
+const GAME_VER='2026-11-10u';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -5701,7 +5701,7 @@ function renderCampaign(){
     const st=EN?(ok?((save.endW&&save.endW[id])?_t('Rekord: ')+save.endW[id]+' '+(save.endW[id]===1?_t('boss'):save.endW[id]<5?_t('bossové'):_t('bossů')):_t('Bez rekordu')):_t('Nejdřív mapu dohraj.')):ok?mapStatus(id,NK):(k?_t('Odemkneš výhrou na předchozí mapě'):NK>1?_t('Odemkneš výhrou finále kapitoly na stupni ')+NM_SHORT[NK-1]:NK?_t('Odemkneš poražením finále kapitoly'):_t('Odemkneš poražením finále kapitoly ')+ROMAN_CH[Math.max(0,chSel-1)]);
     const d=document.createElement('div');
     d.innerHTML='<h3><span class="num">'+(k+1)+'</span>'+m.name+(m.finale?'<span class="badge fin">'+_t('Finále')+'</span>':'')+(ok?'':_t('<span class="badge lk">Zamčeno</span>'))+'</h3>'+
-      (st?'<small>'+st+'</small>':'')+(on&&!EN?'<p class="kh"><b>'+m.name+':</b> '+m.desc+'</p>':'');
+      (st?'<small>'+st+'</small>':'')+(on&&!EN?'<p class="mdesc">'+m.desc+'</p>':'');
     if(ok&&!NK&&!EN&&isFresh('map','m'+id))d.querySelector('h3').insertAdjacentHTML('beforeend',NEW_TAG());
     if(!NK&&!EN){const fs=featAt(id);if(fs.length)d.insertAdjacentHTML('beforeend','<small class="fnext">'+fs.map(F=>'<img alt="" src="'+dataUrl(SPR.icon[F.ic])+'">'+F.name).join(' · ')+'</small>');}
     b.appendChild(cv);b.appendChild(d);
@@ -8506,6 +8506,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10u',d:'10. 11. 2026',t:_t('Vybraná mapa je zase vidět'),hl:[
+  {ic:'map:bazina',t:_t('Mapa s popisem'),d:_t('Vybraná mapa v Přípravě má zase zlatý rámeček a pod sebou popis, co tě na ní čeká.')}]},
  {v:'2026-11-10t',d:'10. 11. 2026',t:_t('Nová Nástěnka'),hl:[
   {ic:'scroll',t:_t('Úkoly na dubové desce'),d:_t('Úkoly i kontrakty jsou ostré pergameny. Číslo postupu je vedle ukazatele, ne přes něj.')},
   {ic:'chest_iron',t:_t('Oprava vyzvednutí kontraktu'),d:_t('Tlačítko Vyzvednout u týdenních kontraktů od verze 10n nic nedělalo. Teď zase dá odměnu.')}],
