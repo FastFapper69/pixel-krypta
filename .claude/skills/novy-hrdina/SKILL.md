@@ -10,7 +10,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Námořnice
 ## Pravidla uživatele
 - Současných 5 hrdinů (Rytíř, Mág, Lučištník, Bard, Stavitel) zůstává základ. **Noví hrdinové nesou tematickou zbraň** (všem v nabídce od úrovně hrdiny 8, `W_UNL_LV`).
 - **Popis musí jasně říct bonus**, důležité v `<b>` (žádné „Pevná ruka“ bez vysvětlení). Okno koupě `confirmHero` ukazuje zbraň, bonus a talenty.
-- Hrdina kapitoly se kupuje (typicky 1500 zlata) po odemčení první mapy kapitoly (`need:'mapa'`); dokud kapitola není, `soon:'cN'` + `SOON_CH`.
+- Hrdina kapitoly se kupuje po odemčení první mapy kapitoly (`need:'mapa'`); dokud kapitola není, `soon:'cN'` + `SOON_CH`. **Cenu nezadávej** (10j): dopočítá se z kapitoly přes `HERO_PRICE` (II 1 000, III 1 500, IV 2 000, V 3 000, VI 4 000, VII 5 500, dál ×1,4); vlastní cenu jen s `costFix:1`. V Novinkách piš cenu s `&nbsp;` (`4&nbsp;000`), jinak se číslo zalomí. Kontrola `lootcurve.js` (hrdina pozdější kapitoly musí být dražší).
 - Úrovně 1–40: talenty na 5/10/15/20 jsou vlastní, volby na 25–40 (`TAL_CH`) a Prestiž jsou společné, nic dalšího nepřidávat.
 
 ## Kontrolní seznam

@@ -1,6 +1,15 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Kapitoly jako schody":"Chapters as steps",
+"Každá kapitola je schod":"Every chapter is a step",
+"Další kapitola teď vždycky začíná těžší, než končila ta předchozí. <b>Hlubiny jsou zeď</b>: bez Nočních můr v Písečné říši je neprojdeš. Přitvrdila i Ledová říše a Pobřeží.":"Each next chapter now always starts harder than the previous one ended. <b>The Depths are a wall</b>: you won't get through without Nightmares in the Sand Realm. The Ice Realm and the Coast got tougher too.",
+"Těžší kapitola, víc zlata":"Harder chapter, more gold",
+"Zlato za běh roste s kapitolou o 15&nbsp;% za každou, stejně jako Úlomky. Dřív dala Písečná říše skoro stejně jako Říše mrtvých.":"Gold per run now grows by 15&nbsp;% per chapter, just like Shards. Before, the Sand Realm paid almost the same as the Realm of the Dead.",
+"Silnější bossové, víc Esence":"Stronger bosses, more Essence",
+"Finální bossové pozdějších kapitol dávají víc Esence. Zatmění na Noční můře&nbsp;III dá poprvé 123 místo&nbsp;70.":"Final bosses of later chapters give more Essence. The Eclipse on Nightmare III now gives 123 instead of 70 the first time.",
+"Hrdinové podle kapitoly":"Heroes priced by chapter",
+"Hrdina z pozdější kapitoly stojí víc: Hlubiny 1&nbsp;500, Ledová říše 2&nbsp;000, Pobřeží 3&nbsp;000, Hvězdárna 4&nbsp;000&nbsp;zlata. Koho už máš, ten ti zůstává.":"A hero from a later chapter costs more: Depths 1,500, Ice Realm 2,000, Coast 3,000, Observatory 4,000 gold. Heroes you already own stay yours.",
 "Runa":"Rune",
 "Runa ohně":"Fire Rune",
 "Každý takt zapálí nejbližšího nepřítele (":"Every bar it sets the nearest enemy on fire (",

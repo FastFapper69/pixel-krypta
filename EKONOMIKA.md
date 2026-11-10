@@ -27,6 +27,8 @@ Skutečná data dvou hráčů (Supabase `profiles`, 8. 11.): za běh ~500–900 
 Žádná kapitola už nepřidá nový materiál. Pozdější kapitoly dávají víc Úlomků a Esence (silnější bossové).
 
 ### Příjem
+- **10j – odměna roste s kapitolou:** zlato za běh ×(1 + 0,15 × index kapitoly) (`chGoldMul`, mimo Nekonečnou kryptu), stejně jako Úlomky; boti ukázali, že výhra v II dala jen o 6 % víc zlata než v I. Esence z finále (první i opakovaná) ×(1 + 0,15 × index kapitoly), Zatmění NM III poprvé 123. Kontrola `node tests/tools/lootcurve.js [hraci-results.json]` (pevná část odměn po mapách, kapitolách a NM, Esence finále, ceny hrdinů).
+- **10j – ceny hrdinů kapitol** se počítají samy z kapitoly, ve které jdou koupit (`HERO_PRICE(heroCh(h))`): II 1 000, III 1 500, IV 2 000, V 3 000, VI 4 000, VII 5 500, dál ×1,4. Výjimka jen s `costFix:1`. Kdo hrdinu už má, nic neplatí.
 - **Úlomky:** výhra na běžné mapě v kapitole I ≈ 65–70, v kapitole II ≈ 100 (bot 8. 11.: hřbitov 510 zlata / 52 materiálu při násobku 0,85 → 1,1 dá ~67; poušť 768 / 80 → ~103). Prohra zhruba polovina (podle přežitých minut jako dřív).
 - **Esence z finále:** první výhra na každé obtížnosti (normál, NM I, II, III) **25 / 35 / 50 / 70**, opakovaná výhra **4 / 6 / 8 / 10**, ale jen **3 výhry finále denně** dávají Esenci.
 - **Nekonečná krypta:** 0,4 Esence za minutu od 5. minuty. Denně plně **20 Esence**, nad strop jen čtvrtina.

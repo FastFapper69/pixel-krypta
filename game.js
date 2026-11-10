@@ -625,10 +625,10 @@ const MAPS={
 };
 // difficulty per map (enemy HP multiplier, extra spawns, win gold bonus, optional enemy damage multiplier); a new chapter is meant to be a wall you climb by farming the previous chapters' Nightmares: rises gently in a chapter, the finale jumps
 const MAP_TIER={hrbitov:[1,0,0],bazina:[1.05,.1,15],kostnice:[1.1,.2,30],zvonice:[1.15,.3,45],trun:[1.32,.45,90],
-  poust:[1.3,.45,60,1.1],kanon:[1.34,.48,75,1.1],karavana:[1.38,.5,90,1.1],hrobka:[1.42,.52,105,1.1],brana:[1.55,.6,150,1.15],
-  doly:[2.2,.8,110,1.4],kovarna:[2.25,.82,125,1.4],reka:[2.3,.84,140,1.4],krystaly:[2.35,.86,155,1.4],srdce:[2.45,.9,240,1.45], // 10d: III víc tlaku (boti při vstupu 85 %, hráč prošel napoprvé)
-  jezero:[2.85,1.02,170,1.65],pevnost:[2.7,.95,185,1.52],tajga:[2.8,.98,200,1.58],soutezka:[2.8,.98,215,1.56],zima:[3,1.02,320,1.62], // 10d: IV nad finále III
-  vrakoviste:[4.1,1.2,230,2.05],pristav:[3.65,1.06,245,1.88],majak:[3.7,1.08,260,1.9],vir:[3.65,1.06,275,1.86],paluba:[3.8,1.1,380,1.95]}; // 10d: V víc tlaku (vstup 80 %), finále zůstává nejtěžší
+  poust:[1.45,.6,60,1.24],kanon:[1.48,.6,75,1.25],karavana:[1.48,.58,90,1.22],hrobka:[1.55,.62,105,1.26],brana:[1.75,.7,150,1.3], // 10j: II schod nad I
+  doly:[3.1,1,110,1.7],kovarna:[3.45,1.05,125,1.75],reka:[3.8,1.1,140,1.85],krystaly:[4,1.15,155,1.9],srdce:[3.4,1.1,240,1.75], // 10j: III zeď
+  jezero:[3.9,1.05,170,1.75],pevnost:[4,1.05,185,1.75],tajga:[4.1,1.08,200,1.8],soutezka:[4.2,1.1,215,1.82],zima:[5.8,1.2,320,2.2], // 10j: IV schod nad III
+  vrakoviste:[6.6,1.2,230,2.15],pristav:[6.4,1.15,245,2.05],majak:[6.5,1.15,260,2.08],vir:[6.6,1.15,275,2.1],paluba:[7,1.2,380,2.15]}; // 10j: V schod nad novou IV
 for(const id in MAPS){const T=MAP_TIER[id]||[1,0,0];MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];MAPS[id].dmm=T[3]||1;}
 // campaign: a chapter = one theme, five maps and one material; its last map is the finale with a special boss
 const CHAPTERS=[
@@ -639,6 +639,10 @@ const CHAPTERS=[
  {id:'c5',name:_t('Prokleté pobřeží'),mat:'shard',col:'#5ae0d0',maps:['vrakoviste','pristav','majak','vir','paluba']},
  {id:'c6',name:_t('Nebeská hvězdárna'),mat:'shard',col:'#b8a8ff',maps:['hvezdarna','mlhovina','ostrovy','souhvezdi','zatmeni']}];
 const MAP_IDS=CHAPTERS.flatMap(c=>c.maps),CH_OF={};CHAPTERS.forEach((c,i)=>{c.i=i;for(const m of c.maps)CH_OF[m]=c;});
+// 10j: a chapter hero's price follows the chapter in which it can be bought (gold income grows with the chapter); new heroes get it automatically
+const heroCh=h=>{const n=HEROES[h].need,C=n&&CH_OF[n];return C?C.i+(C.maps[C.maps.length-1]===n?1:0):-1;};
+const HERO_PRICE=ci=>ci<=5?[1000,1000,1500,2000,3000,4000][Math.max(0,ci)]:Math.round(4000*Math.pow(1.4,ci-5)/500)*500; // II 1000, III 1500, IV 2000, V 3000, VI 4000, VII 5500, VIII 8000
+for(const h in HEROES)if(heroCh(h)>=1&&!HEROES[h].costFix)HEROES[h].cost=HERO_PRICE(heroCh(h));
 // maps without a hand-tuned MAP_TIER row take the staircase formula (chapter kit)
 for(const id of MAP_IDS)if(!MAP_TIER[id]){const T=kitTier(id);MAPS[id].hpm=+(T[0]*(MAPS[id].hpmK||1)).toFixed(2);MAPS[id].spx=+(T[1]+(MAPS[id].spxAdd||0)).toFixed(2);MAPS[id].gb=T[2];MAPS[id].dmm=T[3];}
 const ROMAN_CH=['I','II','III','IV','V','VI','VII','VIII'];
@@ -3071,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10i';
+const GAME_VER='2026-11-10j';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4372,6 +4376,7 @@ const kitSprite=k=>kitSpr[k]||(kitSpr[k]=buildSprite(KIT_PROPS[k].rows,{pal:KIT_
 // difficulty staircase (08p): every chapter is a wall, +~4 % per map, the finale clearly harder
 function kitTier(id){const C=CH_OF[id];if(!C)return null;const ci=C.i,mi=C.maps.indexOf(id),fin=mi===C.maps.length-1;
   // 10d: from chapter VI on the base follows the real table (V entry 3.75, finale 3.8) – the old 2.7×1.22 made VI's first map easier than V's finale
+  // 10j: V went up to 6.4–7, VI stays: its beam/strike hazards scale with hpm (hazDm), at 3.85 VI is still harder than V for the same account (bots); a higher base made VI unbeatable even after grinding
   const E=ci>=5?3.85*Math.pow(1.25,ci-5):[1,1.3,1.7,2.2,2.7][ci],ff=ci>=5?1.1:1.18;
   return[+(E*(fin?ff:1+.035*mi)).toFixed(2),+Math.min(1.3,(.45+.09*ci)+(fin?.14:.02*mi)).toFixed(2),Math.round(60*ci+15*mi+(fin?120:0)),+((ci>=5?2+.12*(ci-5):1+.1*ci+(ci>=4?.05*(ci-3):0))+(fin?.08:0)).toFixed(2)];}
 // boss and enemy numbers by chapter index (0 = chapter I): calibrated on chapter V, ×1.25 HP per chapter
@@ -4740,7 +4745,9 @@ const rewT=()=>run.endless?run.t:Math.min(run.t,run.map.dur+BOSS_RAGE+60);
 // gold kept after a run: part of the gold collected in it (the rest is meant for towers and repairs) – 30 % of the first
 // 2000, 10 % above that, so very long fights don't pay thousands – plus time and the win bonus
 const keepGold=c=>.3*Math.min(c,2000)+.1*Math.max(0,c-2000);
-function endCoins(won){return Math.round((keepGold(Math.max(0,run.coins+(run.spent||0)-run.startCoins))+Math.floor(rewT()/4)+(won?100+(run.map.gb||0):0))*(1+((st&&st.gold)||0)+.3*(run.nm||0)+(run.thm==='feast'?.2:0))*petGoldMul());}
+function endCoins(won){return Math.round((keepGold(Math.max(0,run.coins+(run.spent||0)-run.startCoins))+Math.floor(rewT()/4)+(won?100+(run.map.gb||0):0))*(1+((st&&st.gold)||0)+.3*(run.nm||0)+(run.thm==='feast'?.2:0))*petGoldMul()*chGoldMul());}
+// 10j: like Shards, gold grows +15 % per chapter (bots: a win in II paid only 6 % more than in I although II is much harder)
+const chGoldMul=()=>{const C=!run.endless&&CH_OF[run.mapId];return C?1+.15*C.i:1;};
 function finish(won){
   if(run.over)return;run.over=true;run.won=won;run.nmOpenNew=won&&!run.coop&&!run.endless&&!!run.map.finale&&(run.nm||0)<NM_MAX&&!nmWin(run.mapId,run.nm||0);seedRng(null);if(run.tut){save.tut=1;$('#tut').hidden=true;}
   tmSend(won?'win':run.crystalDead?'crystal':'death');if(!run.coop)recordRun(won);
@@ -6454,8 +6461,9 @@ function econ2Migrate(){if(save.econV===2)return;const m=save.mats;let old=0;for
   m.ess=(m.ess||0)+es;save.econV=2;}
 function essGain(won,fin){const R=run,d=today();let e=0;
   if(won&&fin&&!R.endless){const nm=Math.min(3,R.nm||0),k=R.mapId+'|'+nm;save.esF=save.esF||{};
-    if(!save.esF[k]){save.esF[k]=1;e+=ES_FIRST[nm];}
-    else{if(!save.esD||save.esD.d!==d)save.esD={d,n:0};if(save.esD.n<ES_FIN_DAY){save.esD.n++;e+=ES_REP[nm];}}}
+    const ck=1+.15*Math.max(0,CHAPTERS.indexOf(CH_OF[R.mapId])); // 10j: stronger finale bosses pay more Essence
+    if(!save.esF[k]){save.esF[k]=1;e+=Math.round(ES_FIRST[nm]*ck);}
+    else{if(!save.esD||save.esD.d!==d)save.esD={d,n:0};if(save.esD.n<ES_FIN_DAY){save.esD.n++;e+=Math.round(ES_REP[nm]*ck);}}}
   if(R.endless){let x=0;for(let k=1;k<=(R.enW||0);k++)x+=1+.5*(k-1);if(!save.endD||save.endD.d!==d)save.endD={d,e:0};const full=Math.min(x,Math.max(0,EN_CAP-save.endD.e));save.endD.e+=x;e+=full+.25*(x-full);}
   if(e&&save.meta.treeV===2&&save.meta.l5)e*=1+.03*Math.min(KEY_MAX,save.meta.l5);return Math.floor(e);}
 function runRewards(won){
@@ -8116,6 +8124,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10j',d:'10. 11. 2026',t:_t('Kapitoly jako schody'),hl:[
+  {ic:'map:doly',t:_t('Každá kapitola je schod'),d:_t('Další kapitola teď vždycky začíná těžší, než končila ta předchozí. <b>Hlubiny jsou zeď</b>: bez Nočních můr v Písečné říši je neprojdeš. Přitvrdila i Ledová říše a Pobřeží.')},
+  {ic:'coin',t:_t('Těžší kapitola, víc zlata'),d:_t('Zlato za běh roste s kapitolou o 15&nbsp;% za každou, stejně jako Úlomky. Dřív dala Písečná říše skoro stejně jako Říše mrtvých.')},
+  {ic:'ess',t:_t('Silnější bossové, víc Esence'),d:_t('Finální bossové pozdějších kapitol dávají víc Esence. Zatmění na Noční můře&nbsp;III dá poprvé 123 místo&nbsp;70.')},
+  {ic:'hero:astro',t:_t('Hrdinové podle kapitoly'),d:_t('Hrdina z pozdější kapitoly stojí víc: Hlubiny 1&nbsp;500, Ledová říše 2&nbsp;000, Pobřeží 3&nbsp;000, Hvězdárna 4&nbsp;000&nbsp;zlata. Koho už máš, ten ti zůstává.')}]},
  {v:'2026-11-10i',d:'10. 11. 2026',t:_t('Nová skladba v menu'),hl:[
   {ic:'tune',t:_t('Hypnotická basa'),d:_t('Menu hraje novou skladbu: temná basa, která se postupně rozjíždí, na chvíli ztichne a udeří v dropu.')}]},
  {v:'2026-11-10h',d:'10. 11. 2026',t:_t('Hudba naplno'),hl:[

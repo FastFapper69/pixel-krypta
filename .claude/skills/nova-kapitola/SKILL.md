@@ -9,7 +9,8 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 
 ## Pravidla uživatele (neporušovat)
 - **Žádné nové materiály** (jen Úlomky a Esence). Kapitola = 5 map, pátá je finále se speciálním bossem.
-- **Každá kapitola je zeď**: vstup ~×1,22 HP proti předchozí kapitole, hráč se má vracet grindit Noční můry. Bossové jsou výzva.
+- **Každá kapitola je schod, některé zeď** (10j): se stejným účtem (`UCET=n node hraci.js mapa:X:vstup 6 agresor,sberatel,stavitel,fuzak`) musí být první mapa nové kapitoly těžší než poslední běžná mapa předchozí. Hráč se má vracet grindit Noční můry. Bossové jsou výzva. Ladí se hlavně **HP** (`hpm`, zvedá i nástrahy přes `hazDm`); `dmm` a `spx` jen dolaďují (viz KAMPAN.md 10j). Mechaniky s nástrahami (paprsky, střepy) s vyšším `hpm` rychle bolí víc – ověř i účet po grindu.
+- **Loot roste sám** (10j): zlato, Úlomky i Esence finále mají násobek kapitoly, cena hrdiny kapitoly se dopočítá (`HERO_PRICE`). Po přidání kapitoly pusť `node tests/tools/lootcurve.js`.
 - Speciální mechanika **jen u některých map** (typicky 3 z 5, finále vždy). Kapitola přidá **jen pár nových nepřátel** (3–4).
 - Set kapitoly v **jiných slotech** než set předchozí kapitoly. **Každá pátá kapitola (V, X, XV…) má set 6 kusů** (`six:1`, `b6n`/`b6`), lepší kořist (`setRarity` +1 stupeň).
 - Popisy map: klíčová mechanika v `<b>…</b>` (CZ i EN). Mapa bez mechaniky bez `<b>`.

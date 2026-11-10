@@ -37,6 +37,11 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak `cd tests/tools && node -e "require('./lib').prep()"` (vytvoří off.html bez klíče a vedle něj game.js, krypta.css, lang-en.js a symlinky). Audit to dělá sám. Playwright je předinstalovaný.
 
+## Předávka 2026-11-10 ~20:00 (verze 10j = schody a zeď kapitol, loot podle kapitoly, ceny hrdinů, vše na main)
+- Obtížnost: II schod nad I, **III zeď**, IV a V zvednuté, aby schodiště drželo; VI beze změny. Čísla, metodika (měřit se stejným účtem `UCET=n`) a poučení (rozhoduje HP, `dmm`/`spx` málo) v `KAMPAN.md` „10j“. Otevřené: styl „drž odstup“ (Opatrný vyhrává skoro všude), Vrakoviště nereaguje na HP, účet po grindu ve IV vyhraje i finále.
+- Loot: zlato ×(1+0,15·kapitola) (`chGoldMul`), Esence finále taky; nový test `tests/tools/lootcurve.js`. Ceny hrdinů kapitol samy z `HERO_PRICE` (II 1 000 … VI 4 000), viz `EKONOMIKA.md` a skilly `nova-kapitola`, `novy-hrdina`.
+- Novinky 10j (ikony `map:doly`, `coin`, `ess`, `hero:astro`), snímky CZ i EN zkontrolované.
+
 ## Předávka 2026-11-10 ~17:30 (verze 10i = menu skladba hypnotický darksynth, vše na main)
 - Menu: nová skladba vybraná po 6 kolech náčrtů (postup, co prošlo a co ne, je ve skillu `zvuk-a-hudba` „Menu“). Styl `title` = basový sekvencer + vrstvy, bez melodie. Engine: `spb` (3/4, 6/8 jen pro menu), `drive()`, nástroje `IN`, `pure` skladby bez enginového víru. `hudba-pravidla.js`: takt bez melodie projde, když ho nese psaný basový riff.
 - Novinky 10i (ikona `tune`). Hlasitost menu: běh −29,6 dB (`zvuk.js menu`).
@@ -65,7 +70,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
 - Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
 
-## Aktuální stav (verze 10i, 10. 11. 2026 ~13:00, vše na main, Pages nasazené)
+## Aktuální stav (verze 10j, 10. 11. 2026 ~13:00, vše na main, Pages nasazené)
 - Hra: 6 kapitol (30 map, I–VI), 11 hrdinů, Noční můry I–III, Nekonečná krypta na finále, Runy, Souhvězdí, Nástěnka (denní úkoly, kontrakty, týdenní výzva), co-op beta, mazlíčci, věže jen z bedny. Podrobnosti kapitol `KAMPAN.md`, ekonomika `EKONOMIKA.md`, historie všech verzí `docs/HISTORIE.md`, mapa kódu `docs/KOD.md`.
 - Vzhled: kámen a železo (paleta 09z2), kovaná tlačítka všude; **v hlavním menu mají vlastní vzhled jen Hrát (zlato) a Souhvězdí (noční nebe), ostatní jsou jednotné železo** (09z8: uživateli vadil hnědý co-op a Nástěnka i rohy na Vybavení – nepřidávat), fialová jen pro Epické a kouzla. Hlavní menu = pixelové rámy v plátně (`bartDraw`), ostatní tlačítka = CSS rám `.btn:not(.art)` měněný jen proměnnými.
 - Server: hra mluví s `profiles` jen přes `my_profile` / `save_profile` / `claim_profile_v2` (limit PINu), skóre čistí `stats_clean`, protokoly `private.pin_fail` a `private.cheat_log`. Migrace v `supabase/migrations/`.

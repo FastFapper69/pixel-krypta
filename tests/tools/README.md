@@ -60,6 +60,7 @@ Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav 
 - `bossintroall.js <prefix>` – snímek intra všech bossů; `bossintro.js`, `bossintrogif.js`, `introaudio.js` – náhledy intra.
 - `wgallery.js <prefix> [zbraně]` – každá zbraň zvlášť ve hře (env `N` nepřátel, `CLIP`).
 - `hraci.js zed|kapitola:cN|mapa:id[:vstup|grind] [běhů] [povahy] [hrdinové]` – hráči-boti se 7 povahami a účty podle postupu (`UCTY`), tabulka výher, verdikt „zeď“, podezřele snadné strategie, co zabíjí. Nahrazuje `bot.js` pro balanc kapitol.
+- `lootcurve.js [hraci-results.json …]` (10j) – pevná část odměn za výhru po mapách, kapitolách a Nočních můrách (zlato, Úlomky, Esence, předmět), ceny hrdinů kapitol; hlásí, kde loot neroste. S výsledky botů ukáže i skutečné zlato za běh.
 - `texshot.js <prefix> [cs|en] [obrazovky]` – snímky obrazovek menu (místnosti 09n), `SCROLL=1` i posunuté; `domdump.js [obrazovky]` – struktura DOM obrazovek
 - `savekeys.js` – každý klíč save se načítá i synchronizuje; `featreload.js` – karta Cesta mechanik a runy/Souhvězdí/týdenní výzva po restartu
 - `skyrs.js <prefix> [cs|en]` – Souhvězdí: tlačítko Vrátit body a okno potvrzení
