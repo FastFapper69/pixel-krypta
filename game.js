@@ -7889,7 +7889,7 @@ function paint(root){(root||document).querySelectorAll('[data-k]').forEach(el=>{
   let url=PC.get(key);if(!url){const B=draw(el.dataset.k,Math.round(W/U),Math.round(H/U),el);if(!B)return;url='url('+toCanvas(B).toDataURL()+')';if(PC.size>400)PC.clear();PC.set(key,url);}
   el.style.backgroundImage=url;});}
 return{paint,pic,img,PAL,RAR,mix};})();
-try{['20px "Jersey 10"','30px "Jersey 15"','40px "Jersey 20"'].forEach(f=>document.fonts.load(f,'\u017d\u015909'));}catch(_){} // písma nové grafiky stáhnout hned, ne až při první kartě
+try{['20px "Jersey 10"','30px "Jersey 15"','40px "Jersey 20"'].forEach(f=>document.fonts.load(f,'A0'+String.fromCharCode(381,345)));}catch(_){} // písma nové grafiky stáhnout hned, ne až při první kartě
 function pxTex(w,h,fn,sc){const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');fn(g,mulberry32(w*31+h),w,h);return c.toDataURL();}
 // 09n: paint the room textures in a quiet moment after boot, so the first open of a menu screen doesn't stutter
 setTimeout(()=>{const go=()=>{try{qTexInit()}catch(e){}};if(window.requestIdleCallback)requestIdleCallback(go,{timeout:2500});else go();},900);
