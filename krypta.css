@@ -1128,3 +1128,11 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #scr-pause{background:#0c0d0ff2!important}
 @media (max-height:700px){.ppane{max-height:31vh}#scr-pause .stack .btn{min-height:44px;padding-top:8px;padding-bottom:8px}#scr-pause .title{margin:0}#scr-pause .wrap{gap:8px}}
 @media (max-height:700px){#mStack{gap:10px}#mStack .btn.art-play{min-height:58px}#mStack .btn.art:not(.art-play){min-height:54px}#scr-menu .logo{font-size:clamp(38px,11vw,54px)}#scr-menu .wrap{gap:8px}#scr-menu .crest{width:34px;height:34px}#scr-menu .parade{min-height:40px}#scr-menu .parade img{height:30px}#scr-menu .parade img:first-child{height:38px}}
+
+/* 10b: boss one-liner – readable UI font, max 2 lines, under the intro card (canvas line was 10 px pixel font) */
+#biLine{position:absolute;left:0;right:0;margin:0 auto;top:71%;z-index:11;pointer-events:none;width:fit-content;max-width:min(86%,400px);
+  box-sizing:border-box;padding:10px 16px 11px;background:#140c1cf0;border:3px solid #0a0610;box-shadow:inset 0 3px 0 var(--acc,#6fc),0 4px 0 #0008;
+  font-family:var(--font);font-size:18px;line-height:1.3;font-weight:600;color:#fff;text-align:center;text-wrap:balance;text-shadow:0 2px 0 #000}
+#biLine i{visibility:hidden;font-style:normal}
+#biLine.fin{border-color:#2a0806;box-shadow:inset 0 3px 0 var(--acc),0 0 0 2px #8a1a1a,0 4px 0 #0008}
+#biLine[hidden]{display:none}

@@ -2927,7 +2927,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10b';
+const GAME_VER='2026-11-10c';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3036,7 +3036,7 @@ function shakeOff(){const sh=run&&run.shake||0,k=RM?0:(save.shk==null?1:save.shk
   return {x:RZ(a*(.6*Math.sin(t*41)+.4*Math.sin(t*89+1.7))),y:RZ(a*(.6*Math.sin(t*47+.9)+.4*Math.sin(t*83+3.1)))};}
 function seedRng(seed){Math.random=seed==null?RNG0:mulberry32(qHash(seed));GR=seed==null?null:{s:mulberry32(qHash(seed+'|s')),u:mulberry32(qHash(seed+'|u')),p:mulberry32(qHash(seed+'|p'))};}
 function withRng(k,f){const S=GR&&GR[k];if(!S)return f();const prev=Math.random;Math.random=S;try{return f();}finally{Math.random=prev;}}
-function startRun(heroId,mapId,o){metaInit();treeMigrate();if(BI){BI=null;$('#hud').classList.remove('bi');}
+function startRun(heroId,mapId,o){metaInit();treeMigrate();if(BI){BI=null;biLineHide();$('#hud').classList.remove('bi');}
   o=o||{};if(o.wk){const W=wkInfo();o.mod=W.mods[0];o.mods=W.mods;}seedRng(o.wk?'weekly|'+weekKey():o.mod?'daily|'+today():null);audioInit();setSong(mapId);
   const hero=HEROES[heroId],map=MAPS[mapId],built=buildMap(mapId);for(const k in mapsBuilt)if(k!==mapId)delete mapsBuilt[k];save.lastMap=mapId;MB.id=mapId;
   run={heroId,hero,mapId,map,built,idx:MAP_IDS.indexOf(mapId),t:0,kills:0,coins:25,startCoins:25,towers:[],nearTower:null,tip:false,level:1,xp:0,need:needXP(1),pending:0,
@@ -3129,7 +3129,13 @@ const BOSS_INTRO={
 };
 // card colours by chapter (dark, mid, light); slime king keeps his swampy green
 const CH_BG=[['#12081c','#2a1640','#4a2a6a'],['#2a1408','#6a3a14','#a8682a'],['#1a0808','#5a1a10','#9a3a14'],['#081428','#1a3a5a','#3a6a9a'],['#0c1a2e','#1a3a5a','#2a6a8a']];
-let BI=null;
+let BI=null;const BI_TYPE=30; // one-liner typing speed, characters per second
+// 10b: the one-liner is an HTML line in the UI font (was a 10 px pixel font in the low-res canvas → diacritics unreadable)
+function biLineSet(B,gone){const el=$('#biLine');if(!B||!B.line){el.hidden=true;return;}const t0=B.beat*2.5;if(B.t<t0){el.hidden=true;return;}
+  const n=Math.min(B.line.length,Math.floor((B.t-t0)*BI_TYPE));if(el.hidden||el.dataset.n!=String(n)||el.dataset.id!==B.id){el.dataset.n=n;el.dataset.id=B.id;el.hidden=false;
+    el.className=B.fin?'fin':'';el.style.setProperty('--acc',B.fin?'#e0563a':B.T.acc);el.replaceChildren(document.createTextNode(B.line.slice(0,n)),Object.assign(document.createElement('i'),{textContent:B.line.slice(n)}));}
+  const k=cv.clientWidth/VW;el.style.transform='translateX('+Math.round(-gone*k)+'px)';}
+function biLineHide(){const el=$('#biLine');if(el){el.hidden=true;el.dataset.n='';}}
 function biTheme(id){const T=BOSS_INTRO[id]||{line:'',acc:BOSS_DEFS[id].pal.y||'#f6c744'},ci=run?Math.max(0,CHAPTERS.indexOf(CH_OF[run.mapId])):0;return{line:T.line,acc:T.acc,bg:T.bg||(id==='slimeking'?['#0e2a2c','#1c5a4a','#3a9a6a']:CH_BG[ci%CH_BG.length])};}
 // pixel text: drawn small, alpha thresholded, filled with a gradient, outlined and shadowed -> crisp chunky letters
 function biText(txt,size,cols,rot){const pad=6,f='700 '+size+'px '+getComputedStyle(document.documentElement).getPropertyValue('--font-px');
@@ -3172,7 +3178,8 @@ function bossIntroStart(e){const id=e.id,fin=!!run.map.finale,T=biTheme(id),sp=S
   let size=fin?30:26;const m=document.createElement('canvas').getContext('2d');m.font='700 '+size+'px '+getComputedStyle(document.documentElement).getPropertyValue('--font-px');
   while(size>14&&m.measureText(main).width>VW*.78){size--;m.font='700 '+size+'px '+getComputedStyle(document.documentElement).getPropertyValue('--font-px');}
   const gold=['#fff6c8','#ffe27a','#f6c744','#d89a2a','#a8641e'];
-  BI={id,e,fin,t:0,beat:M.stepDur*4,beats:fin?7:5,T,card:biCard(T,fin,VW,VH),sp,sil:biTint(sp,'#000000'),glow:biTint(sp,fin?'#ff5a3a':T.acc),
+  const beat=M.stepDur*4,ln=(T.line||'').length,beats=Math.max(fin?9:7,Math.ceil((2.5*beat+ln/BI_TYPE+(fin?3.2:2.6))/beat+.6)); // 10b: was 5/7 beats (~2.7 s), the line was readable ~0.6 s
+  BI={id,e,fin,t:0,beat,beats,T,card:biCard(T,fin,VW,VH),sp,sil:biTint(sp,'#000000'),glow:biTint(sp,fin?'#ff5a3a':T.acc),
     title:biText(main,size,gold,-.16),sub:sub?biText(sub.toUpperCase(),Math.max(10,Math.round(size*.42)),['#ffffff','#e8e4dc','#bfb8c8'],-.16):null,
     line:T.line,ribbon:fin?biText(_t('FINÁLE KAPITOLY'),11,['#ffffff','#ffd0c0'],0):null,typed:0};
   $('#hud').classList.add('bi');$('#toast').classList.remove('on');bossIntroSfx(fin);}
@@ -3198,13 +3205,10 @@ function drawBossIntro(g){const B=BI;if(!B)return;const k=B.t/B.beat,N=B.beats,o
     const tk=k1-1;if(tk>0){const s2=tk<.25?2.2-1.3*ease(tk/.25):tk<.4?.9+.1*ease((tk-.25)/.15):1,tw=B.title.width,th=B.title.height,tx=Math.round(clamp(VW*.4,tw/2+4,VW-tw/2-4))-gone,ty=Math.round(VH*.52);
       g.drawImage(B.title,Math.round(tx-tw*s2/2),Math.round(ty-th*s2/2),Math.round(tw*s2),Math.round(th*s2));
       if(B.sub&&tk>.3)g.drawImage(B.sub,Math.round(tx-B.sub.width/2+th*.12),Math.round(ty+th*.46));
-      if(B.line&&tk>.5){const n=Math.min(B.line.length,Math.floor((tk-.5)*40));if(n!==B.typed){B.typed=n;B.lineC=biText(B.line.slice(0,n),10,['#ffffff','#ffffff','#d8d0e0'],0);}
-        const full=B.lineFull||(B.lineFull=biText(B.line,10,['#fff'],0)),lw=full.width,ly=Math.round(VH*.72),lx=Math.round(VW/2-lw/2)-gone;
-        g.fillStyle='#140c1c';g.fillRect(lx-5,ly-4,lw+10,full.height+8);g.fillStyle=B.fin?'#8a1a1a':B.T.bg[1];g.fillRect(lx-4,ly-3,lw+8,full.height+6);g.fillStyle=B.T.acc;g.fillRect(lx-4,ly-3,lw+8,1);
-        if(B.lineC)g.drawImage(B.lineC,lx,ly);}}}
-  g.restore();}
+}}
+  g.restore();biLineSet(B,gone);}
 function bossIntroTick(dt){if(!BI)return false;BI.t+=dt;if(BI.t>=BI.beat*BI.beats){bossIntroEnd();return false;}return true;}
-function bossIntroEnd(){if(!BI)return;BI=null;$('#hud').classList.remove('bi');if(run){run.shake=6;run.flashScr=Math.max(run.flashScr||0,.15);}}
+function bossIntroEnd(){if(!BI)return;BI=null;biLineHide();$('#hud').classList.remove('bi');if(run){run.shake=6;run.flashScr=Math.max(run.flashScr||0,.15);}}
 // a tap skips to the slide-out
 function bossIntroSkip(){if(BI){const out=BI.beat*(BI.beats-.6);if(BI.t<out)BI.t=out;}}
 // sound: two clicks for the flashes, a whoosh for the card, a slam with a metal clang on the beat; finale adds a low choir and thunder
@@ -5594,7 +5598,7 @@ function openTreeNode(kind,T,id){const I=tnInfo(kind,T,id),pop=$('#newsPop'),lk=
     '<button class="btn alt" id="tnClose">'+_t('Zavřít')+'</button></div></div>';
   pop.hidden=false;$('#tnClose').onclick=()=>{pop.hidden=true;sfx('ui');};
   const b=$('#tnBuy');if(b)b.onclick=()=>{if(!tnBuy(kind,T,id))return;sfx('level');renderShop(kind+id);refreshMenu();openTreeNode(kind,T,id);};}
-function openMenu(){if(BI){BI=null;$('#hud').classList.remove('bi');}seedRng(null);$('#tut').hidden=true;if(NET.ch||CO.on){netClose();CO.on=false;CO.role=null;}run=null;setSong('menu');stick.active=false;stickEl.hidden=true;refreshMenu();setState('menu');if(ON.forceNick&&ON.ready)openNick('force');}
+function openMenu(){if(BI){BI=null;biLineHide();$('#hud').classList.remove('bi');}seedRng(null);$('#tut').hidden=true;if(NET.ch||CO.on){netClose();CO.on=false;CO.role=null;}run=null;setSong('menu');stick.active=false;stickEl.hidden=true;refreshMenu();setState('menu');if(ON.forceNick&&ON.ready)openNick('force');}
 
 // ===== 09z: herní tlačítka hlavního menu (procedurálně kreslené pixelové rámy a ikony) =====
 // Každé tlačítko dostane <i class="bart"> s obrázkem rámu: 1 pixel kresby = BART_S css px, kreslí se
@@ -7947,7 +7951,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
- {v:'2026-11-10b',d:'10. 11. 2026',t:_t('Oprava HUD'),items:[_t('Kombo už na iPhonech s výřezem nepřekrývá tlačítko pauzy.')]},
+ {v:'2026-11-10c',d:'10. 11. 2026',t:_t('Čitelný boss'),hl:[
+  {ic:'skull',t:_t('Hlášku bosse přečteš'),d:_t('Představení bosse trvá déle a jeho hláška je velkým čitelným písmem. Ťuknutím ho dál přeskočíš.')}],
+  items:[_t('Kombo už na iPhonech s výřezem nepřekrývá tlačítko pauzy.')]},
  {v:'2026-11-10a',d:'10. 11. 2026',t:_t('Melodie dopředu'),hl:[
   {ic:'music',t:_t('Slyšíš melodii'),d:_t('Melodie, arpeggia a akordy byly schované pod bubny. Teď jsou slyšet i z reproduktoru mobilu.')}],
   items:[_t('Hra je celkově o něco hlasitější a efekty víc vyniknou.')]},
