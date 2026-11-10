@@ -275,3 +275,8 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - Nástroje `poslech.js` (nahrávka výstupu hry v reálném čase přes ScriptProcessor na `M.master`, log efektů v `M.log`), `poslech-offline.js` (stereo offline render, `musicRender(...,{ch:2,solo})`), `poslech.py` (spektrogram, LUFS, simulace reproduktoru telefonu, stereo, rytmus vs. offline).
 - Nález: 95 % energie 100–300 Hz, melodie/arp/pad 15–40 dB pod bicími → mono (korelace 1,0), přes telefon −15,6 dB. Rytmus hra = ideální render (14 vs. 15 ms, synkopy), kolísání nenalezeno.
 - Oprava: `ROLE_DB` + `STYLE_ROLE` (dB na nástroj a styl), peaking 2,5 kHz +3 dB, telefonní harmonické highpass 400 Hz, `STYLE_TRIM` přeměřen, `MUSIC_LVL` 1,9, `MASTER_PRE` .55, `ENERGY_GAIN` [.82,.92,1,1.12]. Výsledek (hrbitov naostro): ztráta přes telefon 3,8 dB, pásmo 300 Hz–2 kHz 40–75 %, šířka −15 dB, boss +9 dB nad během, LUFS −30 (bylo −31), špička −7 dB.
+
+## 10k – nová grafika UI, první část (2026-11-10)
+- Stavebnice `KIT` v `game.js` (kresba prvků s `data-k` podle velikosti, 1 pixel = 2 px), styly na konci `krypta.css`, písma Jersey 10/15/20. Specifikace `docs/GRAFIKA.md`, makety `tests/tools/mock/grafika/`.
+- Nabídka nové úrovně: `optInfo` vrací `st` (dvojice popisek/hodnota z dat zbraní a `PASSIVES.x.st`), `luCard`, `luPaint`; test `lushot.js`.
+- Pauza: `renderPauseBuild` + `pausePaint` (tři záložky, fúze jako rovnice, joystick ikonou s hláškou), `kSnap` pro celé pixely; test `pausetabs.js`.

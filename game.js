@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10j';
+const GAME_VER='2026-11-10k';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -8354,6 +8354,12 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10k',d:'10. 11. 2026',t:_t('Nový vzhled: první část'),hl:[
+  {ic:'lightning',t:_t('Nová úroveň bez čtení'),d:_t('Karty jsou kamenné desky s runami a místo vět ukazují jen čísla. Úroveň poznáš podle teček, novou zbraň podle pečeti.')},
+  {ic:'storm',t:_t('Fúze jako rovnice'),d:_t('V nabídce i v pauze vidíš fúzi jako obrázek: zbraň + partner → výsledek. Co ti ještě chybí, je šedé.')},
+  {ic:'skull',t:_t('Nová pauza'),d:_t('Dřevěná cedule, prapory místo záložek a přehled zbraní bez dlouhých popisů.')},
+  {ic:'stick',t:_t('Joystick jedním ťuknutím'),d:_t('Režim joysticku v pauze přepneš malou ikonou vedle Ukončit běh.')}],
+  items:[_t('Nové pixelové písmo s celou češtinou.'),_t('Zbytek hry dostane nový vzhled v dalších verzích.')]},
  {v:'2026-11-10j',d:'10. 11. 2026',t:_t('Kapitoly jako schody'),hl:[
   {ic:'map:doly',t:_t('Každá kapitola je schod'),d:_t('Další kapitola teď vždycky začíná těžší, než končila ta předchozí. <b>Hlubiny jsou zeď</b>: bez Nočních můr v Písečné říši je neprojdeš. Přitvrdila i Ledová říše a Pobřeží.')},
   {ic:'coin',t:_t('Těžší kapitola, víc zlata'),d:_t('Zlato za běh roste s kapitolou o 15&nbsp;% za každou, stejně jako Úlomky. Dřív dala Písečná říše skoro stejně jako Říše mrtvých.')},
