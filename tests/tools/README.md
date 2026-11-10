@@ -75,3 +75,4 @@ Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav 
 - `skylv.js <prefix> [cs|en]` – Souhvězdí: zjasňování hvězd (ceny, bonusy, strop, vrácení bodů, uložení) + snímky
 - `privacy.js <prefix> [cs|en]` – Soukromí a licence, smazání dat, nahlášení/skrytí hráče, filtr přezdívek, žádné cizí servery
 - `fuzemark.js <složka> [cs|en] [telefon]` – 10p: odznak fúze na kartě nové úrovně (pravidla, přetékání, snímky) a kroužek rytmu pod hrdinou (čtyři fáze + vypnuto).
+- `vezpostat.js <složka> [cs|en] [telefon]` – 10q: vylepšení věže postáním (pravidla, rychlý průchod při 142 BPM, čerstvá věž, oprava na úr. 3, co-op snímek) + snímky prstence.

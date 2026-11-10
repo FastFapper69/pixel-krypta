@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10q';
+const GAME_VER='2026-11-10r';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3951,9 +3951,29 @@ function buildTower(k,ts){
 function upgradeTower(){
   const t=run.nearTower;if(!t||state!=='play'||run.over)return;
   if(isGuest()){netSend({t:'upg'});return;}
-  if(t.lv>=3){if(t.hp<t.max){t.hp=t.max;sfx('ui');note(_t('Věž opravená'));}return;}
-  const c=towerUpCost(t);if(run.coins<c){note(_t('Chybí ti ')+(c-run.coins)+_t(' zlata'));return;}
-  run.coins-=c;run.spent=(run.spent||0)+c;t.lv++;t.max=Math.round(TOWERS[t.k].hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0))*(t.ts?t.ts.hm:1));t.hp=t.max;t.show=2.5;sfx('level');
+  towerUp(t,true);
+}
+// vylepšení / oprava jedné věže (tlačítko i postání u věže); loud = hláška, když chybí zlato
+function towerUp(t,loud){
+  t.dw=0;
+  if(t.lv>=3){if(t.hp<t.max){t.hp=t.max;sfx('ui');if(loud)note(_t('Věž opravená'));towerUpFx(t,'#7af07a');}return;}
+  const c=towerUpCost(t);if(run.coins<c){if(loud)note(_t('Chybí ti ')+(c-run.coins)+_t(' zlata'));return;}
+  run.coins-=c;run.spent=(run.spent||0)+c;t.lv++;t.max=Math.round(TOWERS[t.k].hp*(1+.5*(t.lv-1))*(1+((st&&st.thp)||0))*(t.ts?t.ts.hm:1));t.hp=t.max;t.show=2.5;sfx('level');towerUpFx(t,'#ffd75e');
+}
+function towerUpFx(t,col){t.kick=1;t.flash=.12;for(let i=0;i<12;i++){const a=i/12*6.283;addP({x:t.x+Math.cos(a)*9,y:t.y+Math.sin(a)*4,vx:Math.cos(a)*14,vy:rnd(-55,-30),life:rnd(.4,.7),col:i%3?col:'#fff3b0',sz:1,g:30});}}
+// 10q: postůj u věže DW_BEATS dob → sama se vylepší (na úr. 3 opraví). Rychlý průběh kolem nic neutratí, čerstvě postavená věž má chvíli klid,
+// ať hned nespolkne zlato na další věž. t.dwk = 0..1 průběh, t.dwA = hráč stojí u věže a má na to (kreslí se tečky kolem paty).
+const DW_R=20,DW_BEATS=2,DW_BORN=4;
+// aspoň 1,1 s: při 140 BPM jsou 2 doby 0,86 s a průchod středem kruhu (40 j při rychlosti 58) trvá 0,7 s – bez rezervy by se věž vylepšovala náhodou
+const dwTime=()=>Math.max(1.1,M.stepDur*4*DW_BEATS);
+function towerDwell(dt){
+  const bd=dwTime(),P=players().filter(q=>q&&!q.down&&!q.dead),hot=new Set();
+  for(const q of P){let nt=null,nd=DW_R;for(const t of run.towers){const d=Math.hypot(t.x-q.x,t.y-q.y);if(d<nd){nd=d;nt=t;}}if(nt)hot.add(nt);}
+  for(const t of run.towers){
+    const can=t.lv<3?run.coins>=towerUpCost(t):t.hp<t.max*.95;
+    t.dwA=hot.has(t)&&can&&run.t-(t.born||0)>DW_BORN;
+    if(t.dwA){t.dw=(t.dw||0)+dt;if(t.dw>=bd){towerUp(t,false);if(!save.tipDw){save.tipDw=1;persist();toast(_t('Věž se vylepší sama, když u ní chvíli postojíš.'),2600);}}}else t.dw=0;
+    t.dwk=t.dwA?Math.min(1,(t.dw||0)/bd):0;}
 }
 function enemiesNear(x,y,r){const out=[];for(const e of run.enemies){if(e.dead)continue;if(Math.abs(e.x-x)>r||Math.abs(e.y-y)>r)continue;if(Math.hypot(e.x-x,e.y-y)<=r)out.push(e);}return out;}
 function towerFire(t){
@@ -4049,6 +4069,7 @@ function updateTowers(dt){
   run.towers=run.towers.filter(t=>!t.dead);
   let nt=null,nd=26;for(const t of run.towers){const d=Math.hypot(t.x-p.x,t.y-p.y);if(d<nd){nd=d;nt=t;}}
   run.nearTower=nt;
+  if(!isGuest()&&!run.over)towerDwell(dt);
 }
 
 /* ----- crystal (map objective) ----- */
@@ -5314,6 +5335,10 @@ function render(){
       continue;}
     if(u.isTower){const s=u.spr,x=RZ(u.x+ox),y=RZ(u.y+oy);
       if(u.show>0||run.nearTower===u)ringPix(g,x,y,towerRange(u),'#ffffff',.28);
+      if(u.dwA){const n=20,k=u.dwk||0,on=Math.floor(k*n+.001),col=u.lv>=3?'#7af07a':'#ffd75e',cy=y+(s.h>>1)-2;   // 10q: prstenec na zemi se plní, jak u věže stojíš
+        circ(g,x,cy,9,col,.06+.14*k+.05*M.pulse);
+        for(let i=0;i<n;i++){const a=-Math.PI/2+i/n*6.283,px=Math.round(x+Math.cos(a)*14),py=Math.round(cy+Math.sin(a)*7),lit=i<on;
+          g.globalAlpha=lit?1:.5;g.fillStyle=lit?(i===on-1?'#fff3b0':col):'#2a2620';g.fillRect(px-1,py,2,1);}g.globalAlpha=1;}
       drawTower(g,u,x,y);
       if(u.hp<u.max){const bw=s.w-6;g.fillStyle='#000';g.fillRect(x-(bw>>1)-1,y+(s.h>>1)-1,bw+2,3);g.fillStyle='#5cc45c';g.fillRect(x-(bw>>1),y+(s.h>>1)-.5,Math.round(bw*u.hp/u.max),1.5);}
       continue;}
@@ -7407,7 +7432,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
     h=T_IDS.map(k=>gdRow(dataUrl(SPR.tower[k]),TOWERS[k].name+' · '+TOWERS[k].cost+' '+_t('zl.'),TW_INFO[k][0]+(twOpen(k)?'':' '+twLockText(k)))).join('')+gdSec(_t('Mazlíčci'))+PET_IDS.map(k=>gdRow(dataUrl(SPR.pet[k]),PETS[k].name+' · '+RAR[PETS[k].r].name,PETS[k].info+' '+PETS[k].ab)).join('')+gdSec(_t('Jak na věže'))+[
    [I('tower'),_t('Arzenál'),_t('Ve Vybavení na záložce Věže dáš do arzenálu 4 karty věží. Karty mají raritu jako výbava, Epická a Legendární mají schopnost. Nové karty jsou ve Stavitelově bedně, 3 stejné se sloučí ve vzácnější.')],
    [I('coin'),_t('Stavění'),_t('Ťukni na věž vpravo dole a postaví se tam, kde stojíš.')],
-   [I('power'),_t('Vylepšení věže'),_t('Stoupni si k věži a ťukni na Vylepšit. Maximum je úroveň 3.')],
+   [I('power'),_t('Vylepšení věže'),_t('Chvíli postůj u věže a vylepší se sama, nebo ťukni na Vylepšit. Maximum je úroveň 3, pak ji tím opravíš.')],
    [I('heart'),_t('Oprava'),_t('Nepřátelé věže ničí. Plně vylepšenou věž opravíš stejným tlačítkem.')],
    [dataUrl(SPR.hero.builder),HEROES.builder.name,HEROES.builder.desc]].map(r=>gdRow(...r)).join('');}
   else if(tab==='world'){const N={'slime':_t('Pomalý, chodí v houfech.'),'bat':_t('Rychlý, létá v kličkách.'),'skeleton':_t('Jde rovnou po tobě.'),'ghost':_t('Pomalu kličkuje k tobě.'),'spider':_t('Malý a hodně rychlý.'),'zombie':_t('Pomalý, ale hodně vydrží.'),'mage':_t('Drží si odstup a střílí.'),'golem':_t('Obr, vydrží hodně a tvrdě bije.'),'wolf':_t('Rozběhne se proti tobě.'),'flameskull':_t('Řítí se na tebe v plamenech.'),'drowned':_t('Pomalý, ve vodě ho nic nezdrží. Po smrti nechá louži, která zpomaluje.'),'bonearcher':_t('Kostlivec s lukem, drží si odstup.'),'digger':_t('Každých pár taktů vykope z hrobu kostlivce.'),'scorp':_t('Vrhá se na tebe a jeho žihadlo otráví.'),'mummy':_t('Odolná. Když tě chytí, zpomalí tě.'),'cultist':_t('Hází vějíř tří nožů.'),'imp':_t('Malý a rychlý, poletuje v kličkách.'),'magslime':_t('Po smrti nechá kaluž magmatu, která pálí.'),'miner':_t('Drží si odstup a hází krumpáče.'),'yeti':_t('Pomalý a odolný. Hází sněhové koule, které zpomalí.'),'wraith':_t('Kličkuje k tobě a jeho dotek zpomaluje.'),'icearcher':_t('Drží si odstup a střílí dvojice ledových šípů, které zpomalí.'),'snowman':_t('Po smrti se rozletí na střepy ledu.'),'crab':_t('Na chvíli se zastaví a pak vyrazí přímo na tebe.'),'pirate':_t('Odolný a po smrti nechá louži, která zpomaluje.'),'jelly':_t('Na každou dobu poskočí k tobě, její dotek zpomaluje.'),'gull':_t('Krouží kolem a střemhlav se vrhá dolů.'),'starimp':_t('Na takt se přenese těsně k tobě.'),'meteor':_t('Rozjede se a vrazí do tebe.'),'starwolf':_t('Mezi vlky svítí čáry, které pálí.'),'comet':_t('Létá rovně napříč a nechává hořící ohon.')},B={'slimeking':_t('Svolává další slizy.'),'lich':_t('Střílí kruhy střel.'),'demon':_t('Vrhá se na tebe a pálí kruhy střel.'),'priest':_t('Volá utopence a pod nohy ti plive louže.'),'warden':_t('Vrhá se, dupe a zhasíná pochodně.'),'ringer':_t('Každý úder zvonu je kruh střel.'),'morvan':_t('Chrání ho tři fylaktérie. Pod polovinou zdraví uzavře arénu.'),'scorpking':_t('Vrhá se a nechává za sebou jed.'),'worm':_t('Plave pod pískem, kde je nezranitelný, a vyráží pod tebou.'),'priestess':_t('Kletbou ti na chvíli obrátí ovládání.'),'sphinx':_t('Nejdřív hlídá sluneční paprsek, pak tě loví, potápí obelisky a volá vojáky.'),'forgelord':_t('Každý úder kladiva je kruh jisker, volá skřety a pod nohy ti lije magma.'),'eel':_t('Plave pod vodou, kde je nezranitelný, a vyráží pod tebou.'),'colossus':_t('Vrhá se a při dopadu se roztříští do kruhu krystalů.'),'titan':_t('Střídá vějíř a kruh magmatu. Pod polovinou zdraví se hora probudí a vybuchuje častěji.'),'crab':_t('Vrhá se bokem na tebe. Voda mu nevadí.'),'pirate':_t('Pomalý a odolný. Voda mu nevadí, po smrti nechá louži.'),'jelly':_t('Pluje do rytmu, na každou dobu vyrazí kupředu. Dotek tě zpomalí.'),'gull':_t('Krouží kolem tebe a střemhlav se vrhá.'),'crabking':_t('Vrhá se na tebe a dopad rozstříkne vějíř bublin. Volá kraby.'),'captain':_t('Pálí salvy dělových koulí a volá utopené piráty.'),'seawitch':_t('Mizí v mlze a objevuje se u tebe. Kruhy bublin a medúzy.'),'seasnake':_t('Krouží kolem tebe, plive vějíře a každý čtvrtý takt se vrhne napříč.'),'kraken':_t('Číhá u okraje paluby, pálí inkoust a útočí chapadly. Pod polovinou zdraví bouře zesílí a chapadla lámou palubu.'),'astrolab':_t('Drží odstup, střílí kruhy a spirály, volá skřítky.'),'nebula':_t('Kape hvězdný sliz a přenáší se k tobě.'),'griffin':_t('Vrhá se napříč a shazuje na tebe hvězdy.'),'orion':_t('Střílí šípy proudem i vějířem a volá vlky.'),'eclipse':_t('Kruhy střel, padající hvězdy a vlci. Když slunce mizí, bojuje dvakrát tvrději.'),'serpent':_t('Plave pod ledem, kde ho nezraníš. Vynoří se s kruhem střepů a chvíli útočí.'),'fknight':_t('Vrhá se na tebe, dopad rozmetá kruh ledu. Volá ledové přízraky.'),'wendigo':_t('Bleskové výpady končí vějířem střepů. Každé tři takty zavyje a přivolá vlky.'),'yetiking':_t('Střídá obří sněhové koule a dupnutí. Volá sněhuláky a yetie.'),'queen':_t('Kruhy ledových střepů a pomocníci. Pod polovinou zdraví začne aréna zamrzat a v bezpečí jsi jen v zářící runě.')};
@@ -8332,7 +8357,7 @@ function coSnap(){
   const o={t:'s',tt:+run.t.toFixed(2),ms:M.step,ma:+M.acc.toFixed(4),hs:state,lvl:run.level,xp:+(run.xp/run.need).toFixed(3),c:run.coins,k:run.kills,cb:run.combo,
     h:ps(h).concat(MAP_HERO(run.heroId)),g:ps(q),gs:[Math.round(pl.st.speed*plSpdMul(q)*10)/10,pl.st.max],hW:wv(run.W),gW:wv(pl.W),gP:pl.P,
     E,S,ES:run.eshots.flatMap(s=>[r2(s.x),r2(s.y)]),G:run.gems.flatMap(g=>[r2(g.x),r2(g.y)]),I:run.items.flatMap(i=>[r2(i.x),r2(i.y),IKINDS.indexOf(i.k)]),
-    T:run.towers.map(t=>[T_IDS.indexOf(t.k),r2(t.x),r2(t.y),t.lv,Math.ceil(t.hp),t.max,+(t.kick||0).toFixed(2),t.flash>0?1:0]),
+    T:run.towers.map(t=>[T_IDS.indexOf(t.k),r2(t.x),r2(t.y),t.lv,Math.ceil(t.hp),t.max,+(t.kick||0).toFixed(2),t.flash>0?1:0,t.dwA?1+Math.round(t.dwk*8):0]),
     cr:run.crystal?[Math.ceil(run.crystal.hp),run.crystal.max,run.crystal.flash>0?1:0]:null,ca:run.carts?run.carts.map(c=>+c.s.toFixed(1)):null,
     bo:run.boss?run.boss.nid||0:0,mt:run.mat||0,bw:!!run.bw,fx,n:nums,kd:K,fs:run.flashScr>.15?+run.flashScr.toFixed(2):0,cu:run.curse>0?1:0,mf:mfCall('snap')||null,al:(run.allies||[]).flatMap(a=>[r2(a.x),r2(a.y),Math.round(a.t)]),
     pt:allPets().flatMap(P=>[PET_IDS.indexOf(P.k),r2(P.x),r2(P.y),P.face<0?-1:1,(P.bit>0?1:0)|(P.rd>0?2:0)]),pf:(run.pfire||[]).map(f=>[r2(f.x),r2(f.y),f.r,+f.life.toFixed(1),f.max,+f.seed.toFixed(2)])};
@@ -8399,7 +8424,7 @@ function guestApply(o){
   R.gems=[];for(let i=0;i<o.G.length;i+=2)R.gems.push({x:h2(o.G[i]),y:h2(o.G[i+1])});
   R.items=[];for(let i=0;i<o.I.length;i+=3)R.items.push({x:h2(o.I[i]),y:h2(o.I[i+1]),k:IKINDS[o.I[i+2]]});
   R.towers=o.T.map((a,i)=>{const k=T_IDS[a[0]],old=R.towers[i];const t=old&&old.k===k&&Math.abs(old.x-h2(a[1]))<1?old:{isTower:true,k,spr:SPR.tower[k],show:0};
-    Object.assign(t,{x:h2(a[1]),y:h2(a[2]),lv:a[3],hp:a[4],max:a[5],kick:a[6],flash:a[7]?.1:0});return t;});
+    Object.assign(t,{x:h2(a[1]),y:h2(a[2]),lv:a[3],hp:a[4],max:a[5],kick:a[6],flash:a[7]?.1:0,dwA:!!a[8],dwk:a[8]?(a[8]-1)/8:0});return t;});
   if(R.crystal&&o.cr){R.crystal.hp=o.cr[0];R.crystal.max=o.cr[1];if(o.cr[2])R.crystal.flash=.12;}
   if(o.ca){R.carts=o.ca.map(s=>{const q=railPos(s);return{s,x:q.x,y:q.y};});}
   R.curse=o.cu?1:0;if(o.mf)mfCall('apply',o.mf);R.allies=[];if(o.al)for(let i=0;i<o.al.length;i+=3)R.allies.push({isAlly:true,x:h2(o.al[i]),y:h2(o.al[i+1]),t:o.al[i+2],face:1});
@@ -8476,6 +8501,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10r',d:'10. 11. 2026',t:_t('Věže bez ťukání'),hl:[
+  {ic:'tower',t:_t('Postůj u věže'),d:_t('Když u věže chvíli postojíš a máš dost zlata, vylepší se sama. Prstenec na zemi ukazuje, jak daleko to je. Věž na úrovni 3 se takhle opraví.')}],
+  items:[_t('Rychlým průchodem kolem věže zlato neutratíš a čerstvě postavená věž má pár vteřin klid.'),_t('Tlačítko Vylepšit funguje dál.')]},
  {v:'2026-11-10q',d:'10. 11. 2026',t:_t('Ostré písmo a kamenná okna'),hl:[
   {ic:'hammer',t:_t('Předměty na oltářích'),d:_t('Když máš v Kovárně co sloučit, tři kusy leží na oltářích kolem kovadliny. Ťukni na výheň a jdeš kovat.')},
   {ic:'tower',t:_t('Věže v kamenných výklencích'),d:_t('Arzenál i karty věží jsou z kamene, modrý vzor zmizel.')},

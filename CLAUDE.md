@@ -38,6 +38,12 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak `cd tests/tools && node -e "require('./lib').prep()"` (vytvoří off.html bez klíče a vedle něj game.js, krypta.css, lang-en.js a symlinky). Audit to dělá sám. Playwright je předinstalovaný.
 
+## Předávka 2026-11-10 ~21:15 (verze 10r = vylepšení věže postáním, nad grafickou 10q; chat „logika a funkce“)
+- Hotový třetí bod z rozboru dokumentu „Herní Design a Systémová Architektura“: **postůj u věže `DW_BEATS`=2 doby (min. 1,1 s, `dwTime()`) → `towerUp(t)`** = stejná cena a účinek jako tlačítko; na úr. 3 se poškozená věž opraví. Jen nejbližší věž v okruhu `DW_R`=20 od každého hráče (co-op přes `players()`), čerstvá věž `DW_BORN`=4 s klid, bez zlata nic. `towerDwell(dt)` volá `updateTowers` jen u hostitele; průběh `t.dwk`/`t.dwA` jde kamarádovi jako 9. položka věže ve snímku (`T`). Kreslení: prstenec na zemi pod věží (zlatý, oprava zelená). Tlačítko Vylepšit zůstává. Jednorázový tip `save.tipDw`.
+- Proč 1,1 s minimum: při 142 BPM jsou 2 doby 0,85 s a průchod středem kruhu základní rychlostí 58 trvá ~0,7 s.
+- Bot (`bot.js 8 knight,builder,mage hrbitov,poust 0 zkuseny`) před/po: výhry i zlato v šumu, na Poušti méně smrtí kvůli krystalu. Test `tests/tools/vezpostat.js`.
+- Z dokumentu dál **nedělat** bez nového rozhodnutí uživatele (viz 10p níže): sokly, Krystal na všech mapách, Safíry, sběr všemi mazlíčky, minihra slučování, fialová pečeť.
+
 ## Předávka 2026-11-10 ~21:00 (verze 10p = odznak fúze na kartě + kroužek rytmu; chat „logika a funkce“)
 - **Rozdělení práce (uživatel 10. 11. večer):** jeden chat dělá grafiku, druhý logiku a funkce. Oba pushují na `main`, takže platí pravidlo fetch + rebase před prací i před pushem.
 - **Dokument z Drive „Herní Design a Systémová Architektura“** (core loop a meta-game) jsem porovnal s hrou. Uživatel rozhodnutí nechal na mně. Závěr:
@@ -80,7 +86,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
 - Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
 
-## Aktuální stav (verze 10q, 10. 11. 2026 večer, vše na main, Pages nasazené)
+## Aktuální stav (verze 10r = 10q grafika + vylepšení věže postáním, 10. 11. 2026 večer, vše na main, Pages nasazené)
 - Hra: 6 kapitol (30 map, I–VI), 11 hrdinů, Noční můry I–III, Nekonečná krypta na finále, Runy, Souhvězdí, Nástěnka (denní úkoly, kontrakty, týdenní výzva), co-op beta, mazlíčci, věže jen z bedny. Podrobnosti kapitol `KAMPAN.md`, ekonomika `EKONOMIKA.md`, historie všech verzí `docs/HISTORIE.md`, mapa kódu `docs/KOD.md`.
 - Vzhled: starý styl (kámen a železo, kovaná tlačítka `.btn`) se postupně nahrazuje novou grafikou (viz níže); fialová jen pro Epické a kouzla. Staré obrazovky používají CSS rám `.btn:not(.art)`.
 - Server: hra mluví s `profiles` jen přes `my_profile` / `save_profile` / `claim_profile_v2` (limit PINu), skóre čistí `stats_clean`, protokoly `private.pin_fail` a `private.cheat_log`. Migrace v `supabase/migrations/`.
