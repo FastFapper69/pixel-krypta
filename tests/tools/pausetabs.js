@@ -2,7 +2,7 @@
 const L=require('./lib');L.prep();const pre=process.argv[2]||'pause',lang=process.argv[3]||'cs',ph=process.argv[4]||'15';
 (async()=>{const P=await L.open({lang,phone:ph,save:'late',dpr:3});const {p,E,errs}=P;
  await E("featInit();save.feat.quests=1;save.feat.contracts=1;save.feat.fuse=1;save.heroes.bard=true;startRun('bard','hrbitov')");await p.waitForTimeout(400);
- await p.evaluate(()=>{const K=window.__krypta;K.god=true;for(let i=0;i<60*70;i++){K.step(1/60);const s=K._ev('state');if(s!=='play'){if(s==='levelup'){const b=document.querySelector('#scr-levelup .card');if(b)b.click();}else K._ev("setState('play')");}}});
+ await p.evaluate(()=>{const K=window.__krypta;K.god=true;for(let i=0;i<60*70;i++){K.step(1/60);const s=K._ev('state');if(s!=='play'){if(s==='levelup'){const b=document.querySelector('#scr-levelup .k-card');if(b)b.click();}else K._ev("setState('play')");}}});
  await E("run.p.hp=run.p.max*.62;togglePause(true)");await p.waitForTimeout(500);const bad=[];
  for(const t of ['run','hero','q']){await E("pauseTab='"+t+"';renderPauseBuild()");await p.waitForTimeout(250);
   const o=await p.evaluate(()=>{const b=document.querySelector('#pBuild'),R=b.getBoundingClientRect(),out=[];
