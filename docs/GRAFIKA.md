@@ -1,7 +1,7 @@
 # Nová grafika UI – specifikace (zadání V3, 10. 11. 2026)
 
 Zdroj: dokument uživatele „Pixel Krypta – UI Design System a Specifikace Hry“ (V2 na Disku + doplněk V3 o redukci textu).
-Stav: **návrh, čeká na schválení pilotu.** Práce poběží na větvi `grafika`, na `main` až po schválení.
+Stav: **návrhy pěti obrazovek poslané uživateli 10. 11. večer, čeká se na schválení.** Makety: `tests/tools/mock/grafika/` (`node gshot.js <složka> levelup,pause,shop,forge,forge_fill,hero [cs|en] [15|se] [dpr]`; `old_*` = dnešní stav). Práce poběží na větvi `grafika`, na `main` až po schválení.
 Skill k tomu: `.claude/skills/pixel-ui-art-direction`.
 
 ## 1. Tři pravidla, která platí všude
@@ -36,10 +36,10 @@ Co dokáže říct ikona, barva, slot nebo sama mechanika, to se nepíše.
 - Dotykové plochy nejméně 44×44 px.
 
 ### 1.3 Jedno pixelové písmo
-- **Jersey 10** pro všechno: 20 px (základ, čísla, popisky), 30 px (tlačítka, názvy), 40 px (velké chvíle). Jsou to přesné násobky jeho mřížky, takže je ostré. Má celou českou diakritiku a číslice se nepletou (dnešní Pixelify Sans plete 25 a 88).
-- **Jacquard 12** (gotické) jen na logo a nadpis obrazovky, 36 nebo 48 px. O tom rozhodne pilot.
-- Chakra Petch (technické písmo, do krypty nesedí) zůstane jen v Soukromí a licencích.
-- Věty malými písmeny, ne verzálkami. Písma budou uložená v `fonts/` (licence OFL).
+- Rodina **Jersey** ve třech řezech, každý v jediné velikosti, aby měl pixel písma vždy 2 px jako zbytek UI: **Jersey 10 ve 20 px** (základ, čísla, popisky), **Jersey 15 ve 30 px** (názvy, tlačítka), **Jersey 20 ve 40 px** (nadpis obrazovky, velké chvíle). Jiné velikosti se nepoužívají (Jersey 10 ve 30 px by měl pixel 3 px = míchání hustot).
+- Celá česká diakritika, číslice se nepletou (dnešní Pixelify Sans plete 25 a 88). Soubory v `fonts/`, licence `licenses/OFL-Jersey.txt`.
+- Gotické písmo (Jacquard) vyzkoušeno a zamítnuto: velké O, V, S nejdou přečíst („Obchod“ vypadal jako „Vbchod“).
+- Chakra Petch zůstane jen v Soukromí a licencích. Věty malými písmeny, ne verzálkami.
 
 ## 2. Materiály a barvy
 
@@ -157,7 +157,9 @@ Po každém kroku: snímky všech dotčených obrazovek (CZ i EN, SE i velký iP
 
 **Souběh s balancem (druhý chat):** grafika mění `krypta.css`, kreslení UI a šablony obrazovek; balanc mění čísla v datech. Riziková místa jsou popisy zbraní, pasivek, talentů a úkolů v `game.js` – tam se popisy nebudou přepisovat ručně, ale skládat z čísel. Větev `grafika` si bere `main` po každém kroku, sloučení na `main` až po schválení.
 
-## 6. Otevřené otázky
-- Která obrazovka bude pilot.
-- Gotické písmo na nadpisy ano / ne.
-- Pojmy „Pity“ a „Dnes“ nahradit ikonami (návrh výše), nebo nechat slovem.
+## 6. Co ukázaly makety (10. 11.)
+- Rámy se nekreslí devítidílným rámem, ale **každý prvek dostane vlastní kresbu podle své velikosti** (`KIT.paint`, atribut `data-k`): oštípané rohy a praskliny jsou u každé desky jiné, nic se nenatahuje.
+- Karty nové úrovně: kamenná deska s vytesanými runami, bez železných rohů (vypadaly jako staré šrouby). Vybraná karta má zlatý obrys a runy se rozsvítí, fúze má fialový.
+- Obchod: šance jako barevná čísla bez opakovaného znaku %, záruka = přesýpací hodiny + drahokam v barvě rarity + číslo, denní limit = slunce + `4/4`. Všech šest truhel se vejde na jednu obrazovku bez posouvání.
+- Úzké telefony (375 px): sloupec 360 px se vystředí; na 360 px bude potřeba užší sloupec (kresby se přizpůsobí samy).
+- Zatím nenakreslené: talenty hrdiny, HUD, hlavní menu a zbytek obrazovek.

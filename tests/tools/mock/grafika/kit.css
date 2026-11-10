@@ -1,0 +1,86 @@
+/* Návrh nové grafiky UI – styly stavebnice (viz docs/GRAFIKA.md). Všechny rozměry jsou násobky 2 px. */
+@font-face{font-family:'Jersey 10';src:url(fonts/jersey-10-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+2212}
+@font-face{font-family:'Jersey 10';src:url(fonts/jersey-10-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02FF}
+@font-face{font-family:'Jersey 15';src:url(fonts/jersey-15-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+2212}
+@font-face{font-family:'Jersey 15';src:url(fonts/jersey-15-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02FF}
+@font-face{font-family:'Jersey 20';src:url(fonts/jersey-20-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+2000-206F,U+2190-21FF,U+2212}
+@font-face{font-family:'Jersey 20';src:url(fonts/jersey-20-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02FF}
+#kmock{position:fixed;inset:0;z-index:9999;font:20px/20px 'Jersey 10',monospace;color:#e9e2d0;overflow:hidden;letter-spacing:0;text-align:left}
+:where(#kmock) *{box-sizing:border-box;margin:0;padding:0}
+:where(#kmock) img{image-rendering:pixelated;display:block}
+:where(#kmock) button{font:inherit;border:0;background:none;display:block}
+#kmock{--f30:30px/30px 'Jersey 15',monospace;--f40:40px/40px 'Jersey 20',monospace}
+:where(#kmock) .kp{display:inline-block}
+.t30{font:var(--f30)}.t40{font:var(--f40)}
+.gold{color:#ffd75e}.sil{color:#d3cdbf}.mut{color:#938c7e}.ink{color:#3a2a16}.red{color:#ff7a66}.vio{color:#d9a8f2}
+.sh{text-shadow:0 2px 0 #000}
+.k-dim{position:absolute;top:0;bottom:0;left:-80px;right:-80px;background:#07060ad0}
+.k-abs{position:absolute}
+.k-row{display:flex;align-items:center}
+/* nadpis velké chvíle */
+.k-big{font:var(--f40);color:#ffd75e;text-align:center;text-shadow:2px 0 0 #2a1606,-2px 0 0 #2a1606,0 2px 0 #2a1606,0 -2px 0 #2a1606,2px 2px 0 #2a1606,-2px 2px 0 #2a1606,2px -2px 0 #2a1606,-2px -2px 0 #2a1606,0 4px 0 #8f5a12,2px 4px 0 #2a1606,-2px 4px 0 #2a1606,0 6px 0 #2a1606}
+/* tlačítka */
+.k-btn{position:relative;height:56px;padding:0 16px 6px;display:flex!important;align-items:center;justify-content:center;gap:8px;font:var(--f30);white-space:nowrap;color:#f4ecd6}
+.k-btn[data-m=gold]{color:#3a2208;text-shadow:0 2px 0 #fff3b0}
+.k-btn[data-m=slate],.k-btn[data-m=danger],.k-btn[data-m=rune]{color:#f4ecd6;text-shadow:0 2px 0 #000}
+.k-btn[data-m=oak]{color:#f8efcf;text-shadow:0 2px 0 #170c05}
+.k-btn.sm{height:44px;font:20px/20px 'Jersey 10',monospace;padding:0 12px 6px}
+.k-ibtn{width:44px;height:44px;padding:0 0 6px;display:flex!important;align-items:center;justify-content:center}
+/* karta nové úrovně */
+.k-card{position:relative;width:360px;height:100px;display:block;text-align:left}
+.k-card .sock{position:absolute;left:16px;top:14px;width:64px;height:64px;display:flex;align-items:center;justify-content:center}
+.k-card .sock img{width:44px;height:44px}
+.k-card .nm{position:absolute;left:92px;top:16px;font:var(--f30);color:#ffd75e;text-shadow:0 2px 0 #000;white-space:nowrap}
+.k-card .st{position:absolute;left:92px;top:52px;right:16px;color:#bdb7a8;text-shadow:0 2px 0 #000;white-space:nowrap}
+.k-card .st b{font-weight:400;color:#fffbe6}
+.k-card .st i{font-style:normal;color:#8d877a;margin:0 8px;text-shadow:none}
+.k-card .pips{position:absolute;right:18px;top:20px;display:flex;gap:2px}
+.k-card .seal{position:absolute;right:-6px;top:-8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.k-card.sel{transform:translateY(-4px)}
+.k-eq{display:flex;align-items:center;gap:6px}
+.k-eq img.ic{width:44px;height:44px}
+.k-sep{display:inline-block;width:4px;height:4px;background:#8d877a;margin:0 10px 4px;vertical-align:middle}
+/* pauza */
+.k-sign{display:flex;align-items:center;justify-content:center;gap:8px;padding-bottom:6px;font:var(--f40);color:#f8efcf;text-shadow:0 2px 0 #170c05,0 4px 0 #170c05}
+.k-sign img.ic{width:44px;height:44px}
+.k-tile{display:flex;align-items:center;justify-content:center;gap:8px;padding-bottom:4px;font:var(--f30);color:#f4ecd6;text-shadow:0 2px 0 #000}
+.k-num{display:flex;align-items:center;justify-content:center;color:#fffbe6;text-shadow:0 2px 0 #000,2px 0 0 #0006,-2px 0 0 #0006}
+.k-flag{position:absolute;display:flex;align-items:flex-start;justify-content:center;padding-top:10px;color:#cfc8b8;text-shadow:0 2px 0 #0009}
+.k-flag[data-on]{color:#fff3b0;text-shadow:0 2px 0 #501214}
+.k-wrow{position:relative;height:60px;margin:0 8px}
+.k-wrow+.k-wrow{box-shadow:0 -2px 0 #2a2c31,0 -4px 0 #0e0f11}
+.k-wrow img.ic{width:44px;height:44px}
+.k-wrow .wi{position:absolute;left:6px;top:8px}
+.k-wrow .wn{position:absolute;left:60px;top:10px;color:#f4ecd6;text-shadow:0 2px 0 #000;white-space:nowrap}
+.k-wrow .pips{position:absolute;left:60px;top:38px;display:flex;gap:2px}
+.k-wrow .k-eq{position:absolute;right:6px;top:8px}
+.k-off{filter:grayscale(1) brightness(.45)}
+.k-ps{position:absolute;width:48px;height:48px;display:flex;align-items:center;justify-content:center}
+.k-ps img.ic{width:44px;height:44px}
+.k-ps b{position:absolute;right:-2px;bottom:-4px;font-weight:400;color:#ffd75e;text-shadow:2px 0 0 #000,-2px 0 0 #000,0 2px 0 #000,0 -2px 0 #000}
+/* hlavička obrazovek menu */
+.k-title{position:absolute;font:var(--f40);color:#ffd75e;text-shadow:0 2px 0 #2a1606,0 4px 0 #2a1606;white-space:nowrap}
+.k-cur{position:absolute;display:flex;gap:16px;align-items:center;color:#fffbe6;text-shadow:0 2px 0 #000}
+.k-cur span{display:flex;gap:6px;align-items:center}
+/* obchod */
+.k-chest{position:absolute;left:16px;width:360px}
+.k-chest .ci{position:absolute;left:10px;bottom:12px;width:72px;height:64px}
+.k-chest .cn{position:absolute;left:94px;top:6px;font:var(--f30);color:#f8efcf;text-shadow:0 2px 0 #0d0704;white-space:nowrap}
+.k-chest .od{position:absolute;left:94px;top:40px;display:flex;gap:10px;align-items:center;text-shadow:0 2px 0 #0d0704}
+.k-chest .od span{display:flex;gap:4px;align-items:center}
+.k-chest .bd{position:absolute;left:94px;top:62px;display:flex;gap:12px;align-items:center;color:#e9e2d0;text-shadow:0 2px 0 #0d0704}
+.k-chest .bd span{display:flex;gap:4px;align-items:center}
+.k-tag{position:absolute;right:8px;top:40px;height:44px;display:flex!important;align-items:center;justify-content:center;gap:10px;color:#3a2a16}
+.k-tag span{display:flex;gap:6px;align-items:center}
+/* kovárna */
+.k-slot{position:absolute;width:56px;height:56px;display:flex;align-items:center;justify-content:center}
+.k-slot img.it{width:44px;height:44px}
+.k-slot .cls{position:absolute;right:2px;bottom:2px}
+.k-slot.hot{box-shadow:0 0 0 2px #ffd75e}
+.k-hint{position:absolute;left:0;right:0;text-align:center;color:#938c7e;text-shadow:0 2px 0 #000}
+/* vybavení hrdiny */
+.k-slot img.sil{width:44px;height:44px;filter:brightness(0) invert(.32)}
+.k-statrow{position:absolute;left:28px;right:28px;height:28px;display:flex;align-items:center;gap:10px;color:#d3cdbf;text-shadow:0 2px 0 #000}
+.k-statrow b{margin-left:auto;font-weight:400;color:#ffd75e}
+.k-statrow+.k-statrow{box-shadow:0 -2px 0 #2a2c31}
+.k-lv{position:absolute;display:flex;align-items:center;justify-content:center;color:#fffbe6;text-shadow:0 2px 0 #000}

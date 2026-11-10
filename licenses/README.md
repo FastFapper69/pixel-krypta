@@ -7,3 +7,5 @@
 | supabase-js 2.45.4 | `vendor/supabase-2.45.4.js` | MIT | MIT-supabase-js.txt |
 
 Grafika, mapy, ikony, postavy, hudba a zvuky jsou generované kódem hry (žádné cizí assety). Písma pochází z balíčků @fontsource (npm).
+
+- `OFL-Jersey.txt` – písma Jersey 10 / 15 / 20 (`fonts/jersey-*.woff2`), připravená pro novou grafiku UI.
