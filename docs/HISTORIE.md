@@ -285,3 +285,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - Podle návrhu, který uživatel poslal (obrázek z Gemini): scéna `#mScene` (`KIT` druh `crypt`: cihly, dlažba, mech, pavučiny, tečkované světlo od pochodní a ohniště; `menuScene()` ji natáhne od lišty po tlačítka a srovná podlahu pod nohy postav), živé plameny (`.k-flame`, `.k-fire`).
 - Tlačítka menu kreslí `KIT` (`BART_MAT`, `kitBtn`) na mřížce 2 px: zlato, natřené dřevo, kámen, dub s markýzou, prkno nástěnky, noční kámen. Popisky Jersey 15/30 px, ve dvojicích při nedostatku místa Jersey 10/20 px (`#mStack.k20`). Horní lišta zatím stará.
 - `KIT.paint` zvětšuje kresby už v obrázku na pixely displeje (`sharp`), prohlížeč nic nepřepočítává.
+
+## 10m – horní lišta menu bez rámečků (2026-11-10)
+- Přání uživatele: `bartApply` pro druhy `ico` a `cur` rám nekreslí, ikony 44 px (2× sprite), měny písmem Jersey 10.

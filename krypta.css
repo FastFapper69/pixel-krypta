@@ -1216,3 +1216,9 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #mStack .skybtn.art .lbl,#mStack .skybtn.art{color:#dfe8ff!important}
 #mStack .skybtn.art img{width:32px;height:32px;position:relative;top:-3px;filter:none}
 @media (max-height:700px){#mStack .btn.art-play{min-height:60px}#mStack .btn.art:not(.art-play){min-height:52px}}
+/* horní lišta menu bez rámečků (10m): jen ikony a čísla */
+#mTop .btn.ic.art{width:44px;height:44px}#mTop .btn.ic.art img{width:44px;height:44px;filter:drop-shadow(0 2px 0 #000)}
+#mTop{gap:4px!important}
+#mCur.art{padding:0 2px!important;height:44px!important;margin-top:0!important;gap:0 10px!important;font:var(--k20)!important;letter-spacing:0;color:#fffbe6;text-shadow:0 2px 0 #000}
+#mCur.art .mt{gap:4px}#mCur.art .mt img{width:22px;height:22px;image-rendering:pixelated}
+#mTop .btn.ic.art.has::after,#mTop .btn.ic.art.new::after{top:2px;right:2px}

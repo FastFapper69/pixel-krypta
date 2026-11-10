@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10l';
+const GAME_VER='2026-11-10m';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -5869,6 +5869,7 @@ function kitBtn(kind,aw,ah,ex){const base=KIT.cv('btn',aw,ah,{m:BART_MAT[kind],s
  const c=document.createElement('canvas');c.width=aw;c.height=ah+M.t;const g=c.getContext('2d');g.drawImage(base,0,M.t);const w2=Math.min(54,Math.round(aw*.5/9)*9);g.drawImage(KIT.awn(w2,11),(aw-w2)>>1,0);return{cv:c,M,W:aw,H:ah+M.t};}
 function bartApply(b){
  const kind=BART_KIND[b.id];if(!kind||b.hidden)return;const w=b.offsetWidth,h=b.offsetHeight;if(!w||!h)return;
+ if(kind==='ico'||kind==='cur'){const o=b.querySelector(':scope>.bart');if(o)o.remove();return;} // 10m: horní lišta bez rámečků
  const S=BART_MAT[kind]?2:BART_S,aw=Math.floor(w/S),ah=Math.floor(h/S),off=Math.floor((w-aw*S)/2);let ex=null;
  if(kind==='sky'){const br=b.getBoundingClientRect();let l=1e9,r=-1e9;for(const e of b.childNodes){if(e.nodeType===1&&e.classList.contains('bart'))continue;let q;if(e.nodeType===3){if(!e.textContent.trim())continue;const rg=document.createRange();rg.selectNodeContents(e);q=rg.getBoundingClientRect();}else if(e.nodeType===1)q=e.getBoundingClientRect();else continue;if(!q.width)continue;l=Math.min(l,q.left-br.left);r=Math.max(r,q.right-br.left);}if(r>l)ex=[Math.floor((l-off)/S),Math.ceil((r-off)/S)];}
  let key=kind+aw+'x'+ah+(ex?ex.join('-'):'');
@@ -8396,6 +8397,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10m',d:'10. 11. 2026',t:_t('Čistší horní lišta'),hl:[
+  {ic:'trophy',t:_t('Ikony bez rámečků'),d:_t('Měny a čtyři ikony nahoře v menu už nemají železné rámečky. Ikony jsou větší a líp se do nich trefíš.')}]},
  {v:'2026-11-10l',d:'10. 11. 2026',t:_t('Menu v síni krypty'),hl:[
   {ic:'candle',t:_t('Síň s pochodněmi'),d:_t('Hlavní menu je teď místo v kryptě: cihlová zeď, dvě pochodně a ohniště, u kterého sedí hrdina s nepřáteli.')},
   {ic:'chest_wood',t:_t('Každé tlačítko z jiného materiálu'),d:_t('Zlato pro Hrát, natřené dřevo pro hru s kamarádem, kámen pro Vybavení a Kovárnu, dub pro Obchod a noční kámen pro Souhvězdí.')}],
