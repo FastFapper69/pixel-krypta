@@ -3,7 +3,7 @@
 // node chapcheck.js hero:sailor   -> hrdina
 // node chapcheck.js all           -> všechny kapitoly a hrdinové (jen text)
 // Před spuštěním: off.html a lang-en.js vedle skriptu (viz CLAUDE.md, Rozjetí testů). Obrázek: <arg>_check.png v aktuální složce.
-const {chromium}=require('playwright'),fs=require('fs'),path=require('path');
+const {chromium}=require('playwright'),fs=require('fs'),path=require('path'),{musicCheck}=require('./hudba-pravidla'),{measureNames,MAX:NAME_MAX}=require('./jmenahrdinu');
 const arg=process.argv[2]||'all',root=path.join(__dirname,'..','..');
 (async()=>{const b=await chromium.launch();const c=await b.newContext({viewport:{width:393,height:852},deviceScaleFactor:1});
  await c.addInitScript(()=>localStorage.setItem('pixel-krypta-lang','cs'));
@@ -64,12 +64,19 @@ const arg=process.argv[2]||'all',root=path.join(__dirname,'..','..');
   out.allCz=[...out.ch.flatMap(o=>[o.name,...o.maps.flatMap(m=>[m.name,m.desc]),...(o.introLines||[])]),...out.hero.map(o=>o.name)];
   return JSON.stringify(out);})()`);},arg);
  const D=JSON.parse(data);let bad=0;
+ // 10f: music rules (hudba-pravidla.js) for every chapter – own style with a measured mix, melody in every bar, unique motifs, variety
+ for(const o of D.ch){const r=await musicCheck(p,o.maps.map(m=>m.id));o.warn.push(...r.warn.map(w=>'hudba: '+w));
+   for(const id in r.songs){for(const i of r.songs[id].issues)o.issues.push(id+' hudba: '+i);for(const w of r.songs[id].warn)o.warn.push(id+' hudba: '+w);}
+   if(arg!=='all')o.warn.push('hudba: změř hlasitost po taktech – node skladby.js '+o.id+' (propady 0, klid −2 až −6, boss +3 až +5 dB)');}
  const missEN=s=>s&&EN[s]==null;
  for(const o of D.ch){if(!kampan.includes(o.name))o.warn.push('KAMPAN.md nezmiňuje kapitolu');
    for(const m of o.maps){if(missEN(m.name))o.issues.push(m.id+': chybí anglický název');if(missEN(m.desc))o.issues.push(m.id+': chybí anglický popis');if(!fs.existsSync(path.join(root,'thumbs',m.id+'.png')))o.issues.push(m.id+': chybí pohlednice thumbs/'+m.id+'.png (thumbgen.js)');}
    for(const l of o.introLines||[])if(missEN(l))o.issues.push('hláška bez překladu: '+l);
    console.log('\n== Kapitola '+o.id+' · '+o.name+' == mapy '+o.maps.map(m=>m.id).join(', ')+' | noví nepřátelé '+o.enemies.join(', ')+' | set '+(o.set?o.set.id+' ['+o.set.slots.join(',')+']'+(o.set.six?' ×6':''):'-')+' | legendárka '+(o.leg||'-')+' | hrdinové '+o.heroes.join(', '));
    for(const i of o.issues)console.log('  CHYBA  '+i);for(const w of o.warn)console.log('  pozor  '+w);bad+=o.issues.length;if(!o.issues.length)console.log('  OK');}
+ // 10f: hero name must fit its tile at full font size on the narrowest phone, CZ and EN (jmenahrdinu.js)
+ if(D.hero.length){const rows=await measureNames(arg.startsWith('hero:')?arg.slice(5):null);
+   for(const r of rows)if(!r.ok){const o=D.hero.find(h=>h.id===r.id);if(o)o.issues.push('jméno „'+r.t+'“ ('+r.lang+') zabere '+r.pct+' % dlaždice, limit '+NAME_MAX+' % – zkrať ho (nebo sname)');}}
  for(const o of D.hero){if(missEN(o.name))o.issues.push('chybí anglické jméno');console.log('\n== Hrdina '+o.id+' · '+o.name);for(const i of o.issues)console.log('  CHYBA  '+i);for(const w of o.warn)console.log('  pozor  '+w);bad+=o.issues.length;if(!o.issues.length)console.log('  OK');}
  // overview sheet for one chapter: thumbnails, enemies, bosses, set pieces, legendary, heroes
  if(arg!=='all'&&!arg.startsWith('hero:')&&D.ch[0]){const url=await p.evaluate(async id=>{const E=window.__krypta._ev;const ms=JSON.parse(E("JSON.stringify(CHAPTERS.find(c=>c.id==='"+id+"').maps)"));window.__th={};

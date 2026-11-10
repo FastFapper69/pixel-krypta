@@ -22,7 +22,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 2. **Sprity**: rekvizity map do `KIT_PROPS` (řádky + paleta, `big:1` = 2× větší), nepřátelé do `ENEMY_DEFS` (rows, pal), bossové do `BOSS_DEFS` (rows, pal, `big:1` u finále), kusy setu do `ITEM_ART` (`<set>_<slot>`, boty a rukavice `full:1` 12 široké).
 3. **Podpisová mechanika**: jedna z `KIT_MECH` (viz níže) s vlastní barvou a textem, nebo vlastní háček, když je to finále (jako loď v bouři, erupce). Vlastní mechanika = nový záznam do `KIT_MECH` (init/update/gupdate/ground/top/over/glows/snap/apply), ať jde použít znovu.
 4. **Vlastní útok každého bosse**: `KIT_OWN[jméno]=(e,dt,c,ph)=>{…}` (vrátí rychlost `[vx,vy]` nebo nic).
-5. **Motiv hudby**: 8 osmin ve stupních stupnice (`null` = pauza) pro každou mapu, `songKit` z něj složí celou skladbu.
+5. **Hudba**: kapitola má **vlastní styl nástrojů** (`STYLES`, mix změřený `rolecal.js`) a každá mapa `songKit({…, motif, answer, boss})` – motiv, vlastní odpověď a vlastní boss téma (8 osmin ve stupních, `null` = pauza). Postup a cíle ve skillu `zvuk-a-hudba` („Hudba nové kapitoly“).
 6. **Texty**: jména, popisy, hlášky, Průvodce (`N` nepřátelé a `B` bossové v `renderGuide`), Novinky, vše přes `_t()` + `lang-en.js`.
 
 ## Co dává stavebnice (nepsat znovu)
@@ -40,13 +40,13 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
   Tah `{on:'beat'|'bar', every, at, do, …}`: `ring {n,spd,mul}`, `fan {n,spread,spd}`, `aimed {n,spd}` (proud na hrdinu), `summon {e,n}`, `puddle {k,r,life}`, `strike {n,r}` (kruhy z nebe; mapa potřebuje mechaniku `strike` nebo `MF.kit`).
 - **Nepřátelé**: `...kitFoe(ci,'swarm'|'grunt'|'charger'|'fast'|'tank'|'ranged')` + existující chování `beh` (`chase`, `charger`, `wave`, `ghost`, `ranged`, `ranged3`, `digger`, `jelly`, `gull`, `yeti`…), `fly:1`, `touch:'slow'|'poison'`, `die:'puddle'|'snow'`.
 - **Čísla**: mapa bez řádku v `MAP_TIER` dostane schodiště `kitTier(id)` samo. Hodnoty uprav jen podle bota nebo telemetrie.
-- **Hudba**: `SONGS[mapa]=songKit({bpm, root, scale:'minor'|'harm'|'dorian'|'hijaz', style, motif:[8], boss?:[8], prog?, keys?})`. Nový styl nástrojů = záznam do `STYLES` (drums/bass/pad/arp/lead).
+- **Hudba**: `SONGS[mapa]=songKit({bpm, root, scale:'minor'|'harm'|'dorian'|'hijaz', style, motif:[8], answer:[8], boss:[8], bossAnswer?:[8], prog?, keys?})` (v2 od 10f: smyčka A B R C D B A, boss X Y X Z, melodie v každém taktu vynucená). Nový styl nástrojů = záznam do `STYLES` (drums/bass/pad/arp/lead) + `STYLE_ROLE`/`STYLE_TRIM`/`STYLE_REV`.
 
 ## Kontrolní seznam (všechna místa, kterých se kapitola dotkne)
 1. `MAPS` – 5 map (`name`, `desc` s `<b>`, `dur`, `size`, `seed`, `style:'kit'`, `kit`, `grade`, `gradeA`, `dark`, `amb`, `ambient`, `c1`, `boss`, `spawns`, `elites`, `events`, finále `finale:1`).
 2. `CHAPTERS` – `{id:'cN', name, mat:'shard', col, maps}`; `ROMAN_CH` má dost čísel; `SOON_CH` pokud čeká hrdina.
 3. `ENEMY_DEFS` (+ `BEH`, pokud nové chování) a `BOSS_DEFS`; `BOSS_INTRO` hláška každého bosse.
-4. `SONGS` pro každou mapu.
+4. `SONGS` pro každou mapu + vlastní styl kapitoly; projít `hudbacheck.js cN` a `skladby.js cN` (VERDIKT: vše v cíli).
 5. `SETS` (ch, fin, col, name, slots, pieces, b2, b4n, b4, u páté kapitoly six/b6n/b6) + bonusy v `heroBonus` (`sc.<set>`) + schopnost 4 (a 6) v `fireAll` přes `st.lg` + `ITEM_ART` obrázky.
 6. Legendárka finále: `LEGS` (s `fin:1`) + `FIN_LEG[finále]` + účinek.
 7. Hledaný: `WANTED` + `WANT_OF` (mapování kapitola → hledaný).
@@ -60,7 +60,8 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 15. `NEWS` + `GAME_VER`, `KAMPAN.md` (tabulka map a mechanik), `CLAUDE.md` (stav, předávka).
 
 ## Ověření (vždy)
-- `node tests/tools/chapcheck.js cN` – vypíše chyby a udělá přehled `cN_check.png` (pohlednice, nepřátelé, bossové, set). Musí skončit „Vše v pořádku“.
+- `node tests/tools/chapcheck.js cN` – vypíše chyby (včetně hudebních pravidel) a udělá přehled `cN_check.png` (pohlednice, nepřátelé, bossové, set). Musí skončit „Vše v pořádku“.
+- `node tests/tools/skladby.js cN` – hlasitost skladeb po taktech, musí skončit „VERDIKT: vše v cíli“.
 - `node tests/tools/bossintroall.js <prefix>` – intro všech bossů (dlouhá jména se vejdou).
 - `node tests/tools/c5shots.js <prefix> mapa,…` nebo `kitdemo.js` jako vzor pro snímky map ve hře.
 - **Hráči-boti s povahami** (`tests/tools/hraci.js`, 08z) – hlavní test obtížnosti:

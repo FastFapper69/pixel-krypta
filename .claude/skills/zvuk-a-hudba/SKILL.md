@@ -31,6 +31,16 @@ Komunikuj česky. Kód je v `game.js`, oddíl `audio: music + rhythm` (mapa v `d
 - **Žádný celý prázdný takt v `lead`** (ani v intru): na telefonu je to −16 až −25 dB díra. Pauzu udělej půltaktem nebo krátkou odpovědí v tónech akordu toho taktu.
 - Boss: `ENERGY_GAIN[3]=1.3` (dřív 1.12 → boss jen +1–2 dB).
 
+## Hudba nové kapitoly (10f) – stavebnice to hlídá sama
+- Skladby kapitoly dělej **jen přes `songKit`** (v2): `motif` + vlastní `answer` (odpověď, 8 osmin, jiný obrys) + vlastní `boss` (+ `bossAnswer` u finále). Generátor sám dodá 7sekční smyčku `A B R C D B A`, bosse `X Y X Z`, melodii v každé sekci a žádný prázdný takt.
+- **Každá kapitola má vlastní styl** v `STYLES` (I grave, II desert, III forge, IV frost, V sea, VI star). Nový styl = kopie nejbližšího + vlastní nástroje, pak:
+  1. `node tests/tools/rolecal.js <skladby stylu>` → řádek `STYLE_ROLE` (cíl = poměry nástrojů odposlouchaných stylů frost a sea; hotovo při odchylce ≤ 1,5 dB). Absolutní cíle „basa −3, melodie −4…“ tímhle měřením nesedí ani na hotové styly – nepoužívat.
+  2. `STYLE_TRIM` podle `zvuk.js` (běh jako ostatní styly), `STYLE_REV` (.1–.3).
+  3. Boss: telefon přenese hlavně středy, takže síla bosse = **rytmické akordy v `pad` při `E>=3`** (a hustší arpeggio), ne bicí a basa. Bez nich vycházel boss jen +1,7–3 dB (star, frost, forge). Když jedné skladbě boss pořád chybí, `SONGS.x.bossDb` (dB navíc jen pro bosse té skladby; `skladby.js` ho navrhne).
+  4. Konec fráze s jedinou držanou notou řeší engine sám (ozvěna o kvintu výš v půlce taktu; níž by spadla pod reproduktor telefonu ~300 Hz) – nespoléhat na to schválně, ale díra v klidu z toho už nevznikne.
+- **Kontroly:** `node tests/tools/hudbacheck.js cN` (rychlá, pravidla v `hudba-pravidla.js`: vlastní styl s mixem, žádný prázdný takt, jedinečný úvodní motiv mezi všemi skladbami, pestrost ≥ 12 různých taktů, songKit s vlastní odpovědí a bossem; volá ji i `chapcheck.js`) a `node tests/tools/skladby.js cN` (po taktech, řádek **VERDIKT**: propady 0, klid −2 až −6 dB, boss +3 až +5,5 dB). Kapitola je hotová, až obě projdou.
+- Úvodní motiv nesmí kopírovat jinou skladbu (10f: Zima = Hřbitov, Soutěska = Srdce hory, Řeka ≈ Bažina, Přístav ≈ Pevnost – přepsané).
+
 ## Kontrola po změně zvuku (rychlá, ne celý audit)
 - `node tests/tools/zvuk.js <skladby>`: běh všech stylů kolem −31 dB (±1,5), boss o 3–5 dB výš, špička pod −3 dB, žádné `musicErr`.
 - `node tests/tools/ulthold.js` u změn časování ultimátek.

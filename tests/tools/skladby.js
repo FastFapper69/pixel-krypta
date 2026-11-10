@@ -1,11 +1,12 @@
 // 10b: rozbor všech skladeb – po taktech, jak zní melodické nástroje (melodie+arpeggio+akordy) vůči bicím+base přes reproduktor telefonu.
-// node skladby.js [skladby,odd,carkou] [json_vystup]
+// node skladby.js [skladby,odd,carkou | c6 = celá kapitola] [json_vystup]
+// Na konci řádek VERDIKT: propady 0, klid −2 až −6 dB pod během, boss +3 až +5 dB nad během (pravidla skillu zvuk-a-hudba).
 // Průběh jako ve hře, jen zhuštěný: klid 0–20 s, běh 20–50 s, vrchol 50–75 s, boss 75–95 s.
 // Hluché místo = takt, kde melodické nástroje na telefonu hrají o víc než 10 dB tišeji než bicí s basou (nebo úplně chybí).
 const L=require('./lib'),fs=require('fs');
 const want=(process.argv[2]||'').split(',').filter(Boolean),OUT=process.argv[3];
 (async()=>{L.prep();const P=await L.open({save:'late'});
- const ids=want.length?want:await P.E('Object.keys(SONGS)');const all={};
+ const ids=!want.length?await P.E('Object.keys(SONGS)'):/^c\d+$/.test(want[0])?await P.E(`CHAPTERS.find(c=>c.id==='${want[0]}').maps`):want;const all={};let fails=0;
  for(const id of ids){
   const r=await P.p.evaluate(async id=>{const K=window.__krypta,sr=16000,secs=95,boss=75,int=t=>t<20?0:t<50?1:t<boss?2:3;
    const bpm=K._ev("SONGS['"+id+"'].bpm"),bar=60/bpm*4;
@@ -31,5 +32,8 @@ const want=(process.argv[2]||'').split(',').filter(Boolean),OUT=process.argv[3];
   const dip=r.bars.filter(b=>b.full<run-(b.I===0?9:6));Object.assign(r,{run,boss,calm,dip:dip.length});
   console.log(id.padEnd(11),r.style.padEnd(7),'běh',run.toFixed(1),' klid',(calm-run).toFixed(1),' boss +'+(boss-run).toFixed(1),
     ' propady',String(dip.length).padStart(2)+'/'+r.bars.length,' ',dip.map(b=>b.sec+'@'+Math.round(b.t)+'s(I'+b.I+','+(b.full-run).toFixed(0)+')').join(' '),r.err);
+  const bad=[];if(r.dip)bad.push('propady');const cd=r.calm-r.run,bd=r.boss-r.run;if(cd>-2||cd<-6)bad.push('klid '+cd.toFixed(1));if(bd<3||bd>5.5)bad.push('boss +'+bd.toFixed(1));
+  if(bad.length){fails++;console.log('   MIMO CÍL '+id+': '+bad.join(', ')+(bd<3&&!r.dip?'  → nejdřív hustší melodie/akordy v boss sekcích, jinak SONGS.'+id+'.bossDb:'+(4-bd).toFixed(1):''));}
  }
- if(OUT)fs.writeFileSync(OUT,JSON.stringify(all));await P.close();})();
+ console.log(fails?'\nVERDIKT: '+fails+' skladeb mimo cíl':'\nVERDIKT: vše v cíli');
+ if(OUT)fs.writeFileSync(OUT,JSON.stringify(all));await P.close();process.exitCode=fails?1:0;})();

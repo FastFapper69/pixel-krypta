@@ -274,25 +274,25 @@ const HEROES={
   '...rrr','..ssss','.ssppp','.sssss','..aaaa','.saaaa','saabaa','.saaaa','..b..b','..nn.n']},
  mage:{name:_t('Mág'),desc:_t('Kouzelník, co pořádně praští: <b>+10 % poškození</b> všem zbraním.'),start:'bolt',hp:0,armor:0,dmg:.10,spd:0,cost:150,pal:{},rows:[
   '....mm','...mmm','..mmmm','.mmmmm','..ffff','..fpff','..uuuu','.uuuuu','uuuubu','.uuuuu','.uu.uu']},
- archer:{name:_t('Lučištník'),desc:_t('Rychlonohý střelec: běhá o <b>10 % rychleji</b>.'),start:'arrows',hp:0,armor:0,dmg:0,spd:.10,cost:300,pal:{},rows:[
+ archer:{name:_t('Střelec'),desc:_t('Rychlonohý střelec: běhá o <b>10 % rychleji</b>.'),start:'arrows',hp:0,armor:0,dmg:0,spd:.10,cost:300,pal:{},rows:[
   '..gggg','.ggggg','.gffff','.gfpff','..ffff','..gggg','.nnnnn','nnnbnn','.nnnnn','..n..n','..b..b']},
  bard:{name:_t('Bard'),desc:_t('Hraje do rytmu. Když schytá ránu, <b>kombo mu spadne jen na půlku</b>.'),start:'note',hp:0,armor:0,dmg:0,spd:0,cost:0,ach:'combo',pal:{a:'#b0303a',c:'#f6c744'},rows:[
   '.....c','....cc','...aaa','..aaaa','.aaaaa','.fffff','.fpfff','..ffff','.mmmmm','mmmymm','.mmmmm','..m..m','..n..n']},
  builder:{name:_t('Stavitel'),desc:_t('Mistr věží: staví je za <b>60 % ceny</b> a <b>začíná s jednou věží</b>.'),start:'axe',hp:15,armor:0,dmg:0,spd:0,cost:250,builder:true,pal:{},rows:[
   '..yyyy','.yyyyy','yyyyyy','.fffff','.fpfff','..ffff','.ooooo','oouuuu','ouuuuu','.uuuuu','..u..u','..n..n']},
  // 08c: heroes built around a slot: one more weapon / a second pet; their talents strengthen exactly that
- warlord:{name:_t('Zbrojmistr'),sname:LANG==='en'?'Armsmaster':undefined,desc:_t('Unese <b>6 zbraní místo 5</b>, takže si poskládá větší arzenál.'),start:'halberd',hp:10,armor:0,dmg:0,spd:0,cost:1000,need:'trun',pal:{s:'#a8b0c0',a:'#8a2a2a',c:'#f6c744',S:'#5a6070'},rows:[
+ warlord:{name:_t('Žoldák'),desc:_t('Unese <b>6 zbraní místo 5</b>, takže si poskládá větší arzenál.'),start:'halberd',hp:10,armor:0,dmg:0,spd:0,cost:1000,need:'trun',pal:{s:'#a8b0c0',a:'#8a2a2a',c:'#f6c744',S:'#5a6070'},rows:[
   's....s','ss..ss','ssssss','.sffff','.sfpff','..ffff','.aaaaa','aacaaa','acaaSa','.aaaaa','..a..a','..n..n']},
  tamer:{name:_t('Krotitel'),desc:_t('Bere do běhu <b>dva mazlíčky</b> najednou.'),start:'whip',hp:15,armor:0,dmg:0,spd:.04,cost:1000,need:'trun',pal:{g:'#5c8a3c',G:'#3a5a24',n:'#8a5a32',b:'#f6c744',d:'#3a2a1a'},rows:[
   '..gggg','.ggggg','gGgggg','.fffff','.fpfff','..ffff','.nnnnn','nnbnnn','.nnnnn','.nnnnn','..n..n','..d..d']},
  // heroes of future chapters: locked until their chapter exists (soon), each brings its weapon to everyone at hero level 8
  smith:{name:_t('Kovářka'),desc:_t('Odolná řemeslnice: <b>+20 zdraví</b> a <b>brnění +1</b>.'),start:'hammer',hp:20,armor:1,dmg:0,spd:0,cost:1500,need:'doly',pal:{r:'#c8502a',a:'#7a4a2a',c:'#a87048'},rows:[
   '...rrr','..rrrr','.rrfff','.rfpff','..ffff','.ssccc','sscaaa','sscaaa','.ccaaa','..a..a','..n..n']},
- shaman:{name:_t('Šamanka mrazu'),sname:_t('Šamanka'),desc:_t('Vidí daleko: <b>sbírá z 20 % větší dálky</b> a má <b>+8 % poškození</b>.'),start:'icicle',hp:0,armor:0,dmg:.08,spd:0,cost:1500,need:'jezero',pal:{a:'#e8f4ff',c:'#3ac8c0',e:'#2a7a8a'},rows:[
+ shaman:{name:_t('Vědma mrazu'),sname:_t('Vědma'),desc:_t('Vidí daleko: <b>sbírá z 20 % větší dálky</b> a má <b>+8 % poškození</b>.'),start:'icicle',hp:0,armor:0,dmg:.08,spd:0,cost:1500,need:'jezero',pal:{a:'#e8f4ff',c:'#3ac8c0',e:'#2a7a8a'},rows:[
   '...aaa','..aaaa','.aaffu','.afpfu','.aafff','.ccccc','cceccc','ccecce','.ccccc','..c..c','..i..i']},
- sailor:{name:_t('Námořnice'),desc:_t('Rychlá jako vítr: běhá o <b>12 % rychleji</b>.'),start:'anchor',hp:5,armor:0,dmg:0,spd:.12,cost:1500,need:'vrakoviste',pal:{r:'#e8453c',a:'#ffffff',c:'#3a5ab8',d:'#2a2036'},rows:[
+ sailor:{name:_t('Pirátka'),desc:_t('Rychlá jako vítr: běhá o <b>12 % rychleji</b>.'),start:'anchor',hp:5,armor:0,dmg:0,spd:.12,cost:1500,need:'vrakoviste',pal:{r:'#e8453c',a:'#ffffff',c:'#3a5ab8',d:'#2a2036'},rows:[
   '...rrr','.rrrrr','.dffff','.dfpff','..ffff','.aaaaa','acccca','aaaaaa','.cccca','..d..d','..n..n']},
- astro:{name:_t('Hvězdářka'),desc:_t('Čte z hvězd: <b>ultimátky z fúzí dávají o 15 % víc</b>.'),start:'stars',hp:0,armor:0,dmg:0,spd:0,cost:1500,need:'hvezdarna',pal:{a:'#2a2a6a',c:'#4a4aa0',y:'#ffe58a'},rows:[
+ astro:{name:_t('Astra'),desc:_t('Čte z hvězd: <b>ultimátky z fúzí dávají o 15 % víc</b>.'),start:'stars',hp:0,armor:0,dmg:0,spd:0,cost:1500,need:'hvezdarna',pal:{a:'#2a2a6a',c:'#4a4aa0',y:'#ffe58a'},rows:[
   '.....y','....aa','...aaa','..aaya','.aaaaa','.fffff','.fpfff','.ccccc','ccycca','.ccccc','..c..c']}
 };
 const HERO_IDS=Object.keys(HEROES),HERO_LIVE=HERO_IDS.filter(h=>!HEROES[h].soon);
@@ -339,7 +339,7 @@ function chestArt(kind){const W=36,H=32;return artSprite(W,H,g=>{const R=(x,y,w,
     R(15,4,6,3,'#e8607a');R(12,3,4,3,'#e8607a');R(20,3,4,3,'#e8607a');R(12,3,4,1,'#ff9ab0');R(20,3,4,1,'#ff9ab0');R(17,4,2,2,'#b83a5a');
     const px=18,py=21;R(px-2,py,4,3,'#f4ecd8');R(px-3,py+1,6,1,'#f4ecd8');for(const [dx,dy] of [[-4,-2],[-2,-3],[1,-3],[3,-2]])R(px+dx,py+dy,1,2,'#f4ecd8');}
  });}
-const HERO_DAT={knight:_t('Rytíři'),mage:_t('Mágovi'),archer:_t('Lučištníkovi'),builder:_t('Staviteli'),bard:_t('Bardovi'),warlord:_t('Zbrojmistrovi'),tamer:_t('Krotiteli'),smith:_t('Kovářce'),shaman:_t('Šamance'),sailor:_t('Námořnici'),astro:_t('Hvězdářce')};
+const HERO_DAT={knight:_t('Rytíři'),mage:_t('Mágovi'),archer:_t('Střelci'),builder:_t('Staviteli'),bard:_t('Bardovi'),warlord:_t('Žoldákovi'),tamer:_t('Krotiteli'),smith:_t('Kovářce'),shaman:_t('Vědmě'),sailor:_t('Pirátce'),astro:_t('Astře')};
 const SOON_CH={c3:'III',c4:'IV',c5:'V',c6:'VI'};
 
 /* ----- art: icons (8x8, not mirrored) ----- */
@@ -2458,16 +2458,16 @@ function audioWatch(){if(!ac||document.hidden)return;const t0=ac.currentTime;cle
 /* 09z9: music graph – every instrument plays into its own role bus (stereo place + reverb send), then
    musicBus (volume slider) → trim (evens out styles) → energy (calm/run/boss) → duck → muffle → 35 Hz highpass →
    out, plus a "phone bass" path: the lows are saturated into harmonics around 200–600 Hz, which an iPhone speaker can play. */
-const STYLE_TRIM={desert:1,forge:-3.6,frost:.9,sea:-1.4};
+const STYLE_TRIM={desert:1,forge:-3.6,frost:.9,sea:-1.4,star:-1};
 // 09z10: hlasitost nástrojů (dB) podle stylu – změřeno sólo (tests/tools/poslech-offline.js, rolecal): melodie, arpeggio a akordy
 // byly o 15–40 dB pod bicími, mix byl z 95 % basy 100–300 Hz → mono, tmavý, z telefonu skoro neslyšný.
 // Cíl vůči bicím: basa −3, melodie −4, arpeggio −9, akordy −10. Bicí všude −8 dB kvůli rezervě.
 const ROLE_DB={drums:-8,bass:-8,lead:-8,arp:-8,pad:-8,fx:0};
 const STYLE_ROLE={grave:{bass:0,lead:19.3,arp:20,pad:9},desert:{bass:4.8,lead:21.9,arp:19.7,pad:10.5},forge:{bass:8,lead:22,arp:22,pad:20.9},
-  frost:{bass:1.5,lead:16.4,arp:19.4,pad:16},sea:{bass:6.4,lead:19.4,arp:22,pad:16.7}};
+  frost:{bass:1.5,lead:16.4,arp:19.4,pad:16},sea:{bass:6.4,lead:19.4,arp:22,pad:16.7},star:{bass:.3,lead:17.5,arp:22.8,pad:18.7}};
 const MUSIC_LVL=1.9;                        // music level inside the mix
 const MASTER_PRE=.55;                       // music + effects into the master; the old soft-knee compressor took ~10 dB, this keeps the overall loudness                 // dB, measured so all chapters sit at the same loudness
-const STYLE_REV={grave:.22,desert:.16,forge:.1,frost:.28,sea:.15}; // reverb return per style
+const STYLE_REV={grave:.22,desert:.16,forge:.1,frost:.28,sea:.15,star:.3}; // reverb return per style
 const ENERGY_GAIN=[.82,.92,1,1.3];           // M.int 0 calm intro, 1 run, 2 late run, 3 boss (≈ -1.7 / -0.7 / 0 / +2.3 dB; 10b: boss was only +1–2 dB over the run)
 // master: gentle glue compressor (hard knee, so quiet parts keep their dynamics and the boss is really louder) + a safety limiter.
 // The old one had the default 30 dB soft knee and squashed everything above ~-29 dB, which flattened calm vs boss.
@@ -2562,13 +2562,13 @@ const SONGS={
   X:{e:3,prog:[[0,'m'],[1,'M'],[0,'m'],[-1,'M']],lead:[7,7,6,7,_,_,4,_, 5,5,4,5,_,_,2,_, 7,7,6,7,_,_,9,_, 8,_,6,_,4,_,_,_]},
   Y:{e:3,prog:[[-4,'M'],[-2,'M'],[0,'m'],[-1,'M']],lead:[9,_,8,_,7,_,6,_, 7,_,4,_,5,_,_,_, 4,_,3,_,2,_,1,_, 0,_,_,_,_,_,_,_]}}},
  // throne of bones: D harmonic minor at 128 – a grand dark march, organ and choir, everything Morvan has
- trun:{bpm:128,root:50,scale:'harm',style:'grave',keys:[0,0,2,-1],form0:['I','A'],form:['A','B','A','C','B','B'],bossForm:['X','Y','X','Y'],sec:{
+ trun:{bpm:128,root:50,scale:'harm',style:'grave',bossDb:1.5,keys:[0,0,2,-1],form0:['I','A'],form:['A','B','A','C','B','B'],bossForm:['X','Y','X','Y'],sec:{
   I:{e:0,prog:[[0,'m'],[0,'m'],[1,'M'],[4,'M']],lead:[0,_,_,_,_,_,_,_, 1,_,_,_,_,_,_,_, 0,_,_,_,_,_,-1,_, 0,_,_,_,_,_,_,_]},
-  A:{e:1,prog:[[0,'m'],[5,'m'],[1,'M'],[4,'M']],lead:[0,_,0,_,2,_,4,_, 5,_,4,_,2,_,_,_, 4,_,4,_,5,_,6,_, 7,_,_,_,_,_,_,_]},
+  A:{e:1,prog:[[0,'m'],[5,'m'],[1,'M'],[4,'M']],lead:[0,_,0,_,2,_,4,_, 5,_,4,_,2,_,_,_, 4,_,4,_,5,_,6,_, 7,_,_,_,6,_,4,_]},
   B:{e:2,prog:[[5,'m'],[3,'M'],[1,'M'],[4,'M']],lead:[7,_,9,_,7,_,6,_, 5,_,6,_,7,_,_,_, 9,_,10,_,9,_,7,_, 6,_,_,_,4,_,_,_]},
   C:{e:1,prog:[[0,'m'],[1,'M'],[0,'m'],[4,'M']],lead:[4,_,_,_,5,_,_,_, 4,_,_,_,1,_,_,_, 4,_,_,_,5,_,_,_, 6,_,_,_,_,_,_,_]},
-  X:{e:3,prog:[[0,'m'],[1,'M'],[5,'m'],[4,'M']],lead:[7,_,7,6,7,_,9,_, 10,_,9,_,7,_,6,_, 7,_,7,6,7,_,4,_, 5,_,6,_,4,_,_,_]},
-  Y:{e:3,prog:[[3,'M'],[1,'M'],[0,'m'],[4,'M']],lead:[11,_,10,_,9,_,7,_, 8,_,7,_,6,_,4,_, 5,_,6,_,7,_,9,_, 8,_,_,_,6,_,_,_]}}},
+  X:{e:3,prog:[[0,'m'],[1,'M'],[5,'m'],[4,'M']],lead:[7,_,7,6,7,_,9,_, 10,_,9,_,7,_,6,_, 7,_,7,6,7,_,4,_, 5,_,6,_,4,_,2,_]},
+  Y:{e:3,prog:[[3,'M'],[1,'M'],[0,'m'],[4,'M']],lead:[11,_,10,_,9,_,7,_, 8,_,7,_,6,_,4,_, 5,_,6,_,7,_,9,_, 8,_,7,_,6,_,4,_]}}},
  // canyon of winds: E hijaz at 128 – frame drum gallop, a howling reed, the storm in the drums
  kanon:{bpm:128,root:52,scale:'hijaz',style:'desert',keys:[0,0,-2,2],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','X','Y','X'],sec:{
   I:{e:0,prog:[[0,'M'],[0,'M'],[1,'M'],[0,'M']],lead:[7,_,_,_,_,_,6,5, 4,_,_,_,_,_,_,_, 5,_,_,_,4,_,2,_, 1,_,_,_,_,_,_,_]},
@@ -2618,9 +2618,9 @@ const SONGS={
   Y:{e:3,prog:[[-4,'p'],[-2,'p'],[-5,'p'],[-2,'p']],lead:[9,_,8,_,7,_,6,_, 4,_,_,_,6,_,_,_, 7,_,6,_,4,_,3,_, 1,_,_,_,0,_,_,_]}}},
  reka:{bpm:112,root:47,scale:'harm',style:'forge',keys:[0,0,2,-3],form0:['I','A'],form:['A','B','C','A','B','C'],bossForm:['X','Y','X','Y'],sec:{
   I:{e:0,prog:[[0,'p'],[0,'p'],[0,'p'],[-3,'p']],lead:[_,_,_,_,4,_,_,_, _,_,_,_,3,_,_,_, _,_,_,_,2,_,_,_, 0,_,_,_,_,_,_,_]},
-  A:{e:1,prog:[[0,'p'],[-3,'p'],[-1,'p'],[0,'p']],lead:[0,_,_,2,4,_,_,_, 5,_,4,_,2,_,_,_, 0,_,_,2,4,_,7,_, 6,_,_,_,4,_,_,_]},
+  A:{e:1,prog:[[0,'p'],[-3,'p'],[-1,'p'],[0,'p']],lead:[4,_,_,2,0,_,2,_, 5,_,4,_,2,_,_,_, 0,_,_,2,4,_,7,_, 6,_,_,_,4,_,_,_]},
   B:{e:2,prog:[[-3,'p'],[-1,'p'],[0,'p'],[-2,'p']],lead:[7,_,6,_,4,_,2,_, 4,_,_,_,_,_,_,_, 7,_,9,_,7,_,6,_, 4,_,2,_,1,_,_,_]},
-  C:{e:0,prog:[[0,'p'],[1,'p'],[0,'p'],[-1,'p']],lead:[0,_,_,_,_,_,_,_, 1,_,_,_,_,_,_,_, 0,_,_,_,_,_,_,_, -1,_,_,_,_,_,_,_]},
+  C:{e:0,prog:[[0,'p'],[1,'p'],[0,'p'],[-1,'p']],lead:[0,_,_,_,4,_,_,_, 1,_,_,_,5,_,_,_, 0,_,_,_,4,_,2,_, -1,_,_,_,3,_,_,_]},
   X:{e:3,prog:[[0,'p'],[1,'p'],[-1,'p'],[0,'p']],lead:[7,_,7,6,4,_,7,_, 8,_,7,_,6,_,4,_, 7,_,7,6,4,_,2,_, 1,_,0,_,-1,_,_,_]},
   Y:{e:3,prog:[[-3,'p'],[-1,'p'],[1,'p'],[0,'p']],lead:[4,_,6,_,7,_,8,_, 7,_,_,_,4,_,_,_, 6,_,4,_,2,_,1,_, 0,_,_,_,_,_,_,_]}}},
  krystaly:{bpm:120,root:49,scale:'minor',style:'forge',keys:[0,0,3,-2],form0:['I','A'],form:['A','B','A','C','B','B'],bossForm:['X','X','Y','X'],sec:{
@@ -2654,28 +2654,28 @@ const SONGS={
   Y:{e:3,prog:[[5,'m'],[-2,'M'],[3,'M'],[0,'m']],lead:[11,_,9,_,7,_,6,_, 7,_,_,_,4,_,_,_, 6,_,4,_,2,_,1,_, 0,_,_,_,_,_,_,_]}}},
  soutezka:{bpm:134,root:53,scale:'harm',style:'frost',keys:[0,0,2,-2],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','Y','X','Y'],sec:{
   I:{e:0,prog:[[0,'m'],[1,'M'],[0,'m'],[-1,'M']],lead:[0,_,_,_,1,_,_,_, 0,_,_,_,-1,_,_,_, 0,_,_,_,3,_,_,_, 4,_,_,_,_,_,_,_]},
-  A:{e:1,prog:[[0,'m'],[1,'M'],[-2,'M'],[0,'m']],lead:[0,_,2,_,3,_,4,_, 5,_,4,_,3,_,_,_, 0,_,2,_,3,_,6,_, 4,_,3,_,2,_,1,_]},
+  A:{e:1,prog:[[0,'m'],[1,'M'],[-2,'M'],[0,'m']],lead:[0,_,4,_,3,_,_,2, 1,_,3,_,5,_,3,_, 0,_,2,_,3,_,6,_, 4,_,3,_,2,_,1,_]},
   B:{e:2,prog:[[-2,'M'],[1,'M'],[0,'m'],[-1,'M']],lead:[7,_,6,7,8,_,7,_, 6,_,4,_,3,_,_,_, 7,_,6,7,8,_,10,_, 8,_,7,_,6,_,4,_]},
   C:{e:0,prog:[[0,'m'],[3,'M'],[1,'M'],[0,'m']],lead:[0,_,_,_,_,_,_,_, 3,_,_,_,_,_,_,_, 1,_,_,_,_,_,_,_, 0,_,_,_,_,_,_,_]},
   X:{e:3,prog:[[0,'m'],[1,'M'],[0,'m'],[-1,'M']],lead:[7,7,_,8,7,_,6,_, 7,7,_,8,10,_,8,_, 7,_,6,_,4,_,3,_, 1,_,0,_,-1,_,0,_]},
-  Y:{e:3,prog:[[-2,'M'],[1,'M'],[3,'M'],[0,'m']],lead:[10,_,8,_,7,_,6,_, 7,_,_,_,4,_,_,_, 6,_,4,_,3,_,1,_, 0,_,_,_,_,_,_,_]}}},
+  Y:{e:3,prog:[[-2,'M'],[1,'M'],[3,'M'],[0,'m']],lead:[10,_,8,_,7,_,6,_, 7,_,8,7,4,_,6,_, 6,_,4,_,3,_,1,_, 0,_,1,_,3,_,4,_]}}},
  zima:{bpm:138,root:49,scale:'harm',style:'frost',keys:[0,0,3,-2],form0:['I','A'],form:['A','B','A','C','B','B'],bossForm:['X','Y','X','Y'],sec:{
   I:{e:0,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[7,_,_,_,6,_,_,_, 4,_,_,_,3,_,_,_, 4,_,_,_,6,_,_,_, 7,_,_,_,_,_,_,_]},
-  A:{e:1,prog:[[0,'m'],[5,'m'],[7,'M'],[0,'m']],lead:[0,_,2,4,7,_,4,_, 5,_,3,_,5,4,3,_, 6,_,4,_,1,2,1,_, 0,_,_,_,_,_,_,_]},
+  A:{e:1,prog:[[0,'m'],[5,'m'],[7,'M'],[0,'m']],lead:[7,_,4,_,2,4,0,_, 3,_,5,_,7,5,3,_, 6,_,4,_,1,2,1,_, 0,_,_,_,_,_,_,_]},
   B:{e:2,prog:[[-4,'M'],[3,'M'],[5,'m'],[7,'M']],lead:[5,_,_,_,7,_,_,_, 9,_,7,_,4,_,_,_, 8,_,_,_,7,_,5,_, 6,_,_,_,4,_,_,_]},
   C:{e:0,prog:[[5,'m'],[0,'m'],[2,'d'],[7,'M']],lead:[_,_,9,_,_,_,8,_, _,_,7,_,_,_,4,_, _,_,5,_,_,_,3,_, 1,_,_,_,6,_,_,_]},
   X:{e:3,prog:[[0,'m'],[1,'M'],[0,'m'],[7,'M']],lead:[7,7,_,6,7,_,4,_, 5,_,4,_,5,_,3,_, 7,7,_,6,7,_,9,_, 8,_,6,_,4,_,1,_]},
   Y:{e:3,prog:[[5,'m'],[1,'M'],[2,'d'],[7,'M']],lead:[10,_,9,_,8,_,7,_, 8,_,7,_,6,_,5,_, 4,_,5,_,3,_,4,_, 6,_,_,_,1,_,_,_]}}},
- vrakoviste:{bpm:120,root:50,scale:'dorian',style:'sea',keys:[0,0,2,-2],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','X','Y','X'],sec:{
+ vrakoviste:{bpm:120,root:50,scale:'dorian',style:'sea',bossDb:1.2,keys:[0,0,2,-2],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','X','Y','X'],sec:{
   I:{e:0,prog:[[0,'m'],[-2,'M'],[0,'m'],[-5,'M']],lead:[4,_,_,_,3,_,2,_, 1,_,_,_,0,_,_,_, 2,_,_,_,4,_,3,_, 4,_,_,_,_,_,_,_]},
   A:{e:1,prog:[[0,'m'],[-2,'M'],[0,'m'],[-5,'M']],lead:[4,_,4,4,4,_,4,4, 4,_,0,_,2,_,4,_, 3,_,3,3,3,_,3,3, 3,_,-1,_,1,_,3,_]},
   B:{e:2,prog:[[3,'M'],[-2,'M'],[0,'m'],[-5,'M']],lead:[5,_,4,_,3,_,4,_, 5,_,7,_,6,_,5,_, 4,_,3,_,2,_,3,_, 4,_,_,_,2,_,_,_]},
   C:{e:0,prog:[[-2,'M'],[3,'M'],[5,'m'],[0,'m']],lead:[_,_,2,_,_,_,4,_, _,_,3,_,_,_,1,_, _,_,2,_,_,_,0,_, 1,_,_,_,_,_,_,_]},
-  X:{e:3,prog:[[0,'m'],[-2,'M'],[0,'m'],[-5,'M']],lead:[7,_,7,7,7,_,4,_, 6,_,6,6,6,_,3,_, 7,_,7,7,9,_,7,_, 6,_,4,_,2,_,_,_]},
-  Y:{e:3,prog:[[3,'M'],[-2,'M'],[5,'m'],[7,'M']],lead:[9,_,8,_,7,_,6,_, 7,_,6,_,5,_,4,_, 5,_,6,_,7,_,8,_, 9,_,_,_,7,_,_,_]}}},
+  X:{e:3,prog:[[0,'m'],[-2,'M'],[0,'m'],[-5,'M']],lead:[7,_,7,7,7,_,4,_, 6,_,6,6,6,_,3,_, 7,_,7,7,9,_,7,_, 6,_,4,_,2,_,4,_]},
+  Y:{e:3,prog:[[3,'M'],[-2,'M'],[5,'m'],[7,'M']],lead:[9,_,8,_,7,_,6,_, 7,_,6,_,5,_,4,_, 5,_,6,_,7,_,8,_, 9,_,8,_,7,_,6,_]}}},
  pristav:{bpm:128,root:48,scale:'dorian',style:'sea',keys:[0,0,-2,3],form0:['I','A'],form:['A','B','A','C','B','B'],bossForm:['X','Y','X','Y'],sec:{
   I:{e:0,prog:[[0,'m'],[5,'M'],[-2,'M'],[0,'m']],lead:[0,_,_,_,2,_,_,_, 4,_,_,_,5,_,4,_, 3,_,_,_,2,_,_,_, 0,_,_,_,_,_,_,_]},
-  A:{e:1,prog:[[0,'m'],[5,'M'],[-2,'M'],[0,'m']],lead:[0,_,0,2,4,_,4,_, 5,_,4,_,3,_,2,_, 1,_,1,3,5,_,5,_, 4,_,2,_,0,_,_,_]},
+  A:{e:1,prog:[[0,'m'],[5,'M'],[-2,'M'],[0,'m']],lead:[4,_,4,2,0,_,2,_, 5,_,4,_,3,_,2,_, 1,_,1,3,5,_,5,_, 4,_,2,_,0,_,_,_]},
   B:{e:2,prog:[[3,'M'],[5,'M'],[-2,'M'],[7,'M']],lead:[7,_,6,_,5,_,_,4, 5,_,4,_,3,_,_,_, 4,_,5,_,6,_,4,_, 5,_,_,_,_,_,_,_]},
   C:{e:0,prog:[[5,'M'],[0,'m'],[-2,'M'],[7,'M']],lead:[_,_,5,_,_,_,7,_, _,_,6,_,_,_,4,_, _,_,3,_,_,_,2,_, 4,_,_,_,_,_,_,_]},
   X:{e:3,prog:[[0,'m'],[5,'M'],[-2,'M'],[0,'m']],lead:[7,7,_,9,7,_,4,_, 5,5,_,7,5,_,2,_, 4,4,_,5,7,_,9,_, 8,_,7,_,4,_,_,_]},
@@ -2687,7 +2687,7 @@ const SONGS={
   C:{e:0,prog:[[-4,'M'],[0,'m'],[-2,'M'],[7,'M']],lead:[_,_,4,_,_,_,2,_, _,_,3,_,_,_,0,_, _,_,1,_,_,_,2,_, 4,_,_,_,_,_,_,_]},
   X:{e:3,prog:[[0,'m'],[1,'M'],[0,'m'],[7,'M']],lead:[7,_,7,_,6,_,7,_, 4,_,_,_,5,_,6,_, 7,_,9,_,7,_,6,_, 4,_,_,_,6,_,_,_]},
   Y:{e:3,prog:[[-4,'M'],[1,'M'],[-2,'M'],[7,'M']],lead:[9,_,8,_,7,_,_,_, 8,_,7,_,6,_,_,_, 5,_,6,_,7,_,8,_, 6,_,_,_,4,_,_,_]}}},
- vir:{bpm:132,root:52,scale:'dorian',style:'sea',keys:[0,0,2,-3],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','Y','X','Y'],sec:{
+ vir:{bpm:132,root:52,scale:'dorian',style:'sea',bossDb:1.1,keys:[0,0,2,-3],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','Y','X','Y'],sec:{
   I:{e:0,prog:[[0,'m'],[2,'M'],[-2,'M'],[0,'m']],lead:[2,_,_,_,4,_,_,_, 5,_,_,_,4,_,2,_, 1,_,_,_,2,_,_,_, 0,_,_,_,_,_,_,_]},
   A:{e:1,prog:[[0,'m'],[2,'M'],[-2,'M'],[0,'m']],lead:[0,2,4,_,2,4,5,_, 4,5,7,_,5,4,2,_, 1,2,4,_,2,1,-1,_, 0,_,_,_,_,_,_,_]},
   B:{e:2,prog:[[5,'m'],[2,'M'],[3,'M'],[7,'M']],lead:[7,_,5,_,6,_,4,_, 5,_,3,_,4,_,2,_, 3,_,4,_,5,_,6,_, 7,_,_,_,_,_,_,_]},
@@ -2768,17 +2768,36 @@ const STYLES={
    else{if(s16===0||s16===8)tone('sine',150,t,.22,.6,{slide:40});if(s16===0||s16===6||s16===8||s16===14)anvil(1.2);}},
   bass(x){const {s16,t,c,E,I,sd}=x;const dense=I>=2||E>=2;if(!dense&&s16%2)return;if(E===0&&s16%4)return;
    const P=[0,0,12,0,0,0,12,7,0,0,12,0,10,0,7,0],n=P[s16];const f=NOTE(c.root-12+n);tone('sawtooth',f,t,sd*.9,.06,{lp:520});tone('triangle',f,t,sd*.9,.12);},
-  pad(x){const {s16,t,c,sd,E,I}=x;if(!(E>=2||(E>=1&&I>=2)))return;if(s16!==0&&s16!==6)return;
-   for(const k of [0,7])tone('sawtooth',NOTE(c.root+k),t,sd*1.6,.028,{lp:1400});},
+  pad(x){const {s16,t,c,sd,E,I}=x;if(!(E>=2||(E>=1&&I>=2)))return;if(s16!==0&&s16!==6&&!(E>=3&&(s16===8||s16===14)))return;
+   for(const k of E>=3?[0,7,c.tones[1]+12]:[0,7])tone('sawtooth',NOTE(c.root+k),t,sd*1.6,E>=3?.036:.028,{lp:E>=3?2200:1400});},  // 10f: boss stabs on 4 beats with the third (boss was +2.3 dB)
   arp(x){const {s16,t,c,sd}=x;const k=[0,1,2,1][s16%4],f=NOTE(c.root+24+c.tones[k]%12);tone('square',f,t,sd*.6,.026,{lp:3000});},
   lead(f,t,dur,v){tone('square',f,t,dur,.06*v,{lp:3200,vib:7});tone('sawtooth',f,t,dur*.8,.02*v,{lp:2000,det:8});}}
 };
 // frozen realm: soft brushed drums, the graveyard's bass, an airy pad, bell arpeggios and a celesta lead
 STYLES.frost={drums:STYLES.grave.drums,bass:STYLES.grave.bass,
- pad(x){if(x.s16!==0)return;const {t,c,sd,E}=x,v=E===0?.02:.013;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sine',f,t,sd*15,v,{a:.4,det:-6});tone('triangle',f,t,sd*15,v*.6,{lp:1400,a:.4,det:6});}},
+ pad(x){const {s16,t,c,sd,E}=x;if(E>=3&&(s16===0||s16===6||s16===8||s16===14)){for(const k of c.tones){const f=NOTE(c.root+12+k);tone('triangle',f,t,sd*1.5,.05,{lp:2600,det:-8});tone('square',f,t,sd*1.2,.016,{lp:2200,det:8});}return;} // 10f: boss chord stabs (boss was only +2.8–3 dB)
+  if(s16!==0)return;const v=E===0?.02:.013;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sine',f,t,sd*15,v,{a:.4,det:-6});tone('triangle',f,t,sd*15,v*.6,{lp:1400,a:.4,det:6});}},
  arp(x){const {s16,t,c,sd,cyc}=x;if(s16%2)return;const P=[[0,1,2,3,2,1,2,3],[3,2,1,0,1,2,3,2],[0,2,1,3,2,0,3,1]][cyc%3],k=P[s16>>1];
   const f=NOTE(c.root+24+(k===3?12:c.tones[k]));tone('sine',f,t,sd*3,.045);tone('sine',f*2.76,t,sd*1.2,.012);},
  lead(f,t,dur,v){tone('sine',f,t,dur*1.2,.11*v,{a:.005});tone('sine',f*2,t,dur*.6,.03*v);tone('triangle',f*4,t,dur*.25,.01*v);tone('sine',f,t+M.stepDur*3,dur*.8,.025*v);}};
+// 10f: star observatory (chapter VI): soft kick and a stardust shaker, a pulsing synth bass in octaves, a wide warm pad,
+// twinkling arpeggios with an echo and a glassy lead (sine + 3rd harmonic) that glides between notes – no longer the ice realm's celesta
+STYLES.star={
+ drums(x){const {s16,t,I,E,bs,key0}=x,B=M.musicBus;
+  if(E>=1){if(s16===0||s16===8||(E>=3&&s16%4===0)||(E>=3&&(s16===6||s16===14)))tone('sine',118,t,.22,.75,{slide:42});
+    if(s16===4||s16===12){noiz(t,.09,E>=3?.3:.2,B,'bandpass',2400);tone('sine',1600,t,.04,.03);}
+    if(E>=3&&s16%4===2)noiz(t,.04,.12,B,'bandpass',5200);   // boss: open hat on the off-beats
+    if(I>=2||E>=2||s16%2===0)noiz(t,.02,s16%4===2?.07:.035,B,'highpass',10000);
+    if(bs===3&&s16>=8&&E<3&&s16%2===0)tone('sine',NOTE(key0+36+(s16-8)),t,.08,.03);}
+  else{if(s16===0)tone('sine',100,t,.3,.45,{slide:40});if(s16===8)noiz(t,.05,.06,B,'highpass',9000);}},
+ bass(x){const {s16,t,c,E,I,sd}=x;if(s16%2&&E<3)return;if(E===0&&s16%8)return;const n=E>=3&&s16%2?12:E>=2||I>=2?[0,12,0,12,7,12,0,10][s16>>1]:(s16%4?12:0);
+  const f=NOTE(c.root-12+n);tone('sawtooth',f,t,sd*1.7,.05,{lp:640});tone('sine',f,t,sd*1.9,.22);},
+ pad(x){const {s16,t,c,sd,E}=x;
+  if(E>=3&&(s16===0||s16===6||s16===8||s16===14)){for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sawtooth',f,t,sd*1.5,.042,{lp:2400,det:-9});tone('sawtooth',f,t,sd*1.5,.042,{lp:2400,det:9});}return;} // boss: driving chord stabs
+  if(s16!==0)return;const v=E===0?.018:.012;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sawtooth',f,t,sd*15,v,{lp:1600,a:.5,det:-10});tone('sawtooth',f,t,sd*15,v,{lp:1600,a:.5,det:10});}},
+ arp(x){const {s16,t,c,sd,cyc,E}=x;if(E>=3&&s16%2){const f=NOTE(c.root+36+c.tones[(s16>>1)%3]);tone('sine',f,t,sd*.7,.03);return;}if(s16%2)return;const P=[[0,2,3,1,2,3,0,3],[3,1,2,0,3,2,1,2],[0,3,2,3,1,3,2,3]][cyc%3],k=P[s16>>1];
+  const f=NOTE(c.root+24+(k===3?12:c.tones[k]));tone('sine',f,t,sd*1.4,.04);tone('sine',f*3,t,sd*.5,.008);tone('sine',f,t+M.stepDur*3,sd*1.2,.016);},
+ lead(f,t,dur,v){const from=M.lastLead&&M.lastLead!==f?M.lastLead:null;M.lastLead=f;tone('sine',f,t,dur,.1*v,{a:.01,vib:4.5,from,glide:.05});tone('sine',f*3,t,dur*.35,.022*v);tone('triangle',f*2,t,dur*.7,.018*v,{lp:3000});}};
 // cursed coast: a sea shanty (oom-pah bass, clap on 2 and 4, shaker), accordion stabs on the off-beats and a fiddle-like lead
 STYLES.sea={
  drums(x){const {s16,t,I,E,bs}=x,B=M.musicBus;
@@ -2800,7 +2819,8 @@ function playStep(s,t){
   // energy: the section's own energy, capped by how far the run is (quiet start, boss = full)
   const E=I>=3?3:P.sec.e===0?0:Math.min(P.sec.e,I>=2?2:1),x={s16,t,c,I,E,sd,bs:P.bs,cyc:P.cyc,key0:S.root+P.key,bar};
   const R=M.roles,MB=M.musicBus,to=k=>{if(R)M.musicBus=R[k];};
-  if(s16===0&&M.energy)try{M.energy.gain.setTargetAtTime(ENERGY_GAIN[Math.max(0,Math.min(3,I))],t,.6);}catch(_){}
+  // 10f: song.bossDb lifts one song's boss part (skladby.js suggests it when the boss lands under +3 dB)
+  if(s16===0&&M.energy)try{const k=Math.max(0,Math.min(3,I));M.energy.gain.setTargetAtTime(ENERGY_GAIN[k]*(k===3&&S.bossDb?Math.pow(10,S.bossDb/20):1),t,.6);}catch(_){}
   try{
   to('pad');ST.pad(x);to('bass');ST.bass(x);
   to('drums');if(I>=1||E>=1)ST.drums(x);else if(s16===0)ST.drums(Object.assign({},x,{E:0}));
@@ -2812,6 +2832,9 @@ function playStep(s,t){
   if(s16%2===0){const L=P.sec.lead,i=P.bs*8+(s16>>1);let d=L[i],soft=1;
     const v=(P.cyc+bar)%3;
     if(d===null&&v===2&&s16%4===2&&L[i-1]!=null&&L[i+1]!=null){d=L[i-1]+(L[i+1]>L[i-1]?1:-1);soft=.55;}
+    // 10f: a bar with one held note (a phrase end) gets a soft echo a fifth higher in its second half (lower fell under the phone speaker's ~300 Hz) – on a phone a lone held note
+    // fades into a 9–12 dB hole in the calm part (hrobka, majak, paluba, trun); works for every song, old and new
+    if(d===null&&s16===8){const b0=P.bs*8;if(L[b0]!=null&&L.slice(b0+1,b0+8).every(x=>x==null)){d=L[b0]+4;soft=.6;}}
     if(d!==null){if(v===1&&P.bs>=2&&d<5&&P.cyc>0)d+=7;let len=1;while(len<4&&i+len<L.length&&L[i+len]===null)len++;
       const f=NOTE(S.root+P.key+12+scaleNote(d)),dur=sd*2*len*.9;ST.lead(f,t,dur,soft*lv);
       if(E>=2&&soft===1)tone('triangle',NOTE(S.root+P.key+12+scaleNote(d-2)),t,dur*.8,.035);}}
@@ -2932,7 +2955,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10e';
+const GAME_VER='2026-11-10f';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4224,7 +4247,8 @@ function hurtPlayerHaz(){const p=run.p;if(run.over||run.dying||p.down)return;if(
    How to use it: .claude/skills/nova-kapitola/SKILL.md. Check a chapter: node tests/tools/chapcheck.js c6
    - map:   style:'kit' + kit:{ground,path,accent,tile,wall,zone,layout,props,camp,bits,mech} -> buildKit / MF.kit
    - boss:  pat:'kit' + kit:{move,moves,ph2,own} -> BEH.kit (moves on beats and bars, phase 2, one own attack)
-   - music: songKit({bpm,root,scale,style,motif,boss}) -> a SONGS entry; the motif is the map's own melody
+   - music: songKit({bpm,root,scale,style,motif,answer,boss,bossAnswer}) -> a SONGS entry; motif + answer are the map's own melody;
+     the chapter gets its own STYLES entry (mix measured with tests/tools/rolecal.js), check: tests/tools/hudbacheck.js
    - numbers: kitTier (difficulty staircase), kitBoss, kitFoe (stats by chapter and role)
    What stays handmade: sprites (KIT_PROPS rows, enemy/boss rows), one signature mechanic, the boss's own attack, texts. */
 const KIT_PROPS={},kitSpr={};
@@ -4241,17 +4265,30 @@ function kitFoe(ci,role){const R=KIT_ROLE[role]||KIT_ROLE.grunt,h=Math.pow(1.25,
 // ----- music: a full song from one handwritten motif (8 eighths, scale degrees, null = rest) -----
 const KIT_PROG={minor:[[[0,'m'],[8,'M'],[3,'M'],[10,'M']],[[5,'m'],[8,'M'],[10,'M'],[7,'M']]],harm:[[[0,'m'],[8,'M'],[5,'m'],[7,'M']],[[5,'m'],[0,'m'],[2,'d'],[7,'M']]],
   dorian:[[[0,'m'],[2,'M'],[-2,'M'],[0,'m']],[[5,'m'],[2,'M'],[3,'M'],[7,'M']]],hijaz:[[[0,'M'],[1,'M'],[0,'M'],[-2,'m']],[[5,'m'],[1,'M'],[3,'m'],[0,'M']]]};
-function songKit(o){const m=o.motif,sh=(a,k)=>a.map(v=>v==null?null:v+k),N=null,P=o.prog||KIT_PROG[o.scale]||KIT_PROG.minor;
-  const hold=a=>{const r=[];for(let i=0;i<8;i+=2)r.push(a[i]==null?a[i+1]:a[i],N,N,N);return r;},inv=a=>{const f=a.find(v=>v!=null)||0;return a.map(v=>v==null?null:f-(v-f));},
-    sparse=a=>a.map((v,i)=>i%4===2?v:null),dense=a=>{let l=0;return a.map(v=>v==null?l:(l=v));},end=(n)=>[n,N,N,N,N,N,N,N];
-  const B=o.boss||sh(m,7);
-  return{bpm:o.bpm||128,root:o.root||50,scale:o.scale||'minor',style:o.style||'grave',keys:o.keys||[0,0,3,-2],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','Y','X','Y'],sec:{
-    I:{e:0,prog:P[0],lead:[...hold(m),...hold(sh(m,2)),...hold(inv(m)),...end(0)]},
-    A:{e:1,prog:P[0],lead:[...m,...sh(m,2),...inv(m),...end(0)]},
-    B:{e:2,prog:P[1],lead:[...sh(m,4),...sh(m,3),...sh(m.slice().reverse(),2),...end(7)]},
-    C:{e:0,prog:P[1],lead:[...sparse(m),...sparse(sh(m,2)),...sparse(inv(m)),...end(0)]},
-    X:{e:3,prog:P[0],lead:[...dense(B),...dense(sh(B,-1)),...B,...sh(B,2).slice(0,4),B[0],N,N,N]},
-    Y:{e:3,prog:P[1],lead:[...dense(sh(B.slice().reverse(),2)),...sh(B,1),...dense(inv(B)),...end(B[0]+2)]}}};}
+/* 10f: songKit v2 – the rules from listening (10b/10e) are built in, so a new chapter cannot break them:
+   - a second theme: o.answer (8 eighths) or, when missing, the motif's retrograde inversion landing on the dominant (4)
+   - 7-section loop A B R C D B A (call/answer, sequence, octave reprise, calm, mixed lift) instead of one motif transposed
+   - every section has melody and no bar of lead is ever empty (fix) – an empty bar is a -16 to -25 dB hole on a phone
+   - boss: X Y X Z, Z answers the boss motif (o.bossAnswer or derived) */
+function songKit(o){const m=o.motif,N=null,P=o.prog||KIT_PROG[o.scale]||KIT_PROG.minor,sh=(a,k)=>a.map(v=>v==null?null:v+k);
+  const first=a=>{const v=a.find(v=>v!=null);return v==null?0:v;},last=a=>{for(let i=a.length-1;i>=0;i--)if(a[i]!=null)return a[i];return 0;};
+  const hold=a=>{const r=[];for(let i=0;i<8;i+=2)r.push(a[i]==null?a[i+1]:a[i],N);return r;},inv=a=>{const f=first(a);return a.map(v=>v==null?null:f-(v-f));},
+    rev=a=>a.slice().reverse(),rot=(a,k)=>a.slice(k).concat(a.slice(0,k)),
+    sparse=a=>a.map((v,i)=>i%4===2?(v==null?a[i-1]:v):null),dense=a=>{let l=first(a);return a.map(v=>v==null?l:(l=v));},
+    orn=a=>a.map((v,i)=>v!=null?v:a[i-1]!=null&&a[i+1]!=null&&a[i+1]!==a[i-1]?a[i-1]+(a[i+1]>a[i-1]?1:-1):null),
+    cad=n=>[n+2,N,n+1,N,n,N,N,N],ansOf=a=>{const r=inv(rev(a));return sh(r,4-last(r));};
+  const fix=L=>{for(let b=0;b<L.length;b+=8)if(L.slice(b,b+8).every(v=>v==null))L[b]=first(m);return L;};
+  const A=o.answer||ansOf(m),B=o.boss||sh(m,7),BA=o.bossAnswer||sh(ansOf(B),0),S=(e,p,l)=>({e,prog:p,lead:fix(l)});
+  return{bpm:o.bpm||128,root:o.root||50,scale:o.scale||'minor',style:o.style||'grave',keys:o.keys||[0,0,3,-2],kit:{answer:!!o.answer,boss:!!o.boss},form0:['I','A'],form:['A','B','R','C','D','B','A'],bossForm:['X','Y','X','Z'],sec:{
+    I:S(0,P[0],[...hold(m),...hold(A),...hold(sh(m,2)),...cad(0)]),
+    A:S(1,P[0],[...m,...A,...orn(m),...cad(0)]),
+    B:S(2,P[1],[...sh(A,2),...sh(A,3),...sh(rot(m,4),4),...cad(4)]),
+    R:S(2,P[0],[...sh(m,7),...A,...orn(sh(m,7)),...cad(7)]),
+    C:S(0,P[1],[...sparse(A),...hold(m),...sparse(inv(A)),...cad(0)]),
+    D:S(2,P[0],[...m.slice(0,4),...A.slice(4),...sh(rot(A,2),2),...orn(sh(inv(m),4)),...cad(4)]),
+    X:S(3,P[0],[...dense(B),...dense(sh(B,-1)),...B,...sh(B,2).slice(0,4),B[0]==null?first(B):B[0],N,N,N]),
+    Y:S(3,P[1],[...dense(sh(rev(B),2)),...sh(B,1),...dense(inv(B)),...cad(first(B)+2)]),
+    Z:S(3,P[1],[...BA,...dense(sh(BA,2)),...orn(B),...cad(first(B))])}};}
 
 // ----- map generator: ground palettes + layout + handmade props; the look comes from the chapter's palettes and props -----
 function buildKit(id){const def=MAPS[id],K=def.kit,size=def.size,rng=mulberry32(def.seed),C=size/2,H=c=>c.map(hex2rgb);
@@ -4414,13 +4451,13 @@ BEH.blink=function(e,dt,c){e.bT=(e.bT===undefined?rnd(2,4):e.bT)-dt;if(e.bT<=0&&
 BEH.comet=function(e,dt,c){if(e.mode===1){e.mT-=dt;e.cT=(e.cT||0)-dt;if(e.cT<=0){e.cT=.3;run.fx.push({k:'magma',x:e.x,y:e.y,r:7,life:2.4,max:2.4,seed:Math.random()*9});}
    if(e.mT<=0){e.mode=0;e.mT=rnd(2,3);}return[e.dx*c.sp*3.2,e.dy*c.sp*3.2];}
   e.mT=(e.mT===undefined?2:e.mT)-dt;if(e.mT<=0&&c.dist<220){e.mode=1;e.mT=1.1;e.dx=c.cx;e.dy=c.cy;}return[c.cx*c.sp*.6,c.cy*c.sp*.6];};
-// music: a bright bell style for the sky
+// music: the star style (10f) – each map has a motif, an answer and its own boss theme
 Object.assign(SONGS,{
- hvezdarna:songKit({bpm:122,root:52,scale:'dorian',style:'frost',motif:[0,4,7,null,9,7,4,2]}),
- mlhovina:songKit({bpm:112,root:50,scale:'minor',style:'frost',motif:[0,null,3,5,null,7,5,3]}),
- ostrovy:songKit({bpm:132,root:54,scale:'dorian',style:'frost',motif:[7,5,4,null,2,4,5,null]}),
- souhvezdi:songKit({bpm:126,root:49,scale:'minor',style:'frost',motif:[0,7,null,5,3,null,2,0]}),
- zatmeni:songKit({bpm:140,root:47,scale:'harm',style:'frost',motif:[0,null,3,4,null,7,6,4],boss:[7,null,8,7,null,4,3,null]})});
+ hvezdarna:songKit({bpm:122,root:52,scale:'dorian',style:'star',motif:[0,4,7,null,9,7,4,2],answer:[9,null,8,7,null,5,4,null],boss:[7,9,null,11,9,null,7,4]}),
+ mlhovina:songKit({bpm:112,root:50,scale:'minor',style:'star',motif:[0,null,3,5,null,7,5,3],answer:[5,null,4,3,null,2,null,4],boss:[7,null,10,9,7,null,5,7]}),
+ ostrovy:songKit({bpm:132,root:54,scale:'dorian',style:'star',motif:[7,5,4,null,2,4,5,null],answer:[2,4,null,5,7,null,9,null],boss:[9,7,null,11,9,7,null,4]}),
+ souhvezdi:songKit({bpm:126,root:49,scale:'minor',style:'star',motif:[0,7,null,5,3,null,2,0],answer:[3,null,4,5,null,7,null,4],boss:[7,null,9,7,5,null,4,5]}),
+ zatmeni:songKit({bpm:140,root:47,scale:'harm',style:'star',motif:[0,null,3,4,null,7,6,4],answer:[6,null,4,3,null,1,null,4],boss:[7,null,8,7,null,4,3,null],bossAnswer:[3,4,null,6,7,null,8,null]})});
 const kitEach=(h,a,b,c)=>{for(const o of kitM()){const m=KIT_MECH[o.id];if(m&&m[h])m[h](o,a,b,c);}};
 const kitMul=(h,a)=>{let v=1;for(const o of kitM()){const m=KIT_MECH[o.id];if(m&&m[h])v*=m[h](o,a);}return v;};
 MF.kit={init(){kitEach('init');},update(dt){kitEach('update',dt);},gupdate(dt){kitEach('gupdate',dt);},psp(p){return kitMul('psp',p);},espd(e){return kitMul('espd',e);},
@@ -6523,7 +6560,7 @@ const STORY={trun:_t('Z Morvanovy lebky vypadl žhnoucí střep hvězdy. Ukazuje
   brana:_t('Sfinga padla a Brána slunce se propadla. Ze tmy pod ní stoupá žár hor.'),
   srdce:_t('Srdce hory vychladlo. Popel ztuhl ve sníh a nad horou se zvedá věčná zima.'),
   zima:_t('Ledový trůn praskl. Roztátá voda se valí z hor až k moři, kde kotví prokleté lodě.'),
-  paluba:_t('Kraken klesl ke dnu a obloha se roztrhla. Střepy hvězdy padají z nebe a nahoře je pozoruje Hvězdářka.'),
+  paluba:_t('Kraken klesl ke dnu a obloha se roztrhla. Střepy hvězdy padají z nebe a nahoře je pozoruje hvězdářka Astra.'),
   zatmeni:_t('Zatmění se rozpadlo na hvězdný prach. Za měsícem ale zůstala díra do Prázdnoty a něco odtamtud natahuje ruku po posledním střepu…')};
 function bridgeDraw(g,ox,oy){const B=BRIDGE[run.mapId],e=run.boss;if(!B||!run.map.finale)return;
   if(!run.brOn){if(!e||e.dead||e.hp>e.max*.35)return;run.brOn=1;run.brA=0;run.brP=[];if(!RM)toast(B.line,2600);}
@@ -7272,7 +7309,7 @@ const Q_PL={slime:_t('slizů'),bat:_t('netopýrů'),skeleton:_t('kostlivců'),gh
  drowned:_t('utopenců'),bonearcher:_t('kostěných lučištníků'),digger:_t('hrobníků'),scorp:_t('štírů'),cultist:_t('pouštních kultistů'),mummy:_t('mumií'),imp:_t('ohnivých skřetů'),magslime:_t('magmových slizů'),
  miner:_t('duchů horníků'),wraith:_t('ledových přízraků'),snowman:_t('sněhuláků'),icearcher:_t('ledových lučištníků'),yeti:_t('yetiů'),crab:_t('krabů'),pirate:_t('utopených pirátů'),gull:_t('racků'),jelly:_t('medúz'),
  starimp:_t('hvězdných skřítků'),meteor:_t('meteoritů'),starwolf:_t('souhvězdních vlků'),comet:_t('komet')};
-const Q_ACC={knight:_t('Rytíře'),archer:_t('Lučištníka'),mage:_t('Mága'),builder:_t('Stavitele'),bard:_t('Barda')};
+const Q_ACC={knight:_t('Rytíře'),archer:_t('Střelce'),mage:_t('Mága'),builder:_t('Stavitele'),bard:_t('Barda')};
 const qMin=s=>Math.floor(s/60)+_t(' min')+(s%60?' '+(s%60)+' s':'');
 const Q_TPL=[
  {id:'kill',gen(r,c,d){const pool=[...new Set(c.maps.flatMap(m=>MAPS[m].spawns.filter(s=>s.from<=2).map(s=>s.e)))],e=pool[Math.floor(r()*pool.length)],w=Math.max(...c.maps.map(m=>(MAPS[m].spawns.find(s=>s.e===e)||{w:0}).w)),n=Math.max(10,Math.round([30,55,90][d]*clamp(w/4,.4,1)/5)*5);
@@ -7963,6 +8000,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10f',d:'10. 11. 2026',t:_t('Hvězdná hudba a kratší jména'),hl:[
+  {ic:'map:hvezdarna',t:_t('Hvězdárna hraje po svém'),d:_t('Kapitola VI má vlastní nástroje: pulzující basy, třpytivé arpeggio a skleněnou melodii. Každá mapa má k hlavnímu tématu vlastní odpověď a vlastní hudbu bosse.')},
+  {ic:'hero:warlord',t:_t('Jména se vejdou'),d:_t('Kratší jména hrdinů už se v kartě nezmenšují ani na malém telefonu: Střelec, Žoldák, Vědma mrazu, Pirátka a Astra.')},
+  {ic:'skull',t:_t('Bossové víc hřmí'),d:_t('V Hlubinách, Ledové říši a Nebeské hvězdárně boss rozjede rytmické akordy, hudba při něm zesílí víc.')}],
+  items:[_t('Trůn zimy, Podzemní řeka, Lavinová soutěska a Pirátský přístav začínají vlastní melodií, už nekopírují jiné mapy.'),_t('Konec fráze už nezní na telefonu jako ticho: dlouhý tón dostane tichou ozvěnu.')]},
  {v:'2026-11-10e',d:'10. 11. 2026',t:_t('Hudba bez děr'),hl:[
   {ic:'music',t:_t('Hlavní téma od začátku'),d:_t('Melodie hraje celou mapu, ne až po dvou minutách. Na začátku jen tišeji.')},
   {ic:'skull',t:_t('Boss víc burácí'),d:_t('S příchodem bosse hudba zesílí výrazněji než dřív.')}],

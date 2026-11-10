@@ -14,7 +14,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Námořnice
 - Úrovně 1–40: talenty na 5/10/15/20 jsou vlastní, volby na 25–40 (`TAL_CH`) a Prestiž jsou společné, nic dalšího nepřidávat.
 
 ## Kontrolní seznam
-1. `HEROES[id]`: `name`, `sname` (krátké jméno do pásu, když je dlouhé), `desc` s `<b>`, `start` (zbraň), `hp`, `armor`, `dmg`, `spd`, `cost`, `need` nebo `soon`, `pal`, `rows` (sprite). Pořadí v `HERO_IDS` = pořadí v pásu.
+1. `HEROES[id]`: `name`, `sname` (krátké jméno do pásu, když je dlouhé; **limit jména v dlaždici: nejvýš 85 % = 49 px při 12 px písmu na telefonu 360 px, CZ i EN** – zhruba 7 znaků; písmo se nesmí zmenšovat, „Armsmaster“, „Námořnice“, „Hvězdářka“ byly přes – viz `tests/tools/jmenahrdinu.js`; jméno nesmí kolidovat s jiným `_t` textem, např. „Válečník“ už je), `desc` s `<b>`, `start` (zbraň), `hp`, `armor`, `dmg`, `spd`, `cost`, `need` nebo `soon`, `pal`, `rows` (sprite). Pořadí v `HERO_IDS` = pořadí v pásu.
 2. Zbraň v `WEAPONS` (6 úrovní `lv`, `labels`, `desc`), chování v `LOGIC[id]` (`fire` na krocích a/nebo `cont` každý snímek), rytmický posun `W_OFF[id]`, ikona `SPR.icon[id]` (řádky v ikonách), kreslení efektu (`ULT_DRAW`/fx), případně hudební vrstva v `playStep`.
 3. `W_HERO[zbraň]=id` (zbraň jen pro něj do úrovně 8).
 4. `TALENTS[id]` – 4 talenty `[5,…],[10,…],[15,…],[20,…]`; prefix v `heroBonus` (mapa `pre`) a účinky (`T.<prefix>5`…), změny zbraně v `talentW`.
@@ -24,7 +24,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Námořnice
 8. `lang-en.js`, `NEWS` s `hero:id` ikonou, `GAME_VER`, `CLAUDE.md`.
 
 ## Ověření
-- `node tests/tools/chapcheck.js hero:<id>` – musí skončit „Vše v pořádku“.
+- `node tests/tools/chapcheck.js hero:<id>` – musí skončit „Vše v pořádku“ (měří i šířku jména CZ/EN v dlaždici).
 - `node tests/tools/wgallery.js <prefix> <zbraň>` – vzhled zbraně ve hře (zbraň nesmí být nudná: pohyb do rytmu, výrazný zásah).
 - `node tests/tools/dps.js` – síla zbraně proti ostatním (na úr. 6 podobně jako ostatní zbraně).
 - `node tests/tools/heroesC.js` jako vzor testu hrdiny, smoke `shot.js`, `i18n.js static`, `newsshot.js`.

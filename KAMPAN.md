@@ -1,6 +1,6 @@
 # Pixel Krypta – kampaň a kapitoly
 
-Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI čeká (hrdinka Hvězdářka je připravená). **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
+Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI hotová (hrdinka Astra, dřív Hvězdářka). **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
 Návrh pro uživatele je i v dokumentu „Pixel Krypta – kampaň a kapitoly“ (Claude Docs).
 
 ## Stavebnice kapitol (08y) – nové kapitoly dělej takhle
@@ -82,7 +82,7 @@ Starší balanc (08o, bot `zkuseny`, 3–4 běhy na mapu): jezero ~50 %, zima ~1
 Nepřátelé: `crab` (charger, `wet`), `pirate` (chase, louže, `wet`), `jelly` (BEH `jelly`: na každou dobu vyrazí, dotek zpomalí), `gull` (BEH `gull`: krouží a střemhlav, `fly`). Věže `cannon` Lodní dělo (koule skáče po zemi, odemkne přístav) a `harpoon` Harpunářská věž (přitáhne a drží nejodolnějšího, odemkne vír), od 09c karty jen ze Stavitelovy bedny. Set `tide` Výstroj mořského vlka (2 = pohyb +8 %, sbírání +15 %; 4 = `lg.st4` vlna na 3. dobu každého 2. taktu, `kb` u `ring`), legendárka `kheart` Oko krakena (prsten, chapadla inkoustu na 3 nejbližší každé 2 takty). Hledaný `seawolf` Mořský vlk. Námořnice `need:'vrakoviste'`, 1500 zlata. Mistrovství `kraken` Pán moří. Testy `tests/tools/c5shots.js <prefix> [mapy] [s]` (level-upy vybírá sám), pohlednice nových map `thumbgen5.js mapa,…`.
 
 ## Kapitola VI Nebeská hvězdárna (09j, stavebnice)
-Příběh Padlé hvězdy: po Krakenovi padají hvězdy, Hvězdářka je sleduje; finále Zatmění otevírá Prázdnotu (most do kap. VII, `BRIDGE.zatmeni` k:'void'). Paleta `C6G/C6W/C6T/C6B`, rekvizity `c6_*` v `KIT_PROPS`, hudba `songKit` styl `frost`.
+Příběh Padlé hvězdy: po Krakenovi padají hvězdy, Hvězdářka je sleduje; finále Zatmění otevírá Prázdnotu (most do kap. VII, `BRIDGE.zatmeni` k:'void'). Paleta `C6G/C6W/C6T/C6B`, rekvizity `c6_*` v `KIT_PROPS`, hudba `songKit` v2 s vlastním stylem `star` (10f: pulzující basy, třpytivé arpeggio s ozvěnou, skleněná melodie, rytmické akordy u bosse), každá mapa motiv + odpověď + boss téma.
 
 | Mapa | Rozvržení | Mechanika |
 |---|---|---|
