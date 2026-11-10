@@ -4664,7 +4664,7 @@ function luCard(i,idx,fr){const b=document.createElement('button');b.className='
 // po vložení do stránky: dlouhý název menším písmem, pak kresby
 function luPaint(){const L=$('#luList');for(const b of L.children){const n=b.querySelector('.nm'),side=b.querySelector('.pips,.seal');n.classList.remove('long');
     const lim=b.clientWidth-n.offsetLeft-(side&&side.classList.contains('pips')?side.offsetWidth+26:28);if(n.scrollWidth>lim)n.classList.add('long');
-    const st=b.querySelector('.st');if(st.offsetHeight>24)b.dataset.nr=1;} // dva řádky čísel: runy v rohu se nekreslí, ať se nepletou do textu
+    const st=b.querySelector('.st'),ls=st.lastElementChild;if(st.offsetHeight>24||(ls&&ls.offsetLeft+ls.offsetWidth+st.offsetLeft>b.clientWidth-84))b.dataset.nr=1;} // dva řádky čísel: runy v rohu se nekreslí, ať se nepletou do textu
   kSnap($('#scr-levelup .wrap'));KIT.paint($('#scr-levelup'));}
 function openLevelUp(){return withRng('u',openLevelUp0);}
 function openLevelUp0(){
