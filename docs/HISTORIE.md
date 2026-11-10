@@ -303,3 +303,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - Všechny `.card`, `.brow`, `.tcard`, `.pop-card`, dlaždice předmětů a věží: kamenný rám tvrdými stíny (konec `krypta.css`), bez textur. Věže bez modrého vzoru. Kovárna: `onAltar` v `renderForge` položí první slučitelnou skupinu na oltáře `.k-forge`, ťuknutí otevře sloučení.
 - Ostré písmo (připomínka uživatele z iPhonu): Jersey má pixel 75/1400 em (10), 50/1350 (15), 38/1292 (20) – ostré jen ve velikostech 18,6667 / 27 / 34 px (pixel písma = 1 CSS px) s řádkem 24 / 31 / 40 px (celé pixely nad i pod písmem). Dřív 20/30/40 px = rozmazané.
 - Vybavení: inventář hned pod výbavou, karta hrdiny pod ním; dlaždice bez nápisů (zlatý rám = nasazeno, portrét = nosí jiný hrdina, pečeť `sealDot` = nové).
+
+## 10s – Nástěnka v nové grafice (2026-11-10)
+- `qNoteHtml`: nadpis = zadání `q.xs` (hravý název `q.t` jen jako `aria-label`), přehoz úkolu ikonou `reroll`; svíčky a odpočet jako ikony; text hledaného a postup lovu pod otazníkem (`kh`); „Bonus dne:“ pryč.

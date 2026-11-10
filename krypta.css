@@ -1378,3 +1378,7 @@ button,input,select,textarea{font-family:inherit}
 .scr:not([hidden]):not(#scr-levelup):not(#scr-fuse){animation:kScrIn .16s ease-out!important}
 @keyframes kScrIn{from{transform:translateY(8px)}to{transform:none}}
 #scr-menu:not([hidden]){animation:none!important}
+/* Nástěnka (10s): zadání místo hravého názvu, svíčky a čas jako ikony, přehoz úkolu ikonou */
+.qnote h3{font-size:18.6667px!important;line-height:24px!important;font-family:'Jersey 10',var(--font)!important;color:#3a2412!important;text-shadow:none!important}
+.qrow{display:flex;justify-content:space-between;align-items:center}.qrow span{display:flex;gap:6px;align-items:center}.qrow .qri{width:22px;height:22px;image-rendering:pixelated}.qrow b{color:#ffd75e}
+.k-rr.btn.ka{width:44px;min-width:44px;padding:0 0 6px!important}

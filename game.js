@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10r';
+const GAME_VER='2026-11-10s';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7987,6 +7987,7 @@ const PIX={
  note8:{c:{'#':'#d9a8f2'},r:['..####','..#..#','..#..#','..#..#','###.##','###.##']},
  stickI:{c:{'#':'#e9e2d0','r':'#e2453a','h':'#ff8a78'},r:['..hrr..','..rrr..','..rrr..','...#...','...#...','.#####.','#######']},
  sealDot:{c:{'#':'#c5413a','h':'#e2655a','d':'#761d1d','o':'#1c0607','s':'#ffd9b0'},r:['.oooo.','ohh##o','oh#s#o','o#sssd','o##s#d','.oddd.']},
+ reroll:{c:{'#':'#f4ecd6'},r:['..####.#','.#....##','#....###','#.......','.......#','###....#','##....#.','#.####..']},
  flameA:{c:{y:'#ffd75e',o:'#ff9a3c',w:'#fff3b0',r:'#d8532a'},r:['...y...','..yy...','..yoy..','.yooy..','.yoooy.','yoowoy.','yowwoy.','rowwor.','.rooo..']},
  flameB:{c:{y:'#ffd75e',o:'#ff9a3c',w:'#fff3b0',r:'#d8532a'},r:['....y..','...yy..','..yoy..','..yooy.','.yoooy.','.yowooy','.yowwoy','.rowwor','..ooor.']},
  fireA:{c:{y:'#ffd75e',o:'#ff9a3c',w:'#fff3b0',r:'#d8532a'},r:['.....y.....','....yy.....','...yyoy....','...yooy.y..','..yoooyyy..','.yyoowooy..','.yoowwooy..','yoowwwwooy.','roowwwwoor.','.roowwoor..','..rooooor..']},
@@ -8102,25 +8103,25 @@ function qNoteHtml(q,i,Q){const k=qStars(q),nx=Math.min(2,k),top=q.ns[2],full=k=
   const stars=[0,1,2].map(j=>qStarImg(j<k)).join(''),ticks=q.ns.slice(0,2).map(n=>'<b style="left:'+(n/top*100)+'%"></b>').join(''),seal=['seal_r','seal_b','seal_g'][i%3];
   return '<div class="qnote n'+i+(full&&q.cl===3?' done':'')+'"><img class="pin" alt="" src="'+dataUrl(SPR.icon.pin)+'"><div class="qn-in">'+
     '<img class="seal" alt="" src="'+dataUrl(SPR.icon[seal])+'">'+
-    '<div class="qn-top"><span class="qn-ic"><img alt="" src="'+qIcon(q.ico)+'"></span><div><h3>'+q.t+'</h3><div class="stars">'+stars+'</div></div></div>'+
-    '<p>'+q.xs[nx]+'</p><div class="qprog"><span>'+(full?_t('Všechny hvězdy!'):qFmtN(q,q.v,q.ns[nx]))+'</span><div class="qbar"><i style="width:'+(Math.min(q.v,top)/top*100)+'%"></i>'+ticks+'</div></div>'+
+    '<div class="qn-top"><span class="qn-ic"><img alt="" src="'+qIcon(q.ico)+'"></span><div><h3 aria-label="'+q.t+'">'+q.xs[nx]+'</h3><div class="stars">'+stars+'</div></div></div>'+
+    '<div class="qprog"><span>'+(full?_t('Všechny hvězdy!'):qFmtN(q,q.v,q.ns[nx]))+'</span><div class="qbar"><i style="width:'+(Math.min(q.v,top)/top*100)+'%"></i>'+ticks+'</div></div>'+
     '<div class="qn-bot">'+(q.cl<3?qRwHtml(qSum(Q_SR.slice(q.cl,Math.max(q.cl+1,k)))):'<span class="rw"><b class="ok">'+_t('Vyzvednuto')+'</b></span>')+
-    (ready?'<button class="btn sm" data-claim="'+i+'">'+_t('Vyzvednout')+' <span class="bst">'+qStarImg(1).repeat(k-q.cl)+'</span></button>':rr?'<button class="btn alt sm" data-rr="'+i+'">'+_t('Jiný úkol')+'</button>':'')+'</div></div></div>';}
+    (ready?'<button class="btn sm" data-claim="'+i+'">'+_t('Vyzvednout')+' <span class="bst">'+qStarImg(1).repeat(k-q.cl)+'</span></button>':rr?'<button class="btn alt sm k-rr" data-rr="'+i+'" aria-label="'+_t('Jiný úkol')+'">'+KIT.img('reroll')+'</button>':'')+'</div></div></div>';}
 function qDayHtml(Q){const th=qTheme(Q.d),now=new Date(),mid=new Date(now);mid.setHours(24,0,0,0);
-  let h='<div class="qtheme" style="--tc:'+th.col+'"><img alt="" src="'+qIcon(th.ic)+'"><div><small>'+Q_DAYN[qDow(Q.d)]+'</small><b>'+th.name+'</b><span>'+_t('Bonus dne: ')+th.bonus+'</span></div></div>';
-  h+='<div class="qrow"><span>'+_t('Dnešní svíčky')+' <b>'+Q.c+'</b></span><span class="qleft">'+_t('nové úkoly za ')+qLeft(mid-now)+'</span></div>'+candleRow(Q_DMS,Q,0);
+  let h='<div class="qtheme" style="--tc:'+th.col+'"><img alt="" src="'+qIcon(th.ic)+'"><div><small>'+Q_DAYN[qDow(Q.d)]+'</small><b>'+th.name+'</b><span>'+th.bonus+'</span></div></div>';
+  h+='<div class="qrow"><span aria-label="'+_t('Dnešní svíčky')+'"><img alt="" class="qri" src="'+dataUrl(SPR.icon.candle)+'"><b>'+Q.c+'</b></span><span class="qleft" aria-label="'+_t('nové úkoly za ')+'">'+KIT.img('clock')+qLeft(mid-now)+'</span></div>'+candleRow(Q_DMS,Q,0);
   h+='<div class="qboard">'+Q.q.map((q,i)=>qNoteHtml(q,i,Q)).join('')+'</div>';
   const w=Q.w,WD=featOn('wanted')&&WANTED[w.id];
   if(WD){const C=CH_OF[WD.map],stTxt=[_t('Přijmi lov a v příští hře na kterékoli mapě kapitoly ')+ROMAN_CH[C.i]+_t(' se kolem 2. minuty objeví (v denní výzvě ne). Máš 80 s, pak uteče.'),
       _t('Lov přijat. Čeká na tebe na mapách kapitoly ')+ROMAN_CH[C.i]+_t(' kolem 2. minuty (mimo denní výzvu).'),_t('Dopaden! Vyzvedni si odměnu.'),_t('Dopaden. Nový plakát visí zítra.')][w.st];
     h+='<div class="sec">'+_t('Lov na hledané')+'</div><div class="poster'+(w.st>=2?' got':'')+'"><div class="pz-h">'+_t('HLEDÁ SE')+'</div><div class="pz-img"><img alt="" src="'+dataUrl(eliteSprite(WD.e))+'"></div>'+
-      '<h3>'+WD.name+'</h3><small>'+_t('kapitola ')+ROMAN_CH[C.i]+' · '+C.name+'</small><p>'+WD.desc+'</p>'+qRwHtml({g:W_RW.g,m:W_RW.m,c:W_RW.c})+'<p class="pz-st">'+_t('+ šance na předmět')+'</p>'+
-      '<p class="pz-st">'+stTxt+'</p>'+
+      '<h3>'+WD.name+'</h3><small>'+_t('kapitola ')+ROMAN_CH[C.i]+' · '+C.name+'</small><p class="kh"><b>'+WD.name+':</b> '+WD.desc+'</p>'+qRwHtml({g:W_RW.g,m:W_RW.m,c:W_RW.c})+'<p class="pz-st kh">'+_t('+ šance na předmět')+'</p>'+
+      '<p class="pz-st kh">'+stTxt+'</p>'+
       (w.st===0?'<button class="btn sm" id="qAccept">'+_t('Přijmout lov')+'</button>':w.st===1?(mapUnlocked(WD.map)?'<button class="btn sm" id="qHunt">'+_t('Jít na lov')+'</button>':''):w.st===2?'<button class="btn sm" id="qWClaim">'+_t('Vyzvednout odměnu')+'</button>':'')+
       (w.st>=2?'<i class="stamp">'+_t('DOPADEN')+'</i>':'')+'</div>';}
   return h;}
 function qWeekHtml(){const W=save.qw,end=new Date(weekKey()+'T00:00:00');end.setDate(end.getDate()+7);
-  let h='<div class="qrow"><span>'+_t('Svíčky tento týden')+' <b>'+W.c+'</b></span><span class="qleft">'+_t('nový týden za ')+qLeft(end-new Date())+'</span></div>'+candleRow(Q_WMS,W,1);
+  let h='<div class="qrow"><span aria-label="'+_t('Svíčky tento týden')+'"><img alt="" class="qri" src="'+dataUrl(SPR.icon.candle)+'"><b>'+W.c+'</b></span><span class="qleft" aria-label="'+_t('nový týden za ')+'">'+KIT.img('clock')+qLeft(end-new Date())+'</span></div>'+candleRow(Q_WMS,W,1);
   h+='<div class="sec">'+_t('Týdenní kontrakty')+'</div>';
   W.k.forEach((K,i)=>{const T=QK_TPL.find(t=>t.id===K.id),C=CHAPTERS.find(c=>c.id===K.ch)||CHAPTERS[0],done=K.cl.every(Boolean);
     h+='<div class="qscroll'+(done?' done':'')+'"><div class="qs-top"><img alt="" src="'+qIcon(T.ic(C))+'"><h3>'+T.t(C)+'</h3><em>'+qkDone(K)+' / 3</em></div><ol>'+
@@ -8501,6 +8502,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10s',d:'10. 11. 2026',t:_t('Nástěnka bez čtení'),hl:[
+  {ic:'scroll',t:_t('Úkol je hned vidět'),d:_t('Na pergamenu je rovnou, co máš udělat. Svíčky a čas do nových úkolů jsou ikony, jiný úkol vybereš šipkami.')}],
+  items:[_t('Popis hledaného a postup lovu najdeš pod otazníkem.')]},
  {v:'2026-11-10r',d:'10. 11. 2026',t:_t('Věže bez ťukání'),hl:[
   {ic:'tower',t:_t('Postůj u věže'),d:_t('Když u věže chvíli postojíš a máš dost zlata, vylepší se sama. Prstenec na zemi ukazuje, jak daleko to je. Věž na úrovni 3 se takhle opraví.')}],
   items:[_t('Rychlým průchodem kolem věže zlato neutratíš a čerstvě postavená věž má pár vteřin klid.'),_t('Tlačítko Vylepšit funguje dál.')]},
