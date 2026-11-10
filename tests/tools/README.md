@@ -74,3 +74,4 @@ Starší skripty mohou mít natvrdo cestu `/home/claude/pixel-krypta` – uprav 
 - `pwaguide.js <prefix> [cs|en]` – návod Přidat na plochu pro Safari/Chrome/Edge na iPhonu a Android, skutečná instalace přes beforeinstallprompt
 - `skylv.js <prefix> [cs|en]` – Souhvězdí: zjasňování hvězd (ceny, bonusy, strop, vrácení bodů, uložení) + snímky
 - `privacy.js <prefix> [cs|en]` – Soukromí a licence, smazání dat, nahlášení/skrytí hráče, filtr přezdívek, žádné cizí servery
+- `fuzemark.js <složka> [cs|en] [telefon]` – 10p: odznak fúze na kartě nové úrovně (pravidla, přetékání, snímky) a kroužek rytmu pod hrdinou (čtyři fáze + vypnuto).

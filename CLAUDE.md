@@ -37,6 +37,15 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak `cd tests/tools && node -e "require('./lib').prep()"` (vytvoří off.html bez klíče a vedle něj game.js, krypta.css, lang-en.js a symlinky). Audit to dělá sám. Playwright je předinstalovaný.
 
+## Předávka 2026-11-10 ~21:00 (verze 10p = odznak fúze na kartě + kroužek rytmu; chat „logika a funkce“)
+- **Rozdělení práce (uživatel 10. 11. večer):** jeden chat dělá grafiku, druhý logiku a funkce. Oba pushují na `main`, takže platí pravidlo fetch + rebase před prací i před pushem.
+- **Dokument z Drive „Herní Design a Systémová Architektura“** (core loop a meta-game) jsem porovnal s hrou. Uživatel rozhodnutí nechal na mně. Závěr:
+  - **Hotovo v 10p:** odznak fúze na kartě nové úrovně (`fuseHint(id,lv)` → `optInfo().fz` → `.fzb` v `luCard`; jeden odznak = ultimátka, ke které zbraň vede, když hráč nese druhou půlku; `.rdy` zlatě = po vybrání jsou obě na 5; tajný recept až po ukutí; jde i do co-op karet). Kroužek rytmu pod hrdinou (v `render` u hrdiny, z `M.beatPos`; první doba taktu zlatá, protože na ni jedou bonusy za rytmus a mazlíčci; síla `save.bt` 0–1, posuvník `#vBt` v Nastavení, klíč jen v zařízení).
+  - **Další krok (nezačato):** vylepšení a oprava věže průchodem kolem ní (ušetří tlačítko v boji); po změně pustit boty, jestli to nerozhodí zlato v běhu.
+  - **Nedělat bez nového rozhodnutí uživatele:** pevné sokly a plně automatická stavba (berou volbu kam a co; rozbily by Stavitele, limit 8 věží, rostoucí ceny, Karavanu), Krystal jako jádro všech map (má ho jen Poušť a Karavana), Safíry (další měna proti Ekonomice 2.0; smysl až s vydáním v obchodech), sběr lootu všemi mazlíčky (je to schopnost Havrana a magnetu), rytmická minihra u slučování 3→1 bez přeskočení, fialová pečeť (fialová jde ze hry pryč).
+- Nastavení: čtvrtý posuvník se musel vejít na malý telefon → těsnější `.vols`, nápověda ke klávesnici jen s myší (`pointer:coarse` ji skrývá), `.sheet` má `max-height:100%` a posouvá se.
+- Test: `node tests/tools/fuzemark.js <složka> [cs|en] [telefon]` (pravidla odznaku, přetékání karet, snímky karet a fází kroužku). Novinky 10p (ikony `vortex`, `drum`), snímky CZ i EN zkontrolované.
+
 ## Předávka 2026-11-10 ~20:00 (verze 10j = schody a zeď kapitol, loot podle kapitoly, ceny hrdinů, vše na main)
 - Obtížnost: II schod nad I, **III zeď**, IV a V zvednuté, aby schodiště drželo; VI beze změny. Čísla, metodika (měřit se stejným účtem `UCET=n`) a poučení (rozhoduje HP, `dmm`/`spx` málo) v `KAMPAN.md` „10j“. Otevřené: styl „drž odstup“ (Opatrný vyhrává skoro všude), Vrakoviště nereaguje na HP, účet po grindu ve IV vyhraje i finále.
 - Loot: zlato ×(1+0,15·kapitola) (`chGoldMul`), Esence finále taky; nový test `tests/tools/lootcurve.js`. Ceny hrdinů kapitol samy z `HERO_PRICE` (II 1 000 … VI 4 000), viz `EKONOMIKA.md` a skilly `nova-kapitola`, `novy-hrdina`.
@@ -70,7 +79,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
 - Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
 
-## Aktuální stav (verze 10o, 10. 11. 2026 ~13:00, vše na main, Pages nasazené)
+## Aktuální stav (verze 10p; odstavec psaný pro 10o, 10. 11. 2026 ~13:00, vše na main, Pages nasazené)
 - Hra: 6 kapitol (30 map, I–VI), 11 hrdinů, Noční můry I–III, Nekonečná krypta na finále, Runy, Souhvězdí, Nástěnka (denní úkoly, kontrakty, týdenní výzva), co-op beta, mazlíčci, věže jen z bedny. Podrobnosti kapitol `KAMPAN.md`, ekonomika `EKONOMIKA.md`, historie všech verzí `docs/HISTORIE.md`, mapa kódu `docs/KOD.md`.
 - Vzhled: starý styl (kámen a železo, kovaná tlačítka `.btn`) se postupně nahrazuje novou grafikou (viz níže); fialová jen pro Epické a kouzla. Staré obrazovky používají CSS rám `.btn:not(.art)`.
 - Server: hra mluví s `profiles` jen přes `my_profile` / `save_profile` / `claim_profile_v2` (limit PINu), skóre čistí `stats_clean`, protokoly `private.pin_fail` a `private.cheat_log`. Migrace v `supabase/migrations/`.

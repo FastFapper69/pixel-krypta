@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Pixel Krypta</title>
 <!-- 09y: fonts are served from the game itself (no Google Fonts → no visitor IP sent to Google; licences in licenses/) -->
-<link rel="stylesheet" href="krypta.css?v=2026-11-10o">
+<link rel="stylesheet" href="krypta.css?v=2026-11-10p">
 </head>
 <body>
 <div id="splash"><img src="icon-192.png" alt=""><b>PIXEL KRYPTA</b><i></i></div>
@@ -66,6 +66,7 @@
         <label><span>Hlasitost hudby</span><input type="range" min="0" max="100" step="5" id="vMus"><b id="vMusN"></b></label>
         <label><span>Hlasitost efektů</span><input type="range" min="0" max="100" step="5" id="vSfx"><b id="vSfxN"></b></label>
         <label><span>Otřesy obrazovky</span><input type="range" min="0" max="100" step="10" id="vShk"><b id="vShkN"></b></label>
+        <label><span>Kroužek rytmu</span><input type="range" min="0" max="100" step="10" id="vBt"><b id="vBtN"></b></label>
       </div>
       <div class="tabs langsw" id="mLang"><button data-l="cs">Čeština</button><button data-l="en">English</button></div>
       <button class="btn alt sm" id="mFb">Napsat názor na hru</button>
@@ -326,9 +327,9 @@ window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_pub
 <script>/* 09z7: English texts are downloaded only for English players (same language rule as LANG in game.js) */
 (function(){var l=null;try{l=localStorage.getItem('pixel-krypta-lang');}catch(e){}
 if(l!=='cs'&&l!=='en')l=/^(cs|sk)\b/i.test(String((navigator.languages&&navigator.languages[0])||navigator.language||''))?'cs':'en';
-window.KRYPTA_LANG=l;if(l==='en')document.write('<script src="lang-en.js?v=2026-11-10o"><\/script>');})();
+window.KRYPTA_LANG=l;if(l==='en')document.write('<script src="lang-en.js?v=2026-11-10p"><\/script>');})();
 </script>
-<script src="game.js?v=2026-11-10o"></script>
+<script src="game.js?v=2026-11-10p"></script>
 
 <div id="kHelp" hidden><div class="khcard" data-k="slab" data-m="parch"><div id="kHelpTxt"></div></div></div>
 </body>

@@ -36,7 +36,7 @@ let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0
 // Adding a new save.X needs no list anymore; only device-only settings go to LOCAL_KEYS. Feature migrations that need game data
 // (chMigrate, treeMigrate, econ2Migrate, nmMigrate, metaInit…) still run lazily where that data exists; SAVE_MIG is for whole-save changes.
 const SAVE_VER=1,SAVE_BAK=SAVE_KEY+'-bak';
-const LOCAL_KEYS=new Set(['sound','music','tipTower','cheat','stick','pinSet','nick','lastMap','treeBack','vol','shk']);
+const LOCAL_KEYS=new Set(['sound','music','tipTower','cheat','stick','pinSet','nick','lastMap','treeBack','vol','shk','bt']);
 const SAVE_MIG=[ // SAVE_MIG[v] turns a save of version v into v+1 (pure function on plain data)
   d=>d // 0→1: saves before 09r had no version; the shape is the same
 ];
@@ -49,7 +49,7 @@ function loadSave(){let raw=null,s=null;try{raw=localStorage.getItem(SAVE_KEY);}
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});Object.assign(save.meta,s.meta||{});
   if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;
   if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.nick)save.nick=s.nick;if(s.lastMap)save.lastMap=s.lastMap;
-  if(s.vol&&typeof s.vol==='object')save.vol={m:clamp01(+s.vol.m),s:clamp01(+s.vol.s)};if(s.shk!=null&&isFinite(+s.shk))save.shk=clamp01(+s.shk);
+  if(s.vol&&typeof s.vol==='object')save.vol={m:clamp01(+s.vol.m),s:clamp01(+s.vol.s)};if(s.shk!=null&&isFinite(+s.shk))save.shk=clamp01(+s.shk);if(s.bt!=null&&isFinite(+s.bt))save.bt=clamp01(+s.bt);
   for(const k in s)if(!LOCAL_KEYS.has(k)&&!['coins','heroes','cleared','best','meta'].includes(k)&&s[k]!==undefined&&s[k]!==null)save[k]=s[k];
   save.version=Math.max(SAVE_VER,s.version|0);
   if(!loadSave.fromBak)try{localStorage.setItem(SAVE_BAK,raw);}catch(_){} // this session started from a good save → keep it as the backup
@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10o';
+const GAME_VER='2026-11-10p';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4642,16 +4642,23 @@ function weaponStats(id,lv){const W=WEAPONS[id],b=W.lv[lv-1],out=[];
   return out.length?out:[[_t('Síla'),'+']];}
 function optInfo(o){
   if(o.k==='fuse'){const U=WEAPONS[o.f.id];return{name:U.name,icon:o.f.id,tag:_t('Fúze'),desc:WEAPONS[o.f.a].name+' + '+WEAPONS[o.f.b].name+'. '+U.desc+_t(' Uvolní slot.'),fuse:true,eq:[o.f.a,o.f.b]};}
-  if(o.k==='w'){const W=WEAPONS[o.id];return{name:W.name,icon:o.id,tag:W.ult?_t('Úr. ')+ROMAN[o.lv-1]:o.lv===1?_t('Nové'):_t('Úr. ')+o.lv,desc:o.lv===1?W.desc:weaponDiff(o.id,o.lv),st:weaponStats(o.id,o.lv),lv:o.lv,max:W.lv.length,isNew:o.lv===1};}
+  if(o.k==='w'){const W=WEAPONS[o.id];return{name:W.name,icon:o.id,tag:W.ult?_t('Úr. ')+ROMAN[o.lv-1]:o.lv===1?_t('Nové'):_t('Úr. ')+o.lv,desc:o.lv===1?W.desc:weaponDiff(o.id,o.lv),st:weaponStats(o.id,o.lv),lv:o.lv,max:W.lv.length,isNew:o.lv===1,fz:fuseHint(o.id,o.lv)};}
   if(o.k==='p'){const P=PASSIVES[o.id];return{name:P.name,icon:o.id,tag:o.lv===1?_t('Nové'):_t('Úr. ')+o.lv,desc:P.txt,st:P.st?[[P.st[1],numLoc(P.st[0])]]:[],lv:o.lv,max:MAX_PLV,isNew:o.lv===1};}
   if(o.k==='heal')return{name:_t('Léčivý lektvar'),icon:'potion',tag:'',desc:_t('Doplní 40 % zdraví'),st:[[_t('Zdraví'),numLoc('+40 %')]]};
   return{name:_t('Měšec zlata'),icon:'coin',tag:'',desc:_t('+40 zlata'),st:[[_t('Zlato'),'+40']]};
 }
+// 10p: zbraň v nabídce je půlkou receptu, jehož druhou půlku hráč už nese → na kartě odznak s výslednou ultimátkou.
+// rdy = po vybrání téhle karty jsou obě zbraně na úrovni 5 (fúze se začne nabízet). Tajný recept se ukáže až po prvním ukutí.
+function fuseHint(id,lv){if(!run||!featOn('fuse')||WEAPONS[id].ult)return null;const out=[];
+  for(const f of FUSIONS){if(f.a!==id&&f.b!==id)continue;const w=run.W[f.a===id?f.b:f.a];if(!w)continue;
+    if(WEAPONS[f.id].secret&&!(save.codex&&save.codex.f[f.id]))continue;out.push({id:f.id,rdy:lv>=5&&w.lv>=5,m:w.lv});}
+  out.sort((a,b)=>b.rdy-a.rdy||b.m-a.m);return out.length?[{id:out[0].id,rdy:out[0].rdy}]:null;} // jen jeden odznak: dva zakryly půlku ikony zbraně
 // jedna karta nabídky (hostitel i host v co-opu); fr = nově odemčená zbraň
 function luCard(i,idx,fr){const b=document.createElement('button');b.className='k-card'+(i.fuse?' fuse':'')+(fr?' fresh':'');b.dataset.k='card';b.dataset.s=idx;if(i.fuse)b.dataset.fuse=1;if(fr)b.dataset.sel=1;
   const st=i.st?i.st.slice(0,4).map(([l,v])=>'<span>'+l+' <b>'+v+'</b></span>').join(''):(i.desc||'');
   b.innerHTML='<span class="sock" data-k="socket" data-s="'+idx+'"'+(i.fuse?' data-bg="#1c1026"':'')+'><img alt="" src="'+dataUrl(SPR.icon[i.icon])+'"></span><h3 class="nm">'+i.name+'</h3>'+
     (i.eq?'<span class="st k-eq"><img alt="" class="ic" src="'+dataUrl(SPR.icon[i.eq[0]])+'">'+KIT.img('plus')+'<img alt="" class="ic" src="'+dataUrl(SPR.icon[i.eq[1]])+'"></span>':'<span class="st">'+st+'</span>')+
+    (i.fz?i.fz.map((f,n)=>SPR.icon[f.id]?'<span class="fzb'+(f.rdy?' rdy':'')+'" data-fz="'+f.id+'"><img alt="" src="'+dataUrl(SPR.icon[f.id])+'"></span>':'').join(''):'')+
     (i.isNew?'<span class="seal" data-k="seal" data-s="'+idx+'">'+KIT.img('sealStar')+'</span>':i.max?'<span class="pips">'+Array.from({length:i.max},(_,n)=>KIT.img(n<i.lv-1?'pipOn':n===i.lv-1?'pipNext':'pipOff')).join('')+'</span>':'');
   return b;}
 // po vložení do stránky: dlouhý název menším písmem, pak kresby
@@ -5319,6 +5326,10 @@ function render(){
       const ph=p.moving?(Math.floor(M.beatPos*2)&1):(((M.beatPos%1)+1)%1<.14?1:0);
       const img=ph?(p.flash>0?s.f2:s.c2):(p.flash>0?s.f:s.c),bob=p.moving&&!ph?-1:0;
       shadow(g,x,y+s.h/2-4,10);
+      // 10p: metronom pro hru bez zvuku – kroužek se stahuje k nohám a na dobu blikne; první doba taktu (bonusy za rytmus) je zlatá
+      {const bk=save.bt==null?1:save.bt;if(bk>0&&!p.down&&state==='play'){const bp=((M.beatPos%1)+1)%1,bi=((Math.floor(M.beatPos)%4)+4)%4,fy=y+s.h/2-4;
+        ringPix(g,x,fy,11+8*(1-bp),bi===3?'#ffd75e':'#e4dfcc',(.05+.3*bp*bp)*bk);
+        if(bp<.22){const k=1-bp/.22,d1=bi===0;ringPix(g,x,fy,11+2*(1-k),d1?'#ffd75e':'#e4dfcc',(d1?.85:.4)*k*bk);if(d1){ringPix(g,x,fy,12+3*(1-k),'#fff3b0',.45*k*bk);circ(g,x,fy,10,'#ffd75e',.2*k*bk);}}}}
       {const uc=ultColOf(run.W);if(uc){const pu=.5+.5*Math.sin(run.t*4);circ(g,x,y+s.h/2-4,9+pu,uc,.16+M.pulse*.1);ringPix(g,x,y+s.h/2-4,10+pu,uc,.3+M.pulse*.25);
         if(Math.random()<.12)addP({x:p.x+rnd(-6,6),y:p.y+rnd(-2,6),vx:rnd(-4,4),vy:rnd(-22,-10),life:.6,col:uc,sz:1,g:0});}}
       if(p.inv>0&&Math.floor(run.t*20)%2===0&&p.flash<=0)g.globalAlpha=.45;if(p.down)g.globalAlpha=.45;
@@ -5973,11 +5984,11 @@ function bindUi(){
   $('#mPriv').onclick=()=>{audioInit();sfx('ui');openPrivacy();};
   $('#setPop').onclick=e=>{if(e.target.id==='setPop'){sfx('ui');setSheet(false);}};
   // 09r: volume and screen shake sliders (device settings, not synced)
-  {const V=[['vMus','m'],['vSfx','s'],['vShk','k']];
-   const get=k=>k==='k'?(save.shk==null?1:save.shk):(save.vol&&save.vol[k]!=null?save.vol[k]:1);
+  {const V=[['vMus','m'],['vSfx','s'],['vShk','k'],['vBt','b']];
+   const get=k=>k==='k'?(save.shk==null?1:save.shk):k==='b'?(save.bt==null?1:save.bt):(save.vol&&save.vol[k]!=null?save.vol[k]:1);
    const show=()=>V.forEach(([id,k])=>{const el=$('#'+id),v=Math.round(get(k)*100);el.value=v;el.style.setProperty('--v',v+'%');$('#'+id+'N').textContent=v+' %';});
    V.forEach(([id,k])=>{const el=$('#'+id);
-     el.oninput=()=>{const v=el.value/100;if(k==='k')save.shk=v;else{save.vol=save.vol||{m:1,s:1};save.vol[k]=v;audioInit();setBuses();}show();};
+     el.oninput=()=>{const v=el.value/100;if(k==='k')save.shk=v;else if(k==='b')save.bt=v;else{save.vol=save.vol||{m:1,s:1};save.vol[k]=v;audioInit();setBuses();}show();};
      el.onchange=()=>{persist();if(k==='s')sfx('ui');if(k==='k'&&!RM&&+el.value>0){const w=$('#setPop .sheet');if(w&&w.animate)w.animate([{transform:'translate(0,0)'},{transform:'translate('+(4*el.value/100)+'px,-'+(3*el.value/100)+'px)'},{transform:'translate(-'+(4*el.value/100)+'px,'+(2*el.value/100)+'px)'},{transform:'translate(0,0)'}],{duration:220});}};});
    showVols=show;show();}
   $('#mSound').onclick=()=>{audioInit();save.sound=!save.sound;persist();setBuses();refreshMenu();sfx('ui');};
@@ -8463,6 +8474,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10p',d:'10. 11. 2026',t:_t('Fúze a rytmus na první pohled'),hl:[
+  {ic:'vortex',t:_t('Odznak fúze na kartě'),d:_t('Když ti nová úroveň nabídne zbraň, která se dá spojit s tou, co už neseš, v rohu její ikony je výsledná ultimátka. Zlatě září, když tahle karta recept dokončí.')},
+  {ic:'drum',t:_t('Kroužek rytmu pod hrdinou'),d:_t('Stahuje se v tempu hudby a na první dobu taktu zlatě blikne, takže rytmus vidíš i bez zvuku. Sílu nastavíš v Nastavení.')}],
+  items:[_t('Nastavení se celé vejde i na malý telefon.')]},
  {v:'2026-11-10o',d:'10. 11. 2026',t:_t('Dotažený nový vzhled'),hl:[
   {ic:'clock',t:_t('Příprava bez odstavců'),d:_t('Denní výzva ukazuje jen čas, truhlu a Úlomky. Popisy výzvy a map najdeš pod otazníkem.')},
   {ic:'power',t:_t('Talenty jako kamenné desky'),d:_t('Vybraný talent je zlatý, zamčené jsou šedé.')}],
