@@ -298,3 +298,8 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 10o – dotažení nové grafiky (2026-11-10)
 - Příprava: denní výzva jako odznaky (čas, truhla, Úlomky), popisy výzvy a map pod otazníkem (`kh`). Talenty: tlačítka kreslí `kAuto` (runový kámen, vybraný zlato). Mazlíčci bez proutí, posuvníky v Nastavení jako drážka se zlatým závažím.
+
+## 10q – kamenné karty, věže, oltáře, ostré písmo (2026-11-10; 10p mezitím vydal druhý chat)
+- Všechny `.card`, `.brow`, `.tcard`, `.pop-card`, dlaždice předmětů a věží: kamenný rám tvrdými stíny (konec `krypta.css`), bez textur. Věže bez modrého vzoru. Kovárna: `onAltar` v `renderForge` položí první slučitelnou skupinu na oltáře `.k-forge`, ťuknutí otevře sloučení.
+- Ostré písmo (připomínka uživatele z iPhonu): Jersey má pixel 75/1400 em (10), 50/1350 (15), 38/1292 (20) – ostré jen ve velikostech 18,6667 / 27 / 34 px (pixel písma = 1 CSS px) s řádkem 24 / 31 / 40 px (celé pixely nad i pod písmem). Dřív 20/30/40 px = rozmazané.
+- Vybavení: inventář hned pod výbavou, karta hrdiny pod ním; dlaždice bez nápisů (zlatý rám = nasazeno, portrét = nosí jiný hrdina, pečeť `sealDot` = nové).

@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10p';
+const GAME_VER='2026-11-10q';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3089,7 +3089,7 @@ function withPl(pl,fn){const K=['p','W','P','hero','heroId','fused','fuseMiss','
   try{return fn();}finally{for(const k of K)pl[k]=run[k];pl.st=st;for(const k of K)run[k]=sv[k];st=s0;CO.ctxMate=c0;}}
 const screens={menu:$('#scr-menu'),towers:$('#scr-towers'),pets:$('#scr-pets'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),forge:$('#scr-forge'),codex:$('#scr-codex'),guide:$('#scr-guide'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master'),sky:$('#scr-sky')};
 function showScreen(n){for(const k in screens){const h=k!==n;screens[k].hidden=h;if(h)screens[k].style.animation='';}}
-function setState(s){const prevS=state;{const kr=document.getElementById('kRoom'),sc=screens[s];if(kr)kr.hidden=!(sc&&!sc.classList.contains('clear')&&s!=='menu');}if(s==='play')requestAnimationFrame(()=>{try{hudPaint();}catch(_){}});if(screens[s]&&screens[s].classList.contains('room'))qTexInit();if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
+function setState(s){const prevS=state;{const kr=document.getElementById('kRoom'),sc=screens[s];if(kr)kr.hidden=!(sc&&!sc.classList.contains('clear'));}if(s==='play')requestAnimationFrame(()=>{try{hudPaint();}catch(_){}});if(screens[s]&&screens[s].classList.contains('room'))qTexInit();if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
   $('#hud').hidden=!(run&&(s==='play'||s==='levelup'||s==='fuse'||s==='wait'||s==='pause'||s==='over'));
   if(s!=='play'){const tt=$('#toast');if(tt)tt.classList.remove('on');}{const tu=$('#tut');if(tu)tu.style.visibility=s==='play'?'':'hidden';}
   {const NO={select:['map','hero'],hero:['hero'],towers:[],shop:['rank'],forge:[]}[s];if(NO&&s!==prevS){seeNew(...NO);try{({select:renderSelect,hero:renderHero,towers:renderTowers,shop:renderShop,forge:renderForge})[s]();}catch(_){}}}
@@ -4903,7 +4903,7 @@ const KA=[['.market .card.chest>.btn',b=>['slab','parch']],['#scr-guide .gd',b=>
 function kAuto(){const A=document.getElementById('app');try{kHelpSync();}catch(_){}for(const [sel,fn] of KA)for(const el of A.querySelectorAll(sel)){if(!el.offsetWidth)continue;const [k,m,on]=fn(el);if(el.dataset.k!==k)el.dataset.k=k;if(m&&el.dataset.m!==m)el.dataset.m=m;
    if(on){if(!el.dataset.on)el.dataset.on=1;}else if(el.dataset.on)delete el.dataset.on;if(!el.classList.contains('ka'))el.classList.add('ka');}
   KIT.paint(A);KIT.paint(document.getElementById('kHelp'));const kr=document.getElementById('kRoom');if(kr&&kr._kB&&kr._kB.torch)kr.querySelectorAll('.k-flame').forEach((e,i)=>{e.style.left=(kr._kB.torch[i][0]*2-6)+'px';e.style.top=(kr._kB.torch[i][1]*2-18)+'px';});}
-let kaQ=0;function kaKick(){if(kaQ)return;kaQ=requestAnimationFrame(()=>{kaQ=0;if(state==='play')return;try{kAuto();}catch(_){}});}
+let kaBusy=0;function kaKick(){if(kaBusy||state==='play')return;kaBusy=1;try{kAuto();}catch(_){}kaBusy=0;}
 try{new MutationObserver(kaKick).observe(document.getElementById('app'),{subtree:true,childList:true,attributes:true,attributeFilter:['class','hidden','disabled']});window.addEventListener('resize',kaKick);document.fonts.ready.then(kaKick);}catch(_){}
 // 10n: vysvětlující texty (třída kh) nejsou na obrazovce vidět, otevře je otazník v hlavičce
 function kHelpSync(){for(const S of document.querySelectorAll('.scr:not([hidden])')){const hd=S.querySelector('.wrap>.head');if(!hd)continue;let b=hd.querySelector('.k-helpb');const has=[...S.querySelectorAll('.kh')].some(e=>e.textContent.trim()&&!e.closest('[hidden]'));
@@ -6951,7 +6951,7 @@ function itemCardHtml(it){const S=itemStats(it),R=RAR[it.r],col=it.set?SETS[it.s
   return '<div class="ic-head"><img alt="" src="'+itIcon(it)+'"><div><h3 style="color:'+col+'">'+itemName(it)+(it.lv?' +'+it.lv:'')+'</h3><small>'+(it.set?_t('Set kapitoly ')+ROMAN_CH[CHAPTERS.findIndex(c=>c.id===SETS[it.set].ch)]:R.name)+' · '+SLOTS[it.s].name+'</small></div></div>'+
     '<ul class="ic-st">'+Object.keys(S).map(k=>'<li><span>'+STATS[k].name+'</span><b>'+fmtStat(k,S[k])+'</b></li>').join('')+'</ul>'+
     (it.lg?'<p class="ic-lg">'+LEGS[it.lg].desc+'</p>':'')+(it.af&&AFX[it.af]?'<p class="ic-af">★ <b>'+AFX[it.af].name+':</b> '+AFX[it.af].d(afVal(it))+'</p>':'')+(it.set?setInfoHtml(it.set,state==='hero'||$('#itemPop')&&!$('#itemPop').hidden?heroSel:null):'');}
-function tileHtml(it,extra){return '<button class="itile r'+it.r+(it.set?' set set-'+it.set:'')+(extra||'')+'" data-u="'+it.u+'"><img alt="" src="'+itIcon(it)+'">'+(it.lv?'<em>+'+it.lv+'</em>':'')+(it.af?'<s class="afs">★</s>':'')+(equippedBy(it.u)?'<i class="inb">'+(equippedBy(it.u)===heroSel?_t('NASAZENO'):HEROES[equippedBy(it.u)].sname||HEROES[equippedBy(it.u)].name)+'</i>':'')+(isFresh('item','i'+it.u)?'<b class="nwt">'+_t('NOVÉ')+'</b>':'')+'</button>';}
+function tileHtml(it,extra){return '<button class="itile r'+it.r+(it.set?' set set-'+it.set:'')+(extra||'')+'" data-u="'+it.u+'"><img alt="" src="'+itIcon(it)+'">'+(it.lv?'<em>+'+it.lv+'</em>':'')+(it.af?'<s class="afs">★</s>':'')+(equippedBy(it.u)?(equippedBy(it.u)===heroSel?'<i class="inb me" aria-label="'+_t('NASAZENO')+'"></i>':'<i class="inb" aria-label="'+HEROES[equippedBy(it.u)].name+'"><img alt="" src="'+dataUrl(SPR.hero[equippedBy(it.u)])+'"></i>'):'')+(isFresh('item','i'+it.u)?'<b class="nwt" aria-label="'+_t('NOVÉ')+'">'+KIT.img('sealDot')+'</b>':'')+'</button>';}
 
 // ----- Towers screen: the arsenal (cards taken into a run) and the card collection -----
 let twPick=null;
@@ -7288,8 +7288,9 @@ function openReforge(kind,o,back){const pop=$('#newsPop');let last=null,was=null
 function openForge(){econInit();renderForge();setState('forge');}
 function renderForge(){$('#fMats').innerHTML=matsHtml();const fb=$('#forgeList'),G=mergeGroups();fb.innerHTML=runeForgeHtml();fb.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{runeMerge(b.dataset.rm);renderForge();});
   const row=(ic,h3,sub,go)=>{const r=document.createElement('div');r.className='card chest';r.innerHTML='<img alt="" src="'+dataUrl(ic)+'"><div class="t"><h3>'+h3+'</h3><small>'+sub+'</small></div>';
-    const b=document.createElement('button');b.className='btn sm';b.textContent=_t('Sloučit');b.onclick=()=>{sfx('ui');go();};r.appendChild(b);fb.appendChild(r);};
-  const head=t=>fb.insertAdjacentHTML('beforeend','<div class="fsec">'+t+'</div>');let any=0;
+    const b=document.createElement('button');b.className='btn sm';b.textContent=_t('Sloučit');b.onclick=()=>{sfx('ui');go();};r.appendChild(b);fb.appendChild(r);onAltar(ic,go);};
+  const head=t=>fb.insertAdjacentHTML('beforeend','<div class="fsec">'+t+'</div>');let any=0;const kf=document.querySelector('#scr-forge .k-forge');let kfSet=0;if(kf){kf.innerHTML='';kf.onclick=null;kf.classList.remove('rdy');}
+  const onAltar=(ic,go)=>{if(!kf||kfSet)return;kfSet=1;const u=dataUrl(ic);kf.innerHTML=[0,1,2].map(i=>'<img alt="" class="a'+i+'" src="'+u+'">').join('');kf.classList.add('rdy');kf.onclick=()=>{sfx('ui');go();};};
   // gear
   const keys=Object.keys(G).filter(k=>G[k].length>=3).sort((a,b)=>(+b.split('|')[1])-(+a.split('|')[1])||a.localeCompare(b));
   if(keys.length){head(_t('Výbava'));any=1;}
@@ -7960,6 +7961,7 @@ const PIX={
  starOff:{c:{'#':'#3d3c39','h':'#3d3c39'},r:['...#...','...#...','.#####.','#######','.##h##.','.##.##.','#.....#']},
  note8:{c:{'#':'#d9a8f2'},r:['..####','..#..#','..#..#','..#..#','###.##','###.##']},
  stickI:{c:{'#':'#e9e2d0','r':'#e2453a','h':'#ff8a78'},r:['..hrr..','..rrr..','..rrr..','...#...','...#...','.#####.','#######']},
+ sealDot:{c:{'#':'#c5413a','h':'#e2655a','d':'#761d1d','o':'#1c0607','s':'#ffd9b0'},r:['.oooo.','ohh##o','oh#s#o','o#sssd','o##s#d','.oddd.']},
  flameA:{c:{y:'#ffd75e',o:'#ff9a3c',w:'#fff3b0',r:'#d8532a'},r:['...y...','..yy...','..yoy..','.yooy..','.yoooy.','yoowoy.','yowwoy.','rowwor.','.rooo..']},
  flameB:{c:{y:'#ffd75e',o:'#ff9a3c',w:'#fff3b0',r:'#d8532a'},r:['....y..','...yy..','..yoy..','..yooy.','.yoooy.','.yowooy','.yowwoy','.rowwor','..ooor.']},
  fireA:{c:{y:'#ffd75e',o:'#ff9a3c',w:'#fff3b0',r:'#d8532a'},r:['.....y.....','....yy.....','...yyoy....','...yooy.y..','..yoooyyy..','.yyoowooy..','.yoowwooy..','yoowwwwooy.','roowwwwoor.','.roowwoor..','..rooooor..']},
@@ -8474,6 +8476,12 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10q',d:'10. 11. 2026',t:_t('Ostré písmo a kamenná okna'),hl:[
+  {ic:'hammer',t:_t('Předměty na oltářích'),d:_t('Když máš v Kovárně co sloučit, tři kusy leží na oltářích kolem kovadliny. Ťukni na výheň a jdeš kovat.')},
+  {ic:'tower',t:_t('Věže v kamenných výklencích'),d:_t('Arzenál i karty věží jsou z kamene, modrý vzor zmizel.')},
+  {ic:'scroll',t:_t('Ostré písmo'),d:_t('Písmo má teď přesně velikost pixelu displeje, takže už není rozmazané.')},
+  {ic:'item:helm:3',t:_t('Inventář bez nápisů'),d:_t('Inventář je hned pod výbavou, staty hrdiny pod ním. Nasazený předmět má zlatý rám, předmět jiného hrdiny jeho malý portrét a nový malou pečeť.')}],
+  items:[_t('Karty, detail předmětu a ostatní okna mají kamenný rám.'),_t('Okno koupě hrdiny je kratší.')]},
  {v:'2026-11-10p',d:'10. 11. 2026',t:_t('Fúze a rytmus na první pohled'),hl:[
   {ic:'vortex',t:_t('Odznak fúze na kartě'),d:_t('Když ti nová úroveň nabídne zbraň, která se dá spojit s tou, co už neseš, v rohu její ikony je výsledná ultimátka. Zlatě září, když tahle karta recept dokončí.')},
   {ic:'drum',t:_t('Kroužek rytmu pod hrdinou'),d:_t('Stahuje se v tempu hudby a na první dobu taktu zlatě blikne, takže rytmus vidíš i bez zvuku. Sílu nastavíš v Nastavení.')}],
