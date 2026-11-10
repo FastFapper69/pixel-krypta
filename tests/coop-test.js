@@ -33,11 +33,11 @@ console.log('po pauze: host',await R(H,()=>window.__krypta.state),'guest',await 
 // 3) prepare a fusion for the GUEST (mage-less knight: blade+aura) and trigger a level-up
 await H.evaluate(()=>{const K=window.__krypta,R=K.run,m=R.pls[1];m.W.blade.lv=5;m.W.aura={lv:5,cd:.4,ang:0,tick:0};m.fuseMiss=2;R.pending=1;});
 await G.waitForFunction(()=>window.__krypta.state==='levelup',null,{timeout:5000});
-const cards=await G.$$eval('#luList .card',els=>els.map(e=>e.className+':'+e.querySelector('h3').innerText));console.log('karty kamaráda',cards);
+const cards=await G.$$eval('#luList .k-card',els=>els.map(e=>e.className+':'+e.querySelector('h3').innerText));console.log('karty kamaráda',cards);
 // host picks a normal card -> waits for the guest
-await H.waitForFunction(()=>window.__krypta.state==='levelup');await H.evaluate(()=>{const c=document.querySelector('#luList .card:not(.fuse)');c.click();});
+await H.waitForFunction(()=>window.__krypta.state==='levelup');await H.evaluate(()=>{const c=document.querySelector('#luList .k-card:not(.fuse)');c.click();});
 await H.waitForTimeout(200);console.log('host po výběru:',await R(H,()=>window.__krypta.state),await H.textContent('#waitTxt'));
-await G.click('#luList .card.fuse');
+await G.click('#luList .k-card.fuse');
 const res=await G.evaluate(()=>new Promise(r=>{const K=window.__krypta;const loop=()=>{const F=K.FZ;if(!F){r('no FZ');return;}const b=K.audioBeat(),i=F.res.findIndex(x=>x===null);
   if(i>=0&&b>=F.targets[i])K.fuseTap();if(F.done){r(F.res.join(''));return;}requestAnimationFrame(loop);};requestAnimationFrame(loop);}));
 console.log('rituál kamaráda',res);

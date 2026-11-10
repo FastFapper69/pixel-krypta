@@ -307,19 +307,6 @@ html,body,#stage{touch-action:none}
 .card.shop.meta .t{flex:1;min-width:0}
 /* bottom action bar: full width, a soft fade up from the screen edge instead of a dark box under the button */
 .sticky{position:sticky;z-index:4;bottom:calc(-22px - var(--sab,0px));margin:0 -16px calc(-22px - var(--sab,0px));padding:30px 16px calc(22px + var(--sab,0px));background:linear-gradient(#0c0d0f00,#0c0d0fa8 45%,#0c0d0fd0)}
-.lvl{display:flex;flex-direction:column;gap:10px;width:100%}
-.lvl .card{flex-direction:row;align-items:center;gap:12px;padding:12px}
-.lutime{width:100%;height:8px;background:#0c0d0f;clip-path:var(--px);box-shadow:inset 0 0 0 2px var(--line);overflow:hidden;margin-top:-6px}
-.lutime i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#ffe58a);transform-origin:left center}
-.lutime.hot i{background:linear-gradient(90deg,#e8453c,#ff8a6a);animation:luHot .5s steps(2) infinite}
-@keyframes luHot{50%{opacity:.6}}
-.lvl .card.auto{box-shadow:inset 0 0 0 3px var(--gold);background:var(--panel-hi)}
-.lvl .card img{width:48px;height:48px;image-rendering:pixelated;flex:none}
-.lvl .card h3{font-size:19px}
-.lvl .card .k{font-size:12px;color:var(--ink);background:var(--gold);padding:0 6px;font-weight:700;margin-left:6px;vertical-align:2px}
-.lvl .card p{color:var(--muted);font-size:14px;margin-top:2px}
-.lvl .card.fuse{background:linear-gradient(90deg,#4a3410,#2e3137 70%);box-shadow:inset 0 0 0 3px var(--gold),0 0 16px #f6c74455;animation:fzGlow .5s steps(2) infinite alternate}
-.lvl .card.fuse h3{color:var(--gold)}
 @keyframes fzGlow{to{box-shadow:inset 0 0 0 3px #fff6c8,0 0 22px #f6c74488}}
 #scr-fuse{touch-action:none;background:#131518dd}
 .fz-intro{display:flex;flex-direction:column;gap:8px;text-align:center;padding:14px}.fz-intro h3{font-size:17px;color:var(--gold)}.fz-intro p{font-size:14px;margin:0}.fz-intro b{color:var(--gold)}
@@ -1098,9 +1085,6 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 .featpop .hc-w img{width:36px;height:36px;margin:0;flex:none;animation:none!important;filter:drop-shadow(0 2px 0 #0008)}
 .hc-w small{font-family:var(--font);font-size:11px;letter-spacing:.1em;text-transform:uppercase;text-shadow:none}.hc-w b{display:block;color:#fff;font-size:16px}.hc-w span{display:block;font-size:12px;color:var(--muted);line-height:1.3}
 /* nově odemčená zbraň v nabídce nové úrovně */
-#scr-levelup .card.fresh{position:relative;box-shadow:inset 0 0 0 3px var(--gold),inset 0 0 22px #f6c74440;background:linear-gradient(100deg,#3a3120,#24262b 60%)}
-#scr-levelup .card.fresh img{animation:frPulse 1s ease-in-out infinite alternate}@keyframes frPulse{to{filter:drop-shadow(0 0 8px #ffd86a) brightness(1.25)}}
-#scr-levelup .card .k.frk{background:var(--gold);color:var(--ink);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
 
 /* 09z5: pauza – přehled postavy, rámeček neprotéká textem */
 .pbuild{box-shadow:none!important;border:3px solid #4b4f5a;padding:10px 12px!important;max-height:52vh!important;scrollbar-width:thin}
@@ -1138,3 +1122,45 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #biLine[hidden]{display:none}
 /* 10d: rotating rays get their own GPU layer – they used to repaint the whole 520px conic gradient every frame (menu dropped ~54 → 41 fps on a throttled phone CPU) */
 .fc-rays{will-change:transform;contain:strict;backface-visibility:hidden}
+
+/* ==== nová grafika UI: stavebnice KIT (docs/GRAFIKA.md) ====
+   1 pixel kresby = 2 px. Všechny rozměry, mezery a posuny jsou násobky 2 px. Písmo jen Jersey 10 ve 20 px, Jersey 15 ve 30 px a Jersey 20 ve 40 px
+   (jiná velikost by měla jinak velký pixel). Kresbu prvku s data-k dělá KIT.paint v game.js podle jeho velikosti. */
+@font-face{font-family:'Jersey 10';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/jersey-10-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Jersey 10';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/jersey-10-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Jersey 15';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/jersey-15-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Jersey 15';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/jersey-15-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Jersey 20';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/jersey-20-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Jersey 20';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/jersey-20-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{--k20:400 20px/20px 'Jersey 10',var(--font);--k30:400 30px/30px 'Jersey 15',var(--font);--k40:400 40px/40px 'Jersey 20',var(--font);--kw:360px}
+[data-k]{background-size:100% 100%;background-repeat:no-repeat;image-rendering:pixelated}
+.kp{display:inline-block;image-rendering:pixelated;flex:none}
+.k-sep{display:inline-block;width:4px;height:4px;background:#8d877a;margin:0 10px 4px;vertical-align:middle;flex:none}
+.k-big{font:var(--k40);color:#ffd75e;text-align:center;letter-spacing:0;text-shadow:2px 0 0 #2a1606,-2px 0 0 #2a1606,0 2px 0 #2a1606,0 -2px 0 #2a1606,2px 2px 0 #2a1606,-2px 2px 0 #2a1606,2px -2px 0 #2a1606,-2px -2px 0 #2a1606,0 4px 0 #8f5a12,2px 4px 0 #2a1606,-2px 4px 0 #2a1606,0 6px 0 #2a1606}
+/* nabídka nové úrovně: kamenné desky s runami, jen čísla */
+#scr-levelup{background:#07060ad0}
+#scr-levelup .wrap{width:var(--kw);max-width:none;gap:12px;align-items:center;padding-top:40px}
+#luTitle{position:relative;align-self:stretch}
+#luTitle::before,#luTitle::after{content:'';position:absolute;width:10px;height:10px;background:linear-gradient(#fff3b0,#fff3b0) 4px 0/2px 10px no-repeat,linear-gradient(#fff3b0,#fff3b0) 0 4px/10px 2px no-repeat}
+#luTitle::before{left:36px;top:6px}#luTitle::after{right:30px;top:22px;opacity:.8}
+.lutime{position:relative;width:240px;height:16px;margin-bottom:4px}
+.lutime i{position:absolute;left:4px;top:4px;height:8px;width:236px;background:linear-gradient(#fff3b0 0 2px,#ffd75e 2px 6px,#7a4c0c 6px 8px)}
+.lutime.hot i{background:linear-gradient(#ff8a78 0 2px,#e2453a 2px 6px,#5c0f10 6px 8px);animation:luHot .5s steps(2) infinite}
+@keyframes luHot{50%{opacity:.6}}
+.lvl{display:flex;flex-direction:column;gap:12px;width:100%}
+.k-card{position:relative;width:100%;height:100px;display:block;text-align:left;border:0;padding:0;background-color:transparent;color:#e9e2d0;font:var(--k20);letter-spacing:0;touch-action:manipulation}
+.k-card .sock{position:absolute;left:16px;top:14px;width:64px;height:64px;display:flex;align-items:center;justify-content:center}
+.k-card .sock img{width:44px;height:44px;image-rendering:pixelated}
+.k-card .nm{position:absolute;left:92px;top:12px;margin:0;font:var(--k30);color:#ffd75e;text-shadow:0 2px 0 #000;white-space:nowrap}
+.k-card .nm.long{font:var(--k20);top:18px}
+.k-card.fuse .nm{color:#d9a8f2}
+.k-card .st{position:absolute;left:92px;top:46px;right:14px;display:flex;flex-wrap:wrap;gap:0 16px;align-items:center;color:#bdb7a8;text-shadow:0 2px 0 #000}
+.k-card .st>span{white-space:nowrap}
+.k-card .st b{font-weight:400;color:#fffbe6}
+.k-card .st.k-eq{gap:6px;top:44px}
+.k-card .st.k-eq img.ic{width:44px;height:44px;image-rendering:pixelated}
+.k-card .pips{position:absolute;right:18px;top:20px;display:flex;gap:2px}
+.k-card .seal{position:absolute;right:-6px;top:-8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.k-card:active{transform:translateY(2px)}
+.k-card.auto{transform:translateY(-4px);filter:brightness(1.35)}
+.k-card.fresh .sock img{animation:frPulse 1s ease-in-out infinite alternate}@keyframes frPulse{to{filter:brightness(1.3)}}
