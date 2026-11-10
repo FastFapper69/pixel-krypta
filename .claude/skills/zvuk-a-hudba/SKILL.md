@@ -19,6 +19,15 @@ Komunikuj česky. Kód je v `game.js`, oddíl `audio: music + rhythm` (mapa v `d
 - Efekty ladí do akordu (`chordNote`) a padají do mřížky (`qTime`). Velké momenty ducknou hudbu o 6–12 dB.
 - Gradace: klid (`M.int` 0) tišší a řidší, boss hlasitější a hustší. Cíl: boss o 3–5 dB nad během.
 
+## Poslech (10. 11. 2026) – „slyšet“ hru
+- `node tests/tools/poslech.js <mapa> <hrdina> <s> <boss_od> <prefix>` nahraje **skutečný výstup hry v reálném čase** (hudba + efekty, stereo WAV) a časy všech efektů. `M.master` je místo nahrávání, `M.log` sbírá efekty.
+- `node tests/tools/poslech-offline.js <skladba> ...` = jen hudba, offline render ve stereu (rychlé ladění).
+- `python3 tests/tools/poslech.py <prefix>` → PNG (spektrogram s událostmi, hlasitost plná vs. **reproduktor telefonu** (highpass 300 Hz), stereo v čase) + čísla: LUFS, ztráta přes telefon, pásma, šířka sterea, efekty nad hudbou. **Rytmus** porovnávej jen hra vs. offline téže skladby (bicí mají synkopy).
+- Cílové hodnoty (hrbitov, 10. 11.): ztráta přes telefon ≤ 5 dB, pásmo 300 Hz–2 kHz ≥ 35 %, šířka side/mid kolem −15 dB, boss o 6–10 dB nad během, špička pod −6 dB, efekty ≥ 0 dB nad hudbou.
+- **Hlasitost nástrojů** = `ROLE_DB` + `STYLE_ROLE[styl]` (dB), měřeno sólo (`musicRender(...,{solo:'lead'})`). Bez toho byly melodie o 15–40 dB pod bicími. Nový styl nebo nástroj → změř sólo a dopočítej (cíl vůči bicím: basa −3, melodie −4, arpeggio −9, akordy −10).
+- Telefonní harmonické basů: highpass 400 Hz (níž padají pod reproduktor a jen zahušťují spodek).
+- Otevřené: v některých sekcích skladeb hrají jen bicí + basa → na telefonu propad ~10 dB (kompozice, ne mix).
+
 ## Kontrola po změně zvuku (rychlá, ne celý audit)
 - `node tests/tools/zvuk.js <skladby>`: běh všech stylů kolem −31 dB (±1,5), boss o 3–5 dB výš, špička pod −3 dB, žádné `musicErr`.
 - `node tests/tools/ulthold.js` u změn časování ultimátek.

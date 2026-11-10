@@ -2443,7 +2443,7 @@ function audioInit(){
       const master=ac.createGain();master.gain.value=.9;const comp=masterChain(ac,master);
       musicGraph(ac,comp);M.musicBus.gain.value=busVol('m');if(M.song)songMix();
       M.sfxBus=ac.createGain();M.sfxBus.gain.value=busVol('s');
-      M.sfxBus.connect(comp);master.connect(ac.destination);
+      M.sfxBus.connect(comp);master.connect(ac.destination);M.master=master; // M.master: tests/tools/poslech.js records here
       const len=ac.sampleRate,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;M.noise=buf;}
     // iOS leaves the context 'interrupted' (not 'suspended') after the phone was locked, and sometimes reports
     // 'running' while staying silent: resume from any state, and rebuild the context on the next tap if the clock is stuck
@@ -2458,11 +2458,17 @@ function audioWatch(){if(!ac||document.hidden)return;const t0=ac.currentTime;cle
 /* 09z9: music graph – every instrument plays into its own role bus (stereo place + reverb send), then
    musicBus (volume slider) → trim (evens out styles) → energy (calm/run/boss) → duck → muffle → 35 Hz highpass →
    out, plus a "phone bass" path: the lows are saturated into harmonics around 200–600 Hz, which an iPhone speaker can play. */
-const STYLE_TRIM={forge:-8};
-const MUSIC_LVL=1;                         // music level inside the mix
-const MASTER_PRE=.32;                       // music + effects into the master; the old soft-knee compressor took ~10 dB, this keeps the overall loudness                 // dB, measured so all chapters sit at the same loudness
+const STYLE_TRIM={desert:1,forge:-3.6,frost:.9,sea:-1.4};
+// 09z10: hlasitost nástrojů (dB) podle stylu – změřeno sólo (tests/tools/poslech-offline.js, rolecal): melodie, arpeggio a akordy
+// byly o 15–40 dB pod bicími, mix byl z 95 % basy 100–300 Hz → mono, tmavý, z telefonu skoro neslyšný.
+// Cíl vůči bicím: basa −3, melodie −4, arpeggio −9, akordy −10. Bicí všude −8 dB kvůli rezervě.
+const ROLE_DB={drums:-8,bass:-8,lead:-8,arp:-8,pad:-8,fx:0};
+const STYLE_ROLE={grave:{bass:0,lead:19.3,arp:20,pad:9},desert:{bass:4.8,lead:21.9,arp:19.7,pad:10.5},forge:{bass:8,lead:22,arp:22,pad:20.9},
+  frost:{bass:1.5,lead:16.4,arp:19.4,pad:16},sea:{bass:6.4,lead:19.4,arp:22,pad:16.7}};
+const MUSIC_LVL=1.9;                        // music level inside the mix
+const MASTER_PRE=.55;                       // music + effects into the master; the old soft-knee compressor took ~10 dB, this keeps the overall loudness                 // dB, measured so all chapters sit at the same loudness
 const STYLE_REV={grave:.22,desert:.16,forge:.1,frost:.28,sea:.15}; // reverb return per style
-const ENERGY_GAIN=[.74,.88,1,1.22];          // M.int 0 calm intro, 1 run, 2 late run, 3 boss (≈ -2.6 / -1.1 / 0 / +1.7 dB)
+const ENERGY_GAIN=[.82,.92,1,1.12];          // M.int 0 calm intro, 1 run, 2 late run, 3 boss (≈ -2.6 / -1.1 / 0 / +1.7 dB)
 // master: gentle glue compressor (hard knee, so quiet parts keep their dynamics and the boss is really louder) + a safety limiter.
 // The old one had the default 30 dB soft knee and squashed everything above ~-29 dB, which flattened calm vs boss.
 function masterChain(c,out,old){const comp=c.createDynamicsCompressor();
@@ -2471,10 +2477,10 @@ function masterChain(c,out,old){const comp=c.createDynamicsCompressor();
   const lim=c.createDynamicsCompressor();lim.threshold.value=-3;lim.knee.value=0;lim.ratio.value=20;lim.attack.value=.001;lim.release.value=.12;
   comp.connect(lim);lim.connect(out);const pre=c.createGain();pre.gain.value=MASTER_PRE;pre.connect(comp);return pre;}
 function musicGraph(c,out){const G=()=>c.createGain(),F=(type,f,q)=>{const n=c.createBiquadFilter();n.type=type;n.frequency.value=f;if(q!=null)n.Q.value=q;return n;};
-  const bus=G(),trim=G(),energy=G(),duck=G(),filter=F('lowpass',18000),hp=F('highpass',35,.7),ls=F('lowshelf',110),lvl=G();ls.gain.value=-3;lvl.gain.value=MUSIC_LVL;
-  bus.connect(trim);trim.connect(energy);energy.connect(duck);duck.connect(filter);filter.connect(hp);hp.connect(ls);ls.connect(lvl);lvl.connect(out);
+  const bus=G(),trim=G(),energy=G(),duck=G(),filter=F('lowpass',18000),hp=F('highpass',35,.7),ls=F('lowshelf',110),pres=F('peaking',2500,.8),lvl=G();ls.gain.value=-3;pres.gain.value=3;lvl.gain.value=MUSIC_LVL;
+  bus.connect(trim);trim.connect(energy);energy.connect(duck);duck.connect(filter);filter.connect(hp);hp.connect(ls);ls.connect(pres);pres.connect(lvl);lvl.connect(out);
   // phone bass: low band → soft clip → keep only the new harmonics
-  const lo=F('lowpass',190,.7),sh=c.createWaveShaper(),hh=F('highpass',170,.7),hg=G();const cv=new Float32Array(1024);
+  const lo=F('lowpass',190,.7),sh=c.createWaveShaper(),hh=F('highpass',400,.7),hg=G();const cv=new Float32Array(1024);
   for(let i=0;i<1024;i++){const x=i/511.5-1;cv[i]=Math.tanh(x*4)/Math.tanh(4);}sh.curve=cv;hg.gain.value=.8;
   filter.connect(lo);lo.connect(sh);sh.connect(hh);hh.connect(hg);hg.connect(lvl);
   // reverb: generated stereo room (no files), fed by the role sends, returns into the music bus so volume and ducking apply
@@ -2500,7 +2506,8 @@ function osc(type,f,t,dur,vol,bus,slide,lp){const o=ac.createOscillator(),g=ac.c
 function noiz(t,dur,vol,bus,type,freq){const n=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();n.buffer=M.noise;f.type=type||'bandpass';f.frequency.value=freq||2000;
   n.connect(f);f.connect(g);g.connect(bus);env(g,t,.002,dur,vol);n.start(t,Math.random()*.5);n.stop(t+dur+.05);}
 function setSong(id){M.song=SONGS[id]||(CH_OF[id]&&SONGS[CH_OF[id].maps[0]])||SONGS.menu;songMix();M.stepDur=60/M.song.bpm/4;M.step=0;M.acc=0;M.int=id==='menu'?1:0;M.bossBar=null;M.lastLead=null;}
-function songMix(){if(!ac||!M.trim)return;const st=M.song.style,t=ac.currentTime;try{M.trim.gain.setTargetAtTime(Math.pow(10,(STYLE_TRIM[st]||0)/20),t,.05);M.revRet.gain.setTargetAtTime(STYLE_REV[st]!=null?STYLE_REV[st]:.2,t,.05);}catch(_){}}
+function songMix(){if(!ac||!M.trim)return;const st=M.song.style,t=ac.currentTime,SR=STYLE_ROLE[st]||{};try{
+  if(M.roles)for(const k in M.roles){const g=M.roles[k].gain;if(g.value===0&&M.offline)continue;g.setTargetAtTime(Math.pow(10,((ROLE_DB[k]||0)+(SR[k]||0))/20),t,.05);}M.trim.gain.setTargetAtTime(Math.pow(10,(STYLE_TRIM[st]||0)/20),t,.05);M.revRet.gain.setTargetAtTime(STYLE_REV[st]!=null?STYLE_REV[st]:.2,t,.05);}catch(_){}}
 const SCALES={dorian:[0,2,3,5,7,9,10],minor:[0,2,3,5,7,8,10],harm:[0,2,3,5,7,8,11],hijaz:[0,1,4,5,7,8,10]};
 const CHORD={m:[0,3,7],M:[0,4,7],d:[0,3,6],p:[0,7,12]};
 const _=null;
@@ -2818,15 +2825,15 @@ function playStep(s,t){
   }catch(e){M.err=e;}finally{M.musicBus=MB;}
 }
 // dev/test: render a song offline (int(sec) gives the intensity over time, boss = second the boss arrives) -> mono samples
-async function musicRender(id,secs,o){o=o||{};const sr=o.sr||22050,oac=new OfflineAudioContext(1,Math.ceil(sr*secs),sr),keep={ac,bus:M.musicBus,song:M.song,step:M.step,int:M.int,bb:M.bossBar,mus:save.music,noise:M.noise};
+async function musicRender(id,secs,o){o=o||{};const sr=o.sr||22050,oac=new OfflineAudioContext(o.ch||1,Math.ceil(sr*secs),sr),keep={ac,bus:M.musicBus,song:M.song,step:M.step,int:M.int,bb:M.bossBar,mus:save.music,noise:M.noise};
   const keepG={trim:M.trim,energy:M.energy,duck:M.duck,filter:M.filter,revRet:M.revRet,roles:M.roles};
   ac=oac;M.offline=true;const comp=masterChain(oac,oac.destination,o.raw);
-  if(o.raw){M.musicBus=oac.createGain();M.musicBus.connect(comp);M.roles=null;M.trim=M.energy=null;}else musicGraph(oac,comp);M.musicBus.gain.value=.3;save.music=true;
+  if(o.raw){M.musicBus=oac.createGain();M.musicBus.connect(comp);M.roles=null;M.trim=M.energy=null;}else{musicGraph(oac,comp);if(o.solo)for(const k in M.roles)if(k!==o.solo)M.roles[k].gain.value=0;}M.musicBus.gain.value=.3;save.music=true;
   if(!M.noise){const b=oac.createBuffer(1,sr,sr),d=b.getChannelData(0);for(let i=0;i<sr;i++)d[i]=Math.random()*2-1;M.noise=b;}
   setSong(id);if(!o.raw)songMix();const sd=M.stepDur,n=Math.floor((secs-.5)/sd);
   try{for(let s=0;s<n;s++){const tt=s*sd;if(s%16===0){M.int=o.int?o.int(tt):1;if(o.boss!=null&&tt>=o.boss&&M.bossBar==null)M.bossBar=Math.floor(s/16);}M.step=s+1;playStep(s,tt+.02);}}
   finally{ac=keep.ac;M.musicBus=keep.bus;Object.assign(M,keepG);M.offline=false;save.music=keep.mus;M.noise=keep.noise||M.noise;}
-  const buf=await oac.startRendering();M.song=keep.song;M.step=keep.step;M.int=keep.int;M.bossBar=keep.bb;M.stepDur=60/M.song.bpm/4;return buf.getChannelData(0);}
+  const buf=await oac.startRendering();M.song=keep.song;M.step=keep.step;M.int=keep.int;M.bossBar=keep.bb;M.stepDur=60/M.song.bpm/4;return o.ch===2?[buf.getChannelData(0),buf.getChannelData(1)]:buf.getChannelData(0);}
 function conductor(dt){
   if(!M.song)return;
   M.acc+=dt;M.gt=(M.gt||0)+dt;
@@ -2846,7 +2853,7 @@ function conductor(dt){
 // schedule an event sound on the next grid line so hits and pickups land in time with the music
 function qTime(div){if(!ac)return 0;const g=M.stepDur*div,now=ac.currentTime+.015,base=M.lastAudio||now;return base+Math.max(0,Math.ceil((now-base)/g))*g;}
 function sfx(k,arg){
-  if(!save.sound||!ac||!M.sfxBus||!M.song||ac.state!=='running')return;
+  if(!save.sound||!ac||!M.sfxBus||!M.song||ac.state!=='running')return;if(M.log)M.log.push([ac.currentTime,k]);
   const now=performance.now(),gap={hit:40,shoot:50,gem:30,kill:35,zap:50,boom:70,coin:60}[k]||0;if(sfxT[k]&&now-sfxT[k]<gap)return;sfxT[k]=now;
   const B=M.sfxBus,T=ac.currentTime,sd=M.stepDur;
   try{switch(k){
@@ -2894,7 +2901,7 @@ const ULT_SND={
  flamering(t,sd,B,c){noizSweep(t,1.1,.3,'lowpass',2600,180,0,.02);noizSweep(t+.05,.7,.12,'bandpass',900,300,1.5);osc('sawtooth',NOTE(c.root-12),t,.6,.07,B,NOTE(c.root-24),700);},
  steam(t,sd,B,c){noizSweep(t,1.4,.2,'highpass',2500,6000,0,.03);noizSweep(t,.6,.24,'lowpass',1800,150);osc('sine',NOTE(c.root+36),t+sd*2,.4,.03,B,NOTE(c.root+24));}
 };
-function ultDropSfx(id,first){if(!save.sound||!ac||!M.sfxBus||!M.song||(ac.state!=='running'&&!M.offline))return;if(first)duckMusic(-6,.25);
+function ultDropSfx(id,first){if(!save.sound||!ac||!M.sfxBus||!M.song||(ac.state!=='running'&&!M.offline))return;if(M.log&&!M.offline)M.log.push([ac.currentTime,'ULT:'+id]);if(first)duckMusic(-6,.25);
   const B=M.sfxBus,sd=M.stepDur,t=Math.max(ac.currentTime+.01,M.lastAudio||ac.currentTime),c=chordAt(Math.max(0,M.step-1));
   try{if(first){osc('sine',165,t,.55,.62,B,34);osc('square',90,t,.12,.12,B,40,600);noiz(t,.35,.26,B,'lowpass',1000);noizSweep(t,1.3,.13,'highpass',7000,4000);
       for(const n of c.tones)osc('square',NOTE(c.root+12+n),t,.28,.035,B,null,2600);duckBeat(t,.25,.22);}
@@ -2920,7 +2927,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-09z9';
+const GAME_VER='2026-11-10a';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7940,6 +7947,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10a',d:'10. 11. 2026',t:_t('Melodie dopředu'),hl:[
+  {ic:'music',t:_t('Slyšíš melodii'),d:_t('Melodie, arpeggia a akordy byly schované pod bubny. Teď jsou slyšet i z reproduktoru mobilu.')}],
+  items:[_t('Hra je celkově o něco hlasitější a efekty víc vyniknou.')]},
  {v:'2026-11-09z9',d:'9. 11. 2026',t:_t('Nový zvuk'),hl:[
   {ic:'music',t:_t('Hudba zní i z telefonu'),d:_t('Basy a buben uslyšíš i z mobilu a nástroje mají kolem sebe prostor.')},
   {ic:'skull',t:_t('Boss zní mohutněji'),d:_t('Hudba začíná tišeji a s bossem zesílí. Kapitoly hrají stejně nahlas.')},

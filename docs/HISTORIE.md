@@ -270,3 +270,8 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - Časování: `M.off` = vyhlazený rozdíl zvukových a herních hodin (krok .06, skok nad .12 s) → simulace zasekávání: noty o víc než 10 ms vedle 9 % → 3 %.
 - Opravy: `duckBeat` a smrt zapisovaly do `musicBus` pevné .3 a přebily posuvník hlasitosti (teď přes `M.duck`).
 - Skill `.claude/skills/zvuk-a-hudba`.
+
+## 10a – poslech a mix nástrojů (2026-11-10)
+- Nástroje `poslech.js` (nahrávka výstupu hry v reálném čase přes ScriptProcessor na `M.master`, log efektů v `M.log`), `poslech-offline.js` (stereo offline render, `musicRender(...,{ch:2,solo})`), `poslech.py` (spektrogram, LUFS, simulace reproduktoru telefonu, stereo, rytmus vs. offline).
+- Nález: 95 % energie 100–300 Hz, melodie/arp/pad 15–40 dB pod bicími → mono (korelace 1,0), přes telefon −15,6 dB. Rytmus hra = ideální render (14 vs. 15 ms, synkopy), kolísání nenalezeno.
+- Oprava: `ROLE_DB` + `STYLE_ROLE` (dB na nástroj a styl), peaking 2,5 kHz +3 dB, telefonní harmonické highpass 400 Hz, `STYLE_TRIM` přeměřen, `MUSIC_LVL` 1,9, `MASTER_PRE` .55, `ENERGY_GAIN` [.82,.92,1,1.12]. Výsledek (hrbitov naostro): ztráta přes telefon 3,8 dB, pásmo 300 Hz–2 kHz 40–75 %, šířka −15 dB, boss +9 dB nad během, LUFS −30 (bylo −31), špička −7 dB.
