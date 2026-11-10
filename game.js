@@ -2458,6 +2458,7 @@ function audioWatch(){if(!ac||document.hidden)return;const t0=ac.currentTime;cle
 /* 09z9: music graph – every instrument plays into its own role bus (stereo place + reverb send), then
    musicBus (volume slider) → trim (evens out styles) → energy (calm/run/boss) → duck → muffle → 35 Hz highpass →
    out, plus a "phone bass" path: the lows are saturated into harmonics around 200–600 Hz, which an iPhone speaker can play. */
+const BANG_TRIM=-3.6;   // 10h: the denser 'bang' arrangement is ~4 dB louder – back to the run level of the other songs (zvuk.js ~-31 dB)
 const STYLE_TRIM={desert:1,forge:-3.6,frost:.9,sea:-1.4,star:-1};
 // 09z10: hlasitost nástrojů (dB) podle stylu – změřeno sólo (tests/tools/poslech-offline.js, rolecal): melodie, arpeggio a akordy
 // byly o 15–40 dB pod bicími, mix byl z 95 % basy 100–300 Hz → mono, tmavý, z telefonu skoro neslyšný.
@@ -2490,11 +2491,11 @@ function musicGraph(c,out){const G=()=>c.createGain(),F=(type,f,q)=>{const n=c.c
     for(let ch=0;ch<2;ch++){const d=ir.getChannelData(ch);let e=1;for(let i=pre;i<len;i++){e*=k;const f=1-i/len;d[i]=(Math.random()*2-1)*e*f*f;}}rev.buffer=ir;};
   if(c instanceof OfflineAudioContext)mkIR();else setTimeout(mkIR,60);const rlp=F('lowpass',4200);rev.connect(rlp);rlp.connect(rr);rr.connect(bus);rr.gain.value=.2;
   const pan=v=>{if(c.createStereoPanner){const n=c.createStereoPanner();n.pan.value=v;return n;}return G();};
-  const role=(p,send)=>{const g=G(),pn=pan(p);g.connect(pn);pn.connect(bus);if(send){const s=G();s.gain.value=send;g.connect(s);s.connect(rev);}return g;};
-  const R={drums:role(0,.08),bass:role(0,0),arp:role(-.32,.35),lead:role(.1,.3),fx:role(.22,.2)};
+  const pump=G();pump.connect(bus);const role=(p,send,dst)=>{const g=G(),pn=pan(p);g.connect(pn);pn.connect(dst||bus);if(send){const s=G();s.gain.value=send;g.connect(s);s.connect(rev);}return g;};
+  const R={drums:role(0,.08),bass:role(0,0,pump),arp:role(-.32,.35),lead:role(.1,.3),fx:role(.22,.2)};
   // pad: Haas widening (one side 14 ms later) so chords spread around the player
-  {const g=G(),pl=pan(-.7),pr=pan(.7),dl=c.createDelay(.05);dl.delayTime.value=.014;g.connect(pl);pl.connect(bus);g.connect(dl);dl.connect(pr);pr.connect(bus);const s=G();s.gain.value=.5;g.connect(s);s.connect(rev);R.pad=g;}
-  M.musicBus=bus;M.trim=trim;M.energy=energy;M.duck=duck;M.filter=filter;M.revRet=rr;M.roles=R;return R;}
+  {const g=G(),pl=pan(-.7),pr=pan(.7),dl=c.createDelay(.05);dl.delayTime.value=.014;g.connect(pl);pl.connect(pump);g.connect(dl);dl.connect(pr);pr.connect(pump);const s=G();s.gain.value=.5;g.connect(s);s.connect(rev);R.pad=g;}
+  M.musicBus=bus;M.trim=trim;M.energy=energy;M.duck=duck;M.filter=filter;M.revRet=rr;M.roles=R;M.pump=pump;return R;}
 function busVol(k){const v=save.vol?save.vol[k]:1,on=k==='m'?save.music:save.sound,base=k==='m'?.3:.5;return on?base*Math.pow(v==null?1:v,2):0;}
 function setBuses(){if(!M.musicBus)return;M.musicBus.gain.setTargetAtTime(busVol('m'),ac.currentTime,.05);M.sfxBus.gain.setTargetAtTime(busVol('s'),ac.currentTime,.05);}
 // music ducks under the big moments (boss, death, ultimate drops) so they punch through, then comes back
@@ -2509,7 +2510,7 @@ function noiz(t,dur,vol,bus,type,freq){const n=ac.createBufferSource(),f=ac.crea
   n.connect(f);f.connect(g);g.connect(bus);env(g,t,.002,dur,vol);n.start(t,Math.random()*.5);n.stop(t+dur+.05);}
 function setSong(id){M.song=SONGS[id]||(CH_OF[id]&&SONGS[CH_OF[id].maps[0]])||SONGS.menu;songMix();M.stepDur=60/M.song.bpm/4;M.step=0;M.acc=0;M.int=id==='menu'?1:0;M.bossBar=null;M.lastLead=null;}
 function songMix(){if(!ac||!M.trim)return;const st=M.song.style,t=ac.currentTime,SR=STYLE_ROLE[st]||{};try{
-  if(M.roles)for(const k in M.roles){const g=M.roles[k].gain;if(g.value===0&&M.offline)continue;g.setTargetAtTime(Math.pow(10,((ROLE_DB[k]||0)+(SR[k]||0))/20),t,.05);}M.trim.gain.setTargetAtTime(Math.pow(10,(STYLE_TRIM[st]||0)/20),t,.05);M.revRet.gain.setTargetAtTime(STYLE_REV[st]!=null?STYLE_REV[st]:.2,t,.05);}catch(_){}}
+  if(M.roles)for(const k in M.roles){const g=M.roles[k].gain;if(g.value===0&&M.offline)continue;g.setTargetAtTime(Math.pow(10,((ROLE_DB[k]||0)+(SR[k]||0))/20),t,.05);}M.trim.gain.setTargetAtTime(Math.pow(10,((STYLE_TRIM[st]||0)+(M.song.bang?BANG_TRIM:0))/20),t,.05);M.revRet.gain.setTargetAtTime(STYLE_REV[st]!=null?STYLE_REV[st]:.2,t,.05);}catch(_){}}
 const SCALES={dorian:[0,2,3,5,7,9,10],minor:[0,2,3,5,7,8,10],harm:[0,2,3,5,7,8,11],hijaz:[0,1,4,5,7,8,10]};
 const CHORD={m:[0,3,7],M:[0,4,7],d:[0,3,6],p:[0,7,12]};
 const _=null;
@@ -2522,7 +2523,7 @@ const SONGS={
   A:{e:1,prog:[[0,'m'],[-4,'M'],[-2,'M'],[-5,'M']],lead:[4,_,2,_,0,_,2,4, 5,_,4,_,2,_,_,_, 4,_,2,_,0,_,-1,0, 2,_,_,_,_,_,_,_]},
   B:{e:0,prog:[[-4,'M'],[-2,'M'],[0,'m'],[0,'m']],lead:[7,_,_,_,6,_,4,_, 5,_,_,_,4,_,_,_, 2,_,4,_,0,_,_,_, _,_,_,_,4,_,2,_]}}},
  // graveyard: A harmonic minor, a slow spooky folk waltz feel – music box, chapel organ, upright bass, rim clicks, a bell
- hrbitov:{bpm:112,root:57,scale:'harm',style:'grave',keys:[0,0,2,-1],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','X','Y','X'],sec:{
+ hrbitov:{bang:true,bossDb:1.6,bpm:112,root:57,scale:'harm',style:'grave',keys:[0,0,2,-1],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','X','Y','X'],sec:{
   I:{e:0,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[7,_,_,_,4,_,_,_, 5,_,4,_,2,_,_,_, 4,_,_,_,2,_,_,_, 1,_,_,_,_,_,_,_]},
   A:{e:1,prog:[[0,'m'],[5,'m'],[7,'M'],[0,'m']],lead:[0,_,2,4,7,_,4,_, 5,_,3,_,5,4,3,_, 6,_,4,_,1,2,1,_, 0,_,_,_,_,_,_,_]},
   B:{e:2,prog:[[-4,'M'],[3,'M'],[5,'m'],[7,'M']],lead:[5,_,_,_,7,_,_,_, 9,_,7,_,4,_,_,_, 8,_,_,_,7,_,5,_, 6,_,_,_,4,_,_,_]},
@@ -2719,7 +2720,15 @@ function songPos(step){const S=M.song,bar=Math.floor(Math.max(0,step)/16);let b=
 function chordAt(step){const S=M.song,P=songPos(step),c=P.sec.prog[P.bs];return{root:S.root+P.key+c[0],tones:CHORD[c[1]]||CHORD.m};}
 function chordNote(i,oct){const c=chordAt(M.step-1),k=((i%3)+3)%3,o=Math.floor(i/3);return c.root+c.tones[k]+12*(o+(oct||0));}
 // a more flexible voice than osc(): glide from a previous pitch, vibrato, filters, slow attack
-function tone(type,f,t,dur,vol,o){o=o||{};const os=ac.createOscillator(),g=ac.createGain();os.type=type;
+// 10h: NES-style narrow pulse ('p12' = 12.5 %, 'p25' = 25 % duty) – the classic chiptune bite a plain square lacks; cached per audio context
+const PW=new WeakMap();function pulseWave(d){let m=PW.get(ac);if(!m){m={};PW.set(ac,m);}if(!m[d]){const N=48,re=new Float32Array(N),im=new Float32Array(N);for(let n=1;n<N;n++)re[n]=2/(n*Math.PI)*Math.sin(n*Math.PI*d);m[d]=ac.createPeriodicWave(re,im);}return m[d];}
+// 10h: sidechain pump – bass and pad duck on every kick of a 'bang' song so the groove breathes
+function pumpAt(t,d){const p=M.pump;if(!p||!M.song||!M.song.bang)return;try{const g=p.gain;g.setTargetAtTime(d,t,.004);g.setTargetAtTime(1,t+.03,M.stepDur*.9);}catch(_){}}
+// 10h: noise riser into the music's drum role (build-up before a stronger section)
+function riser(t,dur,vol,bus){const n=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();n.buffer=M.noise;n.loop=true;f.type='bandpass';f.Q.value=1.2;
+  f.frequency.setValueAtTime(500,t);f.frequency.exponentialRampToValueAtTime(7000,t+dur);n.connect(f);f.connect(g);g.connect(bus);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+dur*.95);g.gain.exponentialRampToValueAtTime(.0001,t+dur+.03);n.start(t);n.stop(t+dur+.08);}
+function tone(type,f,t,dur,vol,o){o=o||{};const os=ac.createOscillator(),g=ac.createGain();if(type[0]==='p')os.setPeriodicWave(pulseWave(type==='p12'?.125:.25));else os.type=type;
   if(o.from){os.frequency.setValueAtTime(o.from,t);os.frequency.exponentialRampToValueAtTime(f,t+(o.glide||.05));}else os.frequency.setValueAtTime(f,t);
   if(o.slide)os.frequency.exponentialRampToValueAtTime(Math.max(20,o.slide),t+dur);
   if(o.det)os.detune.setValueAtTime(o.det,t);
@@ -2773,6 +2782,25 @@ const STYLES={
   arp(x){const {s16,t,c,sd}=x;const k=[0,1,2,1][s16%4],f=NOTE(c.root+24+c.tones[k]%12);tone('square',f,t,sd*.6,.026,{lp:3000});},
   lead(f,t,dur,v){tone('square',f,t,dur,.06*v,{lp:3200,vib:7});tone('sawtooth',f,t,dur*.8,.02*v,{lp:2000,det:8});}}
 };
+// 10h 'bang' kit for the graveyard: driving octave bass (8ths in the run, 16ths late and in the boss), four on the floor from the late run,
+// clap-layered snare, 16th hats, every kick pumps bass and pad; the church-bell toll stays
+STYLES.grave.bang={
+ drums(x){const {s16,t,E,bs,key0}=x,B=M.musicBus;
+  const kick=(v,d)=>{tone('sine',132,t,.22,v,{slide:42});tone('square',320,t,.012,.05*v,{lp:1800});pumpAt(t,d);};
+  const snare=v=>{noiz(t,.09,.26*v,B,'bandpass',2600);noiz(t,.05,.14*v,B,'highpass',5200);tone('triangle',220,t,.05,.12*v,{slide:150});
+    if(E>=2){noiz(t+.012,.03,.1*v,B,'bandpass',1400);noiz(t+.024,.07,.12*v,B,'bandpass',1300);}};
+  if(E===0){if(s16===0||s16===8)kick(.45,.85);if(s16===12)noiz(t,.03,.04,B,'highpass',8200);}
+  else{const four=E>=2;
+   if(s16%4===0&&(four||s16===0||s16===8))kick(E>=3?.85:.75,E>=3?.45:four?.55:.7);
+   if(!four&&s16===10)kick(.5,.8);if(E>=3&&s16===14)kick(.55,.7);
+   if(s16===4||s16===12)snare(1);if(E>=3&&s16===15)snare(.35);
+   if(E>=2||s16%2===0)noiz(t,.03,s16%4===2?.3:s16%2?.11:.16,B,'highpass',7800);
+   if(E>=2&&s16%4===2)noiz(t,.11,.15,B,'highpass',6200);}
+  if(s16===0&&bs===0){const f=NOTE(key0+24);tone('sine',f,t,1.9,.08);tone('sine',f*2.76,t,.9,.025);tone('sine',f*5.4,t,.4,.012);}},
+ bass(x){const {s16,t,c,E,sd}=x;let n;
+  if(E===0)n={0:0,8:7}[s16];else if(E===1){if(s16%2)return;n=[0,12,0,12,7,12,0,10][s16>>1];}else n=[0,12,0,12,0,12,7,12,0,12,0,12,10,12,7,12][s16];
+  if(n===undefined)return;const f=NOTE(c.root-12+n),acc=s16%4===0?1:s16%2?.6:.8,d=E===0?sd*2.4:E>=2?sd*.85:sd*1.6;
+  tone('triangle',f,t,d,.3*acc);tone('p25',f,t,d*.8,.035*acc,{lp:E>=3?1400:1000});}};
 // frozen realm: soft brushed drums, the graveyard's bass, an airy pad, bell arpeggios and a celesta lead
 STYLES.frost={drums:STYLES.grave.drums,bass:STYLES.grave.bass,
  pad(x){const {s16,t,c,sd,E}=x;if(E>=3&&(s16===0||s16===6||s16===8||s16===14)){for(const k of c.tones){const f=NOTE(c.root+12+k);tone('triangle',f,t,sd*1.5,.05,{lp:2600,det:-8});tone('square',f,t,sd*1.2,.016,{lp:2200,det:8});}return;} // 10f: boss chord stabs (boss was only +2.8–3 dB)
@@ -2822,9 +2850,17 @@ function playStep(s,t){
   // 10f: song.bossDb lifts one song's boss part (skladby.js suggests it when the boss lands under +3 dB)
   if(s16===0&&M.energy)try{const k=Math.max(0,Math.min(3,I));M.energy.gain.setTargetAtTime(ENERGY_GAIN[k]*(k===3&&S.bossDb?Math.pow(10,S.bossDb/20):1),t,.6);}catch(_){}
   try{
-  to('pad');ST.pad(x);to('bass');ST.bass(x);
-  to('drums');if(I>=1||E>=1)ST.drums(x);else if(s16===0)ST.drums(Object.assign({},x,{E:0}));
-  to('arp');if(E>=1&&I>=1)ST.arp(x);to('lead');
+  const BG=S.bang&&ST.bang||{},DR=BG.drums||ST.drums;
+  to('pad');ST.pad(x);to('bass');(BG.bass||ST.bass)(x);
+  to('drums');if(I>=1||E>=1)DR(x);else if(s16===0)DR(Object.assign({},x,{E:0}));
+  // 10h 'bang' songs: a snare roll and riser into a stronger section, a crash on its downbeat
+  if(S.bang){const ef=p=>I>=3?3:p.sec.e===0?0:Math.min(p.sec.e,I>=2?2:1),Bd=M.musicBus;
+    if(P.bs===3&&s16>=8){const N=songPos(s-s16+16);if(N.id!==P.id&&ef(N)>=Math.max(1,E)){
+      if(s16===8)riser(t,sd*8,.11,Bd);noiz(t,.05,.05+.022*(s16-8),Bd,'bandpass',2500);if(s16>=12)tone('sine',150-(s16-12)*14,t,.1,.3,{slide:60});}}
+    if(P.bs===0&&s16===0&&E>=2&&s>=16&&songPos(s-16).id!==P.id){noiz(t,1.3,.18,Bd,'highpass',5600);noiz(t,.35,.09,Bd,'bandpass',3600);}}
+  to('arp');if(E>=1&&I>=1)ST.arp(x);
+  if(S.bang&&E>=2&&I>=1){const f=NOTE(c.root+24+c.tones[[0,1,2,1][s16%4]]+(s16%8>=4?12:0));tone('p12',f,t,sd*.55,E>=3?.016:.012,{lp:4200});}  // 10h: 16th pulse arpeggio
+  to('lead');
   // lead: written motif; every loop varies it (octave lift on the answer, passing notes in the gaps), harmony at high energy
   // 10b: the melody plays in every section – before, e=1 sections (usually the main theme) were melody-less until late in the run,
   // which on a phone speaker left only drums + bass (10–18 dB dip); in the calm/early run it is just softer
@@ -2837,6 +2873,8 @@ function playStep(s,t){
     if(d===null&&s16===8){const b0=P.bs*8;if(L[b0]!=null&&L.slice(b0+1,b0+8).every(x=>x==null)){d=L[b0]+4;soft=.6;}}
     if(d!==null){if(v===1&&P.bs>=2&&d<5&&P.cyc>0)d+=7;let len=1;while(len<4&&i+len<L.length&&L[i+len]===null)len++;
       const f=NOTE(S.root+P.key+12+scaleNote(d)),dur=sd*2*len*.9;ST.lead(f,t,dur,soft*lv);
+      if(S.bang&&soft===1){tone('p25',f,t,dur*.85,.016*lv,{lp:3400});tone('p12',f,t+sd*3,dur*.6,.007*lv,{lp:3000});      // 10h: pulse bite + echo
+        if(E>=2&&len>=2)tone('p12',f*2,t+sd,sd*.7,.01,{lp:4200});}
       if(E>=2&&soft===1)tone('triangle',NOTE(S.root+P.key+12+scaleNote(d-2)),t,dur*.8,.035);}}
   if(I>=3&&s16===0)osc('sawtooth',NOTE(c.root-24),t,sd*14,.07,R?R.bass:B,null,500);                                    // boss drone
   if(run&&!run.over&&state!=='menu'){const W=run.W,B=R?R.fx:MB;                                                          // ultimate layers
@@ -2854,9 +2892,9 @@ function playStep(s,t){
 }
 // dev/test: render a song offline (int(sec) gives the intensity over time, boss = second the boss arrives) -> mono samples
 async function musicRender(id,secs,o){o=o||{};const sr=o.sr||22050,oac=new OfflineAudioContext(o.ch||1,Math.ceil(sr*secs),sr),keep={ac,bus:M.musicBus,song:M.song,step:M.step,int:M.int,bb:M.bossBar,mus:save.music,noise:M.noise};
-  const keepG={trim:M.trim,energy:M.energy,duck:M.duck,filter:M.filter,revRet:M.revRet,roles:M.roles};
+  const keepG={trim:M.trim,energy:M.energy,duck:M.duck,filter:M.filter,revRet:M.revRet,roles:M.roles,pump:M.pump};
   ac=oac;M.offline=true;const comp=masterChain(oac,oac.destination,o.raw);
-  if(o.raw){M.musicBus=oac.createGain();M.musicBus.connect(comp);M.roles=null;M.trim=M.energy=null;}else{musicGraph(oac,comp);if(o.solo){const ks=[].concat(o.solo);for(const k in M.roles)if(!ks.includes(k))M.roles[k].gain.value=0;}}M.musicBus.gain.value=.3;save.music=true;
+  if(o.raw){M.musicBus=oac.createGain();M.musicBus.connect(comp);M.roles=null;M.pump=null;M.trim=M.energy=null;}else{musicGraph(oac,comp);if(o.solo){const ks=[].concat(o.solo);for(const k in M.roles)if(!ks.includes(k))M.roles[k].gain.value=0;}}M.musicBus.gain.value=.3;save.music=true;
   if(!M.noise){const b=oac.createBuffer(1,sr,sr),d=b.getChannelData(0);for(let i=0;i<sr;i++)d[i]=Math.random()*2-1;M.noise=b;}
   setSong(id);if(!o.raw)songMix();const sd=M.stepDur,n=Math.floor((secs-.5)/sd);
   try{for(let s=0;s<n;s++){const tt=s*sd;if(s%16===0){M.int=o.int?o.int(tt):1;if(o.boss!=null&&tt>=o.boss&&M.bossBar==null)M.bossBar=Math.floor(s/16);}M.step=s+1;playStep(s,tt+.02);}}
@@ -2869,7 +2907,7 @@ function conductor(dt){
   // a big jump (tab in background, long stall) snaps at once
   if(ac){const d=ac.currentTime-M.gt;if(M.off==null||Math.abs(d-M.off)>.12)M.off=d;else M.off+=(d-M.off)*.06;}
   while(M.acc>=M.stepDur){M.acc-=M.stepDur;const s=M.step++;
-    if(s%16===0&&run){M.int=run.over?0:run.boss?3:run.t<35?0:run.t<110?1:2;
+    if(s%16===0&&run){const bg=M.song.bang;M.int=run.over?0:run.boss?3:run.t<(bg?10:35)?0:run.t<(bg?60:110)?1:2;   // 10h: bang songs reach full energy sooner
       if(M.int===3&&M.bossBar==null)M.bossBar=Math.floor(s/16);else if(!run.boss&&M.bossBar!=null&&!run.over)M.bossBar=null;}
     const when=ac?Math.max(ac.currentTime+.005,M.gt-M.acc+M.off+.05):0;M.lastAudio=when;
     playStep(s,when);

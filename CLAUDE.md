@@ -37,6 +37,10 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak `cd tests/tools && node -e "require('./lib').prep()"` (vytvoří off.html bez klíče a vedle něj game.js, krypta.css, lang-en.js a symlinky). Audit to dělá sám. Playwright je předinstalovaný.
 
+## Větev `banger-pilot` (2026-11-10 ~14:35, NEsloučeno do main – čeká na schválení uživatelem)
+- Pilot „banger“ hudby jen na Hřbitově (`SONGS.hrbitov.bang`). Engine: `pulseWave` (tone typ `p12`/`p25`), `pumpAt` (sidechain přes `M.pump` – basa a pad), `riser`, `BANG_TRIM -3.6`, `STYLES.grave.bang` (táhlá oktávová basa 8./16., kopák do čtvrtin od E2, virbl s tleskem, 16. hi-haty), v `playStep` virblový vír + riser před silnější sekcí, crash na její první době, 16. pulzní arpeggio od E2, melodie s pulzem + ozvěnou + oktávovým švihem; rychlejší gradace (int 1 od 10 s, 2 od 60 s). Tempo beze změny (spawny jsou na taktech).
+- Měření: `zvuk.js` běh −31, boss +4,1, telefon běh −32,6 (dřív −37,4); `skladby.js hrbitov` VERDIKT v cíli. Po schválení: `bang` kity pro ostatní styly, pak všech 31 skladeb + `songKit` + skill `zvuk-a-hudba`, sloučit do main.
+
 ## Předávka 2026-11-10 ~14:15 (verze 10g = 10f + ledová hrdinka Vločka, vše na main, Pages nasazené)
 - 10f **hudba kapitoly VI + nástroje, ať další kapitoly projdou napoprvé**:
   - `songKit` v2: `answer` (vlastní odpověď), `bossAnswer`, smyčka `A B R C D B A`, boss `X Y X Z`, prázdný takt generátor neudělá. Kapitola VI má vlastní styl `STYLES.star` (dřív půjčený `frost`), mix změřený `rolecal.js`.
