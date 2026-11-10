@@ -306,3 +306,7 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 10s – Nástěnka v nové grafice (2026-11-10)
 - `qNoteHtml`: nadpis = zadání `q.xs` (hravý název `q.t` jen jako `aria-label`), přehoz úkolu ikonou `reroll`; svíčky a odpočet jako ikony; text hledaného a postup lovu pod otazníkem (`kh`); „Bonus dne:“ pryč.
+
+## 10t – nová Nástěnka a oprava kolize `data-k` (2026-11-10)
+- Uživatel: Nástěnka „furt stejná a hnusná“. `qNoteHtml` → `.kq` (pergamen `KIT` slab parch, ikona v dubovém lůžku, koryto `.kq-bar` s číslem vedle), kontrakty → `.kc` (zaškrtávátka `boxOn/boxOff`, pohár + odměna), deska `.qboard` = dub, plakát hledaného = pergamen. Svíčky a týdenní pruh bez textur.
+- **Chyba z 10n:** stavebnice používá `data-k` a `kAuto` přepisovala herní `data-k` u tlačítek → nefungovalo vyzvednutí týdenního kontraktu (`data-kc`), volba druhu zpětné vazby (`data-fk`) a staré přeskování (`data-rk`). Pravidlo do CLAUDE.md.

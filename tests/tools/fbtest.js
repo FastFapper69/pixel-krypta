@@ -7,7 +7,7 @@ await p.goto('file://'+process.cwd()+'/off.html');await p.waitForTimeout(900);
 await p.evaluate(()=>{const K=window.__krypta;K.ON.ready=true;K.ON.me={id:'u1'};window.__sent=[];K.ON.sb={from:t=>({insert:async row=>{window.__sent.push([t,row]);return{error:null};}})};});
 await p.click('#mSet');await p.waitForTimeout(400);await p.screenshot({path:pre+'-1.png'});
 await p.click('#mFb');await p.waitForTimeout(400);
-await p.click('#fbKind button[data-k="balanc"]');await p.click('#fbStars button[data-r="4"]');
+await p.click('#fbKind button[data-fk="balanc"]');await p.click('#fbStars button[data-r="4"]');
 await p.click('#fbText');await p.keyboard.type('Kostnice je super, ale zvonice je moc tezka.');await p.waitForTimeout(200);await p.screenshot({path:pre+'-2.png'});
 await p.click('#fbSend');await p.waitForTimeout(600);
 const r1=await p.evaluate(()=>{const K=window.__krypta;return{coins:K.save.coins,fb:K.save.fb,sent:window.__sent.map(s=>[s[0],s[1].kind,s[1].rating,s[1].msg.length,s[1].ver]),pop:document.querySelector('#newsPop').hidden};});

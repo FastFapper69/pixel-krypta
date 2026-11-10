@@ -1382,3 +1382,47 @@ button,input,select,textarea{font-family:inherit}
 .qnote h3{font-size:18.6667px!important;line-height:24px!important;font-family:'Jersey 10',var(--font)!important;color:#3a2412!important;text-shadow:none!important}
 .qrow{display:flex;justify-content:space-between;align-items:center}.qrow span{display:flex;gap:6px;align-items:center}.qrow .qri{width:22px;height:22px;image-rendering:pixelated}.qrow b{color:#ffd75e}
 .k-rr.btn.ka{width:44px;min-width:44px;padding:0 0 6px!important}
+/* Nástěnka 10s: dubová deska, úkoly jako pergameny ze stavebnice, koryta postupu, nic rozmazaného */
+#scr-quests .qboard{background-color:transparent!important;border:0!important;border-image:none!important;box-shadow:none!important;padding:22px 12px 18px!important;gap:22px!important;clip-path:none!important}
+#scr-quests .qboard::before{display:none!important}
+.kq{position:relative;display:grid;grid-template-columns:56px minmax(0,1fr) auto;grid-template-areas:"ic t t" "ic st n" "bar bar bar" "f f f";gap:4px 10px;align-items:center;padding:16px 14px 14px;color:#3a2412;text-shadow:none}
+.kq.d1{margin-left:6px;margin-right:-2px}.kq.d2{margin-left:-2px;margin-right:6px}
+.kq-pin{position:absolute;left:50%;top:-10px;width:22px;height:22px;margin-left:-11px;image-rendering:pixelated;z-index:2}
+.kq-ic{grid-area:ic;width:56px;height:56px;display:flex;align-items:center;justify-content:center}
+.kq-ic img{width:40px;height:40px;image-rendering:pixelated;object-fit:contain}
+.kq-t{grid-area:t;font:var(--k20);color:#3a2412;min-width:0;overflow-wrap:anywhere}
+.kq-st{grid-area:st;display:flex;gap:4px}
+.kq .kq-n{grid-area:n}
+.kq-n{font:var(--k20);font-style:normal;color:#5a3a1c;white-space:nowrap;text-align:right}
+.kq-bar{grid-area:bar;position:relative;display:block;height:16px;width:308px;max-width:100%;background:#2a1c0e;box-shadow:inset 0 0 0 2px #2a1c0e,inset 0 0 0 4px #8f6a3a}
+.kq-bar i{position:absolute;left:4px;top:4px;height:8px;max-width:calc(100% - 8px);background:linear-gradient(#fff3b0 0 2px,#ffd75e 2px 6px,#c8861c 6px 8px)}
+.kq-bar b{position:absolute;top:2px;bottom:2px;width:2px;background:#8f6a3a}
+.kq-f{grid-area:f;display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px}
+.kq .rw,.kc .rw{color:#3a2412;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.kq .rw .mt,.kc .rw .mt{display:flex;gap:4px;align-items:center;color:#3a2412}.kq .rw img,.kc .rw img{width:22px;height:22px;image-rendering:pixelated}
+.kq .btn .bst{display:inline-flex;gap:2px;margin-left:6px}.kq .btn .bst img{width:16px;height:16px}
+.kq.done{opacity:.6}
+.kq.tear{animation:qtear .34s ease-in forwards}
+/* kontrakt */
+.kc{position:relative;display:flex;flex-direction:column;gap:8px;padding:14px 14px 16px;margin:0 0 16px;color:#3a2412;text-shadow:none}
+.kc-h{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:10px;align-items:center}.kc-h .kq-ic{grid-area:auto}
+.kc-h b{font:var(--k30);color:#7a2a12}.kc-h em{font:var(--k20);font-style:normal;color:#5a3a1c}
+.kc-s{display:grid;grid-template-columns:18px minmax(0,1fr) auto;grid-template-areas:"ck x x" ". bar n" ". rw rw";gap:4px 10px;align-items:center;padding-top:6px;box-shadow:0 -2px 0 #c8a870}
+.kc-s>.kp{grid-area:ck}.kc-x{grid-area:x;font:var(--k20);color:#3a2412}.kc-s .kq-bar{width:auto}.kc-s .kq-n{grid-area:n}.kc-s .rw{grid-area:rw;opacity:.85}
+.kc-s.ok .kc-x{color:#3d7434;text-decoration:line-through;text-decoration-thickness:2px}.kc-s.ok .rw{opacity:.5}
+.kc-fin{display:flex;align-items:center;gap:10px;padding-top:8px;box-shadow:0 -2px 0 #c8a870}.kc-tr{width:32px;height:32px;image-rendering:pixelated}
+.kc .btn{align-self:flex-end}
+.kc.done{opacity:.7}
+/* svíčky dne a týdne bez textur */
+.qcandles:not(.wk)::after{background:#734824!important;box-shadow:inset 0 2px 0 #8f5e30,inset 0 -2px 0 #4a2c16,0 2px 0 #170c05!important;height:12px!important}
+.qms{background:#2a2d33!important;box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 0 0 4px #4a4e57!important}
+.qms.ready{box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 0 0 4px #ffd75e!important}
+.qms::before{background:#8f5e30!important}
+.qwax{height:16px!important;background:#0b0c0e!important;box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 0 0 4px #4a4e57!important}
+.qwax i{top:4px!important;bottom:4px!important;left:4px!important;background:linear-gradient(#fff3b0 0 2px,#ffd75e 2px 6px,#c8861c 6px 8px)!important;box-shadow:none!important}
+/* hledaný a týdenní výzva */
+#scr-quests .poster{background-color:transparent!important;box-shadow:none!important;clip-path:none!important;padding:20px 16px!important}
+#scr-quests .pz-img{background:#2a1c0e!important;box-shadow:inset 0 0 0 2px #2a1c0e,inset 0 0 0 4px #8f6a3a!important}
+#scr-quests .wk-t{background-color:transparent!important;box-shadow:none!important;clip-path:none!important;padding:12px 14px!important}
+#scr-quests .wkposter{box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 0 0 4px #4a4e57!important;background-color:#2a2d33!important;background-image:none!important}
+#scr-quests .qboard{position:relative}
+.kc-x{min-width:0;overflow-wrap:anywhere}

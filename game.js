@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10s';
+const GAME_VER='2026-11-10t';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4918,7 +4918,7 @@ function pausePaint(){const S=$('#scr-pause');if(!S||S.hidden)return;const pane=
   kSnap(W);const sg=S.querySelector('.k-sign'),top=Math.ceil(sg.getBoundingClientRect().top/2)*2+2;S.querySelectorAll('.k-sign>i').forEach(c=>{c.style.height=top+'px';});
   KIT.paint(S);}
 // 10n: společné prvky starých obrazovek (tlačítka, záložky, karty) kreslí stavebnice – materiál podle třídy. Volá se po každé změně stránky mimo běh.
-const KA=[['.market .card.chest>.btn',b=>['slab','parch']],['#scr-guide .gd',b=>['slab','parch']],['.k-ped',b=>['slab','slate']],['.tch>button',b=>['btn',b.classList.contains('pick')?'gold':'rune']],['#scr-pets .ptslot .tslot',b=>['socket','slate']],['.btn:not(.art):not([data-k=slab])',b=>['btn',b.classList.contains('bad')||b.id==='ovQuit'?'danger':b.classList.contains('alt')?'slate':'gold']],
+const KA=[['.market .card.chest>.btn',b=>['slab','parch']],['#scr-quests .qboard',b=>['slab','oak']],['#scr-quests .poster',b=>['slab','parch']],['#scr-quests .wk-t',b=>['slab','slate']],['#scr-guide .gd',b=>['slab','parch']],['.k-ped',b=>['slab','slate']],['.tch>button',b=>['btn',b.classList.contains('pick')?'gold':'rune']],['#scr-pets .ptslot .tslot',b=>['socket','slate']],['.btn:not(.art):not([data-k=slab])',b=>['btn',b.classList.contains('bad')||b.id==='ovQuit'?'danger':b.classList.contains('alt')?'slate':'gold']],
  ['.tabs:not(.sectabs)>button',b=>['btn',b.classList.contains('on')?'gold':'slate']],
  ['.tabs.sectabs>button',b=>['flag','',b.classList.contains('on')]]];
 function kAuto(){const A=document.getElementById('app');try{kHelpSync();}catch(_){}for(const [sel,fn] of KA)for(const el of A.querySelectorAll(sel)){if(!el.offsetWidth)continue;const [k,m,on]=fn(el);if(el.dataset.k!==k)el.dataset.k=k;if(m&&el.dataset.m!==m)el.dataset.m=m;
@@ -7304,9 +7304,9 @@ function rfRoll(kind,o,k){if(kind==='item'){o.st[k]=rollStat(k,o.r,Math.random()
 function openReforge(kind,o,back){const pop=$('#newsPop');let last=null,was=null;
   const draw=()=>{const c=rfCost(o.rf),L=rfLines(kind,o),ok=canPay(c);
     pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Přebroušení')+'</h2><small>'+_t('Ťukni na vlastnost a znovu se vylosuje v rozsahu rarity. Každé další přebroušení téhož kusu je dražší.')+'</small>'+
-      '<ul class="ic-st rfl">'+L.map(l=>'<li class="'+(l[0]===last?'nv':'')+'"><span>'+l[1]+'</span><b>'+(l[0]===last&&was!=null?'<s>'+was+'</s> ':'')+l[2]+'</b><button class="btn alt sm" data-k="'+l[0]+'"'+(ok?'':' disabled')+' aria-label="'+_t('Přebrousit')+'">↻</button></li>').join('')+'</ul>'+
+      '<ul class="ic-st rfl">'+L.map(l=>'<li class="'+(l[0]===last?'nv':'')+'"><span>'+l[1]+'</span><b>'+(l[0]===last&&was!=null?'<s>'+was+'</s> ':'')+l[2]+'</b><button class="btn alt sm" data-rk="'+l[0]+'"'+(ok?'':' disabled')+' aria-label="'+_t('Přebrousit')+'">↻</button></li>').join('')+'</ul>'+
       '<p class="costs rfc">'+costHtml(c,1)+'</p>'+missHint(c)+'<div class="pop-btns"><button class="btn sm" id="newsOk">'+_t('Hotovo')+'</button></div></div>';
-    pop.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const c2=rfCost(o.rf);if(!canPay(c2))return;const k=b.dataset.k;was=(rfLines(kind,o).find(l=>l[0]===k)||[])[2];payC(c2);rfRoll(kind,o,k);o.rf=(o.rf||0)+1;last=k;persist();sfx('level');draw();});
+    pop.querySelectorAll('[data-rk]').forEach(b=>b.onclick=()=>{const c2=rfCost(o.rf);if(!canPay(c2))return;const k=b.dataset.rk;was=(rfLines(kind,o).find(l=>l[0]===k)||[])[2];payC(c2);rfRoll(kind,o,k);o.rf=(o.rf||0)+1;last=k;persist();sfx('level');draw();});
     $('#newsOk').onclick=()=>{pop.hidden=true;sfx('ui');if(back)back();};};
   draw();pop.hidden=false;}
 // ----- Kovárna (08a): merging 3 identical pieces (same slot, rarity, set) into one of the next rarity -----
@@ -7746,7 +7746,7 @@ function qBurst(el,txt){if(!el)return;const r=el.getBoundingClientRect(),b=docum
 // tear the note off, then pay
 function qTear(card,fn){if(!card){fn();return;}card.classList.add('tear');setTimeout(fn,330);}
 function qClaim(i,btn){const Q=qEnsure(),q=Q.q[i];if(!q)return;const k=qStars(q);if(k<=q.cl)return;
-  const rw=qSum(Q_SR.slice(q.cl,k)),got=k-q.cl;q.cl=k;qkAdd('stars',got);const card=k===3?btn&&btn.closest('.qnote'):null;
+  const rw=qSum(Q_SR.slice(q.cl,k)),got=k-q.cl;q.cl=k;qkAdd('stars',got);const card=k===3?btn&&btn.closest('.kq'):null;
   qTear(card,()=>{qPay(rw,btn);renderQuests(true);});}
 function qClaimK(i,btn){qEnsure();const K=save.qw.k[i],T=K&&QK_TPL.find(t=>t.id===K.id);if(!K||!qkClaimable(K))return;
   const L=[],js=[];K.d.forEach((d,j)=>{if(d&&!K.cl[j]){L.push(QK_SRW[j]);js.push(j);}});const last=K.cl.filter(Boolean).length+js.length===3;if(last)L.push(T.rw);const rw=qSum(L);
@@ -7987,6 +7987,9 @@ const PIX={
  note8:{c:{'#':'#d9a8f2'},r:['..####','..#..#','..#..#','..#..#','###.##','###.##']},
  stickI:{c:{'#':'#e9e2d0','r':'#e2453a','h':'#ff8a78'},r:['..hrr..','..rrr..','..rrr..','...#...','...#...','.#####.','#######']},
  sealDot:{c:{'#':'#c5413a','h':'#e2655a','d':'#761d1d','o':'#1c0607','s':'#ffd9b0'},r:['.oooo.','ohh##o','oh#s#o','o#sssd','o##s#d','.oddd.']},
+ check:{c:{'#':'#5fa046','h':'#8cc468','o':'#18351e'},r:['.......oo','......o#o','o....o#ho','#o..o#ho.','o#oo#ho..','.o##ho...','..o#o....']},
+ boxOff:{c:{'o':'#5a3a1c','#':'#efe0bc'},r:['ooooooooo','o#######o','o#######o','o#######o','o#######o','o#######o','o#######o','o#######o','ooooooooo']},
+ boxOn:{c:{'o':'#5a3a1c','#':'#efe0bc','g':'#3d7434','h':'#5fa046'},r:['ooooooooo','o######go','o#####ghg','og###ghgo','ohg#ghg#o','o#hghg##o','o##hg###o','o#######o','ooooooooo']},
  reroll:{c:{'#':'#f4ecd6'},r:['..####.#','.#....##','#....###','#.......','.......#','###....#','##....#.','#.####..']},
  flameA:{c:{y:'#ffd75e',o:'#ff9a3c',w:'#fff3b0',r:'#d8532a'},r:['...y...','..yy...','..yoy..','.yooy..','.yoooy.','yoowoy.','yowwoy.','rowwor.','.rooo..']},
  flameB:{c:{y:'#ffd75e',o:'#ff9a3c',w:'#fff3b0',r:'#d8532a'},r:['....y..','...yy..','..yoy..','..yooy.','.yoooy.','.yowooy','.yowwoy','.rowwor','..ooor.']},
@@ -8100,13 +8103,14 @@ function candleRow(L,o,week){const max=L[L.length-1].at,ms=o.ms||[];let h='<div 
   else{const c=Math.min(o.c,max);h+='<div class="qwax"><i style="width:'+(c/max*100)+'%"></i></div>'+L.map((m,i)=>'<button class="qms abs '+(ms[i]?'got':o.c>=m.at?'ready':'')+'" data-ms="1,'+i+'" style="left:'+(m.at/max*100)+'%"><img alt="" src="'+msIcon(m)+'"><b>'+m.at+'</b></button>').join('');}
   return h+'</div>';}
 function qNoteHtml(q,i,Q){const k=qStars(q),nx=Math.min(2,k),top=q.ns[2],full=k===3,ready=k>q.cl,rr=(Q.rr<(qTheme(Q.d).id==='feast'?2:1)||save.cheat)&&!q.cl&&!q.v;
-  const stars=[0,1,2].map(j=>qStarImg(j<k)).join(''),ticks=q.ns.slice(0,2).map(n=>'<b style="left:'+(n/top*100)+'%"></b>').join(''),seal=['seal_r','seal_b','seal_g'][i%3];
-  return '<div class="qnote n'+i+(full&&q.cl===3?' done':'')+'"><img class="pin" alt="" src="'+dataUrl(SPR.icon.pin)+'"><div class="qn-in">'+
-    '<img class="seal" alt="" src="'+dataUrl(SPR.icon[seal])+'">'+
-    '<div class="qn-top"><span class="qn-ic"><img alt="" src="'+qIcon(q.ico)+'"></span><div><h3 aria-label="'+q.t+'">'+q.xs[nx]+'</h3><div class="stars">'+stars+'</div></div></div>'+
-    '<div class="qprog"><span>'+(full?_t('Všechny hvězdy!'):qFmtN(q,q.v,q.ns[nx]))+'</span><div class="qbar"><i style="width:'+(Math.min(q.v,top)/top*100)+'%"></i>'+ticks+'</div></div>'+
-    '<div class="qn-bot">'+(q.cl<3?qRwHtml(qSum(Q_SR.slice(q.cl,Math.max(q.cl+1,k)))):'<span class="rw"><b class="ok">'+_t('Vyzvednuto')+'</b></span>')+
-    (ready?'<button class="btn sm" data-claim="'+i+'">'+_t('Vyzvednout')+' <span class="bst">'+qStarImg(1).repeat(k-q.cl)+'</span></button>':rr?'<button class="btn alt sm k-rr" data-rr="'+i+'" aria-label="'+_t('Jiný úkol')+'">'+KIT.img('reroll')+'</button>':'')+'</div></div></div>';}
+  const stars=[0,1,2].map(j=>KIT.img(j<k?'star':'starOff')).join(''),ticks=q.ns.slice(0,2).map(n=>'<b style="left:'+(Math.round(n/top*150)*2)+'px"></b>').join('');
+  // 10s: pergamen ze stavebnice – ikona v dřevěném rámu, zadání, hvězdy, koryto postupu s číslem vedle, odměna a tlačítko
+  return '<div class="kq d'+i+(full&&q.cl===3?' done':'')+'" data-k="slab" data-m="parch" data-s="q'+i+'"><img class="kq-pin" alt="" src="'+dataUrl(SPR.icon.pin)+'">'+
+    '<span class="kq-ic" data-k="socket" data-m="oak" data-bg="#3a2a1a" data-s="qi'+i+'"><img alt="" src="'+qIcon(q.ico)+'"></span>'+
+    '<b class="kq-t" aria-label="'+q.t+'">'+q.xs[nx]+'</b><span class="kq-st">'+stars+'</span>'+
+    '<span class="kq-bar"><i style="width:'+(Math.round(Math.min(q.v,top)/top*150)*2)+'px"></i>'+ticks+'</span><em class="kq-n">'+(full?'✓':qFmtN(q,q.v,q.ns[nx]))+'</em>'+
+    '<div class="kq-f">'+(q.cl<3?qRwHtml(qSum(Q_SR.slice(q.cl,Math.max(q.cl+1,k)))):'<span class="rw">'+KIT.img('check')+'</span>')+
+    (ready?'<button class="btn sm" data-claim="'+i+'">'+_t('Vyzvednout')+' <span class="bst">'+qStarImg(1).repeat(k-q.cl)+'</span></button>':rr?'<button class="btn alt sm k-rr" data-rr="'+i+'" aria-label="'+_t('Jiný úkol')+'">'+KIT.img('reroll')+'</button>':'')+'</div></div>';}
 function qDayHtml(Q){const th=qTheme(Q.d),now=new Date(),mid=new Date(now);mid.setHours(24,0,0,0);
   let h='<div class="qtheme" style="--tc:'+th.col+'"><img alt="" src="'+qIcon(th.ic)+'"><div><small>'+Q_DAYN[qDow(Q.d)]+'</small><b>'+th.name+'</b><span>'+th.bonus+'</span></div></div>';
   h+='<div class="qrow"><span aria-label="'+_t('Dnešní svíčky')+'"><img alt="" class="qri" src="'+dataUrl(SPR.icon.candle)+'"><b>'+Q.c+'</b></span><span class="qleft" aria-label="'+_t('nové úkoly za ')+'">'+KIT.img('clock')+qLeft(mid-now)+'</span></div>'+candleRow(Q_DMS,Q,0);
@@ -8124,12 +8128,12 @@ function qWeekHtml(){const W=save.qw,end=new Date(weekKey()+'T00:00:00');end.set
   let h='<div class="qrow"><span aria-label="'+_t('Svíčky tento týden')+'"><img alt="" class="qri" src="'+dataUrl(SPR.icon.candle)+'"><b>'+W.c+'</b></span><span class="qleft" aria-label="'+_t('nový týden za ')+'">'+KIT.img('clock')+qLeft(end-new Date())+'</span></div>'+candleRow(Q_WMS,W,1);
   h+='<div class="sec">'+_t('Týdenní kontrakty')+'</div>';
   W.k.forEach((K,i)=>{const T=QK_TPL.find(t=>t.id===K.id),C=CHAPTERS.find(c=>c.id===K.ch)||CHAPTERS[0],done=K.cl.every(Boolean);
-    h+='<div class="qscroll'+(done?' done':'')+'"><div class="qs-top"><img alt="" src="'+qIcon(T.ic(C))+'"><h3>'+T.t(C)+'</h3><em>'+qkDone(K)+' / 3</em></div><ol>'+
-      K.steps.map((st,j)=>{const S=QK_STEP[st.k],ok=!!K.d[j];return '<li class="'+(ok?'ok':'cur')+'"><i class="ck">'+(ok?'✓':'')+'</i><div><span>'+S.x(st.n,C)+'</span>'+
-        (!ok&&st.n>1?'<div class="qbar sm"><i style="width:'+(Math.min(K.v[j],st.n)/st.n*100)+'%"></i><span>'+Math.min(K.v[j],st.n)+' / '+st.n+'</span></div>':'')+'</div>'+qRwHtml(QK_SRW[j])+'</li>';}).join('')+'</ol>'+
-      '<div class="qs-fin"><span>'+_t('Za celý kontrakt:')+'</span>'+qRwHtml(T.rw)+'</div>'+
-      (qkClaimable(K)?'<button class="btn sm" data-k="'+i+'">'+_t('Vyzvednout')+'</button>':done?'<i class="stamp">'+_t('SPLNĚNO')+'</i>':'')+'</div>';});
-  return h+'<p class="hint">'+_t('Kontrakty se řídí tím, kam jsi v kampani došel. Postup se počítá ze všech běhů, i z výzev a co-opu.')+'</p>';}
+    h+='<div class="kc'+(done?' done':'')+'" data-k="slab" data-m="parch" data-s="k'+i+'"><div class="kc-h"><span class="kq-ic" data-k="socket" data-m="oak" data-bg="#3a2a1a" data-s="ki'+i+'"><img alt="" src="'+qIcon(T.ic(C))+'"></span><b>'+T.t(C)+'</b><em>'+qkDone(K)+'/3</em></div>'+
+      K.steps.map((st,j)=>{const S=QK_STEP[st.k],ok=!!K.d[j],v=Math.min(K.v[j],st.n);return '<div class="kc-s'+(ok?' ok':'')+'">'+KIT.img(ok?'boxOn':'boxOff')+'<span class="kc-x">'+S.x(st.n,C)+'</span>'+
+        (!ok&&st.n>1?'<span class="kq-bar"><i style="width:'+(Math.round(v/st.n*130)*2)+'px"></i></span><em class="kq-n">'+v+'/'+st.n+'</em>':'')+qRwHtml(QK_SRW[j])+'</div>';}).join('')+
+      '<div class="kc-fin"><img alt="" class="kc-tr" src="'+dataUrl(SPR.icon.trophy)+'">'+qRwHtml(T.rw)+'</div>'+
+      (qkClaimable(K)?'<button class="btn sm" data-kc="'+i+'">'+_t('Vyzvednout')+'</button>':done?'<i class="stamp">'+_t('SPLNĚNO')+'</i>':'')+'</div>';});
+  return h+'<p class="hint kh">'+_t('Kontrakty se řídí tím, kam jsi v kampani došel. Postup se počítá ze všech běhů, i z výzev a co-opu.')+'</p>';}
 function qWkHtml(){const I=wkInfo(),W=save.wk,M=MAPS[I.map],H=HEROES[I.hero],end=new Date(weekKey()+'T00:00:00');end.setDate(end.getDate()+7);
   let h='<div class="wkposter"><div class="wk-map" style="background-image:url('+qMapImg(I.map)+')"><img alt="" src="'+dataUrl(SPR.hero[I.hero])+'"></div>'+
     '<div class="wk-b"><small>'+_t('Týdenní výzva · končí za ')+qLeft(end-new Date())+'</small><h3>'+M.name+'</h3><p>'+_t('Hrdina: ')+'<b>'+H.name+'</b>'+(heroOwned(I.hero)?'':' · '+_t('vyzkoušíš si ho'))+'</p>'+
@@ -8149,7 +8153,7 @@ function renderQuests(keep){qTexInit();const Q=qEnsure(),box=$('#qBody'),sc=keep
   box.querySelectorAll('[data-qt]').forEach(b=>b.onclick=()=>{const fi={week:'contracts',wk:'weekly'}[b.dataset.qt];if(fi&&!featOn(fi)){sfx('ui');note(featLock(fi));return;}if(qTab===b.dataset.qt)return;qTab=b.dataset.qt;sfx('ui');renderQuests();const p=box.querySelector('.qpane');if(p)p.classList.add('in');});
   box.querySelectorAll('[data-claim]').forEach(b=>b.onclick=()=>qClaim(+b.dataset.claim,b));
   box.querySelectorAll('[data-rr]').forEach(b=>b.onclick=()=>qReroll(+b.dataset.rr));
-  box.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>qClaimK(+b.dataset.k,b));
+  box.querySelectorAll('[data-kc]').forEach(b=>b.onclick=()=>qClaimK(+b.dataset.kc,b));
   box.querySelectorAll('[data-wk]').forEach(b=>b.onclick=()=>wkClaim(+b.dataset.wk,b));
   box.querySelectorAll('[data-ms]').forEach(b=>b.onclick=()=>{const [wk,i]=b.dataset.ms.split(',').map(Number);const m=(wk?Q_WMS:Q_DMS)[i],o=wk?save.qw:Q;
     if((o.ms||[])[i]){note(_t('Už vyzvednuto'));return;}if(o.c<m.at){note(m.at+_t(' svíček: ')+(m.chest?ECON.chests.find(c=>c.id===m.chest).name:m.mat?m.mat+_t(' Úlomků'):m.g+_t(' zlata')));return;}qClaimMs(wk,i,b);});
@@ -8502,6 +8506,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10t',d:'10. 11. 2026',t:_t('Nová Nástěnka'),hl:[
+  {ic:'scroll',t:_t('Úkoly na dubové desce'),d:_t('Úkoly i kontrakty jsou ostré pergameny. Číslo postupu je vedle ukazatele, ne přes něj.')},
+  {ic:'chest_iron',t:_t('Oprava vyzvednutí kontraktu'),d:_t('Tlačítko Vyzvednout u týdenních kontraktů od verze 10n nic nedělalo. Teď zase dá odměnu.')}],
+  items:[_t('Opravena i volba druhu zpětné vazby v Nastavení.')]},
  {v:'2026-11-10s',d:'10. 11. 2026',t:_t('Nástěnka bez čtení'),hl:[
   {ic:'scroll',t:_t('Úkol je hned vidět'),d:_t('Na pergamenu je rovnou, co máš udělat. Svíčky a čas do nových úkolů jsou ikony, jiný úkol vybereš šipkami.')}],
   items:[_t('Popis hledaného a postup lovu najdeš pod otazníkem.')]},
@@ -8820,7 +8828,7 @@ function openFeedback(){const pop=$('#newsPop');const F={kind:'napad',rate:0,tex
   const coin='<img alt="" src="'+dataUrl(SPR.icon.coin)+'">',rw=fbRewardToday();
   pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Tvůj názor')+'</h2>'+
     '<small>'+_t('Co tě baví, co ne, co bys přidal nebo co nefunguje? Čte to vývojář a podle toho hru ladí.')+'</small>'+
-    '<div class="tabs fbk" id="fbKind">'+FB_KINDS.map(k=>'<button data-k="'+k[0]+'">'+k[1]+'</button>').join('')+'</div>'+
+    '<div class="tabs fbk" id="fbKind">'+FB_KINDS.map(k=>'<button data-fk="'+k[0]+'">'+k[1]+'</button>').join('')+'</div>'+
     '<div class="fbs"><small>'+_t('Jak tě hra baví?')+'</small><div class="st" id="fbStars">'+[1,2,3,4,5].map(i=>'<button data-r="'+i+'" aria-label="'+i+'">★</button>').join('')+'</div></div>'+
     '<textarea id="fbText" maxlength="'+FB_MAX+'" placeholder="'+_t('Napiš sem…')+'"></textarea>'+
     '<div class="fbmeta"><span class="rw">'+(rw?coin+'+'+FB_GOLD+_t(' zlata a svíčka · 1× denně'):_t('Dnešní odměnu už máš, zítra zase'))+'</span><span id="fbLen"></span></div>'+
@@ -8829,8 +8837,8 @@ function openFeedback(){const pop=$('#newsPop');const F={kind:'napad',rate:0,tex
   pop.hidden=false;const ta=$('#fbText');ta.value=F.text||'';
   const save0=()=>{try{localStorage.setItem(FB_DRAFT,JSON.stringify({kind:F.kind,rate:F.rate,text:ta.value}));}catch(_){}};
   const upd=()=>{F.text=ta.value;const n=ta.value.trim().length;$('#fbLen').textContent=n+' / '+FB_MAX;$('#fbSend').disabled=n<FB_MIN;
-    pop.querySelectorAll('#fbKind button').forEach(b=>b.classList.toggle('on',b.dataset.k===F.kind));pop.querySelectorAll('#fbStars button').forEach(b=>b.classList.toggle('on',+b.dataset.r<=F.rate));};
-  pop.querySelectorAll('#fbKind button').forEach(b=>b.onclick=()=>{F.kind=b.dataset.k;sfx('ui');upd();save0();});
+    pop.querySelectorAll('#fbKind button').forEach(b=>b.classList.toggle('on',b.dataset.fk===F.kind));pop.querySelectorAll('#fbStars button').forEach(b=>b.classList.toggle('on',+b.dataset.r<=F.rate));};
+  pop.querySelectorAll('#fbKind button').forEach(b=>b.onclick=()=>{F.kind=b.dataset.fk;sfx('ui');upd();save0();});
   pop.querySelectorAll('#fbStars button').forEach(b=>b.onclick=()=>{F.rate=+b.dataset.r;sfx('ui');upd();save0();});
   ta.oninput=()=>{upd();save0();};upd();
   const msg=t=>{const m=$('#fbMsg');m.textContent=t;m.hidden=!t;};
