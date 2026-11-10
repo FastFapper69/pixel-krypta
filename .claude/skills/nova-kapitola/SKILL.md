@@ -46,7 +46,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 1. `MAPS` – 5 map (`name`, `desc` s `<b>`, `dur`, `size`, `seed`, `style:'kit'`, `kit`, `grade`, `gradeA`, `dark`, `amb`, `ambient`, `c1`, `boss`, `spawns`, `elites`, `events`, finále `finale:1`).
 2. `CHAPTERS` – `{id:'cN', name, mat:'shard', col, maps}`; `ROMAN_CH` má dost čísel; `SOON_CH` pokud čeká hrdina.
 3. `ENEMY_DEFS` (+ `BEH`, pokud nové chování) a `BOSS_DEFS`; `BOSS_INTRO` hláška každého bosse.
-4. `SONGS` pro každou mapu + vlastní styl kapitoly; projít `hudbacheck.js cN` a `skladby.js cN` (VERDIKT: vše v cíli).
+4. `SONGS` pro každou mapu + vlastní styl kapitoly **včetně banger kitu** (`STYLES.x.bang=bangKit({kick,snare,hat,bass,voice,extra})` + `BANG_TRIM.x` podle `zvuk.js`, viz skill `zvuk-a-hudba` „Banger“); projít `hudbacheck.js cN` a `skladby.js cN` (VERDIKT: vše v cíli).
 5. `SETS` (ch, fin, col, name, slots, pieces, b2, b4n, b4, u páté kapitoly six/b6n/b6) + bonusy v `heroBonus` (`sc.<set>`) + schopnost 4 (a 6) v `fireAll` přes `st.lg` + `ITEM_ART` obrázky.
 6. Legendárka finále: `LEGS` (s `fin:1`) + `FIN_LEG[finále]` + účinek.
 7. Hledaný: `WANTED` + `WANT_OF` (mapování kapitola → hledaný).

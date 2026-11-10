@@ -5,6 +5,8 @@
 // Pravidla (CHYBA = musí se opravit, pozor = doporučení):
 //  - každá sekce z form0/form/bossForm existuje, melodie má 32 osmin a žádný takt bez not (na telefonu díra −16 až −25 dB)
 //  - boss má aspoň jednu sekci s energií 3
+//  - (10h) styl skladby má banger kit STYLES.x.bang = bangKit({...}) a BANG_TRIM (hlasitost hustšího aranžmá přes zvuk.js), skladba ho nevypíná (bang:false)
+//  - (10h) melodie může mít i 64 šestnáctin (hraje se přesně, jako menu); sekce smí mít vlastní basový riff bass[64] a protimelodii cm[64]
 //  - styl existuje v STYLES a má změřený mix: STYLE_ROLE (tests/tools/rolecal.js), STYLE_TRIM a STYLE_REV
 //  - kapitola má jeden vlastní styl, který nepoužívá žádná jiná kapitola (každá kapitola zní jinak)
 //  - úvodní motiv (1. takt sekce A) je jedinečný mezi všemi skladbami (i po transpozici)
@@ -21,11 +23,15 @@ function rules(ids,MIN){
     if(!STYLES[S.style])o.issues.push('neznámý styl '+S.style);
     else{if(!STYLE_ROLE[S.style])o.issues.push('styl '+S.style+' nemá změřený mix STYLE_ROLE (node rolecal.js '+id+')');
       if(STYLE_TRIM[S.style]==null&&S.style!=='grave')o.issues.push('styl '+S.style+' nemá STYLE_TRIM (srovnej hlasitost přes zvuk.js)');
-      if(STYLE_REV[S.style]==null)o.issues.push('styl '+S.style+' nemá STYLE_REV');}
+      if(STYLE_REV[S.style]==null)o.issues.push('styl '+S.style+' nemá STYLE_REV');
+      if(!STYLES[S.style].bang)o.issues.push('styl '+S.style+' nemá banger kit (STYLES.'+S.style+'.bang=bangKit({...}))');
+      if(BANG_TRIM[S.style]==null)o.issues.push('styl '+S.style+' nemá BANG_TRIM (srovnej hlasitost přes zvuk.js)');
+      if(S.bang===false)o.warn.push('skladba má vypnutý banger (bang:false)');}
     const used=[...new Set([...(S.form0||[]),...(S.form||[]),...(S.bossForm||[])])],sh=new Set();
     for(const k of used){const X=S.sec[k];if(!X){o.issues.push('sekce '+k+' chybí');continue;}const L=X.lead||[];
-      if(L.length!==32)o.issues.push('sekce '+k+': melodie nemá 32 osmin ('+L.length+')');
-      for(let b=0;b<L.length;b+=8){const bar=L.slice(b,b+8);if(bar.every(v=>v==null))o.issues.push('sekce '+k+', takt '+(b/8+1)+': bez melodie (díra na telefonu)');else sh.add(shape(bar));}}
+      const W=L.length===64?16:8;if(L.length!==32&&L.length!==64)o.issues.push('sekce '+k+': melodie nemá 32 osmin ani 64 šestnáctin ('+L.length+')');
+      for(const q of ['bass','cm'])if(X[q]&&X[q].length!==64)o.issues.push('sekce '+k+': '+q+' nemá 64 šestnáctin');
+      for(let b=0;b<L.length;b+=W){const bar=L.slice(b,b+W);if(bar.every(v=>v==null))o.issues.push('sekce '+k+', takt '+(b/W+1)+': bez melodie (díra na telefonu)');else sh.add(shape(bar));}}
     if(!(S.bossForm||[]).some(k=>S.sec[k]&&S.sec[k].e>=3))o.issues.push('boss nemá sekci s energií 3');
     o.shapes=sh.size;if(sh.size<MIN)o.warn.push('málo pestrá: '+sh.size+' různých taktů (aspoň '+MIN+')');
     const mo=motifOf(S);if(mo)for(const j in SONGS)if(j!==id&&j!=='menu'&&motifOf(SONGS[j])===mo)o.issues.push('úvodní motiv stejný jako '+j);

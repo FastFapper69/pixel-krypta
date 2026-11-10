@@ -41,6 +41,20 @@ Komunikuj česky. Kód je v `game.js`, oddíl `audio: music + rhythm` (mapa v `d
 - **Kontroly:** `node tests/tools/hudbacheck.js cN` (rychlá, pravidla v `hudba-pravidla.js`: vlastní styl s mixem, žádný prázdný takt, jedinečný úvodní motiv mezi všemi skladbami, pestrost ≥ 12 různých taktů, songKit s vlastní odpovědí a bossem; volá ji i `chapcheck.js`) a `node tests/tools/skladby.js cN` (po taktech, řádek **VERDIKT**: propady 0, klid −2 až −6 dB, boss +3 až +5,5 dB). Kapitola je hotová, až obě projdou.
 - Úvodní motiv nesmí kopírovat jinou skladbu (10f: Zima = Hřbitov, Soutěska = Srdce hory, Řeka ≈ Bažina, Přístav ≈ Pevnost – přepsané).
 
+## Banger (10h) – všechny skladby, uživatel schválil podle poslechu
+- **Každá skladba je „bang“** (`isBang(S)`, vypnout jde jen `bang:false` – nedělat). Engine přidá sám: pumpování basy a padu při každém kopáku (`pumpAt`, uzel `M.pump`), virblový vír před sekcí se stejnou nebo vyšší energií + riser jen před vyšší, crash na první době nové sekce od E2, 16. pulzní arpeggio od E2, k melodii pulzní vrstvu `p25`, ozvěnu `p12` a oktávový švih.
+- **Pulzní vlny**: `tone('p12'|'p25', …)` = NES pulz 12,5 / 25 % (`pulseWave`). Na ostrý chiptune zvuk používej je, ne `square`.
+- **Kit stylu** = `STYLES.x.bang=bangKit({kick:Hz, snare:Hz, hat:Hz, push:krok, bass:{calm,run,full}, voice(f,t,d,acc,E), extra(x)})`: táhlá basa (osminy v běhu, 16. od E2), kopák do čtvrtin od E2, virbl s tleskem, 16. hi-haty. `voice` = vlastní zvuk basy stylu (zachovat hlasitost původní basy, mix STYLE_ROLE se na ni měřil), `extra` = vlastní perkuse stylu (zvon, darbuka, kovadlina…).
+- **Hlasitost**: hustší aranžmá je o ~4 dB hlasitější → `BANG_TRIM[styl]` tak, aby běh v `zvuk.js` byl −31 dB (±1). Bossy pak `skladby.js` (VERDIKT) a případně `SONGS.x.bossDb`.
+- **Gradace**: bang skladby mají `M.int` 1 od 10 s a 2 od 60 s (dřív 35/110 s). **Tempo neměnit** – spawny, bouře a další herní události jsou navázané na takty.
+- **Hi-haty** dřív nebyly na spektrogramu vůbec vidět (vršky −18 dB pod kopákem) – v kitu jsou o ~8 dB silnější; neubírat.
+
+## Menu = vlastní skladba (10h)
+- `SONGS.menu` je `free:true` (hraje vlastní energii sekcí, `M.int` v menu = 2), styl `title` (varhanní akordy na dobách „a“, pulzní melodie se sawtooth hranou, zvon), D harmonická moll, 144 BPM.
+- Psaná přesně: `lead` má **64 šestnáctin** (engine ho hraje jak je napsaný, bez automatických variací), sekce smí mít vlastní basový riff `bass[64]` (půltóny od kořene akordu) a protimelodii `cm[64]` (stupně stupnice, role arp).
+- Stavba: intro → háček A/A2 → B → **drop D** (e3, protimelodie) → **breakdown K** (e0) → **build R** (e1, ostinato do riseru) → D → A2; `keys` posouvá smyčku o tón nahoru a zpět.
+- „Ne jako AI“: háček je rytmický motiv s otázkou a odpovědí (takt 1 stoupá, takt 2 odpovídá níž, takt 3 opakuje výš, takt 4 vede citlivým tónem C# zpět), basa je složený cválající riff, ne generický vzorec, a každá sekce má jinou roli. Při úpravách to tak drž.
+
 ## Kontrola po změně zvuku (rychlá, ne celý audit)
 - `node tests/tools/zvuk.js <skladby>`: běh všech stylů kolem −31 dB (±1,5), boss o 3–5 dB výš, špička pod −3 dB, žádné `musicErr`.
 - `node tests/tools/ulthold.js` u změn časování ultimátek.
