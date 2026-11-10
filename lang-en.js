@@ -1177,6 +1177,7 @@ window.KRYPTA_EN={
 "</h3><small>Úroveň ":"</h3><small>Level ",
 "</small></div><button class=\"btn sm\" id=\"dailyGo\">Hrát</button></div>":"</small></div><button class=\"btn sm\" id=\"dailyGo\">Play</button></div>",
 "</small><small>Stejný běh pro všechny · žebříček Dnes":"</small><small>Same run for everyone · Today leaderboard",
+"</small><small class=\"kh\">Stejný běh pro všechny · žebříček Dnes":"</small><small class=\"kh\">Same run for everyone · Today leaderboard",
 "</span></div><small>titul <b>":"</span></div><small>title <b>",
 "</span></h3><small>Volných předmětů: ":"</span></h3><small>Free items: ",
 "</span><span class=\"mt\">+ šance na předmět</span></div>":"</span><span class=\"mt\">+ chance of an item</span></div>",
