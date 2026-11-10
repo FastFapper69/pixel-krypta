@@ -288,3 +288,10 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 10m – horní lišta menu bez rámečků (2026-11-10)
 - Přání uživatele: `bartApply` pro druhy `ico` a `cur` rám nekreslí, ikony 44 px (2× sprite), měny písmem Jersey 10.
+
+## 10n – nová grafika v celé hře (2026-11-10)
+- Písmo: všechny velikosti v `krypta.css` převedené na tři (Jersey 10/20 px, Jersey 15/30 px, Jersey 20/40 px), pravidlo `#app *` ruší tučné řezy, prostrkání a verzálky. Logo zůstává.
+- Staré prvky kreslí stavebnice automaticky: `kAuto()` (tabulka `KA`: `.btn`, záložky, prapory `.sectabs`, cenovky, listy Průvodce) běží po změně stránky přes `MutationObserver` (`kaKick`, mimo stav `play`). HUD kreslí `hudPaint()` při vstupu do běhu.
+- Místnosti: `#kRoom` (zeď `crypt` s `data-wall`, živé pochodně) za všemi obrazovkami menu; scény `astro` (Souhvězdí), `forge2` (Kovárna), `niche` + `.kslot` (Vybavení), `.k-hall` (Síň slávy), `.k-camp` (co-op) – podle návrhů z Gemini, které uživatel poslal.
+- Méně textu: třída `kh` = vysvětlivka schovaná pod otazník (`kHelpSync`, `kHelpOpen`, `#kHelp`); Obchod: `chBadges` (záruka, denní limit), procenta bez opakovaného znaku.
+- `KIT.toCanvas` přes ImageData, kresby v původní velikosti s `image-rendering:pixelated` (zvětšování v obrázku bylo pomalé).

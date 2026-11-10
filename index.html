@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Pixel Krypta</title>
 <!-- 09y: fonts are served from the game itself (no Google Fonts → no visitor IP sent to Google; licences in licenses/) -->
-<link rel="stylesheet" href="krypta.css?v=2026-11-10m">
+<link rel="stylesheet" href="krypta.css?v=2026-11-10n">
 </head>
 <body>
 <div id="splash"><img src="icon-192.png" alt=""><b>PIXEL KRYPTA</b><i></i></div>
@@ -41,6 +41,7 @@
     <div id="buildbar"></div>
   </div>
 
+  <div id="kRoom" data-k="crypt" data-wall="1" aria-hidden="true" hidden><i class="k-flame"></i><i class="k-flame"></i></div>
   <section class="scr" id="scr-menu">
     <div id="mScene" data-k="crypt" aria-hidden="true"><i class="k-flame"></i><i class="k-flame"></i></div><div id="mTop"><div class="mats" id="mCur"></div><button class="btn alt ic" id="mBoard" aria-label="Síň slávy"><img alt="" id="icBoard"></button><button class="btn alt ic" id="mNews" aria-label="Novinky"><img alt="" id="icNews"></button><button class="btn alt ic" id="mGuide" aria-label="Průvodce"><img alt="" id="icGuide"></button><button class="btn alt ic" id="mSet" aria-label="Nastavení"><img alt="" id="icSet"></button></div>
     <div class="wrap">
@@ -95,7 +96,7 @@
     <div class="wrap">
       <div class="head"><h2>Kovárna</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="shopMats"></div></div>
       <div class="tabs sectabs" data-sec="forge"><button data-to="forge">Kování</button><button data-to="shop">Vylepšení</button></div>
-      <p class="hint">Strom trvalých vylepšení. Klíčové uzly přidávají nové schopnosti a každá kapitola otevře další patro.</p>
+      <p class="hint kh">Strom trvalých vylepšení. Klíčové uzly přidávají nové schopnosti a každá kapitola otevře další patro.</p>
       <div class="stack" id="shopList"></div>
     </div>
   </section>
@@ -124,7 +125,7 @@
     <div class="wrap">
       <div class="head"><h2>S kamarádem</h2><button class="btn alt sm" id="coBack">Zpět</button></div>
       <div class="stack" id="coStartBox">
-        <p class="hint">Hrajete spolu na stejné mapě, každý na svém telefonu. Mezi vámi je rytmické pouto, které kosí nepřátele. Kdo padne, toho kamarád oživí.</p>
+        <p class="hint kh">Hrajete spolu na stejné mapě, každý na svém telefonu. Mezi vámi je rytmické pouto, které kosí nepřátele. Kdo padne, toho kamarád oživí.</p>
         <button class="btn" id="coHost">Založit hru</button>
         <div class="co-join"><input id="coCode" maxlength="4" placeholder="0000" inputmode="numeric" pattern="[0-9]*" autocomplete="off" spellcheck="false"><button class="btn alt" id="coJoin">Připojit</button></div>
         <p class="co-err" id="coErr"></p>
@@ -152,9 +153,8 @@
       <div class="head"><h2>Vybavení</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="hMats"></div></div>
       <div class="tabs sectabs" data-sec="gear"><button data-to="hero">Hrdina</button><button data-to="towers">Věže</button><button data-to="pets">Mazlíčci</button></div>
       <div class="hstrip" id="hTabs"></div>
-      <div class="card hcard" id="hCard"></div>
-      <div class="sec">Výbava</div>
       <div class="slots" id="hSlots"></div>
+      <div class="card hcard" id="hCard"></div>
       <div class="sec">Inventář · <span id="invCount"></span></div>
       <div class="cats" id="invCats"></div>
       <div class="inv" id="invGrid"></div>
@@ -181,7 +181,7 @@
       <div class="tabs sectabs" data-sec="gear"><button data-to="hero">Hrdina</button><button data-to="towers">Věže</button><button data-to="pets">Mazlíčci</button></div>
       <div class="sec">Mazlíček do běhu</div>
       <div id="ptSlot" class="ptslot"></div>
-      <p class="hint" id="ptHint"></p>
+      <p class="hint kh" id="ptHint"></p>
       <div class="sec">Tvoji mazlíčci · <span id="ptCount"></span></div>
       <div class="inv" id="ptGrid"></div>
       <div class="tgrid" id="ptLocked"></div>
@@ -191,7 +191,7 @@
   <section class="scr room market" id="scr-chests" hidden>
     <div class="wrap">
       <div class="head"><h2>Obchod</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="cMats"></div></div>
-      <p class="hint">Truhly jsou jediný stálý zdroj výbavy a jediný zdroj legendárních předmětů. Kampaň dá předmět jen za první výhru mapy na každé Noční můře a kusy setů z finále.</p>
+      <p class="hint kh">Truhly jsou jediný stálý zdroj výbavy a jediný zdroj legendárních předmětů. Kampaň dá předmět jen za první výhru mapy na každé Noční můře a kusy setů z finále.</p>
       <div class="stack" id="chestList"></div>
     </div>
     <div class="popwrap" id="chestPop" hidden></div>
@@ -202,7 +202,8 @@
       <div class="head"><h2>Kovárna</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats" id="fMats"></div></div>
       <div class="tabs sectabs" data-sec="forge"><button data-to="forge">Kování</button><button data-to="shop">Vylepšení</button></div>
       <div class="sec">Sloučení</div>
-      <p class="hint">Sliješ <b>3 stejné kusy</b> v jeden lepší: předměty a karty věží o <b>raritu výš</b>, mazlíčky o <b>hvězdu víc</b>. Ťukej do rytmu, Perfektní ťuknutí dají lepší hodnoty.</p>
+      <p class="hint kh">Sliješ <b>3 stejné kusy</b> v jeden lepší: předměty a karty věží o <b>raritu výš</b>, mazlíčky o <b>hvězdu víc</b>. Ťukej do rytmu, Perfektní ťuknutí dají lepší hodnoty.</p>
+      <div class="k-forge" data-k="forge2" aria-hidden="true"></div>
       <div class="stack" id="forgeList"></div>
     </div>
     <div class="popwrap" id="forgePop" hidden></div>
@@ -220,9 +221,9 @@
     <div class="wrap">
       <div class="head"><h2>Souhvězdí</h2><button class="btn alt sm" data-back>Zpět</button><div class="mats skypts" id="skyPts"></div></div>
       <div class="skytabs" id="skyTabs"></div>
-      <div class="skyframe"><canvas id="skyCv" width="128" height="128"></canvas></div>
+      <div class="skyframe"><canvas id="skyCv" width="128" height="128"></canvas><i class="k-astro" data-k="astro"></i></div>
       <div id="skyInfo"></div>
-      <div id="skySrc"></div>
+      <div id="skySrc" class="kh"></div>
     </div>
     <div class="popwrap" id="skyPop" hidden></div>
   </section>
@@ -230,7 +231,7 @@
     <div class="wrap">
       <div class="head"><h2>Síň slávy</h2><button class="btn alt sm" data-back>Zpět</button></div>
       <div class="tabs sectabs" data-sec="hall"><button data-to="board">Žebříček</button><button data-to="master">Mistrovství</button><button data-to="codex">Sbírka</button></div>
-      <p class="hint">Dlouhodobé cíle. Za každý dostaneš odměnu a titul, který se ukáže u tvé přezdívky v žebříčku. Splněno <b id="maCount"></b></p>
+      <p class="hint kh">Dlouhodobé cíle. Za každý dostaneš odměnu a titul, který se ukáže u tvé přezdívky v žebříčku. Splněno <b id="maCount"></b></p>
       <div id="maTitle" class="matitle"></div>
       <div class="stack" id="maList"></div>
     </div>
@@ -325,9 +326,10 @@ window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_pub
 <script>/* 09z7: English texts are downloaded only for English players (same language rule as LANG in game.js) */
 (function(){var l=null;try{l=localStorage.getItem('pixel-krypta-lang');}catch(e){}
 if(l!=='cs'&&l!=='en')l=/^(cs|sk)\b/i.test(String((navigator.languages&&navigator.languages[0])||navigator.language||''))?'cs':'en';
-window.KRYPTA_LANG=l;if(l==='en')document.write('<script src="lang-en.js?v=2026-11-10m"><\/script>');})();
+window.KRYPTA_LANG=l;if(l==='en')document.write('<script src="lang-en.js?v=2026-11-10n"><\/script>');})();
 </script>
-<script src="game.js?v=2026-11-10m"></script>
+<script src="game.js?v=2026-11-10n"></script>
 
+<div id="kHelp" hidden><div class="khcard" data-k="slab" data-m="parch"><div id="kHelpTxt"></div></div></div>
 </body>
 </html>
