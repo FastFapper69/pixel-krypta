@@ -1136,3 +1136,5 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:.9em}
 #biLine i{visibility:hidden;font-style:normal}
 #biLine.fin{border-color:#2a0806;box-shadow:inset 0 3px 0 var(--acc),0 0 0 2px #8a1a1a,0 4px 0 #0008}
 #biLine[hidden]{display:none}
+/* 10d: rotating rays get their own GPU layer – they used to repaint the whole 520px conic gradient every frame (menu dropped ~54 → 41 fps on a throttled phone CPU) */
+.fc-rays{will-change:transform;contain:strict;backface-visibility:hidden}

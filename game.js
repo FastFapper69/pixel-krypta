@@ -281,7 +281,7 @@ const HEROES={
  builder:{name:_t('Stavitel'),desc:_t('Mistr věží: staví je za <b>60 % ceny</b> a <b>začíná s jednou věží</b>.'),start:'axe',hp:15,armor:0,dmg:0,spd:0,cost:250,builder:true,pal:{},rows:[
   '..yyyy','.yyyyy','yyyyyy','.fffff','.fpfff','..ffff','.ooooo','oouuuu','ouuuuu','.uuuuu','..u..u','..n..n']},
  // 08c: heroes built around a slot: one more weapon / a second pet; their talents strengthen exactly that
- warlord:{name:_t('Zbrojmistr'),desc:_t('Unese <b>6 zbraní místo 5</b>, takže si poskládá větší arzenál.'),start:'halberd',hp:10,armor:0,dmg:0,spd:0,cost:1000,need:'trun',pal:{s:'#a8b0c0',a:'#8a2a2a',c:'#f6c744',S:'#5a6070'},rows:[
+ warlord:{name:_t('Zbrojmistr'),sname:LANG==='en'?'Armsmaster':undefined,desc:_t('Unese <b>6 zbraní místo 5</b>, takže si poskládá větší arzenál.'),start:'halberd',hp:10,armor:0,dmg:0,spd:0,cost:1000,need:'trun',pal:{s:'#a8b0c0',a:'#8a2a2a',c:'#f6c744',S:'#5a6070'},rows:[
   's....s','ss..ss','ssssss','.sffff','.sfpff','..ffff','.aaaaa','aacaaa','acaaSa','.aaaaa','..a..a','..n..n']},
  tamer:{name:_t('Krotitel'),desc:_t('Bere do běhu <b>dva mazlíčky</b> najednou.'),start:'whip',hp:15,armor:0,dmg:0,spd:.04,cost:1000,need:'trun',pal:{g:'#5c8a3c',G:'#3a5a24',n:'#8a5a32',b:'#f6c744',d:'#3a2a1a'},rows:[
   '..gggg','.ggggg','gGgggg','.fffff','.fpfff','..ffff','.nnnnn','nnbnnn','.nnnnn','.nnnnn','..n..n','..d..d']},
@@ -2484,9 +2484,11 @@ function musicGraph(c,out){const G=()=>c.createGain(),F=(type,f,q)=>{const n=c.c
   for(let i=0;i<1024;i++){const x=i/511.5-1;cv[i]=Math.tanh(x*4)/Math.tanh(4);}sh.curve=cv;hg.gain.value=.8;
   filter.connect(lo);lo.connect(sh);sh.connect(hh);hh.connect(hg);hg.connect(lvl);
   // reverb: generated stereo room (no files), fed by the role sends, returns into the music bus so volume and ducking apply
-  const rev=c.createConvolver(),rr=G(),len=Math.floor(c.sampleRate*1.7),ir=c.createBuffer(2,len,c.sampleRate);
-  for(let ch=0;ch<2;ch++){const d=ir.getChannelData(ch);for(let i=0;i<len;i++){const t=i/c.sampleRate;d[i]=t<.012?0:(Math.random()*2-1)*Math.pow(1-i/len,2.2)*Math.exp(-t*2.2);}}
-  rev.buffer=ir;const rlp=F('lowpass',4200);rev.connect(rlp);rlp.connect(rr);rr.connect(bus);rr.gain.value=.2;
+  const rev=c.createConvolver(),rr=G();
+  // 10d: impulse built cheaply (decay by multiplication, 1.4 s) and, live, one frame later – on a slow phone the old loop stalled the first tap ~150 ms
+  const mkIR=()=>{const sr=c.sampleRate,len=Math.floor(sr*1.4),ir=c.createBuffer(2,len,sr),pre=Math.floor(sr*.012),k=Math.exp(-2.6/sr);
+    for(let ch=0;ch<2;ch++){const d=ir.getChannelData(ch);let e=1;for(let i=pre;i<len;i++){e*=k;const f=1-i/len;d[i]=(Math.random()*2-1)*e*f*f;}}rev.buffer=ir;};
+  if(c instanceof OfflineAudioContext)mkIR();else setTimeout(mkIR,60);const rlp=F('lowpass',4200);rev.connect(rlp);rlp.connect(rr);rr.connect(bus);rr.gain.value=.2;
   const pan=v=>{if(c.createStereoPanner){const n=c.createStereoPanner();n.pan.value=v;return n;}return G();};
   const role=(p,send)=>{const g=G(),pn=pan(p);g.connect(pn);pn.connect(bus);if(send){const s=G();s.gain.value=send;g.connect(s);s.connect(rev);}return g;};
   const R={drums:role(0,.08),bass:role(0,0),arp:role(-.32,.35),lead:role(.1,.3),fx:role(.22,.2)};
@@ -5498,7 +5500,10 @@ function heroStrip(box,ids,cur,label,pick){box.innerHTML='';let on=null;
   for(const id of ids){const own=heroOwned(id),h=HEROES[id],b=document.createElement('button');b.className='co-pick'+(id===cur&&own?' on':'')+(own?'':' lock');b.dataset.h=id;
     b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><span>'+(h.sname||h.name)+'</span><small>'+label(id,own)+'</small>'+(own&&isFresh('hero','h'+id)?'<i class="nw"></i>':'');b.onclick=()=>pick(id,own);box.appendChild(b);if(id===cur)on=b;}
   // a long name shrinks to fit its tile instead of being cut off
-  requestAnimationFrame(()=>{for(const sp of box.querySelectorAll('.co-pick>span')){let f=12;while(sp.scrollWidth>sp.clientWidth+1&&f>9){f-=.5;sp.style.fontSize=f+'px';}}});
+  requestAnimationFrame(()=>{const sps=[...box.querySelectorAll('.co-pick>span')],m=sps.map(sp=>[sp.scrollWidth,sp.clientWidth]); // 10d: měř vše naráz, pak jen zapiš
+    sps.forEach((sp,i)=>{const [sw,cw]=m[i];if(sw>cw+1)sp.style.fontSize=Math.max(9,Math.floor(12*cw/sw*2)/2)+'px';});
+    for(let pass=0;pass<4;pass++){const over=sps.filter(sp=>sp.scrollWidth>sp.clientWidth+1&&parseFloat(sp.style.fontSize||12)>9);if(!over.length)break; // dorovnání: čtení všech, pak zápis
+      over.forEach(sp=>sp.style.fontSize=(parseFloat(sp.style.fontSize||12)-.5)+'px');}});
   if(on)requestAnimationFrame(()=>{const L=on.offsetLeft-16,R2=on.offsetLeft+on.offsetWidth-box.clientWidth+16;if(box.scrollLeft>L)box.scrollLeft=L;else if(box.scrollLeft<R2)box.scrollLeft=R2;});}
 // set chest from a finale win: the piece is drawn only when the player opens it (on the result screen or in Prep)
 function openSetChest(sid,pop,done){const L=save.setCh||[],i=L.findIndex(c=>!sid||c.sid===sid);if(i<0)return;const c=L.splice(i,1)[0];
@@ -5676,7 +5681,10 @@ function bartApply(b){
 function bartFit(){ // popisky ve dvojicích tlačítek: stejná velikost písma v celé mřížce, zmenší se jen když se nevejdou
  const bs=[...document.querySelectorAll('#mStack .row2 .btn')].filter(b=>!b.hidden&&b.offsetWidth);if(!bs.length)return;
  let fs=18;const need=b=>{const l=b.querySelector('.lbl'),i=b.querySelector('.bi');return (l?l.scrollWidth:0)+(i?i.offsetWidth+8:0)>b.clientWidth-30;};
- bs.forEach(b=>b.style.fontSize=fs+'px');while(fs>12&&bs.some(need)){fs-=.5;bs.forEach(b=>b.style.fontSize=fs+'px');}}
+ bs.forEach(b=>b.style.fontSize=fs+'px');if(!bs.some(need))return;
+ // 10d: one measurement → the needed size directly (was a loop of writes and layout reads per 0.5px)
+ let r=1;for(const b of bs){const l=b.querySelector('.lbl'),i=b.querySelector('.bi'),lw=l?l.scrollWidth:0,iw=i?i.offsetWidth+8:0,room=b.clientWidth-30-iw;if(lw>room&&lw>0)r=Math.min(r,room/lw);}
+ fs=Math.max(12,Math.floor(fs*r*2)/2);bs.forEach(b=>b.style.fontSize=fs+'px');while(fs>12&&bs.some(need)){fs-=.5;bs.forEach(b=>b.style.fontSize=fs+'px');}}
 function bartWrap(b){for(const n of [...b.childNodes])if(n.nodeType===3&&n.textContent.trim()){const s=document.createElement('span');s.className='lbl';n.replaceWith(s);s.appendChild(n);}} // holý text by plátno překrylo
 function bartAll(){bartFit();for(const id in BART_KIND){const b=document.getElementById(id);if(b){b.classList.add('art','art-'+BART_KIND[id]);if(id!=='mCur')bartWrap(b);bartApply(b);}}}
 function bartInit(){bartAll();
@@ -8237,12 +8245,16 @@ function newsIcon(ic){const [k,a,b]=String(ic).split(':');
     if(k==='tower'&&SPR.tower[a])return dataUrl(SPR.tower[a]);if(k==='map'&&MAPS[a])return thumbUrl(a);if(k==='item'&&SLOTS[a])return dataUrl(itemSpr(a,+b||1));
     if(k==='base'&&BASES[a])return dataUrl(itemSpr(BASES[a].s,3,null,a));if(k==='leg'&&LEGS[a])return dataUrl(itemSpr(LEGS[a].slot,4));if(k==='set'&&SETS[a])return dataUrl(itemSpr('helm',3,a));}catch(e){}
   return dataUrl(SPR.icon[ic]||(SPR.pet&&SPR.pet[ic])||SPR.icon.skull);}
-function openNews(all){const list=all?NEWS:newsUnseen().slice(0,3);if(!list.length)return;const pop=$('#newsPop');
-  pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font-size:28px">Novinky</h2><div class="nl">')+list.map(n=>'<div><h3>'+n.t+'</h3><small>'+n.d+'</small>'+
+function openNews(all){const full=all?NEWS:newsUnseen().slice(0,3);if(!full.length)return;const pop=$('#newsPop');
+  // 10d: the whole history (88 versions) took ~100 ms of layout on a slow phone – show 6, the rest follows when you scroll near the end
+  const FIRST=6,list=full.slice(0,FIRST),entry=n=>'<div><h3>'+n.t+'</h3><small>'+n.d+'</small>'+
       // highlights big with an icon, the small stuff as a quiet list under them
       (n.hl||[]).map(h=>'<div class="nhl"><img alt="" class="'+(String(h.ic).startsWith('map:')?'map':'')+'" src="'+newsIcon(h.ic)+'"><div><b>'+h.t+'</b><span>'+h.d+'</span></div></div>').join('')+
-      ((n.items||[]).length?(n.hl?'<p class="nsm">'+_t('Drobnosti')+'</p>':'')+'<ul'+(n.hl?' class="small"':'')+'>'+n.items.map(i=>'<li>'+i+'</li>').join('')+'</ul>':'')+'</div>').join('')+
+      ((n.items||[]).length?(n.hl?'<p class="nsm">'+_t('Drobnosti')+'</p>':'')+'<ul'+(n.hl?' class="small"':'')+'>'+n.items.map(i=>'<li>'+i+'</li>').join('')+'</ul>':'')+'</div>';
+  pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font-size:28px">Novinky</h2><div class="nl">')+list.map(entry).join('')+
     _t('</div><button class="btn" id="newsOk">Jdu hrát!</button></div>');
+  if(full.length>FIRST){const nl=pop.querySelector('.nl');let at=FIRST;const more=()=>{if(at>=full.length||nl.scrollTop+nl.clientHeight<nl.scrollHeight-600)return;
+      nl.insertAdjacentHTML('beforeend',full.slice(at,at+10).map(entry).join(''));at+=10;};nl.addEventListener('scroll',more,{passive:true});}
   pop.hidden=false;$('#newsOk').onclick=()=>{pop.hidden=true;save.newsSeen=NEWS[0].v;persist();sfx('ui');refreshMenu();};}
 function newsBoot(){if(/[?&]hra=/.test(location.search))return;
   if(!save.newsSeen&&!(save.stats&&save.stats.runs)&&!save.coins){save.newsSeen=NEWS[0].v;persist();return;} // brand new player: nothing is "new"
