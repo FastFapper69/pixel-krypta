@@ -2468,7 +2468,7 @@ const STYLE_ROLE={grave:{bass:0,lead:19.3,arp:20,pad:9},desert:{bass:4.8,lead:21
 const MUSIC_LVL=1.9;                        // music level inside the mix
 const MASTER_PRE=.55;                       // music + effects into the master; the old soft-knee compressor took ~10 dB, this keeps the overall loudness                 // dB, measured so all chapters sit at the same loudness
 const STYLE_REV={grave:.22,desert:.16,forge:.1,frost:.28,sea:.15}; // reverb return per style
-const ENERGY_GAIN=[.82,.92,1,1.12];          // M.int 0 calm intro, 1 run, 2 late run, 3 boss (≈ -2.6 / -1.1 / 0 / +1.7 dB)
+const ENERGY_GAIN=[.82,.92,1,1.3];           // M.int 0 calm intro, 1 run, 2 late run, 3 boss (≈ -1.7 / -0.7 / 0 / +2.3 dB; 10b: boss was only +1–2 dB over the run)
 // master: gentle glue compressor (hard knee, so quiet parts keep their dynamics and the boss is really louder) + a safety limiter.
 // The old one had the default 30 dB soft knee and squashed everything above ~-29 dB, which flattened calm vs boss.
 function masterChain(c,out,old){const comp=c.createDynamicsCompressor();
@@ -2520,7 +2520,7 @@ const _=null;
 const SONGS={
  menu:{bpm:96,root:57,scale:'minor',style:'grave',keys:[0],form0:[],form:['A','B'],bossForm:['A'],sec:{
   A:{e:1,prog:[[0,'m'],[-4,'M'],[-2,'M'],[-5,'M']],lead:[4,_,2,_,0,_,2,4, 5,_,4,_,2,_,_,_, 4,_,2,_,0,_,-1,0, 2,_,_,_,_,_,_,_]},
-  B:{e:0,prog:[[-4,'M'],[-2,'M'],[0,'m'],[0,'m']],lead:[7,_,_,_,6,_,4,_, 5,_,_,_,4,_,_,_, 2,_,4,_,0,_,_,_, _,_,_,_,_,_,_,_]}}},
+  B:{e:0,prog:[[-4,'M'],[-2,'M'],[0,'m'],[0,'m']],lead:[7,_,_,_,6,_,4,_, 5,_,_,_,4,_,_,_, 2,_,4,_,0,_,_,_, _,_,_,_,4,_,2,_]}}},
  // graveyard: A harmonic minor, a slow spooky folk waltz feel – music box, chapel organ, upright bass, rim clicks, a bell
  hrbitov:{bpm:112,root:57,scale:'harm',style:'grave',keys:[0,0,2,-1],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','X','Y','X'],sec:{
   I:{e:0,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[7,_,_,_,4,_,_,_, 5,_,4,_,2,_,_,_, 4,_,_,_,2,_,_,_, 1,_,_,_,_,_,_,_]},
@@ -2531,7 +2531,7 @@ const SONGS={
   Y:{e:3,prog:[[5,'m'],[1,'M'],[2,'d'],[7,'M']],lead:[10,_,9,_,8,_,7,_, 8,_,7,_,6,_,5,_, 4,_,5,_,3,_,4,_, 6,_,_,_,1,_,_,_]}}},
  // desert: D hijaz (phrygian dominant) – tanpura drone, darbuka maqsum, oud plucks, a sliding snake-charmer reed
  poust:{bpm:124,root:50,scale:'hijaz',style:'desert',keys:[0,0,2,-2],form0:['I','A'],form:['A','B','A','C','B','B'],bossForm:['X','X','Y','X'],sec:{
-  I:{e:0,prog:[[0,'M'],[0,'M'],[1,'M'],[0,'M']],lead:[4,_,_,_,5,_,4,_, 2,_,_,_,1,_,0,_, _,_,_,_,_,_,_,_, 0,_,1,_,2,_,_,_]},
+  I:{e:0,prog:[[0,'M'],[0,'M'],[1,'M'],[0,'M']],lead:[4,_,_,_,5,_,4,_, 2,_,_,_,1,_,0,_, 1,_,_,_,3,_,1,_, 0,_,1,_,2,_,_,_]},
   A:{e:1,prog:[[0,'M'],[1,'M'],[-2,'m'],[0,'M']],lead:[0,1,2,_,4,_,2,1, 2,_,1,_,0,_,_,_, 6,_,5,4,5,_,4,_, 2,1,2,_,0,_,_,_]},
   B:{e:2,prog:[[3,'m'],[3,'m'],[1,'M'],[0,'M']],lead:[7,_,8,_,7,_,5,_, 6,_,5,_,4,_,_,_, 4,5,4,_,2,_,1,_, 0,_,_,_,_,_,_,_]},
   C:{e:0,prog:[[0,'M'],[0,'M'],[-2,'m'],[0,'M']],lead:[_,_,_,_,7,6,5,4, 5,_,_,_,_,_,_,_, _,_,_,_,4,5,4,2, 1,_,_,_,_,_,_,_]},
@@ -2547,7 +2547,7 @@ const SONGS={
   Y:{e:3,prog:[[5,'m'],[3,'M'],[1,'M'],[4,'M']],lead:[9,_,8,_,7,_,6,_, 7,_,_,_,4,_,_,_, 5,_,4,_,3,_,2,_, 1,_,_,_,_,_,_,_]}}},
  // ossuary: D minor at 92 – a low chapel organ and a slow heartbeat in the dark, then a choir of bones for the warden
  kostnice:{bpm:92,root:50,scale:'minor',style:'grave',keys:[0,0,3,-2],form0:['I','A'],form:['A','B','C','A','B','C'],bossForm:['X','Y','X','Y'],sec:{
-  I:{e:0,prog:[[0,'m'],[0,'m'],[-2,'M'],[-2,'M']],lead:[_,_,_,_,_,_,_,_, 4,_,_,_,3,_,_,_, _,_,_,_,_,_,_,_, 2,_,_,_,1,_,_,_]},
+  I:{e:0,prog:[[0,'m'],[0,'m'],[-2,'M'],[-2,'M']],lead:[_,_,_,_,0,_,2,_, 4,_,_,_,3,_,_,_, _,_,_,_,3,_,_,_, 2,_,_,_,1,_,_,_]},
   A:{e:1,prog:[[0,'m'],[-2,'M'],[-4,'M'],[-3,'m']],lead:[0,_,_,_,2,_,3,_, 4,_,_,_,3,_,2,_, 0,_,_,_,-1,_,0,_, 2,_,_,_,_,_,_,_]},
   B:{e:2,prog:[[3,'M'],[-2,'M'],[0,'m'],[4,'m']],lead:[7,_,_,_,6,_,4,_, 5,_,_,_,4,_,3,_, 4,_,_,_,2,_,3,_, 4,_,_,_,_,_,_,_]},
   C:{e:1,prog:[[0,'m'],[1,'d'],[4,'m'],[0,'m']],lead:[4,_,3,_,4,_,7,_, 6,_,_,_,4,_,_,_, 3,_,2,_,3,_,6,_, 4,_,_,_,_,_,_,_]},
@@ -2574,7 +2574,7 @@ const SONGS={
   I:{e:0,prog:[[0,'M'],[0,'M'],[1,'M'],[0,'M']],lead:[7,_,_,_,_,_,6,5, 4,_,_,_,_,_,_,_, 5,_,_,_,4,_,2,_, 1,_,_,_,_,_,_,_]},
   A:{e:1,prog:[[0,'M'],[1,'M'],[0,'M'],[-2,'m']],lead:[0,_,1,_,2,_,4,_, 2,_,1,_,0,_,_,_, 4,_,5,_,6,_,5,_, 4,_,2,_,1,_,_,_]},
   B:{e:2,prog:[[-2,'m'],[1,'M'],[3,'m'],[0,'M']],lead:[7,_,7,_,8,_,7,_, 5,_,4,_,5,_,_,_, 4,_,5,_,4,_,2,_, 1,_,_,_,0,_,_,_]},
-  C:{e:0,prog:[[0,'M'],[0,'M'],[1,'M'],[0,'M']],lead:[_,_,_,_,_,_,_,_, 7,6,5,4,5,_,_,_, _,_,_,_,_,_,_,_, 4,5,4,2,1,_,_,_]},
+  C:{e:0,prog:[[0,'M'],[0,'M'],[1,'M'],[0,'M']],lead:[0,_,_,_,4,_,_,_, 7,6,5,4,5,_,_,_, 5,_,_,_,3,_,_,_, 4,5,4,2,1,_,_,_]},
   X:{e:3,prog:[[0,'M'],[1,'M'],[-2,'m'],[0,'M']],lead:[0,1,2,1,0,_,4,_, 5,4,5,6,7,_,_,_, 8,7,6,5,4,_,2,_, 1,2,1,_,0,_,_,_]},
   Y:{e:3,prog:[[3,'m'],[1,'M'],[3,'m'],[1,'M']],lead:[7,_,8,_,9,_,8,_, 7,_,5,_,4,_,_,_, 5,_,4,_,2,_,1,_, 0,_,_,_,_,_,_,_]}}},
  // caravan trail: G hijaz at 112 – a swaying camel walk, oud and handclaps, a merchant's song
@@ -2603,14 +2603,14 @@ const SONGS={
   Y:{e:3,prog:[[-2,'m'],[1,'M'],[-2,'m'],[1,'M']],lead:[11,_,10,_,9,_,8,_, 9,_,8,_,7,_,_,_, 8,_,7,_,5,_,4,_, 2,_,_,_,1,_,_,_]}}},
  // mines: E minor at 136 – a forge: four-on-the-floor, anvil hammer on the offbeats, steam, pumping saw bass, power chords
  doly:{bpm:136,root:52,scale:'minor',style:'forge',keys:[0,0,2,-2],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','X','Y','X'],sec:{
-  I:{e:0,prog:[[0,'p'],[0,'p'],[0,'p'],[-2,'p']],lead:[_,_,_,_,_,_,_,_, 0,_,_,_,_,_,_,_, _,_,_,_,_,_,_,_, 4,_,_,_,3,_,1,_]},
+  I:{e:0,prog:[[0,'p'],[0,'p'],[0,'p'],[-2,'p']],lead:[_,_,_,_,4,_,3,_, 0,_,_,_,_,_,_,_, 2,_,_,_,_,_,_,_, 4,_,_,_,3,_,1,_]},
   A:{e:1,prog:[[0,'p'],[0,'p'],[-4,'p'],[-2,'p']],lead:[0,_,0,_,3,_,4,_, 5,4,3,_,4,_,_,_, 0,_,0,_,3,_,4,_, 6,5,4,_,3,_,1,_]},
   B:{e:2,prog:[[-4,'p'],[-2,'p'],[0,'p'],[0,'p']],lead:[7,_,_,6,7,_,9,_, 8,_,7,_,6,_,4,_, 7,_,_,6,7,_,4,_, 3,_,1,_,0,_,_,_]},
   C:{e:0,prog:[[0,'p'],[3,'p'],[0,'p'],[1,'p']],lead:[0,_,_,_,_,_,_,_, 3,_,_,_,_,_,_,_, 0,_,_,_,_,_,_,_, 1,_,_,_,_,_,_,_]},
   X:{e:3,prog:[[0,'p'],[1,'p'],[0,'p'],[-2,'p']],lead:[7,_,7,_,6,7,_,4, 5,_,4,_,3,_,1,_, 7,_,7,_,9,8,_,7, 6,_,4,_,3,_,1,_]},
   Y:{e:3,prog:[[-4,'p'],[-2,'p'],[1,'p'],[0,'p']],lead:[9,_,8,_,7,_,6,_, 7,_,_,_,4,_,_,_, 5,_,4,_,3,_,1,_, 0,_,_,_,_,_,_,_]}}},
  kovarna:{bpm:128,root:50,scale:'minor',style:'forge',keys:[0,0,-2,3],form0:['I','A'],form:['A','B','A','C','B','A'],bossForm:['X','Y','X','X'],sec:{
-  I:{e:0,prog:[[0,'p'],[0,'p'],[-2,'p'],[-2,'p']],lead:[0,_,_,_,0,_,_,_, _,_,_,_,_,_,_,_, 3,_,_,_,3,_,_,_, 1,_,_,_,_,_,_,_]},
+  I:{e:0,prog:[[0,'p'],[0,'p'],[-2,'p'],[-2,'p']],lead:[0,_,_,_,0,_,_,_, _,_,_,_,1,_,2,_, 3,_,_,_,3,_,_,_, 1,_,_,_,_,_,_,_]},
   A:{e:1,prog:[[0,'p'],[-2,'p'],[-4,'p'],[-2,'p']],lead:[0,_,3,_,4,_,3,_, 0,_,_,_,_,_,_,_, 0,_,3,_,4,_,6,_, 5,_,4,_,3,_,_,_]},
   B:{e:2,prog:[[-4,'p'],[-5,'p'],[-2,'p'],[0,'p']],lead:[7,_,7,_,6,_,4,_, 3,_,4,_,6,_,_,_, 7,_,7,_,9,_,7,_, 6,_,4,_,3,_,1,_]},
   C:{e:0,prog:[[0,'p'],[0,'p'],[3,'p'],[1,'p']],lead:[4,_,_,_,_,_,_,_, 3,_,_,_,_,_,_,_, 0,_,_,_,_,_,_,_, -1,_,_,_,_,_,_,_]},
@@ -2624,7 +2624,7 @@ const SONGS={
   X:{e:3,prog:[[0,'p'],[1,'p'],[-1,'p'],[0,'p']],lead:[7,_,7,6,4,_,7,_, 8,_,7,_,6,_,4,_, 7,_,7,6,4,_,2,_, 1,_,0,_,-1,_,_,_]},
   Y:{e:3,prog:[[-3,'p'],[-1,'p'],[1,'p'],[0,'p']],lead:[4,_,6,_,7,_,8,_, 7,_,_,_,4,_,_,_, 6,_,4,_,2,_,1,_, 0,_,_,_,_,_,_,_]}}},
  krystaly:{bpm:120,root:49,scale:'minor',style:'forge',keys:[0,0,3,-2],form0:['I','A'],form:['A','B','A','C','B','B'],bossForm:['X','X','Y','X'],sec:{
-  I:{e:0,prog:[[0,'p'],[-4,'p'],[0,'p'],[-4,'p']],lead:[7,_,_,_,_,_,4,_, _,_,_,_,_,_,_,_, 6,_,_,_,_,_,3,_, _,_,_,_,_,_,_,_]},
+  I:{e:0,prog:[[0,'p'],[-4,'p'],[0,'p'],[-4,'p']],lead:[7,_,_,_,_,_,4,_, _,_,_,_,5,_,_,_, 6,_,_,_,_,_,3,_, _,_,_,_,2,_,_,_]},
   A:{e:1,prog:[[0,'p'],[-4,'p'],[-2,'p'],[-5,'p']],lead:[4,_,7,_,6,_,4,_, 3,_,_,_,4,_,_,_, 4,_,7,_,9,_,7,_, 6,_,_,_,_,_,_,_]},
   B:{e:2,prog:[[-4,'p'],[-2,'p'],[0,'p'],[1,'p']],lead:[9,_,_,7,9,_,11,_, 9,_,7,_,6,_,_,_, 7,_,_,6,7,_,9,_, 7,_,6,_,4,_,_,_]},
   C:{e:0,prog:[[0,'p'],[0,'p'],[-4,'p'],[-2,'p']],lead:[11,_,_,_,9,_,_,_, 7,_,_,_,6,_,_,_, 4,_,_,_,3,_,_,_, 4,_,_,_,_,_,_,_]},
@@ -2806,11 +2806,14 @@ function playStep(s,t){
   to('drums');if(I>=1||E>=1)ST.drums(x);else if(s16===0)ST.drums(Object.assign({},x,{E:0}));
   to('arp');if(E>=1&&I>=1)ST.arp(x);to('lead');
   // lead: written motif; every loop varies it (octave lift on the answer, passing notes in the gaps), harmony at high energy
-  if(s16%2===0&&(I>=2||E===0||E>=3||(I>=1&&P.sec.e>=2)||M.song===SONGS.menu)){const L=P.sec.lead,i=P.bs*8+(s16>>1);let d=L[i],soft=1;
+  // 10b: the melody plays in every section – before, e=1 sections (usually the main theme) were melody-less until late in the run,
+  // which on a phone speaker left only drums + bass (10–18 dB dip); in the calm/early run it is just softer
+  const full=I>=2||E===0||E>=3||(I>=1&&P.sec.e>=2)||M.song===SONGS.menu,lv=full?1:I>=1?.8:.6;
+  if(s16%2===0){const L=P.sec.lead,i=P.bs*8+(s16>>1);let d=L[i],soft=1;
     const v=(P.cyc+bar)%3;
     if(d===null&&v===2&&s16%4===2&&L[i-1]!=null&&L[i+1]!=null){d=L[i-1]+(L[i+1]>L[i-1]?1:-1);soft=.55;}
     if(d!==null){if(v===1&&P.bs>=2&&d<5&&P.cyc>0)d+=7;let len=1;while(len<4&&i+len<L.length&&L[i+len]===null)len++;
-      const f=NOTE(S.root+P.key+12+scaleNote(d)),dur=sd*2*len*.9;ST.lead(f,t,dur,soft);
+      const f=NOTE(S.root+P.key+12+scaleNote(d)),dur=sd*2*len*.9;ST.lead(f,t,dur,soft*lv);
       if(E>=2&&soft===1)tone('triangle',NOTE(S.root+P.key+12+scaleNote(d-2)),t,dur*.8,.035);}}
   if(I>=3&&s16===0)osc('sawtooth',NOTE(c.root-24),t,sd*14,.07,R?R.bass:B,null,500);                                    // boss drone
   if(run&&!run.over&&state!=='menu'){const W=run.W,B=R?R.fx:MB;                                                          // ultimate layers
@@ -2830,7 +2833,7 @@ function playStep(s,t){
 async function musicRender(id,secs,o){o=o||{};const sr=o.sr||22050,oac=new OfflineAudioContext(o.ch||1,Math.ceil(sr*secs),sr),keep={ac,bus:M.musicBus,song:M.song,step:M.step,int:M.int,bb:M.bossBar,mus:save.music,noise:M.noise};
   const keepG={trim:M.trim,energy:M.energy,duck:M.duck,filter:M.filter,revRet:M.revRet,roles:M.roles};
   ac=oac;M.offline=true;const comp=masterChain(oac,oac.destination,o.raw);
-  if(o.raw){M.musicBus=oac.createGain();M.musicBus.connect(comp);M.roles=null;M.trim=M.energy=null;}else{musicGraph(oac,comp);if(o.solo)for(const k in M.roles)if(k!==o.solo)M.roles[k].gain.value=0;}M.musicBus.gain.value=.3;save.music=true;
+  if(o.raw){M.musicBus=oac.createGain();M.musicBus.connect(comp);M.roles=null;M.trim=M.energy=null;}else{musicGraph(oac,comp);if(o.solo){const ks=[].concat(o.solo);for(const k in M.roles)if(!ks.includes(k))M.roles[k].gain.value=0;}}M.musicBus.gain.value=.3;save.music=true;
   if(!M.noise){const b=oac.createBuffer(1,sr,sr),d=b.getChannelData(0);for(let i=0;i<sr;i++)d[i]=Math.random()*2-1;M.noise=b;}
   setSong(id);if(!o.raw)songMix();const sd=M.stepDur,n=Math.floor((secs-.5)/sd);
   try{for(let s=0;s<n;s++){const tt=s*sd;if(s%16===0){M.int=o.int?o.int(tt):1;if(o.boss!=null&&tt>=o.boss&&M.bossBar==null)M.bossBar=Math.floor(s/16);}M.step=s+1;playStep(s,tt+.02);}}
@@ -2929,7 +2932,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10d';
+const GAME_VER='2026-11-10e';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7960,6 +7963,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10e',d:'10. 11. 2026',t:_t('Hudba bez děr'),hl:[
+  {ic:'music',t:_t('Hlavní téma od začátku'),d:_t('Melodie hraje celou mapu, ne až po dvou minutách. Na začátku jen tišeji.')},
+  {ic:'skull',t:_t('Boss víc burácí'),d:_t('S příchodem bosse hudba zesílí výrazněji než dřív.')}],
+  items:[_t('Úvody map a menu už nemají hluchá místa.')]},
  {v:'2026-11-10d',d:'10. 11. 2026',t:_t('Každá kapitola je zeď'),hl:[
   {ic:'skull',t:_t('Těžší vstup do kapitol'),d:_t('Hlubiny, Ledová říše, Prokleté pobřeží a Nebeská hvězdárna mají víc nepřátel, kteří víc bolí. Na novou kapitolu se vyplatí posílit v Nočních můrách.')},
   {ic:'haste',t:_t('Plynulejší menu'),d:_t('Obrazovky se otevírají rychleji, hlavně Novinky, Nastavení a Hrdina. Okna s paprsky už telefon nebrzdí.')}]},

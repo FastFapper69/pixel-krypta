@@ -36,18 +36,15 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak `cd tests/tools && node -e "require('./lib').prep()"` (vytvoří off.html bez klíče a vedle něj game.js, krypta.css, lang-en.js a symlinky). Audit to dělá sám. Playwright je předinstalovaný.
 
-## Předávka 2026-11-10 ~11:00 (verze 10d, vše na main, Pages nasazené)
+## Předávka 2026-11-10 ~11:00 (verze 10e, vše na main, Pages nasazené)
 - 10d: balanc všech kapitol (viz KAMPAN.md „10d“) + plynulost menu (paprsky `.fc-rays` na GPU vrstvě, `heroStrip`/`bartFit` bez layout thrash, dozvuk levněji a po prvním snímku, Novinky po 6 + dočítání). Měření: `menuperf.js`; zaseknutí obrazovek dřív 200–340 ms, teď 60–130 ms (CPU 4× zpomalené).
+- 10e: **projeto všech 31 skladeb** (`tests/tools/skladby.js`). Melodie hraje v každé sekci (dřív hlavní téma A mlčelo ~110 s → propady na telefonu), doplněné prázdné takty v intrech pouště, kostnice, dolů, kovárny, krystalů, v Kaňonu C a menu B, boss `ENERGY_GAIN[3]` 1.12→1.3. Propady 225 → 0, klid −10 až −20 dB → −3 až −6 dB, boss +1–2 → +3–4,5 dB. Pravidla v skillu `zvuk-a-hudba`.
+- Otevřené ve zvuku: krystaly boss jen +2,3 dB; skladby kap. VI (`songKit`) jsou z jednoho motivu, mohly by mít víc variací.
 - 10c: představení bosse trvá podle délky hlášky (`BI_TYPE` 30 znaků/s + 2,6 s čtení, finále 3,2 s; dřív 5/7 dob ≈ 2,7 s), hláška je HTML `#biLine` písmem UI (dřív 10px pixel font v canvasu = nečitelné háčky). Ověřeno SE/15, CZ/EN, nejdelší hláška (Orion), přeskočení i odchod do menu.
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
-- **Další úkol (zadal uživatel): projet všech 31 skladeb** přes poslech a doladit je. Postup ve skillu `zvuk-a-hudba` (oddíl Poslech):
-  1. `cd tests/tools && node poslech-offline.js <skladba> 40 26 <prefix>` → `python3 poslech.py <prefix>-<skladba>` a prohlédnout PNG. Naostro jen namátkou (`poslech.js`, trvá minutu).
-  2. Hledat: sekce, kde hrají jen bicí + basa (na telefonu propad ~10 dB, např. hrbitov kolem 25. s) – doplnit lead/arp nebo pad do té sekce; skladby mimo cíle (ztráta přes telefon ≤ 5 dB, 300 Hz–2 kHz ≥ 35 %, boss o 6–10 dB nad během, špička pod −6 dB).
-  3. Hlasitost stylu ladit `STYLE_ROLE`/`STYLE_TRIM`, ne jednotlivými `vol` v notách.
-  4. Uživateli poslat nahrávky před/po (m4a přes ffmpeg) ke skutečnému poslechu – sám poslouchá z iPhonu.
 - Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
 
-## Aktuální stav (verze 10a, 10. 11. 2026 ~9:00, vše na main, Pages nasazené)
+## Aktuální stav (verze 10e, 10. 11. 2026 ~9:00, vše na main, Pages nasazené)
 - Hra: 6 kapitol (30 map, I–VI), 11 hrdinů, Noční můry I–III, Nekonečná krypta na finále, Runy, Souhvězdí, Nástěnka (denní úkoly, kontrakty, týdenní výzva), co-op beta, mazlíčci, věže jen z bedny. Podrobnosti kapitol `KAMPAN.md`, ekonomika `EKONOMIKA.md`, historie všech verzí `docs/HISTORIE.md`, mapa kódu `docs/KOD.md`.
 - Vzhled: kámen a železo (paleta 09z2), kovaná tlačítka všude; **v hlavním menu mají vlastní vzhled jen Hrát (zlato) a Souhvězdí (noční nebe), ostatní jsou jednotné železo** (09z8: uživateli vadil hnědý co-op a Nástěnka i rohy na Vybavení – nepřidávat), fialová jen pro Epické a kouzla. Hlavní menu = pixelové rámy v plátně (`bartDraw`), ostatní tlačítka = CSS rám `.btn:not(.art)` měněný jen proměnnými.
 - Server: hra mluví s `profiles` jen přes `my_profile` / `save_profile` / `claim_profile_v2` (limit PINu), skóre čistí `stats_clean`, protokoly `private.pin_fail` a `private.cheat_log`. Migrace v `supabase/migrations/`.
