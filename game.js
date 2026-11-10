@@ -2724,7 +2724,8 @@ const SONGS={
 };
 const scaleNote=d=>{const sc=SCALES[(M.song&&M.song.scale)||'minor'],o=Math.floor(d/7),i=((d%7)+7)%7;return 12*o+sc[i];};
 // where in the song a 16th step falls: section, bar in section, loop count, key shift
-function songPos(step){const S=M.song,bar=Math.floor(Math.max(0,step)/16);let b=bar,form,loop=false;
+// 10h: song.spb = steps (16ths) per bar – 16 = 4/4 (default), 12 = 3/4 or 6/8 (written-out songs only: lead/bass/cm arrays are 4*spb long)
+function songPos(step){const S=M.song,bar=Math.floor(Math.max(0,step)/(S.spb||16));let b=bar,form,loop=false;
   if(M.bossBar!=null&&bar>=M.bossBar){b=bar-M.bossBar;form=S.bossForm;}
   else{const L0=S.form0.length*4;if(b<L0)form=S.form0;else{b-=L0;form=S.form;loop=true;}}
   const fl=form.length*4,cyc=Math.floor(b/fl),bi=b%fl,id=form[Math.floor(bi/4)];
@@ -2889,54 +2890,112 @@ STYLES.title.bang={
   if(E>=3&&s16%2)noiz(t,.02,.07,B,'highpass',9000);}};
 STYLES.title.drums=STYLES.title.bang.drums;STYLES.title.bass=STYLES.title.bang.bass;
 
-// ---- SKICA kolo 4 (dočasné, nevydávat): 5 žánrových návrhů menu skladby, se saturací ----
+// ---- SKICA kolo 5 (dočasné, nevydávat): návrhy podle researche – svět Pixel Krypty, výrazný úvodní interval, zpěvná melodie, vrstvení ----
 const DRV=new WeakMap();function drive(k){const tgt=M.musicBus;let m=DRV.get(tgt);if(!m){m={};DRV.set(tgt,m);}
   if(!m[k]){const sh=ac.createWaveShaper(),cv=new Float32Array(2048);for(let i=0;i<2048;i++){const x=i/1023.5-1;cv[i]=Math.tanh(x*k)/Math.tanh(k);}sh.curve=cv;sh.connect(tgt);m[k]=sh;}return m[k];}
-const KD={kick(t,v,B,d){tone('sine',50,t,.3,.95*v,{from:180,glide:.035});noiz(t,.008,.25*v,B,'highpass',3000);pumpAt(t,d||.4);},
- clap(t,v,B){noiz(t,.02,.14*v,B,'bandpass',1300);noiz(t+.011,.02,.12*v,B,'bandpass',1250);noiz(t+.022,.16,.2*v,B,'bandpass',1200);},
- snare(t,v,B,len){noiz(t,len||.2,.34*v,B,'bandpass',1800);noiz(t,(len||.2)*1.4,.16*v,B,'highpass',3600);tone('triangle',230,t,.07,.18*v,{from:300,glide:.03});},
- hat(t,v,B,open){noiz(t,open?.12:.025,v,B,'highpass',open?7000:8500);}};
-STYLES.hydro={drums(){},bass(){},arp(){},
- pad(x){const {s16,t,c,sd}=x;if(s16!==0)return;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sawtooth',f,t,sd*16,.012,{lp:1100,a:.4,det:-12});tone('sawtooth',f,t,sd*16,.012,{lp:1100,a:.4,det:12});}},
- lead(f,t,dur,v){const sd=M.stepDur;tone('square',f,t,dur,.04*v,{lp:1600,a:.03,vib:4});tone('sawtooth',f,t,dur,.03*v,{lp:1300,det:9,a:.03});tone('square',f,t+sd*3,dur*.8,.012*v,{lp:1200});}};
-STYLES.hydro.bang={play(x,n){const {t,c,sd,s16}=x,f=NOTE(c.root+n);tone('sawtooth',f,t,sd*.9,.05,{lp:2000,bus:drive(6)});tone('square',f*2,t,sd*.7,.022,{lp:3000});if(s16%4===0)tone('sine',NOTE(c.root-12),t,sd*3,.22);},
- bass(x){},drums(x){const {s16,t,E}=x,B=M.musicBus;if(E===0)return;if(s16%4===0)KD.kick(t,1,B,.75);if(E>=2&&(s16===4||s16===12))KD.snare(t,1,B,.28);
-  if(s16%4===2)KD.hat(t,.14,B,1);if(E>=3){if(s16%2)KD.hat(t,.06,B);if(s16===4||s16===12)KD.clap(t,.8,B);}}};
-STYLES.brut={drums(){},bass(){},pad(){},
- arp(x){const {s16,t,c,sd,E}=x;if(E<2||s16%4!==2)return;for(const k of c.tones)tone('sawtooth',NOTE(c.root+12+k),t,sd*.8,.012,{lp:2200,bus:drive(4)});},
- lead(f,t,dur,v){tone('sawtooth',f,t,dur,.035*v,{lp:2200,a:.02,vib:5});tone('sawtooth',f/2,t,dur,.03*v,{lp:1500,a:.02,det:6});}};
-STYLES.brut.bang={play(x,n){const {t,c,sd,s16}=x,f=NOTE(c.root-12+n),d=drive(14);tone('sawtooth',f,t,sd*.9,.06,{lp:1800,bus:d});tone('sawtooth',f*2,t,sd*.9,.02,{lp:2500,bus:d});if(s16%4===0)tone('sine',f,t,sd*1.5,.18);},
- bass(x){},drums(x){const {s16,t,E}=x,B=M.musicBus;if(s16%4===0||(E>=3&&s16>=14))KD.kick(t,s16%4===0?1:.7,B,.45);if(s16===4||s16===12)KD.snare(t,1.1,B,.3);if(s16%2===0)KD.hat(t,s16%4===2?.12:.07,B);}};
-STYLES.necro={drums(){},bass(){},
- pad(x){const {s16,t,c,sd,E}=x;if(E<1||(s16!==3&&s16!==11))return;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('square',f,t,sd*1.2,.018,{lp:2400});tone('triangle',f,t,sd*1.5,.02);}},
- arp(x){const {s16,t,c,sd,E}=x;if(E<3)return;const f=NOTE(c.root+12+c.tones[[0,1,2,1][s16%4]]);tone('p12',f,t,sd*.5,.02,{lp:3000});},
- lead(f,t,dur,v){tone('p25',f,t,dur,.06*v,{vib:6,a:.004});tone('triangle',f,t,dur,.04*v);}};
-STYLES.necro.bang={play(x,n){const {t,c,sd}=x,f=NOTE(c.root-12+n);tone('triangle',f,t,sd*1.4,.3);tone('p25',f,t,sd*1.1,.08,{lp:1600});},
- bass(x){},drums(x){const {s16,t,E}=x,B=M.musicBus;if(s16%4===0)KD.kick(t,1,B,.5);if(E>=2&&(s16===4||s16===12))KD.clap(t,1,B);if(s16%4===2)KD.hat(t,.15,B,1);if(E>=2&&s16%2)KD.hat(t,.05,B);}};
-STYLES.phonk={drums(){},bass(){},arp(){},
- pad(x){const {s16,t,c,sd,E}=x;if(s16!==0||E<2)return;for(const k of c.tones)tone('sawtooth',NOTE(c.root+k),t,sd*16,.01,{lp:900,a:.5});},
- lead(f,t,dur,v){const d=Math.min(dur,.3);tone('square',f,t,d,.05*v,{bp:f*2,q:3});tone('square',f*1.48,t,d*.8,.035*v,{bp:f*2.5,q:3});}};
-STYLES.phonk.bang={play(x,n){const {t,c,sd}=x,f=NOTE(c.root-12+n),from=M.l808&&M.l808!==f?M.l808:null;M.l808=f;tone('sine',f,t,sd*7,.35,{from,glide:.06,bus:drive(3)});},
- bass(x){},drums(x){const {s16,t,E,bs}=x,B=M.musicBus;if(s16===0)KD.kick(t,.9,B,.5);if(E>=2&&s16===8){KD.snare(t,1,B,.22);KD.clap(t,.8,B);}
-  if(s16%2===0)KD.hat(t,.09,B);if(E>=3&&bs===3&&s16>=12){KD.hat(t,.07,B);KD.hat(t+M.stepDur/2,.07,B);}}};
-STYLES.trance={drums(){},bass(){},arp(){},
- pad(x){const {s16,t,c,sd,E}=x;const G=[1,0,1,1,0,1,1,0,1,0,1,1,0,1,1,1];if(E<1||!G[s16])return;for(const k of c.tones){const f=NOTE(c.root+12+k);for(const d of [-12,0,12])tone('sawtooth',f,t,sd*.85,.012,{lp:2600,det:d});}},
- lead(f,t,dur,v){const sd=M.stepDur,d=Math.min(dur,sd*3);tone('sawtooth',f,t,d,.05*v,{lp:2800,det:-8});tone('sawtooth',f,t,d,.05*v,{lp:2800,det:8});tone('square',f,t,Math.min(dur,sd*2),.02*v,{lp:2000});tone('sawtooth',f,t+sd*3,d*.8,.015*v,{lp:2000});}};
-STYLES.trance.bang={play(x,n){const {t,c,sd}=x,f=NOTE(c.root-12+n);tone('sawtooth',f,t,sd*.9,.05,{lp:900});tone('sine',f,t,sd*.9,.15);},
- bass(x){},drums(x){const {s16,t,E}=x,B=M.musicBus;if(s16%4===0)KD.kick(t,1,B,.45);if(E>=2&&(s16===4||s16===12))KD.clap(t,1,B);if(s16%4===2)KD.hat(t,.16,B,1);if(E>=2)KD.hat(t,.05,B);if(E>=3&&s16===0&&x.bs===0)noiz(t,1,.12,B,'highpass',5000);}};
-Object.assign(STYLE_ROLE,{hydro:{bass:6.2,lead:26.1,arp:28,pad:23},brut:{bass:2.9,lead:33.1,arp:29.2,pad:20},necro:{bass:11.4,lead:28,arp:34,pad:21.3},phonk:{bass:-6,lead:34.7,arp:28,pad:21.6},trance:{bass:13.6,lead:28.7,arp:28,pad:23.9}});
-for(const k of ['hydro','brut','necro','phonk','trance']){BANG_TRIM[k]=-3;STYLE_REV[k]=.28;}
-const SK=(o,sec)=>Object.assign({free:true,pure:true,keys:[0],form0:[],bossForm:[Object.keys(sec)[1]],sec},o);
+const IN={
+ kick(t,v,d){tone('sine',50,t,.3,.95*v,{from:180,glide:.035});noiz(t,.008,.25*v,M.musicBus,'highpass',3000);if(d)pumpAt(t,d);},
+ tom(f,t,v){tone('sine',f,t,.35,.8*v,{from:f*1.8,glide:.05});noiz(t,.04,.1*v,M.musicBus,'bandpass',800);},
+ snare(t,v){noiz(t,.2,.34*v,M.musicBus,'bandpass',1800);noiz(t,.28,.16*v,M.musicBus,'highpass',3600);tone('triangle',230,t,.07,.18*v,{from:300,glide:.03});},
+ clap(t,v){const B=M.musicBus;noiz(t,.02,.14*v,B,'bandpass',1300);noiz(t+.011,.02,.12*v,B,'bandpass',1250);noiz(t+.022,.16,.2*v,B,'bandpass',1200);},
+ hat(t,v,open){noiz(t,open?.12:.025,v,M.musicBus,'highpass',open?7000:8500);},
+ bone(t,v){noiz(t,.02,.14*v,M.musicBus,'bandpass',3800);tone('square',1900,t,.012,.03*v,{bp:2400,q:6});},
+ bell(f,t,v){tone('sine',f,t,1.6,.1*v);tone('sine',f*2.76,t,.8,.035*v);tone('sine',f*5.4,t,.4,.015*v);},
+ xylo(f,t,v){tone('sine',f,t,.22,.12*v,{a:.002});tone('sine',f*3.98,t,.07,.04*v,{a:.002});noiz(t,.01,.04*v,M.musicBus,'bandpass',f*4);},
+ fiddle(f,t,dur,v){tone('sawtooth',f,t,dur,.04*v,{lp:2600,vib:6,a:.05,det:-4});tone('sawtooth',f,t,dur,.03*v,{lp:2200,det:5,a:.06});tone('triangle',f,t,dur,.03*v,{a:.04});},
+ pluck(f,t,v){tone('sawtooth',f,t,.18,.04*v,{lp:2200});tone('square',f,t,.12,.02*v,{lp:1600});},
+ brass(f,t,dur,v){for(const d of [-7,0,7])tone('sawtooth',f,t,dur,.025*v,{lp:1800,a:.035,det:d,vib:d?0:4.5});tone('sawtooth',f/2,t,dur,.015*v,{lp:900,a:.04});},
+ choir(c,t,dur,v){for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sawtooth',f,t,dur,.012*v,{bp:700,q:2,a:.5});tone('sawtooth',f,t,dur,.009*v,{bp:1150,q:3,a:.5});}}};
+const secNow=()=>songPos(M.step-1).sec;
+// 1 Danse macabre
+STYLES.macabre={drums(){},bass(){},arp(){},
+ pad(x){const {s16,t,c,sd,E}=x;if(E>=1&&(s16===4||s16===8))for(const k of c.tones){const f=NOTE(c.root+12+k);tone('triangle',f,t,.14,.03);tone('square',f,t,.08,.012,{lp:1800});}
+  if(E>=3&&s16===0)IN.choir(c,t,sd*12,1);},
+ lead(f,t,dur,v){const w=secNow().voice;if(w!=='fiddle')IN.xylo(f,t,v);if(w!=='xylo')IN.fiddle(w==='both'?f/2:f,t,dur,v*.9);},
+ cm(f,t,dur){IN.fiddle(f,t,dur,.9);}};
+STYLES.macabre.bang={play(x,n){const {t,c}=x,f=NOTE(c.root-12+n);tone('triangle',f,t,.25,.32);tone('sine',f,t,.3,.15);tone('triangle',f*2,t,.12,.05);},
+ bass(x){if(x.s16===0)STYLES.macabre.bang.play(x,0);if(x.E>=3&&x.s16===8)STYLES.macabre.bang.play(x,7);},
+ drums(x){const {s16,t,E,key0,bs}=x;if(secNow().bells&&s16%4===0)IN.bell(NOTE(key0+7),t,1);if(E===0)return;
+  if(s16===0){IN.tom(90,t,1);if(E>=2)pumpAt(t,.6);}if(E>=2&&(s16===4||s16===8))IN.bone(t,1);if(E>=3){if(s16===0)IN.kick(t,.8);if(s16%2===0&&s16)IN.bone(t,.5);if(bs===3&&s16>=8)IN.tom(130-(s16-8)*8,t,.6);}}};
+// 2 Hrobnický jig
+STYLES.jig={drums(){},bass(){},
+ pad(x){const {s16,t,c,sd,E}=x;if(E<3||(s16!==0&&s16!==6))return;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('square',f,t,sd*4,.014,{lp:1600,det:-6});tone('square',f,t,sd*4,.014,{lp:1600,det:6});}},
+ arp(x){const {s16,t,c,E}=x;if(E<1||s16%2)return;IN.pluck(NOTE(c.root+12+c.tones[[0,1,2,1,2,1][s16>>1]]),t,1);},
+ lead(f,t,dur,v){IN.fiddle(f,t,dur,v);}};
+STYLES.jig.bang={play(x,n){const {t,c,sd,s16}=x,f=NOTE(c.root-12+n);tone('sawtooth',f,t,sd*1.6,.04,{lp:700});tone('sawtooth',f*1.5,t,sd*1.6,.025,{lp:700});if(s16===0||s16===6)tone('sine',f,t,sd*4,.18);},
+ bass(x){if(x.s16%2===0)STYLES.jig.bang.play(x,0);},
+ drums(x){const {s16,t,E}=x;if(E===0)return;if(s16===0||s16===6){IN.tom(80,t,1);pumpAt(t,.6);}if(s16%2===0)noiz(t,.02,.06,M.musicBus,'bandpass',1500);
+  if(E>=2&&s16===6)IN.snare(t,.8);if(E>=3&&s16===0)IN.kick(t,.7);}};
+// 3 Začátek výpravy
+STYLES.epic={drums(){},bass(){},arp(){},
+ pad(x){const {s16,t,c,sd,E}=x;if(E===0||E>=2){if(s16===0)IN.choir(c,t,sd*16,E===0?1.2:1);}
+  if(E>=1&&s16%2===0){const f=NOTE(c.root+c.tones[[0,1,2,1][(s16>>1)%4]]+12);tone('sawtooth',f,t,sd*1.8,.012,{lp:1500,det:-8});tone('sawtooth',f,t,sd*1.8,.012,{lp:1500,det:8});}},
+ lead(f,t,dur,v){IN.brass(f,t,dur,v);}};
+STYLES.epic.bang={play(x,n){const {t,c,sd,s16}=x,f=NOTE(c.root-12+n);tone('sawtooth',f,t,sd*1.8,.045,{lp:800});if(s16%4===0)tone('sine',f,t,sd*3,.2);},
+ bass(x){if(x.E>=1&&x.s16%2===0)STYLES.epic.bang.play(x,0);},
+ drums(x){const {s16,t,E,bs}=x;
+  if(E===0){if(bs===3&&s16%2===0)IN.tom(70+s16*3,t,.3+s16*.04);return;}
+  if(s16===0||s16===10||(E>=2&&s16===6)||(E>=3&&(s16===12||s16===14)))IN.tom(s16>=12?120:80,t,1);if(s16===0)pumpAt(t,.6);
+  if(E>=2&&s16===8)IN.snare(t,1.1);if(E>=3&&(s16===4||s16===12))IN.snare(t,.8);if(E>=2&&s16%2===0)IN.hat(t,.06);if(E>=3&&s16===0&&bs===0)noiz(t,1.2,.12,M.musicBus,'highpass',5000);}};
+// 4 Vrstvení
+STYLES.layer={drums(){},bass(){},arp(){},
+ pad(x){const {s16,t,c,sd,E}=x;if(E<2||(s16!==2&&s16!==10))return;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sawtooth',f,t,sd*1.2,.014,{lp:2000,det:-8});tone('sawtooth',f,t,sd*1.2,.014,{lp:2000,det:8});}},
+ lead(f,t,dur,v){const sd=M.stepDur,d=Math.min(dur,sd*2);tone('sawtooth',f,t,d,.045*v,{lp:2600,det:-8});tone('sawtooth',f,t,d,.045*v,{lp:2600,det:8});tone('sawtooth',f,t+sd*3,d*.8,.015*v,{lp:2000});}};
+STYLES.layer.bang={play(x,n){const {t,c,sd,s16}=x,f=NOTE(c.root-12+n);tone('sawtooth',f,t,sd*.9,.05,{lp:1500,bus:drive(5)});tone('square',f*2,t,sd*.7,.02,{lp:2800});if(s16===0)tone('sine',NOTE(c.root-12),t,sd*3,.2);},
+ bass(x){},drums(x){const {s16,t,E,bs}=x;if(E===0)return;if(s16%4===0)IN.kick(t,1,.55);if(s16%4===2)IN.hat(t,E>=3?.16:.1,E>=3);
+  if(E>=2){if(s16===4||s16===12)IN.clap(t,1);if(s16%2)IN.hat(t,.05);}if(E>=3&&s16===0&&bs===0)noiz(t,1.2,.12,M.musicBus,'highpass',5000);}};
+Object.assign(STYLE_ROLE,{macabre:{bass:6.4,lead:21.6,arp:28,pad:22.9},jig:{bass:15,lead:27.4,arp:22.9,pad:23.1},epic:{bass:10.5,lead:29.1,arp:26,pad:24},layer:{bass:9.5,lead:28,arp:26,pad:25}});
+for(const k of ['macabre','jig','epic','layer']){BANG_TRIM[k]=-3;STYLE_REV[k]=.28;}
+const SK=(o,sec)=>Object.assign({free:true,pure:true,keys:[0],form0:[],bossForm:[o.form[1]],sec},o);
 Object.assign(SONGS,{
- skA:SK({bpm:112,root:49,scale:'minor',style:'hydro',form:['I','H','D']},{I:{e:1,prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7]},H:{e:2,prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[4,_,_,_,_,_,_,_,_,_,_,_,5,_,4,_,2,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,0,_,_,_,_,_,_,_,_,_,_,_,2,_,4,_,3,_,_,_,_,_,_,_,1,_,_,_,_,_,_,_],bass:[0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7]},D:{e:3,prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[4,_,_,_,_,_,_,_,_,_,_,_,5,_,4,_,2,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,0,_,_,_,_,_,_,_,_,_,_,_,2,_,4,_,3,_,_,_,_,_,_,_,1,_,_,_,_,_,_,_],bass:[0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7]}}),
- skB:SK({bpm:126,root:53,scale:'harm',style:'brut',form:['R','H','H']},{R:{e:2,prog:[[0,'m'],[0,'m'],[-4,'M'],[-5,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,_,0,0,12,_,0,_,0,_,0,0,1,_,0,_,0,_,0,0,12,_,0,_,0,_,0,0,1,_,0,_,0,_,0,0,12,_,0,_,0,_,0,0,1,_,0,_,0,_,0,0,12,_,0,_,0,_,0,0,1,_,0,_]},H:{e:3,prog:[[0,'m'],[0,'m'],[-4,'M'],[-5,'M']],lead:[7,_,_,_,_,_,4,_,5,_,4,_,2,_,_,_,4,_,_,_,_,_,_,_,2,_,1,_,0,_,_,_,5,_,_,_,_,_,4,_,5,_,7,_,9,_,_,_,6,_,_,_,_,_,_,_,4,_,_,_,1,_,_,_],bass:[0,_,0,0,12,_,0,_,0,_,0,0,1,_,0,_,0,_,0,0,12,_,0,_,0,_,0,0,1,_,0,_,0,_,0,0,12,_,0,_,0,_,0,0,1,_,0,_,0,_,0,0,12,_,0,_,0,_,0,0,1,_,0,_]}}),
- skC:SK({bpm:128,root:50,scale:'dorian',style:'necro',form:['I','A','B']},{I:{e:1,prog:[[0,'m'],[-2,'M'],[5,'M'],[0,'m']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_,_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_,_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_,_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_]},A:{e:2,prog:[[0,'m'],[-2,'M'],[5,'M'],[0,'m']],lead:[4,_,_,4,_,_,6,_,_,4,_,_,3,_,2,_,_,_,2,_,1,_,_,_,2,_,_,4,_,_,_,_,3,_,_,3,_,_,5,_,_,3,_,_,2,_,1,_,0,_,_,_,_,_,_,_,2,_,1,_,0,_,_,_],bass:[_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_,_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_,_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_,_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_]},B:{e:3,prog:[[0,'m'],[-2,'M'],[5,'M'],[0,'m']],lead:[4,_,_,4,_,_,6,_,_,4,_,_,3,_,2,_,_,_,2,_,1,_,_,_,2,_,_,4,_,_,_,_,3,_,_,3,_,_,5,_,_,3,_,_,2,_,1,_,0,_,_,_,_,_,_,_,2,_,1,_,0,_,_,_],bass:[_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_,_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_,_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_,_,_,0,_,_,_,0,0,_,_,0,_,_,12,0,_]}}),
- skD:SK({bpm:140,root:52,scale:'minor',style:'phonk',form:['I','A','B']},{I:{e:1,prog:[[0,'m'],[-4,'M'],[5,'m'],[-2,'M']],lead:[7,_,7,_,6,_,7,_,_,_,6,_,4,_,_,_,7,_,7,_,6,_,7,_,_,_,9,_,7,_,_,_,5,_,5,_,4,_,5,_,_,_,4,_,2,_,_,_,6,_,6,_,5,_,6,_,_,_,8,_,6,_,_,_],bass:[0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_,0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_,0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_,0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_]},A:{e:2,prog:[[0,'m'],[-4,'M'],[5,'m'],[-2,'M']],lead:[7,_,7,_,6,_,7,_,_,_,6,_,4,_,_,_,7,_,7,_,6,_,7,_,_,_,9,_,7,_,_,_,5,_,5,_,4,_,5,_,_,_,4,_,2,_,_,_,6,_,6,_,5,_,6,_,_,_,8,_,6,_,_,_],bass:[0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_,0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_,0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_,0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_]},B:{e:3,prog:[[0,'m'],[-4,'M'],[5,'m'],[-2,'M']],lead:[7,_,7,_,6,_,7,_,_,_,6,_,4,_,_,_,7,_,7,_,6,_,7,_,_,_,9,_,7,_,_,_,5,_,5,_,4,_,5,_,_,_,4,_,2,_,_,_,6,_,6,_,5,_,6,_,_,_,8,_,6,_,_,_],bass:[0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_,0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_,0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_,0,_,_,_,_,_,_,_,_,_,0,_,_,_,12,_]}}),
- skE:SK({bpm:140,root:57,scale:'harm',style:'trance',form:['I','A','B']},{I:{e:1,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_]},A:{e:2,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[4,_,_,4,_,_,2,_,4,_,_,_,7,_,_,_,5,_,_,5,_,_,4,_,2,_,_,_,0,_,_,_,3,_,_,3,_,_,5,_,7,_,_,_,5,_,_,_,6,_,_,6,_,_,4,_,1,_,_,_,6,_,_,_],bass:[_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_]},B:{e:3,prog:[[0,'m'],[-4,'M'],[5,'m'],[7,'M']],lead:[4,_,_,4,_,_,2,_,4,_,_,_,7,_,_,_,5,_,_,5,_,_,4,_,2,_,_,_,0,_,_,_,3,_,_,3,_,_,5,_,7,_,_,_,5,_,_,_,6,_,_,6,_,_,4,_,1,_,_,_,6,_,_,_],bass:[_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_,_,0,0,_]}})});
+ skM:SK({bpm:186,spb:12,root:55,scale:'harm',style:'macabre',form:['X','T','M','N','F']},{
+  X:{e:0,bells:true,prog:[[0,'m'],[0,'m'],[0,'m'],[7,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]},
+  T:{e:1,voice:'fiddle',prog:[[0,'m'],[0,'m'],[0,'m'],[7,'M']],lead:[1,_,_,_,_,_,_,_,1,_,_,_,1,_,_,_,_,_,_,_,1,_,_,_,1,_,_,_,_,_,_,_,1,_,_,_,1,_,_,_,_,_,_,_,1,_,_,_],cm:[5,_,_,_,_,_,_,_,5,_,_,_,5,_,_,_,_,_,_,_,5,_,_,_,5,_,_,_,_,_,_,_,5,_,_,_,5,_,_,_,_,_,_,_,5,_,_,_]},
+  M:{e:2,voice:'xylo',prog:[[0,'m'],[7,'M'],[0,'m'],[7,'M']],lead:[4,_,_,_,4,_,5,_,4,_,3,_,2,_,_,_,1,_,_,_,-1,_,_,_,4,_,_,_,4,_,5,_,4,_,3,_,5,_,4,_,3,_,2,_,1,_,-1,_]},
+  N:{e:2,voice:'xylo',prog:[[5,'m'],[0,'m'],[-4,'M'],[7,'M']],lead:[7,_,_,_,5,_,_,_,3,_,_,_,4,_,_,_,2,_,_,_,0,_,_,_,5,_,_,_,7,_,_,_,9,_,_,_,8,_,_,_,6,_,_,_,4,_,_,_]},
+  F:{e:3,voice:'both',prog:[[0,'m'],[7,'M'],[0,'m'],[7,'M']],lead:[4,_,_,_,4,_,5,_,4,_,3,_,2,_,_,_,1,_,_,_,-1,_,_,_,4,_,_,_,4,_,5,_,4,_,3,_,5,_,4,_,3,_,2,_,1,_,-1,_]}}),
+ skJ:SK({bpm:168,spb:12,root:50,scale:'dorian',style:'jig',form:['I','A','B','C']},{
+  I:{e:1,prog:[[0,'m'],[-2,'M'],[0,'m'],[7,'m']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]},
+  A:{e:2,prog:[[0,'m'],[-2,'M'],[0,'m'],[7,'m']],lead:[4,_,_,_,7,_,6,_,_,_,4,_,3,_,_,_,6,_,5,_,_,_,3,_,4,_,_,_,7,_,9,_,7,_,6,_,6,_,_,_,4,_,1,_,_,_,4,_]},
+  B:{e:2,prog:[[3,'M'],[-2,'M'],[0,'m'],[7,'m']],lead:[9,_,_,_,8,_,7,_,_,_,9,_,8,_,_,_,6,_,4,_,_,_,6,_,7,_,_,_,4,_,7,_,_,_,9,_,8,_,_,_,6,_,4,_,_,_,_,_]},
+  C:{e:3,prog:[[0,'m'],[-2,'M'],[0,'m'],[7,'m']],lead:[4,_,_,_,7,_,6,_,_,_,4,_,3,_,_,_,6,_,5,_,_,_,3,_,4,_,_,_,7,_,9,_,7,_,6,_,6,_,_,_,4,_,1,_,_,_,4,_]}}),
+ skP:SK({bpm:104,root:50,scale:'harm',style:'epic',form:['I','A','B','C']},{
+  I:{e:0,prog:[[0,'m'],[-4,'M'],[-2,'M'],[0,'m']],lead:[0,_,_,_,_,_,_,_,7,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,0,_,_,_,_,_,_,_,7,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_]},
+  A:{e:1,prog:[[0,'m'],[-4,'M'],[-2,'M'],[0,'m']],lead:[0,_,_,_,_,_,_,_,7,_,_,_,_,_,_,_,5,_,_,_,4,_,3,_,4,_,_,_,_,_,_,_,4,_,_,_,3,_,2,_,3,_,_,_,4,_,_,_,2,_,_,_,_,_,_,_,0,_,_,_,_,_,_,_]},
+  B:{e:2,prog:[[-4,'M'],[-2,'M'],[0,'m'],[7,'M']],lead:[2,_,_,_,_,_,_,_,9,_,_,_,_,_,_,_,8,_,_,_,7,_,_,_,5,_,_,_,4,_,_,_,7,_,_,_,4,_,_,_,5,_,4,_,2,_,_,_,4,_,_,_,_,_,6,_,8,_,_,_,_,_,_,_]},
+  C:{e:3,prog:[[0,'m'],[-4,'M'],[-2,'M'],[0,'m']],lead:[0,_,_,_,_,_,_,_,7,_,_,_,_,_,_,_,5,_,_,_,4,_,3,_,4,_,_,_,_,_,_,_,4,_,_,_,3,_,2,_,3,_,_,_,4,_,_,_,2,_,_,_,_,_,_,_,0,_,_,_,_,_,_,_]}}),
+ skL:SK({bpm:126,root:53,scale:'minor',style:'layer',form:['L1','L2','L3','L4']},{
+  L1:{e:0,prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,_,12,_,0,0,10,_,0,_,12,_,15,_,12,10,0,_,12,_,0,0,10,_,0,_,12,_,15,_,12,10,0,_,12,_,0,0,7,_,0,_,12,_,16,_,12,7,0,_,12,_,0,0,7,_,0,_,12,_,16,_,12,7]},
+  L2:{e:1,prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,_,12,_,0,0,10,_,0,_,12,_,15,_,12,10,0,_,12,_,0,0,10,_,0,_,12,_,15,_,12,10,0,_,12,_,0,0,7,_,0,_,12,_,16,_,12,7,0,_,12,_,0,0,7,_,0,_,12,_,16,_,12,7]},
+  L3:{e:2,prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,_,12,_,0,0,10,_,0,_,12,_,15,_,12,10,0,_,12,_,0,0,10,_,0,_,12,_,15,_,12,10,0,_,12,_,0,0,7,_,0,_,12,_,16,_,12,7,0,_,12,_,0,0,7,_,0,_,12,_,16,_,12,7]},
+  L4:{e:3,prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[4,_,_,4,_,_,2,_,4,_,_,4,_,_,5,_,4,_,_,4,_,_,2,_,0,_,_,_,_,_,_,_,5,_,_,5,_,_,4,_,5,_,_,5,_,_,7,_,6,_,_,_,_,_,4,_,1,_,_,_,_,_,_,_],bass:[0,_,12,_,0,0,10,_,0,_,12,_,15,_,12,10,0,_,12,_,0,0,10,_,0,_,12,_,15,_,12,10,0,_,12,_,0,0,7,_,0,_,12,_,16,_,12,7,0,_,12,_,0,0,7,_,0,_,12,_,16,_,12,7]}})});
+// SKICA kolo 6: celá skladba z intra hypnotického darksynthu – jen basový sekvencer a vrstvy z něj (filtr, ozvěna, zdvojení), žádná cizí melodie
+STYLES.hyp={drums(){},bass(){},lead(){},
+ pad(x){const {s16,t,c,sd,E}=x;if(s16!==0)return;const lp=E>=3?1800:1100;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sawtooth',f,t,sd*16,.012,{lp,a:.4,det:-12});tone('sawtooth',f,t,sd*16,.012,{lp,a:.4,det:12});}},
+ arp(x){const {s16,t,c,sd,bs}=x,S=secNow(),B=S.bass;if(!B)return;const cut=hypCut(S,bs,s16);
+  if(S.echo){const i=bs*16+s16-3,n=i>=0?B[i]:null;if(n!=null){const c2=chordAt(M.step-4);tone('sawtooth',NOTE(c2.root+12+n),t,sd*.7,.02,{lp:Math.min(3200,cut*1.4)});}}
+  if(S.dbl){const n=B[bs*16+s16];if(n!=null)tone('sawtooth',NOTE(c.root+12+n),t,sd*.8,.026,{lp:Math.min(3600,cut*1.5),det:7});}}};
+function hypCut(S,bs,s16){return S.ramp?S.ramp[0]+(S.ramp[1]-S.ramp[0])*(bs*16+s16)/64:S.cut||2000;}
+STYLES.hyp.bang={play(x,n){const {t,c,sd,s16,bs}=x,f=NOTE(c.root+n),cut=hypCut(secNow(),bs,s16);tone('sawtooth',f,t,sd*.9,.05,{lp:cut,bus:drive(6)});tone('square',f*2,t,sd*.7,.032,{lp:Math.max(1700,cut*1.3)});if(s16%4===0)tone('sine',NOTE(c.root-12),t,sd*3,.12);},
+ bass(x){},
+ drums(x){const {s16,t,E,bs}=x,S=secNow();
+  const kick=(v,d)=>{tone('sine',52,t,.26,.7*v,{from:170,glide:.03});tone('square',320,t,.014,.07*v,{lp:1900});noiz(t,.01,.38*v,M.musicBus,'highpass',2500);pumpAt(t,d);};
+  if(S.build){const every=bs<2?4:bs<3?2:1;if(s16%every===0)IN.snare(t,.25+.2*bs+.02*s16);if(s16%4===0)kick(.7,.8);return;}
+  if(E===0)return;if(s16%4===0)kick(1,E>=3?.6:.75);if(s16%4===2)IN.hat(t,E>=3?.17:.13,true);
+  if(E>=2&&(s16===4||s16===12))IN.clap(t,1);if(E>=3&&s16%2)IN.hat(t,.06);if(E>=3&&s16===0&&bs===0)noiz(t,1.2,.12,M.musicBus,'highpass',5000);}};
+STYLE_ROLE.hyp={bass:6.2,lead:20,arp:24,pad:23};BANG_TRIM.hyp=-3;STYLE_REV.hyp=.3;
+SONGS.skH={free:true,pure:true,bpm:112,root:49,scale:'minor',style:'hyp',keys:[0],form0:['I','A'],form:['B','C','K','R','C2','A'],bossForm:['C'],sec:{
+  I:{e:0,cut:500,prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,11,0,7,0,4,0,12,0,11,0,7,12,7,0,12,0,10,0,7,0,4,0,12,0,10,0,7,12,7]},
+  A:{e:1,ramp:[700,1100],prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,11,0,7,0,4,0,12,0,11,0,7,12,7,0,12,0,10,0,7,0,4,0,12,0,10,0,7,12,7]},
+  B:{e:2,cut:1400,echo:true,prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,11,0,7,0,4,0,12,0,11,0,7,12,7,0,12,0,10,0,7,0,4,0,12,0,10,0,7,12,7]},
+  C:{e:3,cut:2600,echo:true,dbl:true,prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,11,0,7,0,4,0,12,0,11,0,7,12,7,0,12,0,10,0,7,0,4,0,12,0,10,0,7,12,7]},
+  K:{e:0,cut:520,echo:true,prog:[[-4,'M'],[-4,'M'],[-2,'M'],[-2,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,12,0,11,0,7,0,4,0,12,0,11,0,7,12,7,0,12,0,11,0,7,0,4,0,12,0,11,0,7,12,7,0,12,0,10,0,7,0,4,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,4,0,12,0,10,0,7,12,7]},
+  R:{e:1,build:true,ramp:[600,2400],prog:[[0,'m'],[0,'m'],[-4,'M'],[-2,'M']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,11,0,7,0,4,0,12,0,11,0,7,12,7,0,12,0,10,0,7,0,4,0,12,0,10,0,7,12,7]},
+  C2:{e:3,cut:2800,echo:true,dbl:true,prog:[[-4,'M'],[-2,'M'],[0,'m'],[0,'m']],lead:[_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_],bass:[0,12,0,11,0,7,0,4,0,12,0,11,0,7,12,7,0,12,0,10,0,7,0,4,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7,0,12,0,10,0,7,0,3,0,12,0,10,0,7,12,7]}}};
 // ---- konec SKICA ----
 function playStep(s,t){
   if(!ac||!save.music||!M.musicBus||(ac.state!=='running'&&!M.offline))return;
-  const S=M.song,s16=s%16,P=songPos(s),c=chordAt(s),I=M.int,B=M.musicBus,sd=M.stepDur,bar=P.bar,ST=STYLES[S.style]||STYLES.grave;
+  const S=M.song,SPB=S.spb||16,s16=s%SPB,P=songPos(s),c=chordAt(s),I=M.int,B=M.musicBus,sd=M.stepDur,bar=P.bar,ST=STYLES[S.style]||STYLES.grave;
   // energy: the section's own energy, capped by how far the run is (quiet start, boss = full)
   const bang=isBang(S),ef=p=>S.free?p.sec.e:I>=3?3:p.sec.e===0?0:Math.min(p.sec.e,I>=2?2:1),E=ef(P),x={s16,t,c,I,E,sd,bs:P.bs,cyc:P.cyc,key0:S.root+P.key,bar};
   const R=M.roles,MB=M.musicBus,to=k=>{if(R)M.musicBus=R[k];};
@@ -2945,24 +3004,24 @@ function playStep(s,t){
   try{
   const BG=bang&&ST.bang||{},DR=BG.drums||ST.drums,SB=P.sec.bass;
   // 10h: a section may carry its own written bass riff (16ths, semitones from the chord root), played by the style's bang voice
-  to('pad');ST.pad(x);to('bass');if(SB&&BG.play){const n=SB[P.bs*16+s16];if(n!=null)BG.play(x,n);}else(BG.bass||ST.bass)(x);
+  to('pad');ST.pad(x);to('bass');if(SB&&BG.play){const n=SB[P.bs*SPB+s16];if(n!=null)BG.play(x,n);}else(BG.bass||ST.bass)(x);
   to('drums');if(I>=1||E>=1)DR(x);else if(s16===0)DR(Object.assign({},x,{E:0}));
   // 10h 'bang' songs: a snare roll and riser into a stronger section, a crash on its downbeat
   if(bang){const Bd=M.musicBus;
-    if(P.bs===3&&s16>=8){const N=songPos(s-s16+16),eN=ef(N);if(N.id!==P.id&&eN>=Math.max(1,E)){
+    if(P.bs===3&&s16>=8){const N=songPos(s-s16+SPB),eN=ef(N);if(N.id!==P.id&&eN>=Math.max(1,E)){
       if(s16===8&&eN>E)riser(t,sd*8,.11,Bd);noiz(t,.05,.05+.022*(s16-8),Bd,'bandpass',2500);if(s16>=12)tone('sine',150-(s16-12)*14,t,.1,.3,{slide:60});}}
-    if(P.bs===0&&s16===0&&E>=2&&s>=16&&songPos(s-16).id!==P.id){noiz(t,1.3,.18,Bd,'highpass',5600);noiz(t,.35,.09,Bd,'bandpass',3600);}}
+    if(P.bs===0&&s16===0&&E>=2&&s>=SPB&&songPos(s-SPB).id!==P.id){noiz(t,1.3,.18,Bd,'highpass',5600);noiz(t,.35,.09,Bd,'bandpass',3600);}}
   to('arp');if(E>=1&&I>=1)ST.arp(x);
-  if(P.sec.cm){const C=P.sec.cm,i=P.bs*16+s16,d=C[i];if(d!=null){let len=1;while(len<8&&i+len<64&&C[i+len]===null)len++;     // 10h: written counter-melody (16ths)
-    const f=NOTE(S.root+P.key+12+scaleNote(d));tone('p12',f,t,sd*len*.85,.05,{lp:3800});tone('triangle',f,t,sd*len*.9,.04);}}
+  if(P.sec.cm){const C=P.sec.cm,i=P.bs*SPB+s16,d=C[i];if(d!=null){let len=1;while(len<8&&i+len<C.length&&C[i+len]===null)len++;     // 10h: written counter-melody (16ths)
+    const f=NOTE(S.root+P.key+12+scaleNote(d));if(ST.cm)ST.cm(f,t,sd*len*.85);else{tone('p12',f,t,sd*len*.85,.05,{lp:3800});tone('triangle',f,t,sd*len*.9,.04);}}}
   if(bang&&!S.pure&&E>=2&&I>=1){const f=NOTE(c.root+24+c.tones[[0,1,2,1][s16%4]]+(s16%8>=4?12:0));tone('p12',f,t,sd*.55,E>=3?.016:.012,{lp:4200});}  // 10h: 16th pulse arpeggio
   to('lead');
   // lead: written motif; every loop varies it (octave lift on the answer, passing notes in the gaps), harmony at high energy
   // 10b: the melody plays in every section – before, e=1 sections (usually the main theme) were melody-less until late in the run,
   // which on a phone speaker left only drums + bass (10–18 dB dip); in the calm/early run it is just softer
   const full=I>=2||E===0||E>=3||(I>=1&&P.sec.e>=2)||M.song===SONGS.menu,lv=full?1:I>=1?.8:.6;
-  if(P.sec.lead.length===64){const L=P.sec.lead,i=P.bs*16+s16,d=L[i];                                                // 10h: a lead written in 16ths, played as written
-    if(d!=null){let len=1;while(len<8&&i+len<64&&L[i+len]===null)len++;const f=NOTE(S.root+P.key+12+scaleNote(d)),dur=sd*len*.9;ST.lead(f,t,dur,lv);
+  if(P.sec.lead.length===4*SPB&&(SPB!==16||P.sec.lead.length===64)){const L=P.sec.lead,i=P.bs*SPB+s16,d=L[i];                                                // 10h: a lead written in 16ths, played as written
+    if(d!=null){let len=1;while(len<8&&i+len<L.length&&L[i+len]===null)len++;const f=NOTE(S.root+P.key+12+scaleNote(d)),dur=sd*len*.9;ST.lead(f,t,dur,lv);
       if(bang&&!S.pure){tone('p25',f,t,dur*.85,.016*lv,{lp:3400});if(len>=2)tone('p12',f,t+sd*3,dur*.6,.007*lv,{lp:3000});}
       if(E>=3&&len>=2&&!S.pure)tone('triangle',NOTE(S.root+P.key+12+scaleNote(d-2)),t,dur*.8,.035);}}
   else if(s16%2===0){const L=P.sec.lead,i=P.bs*8+(s16>>1);let d=L[i],soft=1;
