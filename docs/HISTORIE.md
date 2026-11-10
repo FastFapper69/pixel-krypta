@@ -295,3 +295,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - Místnosti: `#kRoom` (zeď `crypt` s `data-wall`, živé pochodně) za všemi obrazovkami menu; scény `astro` (Souhvězdí), `forge2` (Kovárna), `niche` + `.kslot` (Vybavení), `.k-hall` (Síň slávy), `.k-camp` (co-op) – podle návrhů z Gemini, které uživatel poslal.
 - Méně textu: třída `kh` = vysvětlivka schovaná pod otazník (`kHelpSync`, `kHelpOpen`, `#kHelp`); Obchod: `chBadges` (záruka, denní limit), procenta bez opakovaného znaku.
 - `KIT.toCanvas` přes ImageData, kresby v původní velikosti s `image-rendering:pixelated` (zvětšování v obrázku bylo pomalé).
+
+## 10o – dotažení nové grafiky (2026-11-10)
+- Příprava: denní výzva jako odznaky (čas, truhla, Úlomky), popisy výzvy a map pod otazníkem (`kh`). Talenty: tlačítka kreslí `kAuto` (runový kámen, vybraný zlato). Mazlíčci bez proutí, posuvníky v Nastavení jako drážka se zlatým závažím.

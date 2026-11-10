@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10n';
+const GAME_VER='2026-11-10o';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4890,7 +4890,7 @@ function pausePaint(){const S=$('#scr-pause');if(!S||S.hidden)return;const pane=
   kSnap(W);const sg=S.querySelector('.k-sign'),top=Math.ceil(sg.getBoundingClientRect().top/2)*2+2;S.querySelectorAll('.k-sign>i').forEach(c=>{c.style.height=top+'px';});
   KIT.paint(S);}
 // 10n: společné prvky starých obrazovek (tlačítka, záložky, karty) kreslí stavebnice – materiál podle třídy. Volá se po každé změně stránky mimo běh.
-const KA=[['.market .card.chest>.btn',b=>['slab','parch']],['#scr-guide .gd',b=>['slab','parch']],['.k-ped',b=>['slab','slate']],['.btn:not(.art):not([data-k=slab])',b=>['btn',b.classList.contains('bad')||b.id==='ovQuit'?'danger':b.classList.contains('alt')?'slate':'gold']],
+const KA=[['.market .card.chest>.btn',b=>['slab','parch']],['#scr-guide .gd',b=>['slab','parch']],['.k-ped',b=>['slab','slate']],['.tch>button',b=>['btn',b.classList.contains('pick')?'gold':'rune']],['#scr-pets .ptslot .tslot',b=>['socket','slate']],['.btn:not(.art):not([data-k=slab])',b=>['btn',b.classList.contains('bad')||b.id==='ovQuit'?'danger':b.classList.contains('alt')?'slate':'gold']],
  ['.tabs:not(.sectabs)>button',b=>['btn',b.classList.contains('on')?'gold':'slate']],
  ['.tabs.sectabs>button',b=>['flag','',b.classList.contains('on')]]];
 function kAuto(){const A=document.getElementById('app');try{kHelpSync();}catch(_){}for(const [sel,fn] of KA)for(const el of A.querySelectorAll(sel)){if(!el.offsetWidth)continue;const [k,m,on]=fn(el);if(el.dataset.k!==k)el.dataset.k=k;if(m&&el.dataset.m!==m)el.dataset.m=m;
@@ -5665,7 +5665,7 @@ function renderCampaign(){
     const st=EN?(ok?((save.endW&&save.endW[id])?_t('Rekord: ')+save.endW[id]+' '+(save.endW[id]===1?_t('boss'):save.endW[id]<5?_t('bossové'):_t('bossů')):_t('Bez rekordu')):_t('Nejdřív mapu dohraj.')):ok?mapStatus(id,NK):(k?_t('Odemkneš výhrou na předchozí mapě'):NK>1?_t('Odemkneš výhrou finále kapitoly na stupni ')+NM_SHORT[NK-1]:NK?_t('Odemkneš poražením finále kapitoly'):_t('Odemkneš poražením finále kapitoly ')+ROMAN_CH[Math.max(0,chSel-1)]);
     const d=document.createElement('div');
     d.innerHTML='<h3><span class="num">'+(k+1)+'</span>'+m.name+(m.finale?'<span class="badge fin">'+_t('Finále')+'</span>':'')+(ok?'':_t('<span class="badge lk">Zamčeno</span>'))+'</h3>'+
-      (st?'<small>'+st+'</small>':'')+(on&&!EN?'<p>'+m.desc+'</p>':'');
+      (st?'<small>'+st+'</small>':'')+(on&&!EN?'<p class="kh"><b>'+m.name+':</b> '+m.desc+'</p>':'');
     if(ok&&!NK&&!EN&&isFresh('map','m'+id))d.querySelector('h3').insertAdjacentHTML('beforeend',NEW_TAG());
     if(!NK&&!EN){const fs=featAt(id);if(fs.length)d.insertAdjacentHTML('beforeend','<small class="fnext">'+fs.map(F=>'<img alt="" src="'+dataUrl(SPR.icon[F.ic])+'">'+F.name).join(' · ')+'</small>');}
     b.appendChild(cv);b.appendChild(d);
@@ -5740,7 +5740,7 @@ function renderSelect(){
   renderCampaign();
   {const k=mapOpenAt(sel.map,sel.nm||0)?(sel.nm||0):0;const en=!!sel.endless;$('#goBtn').textContent=_t('Vyrazit')+(en?' · ∞':k?' · '+NM_SHORT[k]:'');$('#goBtn').classList.toggle('nm',!!k||en);}
   const di=dailyInfo(),db=$('#dailyBox');db.hidden=!featOn('daily'); // unlocks on the first desert map (09h)
-  db.innerHTML='<div class="card daily'+(di.done?' done':'')+_t('"><div class="t"><h3>Denní výzva · ')+MAPS[di.map].name+'</h3><small><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small>'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 3 minuty → truhla s předmětem + 20 Úlomků.'))+_t('</small><small>Stejný běh pro všechny · žebříček Dnes')+(mapUnlocked(di.map)?'':_t(' · mapu si tak vyzkoušíš, i když ji ještě nemáš (do kampaně se nepočítá)'))+_t('</small></div><button class="btn sm" id="dailyGo">Hrát</button></div>');
+  db.innerHTML='<div class="card daily'+(di.done?' done':'')+_t('"><div class="t"><h3>Denní výzva · ')+MAPS[di.map].name+'</h3><small><b>'+di.mod.name+'</b></small><div class="k-bd">'+(di.done?'<span>'+KIT.img('sun')+'0/1</span>':'<span>'+KIT.img('clock')+'3:00</span><span><img alt="" class="kp" src="'+dataUrl(SPR.icon.chest_wood)+'" style="width:36px;height:32px"></span><span>'+KIT.img('shard')+'20</span>')+'</div><small class="kh"><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small class="kh">'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 3 minuty → truhla s předmětem + 20 Úlomků.'))+_t('</small><small class="kh">Stejný běh pro všechny · žebříček Dnes')+(mapUnlocked(di.map)?'':_t(' · mapu si tak vyzkoušíš, i když ji ještě nemáš (do kampaně se nepočítá)'))+_t('</small></div><button class="btn sm" id="dailyGo">Hrát</button></div>');
   $('#dailyGo').onclick=()=>{sfx('ui');startRun(heroOwned(sel.hero)?sel.hero:'knight',di.map,{mod:di.mod.id});};
 }
 // ----- upgrade tree (08g): three branches; each starts with its stat lines (the old Vylepšení, save.meta.hp…), then five key nodes
@@ -7195,10 +7195,10 @@ function renderHero(){
   const lines=bonusLines(B);
   $('#hCard').innerHTML='<div class="hc-top"><img alt="" src="'+dataUrl(SPR.hero[h])+'"><div><h3>'+HEROES[h].name+_t('</h3><small>Úroveň ')+L+' / '+HERO_MAX+'</small>'+
     '<div class="lvbar"><i style="width:'+(L/HERO_MAX*100)+'%"></i></div></div></div>'+
-    (lines.length?'<ul class="ic-st">'+lines.map(l=>'<li><span>'+l[0]+'</span><b>'+l[1]+'</b></li>').join('')+'</ul>':_t('<p class="hint">Zatím žádné bonusy. Vylepši hrdinu nebo mu nasaď výbavu.</p>'))+
+    (lines.length?'<ul class="ic-st">'+lines.map(l=>'<li><span>'+l[0]+'</span><b>'+l[1]+'</b></li>').join('')+'</ul>':_t('<p class="hint">Zatím žádné bonusy. Vylepši hrdinu nebo mu nasaď výbavu.</p>').replace('class="hint"','class="hint kh"'))+
     SET_IDS.filter(id=>setCount(h,id)).map(id=>setInfoHtml(id,h)).join('')+
     '<ul class="tal">'+T.map(t=>'<li class="'+(L>=t[0]?'on':'')+'"><b>'+t[0]+'</b>'+t[1]+'</li>').join('')+'</ul>'+
-    (featOn('talents')?'':'<p class="hint">'+_t('Talenty: ')+featLock('talents')+'</p>')+'<div class="tchs"><small>'+_t('Volba talentu (vyber jeden ze dvou)')+'</small>'+TAL_TIERS.map(t=>{const c=heroTal(h,t),open=L>=t;
+    (featOn('talents')?'':'<p class="hint">'+_t('Talenty: ')+featLock('talents')+'</p>')+'<div class="tchs"><small class="kh">'+_t('Volba talentu (vyber jeden ze dvou)')+'</small>'+TAL_TIERS.map(t=>{const c=heroTal(h,t),open=L>=t;
       return '<div class="tch'+(open?(c>=0?' on':' ask'):' lock')+'"><b>'+t+'</b>'+TAL_CH[t].map((o,i)=>'<button data-t="'+t+'" data-i="'+i+'" class="'+(c===i?'pick':'')+'"><img alt="" src="'+dataUrl(o.ic==='*'?SPR.icon[HEROES[h].start]:SPR.icon[o.ic])+'"><span><em>'+o.t+'</em>'+(o.ic==='*'?WEAPONS[HEROES[h].start].name+': +30 %':o.d).replace(/ %/g,'\u00a0%')+'</span></button>').join('')+'</div>';}).join('')+'</div>'+
     (L<HERO_MAX?'<div class="hc-up"><div class="costs">'+costHtml(c,1)+'</div><button class="btn sm" id="hUp"'+(canHeroUp(h)?'':' disabled')+_t('>Vylepšit na ')+(L+1)+'</button></div>'+missHint(c):
       (()=>{const pc=prCost(h),pr=heroPr(h);return '<div class="prs"><img alt="" src="'+dataUrl(SPR.icon.star)+'">'+_t('Prestiž ')+pr+'<small style="color:var(--muted);font-weight:600">'+_t(' · každá +0,5 % zdraví a poškození')+'</small></div><div class="hc-up"><div class="costs">'+costHtml(pc,1)+'</div><button class="btn sm" id="hPr"'+(canPay(pc)?'':' disabled')+'>'+_t('Prestiž +1')+'</button></div>'+missHint(pc);})());
@@ -8463,6 +8463,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10o',d:'10. 11. 2026',t:_t('Dotažený nový vzhled'),hl:[
+  {ic:'clock',t:_t('Příprava bez odstavců'),d:_t('Denní výzva ukazuje jen čas, truhlu a Úlomky. Popisy výzvy a map najdeš pod otazníkem.')},
+  {ic:'power',t:_t('Talenty jako kamenné desky'),d:_t('Vybraný talent je zlatý, zamčené jsou šedé.')}],
+  items:[_t('Mazlíčci bez proutěného vzoru.'),_t('Nové posuvníky hlasitosti v Nastavení.')]},
  {v:'2026-11-10n',d:'10. 11. 2026',t:_t('Celá hra v novém vzhledu'),hl:[
   {ic:'candle',t:_t('Každá obrazovka je místnost'),d:_t('Za všemi obrazovkami je cihlová zeď krypty s hořícími pochodněmi. Tlačítka, záložky a písmo jsou všude stejné.')},
   {ic:'stars',t:_t('Souhvězdí v astrolábu'),d:_t('Hvězdnou mapu teď rámuje bronzový prstenec s runami.')},

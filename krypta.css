@@ -1316,3 +1316,19 @@ button,input,select,textarea{font-family:inherit}
 .k-camp{display:flex;align-items:flex-end;justify-content:center;gap:18px;height:112px;box-shadow:inset 0 -6px 0 #46392f,inset 0 -8px 0 #18130f}
 .k-camp img{image-rendering:pixelated;margin-bottom:8px}.k-camp img:last-child{transform:scaleX(-1)}
 .k-camp .k-fire{margin-bottom:8px;transform:scale(2);transform-origin:50% 100%}
+/* 10o: Příprava, talenty, mazlíčci, posuvníky */
+.card.daily .k-bd{margin-top:6px;color:#fffbe6}.card.daily small b{color:#ffd75e}
+.tch{grid-template-columns:36px 1fr 1fr!important;gap:8px!important}
+.tch>b{background:none!important;box-shadow:none!important;color:#8d877a;font-size:30px!important;font-family:'Jersey 15',var(--font)!important}.tch.on>b{color:#ffd75e!important}
+.tch>button.ka{padding:6px 8px 12px!important;color:#cfc8b8!important;animation:none!important;min-height:56px}
+.tch>button.ka img{width:22px!important;height:22px!important}
+.tch>button.ka.pick{color:#3a2208!important;text-shadow:0 2px 0 #fff3b0}.tch>button.ka.pick em{color:#3a2208!important}
+.tch.ask>button.ka em{color:#ffd75e}
+.tch.lock>button.ka{opacity:1!important;filter:grayscale(1) brightness(.55)}
+#scr-pets .ptslot .tslot.ka{background-color:transparent!important;box-shadow:inset 0 -8px 0 #3d7434,inset 0 -10px 0 #26502a!important}
+#scr-pets .ttile,#scr-pets .tcard{background:#17191d!important;box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 0 0 4px #3d3c39!important}
+#scr-pets #ptLocked .tcard small:nth-of-type(2){display:none}
+.vols{background:#17191d!important;box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 0 0 4px #3d3c39!important;clip-path:none!important}
+.vols input[type=range]::-webkit-slider-runnable-track{height:12px!important;background:linear-gradient(90deg,#ffd75e 0 var(--v,100%),#0b0c0e var(--v,100%))!important;box-shadow:0 0 0 2px #111010,0 0 0 4px #6f6c67,0 2px 0 4px #3d3c39!important}
+.vols input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:28px;margin-top:-8px;border:0;border-radius:0;background:linear-gradient(#fff3b0 0 4px,#f2b632 4px 20px,#8f5a12 20px);box-shadow:0 0 0 2px #3a2208}
+.vols input[type=range]::-moz-range-thumb{width:20px;height:28px;border:0;border-radius:0;background:linear-gradient(#fff3b0 0 4px,#f2b632 4px 20px,#8f5a12 20px);box-shadow:0 0 0 2px #3a2208}
