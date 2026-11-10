@@ -288,7 +288,7 @@ const HEROES={
  // heroes of future chapters: locked until their chapter exists (soon), each brings its weapon to everyone at hero level 8
  smith:{name:_t('Kovářka'),desc:_t('Odolná řemeslnice: <b>+20 zdraví</b> a <b>brnění +1</b>.'),start:'hammer',hp:20,armor:1,dmg:0,spd:0,cost:1500,need:'doly',pal:{r:'#c8502a',a:'#7a4a2a',c:'#a87048'},rows:[
   '...rrr','..rrrr','.rrfff','.rfpff','..ffff','.ssccc','sscaaa','sscaaa','.ccaaa','..a..a','..n..n']},
- shaman:{name:_t('Vědma mrazu'),sname:_t('Vědma'),desc:_t('Vidí daleko: <b>sbírá z 20 % větší dálky</b> a má <b>+8 % poškození</b>.'),start:'icicle',hp:0,armor:0,dmg:.08,spd:0,cost:1500,need:'jezero',pal:{a:'#e8f4ff',c:'#3ac8c0',e:'#2a7a8a'},rows:[
+ shaman:{name:_t('Vločka'),sname:LANG==='en'?'Shaman':undefined,desc:_t('Vidí daleko: <b>sbírá z 20 % větší dálky</b> a má <b>+8 % poškození</b>.'),start:'icicle',hp:0,armor:0,dmg:.08,spd:0,cost:1500,need:'jezero',pal:{a:'#e8f4ff',c:'#3ac8c0',e:'#2a7a8a'},rows:[
   '...aaa','..aaaa','.aaffu','.afpfu','.aafff','.ccccc','cceccc','ccecce','.ccccc','..c..c','..i..i']},
  sailor:{name:_t('Pirátka'),desc:_t('Rychlá jako vítr: běhá o <b>12 % rychleji</b>.'),start:'anchor',hp:5,armor:0,dmg:0,spd:.12,cost:1500,need:'vrakoviste',pal:{r:'#e8453c',a:'#ffffff',c:'#3a5ab8',d:'#2a2036'},rows:[
   '...rrr','.rrrrr','.dffff','.dfpff','..ffff','.aaaaa','acccca','aaaaaa','.cccca','..d..d','..n..n']},
@@ -339,7 +339,7 @@ function chestArt(kind){const W=36,H=32;return artSprite(W,H,g=>{const R=(x,y,w,
     R(15,4,6,3,'#e8607a');R(12,3,4,3,'#e8607a');R(20,3,4,3,'#e8607a');R(12,3,4,1,'#ff9ab0');R(20,3,4,1,'#ff9ab0');R(17,4,2,2,'#b83a5a');
     const px=18,py=21;R(px-2,py,4,3,'#f4ecd8');R(px-3,py+1,6,1,'#f4ecd8');for(const [dx,dy] of [[-4,-2],[-2,-3],[1,-3],[3,-2]])R(px+dx,py+dy,1,2,'#f4ecd8');}
  });}
-const HERO_DAT={knight:_t('Rytíři'),mage:_t('Mágovi'),archer:_t('Střelci'),builder:_t('Staviteli'),bard:_t('Bardovi'),warlord:_t('Žoldákovi'),tamer:_t('Krotiteli'),smith:_t('Kovářce'),shaman:_t('Vědmě'),sailor:_t('Pirátce'),astro:_t('Astře')};
+const HERO_DAT={knight:_t('Rytíři'),mage:_t('Mágovi'),archer:_t('Střelci'),builder:_t('Staviteli'),bard:_t('Bardovi'),warlord:_t('Žoldákovi'),tamer:_t('Krotiteli'),smith:_t('Kovářce'),shaman:_t('Vločce'),sailor:_t('Pirátce'),astro:_t('Astře')};
 const SOON_CH={c3:'III',c4:'IV',c5:'V',c6:'VI'};
 
 /* ----- art: icons (8x8, not mirrored) ----- */
@@ -2955,7 +2955,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10f';
+const GAME_VER='2026-11-10g';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -8000,9 +8000,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-10g',d:'10. 11. 2026',t:_t('Vločka'),hl:[
+  {ic:'hero:shaman',t:_t('Nové jméno ledové hrdinky'),d:_t('Šamanka mrazu se teď jmenuje Vločka.')}]},
  {v:'2026-11-10f',d:'10. 11. 2026',t:_t('Hvězdná hudba a kratší jména'),hl:[
   {ic:'map:hvezdarna',t:_t('Hvězdárna hraje po svém'),d:_t('Kapitola VI má vlastní nástroje: pulzující basy, třpytivé arpeggio a skleněnou melodii. Každá mapa má k hlavnímu tématu vlastní odpověď a vlastní hudbu bosse.')},
-  {ic:'hero:warlord',t:_t('Jména se vejdou'),d:_t('Kratší jména hrdinů už se v kartě nezmenšují ani na malém telefonu: Střelec, Žoldák, Vědma mrazu, Pirátka a Astra.')},
+  {ic:'hero:warlord',t:_t('Jména se vejdou'),d:_t('Kratší jména hrdinů už se v kartě nezmenšují ani na malém telefonu: Střelec, Žoldák, Vločka, Pirátka a Astra.')},
   {ic:'skull',t:_t('Bossové víc hřmí'),d:_t('V Hlubinách, Ledové říši a Nebeské hvězdárně boss rozjede rytmické akordy, hudba při něm zesílí víc.')}],
   items:[_t('Trůn zimy, Podzemní řeka, Lavinová soutěska a Pirátský přístav začínají vlastní melodií, už nekopírují jiné mapy.'),_t('Konec fráze už nezní na telefonu jako ticho: dlouhý tón dostane tichou ozvěnu.')]},
  {v:'2026-11-10e',d:'10. 11. 2026',t:_t('Hudba bez děr'),hl:[

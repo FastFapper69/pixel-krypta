@@ -36,7 +36,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Zpětná vazba a telemetrie hráčů:** čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak `cd tests/tools && node -e "require('./lib').prep()"` (vytvoří off.html bez klíče a vedle něj game.js, krypta.css, lang-en.js a symlinky). Audit to dělá sám. Playwright je předinstalovaný.
 
-## Předávka 2026-11-10 ~13:00 (verze 10f, vše na main, Pages nasazené)
+## Předávka 2026-11-10 ~14:15 (verze 10g = 10f + ledová hrdinka Vločka, vše na main, Pages nasazené)
 - 10f **hudba kapitoly VI + nástroje, ať další kapitoly projdou napoprvé**:
   - `songKit` v2: `answer` (vlastní odpověď), `bossAnswer`, smyčka `A B R C D B A`, boss `X Y X Z`, prázdný takt generátor neudělá. Kapitola VI má vlastní styl `STYLES.star` (dřív půjčený `frost`), mix změřený `rolecal.js`.
   - Engine: takt s jedinou držanou notou dostane v půlce tichou ozvěnu (o kvintu výš) – dřív díra 9–12 dB v klidu (hrobka, majak, paluba, trun). Bossové frost, forge a star mají v `pad` rytmické akordy při `E>=3` (dřív boss +1,7 až +2,8 dB).
@@ -44,7 +44,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
   - Výsledek: `skladby.js` všech 31 skladeb VERDIKT v cíli (propady 0, klid −2 až −6, boss +3 až +5).
   - Úvodní motivy Trůnu zimy, Řeky, Soutěsky a Přístavu přepsané (kopírovaly Hřbitov, Bažinu, Srdce hory, Pevnost).
   - Nové nástroje: `tests/tools/hudbacheck.js [cN|all]` + pravidla `hudba-pravidla.js` (volá je i `chapcheck.js`), `rolecal.js` (mix nového stylu proti odposlouchaným frost/sea), `skladby.js cN` s řádkem VERDIKT. Postup ve skillech `zvuk-a-hudba` („Hudba nové kapitoly“) a `nova-kapitola`.
-- 10f **jména hrdinů**: limit 85 % dlaždice (49 px při 12 px na telefonu 360 px), CZ i EN, písmo se nesmí zmenšovat. Přejmenováno: Lučištník → Střelec, Zbrojmistr → Žoldák (EN Warlord), Šamanka mrazu → Vědma mrazu (EN zůstává Frost Shaman), Námořnice → Pirátka (EN Pirate), Hvězdářka → Astra (CZ i EN; v příběhu „hvězdářka Astra“), EN Blacksmith → Smith. Kontrola `tests/tools/jmenahrdinu.js`, volá ji `chapcheck.js hero:id`. Pravidlo ve skillu `novy-hrdina`. Staré Novinky nechávají stará jména (historie).
+- 10f **jména hrdinů**: limit 85 % dlaždice (49 px při 12 px na telefonu 360 px), CZ i EN, písmo se nesmí zmenšovat. Přejmenováno: Lučištník → Střelec, Zbrojmistr → Žoldák (EN Warlord), Šamanka mrazu → Vločka (EN zůstává Frost Shaman, v kartě Shaman; „Vědma mrazu“ uživatel zamítl), Námořnice → Pirátka (EN Pirate), Hvězdářka → Astra (CZ i EN; v příběhu „hvězdářka Astra“), EN Blacksmith → Smith. Kontrola `tests/tools/jmenahrdinu.js`, volá ji `chapcheck.js hero:id`. Pravidlo ve skillu `novy-hrdina`. Staré Novinky nechávají stará jména (historie).
 
 ## Předávka 2026-11-10 ~11:00 (verze 10e, vše na main, Pages nasazené)
 - 10d: balanc všech kapitol (viz KAMPAN.md „10d“) + plynulost menu (paprsky `.fc-rays` na GPU vrstvě, `heroStrip`/`bartFit` bez layout thrash, dozvuk levněji a po prvním snímku, Novinky po 6 + dočítání). Měření: `menuperf.js`; zaseknutí obrazovek dřív 200–340 ms, teď 60–130 ms (CPU 4× zpomalené).
@@ -54,7 +54,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
 - Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
 
-## Aktuální stav (verze 10f, 10. 11. 2026 ~13:00, vše na main, Pages nasazené)
+## Aktuální stav (verze 10g, 10. 11. 2026 ~13:00, vše na main, Pages nasazené)
 - Hra: 6 kapitol (30 map, I–VI), 11 hrdinů, Noční můry I–III, Nekonečná krypta na finále, Runy, Souhvězdí, Nástěnka (denní úkoly, kontrakty, týdenní výzva), co-op beta, mazlíčci, věže jen z bedny. Podrobnosti kapitol `KAMPAN.md`, ekonomika `EKONOMIKA.md`, historie všech verzí `docs/HISTORIE.md`, mapa kódu `docs/KOD.md`.
 - Vzhled: kámen a železo (paleta 09z2), kovaná tlačítka všude; **v hlavním menu mají vlastní vzhled jen Hrát (zlato) a Souhvězdí (noční nebe), ostatní jsou jednotné železo** (09z8: uživateli vadil hnědý co-op a Nástěnka i rohy na Vybavení – nepřidávat), fialová jen pro Epické a kouzla. Hlavní menu = pixelové rámy v plátně (`bartDraw`), ostatní tlačítka = CSS rám `.btn:not(.art)` měněný jen proměnnými.
 - Server: hra mluví s `profiles` jen přes `my_profile` / `save_profile` / `claim_profile_v2` (limit PINu), skóre čistí `stats_clean`, protokoly `private.pin_fail` a `private.cheat_log`. Migrace v `supabase/migrations/`.
