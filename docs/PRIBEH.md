@@ -1,4 +1,4 @@
-# Pixel Krypta – příběh a plán aktů (schváleno 11. 11. 2026, červená nit I–VII hotová v 11k, páteř přes akty a akt II přepsané v 11y)
+# Pixel Krypta – příběh a plán aktů (schváleno 11. 11. 2026, červená nit I–VII hotová v 11k, páteř a akt II zjednodušené v 11z)
 
 Struktura: **akt = 10 kapitol**, na konci aktu dynamický těžký boss přes celou kapitolu X.
 Akt I = kapitoly I–X (všechny hotové, X v 11p). Akt II = XI–XX.
@@ -6,37 +6,29 @@ Obtížnost dál podle `DIFF_CIL`: každá 3. kapitola je zeď (IX, XII, XV, XVI
 
 ---
 
-## Páteř příběhu přes všechny akty (11y, zadání uživatele 11. 11.: ne random, ne obsáhlé, zvraty a drama, počítat s dalšími akty)
+## Páteř příběhu (11z: uživatel odmítl verzi 11y jako moc složitou a nucenou, „keep it simple“)
 
-**Tajemství, které se odkrývá po vrstvách:** pod světem spí **Spáč**. Svět a všechno v něm existuje jen, dokud spí. **Hvězda** nebyla dar ani slunce, ale **zámek**: ukolébavka, kterou ukovali **Bdělí**, aby se nikdy nevzbudil. A **hrdina** není člověk: je to Spáčova vůle probudit se, kterou z něj Bdělí vyřízli a pohřbili v kryptě. Jiskra z rozbité hvězdy ho vzbudila.
+**Celý příběh ve třech větách:**
+1. **Akt I:** hvězda se rozbila, její střepy udělaly ze sedmi vládců tyrany. Sbíráš střepy. **Zvrat:** nosil jsi je Aurelovi, který hvězdu rozbil. Porazíš ho a hvězda je zpátky.
+2. **Akt II:** hvězda držela ve spánku **Spáče** pod světem. Teď se budí a jeho noční můry lezou ven. Jdeš ho dolů uspat. **Zvrat:** Spáč není zlý a vstát nechce. Někdo ho budí schválně.
+3. **Akt III (jen háček):** kdo ho budí a proč.
 
-Každý akt odhalí jednu vrstvu a **obrátí smysl toho předchozího**:
-| Akt | Co hráč sbírá | Co si myslí | Zvrat v půlce | Zvrat na konci | Otázka, která táhne dál |
-|---|---|---|---|---|---|
-| I Padlá hvězda | 7 střepů | zastavuju tyrany | IX: střepy jsem nosil Aurelovi | X: Aurelovi to poradil hlas ze snu, hvězda hlídala něčí spánek | kdo spí pod světem a proč mu odpovídá moje jiskra? |
-| II Spáč | 9 tónů ukolébavky | uspím netvora a zachráním svět | XV: Spáč je vězeň, hvězdu ukovali Bdělí a mě pohřbili oni | XVIII–XX: jsem jeho kus; desátý tón je moje jiskra; zaváhám a Spáč se vzbudí | svět bledne od okrajů a na obloze se otevírají dveře |
-| III Bdělí (jen háček) | zatím neurčeno | bráním svět před Bdělými | neurčeno | neurčeno (otevřené: kdo sní Bdělé?) | – |
-
-**Motivy, které se vracejí a mění význam (nic nového nevymýšlet, používat tyhle):**
-- **Zlaté oko:** v aktu I vypadá jako Aurelovo. Ve skutečnosti je to pootevřené oko Spáče (proto hádanka Sfingy „Co se dívá, i když spí?“ a finále aktu II „Spáčovo oko“).
-- **Jiskra v hrudi = tlukot = rytmus hry:** hrdina bojuje do rytmu, protože jeho jiskra tluče stejně jako Spáčovo srdce (odhalení v XIX).
-- **Hlas ze snu:** poradil Aurelovi rozbít hvězdu; v aktu II mluví k hrdinovi a pomáhá mu. Hráč mu nemá věřit, a přece nelže.
-- **„Ty ho vzbudíš.“** (Královna, IV): hráč si myslí, že jde o Aurela; platí to až na konci aktu II.
-- **Nicota** (VII: „Byl jsem tu před první hvězdou.“) byla Spáčova noční můra, první, která unikla.
-
-**Pravidla psaní (hlídá `tests/tools/pribeh.js`):** zápis `STORY` nejvýš 240 znaků a 3–4 krátké věty: co padlo, jedna nová informace, kam to táhne dál. Jedna kapitola = jedna nová informace, ne víc. Zvrat má zaznít **v boji** (hláška bosse, 2. fáze), text po finále ho jen potvrdí. Žádné nové jméno bez důvodu. Nový akt musí mít řádek v tabulce výše dřív, než se začne stavět.
+**Pravidla (závazná):**
+- **Jeden akt = jeden padouch, jeden cíl, jeden zvrat.** Žádné vrstvy, skryté identity hrdiny, vedlejší frakce ani motivy s dvojím významem.
+- Hráč musí v každé chvíli umět říct jednou větou, co dělá a proč (akt I: beru střepy tyranům; akt II: jdu uspat Spáče).
+- Zápis `STORY` po finále ≤ 240 znaků: co padlo a kam se jde dál. Nová jména jen pro bosse. Hlídá `tests/tools/pribeh.js`.
+- Kapitoly nemusí nic odhalovat, stačí, že na sebe místy navazují (most). Zvrat zazní v boji, jednou větou.
 
 ---
 
 ## AKT I – „Padlá hvězda“
 
 ### Jádro příběhu (co hráč pochopí až v kapitole IX)
-Nad světem visela **Hvězda**. Její strážce **Aurel** ji roztříštil, protože mu to poradil hlas ze snu, a z jejího světla si chtěl ukout vlastní slunce.
-Velké střepy popadaly do říší a každý z někoho udělal tyrana (kdo drží střep, slyší Spáčovy sny). **Střep jde vzít jen poraženému**, proto Aurel potřeboval někoho, kdo tyrany porazí za něj (říká to Herold v úvodní kartě).
-**Prolog (11y):** jiskra z rozbité hvězdy spadla do krypty, uvízla hrdinovi v hrudi a probudila ho. Neví, kdo je, ani kdo ho pohřbil (odpověď až v aktu II). Jiskra ho táhne ke střepům.
-Hrdina sbírá střepy. **Netuší, že je nosí Aurelovi.** Po Nicotě (VII) se mu všech sedm vytrhne z rukou a vzlétne; Aurel z nich ve Hvězdné kovárně ukuje slunce a nosí je v koruně (2. fáze boje v X).
+Nad světem visela **Hvězda**. Její strážce **Aurel** ji roztříštil, aby si z jejího světla ukoval vlastní slunce. Střepy popadaly do říší a každý z někoho udělal tyrana. **Střep jde vzít jen poraženému**, proto Aurel potřeboval někoho, kdo tyrany porazí za něj (říká to Herold).
+**Prolog (11y/11z):** rána rozbité hvězdy probudila hrdinu v kryptě; střepy drží tyrani, jde si pro ně.
+Hrdina sbírá střepy a **netuší, že je nosí Aurelovi.** Po Nicotě (VII) se mu všech sedm vytrhne z rukou a Aurel z nich ukuje slunce; nosí je v koruně (2. fáze boje v X).
 
-**Červená nit (11k, texty zkrácené a upravené v 11y):** oko vyryté ve střepu (I), hádanka „Co se dívá, i když spí?“ (II), otisk oka v popelu (III), „Ty ho vzbudíš.“ (IV), oko na roztržené obloze (V), místa dopadu střepů tvoří oko (VI), „Neneseš je sobě…“ a střepy odlétají (VII). Nad každým finále se při mostu otevře zlaté oko (`bridgeEye`). Kronika ve Sbírce (`#cxStory`) má prolog a zápis každého finále. Astra v textech nevystupuje (je to hratelná hrdinka).
+**Červená nit:** oko vyryté ve střepu (I), hádanka „Kdo sbírá střepy, ale ne pro sebe?“ (II), otisk oka v popelu (III), „Nes je dál. On už čeká.“ (IV), oko na roztržené obloze (V), místa dopadu střepů tvoří oko (VI), „Neneseš je sobě…“ a střepy odlétají (VII). Nad každým finále se při mostu otevře zlaté oko (`bridgeEye`). Kronika ve Sbírce má prolog a zápis každého finále. Astra v textech nevystupuje (je hratelná).
 
 ### Kapitoly I–VII (hotové) – jak na sebe navazují
 | Kap. | Říše | Co se stane | Most dál |
@@ -118,36 +110,35 @@ Hrdina sbírá střepy. **Netuší, že je nosí Aurelovi.** Po Nicotě (VII) se
 
 **Úvodní karta:** speciální pro finále aktu. Hudba utichne, obrazovka praskne, pak drop.
 **Odměna:** **hrdina Paladin zdarma** (trofej za celý akt, ne za zlato; jeho zbraň má fúzi se základní zbraní), titul a profilový obrázek aktu, legendárka Koruna sedmi střepů, otevření aktu II. **Návrh:** odložená Síň bossů se odemkne tady (dává smysl hned po Síni trofejí).
-**Závěrečný text aktu I (`STORY.korunace`, od 11y):** hvězda se vrátí na oblohu a je zase noc. Aurel: „Hlupáku. Rozbít ji mi poradil hlas ze snu. Hlídala JEHO spánek.“ Pod světem se něco pohne a jiskra v hrdinově hrudi tomu odpoví. (Prasklou pečeť vysvětluje až úvod aktu II.) Karta konce aktu: z Aurelova prvního rytíře opadlo zlato = Paladin.
+**Závěrečný text aktu I (`STORY.korunace`, 11z):** hvězda se vrátí na oblohu a je zase noc. Aurel: „Hlupáku. Ta hvězda držela ve spánku JEHO.“ Pod světem se něco pohne. Karta konce aktu: z Aurelova prvního rytíře opadlo zlato = Paladin.
 
 ---
 
-## AKT II – „Spáč“ (kapitoly XI–XX, plán přepsaný v 11y)
+## AKT II – „Spáč“ (kapitoly XI–XX, jednoduchá verze 11z)
 
-**Výchozí stav:** hvězda zase svítí, ale pečeť zůstala prasklá. Lidé usínají a nebudí se, do světa prosakují noční můry. Jiskra v hrdinově hrudi tluče do rytmu něčeho pod světem.
-**Cíl hrdiny:** sestoupit snem dolů a zacelit pečeť **ukolébavkou**. Její tóny pohltily noční můry: finále každé kapitoly XI–XIX vydá jeden **tón** (místo střepů; v Kronice a na kartě po finále přibývá nota). Desátý tón chybí.
-**Hlas ze snu** hrdinu provází (krátké hlášky při mostu a po finále). Je to Spáč. Nelže, jen neříká všechno.
+**Příběh:** hvězda držela ve spánku Spáče pod světem. Byla rozbitá moc dlouho, Spáč se budí a jeho noční můry lezou do světa. Hrdina sestupuje snem dolů, aby ho znovu uspal. Každá kapitola je o vrstvu hlouběji a divnější (čas, gravitace, proměny mapy).
+**Zvrat (zazní až ve finále XX):** Spáč není zlý a vstát nechce. Někdo ho budí schválně. Kdo, to je akt III.
 
-| Kap. | Název | Téma a mechanika | Co se hráč dozví (jedna věc) | Most dál |
-|---|---|---|---|---|
-| XI | Mělký sen | pastelová snová krajina, létající nábytek; mapa se na takt přeskládá (mrknutí) | lidé nespí sami od sebe; hlas ze snu promluví poprvé: „Pojď níž. Ukážu ti, kdo tě pohřbil.“ | sen ztmavne |
-| XII | Říše strachu (zeď) | tma, strachy jsou vidět, jen když se na ně díváš | noční můry nosí tváře bossů z aktu I; Nicota byla první, která unikla | strach rozbije hodiny |
-| XIII | Rozbité hodiny | zóny zpomaleného a přetočeného času; boss si vrací zdraví, když ho netrefíš do rytmu | v přetočeném čase je vidět, jak hvězdu někdo **kuje**. Nevznikla sama | čas stéká ke kořenům |
-| XIV | Kořeny světa | kořeny, svítící houby; kořeny rostou a uzavírají mapu | kořeny světa nerostou ze země, ale z něj. Svět stojí na Spáči | kořeny omotávají stroj |
-| XV | Hodinový stroj (zeď) | město z ozubených kol; podlahy se točí, automaty | **zvrat:** stroj postavili **Bdělí**, aby Spáč nikdy nevstal. Hvězda je zámek. Boss Žalářník: „Ty tu nemáš být. Tebe jsme pohřbili.“ | rozbitý stroj: Spáč se začne převalovat |
-| XVI | Bouřné výšiny | Spáč se převaluje a sen se bouří; blesky na takt, vítr | čas běží: nahoře ve světě začínají blednout okraje (první je Hřbitov z kapitoly I) | blesk prorazí dno moře |
-| XVII | Potopené vzpomínky | ruiny světa, který se zdál před tím naším; bubliny vzduchu | minulý svět skončil, když se Spáč naposled vzbudil. Probuzení = konec všeho | v ruinách je knihovna |
-| XVIII | Knihovna osudu (zeď) | každý život je kniha; boss ti píše kletby do běhu | **zvrat:** hrdinova kniha je prázdná, jen na hřbetu má Spáčovo jméno. Hrdina je jeho vůle se probudit, kterou Bdělí vyřízli a pohřbili | poslední stránka vede dovnitř |
-| XIX | Tělo spáče | uvnitř obra, žíly; **tlukot srdce řídí hudbu i vlny** | rytmus, do kterého celou hru bojuješ, je jeho srdce. Devět tónů máš; desátý je tvoje jiskra | srdce vede k oku |
-| XX | Spáčovo oko | finále aktu: boss Spáč | viz níže | akt III |
+| Kap. | Název | Téma a mechanika | Most dál |
+|---|---|---|---|
+| XI | Mělký sen | pastelová snová krajina, létající nábytek; mapa se na takt přeskládá (mrknutí) | sen ztmavne |
+| XII | Říše strachu (zeď) | tma, strachy jsou vidět, jen když se na ně díváš | strach rozbije hodiny |
+| XIII | Rozbité hodiny | zóny zpomaleného a přetočeného času; boss si vrací zdraví, když ho netrefíš do rytmu | čas stéká ke kořenům |
+| XIV | Kořeny světa | kořeny, svítící houby; kořeny rostou a uzavírají mapu | kořeny omotávají stroj |
+| XV | Hodinový stroj (zeď) | město z ozubených kol; podlahy se točí, automaty | stroj se rozbije, sen se rozbouří |
+| XVI | Bouřné výšiny | Spáč se převaluje; blesky na takt, vítr | blesk prorazí dno moře |
+| XVII | Potopené vzpomínky | zatopené ruiny; bubliny vzduchu | v ruinách je knihovna |
+| XVIII | Knihovna osudu (zeď) | boss ti píše kletby do běhu | poslední stránka vede dovnitř |
+| XIX | Tělo spáče | uvnitř obra; **tlukot srdce řídí hudbu i vlny** | srdce vede k oku |
+| XX | Spáčovo oko | finále aktu: boss Spáč | akt III |
 
-**Boss aktu II – Spáč:** oko, které se během boje otevírá. Sní kopie bossů z aktu I (noční můry). **Poslední fáze: stín tvého hrdiny s tvojí výbavou a zbraněmi** („Jsi já.“).
-**Konec aktu II (jiný zvrat než v aktu I, hrdina tentokrát není oklamaný, rozhoduje sám):** hrdina zahraje devět tónů a oko se zavírá. Desátý tón je jeho jiskra: dohrát ukolébavku znamená vrátit se navždy do krypty. Zaváhá. Spáč: „Nechci nic zničit. Chci jen jednou vidět ráno.“ Oko se otevře. Přijde první opravdové ráno, okraje světa začnou blednout a tam, kde visela hvězda, se otevřou dveře. **Bdělí přicházejí.**
+**Boss aktu II – Spáč:** oko, které se během boje otevírá. Sní kopie bossů z aktu I. Poslední fáze: stín tvého hrdiny s tvojí výbavou.
+**Konec aktu II:** Spáč znovu usíná a stihne říct: „Já vstát nechtěl. Někdo mě budí.“ Nad světem zhasne hvězda podruhé.
 
-**Hrdinové aktu II (návrh jmen, projdou `jmenahrdinu.js`):** XI Náměsíčná (usnula a ve snu chodí dál), XV Strojník (automat, který utekl Žalářníkovi), XX Stín (tvůj stín z finále se k tobě přidá). **Probuzení** hrdinů z aktu I dává příběhově smysl: Spáčovy sny v nich budí skrytou sílu.
+**Hrdinové aktu II:** 3 noví (XI, XV, XX), jména se vymyslí s kapitolou. Probuzení hrdinů z aktu I: Spáčovy sny v nich budí skrytou sílu.
 
-## AKT III – „Bdělí“ (jen háček, nestavět, dokud nemá řádek v tabulce páteře)
-Spáč je vzhůru a svět bledne od okrajů (říše z aktu I se vracejí vybledlé = nové mapy ze starých kulis). Bdělí přišli Spáče znovu uspat a vyříznutý kus, tedy hrdinu, tentokrát zničit. Spáč je poprvé na hrdinově straně. Otevřené otázky pro zvraty: proč se ho Bdělí bojí; kdo sní Bdělé; jde svět zachránit, aniž by někdo zůstal vězněm?
+## AKT III (jen háček)
+Někdo Spáče budí schválně. Kdo a proč, se vymyslí, až na akt III dojde; platí pravidla páteře (jeden padouch, jeden cíl, jeden zvrat).
 
 ---
 

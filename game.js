@@ -3496,7 +3496,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11y';
+const GAME_VER='2026-11-11z';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -8180,17 +8180,17 @@ function skyTap(ev){const cv=$('#skyCv'),r=cv.getBoundingClientRect(),x=(ev.clie
 // ----- 09i: the Fallen Star story — in the last phase of a chapter finale the next chapter seeps in, then a "Cesta dál" card -----
 const BRIDGE={trun:{k:'sun',line:_t('Z Morvanovy lebky sálá žár pouštního slunce…')},brana:{k:'magma',line:_t('Pod Bránou slunce se probouzí žár hor…')},
   srdce:{k:'snow',line:_t('Srdce hory chladne, do jeskyně začíná sněžit…')},zima:{k:'thaw',line:_t('Ledový trůn taje, voda stoupá…')},paluba:{k:'stars',line:_t('Z roztržené oblohy padají hvězdy…')},zatmeni:{k:'void',line:_t('Za měsícem se otevírá Prázdnota…')},nicota:{k:'dawn',line:_t('Z nicoty se rodí nové slunce…')},kolebka:{k:'gild',line:_t('Slunce otevírá oko…')},dvur:{k:'stairs',line:_t('Ze dvora stoupá schodiště ze světla…')}};
-const STORY={prolog:_t('Do zapomenuté krypty spadla jiskra z rozbité hvězdy. Uvízla ti v hrudi a rozbušila se jako srdce. Nevíš, kdo jsi, ani kdo tě tu pohřbil. Ten tlukot tě ale táhne ven.'),
-  trun:_t('Z Morvanovy lebky vypadl žhnoucí střep hvězdy a jiskra v tvé hrudi se rozbušila rychleji. Ve střepu je vyryté drobné zlaté oko. Míří na jih, do pouště.'),
-  brana:_t('Sfinga padla a z jejího oka vypadl druhý střep. Nechala ti poslední hádanku: „Co se dívá, i když spí?“ Pod propadlou branou stoupá žár hor.'),
+const STORY={prolog:_t('Hvězda nad světem se rozbila a její střepy popadaly do sedmi říší. Rána tě probudila ve staré kryptě. Střepy teď drží tyrani. Jdi si pro ně.'),
+  trun:_t('Z Morvanovy lebky vypadl první střep hvězdy. Je v něm vyryté drobné zlaté oko. Další střep leží na jihu, v poušti.'),
+  brana:_t('Sfinga padla a z jejího oka vypadl druhý střep. Nechala ti poslední hádanku: „Kdo sbírá střepy, ale ne pro sebe?“ Pod propadlou branou stoupá žár hor.'),
   srdce:_t('Srdce hory vychladlo a ve strusce zůstal třetí střep. V popelu vedle něj je otisk zlatého oka. Někdo hlídá, kudy jdeš. Popel tuhne ve sníh.'),
-  zima:_t('Ledový trůn praskl a z koruny vypadl čtvrtý střep. Královna stihla zašeptat: „Ty ho vzbudíš.“ Koho, to už neřekla. Roztátá voda se valí k moři.'),
+  zima:_t('Ledový trůn praskl a z koruny vypadl čtvrtý střep. Královna stihla zašeptat: „Nes je dál. On už čeká.“ Roztátá voda se valí k moři.'),
   paluba:_t('Kraken klesl ke dnu a v jeho oku zářil pátý střep. Obloha se roztrhla a na okamžik se v ní otevřelo obrovské zlaté oko. Z trhliny padají hvězdy.'),
   zatmeni:_t('Zatmění se rozpadlo v prach a nechalo šestý střep. Na mapě oblohy tvoří místa, kam střepy dopadly, tvar oka. Za měsícem zeje díra do Prázdnoty.'),
   nicota:_t('Nicota se zhroutila a pustila sedmý střep. Zašeptala: „Neneseš je sobě…“ Vtom se ti všech sedm vytrhlo z rukou a vzlétlo. Na nebi z nich někdo kuje nové slunce.'),
   kolebka:_t('Fénix shořel a už nevstal. Slunce nad zahradou se otevřelo jako obrovské zlaté oko. Kam pohlédne, tam všechno zlátne. Na obzoru se třpytí město, které zezlátlo celé.'),
   dvur:_t('Herold padl a jeho poslední slovo znělo celým městem: Aurel. Strážce hvězdy, který ji sám rozbil. Sedm střepů jsi celou dobu nosil jemu. Schodiště ze světla vede přímo do slunce.'),
-  korunace:_t('Aurel padl a hvězda se vrátila na oblohu. Poprvé je zase noc. Stihl ale zašeptat: „Hlupáku. Rozbít ji mi poradil hlas ze snu. Hlídala JEHO spánek.“ Hluboko pod světem se něco pohnulo. A jiskra v tvé hrudi mu odpověděla.')};
+  korunace:_t('Aurel padl a hvězda se vrátila na oblohu. Poprvé je zase noc. Stihl ale zašeptat: „Hlupáku. Ta hvězda držela ve spánku JEHO.“ Hluboko pod světem se něco pohnulo.')};
 function bridgeDraw(g,ox,oy){const B=BRIDGE[run.mapId],e=run.boss;if(!B||!run.map.finale)return;
   if(!run.brOn){if(!e||e.dead||e.hp>e.max*.35)return;run.brOn=1;run.brA=0;run.brP=[];if(!RM)toast(B.line,2600);}
   const dt=Math.min(.05,frameDt||.016);run.brA=Math.min(1,run.brA+dt*.4);const a=run.brA,P=run.brP,k=B.k;if(RM&&P.length>20)P.length=20;
@@ -10078,6 +10078,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11z',d:'11. 11. 2026',t:_t('Jednodušší příběh'),items:[_t('Prolog a zápisy příběhu jsou kratší a srozumitelnější.')]},
  {v:'2026-11-11y',d:'11. 11. 2026',t:_t('Příběh od začátku'),hl:[
   {ic:'map:hrbitov',t:_t('Prolog: proč jsi vstal'),d:_t('Jiskra hvězdy tě probudila v kryptě.')},
   {ic:'boss:aurel',t:_t('Příběh je kratší a jasnější'),d:_t('Zápisy kapitol I–X jsou přepsané.')}],
