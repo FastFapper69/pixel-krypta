@@ -19,12 +19,12 @@ Opakovat: skill `.claude/skills/audit-projektu`, příkaz `node tests/tools/audi
 ## Nálezy (podle priority)
 
 ### Střední
-1. **Server – výkon (z minula, roste s hráči):** 6 RLS pravidel volá `auth.uid()` pro každý řádek (`auth_rls_initplan`: profiles ×2, feedback, runs, reports, coop_runs), chybí indexy `feedback.uid` a `runs.uid`. Návrh: jedna migrace (`(select auth.uid())` + 2 indexy). **Čeká na souhlas.**
+1. **Server – výkon (z minula, roste s hráči):** 6 RLS pravidel volá `auth.uid()` pro každý řádek (`auth_rls_initplan`: profiles ×2, feedback, runs, reports, coop_runs), chybí indexy `feedback.uid` a `runs.uid`. **Vyřešeno** migrací `20261111c_audit_vykon.sql` (spuštěná 11. 11. po souhlasu, ověřená nanečisto: vlastní zápis projde, cizí ne, denní limit zpráv funguje).
 2. ~~CLAUDE.md 40 kB~~ – vyřešeno v čistce: předávky z 10. 11. přesunuté do `docs/HISTORIE.md`, v CLAUDE.md zůstala platná rozhodnutí (teď ~32 kB).
 
 ### Nízká
-3. **Server – `stats_clean` a `stats_entry_ok` bez pevného `search_path`** (WARN, z minula). Jedna řádka v migraci z bodu 1.
-4. **`feedback_limit()`** je triggerová funkce, ale jde volat přes `/rpc` (anon i přihlášení). Zavolání samo selže, škodu neudělá; čistší je `revoke execute … from anon, authenticated` (spojit s bodem 1).
+3. **Server – `stats_clean` a `stats_entry_ok` bez pevného `search_path`** (WARN, z minula). **Vyřešeno** stejnou migrací.
+4. **`feedback_limit()`** je triggerová funkce, ale jde volat přes `/rpc` (anon i přihlášení). Zavolání samo selže, škodu neudělá; **vyřešeno** stejnou migrací (`revoke execute`).
 5. **Zbylých 20 nepoužitých lokálních proměnných** uvnitř dlouhých řádků kreslení a mechanik – neškodné, nechávám (riziko úpravy > přínos).
 6. **Upozornění serveru, která jsou v pořádku:** SECURITY DEFINER funkce volatelné hráči (záměr, kontrolují `auth.uid()`/klíč), `coop_board` pro anon (veřejný žebříček), RLS bez pravidel na `private.*` (nikdo zvenku), anonymní přihlášení u `profiles` (hra jinak nefunguje), „leaked password protection“ (hra hesla nepoužívá).
 7. Jeden hráč má pořád vynucené přejmenování (`rename_req`) – ještě nespustil hru.

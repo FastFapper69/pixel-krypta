@@ -465,3 +465,4 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 11x – audit a technická čistka (11. 11. 2026)
 - Plný audit zelený, zpráva `AUDIT.md`. Uložení při plném úložišti (`saveRetry`, hláška přes `note`), pojistka `storyShow`, odstraněn mrtvý kód (`CHEST_ROWS`, `teleRing`, `FEAT_BTN`, `CO_ABC`, `sharp`…), 3 duplicitní klíče v `window.__krypta`, smazané `tests/tools/off2.html` a `net3_*.png`. Staré předávky z 10. 11. přesunuté sem z CLAUDE.md.
+- Server (po souhlasu uživatele): migrace `20261111c_audit_vykon.sql` – RLS s `(select auth.uid())`, indexy `feedback_uid_created` a `runs_uid`, pevný `search_path` u `stats_clean`/`stats_entry_ok`, `feedback_limit` už nejde volat přes `/rpc`.
