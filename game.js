@@ -704,8 +704,9 @@ const MAP_TIER={
   poust:[1.58,.6,60,1.29],kanon:[1.65,.6,75,1.32],karavana:[1.46,.58,90,1.21],hrobka:[1.61,.62,105,1.28],brana:[1.29,.7,150,1.11], // II schod (40 % −3 na mapu, finále 20 %)
   doly:[3.33,1,110,1.76],kovarna:[3.92,1.05,125,1.87],reka:[5.42,1.1,140,2.21],krystaly:[5.27,1.15,155,2.18],srdce:[3.2,1.1,240,1.7], // III zeď (25 %, finále 12 %)
   jezero:[3.39,1.05,170,1.63],pevnost:[3.95,1.05,185,1.74],tajga:[5.08,1.08,200,2],soutezka:[3.9,1.1,215,1.75],zima:[4.22,1.2,320,1.88], // IV schod
-  vrakoviste:[11.81,1.2,230,2.88],pristav:[9.5,1.15,245,2.5],majak:[15.29,1.15,260,3.19],vir:[17.11,1.15,275,3.38],paluba:[5.81,1.2,380,1.96], // V schod (Maják a Vír na HP skoro nereagují, potřebují mechaniku)
-  hvezdarna:[6.59,.98,300,2.39],mlhovina:[14.91,1.32,315,3.01],ostrovy:[6.37,.94,330,2.49],souhvezdi:[11.81,.96,345,3.33],zatmeni:[7.01,1.04,480,2.67]}; // VI zeď (Mlhovina a Souhvězdí jdou vykitovat, HP vysoko)
+  vrakoviste:[11.81,1.2,230,2.88],pristav:[9.5,1.15,245,2.5],majak:[15.29,1.15,260,3.19],vir:[17.11,1.15,275,3.38],paluba:[6.6,1.2,380,2.09], // V schod (Maják a Vír na HP skoro nereagují, potřebují mechaniku)
+  hvezdarna:[5.92,.98,300,2.26],mlhovina:[14.91,1.32,315,3.01],ostrovy:[6.37,.94,330,2.49],souhvezdi:[11.81,.96,345,3.33],zatmeni:[7.01,1.04,480,2.67], // VI zeď (Mlhovina a Souhvězdí jdou vykitovat, HP vysoko)
+  okraj:[16.93,0.99,360,3.01],trosky:[20.71,1.01,375,3.18],ozveny:[15.3,1.03,390,2.84],svetlo:[8.82,1.05,405,2.49],nicota:[20.55,1.13,540,3.32]}; // VII schod
 for(const id in MAPS){const T=MAP_TIER[id]||[1,0,0];MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];MAPS[id].dmm=T[3]||1;}
 // campaign: a chapter = one theme, five maps and one material; its last map is the finale with a special boss
 const CHAPTERS=[
@@ -727,7 +728,7 @@ for(const h in HEROES)if(heroCh(h)>=1&&!HEROES[h].costFix)HEROES[h].cost=HERO_PR
 // síla čtená z kódu hry: úroveň hrdiny, Prestiž, talenty, Vylepšení, strom, výbava, sety, runy, Souhvězdí).
 //   u, v = útok a výdrž hráče na vstupu kapitoly (index = kapitola; za koncem tabulky se prodlouží stejným tempem)
 //   kh, kd = HP a poškození běžné mapy na cíl 40 % (khf, kdf finále), b = sklon (HP ×e^(1/b) ubere 1 logit výher)
-const PWR={u:[1.095,1.489,1.91,2.377,2.658,3.325,3.656,4.17,5.273,6.37],v:[135,355,599,678,814,1172,1348,1542,2073,2270],kh:160.51,khf:81.11,kd:3.393,kdf:2.384,b:2.67};
+const PWR={u:[1.095,1.489,1.91,2.377,2.658,3.325,3.656,4.562,4.991,7.039,7.878],v:[135,355,599,678,814,1207,1207,1207,1234,2044,2213],kh:210.47,khf:344.34,kd:3.038,kdf:3.513,b:2.67};
 const pwrAt=(a,ci)=>ci<a.length?a[ci]:a[a.length-1]*Math.pow(a[a.length-1]/a[a.length-2],ci-a.length+1);
 const isWall=ci=>ci%3===2; // III, VI, IX… = zeď
 // cílová úspěšnost průměrného hráče s účtem, se kterým na mapu přijde (stejné číslo v tests/tools/ladeni.js CIL)
@@ -3166,7 +3167,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11h';
+const GAME_VER='2026-11-11i';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -8835,6 +8836,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11i',d:'11. 11. 2026',t:_t('Obtížnost roste s tebou'),hl:[
+  {ic:'skull',t:_t('Obtížnost roste s tebou'),d:_t('Každá kapitola je teď stejně náročná vůči tomu, jak silný v ní obvykle jsi. Začátek je vlídnější, Prokleté pobřeží a Hvězdárna přitvrdily. Hlubiny a Hvězdárna zůstávají zdí.')},
+  {ic:'hero:astro',t:_t('Slabší hrdinové posíleni'),d:_t('Astra: Souhvězdí +25 % poškození. Pirátka: Kotva +12 %. Stavitel: +25 zdraví místo +15.')}],
+  items:[_t('Krápníky −12 % poškození (v davu byly daleko nejsilnější zbraní).'),_t('Nové kapitoly dostanou obtížnost samy podle síly hráče.')]},
  {v:'2026-11-11h',d:'11. 11. 2026',t:_t('Kapitola VII: Prázdnota'),hl:[
   {ic:'map:okraj',t:_t('Pět map v prázdnotě'),d:_t('Okraj prázdnoty, kde se <b>u tebe otevírají trhliny</b>, Trosky světů ze všech kapitol, Síň ozvěn, kde <b>tě tvůj stín sleduje o dva takty později</b>, Poslední světlo, kde jsi <b>v bezpečí jen u plující lucerny</b>, a finále Srdce nicoty.')},
   {ic:'boss:nothing',t:_t('Nicota'),d:_t('Finální boss kapitoly. Když začne polykat světlo, <b>střed arény tě táhne do černé díry</b>. Za ní se rodí nové slunce.')},

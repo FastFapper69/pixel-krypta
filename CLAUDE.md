@@ -87,7 +87,8 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
 - Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
 
-## Aktuální stav (verze 11h, 11. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 11i, 11. 11. 2026, vše na main, Pages nasazené)
+- **11i obtížnost podle síly hráče** (zadání uživatele 11. 11.: scaling má růst stejně jako síla hráče, nové kapitoly automaticky): `MAP_TIER` vyladěné boty na cílovou úspěšnost `DIFF_CIL` (účty `tests/tools/ucty.js`, ladění `ladeni.js`), mapy bez řádku dostanou `kitTier` ze síly hráče (`PWR`, `krivka.js zapis`). **`hpmK` u nových map nepoužívat.** Postup: skill `nova-kapitola` „Čísla“, podrobnosti `KAMPAN.md` „Obtížnost podle síly hráče“. Boti v `hraci.js` mají od 11i odemčené funkce podle postupu (dřív hráli bez fúzí, talentů a mazlíčků). Hrdinové: `herostat.js`.
 - **11g:** krystal XP má vlastníka (`g.pull` = hrdina, ke kterému letí; dřív `true` → v co-opu ho táhli oba a visel na poutu). Nové místo, které přitahuje krystaly, nastav `g.pull=run.p` (uvnitř `withPl` je to správný hrdina).
 - **11f co-op s botem:** „Hrát s kamarádem“ → `#coBot` (jde i offline). Bot je partner v simulaci hostitele (`run.pls`, `run.bot`), bez sítě; pohyb `botStep(dt)`, karty `botPick`, start `coHostGo(true)`. Podrobnosti `COOP.md` „Bot“, test `tests/tools/botcoop.js`, balanc `BOT=hrdina node bot.js …`.
 - **11h kapitola VII Prázdnota** (hrdinka Nyx, věže Věž ozvěn a Lucerna, set `void`, hudební styl `void`, mechaniky stavebnice `rifts`, `echo`, `lantern`; podrobnosti `KAMPAN.md` a `docs/HISTORIE.md`). Testy si kopírují hru (`lib.prep()`): po každé úpravě kódu znovu prep.

@@ -22,7 +22,7 @@ const arg=process.argv[2]||'all',root=path.join(__dirname,'..','..');
     o.maps.push({id,name:M.name,desc:M.desc,boss:M.boss,fin});
     if(fin&&!M.finale)o.issues.push(id+': poslední mapa nemá finale:1');
     // 11h: obtížnost podle síly hráče (kitTier/PWR). Vlastní řádek MAP_TIER daleko od vzorce = mechanika mapy, nebo chybně vyladěno
-    {const K=kitTier(id);if(!M.hpm||!M.dmm)o.issues.push(id+': mapa nemá hpm/dmm');else if(MAP_TIER[id]&&K){const r=M.hpm/(K[0]*(M.hpmK||1));if(r<.6||r>1.6)o.warn.push(id+': HP nepřátel ×'+M.hpm+' je '+(r>1?'nad':'pod')+' vzorcem síly hráče ×'+K[0]+' (mechanika mapy? ověř: node ladeni.js '+id+')');}
+    {const K=kitTier(id);if(!M.hpm||!M.dmm)o.issues.push(id+': mapa nemá hpm/dmm');else if(MAP_TIER[id]&&K){const r=M.hpm/K[0];if(r<.6||r>1.6)o.warn.push(id+': HP nepřátel ×'+M.hpm+' je '+(r>1?'nad':'pod')+' vzorcem síly hráče ×'+K[0]+' (mechanika mapy? ověř: node ladeni.js '+id+')');}
      else if(!MAP_TIER[id])o.warn.push(id+': obtížnost ze vzorce síly hráče (HP ×'+M.hpm+', poškození ×'+M.dmm+'); doladit boty: node ladeni.js '+C.id+' a node ladeni.js zapis');}
     if(!M.desc)o.issues.push(id+': chybí popis mapy');else if(!/<b>/.test(M.desc)&&!/Finále/.test(M.desc))o.warn.push(id+': popis nemá mechaniku v <b> (OK jen u mapy bez mechaniky)');
     if(!MAP_BUILD[M.style]&&!['gk','desert','mines'].includes(M.style))o.issues.push(id+': neznámý styl '+M.style);

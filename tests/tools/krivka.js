@@ -39,6 +39,7 @@ async function power(p,ci,mi,map,hit){const o=[];for(const h of ['knight','mage'
   // síla na vstupu každé kapitoly; výdrž proti zásahu té kapitoly (budoucí kapitoly: zásah ×1,1 za kapitolu jako kitFoe)
   const u=[],v=[];let hit=0;for(let ci=0;ci<CH.length+4;ci++){const m0=CH[Math.min(ci,CH.length-1)].maps[0],H0=await S.hitOf(p,m0);hit=ci<CH.length?H0.hit:hit*1.1;
    const P=await power(p,ci,0,m0,hit);u.push(+P.U.toFixed(3));v.push(Math.round(P.V));}
+  for(let i=1;i<u.length;i++){u[i]=Math.max(u[i],u[i-1]);v[i]=Math.max(v[i],v[i-1]);} // síla hráče s kapitolou nikdy neklesá
   const blk='const PWR={u:'+JSON.stringify(u)+',v:'+JSON.stringify(v)+',kh:'+kh.toFixed(2)+',khf:'+khf.toFixed(2)+',kd:'+kd.toFixed(3)+',kdf:'+kdf.toFixed(3)+',b:'+B+'};';
   let s=fs.readFileSync(GAME,'utf8');s=s.replace(/const PWR=\{[^\n]*\};/,blk);fs.writeFileSync(GAME,s);console.log('\nzapsáno do game.js:\n'+blk);}
  fs.writeFileSync(path.join(__dirname,'krivka-last.json'),JSON.stringify(rows));

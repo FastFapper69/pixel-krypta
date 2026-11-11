@@ -50,7 +50,19 @@ Nepřátelé kapitoly III: imp Ohnivý skřet (rychlý letec), magslime Magmový
 Nepřátelé: drowned (louže po smrti), bonearcher, digger (vykopává kostlivce), scorp (jed `p.psn`), mummy (zpomalení `p.slw`), cultist (vějíř nožů, `ranged3`), phyl (statická). Chování v `BEH`, bossové priest, warden, ringer, morvan, scorpking, worm, priestess (kletba `run.curse` obrací ovládání), sphinx.
 Hudba: každá mapa vlastní skladba v `SONGS` (styl kapitoly), zvuky `bell`, `trap`, `wind`.
 
-## Balanc (bot, 2026-11-07g)
+## Obtížnost podle síly hráče (11i, 11. 11. 2026) – PLATÍ
+Zadání uživatele: obtížnost map má růst stejně jako síla hráče (všechna vylepšení hrdiny), nové kapitoly se tím mají řídit samy.
+- **Účet typického hráče** pro každou kapitolu a mapu: `tests/tools/ucty.js` (úroveň hrdiny, Prestiž, talenty 25–40, Vylepšení, strom, výbava, sety, runy, Souhvězdí, mazlíček, věže a **odemčené funkce** podle vyhraných map). Během kapitoly hráč sílí (kapitola I z nuly ~1,5 úrovně na mapu, jinak ~0,6). Kapitoly za tabulkou se dopočítají.
+- **Síla** `tests/tools/sila.js`: útok U a výdrž V přímo z `st` po `recalc` (vše, co hra počítá). Mazlíčci, věže, legendárky a 4kusové sety jsou jen v botech.
+- **Cílová úspěšnost** průměrného hráče (5 povah z `hraci.js`) s účtem, se kterým na mapu přijde: `DIFF_CIL` v game.js = `CIL` v `ladeni.js`. Kapitola I vítá (Hřbitov 70 → Zvonice 45 %, Trůn 25 %), běžná kapitola 40 % −3 na mapu a finále 20 %, **každá 3. kapitola zeď** (III, VI, IX: 25 %, finále 12 %). Po grindu Nočních můr má být výrazně víc.
+- **Ladění** `node tests/tools/ladeni.js <cN|vse|mapa,…> [kola] [běhů]`: změří výhry, posune `hpm` podle logistického modelu (sklon b ≈ 2,7 = HP ×1,45 ubere 1 logit), `dmm` s odmocninou; `ladeni.js zapis` → `MAP_TIER`. 11i: 3 kola × 30 map × 20 běhů, výsledné hodnoty proložené ze všech kol společným sklonem.
+- **Nová kapitola** bez řádků v `MAP_TIER`: `kitTier` = poslední dvě vyladěné kapitoly přepočtené přes růst síly (`PWR.u/v`) a cílovou křivku, děleno vlastními nepřáteli mapy. `node tests/tools/krivka.js` ukáže index každé mapy, `krivka.js zapis` přepočítá `PWR`. Postup ve skillu `nova-kapitola` („Čísla“), `chapcheck.js` hlásí mapy ze vzorce.
+- **Poučení:** samotný poměr HP nepřátel / útok hráče obtížnost nepředpoví (vyladěné mapy se liší až 3×, rozhodují mechaniky, střelci, rychlost). Vzorec je jen start, rozhodují boti. Maják a Vír na HP skoro nereagují (vyladěno na ×15–17), Mlhovina a Souhvězdí jdou vykitovat (×12–15): spravit by je měla mechanika, ne čísla.
+- **Předtím (do 11h)** měli boti v `hraci.js` vypnuté fúze, talenty, mazlíčky, runy i Souhvězdí (prázdný `save.feat`), takže starší čísla (10d, 10j) platila pro slabšího hráče. Stav před 11i (vstup): I 0–30 % (Trůn 0), II 0–65 %, V a VI 55–85 % (moc lehké).
+- **Výsledek 11i** (ověření 25 nových běhů na mapu, vstup): I 28–60 %, II 32–48 %, III 8–32 %, IV 24–28 %, V 32–44 %, VI 8–28 %, VII 20–50 % (předtím I 0–30 %, V a VI až 85 %). Po grindu: I–V 60–100 %, VI 20–53 % (zeď i po grindu). Kapitola VII měla s hodnotami z 11h 70–90 % (laděná boty bez fúzí a talentů), teď 40/50/30/35/20 %.
+- **Hrdinové** (`tests/tools/herostat.js`, 11 hrdinů × 3 povahy, kapitoly III a IV, 60 běhů na hrdinu): o výsledku rozhoduje hlavně styl (Opatrný vyhrává s každým), hrdinové v rozmezí ±15 bodů: Rytíř, Kovářka a Bard nahoře, Astra a Stavitel dole. 11i: Hvězdy +25 %, Kotva +12 %, Stavitel +25 zdraví (bylo 15), Krápníky −12 % (v davu nejsilnější zbraň).
+
+## Balanc (bot, 2026-11-07g) – historie, čísla neplatí
 Profil `zkuseny` (hrdina 10): hřbitov 93 %, kapitola I 87–93 %, Trůn kostí 62 %; poušť ~43 %, kaňon ~50 %, karavana ~66 %, hrobka ~50 %, Brána slunce ~29 %.
 Profil `novy`: hřbitov 83 %, bažina 50 %, zvonice 16 %, Trůn 0 % (postup vyžaduje úrovně hrdiny). Bot je průměrný hráč, ladit podle telemetrie (`runs`).
 

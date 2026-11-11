@@ -45,7 +45,11 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 - **Boss**: `pat:'kit'`, `...kitBoss(ci,mi,fin)` (HP a poškození podle kapitoly), `kit:{move:'chase'|'keep'|'dash', keep:[far,near], dash:3.4, moves:[…], onDash:[…], ph2:{at:.5, txt, fast:.6, add:[…], mf:'hook'}, own:'jméno'}`.
   Tah `{on:'beat'|'bar', every, at, do, …}`: `ring {n,spd,mul}`, `fan {n,spread,spd}`, `aimed {n,spd}` (proud na hrdinu), `summon {e,n}`, `puddle {k,r,life}`, `strike {n,r}` (kruhy z nebe; mapa potřebuje mechaniku `strike` nebo `MF.kit`).
 - **Nepřátelé**: `...kitFoe(ci,'swarm'|'grunt'|'charger'|'fast'|'tank'|'ranged')` + existující chování `beh` (`chase`, `charger`, `wave`, `ghost`, `ranged`, `ranged3`, `digger`, `jelly`, `gull`, `yeti`…), `fly:1`, `touch:'slow'|'poison'`, `die:'puddle'|'snow'|'magma'|'split'` (split = rozpadne se na 2 stíny, 11h).
-- **Čísla**: mapa bez řádku v `MAP_TIER` dostane schodiště `kitTier(id)` samo. Hodnoty uprav jen podle bota nebo telemetrie.
+- **Čísla (11i, obtížnost podle síly hráče)**: mapa bez řádku v `MAP_TIER` dostane HP a poškození nepřátel sama ze vzorce `kitTier(id)`: síla typického hráče na vstupu kapitoly (`PWR.u/v`, prodlouží se i za tabulku) × poslední dvě vyladěné kapitoly × cílová křivka `DIFF_CIL` (běžná kapitola 40 % −3 na mapu, finále 20 %; každá 3. kapitola zeď 25 %/12 %) ÷ vlastní nepřátelé mapy. **`hpmK` už nepoužívej** (počítal se starým schodištěm), mechaniku mapy dorovná ladění:
+  1. `node tests/tools/chapcheck.js cN` – vypíše, které mapy jedou ze vzorce.
+  2. `node tests/tools/ladeni.js cN 3 4` – boti (5 povah, účty `ucty.js`) dorovnají každou mapu na cíl (~10 min); výsledek `ladeni-last.json`.
+  3. `node tests/tools/ladeni.js zapis` – zapíše řádky do `MAP_TIER`; pak `node tests/tools/krivka.js zapis` – přepočítá `PWR`, ať se z nové kapitoly učí další.
+  4. Účet hráče na vstupu nové kapitoly: řádek do `UCTY` v `tests/tools/ucty.js` (bez něj se dopočítá: +3 úrovně hrdiny, +3 Vylepšení, výbava +1).
 - **Hudba**: `SONGS[mapa]=songKit({bpm, root, scale:'minor'|'harm'|'dorian'|'hijaz', style, motif:[8], answer:[8], boss:[8], bossAnswer?:[8], prog?, keys?})` (v2 od 10f: smyčka A B R C D B A, boss X Y X Z, melodie v každém taktu vynucená). Nový styl nástrojů = záznam do `STYLES` (drums/bass/pad/arp/lead) + `STYLE_ROLE`/`STYLE_TRIM`/`STYLE_REV`.
 
 ## Kontrolní seznam (všechna místa, kterých se kapitola dotkne)
@@ -83,7 +87,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
   - `node hraci.js kapitola:cN 3` – všech 5 map, 7 povah (Nováček, Opatrný, Agresor, Sběratel, Stavitel, Fúzní lovec, Expert), účet při vstupu i po grindu.
   - Čekáme **zeď**: střední povahy při vstupu na první mapě ~10–60 %, na finále ~0–45 %; po grindu Nočních můr o 10+ bodů víc. Nováček může prohrávat, Expert má vyhrávat aspoň občas.
   - Hlídej řádek **PODEZŘELE SNADNÁ STRATEGIE** (jedna povaha o 40+ bodů nad průměrem = mechanika jde obejít, např. kitování) a **CO ZABÍJÍ** (umírá se na novou mechaniku, nebo na nudné běžné nepřátele?).
-  - Účet nové kapitoly: přidej řádek do `UCTY` v `hraci.js` (vstup do kapitoly N+1 = o ~5 úrovní hrdiny, ~3 Vylepšení a 1 úroveň výbavy víc, set předchozí kapitoly). Mechaniky ze stavebnice (`kst`, `kp`) boti znají sami; vlastní nebezpečí finále doplň do `decide()` (vyhýbání) nebo jako cíl (bezpečná místa).
+  - Účet nové kapitoly: řádek do `UCTY` v `tests/tools/ucty.js` (od 11i společné pro hraci.js, sila.js, ladeni.js, krivka.js) (vstup do kapitoly N+1 = o ~5 úrovní hrdiny, ~3 Vylepšení a 1 úroveň výbavy víc, set předchozí kapitoly). Mechaniky ze stavebnice (`kst`, `kp`) boti znají sami; vlastní nebezpečí finále doplň do `decide()` (vyhýbání) nebo jako cíl (bezpečná místa).
   - Starý `bot.js` je jeden „průměrný“ hráč se zastaralými účty, nepoužívat pro nové kapitoly.
 - Smoke `shot.js`, `heavy.js` (výkon), `newsshot.js` (Novinky s ikonami), `i18n.js static`.
 
