@@ -338,3 +338,12 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 11g (11. 11. 2026)
 - Krystaly XP v co-opu: `g.pull` nese hrdinu (dřív `true`, takže po přitažení je `updatePickups0` táhl k oběma hrdinům a krystaly visely na čáře pouta). Magnet, talent `l2`, Havran i dosah magnetu nastaví vlastníka; starý `true` nebo vlastník po odpojení kamaráda přejde na hráče. Test v `botcoop.js` (před opravou 18 z 21 krystalů viselo, po ní 0).
+
+## 11h (11. 11. 2026) – kapitola VII Prázdnota
+- 5 map ze stavebnice: okraj (trhliny `rifts`), trosky (bez mechaniky, trosky kapitol I–VI), ozveny (ozvěna `echo`), svetlo (lucerna `lantern`, tma .9), nicota (finále: trhliny + černá díra `pull` s `ph2:1` až od 2. fáze). Nové háčky stavebnice: `lights`, `ph2` (boss `ph2.mf:'ph2'`), `die:'split'`.
+- Nepřátelé shade, hollow, voideye, devourer; bossové maw, hoarder, mirror, moth, nothing (vlastní útoky `KIT_OWN`), hlášky v `BOSS_INTRO`, `CH_BG` rozšířené o VI a VII.
+- Hrdinka Nyx (`need:'okraj'`, 5 500 z `HERO_PRICE`, úhyb 8 %, talenty prefix `y`), zbraň Černá díra `voidorb` (efekt `bhole`: vtahuje, tiká, na konci taktu výbuch); síla na úr. 6 jako Kladivo a Krápníky.
+- Věže Věž ozvěn `espire` (efekt `tech` = ozvěna zásahu) a Lucerna `lantern` (zpomalí, +15 % poškození, světlo v Posledním světle). Set `void` (helm, armor, ring, gloves; 4 = trhlina `lg.sv4`), legendárka `vheart` Kroky nicoty, hledaný `nameless`, mistrovství Světlonoš, most `nicota` → `dawn`.
+- Hudba: styl `void` (frygická stupnice, `KIT_PROG.phryg`), `STYLE_ROLE` z `rolecal.js` (odchylka 0,1 dB), běh −30,5 dB (`zvuk.js`). Hi-haty max ~9,6 kHz (vyšší frekvence zahlcovaly `skladby.js` varováními).
+- Balanc (boti `hraci.js`, UCTY[6]): `hpmK` 1,75/1,85/1,65/1,2/1,7, trhliny na Okraji každé 3 takty po 5. Vstup okraj 53 % (stejný účet na Souhvězdí 75 % = schod), ozveny 40 %, svetlo 13 % (lucerna poráží i Opatrného), nicota 40 %; po grindu 47–80 %.
+- Testy: `c7shots.js`, opravený `newsshot.js` (přes `lib.open`), boti znají trhliny, ozvěnu a lucernu.

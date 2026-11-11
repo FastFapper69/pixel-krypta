@@ -5,7 +5,7 @@ description: "Postup a kontrolní seznam pro nového hrdinu Pixel Krypty (sprite
 
 # Nový hrdina Pixel Krypty
 
-Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Pirátka (`sailor`, kotva `anchor`), Kovářka (`smith`, kladivo `hammer`) a nejnovější Nyx (`nyx`, černá díra `voidorb`, 11g: zbraň jako efekt `fx` `bhole` s vtahováním a výbuchem na konci taktu, bonus přes existující `B.dodge`, prefix talentů `y`).
+Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Pirátka (`sailor`, kotva `anchor`), Kovářka (`smith`, kladivo `hammer`) a nejnovější Nyx (`nyx`, černá díra `voidorb`, 11h: zbraň jako efekt `fx` `bhole` s vtahováním a výbuchem na konci taktu, bonus přes existující `B.dodge`, prefix talentů `y`).
 
 ## Pravidla uživatele
 - Současných 5 hrdinů (Rytíř, Mág, Lučištník, Bard, Stavitel) zůstává základ. **Noví hrdinové nesou tematickou zbraň** (všem v nabídce od úrovně hrdiny 8, `W_UNL_LV`).

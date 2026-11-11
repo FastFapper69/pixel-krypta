@@ -618,36 +618,36 @@ const MAPS={
   events:[{t:80,type:'ring',e:'starwolf',n:18},{t:150,type:'ring',e:'meteor',n:18},{t:220,type:'ring',e:'starimp',n:24},{t:300,type:'ring',e:'starwolf',n:22},{t:380,type:'ring',e:'meteor',n:28}]},
  // ----- chapter VII: the Void (11g, chapter kit) -----
  okraj:{name:_t('Okraj prázdnoty'),desc:_t('Tady končí svět a začíná nic. Po zemi se táhnou praskliny a <b>přímo u tebe se otevírají trhliny</b>, ze kterých lezou stíny. <b>Útěk nepomůže</b>, uhni z kruhu a bojuj. Vydrž 5:30 a poraz Chřtán.'),dur:330,size:960,seed:307,style:'kit',grade:'#5af0d8',gradeA:.16,dark:.5,amb:'#020608',ambient:'mote',c1:'#1a1e28',
-  speedMul:1,base:1,boss:'maw',pools:0,kit:{ground:C7G,wall:C7W,path:C7P,accent:['#0e2a2a','#123636'],layout:'paths',paths:5,pathW:26,bits:C7B,spark:'#9afff0',shadow:'#000000',
+  speedMul:1,base:1,boss:'maw',pools:0,hpmK:1.75,kit:{ground:C7G,wall:C7W,path:C7P,accent:['#0e2a2a','#123636'],layout:'paths',paths:5,pathW:26,bits:C7B,spark:'#9afff0',shadow:'#000000',
    zone:{pal:C7Z,thr:.6,cells:120},
    camp:{k:'c7_lamp',light:{r:44,col:'#bffff4',a:.7}},props:[{k:['c7_shard','c7_rock'],n:70,r:22,light:{r:22,col:'#5af0d8',a:.4},lightEvery:5},{k:'c7_pillar',n:12,tall:1,r:60},{k:'c7_crack',n:24,at:'zone',r:30,sh:0}],
-   mech:[{id:'rifts',every:4,from:20,n:4,pool:['shade','shade','hollow'],col:'#2af0d0',tip:_t('Otevírá se trhlina! Uhni z kruhu.')}]},
+   mech:[{id:'rifts',every:3,from:20,n:5,pool:['shade','shade','hollow'],col:'#2af0d0',tip:_t('Otevírá se trhlina! Uhni z kruhu.')}]},
   spawns:[{e:'shade',from:0,w:4},{e:'hollow',from:0,w:3},{e:'ghost',from:0,w:2},{e:'starimp',from:1,w:2},{e:'voideye',from:2,w:1},{e:'golem',from:3,w:1}],
   elites:[{t:60,e:'hollow'},{t:130,e:'shade'},{t:200,e:'golem'},{t:270,e:'hollow'}],
   events:[{t:90,type:'ring',e:'shade',n:22},{t:170,type:'ring',e:'hollow',n:16},{t:250,type:'ring',e:'shade',n:26}]},
  trosky:{name:_t('Trosky světů'),desc:_t('Prázdnota polyká všechno, co jsi prošel. Mezi hroby, kameny pyramid, ledem a vraky lodí plují i trosky hvězdárny. Vydrž 5:30 a poraz Sběratele trosek.'),dur:330,size:1000,seed:313,style:'kit',grade:'#8ab8c8',gradeA:.16,dark:.45,amb:'#020406',ambient:'mote',c1:'#1c2028',
-  speedMul:1,base:1,boss:'hoarder',pools:0,kit:{ground:C7G,wall:C7W,accent:['#1a2a30','#22343c'],layout:'open',bits:C7B,spark:'#e8f4ff',shadow:'#000000',
+  speedMul:1,base:1,boss:'hoarder',pools:0,hpmK:1.85,kit:{ground:C7G,wall:C7W,accent:['#1a2a30','#22343c'],layout:'open',bits:C7B,spark:'#e8f4ff',shadow:'#000000',
    zone:{pal:C7Z,thr:.64,cells:140},
    camp:{k:'c7_lamp',light:{r:44,col:'#bffff4',a:.7}},props:[{k:['c7_tomb','c7_block','c7_ember','c7_ice','c7_plank'],n:64,r:28,tall:1},{k:'c6_scope',n:5,tall:1,r:90},{k:'c6_orrery',n:4,tall:1,r:90},{k:['c7_shard','c7_rock'],n:50,r:22,light:{r:22,col:'#5af0d8',a:.4},lightEvery:6},{k:'c7_crack',n:20,at:'zone',r:30,sh:0}]},
   spawns:[{e:'hollow',from:0,w:4},{e:'shade',from:0,w:3},{e:'skeleton',from:0,w:2},{e:'mummy',from:1,w:2},{e:'voideye',from:1,w:2},{e:'pirate',from:2,w:1},{e:'devourer',from:3,w:1}],
   elites:[{t:60,e:'hollow'},{t:130,e:'voideye'},{t:200,e:'devourer'},{t:270,e:'hollow'}],
   events:[{t:90,type:'ring',e:'hollow',n:18},{t:170,type:'ring',e:'shade',n:24},{t:250,type:'ring',e:'skeleton',n:26}]},
  ozveny:{name:_t('Síň ozvěn'),desc:_t('Síň z černého kamene, kde se všechno vrací. <b>Tvůj stín jde tvou cestou o dva takty později</b> a na první dobu taktu <b>bouchne</b>: zraní tebe i nepřátele kolem. Neběhej v kruhu. Vydrž 6 minut a poraz Zrcadlový stín.'),dur:360,size:980,seed:331,style:'kit',grade:'#9ae8e0',gradeA:.18,dark:.55,amb:'#020608',ambient:'mote',c1:'#1a1e28',
-  speedMul:1,base:1,boss:'mirror',pools:0,kit:{ground:C7G,wall:C7W,path:C7P,tile:C7T,layout:'plaza',R:160,bits:C7B,spark:'#9afff0',shadow:'#000000',
+  speedMul:1,base:1,boss:'mirror',pools:0,hpmK:1.65,kit:{ground:C7G,wall:C7W,path:C7P,tile:C7T,layout:'plaza',R:160,bits:C7B,spark:'#9afff0',shadow:'#000000',
    camp:{k:'c7_lamp',light:{r:44,col:'#bffff4',a:.7}},props:[{k:'c7_mirror',n:10,at:'ring',ring:200,tall:1,light:{r:26,col:'#9afff0',a:.5}},{k:'c7_pillar',n:14,tall:1,r:60,at:'edge'},{k:['c7_shard','c7_rock'],n:60,r:22,light:{r:22,col:'#5af0d8',a:.4},lightEvery:5}],
    mech:[{id:'echo',delay:2,from:25,r:24,dmg:6,pct:.06,edmg:70,col:'#5af0d8',tip:_t('Tvůj stín jde po tvých stopách. Nevracej se!')}]},
   spawns:[{e:'shade',from:0,w:4},{e:'voideye',from:0,w:2},{e:'hollow',from:0,w:3},{e:'wraith',from:1,w:2},{e:'starwolf',from:2,w:1},{e:'devourer',from:3,w:1}],
   elites:[{t:60,e:'voideye'},{t:130,e:'hollow'},{t:200,e:'devourer'},{t:270,e:'shade'},{t:330,e:'devourer'}],
   events:[{t:90,type:'ring',e:'shade',n:22},{t:170,type:'ring',e:'voideye',n:14},{t:260,type:'ring',e:'hollow',n:20},{t:320,type:'ring',e:'shade',n:28}]},
  svetlo:{name:_t('Poslední světlo'),desc:_t('Úplná tma. Prázdnotou pluje <b>poslední lucerna</b> a <b>mimo její světlo tě tma kouše</b>. Drž se u ní, i když tě nepřátelé tlačí pryč. Vydrž 6 minut a poraz Můru soumraku.'),dur:360,size:1000,seed:347,style:'kit',grade:'#ffe9a8',gradeA:.12,dark:.9,amb:'#010203',ambient:'mote',c1:'#14161c',
-  speedMul:1,base:1,boss:'moth',pools:0,kit:{ground:C7G,wall:C7W,accent:['#1a2028','#202832'],layout:'open',bits:C7B,spark:'#ffe9a8',shadow:'#000000',
+  speedMul:1,base:1,boss:'moth',pools:0,hpmK:1.2,kit:{ground:C7G,wall:C7W,accent:['#1a2028','#202832'],layout:'open',bits:C7B,spark:'#ffe9a8',shadow:'#000000',
    camp:{k:'c7_lamp',light:{r:48,col:'#ffe9a8',a:.8}},props:[{k:['c7_shard','c7_rock','c7_pillar'],n:60,r:28,tall:1},{k:'c7_moth',n:30,r:40,light:{r:20,col:'#ffe9a8',a:.35},lightEvery:3}],
-   mech:[{id:'lantern',r:120,spd:15,from:6,dmg:4,pct:.03,col:'#ffe9a8',tip:_t('Drž se ve světle lucerny!')}]},
+   mech:[{id:'lantern',r:120,spd:15,from:6,dmg:2.5,pct:.02,col:'#ffe9a8',tip:_t('Drž se ve světle lucerny!')}]},
   spawns:[{e:'shade',from:0,w:4},{e:'hollow',from:0,w:3},{e:'voideye',from:1,w:2},{e:'bat',from:0,w:2},{e:'devourer',from:2,w:1},{e:'golem',from:3,w:1}],
   elites:[{t:60,e:'hollow'},{t:130,e:'devourer'},{t:200,e:'voideye'},{t:270,e:'golem'},{t:330,e:'devourer'}],
   events:[{t:90,type:'ring',e:'shade',n:24},{t:170,type:'ring',e:'bat',n:24},{t:260,type:'ring',e:'hollow',n:20},{t:320,type:'ring',e:'shade',n:28}]},
  nicota:{name:_t('Srdce nicoty'),desc:_t('Finále kapitoly. Na posledním kusu země uprostřed ničeho čeká Nicota. Kolem tebe se otevírají <b>trhliny</b>, a když Nicota začne polykat světlo, <b>střed arény tě táhne do černé díry</b>. Vydrž 7 minut.'),dur:420,size:940,seed:359,style:'kit',grade:'#5af0d8',gradeA:.2,dark:.62,amb:'#010306',ambient:'mote',c1:'#14181f',finale:1,
-  speedMul:1,base:1,boss:'nothing',pools:0,kit:{ground:C7G,wall:C7W,tile:C7T,layout:'arena',R:300,bits:C7B,spark:'#9afff0',shadow:'#000000',
+  speedMul:1,base:1,boss:'nothing',pools:0,hpmK:1.7,kit:{ground:C7G,wall:C7W,tile:C7T,layout:'arena',R:300,bits:C7B,spark:'#9afff0',shadow:'#000000',
    props:[{k:'c7_lamp',n:14,at:'ring',ring:322,tall:1,light:{r:34,col:'#bffff4',a:.7}},{k:['c7_shard','c7_rock','c7_pillar'],n:46,at:'edge',tall:1,r:30}],
    mech:[{id:'rifts',every:3,from:45,n:4,pool:['shade','shade','hollow','voideye'],col:'#2af0d0',tip:_t('Otevírá se trhlina! Uhni z kruhu.')},{id:'pull',ph2:1,dx:0,dy:1,r:280,core:46,force:20,dmg:5,col:'#2af0d0',tip:_t('Černá díra tě táhne do středu!')},{id:'strike',from:99999,col:'#5af0d8'}]},
   spawns:[{e:'shade',from:0,w:4},{e:'hollow',from:0,w:3},{e:'voideye',from:0,w:2},{e:'devourer',from:1,w:1},{e:'starwolf',from:1,w:2},{e:'golem',from:3,w:1}],
@@ -4831,7 +4831,7 @@ STYLES.void={
  drums(x){const {s16,t,I,E,bs,key0}=x,B=M.musicBus;
   if(E>=1){if(s16===0||s16===8||(E>=3&&s16%4===0))tone('sine',96,t,.26,.8,{slide:36});
     if(s16===4||s16===12){noiz(t,.16,E>=3?.28:.2,B,'bandpass',1800);noiz(t,.03,.08,B,'highpass',6000);}
-    if((I>=2||E>=2)&&[2,3,7,10,11,14,15].includes(s16))noiz(t,.012,.05,B,'highpass',11000);else if(s16%2===0)noiz(t,.015,.04,B,'highpass',10000);
+    if((I>=2||E>=2)&&[2,3,7,10,11,14,15].includes(s16))noiz(t,.012,.05,B,'highpass',9200);else if(s16%2===0)noiz(t,.015,.04,B,'highpass',10000);
     if(bs===3&&s16>=8&&E<3&&s16%2===0)tone('sine',NOTE(key0+36+(s16-8)),t,.06,.025);}
   else{if(s16===0)tone('sine',80,t,.36,.45,{slide:32});if(s16===8)noiz(t,.08,.05,B,'bandpass',1600);}},
  bass(x){const {s16,t,c,E,I,sd}=x;if(s16%2&&E<3)return;if(E===0&&s16%8)return;const n=E>=3&&s16%2?12:E>=2||I>=2?[0,0,12,0,1,0,12,0][s16>>1]:(s16%4?12:0);
@@ -4843,9 +4843,9 @@ STYLES.void={
   const P=[[0,3,1,2],[2,0,3,1],[3,1,0,2]][cyc%3],k=P[(s16>>2)&3],f=NOTE(c.root+24+(k===3?12:c.tones[k]));
   tone('sine',f,t,sd*1.6,.04);tone('sine',f*2.76,t,sd*.7,.012);tone('sine',f,t+M.stepDur*3,sd*1.4,.016);tone('sine',f,t+M.stepDur*6,sd*1.2,.007);},
  lead(f,t,dur,v){tone('p12',f,t,dur,.05*v,{lp:2600,a:.01,vib:3.5});tone('sine',f,t,dur*1.1,.08*v,{a:.01});tone('triangle',f*2,t,dur*.4,.012*v,{lp:3200});tone('sine',f,t+M.stepDur*3,dur*.8,.025*v);}};
-STYLES.void.bang=bangKit({kick:96,snare:1800,hat:11000,push:11,bass:{calm:{0:0,8:12},run:[0,12,0,1,0,12,0,12],full:[0,12,0,12,1,12,0,12,0,12,0,12,1,12,7,12]},
+STYLES.void.bang=bangKit({kick:96,snare:1800,hat:9400,push:11,bass:{calm:{0:0,8:12},run:[0,12,0,1,0,12,0,12],full:[0,12,0,12,1,12,0,12,0,12,0,12,1,12,7,12]},
   voice:(f,t,d,a,E)=>{tone('sine',f,t,d*1.1,.22*a);tone('p25',f*2,t,d*.6,.02*a,{lp:E>=3?1100:700});tone('sawtooth',f,t,d*.8,.03*a,{lp:E>=3?900:520});},
-  extra:x=>{const {s16,t,E}=x,B=M.musicBus;if(E>=1&&(s16===3||s16===11))noiz(t,.01,.08,B,'highpass',12500);if(E>=2&&s16===15)noiz(t,.04,.06,B,'bandpass',900);}});
+  extra:x=>{const {s16,t,E}=x,B=M.musicBus;if(E>=1&&(s16===3||s16===11))noiz(t,.01,.08,B,'highpass',9600);if(E>=2&&s16===15)noiz(t,.04,.06,B,'bandpass',900);}});
 Object.assign(SONGS,{
  okraj:songKit({bpm:118,root:50,scale:'phryg',style:'void',motif:[0,1,null,4,3,null,1,0],answer:[4,null,5,4,null,1,null,2],boss:[7,null,8,7,4,null,5,4]}),
  trosky:songKit({bpm:124,root:52,scale:'phryg',style:'void',motif:[4,null,3,1,null,0,1,4],answer:[5,4,null,3,null,1,0,null],boss:[7,8,null,7,5,null,4,1]}),
@@ -8579,6 +8579,10 @@ function botStep(dt){
     if(B.vc)push(B.vc.x,B.vc.y,170,3);
     for(const o of run.holes||[])push(o.x,o.y,o.r+12,3);
     for(const t of run.tent||[]){if(t.hit||q.x<t.xa||q.x>t.xb)continue;const dy=q.y-t.y;if(Math.abs(dy)<t.w+10)fy+=(dy>=0?1:-1)*3;}
+    // 11h chapter VII: step out of opening rifts and strikes, keep near the lantern in the dark
+    for(const r of (run.kr&&run.kr.L)||[])if(!r.op)push(r.x,r.y,32,3.5);
+    for(const r of run.kst||[])if(!r.hit)push(r.x,r.y,r.r+10,4);
+    if(run.kn){const o=kitM().find(m=>m.id==='lantern')||{},rr=KIT_MECH.lantern.rad(o),dx=run.kn.x-q.x,dy=run.kn.y-q.y,d=Math.hypot(dx,dy)+.01;if(d>rr*.55){fx+=dx/d*2.2;fy+=dy/d*2.2;}}
   }
   // goal: get revived / revive the player, heal, stay inside the bond, collect what lies around, otherwise keep fighting
   const hx=h.x-q.x,hy=h.y-q.y,dh=Math.hypot(hx,hy)+.01;let gx=0,gy=0,gw=0,stop=0;

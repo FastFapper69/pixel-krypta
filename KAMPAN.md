@@ -1,6 +1,6 @@
 # Pixel Krypta – kampaň a kapitoly
 
-Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI hotová (hrdinka Astra, dřív Hvězdářka). **Kapitola VII Prázdnota hotová (11g, hrdinka Nyx).** **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
+Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI hotová (hrdinka Astra, dřív Hvězdářka). **Kapitola VII Prázdnota hotová (11h, hrdinka Nyx).** **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
 Návrh pro uživatele je i v dokumentu „Pixel Krypta – kampaň a kapitoly“ (Claude Docs).
 
 ## Stavebnice kapitol (08y) – nové kapitoly dělej takhle
@@ -97,7 +97,7 @@ Příběh Padlé hvězdy: po Krakenovi padají hvězdy, Hvězdářka je sleduje;
 
 Nepřátelé: `starimp` (fast, `BEH.blink` přenos k hrdinovi na takt), `meteor` (charger), `starwolf` (grunt, čáry), `comet` (tank, letí, `BEH.comet` průlet s ohnivým ohonem). Bossové kit: astrolab (keep, spirály), nebula (chase, sliz, přenos), griffin (dash, hvězdy z nebe), orion (keep, šípy, strike, vlci), eclipse (finále). Věže `scope` Dalekohled (odemkne mlhovina) a `gwell` Gravitační studna (souhvezdi). Set `star` (armor, amulet, ring, boots; 4 = padající hvězda `lg.sst4`), legendárka `eheart` Srdce zatmění. Hledaný `comet` Bludná kometa. Hrdinka `astro` Hvězdářka (`need:'hvezdarna'`, 1500 zl). Kontrola `tests/tools/c6shots.js prefix`.
 
-## Kapitola VII Prázdnota (11g, stavebnice)
+## Kapitola VII Prázdnota (11h, stavebnice)
 Příběh: Zatmění otevřelo díru do Prázdnoty, Nicota chce poslední střep hvězdy; po finále se z nicoty rodí nové slunce (`BRIDGE.nicota` k:`dawn`, náznak kapitoly VIII). Paleta `C7G/C7W/C7T/C7P/C7Z/C7B` (téměř černá, tyrkysové trhliny, fialová jen jako hloubka – fialová je zakázaná jen v UI), rekvizity `c7_*` (`c7_lantern` je sprite lucerny). Hudba: vlastní styl `void` (frygická stupnice `KIT_PROG.phryg`, sub basa + pulzní oktáva, pomalu nabíhající plochy, kovové pingy s ozvěnou, „glitch“ hi-haty, dutá pulzní melodie), mix `rolecal.js` odchylka 0,1 dB, běh −30,5 dB.
 **Cíl mechanik:** všechny tři míří na otevřený problém „drž odstup a utíkej“ (10j): trhliny pouští nepřátele přímo k hrdinovi, ozvěna trestá běhání v kruhu, lucerna drží hráče v jednom putujícím kruhu.
 

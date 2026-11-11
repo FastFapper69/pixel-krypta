@@ -37,14 +37,14 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
   - `push` `{period:40, dur:9, force:24, from:30, col, tip}` – nárazy větru jedním směrem.
   - `pull` `{dx, dy, r:240, core:40, force:22, dmg:4, col}` – vír/černá díra, střed zraňuje.
     `ph2:1` = zapne se až 2. fází bosse (boss `ph2:{mf:'ph2'}` → `MF.kit.ph2` → `KIT_MECH.x.ph2(o)`); `dy:0` je falsy a spadne na −220, střed mapy = `dy:1`.
-  - `rifts` `{every:4, from:20, n:4, pool:['shade'], col, tip}` (11g) – u každého hrdiny se otevře trhlina, za takt bouchne a pustí nepřátele. Proti stylu „drž odstup“. Boss ji otevře `KIT_MECH.rifts.open(x,y,bar)`.
-  - `echo` `{delay:2, from:25, r:24, dmg, pct, edmg}` (11g) – stín hrdiny jde jeho cestou o `delay` taktů později a na 1. dobu bouchne. Trestá běhání v kruhu.
-  - `lantern` `{r:120, spd:15, from:6, dmg, pct}` (11g) – pro tmavou mapu (`dark` .9): bezpečí jen ve světle plující lucerny (nebo věže Lucerna), mimo tik poškození; `run.kn.dim` ji ztlumí.
-  - Háčky `KIT_MECH`: `init, update, gupdate, psp, espd, ground, top, over, glows, lights` (světlo do tmy, 11g), `ph2`, `snap/apply`.
+  - `rifts` `{every:4, from:20, n:4, pool:['shade'], col, tip}` (11h) – u každého hrdiny se otevře trhlina, za takt bouchne a pustí nepřátele. Proti stylu „drž odstup“. Boss ji otevře `KIT_MECH.rifts.open(x,y,bar)`.
+  - `echo` `{delay:2, from:25, r:24, dmg, pct, edmg}` (11h) – stín hrdiny jde jeho cestou o `delay` taktů později a na 1. dobu bouchne. Trestá běhání v kruhu.
+  - `lantern` `{r:120, spd:15, from:6, dmg, pct}` (11h) – pro tmavou mapu (`dark` .9): bezpečí jen ve světle plující lucerny (nebo věže Lucerna), mimo tik poškození; `run.kn.dim` ji ztlumí.
+  - Háčky `KIT_MECH`: `init, update, gupdate, psp, espd, ground, top, over, glows, lights` (světlo do tmy, 11h), `ph2`, `snap/apply`.
   Tma = `dark` na mapě + světla z rekvizit (`light`).
 - **Boss**: `pat:'kit'`, `...kitBoss(ci,mi,fin)` (HP a poškození podle kapitoly), `kit:{move:'chase'|'keep'|'dash', keep:[far,near], dash:3.4, moves:[…], onDash:[…], ph2:{at:.5, txt, fast:.6, add:[…], mf:'hook'}, own:'jméno'}`.
   Tah `{on:'beat'|'bar', every, at, do, …}`: `ring {n,spd,mul}`, `fan {n,spread,spd}`, `aimed {n,spd}` (proud na hrdinu), `summon {e,n}`, `puddle {k,r,life}`, `strike {n,r}` (kruhy z nebe; mapa potřebuje mechaniku `strike` nebo `MF.kit`).
-- **Nepřátelé**: `...kitFoe(ci,'swarm'|'grunt'|'charger'|'fast'|'tank'|'ranged')` + existující chování `beh` (`chase`, `charger`, `wave`, `ghost`, `ranged`, `ranged3`, `digger`, `jelly`, `gull`, `yeti`…), `fly:1`, `touch:'slow'|'poison'`, `die:'puddle'|'snow'|'magma'|'split'` (split = rozpadne se na 2 stíny, 11g).
+- **Nepřátelé**: `...kitFoe(ci,'swarm'|'grunt'|'charger'|'fast'|'tank'|'ranged')` + existující chování `beh` (`chase`, `charger`, `wave`, `ghost`, `ranged`, `ranged3`, `digger`, `jelly`, `gull`, `yeti`…), `fly:1`, `touch:'slow'|'poison'`, `die:'puddle'|'snow'|'magma'|'split'` (split = rozpadne se na 2 stíny, 11h).
 - **Čísla**: mapa bez řádku v `MAP_TIER` dostane schodiště `kitTier(id)` samo. Hodnoty uprav jen podle bota nebo telemetrie.
 - **Hudba**: `SONGS[mapa]=songKit({bpm, root, scale:'minor'|'harm'|'dorian'|'hijaz', style, motif:[8], answer:[8], boss:[8], bossAnswer?:[8], prog?, keys?})` (v2 od 10f: smyčka A B R C D B A, boss X Y X Z, melodie v každém taktu vynucená). Nový styl nástrojů = záznam do `STYLES` (drums/bass/pad/arp/lead) + `STYLE_ROLE`/`STYLE_TRIM`/`STYLE_REV`.
 
@@ -65,7 +65,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 14. Bot: pokud má mapa mechaniku, kterou se musí bot naučit (vyhýbání), doplň `tests/tools/bot.js`.
 15. `NEWS` + `GAME_VER`, `KAMPAN.md` (tabulka map a mechanik), `CLAUDE.md` (stav, předávka).
 
-## Poučení z kapitoly VII (11g)
+## Poučení z kapitoly VII (11h)
 - **Testy běží nad kopií**: `lib.prep()` kopíruje `game.js` a `lang-en.js` do `tests/tools/`. Po každé úpravě kódu znovu `node -e "require('./lib').prep()"`, jinak test hlásí staré chyby (chapcheck „chybí hláška“, i když v kódu je).
 - Pořadí, které fungovalo: data (palety, nepřátelé, bossové, hrdina, mapy, kapitola) → stavebnice (rekvizity, mechaniky, útoky bossů, hudba) → zbraň, efekty a věže → set, legendárka, hledaný, mistrovství, Průvodce, příběh → `chapcheck.js cN` → angličtina (skript níž) → `thumbgen5.js` → `rolecal.js` → `zvuk.js` → `skladby.js cN` (běží ~20 min, pusť na pozadí) → `cNshots.js` → boti.
 - Chybějící překlady všech `_t()` najednou: projdi `game.js` regexem `_t\('…'\)` proti `window.KRYPTA_EN` (i18n.js static vypíše jen prvních 30).
