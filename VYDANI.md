@@ -1,6 +1,7 @@
 # Pixel Krypta – vydání na Android / iOS a monetizace
 
 Stav: **jen plán** (sepsáno 6. 11. 2026, nic z toho zatím není hotové). Navazuje na `EKONOMIKA.md` (fáze 6 serverový inventář, fáze 7 monetizace).
+Research monetizace a regulace k 11. 11. 2026 (DFA, PEGI 16, reklamy, battle pass): `docs/RESEARCH-MONETIZACE.md`.
 Údaje o obchodech (poplatky, pravidla testování, pravidla k AI) se mění – před každým krokem je ověř znovu.
 
 ## 1. Co je potřeba
