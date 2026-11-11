@@ -2695,7 +2695,7 @@ const PASSIVES={
  haste:{name:_t('Spěch'),txt:_t('útočíš o 8 % rychleji'),st:['+8 %',_t('Rychlost útoků')]},
  magnet:{name:_t('Magnet'),txt:_t('+25 % dosah sbírání'),st:['+25 %',_t('Dosah sbírání')]},
  shield:{name:_t('Štít'),txt:_t('−1 poškození z každého zásahu'),st:['−1',_t('Poškození ze zásahu')]},
- regen:{name:_t('Regenerace'),txt:_t('+0,4 zdraví za sekundu'),st:['+0,4',_t('Zdraví/s')]},
+ regen:{name:_t('Regenerace'),txt:_t('+0,3 zdraví za sekundu'),st:['+0,3',_t('Zdraví/s')]},
  eye:{name:_t('Sokolí oko'),txt:_t('+6 % šance na kritický zásah'),st:['+6 %',_t('Kritický zásah')]},
  greed:{name:_t('Lakota'),txt:_t('+10 % zlata z běhu'),st:['+10 %',_t('Zlato')]}
 };
@@ -3457,7 +3457,7 @@ function recalc(){
   const h=run.hero,m=run.meta||save.meta,P=run.P;const L=id=>P[id]||0;
   const B=run.bonus||ZERO_B;
   st={max:Math.round((120+h.hp+mB('hp',m.hp)+L('heart')*20+B.hp)*(1+B.hpPct)),speed:58*(1+h.spd+mB('spd',m.spd)+L('boots')*.08+B.spd),dmg:1+h.dmg+mB('dmg',m.dmg)+L('power')*.12+B.dmg,
-    cdMul:Math.max(.4,(1-L('haste')*.08)*(1-B.cd)),mag:30*(1+mB('mag',m.mag)+L('magnet')*.25+B.mag),armor:h.armor+L('shield')+B.armor,regen:L('regen')*.4+B.regen,xpMul:1+mB('xp',m.xp)+B.xp,
+    cdMul:Math.max(.4,(1-L('haste')*.08)*(1-B.cd)),mag:30*(1+mB('mag',m.mag)+L('magnet')*.25+B.mag),armor:h.armor+L('shield')+B.armor,regen:L('regen')*.3+B.regen,xpMul:1+mB('xp',m.xp)+B.xp,
     crit:.1+B.crit+L('eye')*.06,fuse:B.fuse,gold:B.gold+L('greed')*.1,tcost:B.tcost,thp:B.thp,tmax:B.tmax,lg:B.lg,tal:B.tal,af:B.af||{},rn:B.rn||{},dodge:Math.min(.3,B.dodge||0),tdmg:B.tdmg||0};
   {const T={};for(const k of TREE_KEYS)T[k]=m.treeV===2?Math.min(KEY_MAX,m[k]||0):0;st.tr=T;st.thp=(st.thp||0)+.06*T.d3;st.armor+=.2*T.d4;st.regen+=hasMod('noheal')?0:.05*T.d5;st.gold+=.02*T.l3;st.fuse=(st.fuse||0)+.03*T.a4;
    st.dmg+=.005*(m.ma||0);st.max=Math.round(st.max*(1+.01*(m.md||0)));st.gold+=.01*(m.ml||0);}

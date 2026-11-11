@@ -827,7 +827,7 @@ window.KRYPTA_EN={
 "\">Jiný úkol</button>":"\">Other quest</button>",
 "\">Mistrovství</span>":"\">Mastery</span>",
 "\">Vyzvednout</button>":"\">Claim</button>",
-"+0,4 zdraví za sekundu":"+0.4 health per second",
+"+0,3 zdraví za sekundu":"+0.3 health per second",
 "+1 věž navíc":"+1 extra tower",
 "+10 % dosah sbírání za stupeň":"+10 % pickup range per rank",
 "+10 % zlata z běhu":"+10 % gold from runs",
