@@ -1539,3 +1539,8 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 .card.daily .dbot .dyes{color:#9fe08a}
 .card.daily .dbot #dailyGo{flex:none;min-width:96px}
 .card.daily.done .dth img{filter:grayscale(.6) brightness(.7)}
+/* 11z3: one marker for anything new or waiting in the main menu = the wax seal (was a seal on some buttons and a red square on others) */
+#mStack .btn.art.has::after{content:'';position:absolute;top:-8px;right:-6px;width:24px;height:24px;padding:0;background:var(--kNew) 0 0/100% 100% no-repeat;image-rendering:pixelated;box-shadow:none;animation:none;z-index:2}
+#mTop .btn.ic.has::after,#mTop .btn.ic.new::after,#mNews.has::after,#mBoard.has::after,#mSet.has::after,#mGuide.has::after{content:'';top:-3px;right:-5px;z-index:2;width:18px;height:18px;padding:0;background:var(--kNew) 0 0/100% 100% no-repeat;image-rendering:pixelated;box-shadow:none;animation:none}
+/* 11z3: rank number on the 2nd/3rd place avatar was cut off (16px box for a 24px line) */
+.tc .rk,.tc.p1 .rk{min-width:20px;height:24px;padding:0 3px;font:400 18.6667px/24px 'Jersey 10',var(--font);color:#15171b;box-shadow:inset 0 0 0 0 transparent}

@@ -489,3 +489,6 @@ Připomínky uživatele z testování s kamarády: bedna zaniká, boss se ztrác
 - Měření `hraci.js` (nové pole `t1` = čas první věže, `c90` = zlato v 1:30) + `prvniVez.js`: zlato v 1:30 zima 41–62 → 57–100, Nicota 25 → 45, první věž Nováček na Nicotě 3:47 → 1:51. Ve Zlatém dvoře boti skoro nezabíjejí (0–2 zabití za 2 min u Nováčka a Agresora), to je jiný problém (síla účtu nebo mechanika `goldblood`).
 - Délka běhu (bod 4 uživatele) zatím ne: zkrácení map a řidší horda u bosse potřebují přeladit obtížnost.
 
+## 11z3 (11. 11. 2026) – značky v menu, čísla v Síni slávy
+Připomínky uživatele: v menu byly dvě značky pro novou věc (pečeť u `.new`, červený čtvereček u `.has`) → všude pečeť `sealDot` (`--kNew`, `kNewInit` v `openMenu`), v horní liště 18 px nad ikonou. Číslo 2. a 3. místa v Síni slávy bylo useknuté (rámeček 16 px pro řádek 24 px) → `.tc .rk` 20×24.
+

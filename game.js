@@ -3497,7 +3497,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11z2';
+const GAME_VER='2026-11-11z3';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7041,8 +7041,9 @@ function seeNew(...kinds){let ch=false;for(const k of kinds){const n=newOf(k);FR
 const isFresh=(kind,key)=>(kind==='item'||kind==='tw')?(seenInit(),!save.seen[key]):!!(FRESH[kind]&&FRESH[kind].has(key));
 function seeOne(key){seenInit();if(save.seen[key])return false;save.seen[key]=1;persist();try{refreshNew();}catch(_){}return true;}
 const NEW_TAG=()=>'<b class="newtag">'+_t('NOVÉ')+'</b>';
+function kNewInit(){if(!kNewInit.ok){kNewInit.ok=1;document.documentElement.style.setProperty('--kNew','url('+KIT.pic('sealDot').url+')');}} // 11b/11z3: pečeť = jediná značka „nové / čeká“ v menu
 function refreshNew(){try{const it=newOf('item').length+newOf('hero').length,tw=newOf('tw').length,mp=newOf('map').length,rk=newOf('rank').length;
-  if(!refreshNew.img){refreshNew.img=1;document.documentElement.style.setProperty('--kNew','url('+KIT.pic('sealDot').url+')');} // 11b: pečeť místo nápisu NOVÉ (na malém telefonu zakrýval název)
+  kNewInit(); // 11b: pečeť místo nápisu NOVÉ (na malém telefonu zakrýval název)
   const T=(sel,on)=>{const e=$(sel);if(e){e.classList.toggle('new',!!on);e.dataset.new=_t('NOVÉ');}};
   T('#mPlay',mp);T('#mHero',it||tw);T('#mForge',rk);
   document.querySelectorAll('.sectabs [data-to=hero]').forEach(b=>b.classList.toggle('has',!!it));
@@ -7199,7 +7200,7 @@ function openTreeNode(kind,T,id){const I=tnInfo(kind,T,id),pop=$('#newsPop'),lk=
     '<button class="btn alt" id="tnClose">'+_t('Zavřít')+'</button></div></div>';
   pop.hidden=false;$('#tnClose').onclick=()=>{pop.hidden=true;sfx('ui');};
   const b=$('#tnBuy');if(b)b.onclick=()=>{if(!tnBuy(kind,T,id))return;sfx('level');renderShop(kind+id);refreshMenu();openTreeNode(kind,T,id);};}
-function openMenu(){if(BI){BI=null;biLineHide();$('#hud').classList.remove('bi');}seedRng(null);$('#tut').hidden=true;if(NET.ch||CO.on){netClose();CO.on=false;CO.role=null;}run=null;setSong('menu');stick.active=false;stickEl.hidden=true;refreshMenu();setState('menu');if(ON.forceNick&&ON.ready)openNick('force');}
+function openMenu(){try{kNewInit();}catch(_){}if(BI){BI=null;biLineHide();$('#hud').classList.remove('bi');}seedRng(null);$('#tut').hidden=true;if(NET.ch||CO.on){netClose();CO.on=false;CO.role=null;}run=null;setSong('menu');stick.active=false;stickEl.hidden=true;refreshMenu();setState('menu');if(ON.forceNick&&ON.ready)openNick('force');}
 
 // ===== 09z: herní tlačítka hlavního menu (procedurálně kreslené pixelové rámy a ikony) =====
 // Každé tlačítko dostane <i class="bart"> s obrázkem rámu: 1 pixel kresby = BART_S css px, kreslí se
@@ -10106,6 +10107,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11z3',d:'11. 11. 2026',t:_t('Drobnosti v menu'),items:[_t('Všechno nové v menu značí stejná pečeť.'),_t('V Síni slávy je dobře vidět číslo 2. a 3. místa.')]},
  {v:'2026-11-11z2',d:'11. 11. 2026',t:_t('Bedny, boss a zlato'),hl:[
   {ic:'chest_gold',t:_t('Bedny září'),d:_t('Sloup světla a šipka, když je bedna mimo.')},
   {ic:'skull',t:_t('Šipka k bossovi'),d:_t('Na okraji obrazovky ukáže, kde boss je.')},
