@@ -3249,5 +3249,12 @@ window.KRYPTA_EN={
 "Šat zlatého dvora a Midasova rukavice":"Robe of the Golden Court and Midas Glove",
 "Nový set (4 kusy = <b>Zlatý déšť</b>) a legendárka, se kterou každý dvanáctý zabitý nepřítel <b>vybuchne zlatem</b>.":"A new set (4 pieces = <b>Golden Rain</b>) and a legendary that makes every twelfth enemy you kill <b>explode in gold</b>.",
 "Nový hledaný Pokladník a mistrovství Poslední slovo.":"A new wanted Treasurer and the Last Word mastery.",
-"Nová hudba kapitoly: slavnostní dvorní pochod.":"New chapter music: a pompous court march."
+"Nová hudba kapitoly: slavnostní dvorní pochod.":"New chapter music: a pompous court march.",
+"Hraní bez signálu se počítá":"Offline play counts",
+"Běhy offline se neztratí":"Offline runs aren't lost",
+"Když hraješ <b>bez internetu</b>, hra si každý běh zapíše do telefonu a pošle ho, jakmile jsi zase online.":"When you play <b>without internet</b>, the game saves every run on your phone and sends it as soon as you're back online.",
+"Do žebříčku i offline":"Leaderboard works offline too",
+"Výsledky z hraní bez signálu se po připojení <b>samy doplní do žebříčku</b>. Nic nemusíš dělat.":"Results from offline play are <b>added to the leaderboard automatically</b> once you reconnect. Nothing to do.",
+"Po návratu signálu se hra k serveru připojí sama, nemusíš ji zavírat.":"When the signal returns, the game reconnects to the server on its own, no need to restart it.",
+"Když hraješ na dvou zařízeních, žebříček si nechá lepší výsledek z obou.":"If you play on two devices, the leaderboard keeps the better result of both."
 };

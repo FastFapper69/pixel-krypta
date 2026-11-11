@@ -36,7 +36,7 @@ let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0
 // Adding a new save.X needs no list anymore; only device-only settings go to LOCAL_KEYS. Feature migrations that need game data
 // (chMigrate, treeMigrate, econ2Migrate, nmMigrate, metaInit…) still run lazily where that data exists; SAVE_MIG is for whole-save changes.
 const SAVE_VER=1,SAVE_BAK=SAVE_KEY+'-bak';
-const LOCAL_KEYS=new Set(['sound','music','tipTower','cheat','stick','pinSet','nick','lastMap','treeBack','vol','shk','bt']);
+const LOCAL_KEYS=new Set(['sound','music','tipTower','cheat','stick','pinSet','nick','lastMap','treeBack','vol','shk','bt','runQ']);
 const SAVE_MIG=[ // SAVE_MIG[v] turns a save of version v into v+1 (pure function on plain data)
   d=>d // 0→1: saves before 09r had no version; the shape is the same
 ];
@@ -49,7 +49,7 @@ function loadSave(){let raw=null,s=null;try{raw=localStorage.getItem(SAVE_KEY);}
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});Object.assign(save.meta,s.meta||{});
   if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;
   if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.nick)save.nick=s.nick;if(s.lastMap)save.lastMap=s.lastMap;
-  if(s.vol&&typeof s.vol==='object')save.vol={m:clamp01(+s.vol.m),s:clamp01(+s.vol.s)};if(s.shk!=null&&isFinite(+s.shk))save.shk=clamp01(+s.shk);if(s.bt!=null&&isFinite(+s.bt))save.bt=clamp01(+s.bt);
+  if(s.vol&&typeof s.vol==='object')save.vol={m:clamp01(+s.vol.m),s:clamp01(+s.vol.s)};if(s.shk!=null&&isFinite(+s.shk))save.shk=clamp01(+s.shk);if(s.bt!=null&&isFinite(+s.bt))save.bt=clamp01(+s.bt);if(Array.isArray(s.runQ))save.runQ=s.runQ.filter(r=>r&&typeof r==='object').slice(-300);
   for(const k in s)if(!LOCAL_KEYS.has(k)&&!['coins','heroes','cleared','best','meta'].includes(k)&&s[k]!==undefined&&s[k]!==null)save[k]=s[k];
   save.version=Math.max(SAVE_VER,s.version|0);
   if(!loadSave.fromBak)try{localStorage.setItem(SAVE_BAK,raw);}catch(_){} // this session started from a good save → keep it as the backup
@@ -3481,7 +3481,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11q';
+const GAME_VER='2026-11-11r';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7335,13 +7335,15 @@ function onlineConfigured(){const c=window.KRYPTA_ONLINE;return !!(c&&c.url&&c.k
 const errText=e=>String((e&&(e.message||e.error_description))||e||_t('neznámá chyba'));
 async function onlineInit(){
   if(!onlineConfigured()){refreshMenu();return;}
+  if(ON.initBusy)return;ON.initBusy=1;try{await onlineInit2();}finally{ON.initBusy=0;}if(ON.ready)runsFlush();}
+async function onlineInit2(){
   try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});}catch(e){}
   try{
     const c=window.KRYPTA_ONLINE;
     // in-app browsers (Instagram, Facebook) may refuse storage: keep the login in memory too, so requests stay signed in
     const mem={},store={getItem:k=>{if(k in mem)return mem[k];try{return localStorage.getItem(k)}catch(e){return null}},
       setItem:(k,v)=>{mem[k]=v;try{localStorage.setItem(k,v)}catch(e){}},removeItem:k=>{delete mem[k];try{localStorage.removeItem(k)}catch(e){}}};
-    ON.sb=window.supabase.createClient(c.url,c.key,{auth:{storage:store,persistSession:true,autoRefreshToken:true}});
+    if(!ON.sb)ON.sb=window.supabase.createClient(c.url,c.key,{auth:{storage:store,persistSession:true,autoRefreshToken:true}});
     let {data:{session}}=await ON.sb.auth.getSession();
     if(!session){const r=await ON.sb.auth.signInAnonymously();if(r.error)throw r.error;session=r.data.session;}
     ON.me=session.user;
@@ -7349,7 +7351,9 @@ async function onlineInit(){
     if(error)throw error;
     if(data){save.nick=data.nick;ON.forceNick=!!data.rename_req;const rs=data.save||{};if(rs.pinSet)save.pinSet=true;
       // the newer of the two saves wins, so playing on a second device never loses progress
-      if((rs.updated||0)>(save.updated||0)){if(rs.ch==null){delete save.ch;delete save.unl;}cloudApply(rs);
+      if((rs.updated||0)>(save.updated||0)){const mine=save.stats;if(rs.ch==null){delete save.ch;delete save.unl;}cloudApply(rs);
+        // runs played offline here must not vanish when the cloud save is newer (another device): keep the better of both
+        if(statsMerge(mine))ON.dirty=true;
         if(!save.heroes.knight)save.heroes.knight=true;econInit();try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}}
       else if((save.updated||0)>(rs.updated||0))ON.dirty=true;}
     ON.ready=true;ON.err='';refreshMenu();
@@ -7440,10 +7444,32 @@ function tmRow(end){const R=run,lv=o=>{const r={};for(const k in o)r[k]=typeof o
     t:Math.floor(R.t),lv:R.level,kills:R.kills,cause:end==='death'?(R.hitBy||'?'):end==='crystal'?'crystal':null,
     dmg_by:R.dmgBy||{},weapons:lv(R.W),passives:lv(R.P),towers:(R.towers||[]).length,boss:!!R.bossSpawned,
     runs_before:(save.stats&&save.stats.runs)||0,hero_lv:heroLv(R.heroId)};}
+// 11r: every run goes into a queue on the device first (save.runQ, max RUNQ_MAX) and leaves it once the server took it,
+// so runs played offline (no signal, server down, Instagram without storage) still reach the data and the leaderboard
+const RUNQ_MAX=300,rid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,9);
 function tmSend(end){try{if(!run||run.tmSent||save.cheat||isGuest())return;run.tmSent=1;const row=tmRow(end);
   if(window.__krypta)window.__krypta.lastRun=row;
-  if(!ON.sb||!ON.me||ON.noRuns)return;
-  ON.sb.from('runs').insert(Object.assign({uid:ON.me.id},row)).then(r=>{if(r.error)ON.noRuns=1;},()=>{ON.noRuns=1;});}catch(_){}}
+  row.rid=rid();row.played_at=new Date().toISOString();row.offline=!(ON.ready&&ON.me);
+  const Q=save.runQ||(save.runQ=[]);Q.push(row);if(Q.length>RUNQ_MAX)Q.splice(0,Q.length-RUNQ_MAX);
+  try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}
+  runsFlush();}catch(_){}}
+// send the queue in batches; a duplicate rid is skipped by the server; old server without the new columns → send without them
+const RUN_NEW=['rid','played_at','offline'];
+async function runsFlush(){const Q=save.runQ;if(!Q||!Q.length||!ON.sb||!ON.me||!ON.ready||ON.runsBusy||ON.noRuns)return;ON.runsBusy=1;
+  try{while(save.runQ&&save.runQ.length){const part=save.runQ.slice(0,50),rows=part.map(r=>{const o=Object.assign({uid:ON.me.id},r);if(ON.runsOld)for(const k of RUN_NEW)delete o[k];return o;});
+      const {error}=ON.runsOld?await ON.sb.from('runs').insert(rows):await ON.sb.from('runs').upsert(rows,{onConflict:'rid',ignoreDuplicates:true});
+      if(error){if(!ON.runsOld&&(error.code==='PGRST204'||error.code==='42703'||error.code==='42P10'||/rid|played_at|offline|conflict/i.test(error.message||''))){ON.runsOld=1;continue;}
+        if(error.code==='42P01'||error.code==='PGRST205')ON.noRuns=1;break;}
+      save.runQ=save.runQ.filter(r=>!part.includes(r));try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}}}
+  catch(_){}ON.runsBusy=0;}
+// back online (signal returns, app comes back to the front, every minute while offline): sign in again and send what waits
+let reconT=0;
+function onlineRetry(){if(!onlineConfigured()||ON.initBusy)return;if(navigator.onLine===false)return;
+  if(!ON.ready){if(Date.now()-reconT<15000)return;reconT=Date.now();onlineInit();return;}
+  if(ON.dirty)cloudSave();runsFlush();}
+addEventListener('online',()=>{reconT=0;onlineRetry();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)onlineRetry();});
+setInterval(()=>{if(state!=='play')onlineRetry();},60000);
 function recordRun(won){
   if(save.cheat)return; // test-mode runs never reach the leaderboard
   const S=save.stats||(save.stats={wins:0,kills:0,runs:0,best:{}});S.best=S.best||{};
@@ -7453,6 +7479,14 @@ function recordRun(won){
   if(run.wk){const w=weekKey(),c=Object.assign({w,map:run.mapId},cur);if(!S.weekly||S.weekly.w!==w||mapScore(c)>mapScore(S.weekly))S.weekly=c;}
   else if(run.mod){const d=today(),c=Object.assign({d,map:run.mapId,mod:run.mod},cur);if(!S.daily||S.daily.d!==d||mapScore(c)>mapScore(S.daily))S.daily=c;}
 }
+// 11r: merge this device's stats into save.stats (cloud): totals and best results take the bigger value; true = something changed
+function statsMerge(L){const S=save.stats;if(!L||!S||L===S)return false;const before=JSON.stringify(S);
+  for(const k of ['runs','wins','kills'])S[k]=Math.max(+S[k]||0,+L[k]||0);
+  if(L.tot&&typeof L.tot==='object'){S.tot=S.tot||{};for(const k in L.tot)if(typeof L.tot[k]==='number')S.tot[k]=Math.max(+S.tot[k]||0,L.tot[k]);}
+  S.best=S.best||{};for(const m in (L.best||{}))if(mapScore(L.best[m])>mapScore(S.best[m]))S.best[m]=L.best[m];
+  if(L.weekly&&(!S.weekly||S.weekly.w!==L.weekly.w?(!S.weekly||L.weekly.w>S.weekly.w):mapScore(L.weekly)>mapScore(S.weekly)))S.weekly=L.weekly;
+  if(L.daily&&(!S.daily||S.daily.d!==L.daily.d?(!S.daily||L.daily.d>S.daily.d):mapScore(L.daily)>mapScore(S.daily)))S.daily=L.daily;
+  return JSON.stringify(S)!==before;}
 // map best: higher nightmare first, then a win beats any loss; wins rank by the FASTEST time, losses by the longest survival
 const mapScore=b=>{if(!b)return -1;const t=Math.min(b.t||0,9999);return (b.nm||0)*1e7+(b.won?1e6+(9999-t)*100:t*100+Math.min(b.kills||0,99));};
 let boardTab='celkem',boardRows=null;
@@ -9977,6 +10011,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11r',d:'11. 11. 2026',t:_t('Hraní bez signálu se počítá'),hl:[
+  {ic:'scroll',t:_t('Běhy offline se neztratí'),d:_t('Když hraješ <b>bez internetu</b>, hra si každý běh zapíše do telefonu a pošle ho, jakmile jsi zase online.')},
+  {ic:'trophy',t:_t('Do žebříčku i offline'),d:_t('Výsledky z hraní bez signálu se po připojení <b>samy doplní do žebříčku</b>. Nic nemusíš dělat.')}],
+ items:[_t('Po návratu signálu se hra k serveru připojí sama, nemusíš ji zavírat.'),_t('Když hraješ na dvou zařízeních, žebříček si nechá lepší výsledek z obou.')]},
  {v:'2026-11-11q',d:'11. 11. 2026',t:_t('Spravedlivější obtížnost'),hl:[
   {ic:'shield',t:_t('Chyba už neznamená konec'),d:_t('Zásahy nepřátel jsou na všech mapách nastavené tak, aby tě <b>jedna chyba hned nezabila</b>. Kdo leze do davu, vydrží zhruba do půlky mapy.')},
   {ic:'skull',t:_t('Výzva pro každého stejná'),d:_t('Obtížnost map je znovu vyladěná podle hráčů, kteří hrají <b>normálně, ne dokonale</b>. Zdi kapitol III, VI a IX dál drží.')},
