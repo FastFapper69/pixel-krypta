@@ -28,7 +28,8 @@ const UCTY=[
  {hlv:19,meta:17,rev:2,tiers:2,tlv:3,gear:[2,3],slots:5,sets:['forge',2],pet:['fox',4],tw:[['arrow',1],['fire',1],['frost',1],['tesla',1],['forge',1]]},
  {hlv:22,meta:20,rev:2,tiers:3,tlv:3,gear:[2,4],slots:6,sets:['frost',2],pet:['salamander',3],tw:[['arrow',1],['fire',2],['frost',1],['tesla',2],['hearth',1]]},
  {hlv:25,meta:22,rev:2,tiers:4,tlv:4,gear:[3,4],slots:6,sets:['tide',2],pet:['drake',4],tw:[['arrow',2],['fire',2],['frost',2],['tesla',2],['icelance',1]]},
- {hlv:29,meta:25,rev:3,tiers:5,tlv:5,gear:[3,5],slots:6,sets:['tide',4],pet:['drake',5],tw:[['arrow',2],['fire',2],['frost',2],['tesla',2],['cannon',1]]}];
+ {hlv:29,meta:25,rev:3,tiers:5,tlv:5,gear:[3,5],slots:6,sets:['tide',4],pet:['drake',5],tw:[['arrow',2],['fire',2],['frost',2],['tesla',2],['cannon',1]]},
+ {hlv:33,meta:28,rev:3,tiers:6,tlv:6,gear:[3,6],slots:6,sets:['star',4],pet:['drake',5],tw:[['arrow',2],['fire',2],['frost',2],['tesla',2],['gwell',1]]}];
 // finále hraje hráč, který prošel 4 mapy kapitoly (o kousek silnější než na vstupu)
 const fin=A=>Object.assign({},A,{hlv:A.hlv+2,meta:Math.min(30,A.meta+2)});
 const grind=A=>Object.assign({},A,{hlv:Math.min(40,A.hlv+4),meta:Math.min(30,A.meta+3),gear:A.gear?[Math.min(3,A.gear[0]+1),A.gear[1]+2]:[1,2],slots:Math.min(6,(A.slots||0)+1)||3,sets:A.sets?[A.sets[0],Math.min(4,A.sets[1]+2)]:null,tlv:A.tlv+2});
@@ -90,7 +91,10 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         for(const q of R.kst||[])if(!q.hit&&seen(q))away(q.x,q.y,q.r+10,4);
         for(const q of R.erupt||[])if(q.t>0&&seen(q))away(q.x,q.y,(q.r||30)+10,4);
         for(const q of R.aval||[]){if(q.hit||!seen(q))continue;const dy=p.y-q.y;if(Math.abs(dy)<q.h+10)fy+=(dy>=0?1:-1)*3.5;}
-        if(R.kp&&seen(R.kp))away(R.kp.x,R.kp.y,90,3);
+        if(R.kp&&(R.kpOn||!((map.kit&&map.kit.mech)||[]).some(m=>m.id==='pull'&&m.ph2))&&seen(R.kp))away(R.kp.x,R.kp.y,90,3);
+        // chapter VII: opening rifts (warning circle), the echo of your own path
+        for(const q of (R.kr&&R.kr.L)||[])if(!q.op&&seen(q))away(q.x,q.y,32,3.5);
+        if(R.ke&&Math.random()<P.aware+.3)for(const q of R.ke.E||[])if(q)away(q.x,q.y,34,2.5);
         // chapter VI: telescope beams, the void between islands (unless the bridges shine), lines between wolves
         if(R.kb&&R.t>12&&Math.random()<P.aware+.3){const C=map.size/2,o=(map.kit.mech.find(m=>m.id==='beam')||{}),n=o.n||2;for(let k=0;k<n;k++){const an=R.kb.a+k*6.283/n,cs=Math.cos(an),sn=Math.sin(an),dx=p.x-C,dy=p.y-C,pr=dx*cs+dy*sn,pp=-dx*sn+dy*cs;
           if(pr>10&&pr<(o.len||520)&&Math.abs(pp)<30){const s2=pp>=0?1:-1;fx+=-sn*s2*4;fy+=cs*s2*4;}}}
@@ -100,6 +104,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         for(const f of R.fx)if((f.k==='magma'||f.k==='venom')&&seen(f))away(f.x,f.y,(f.r||14)+10,3);
         if(R.built.traps&&(E('M.step')%16)>=11)for(const t of R.built.traps)if(seen(t))away(t.x,t.y,H.trapS*1.6+8,3);
         let goal=null;
+        if(R.kn){const o=(map.kit.mech.find(m=>m.id==='lantern')||{}),rr=(o.r||120)*(R.kn.dim>0?.6:1);if(Math.hypot(R.kn.x-p.x,R.kn.y-p.y)>rr*(.45+.3*(1-P.aware)))goal=R.kn;}
         if(R.fcy&&seen(R.fcy)){let bd=1e9;for(const i of R.fcy.act){const q=R.built.runes[i],d=Math.hypot(q.x-p.x,q.y-p.y);if(d<bd){bd=d;goal=q;}}}
         if(!goal&&(p.cold||0)>.55&&R.built.fires&&R.built.fires.length){let bd=1e9;for(const f of R.built.fires){const d=Math.hypot(f.x-p.x,f.y-p.y);if(d<bd){bd=d;goal=f;}}}
         if(!goal&&p.hp<p.max*Math.max(.4,P.panic)&&R.built.oases&&R.built.oases.length&&!(R.crystal&&R.crystal.hp<R.crystal.max*.6)){let bd=1e9;for(const o of R.built.oases){const d=Math.hypot(o.x-p.x,o.y-p.y);if(d<bd){bd=d;goal=o;}}}
@@ -108,7 +113,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         const gr=P.gemR*(low?.4:1);
         if(!goal){let bd=gr+20;for(const g of R.items){const d=Math.hypot(g.x-p.x,g.y-p.y);if(d<bd){bd=d;goal=g;}}}
         if(!goal){let bd=gr;for(const g of R.gems){const d=Math.hypot(g.x-p.x,g.y-p.y);if(d<bd){bd=d;goal=g;}}}
-        if(goal){const dx=goal.x-p.x,dy=goal.y-p.y,d=Math.hypot(dx,dy)+1,w=goal===R.crystal||R.fcy?1.2:.9*(goal.v!==undefined||goal.k?Math.min(1.6,P.greed*(low?.4:1)):1);fx+=dx/d*w;fy+=dy/d*w;}
+        if(goal){const dx=goal.x-p.x,dy=goal.y-p.y,d=Math.hypot(dx,dy)+1,w=goal===R.kn?1.5:goal===R.crystal||R.fcy?1.2:.9*(goal.v!==undefined||goal.k?Math.min(1.6,P.greed*(low?.4:1)):1);fx+=dx/d*w;fy+=dy/d*w;}
         const cx=map.size/2-p.x,cy=map.size/2-p.y,cd=Math.hypot(cx,cy);if(cd>map.size*.38){fx+=cx/cd*1.5;fy+=cy/cd*1.5;}
         if(P.jitter){const a=Math.random()*6.283;fx+=Math.cos(a)*P.jitter;fy+=Math.sin(a)*P.jitter;}
         const L=Math.hypot(fx,fy);return L>.12?{x:fx/L,y:fy/L}:{x:0,y:0};}

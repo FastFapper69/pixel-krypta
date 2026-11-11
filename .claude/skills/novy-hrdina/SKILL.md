@@ -5,7 +5,7 @@ description: "Postup a kontrolní seznam pro nového hrdinu Pixel Krypty (sprite
 
 # Nový hrdina Pixel Krypty
 
-Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Námořnice (`sailor`, kotva `anchor`) a Kovářka (`smith`, kladivo `hammer`).
+Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Pirátka (`sailor`, kotva `anchor`), Kovářka (`smith`, kladivo `hammer`) a nejnovější Nyx (`nyx`, černá díra `voidorb`, 11g: zbraň jako efekt `fx` `bhole` s vtahováním a výbuchem na konci taktu, bonus přes existující `B.dodge`, prefix talentů `y`).
 
 ## Pravidla uživatele
 - Současných 5 hrdinů (Rytíř, Mág, Lučištník, Bard, Stavitel) zůstává základ. **Noví hrdinové nesou tematickou zbraň** (všem v nabídce od úrovně hrdiny 8, `W_UNL_LV`).
@@ -21,7 +21,8 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Námořnice
 5. Bonus hrdiny, který není v číslech `HEROES`, do `heroBonus` (`if(h==='id')…`) nebo do běhu (`run.heroId==='id'`).
 6. Mistrovství (pokud se odemyká úspěchem, `ach:`), jinak cena.
 7. Průvodce se bere z dat (`HEROES`), zkontroluj text. Profilový obrázek se přidá sám (`avAll`).
-8. `lang-en.js`, `NEWS` s `hero:id` ikonou, `GAME_VER`, `CLAUDE.md`.
+8. `HERO_DAT` (3. pád jména, „Nyx“ zůstává Nyx), `lang-en.js`, `NEWS` s `hero:id` ikonou, `GAME_VER`, `CLAUDE.md`.
+9. Procenta v popisech a Novinkách piš s `&nbsp;` (`8&nbsp;%`), jinak se číslo na telefonu odlomí od znaku procenta.
 
 ## Ověření
 - `node tests/tools/chapcheck.js hero:<id>` – musí skončit „Vše v pořádku“ (měří i šířku jména CZ/EN v dlaždici).

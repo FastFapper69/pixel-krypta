@@ -1,6 +1,6 @@
 # Pixel Krypta – kampaň a kapitoly
 
-Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI hotová (hrdinka Astra, dřív Hvězdářka). **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
+Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI hotová (hrdinka Astra, dřív Hvězdářka). **Kapitola VII Prázdnota hotová (11g, hrdinka Nyx).** **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
 Návrh pro uživatele je i v dokumentu „Pixel Krypta – kampaň a kapitoly“ (Claude Docs).
 
 ## Stavebnice kapitol (08y) – nové kapitoly dělej takhle
@@ -97,7 +97,21 @@ Příběh Padlé hvězdy: po Krakenovi padají hvězdy, Hvězdářka je sleduje;
 
 Nepřátelé: `starimp` (fast, `BEH.blink` přenos k hrdinovi na takt), `meteor` (charger), `starwolf` (grunt, čáry), `comet` (tank, letí, `BEH.comet` průlet s ohnivým ohonem). Bossové kit: astrolab (keep, spirály), nebula (chase, sliz, přenos), griffin (dash, hvězdy z nebe), orion (keep, šípy, strike, vlci), eclipse (finále). Věže `scope` Dalekohled (odemkne mlhovina) a `gwell` Gravitační studna (souhvezdi). Set `star` (armor, amulet, ring, boots; 4 = padající hvězda `lg.sst4`), legendárka `eheart` Srdce zatmění. Hledaný `comet` Bludná kometa. Hrdinka `astro` Hvězdářka (`need:'hvezdarna'`, 1500 zl). Kontrola `tests/tools/c6shots.js prefix`.
 
+## Kapitola VII Prázdnota (11g, stavebnice)
+Příběh: Zatmění otevřelo díru do Prázdnoty, Nicota chce poslední střep hvězdy; po finále se z nicoty rodí nové slunce (`BRIDGE.nicota` k:`dawn`, náznak kapitoly VIII). Paleta `C7G/C7W/C7T/C7P/C7Z/C7B` (téměř černá, tyrkysové trhliny, fialová jen jako hloubka – fialová je zakázaná jen v UI), rekvizity `c7_*` (`c7_lantern` je sprite lucerny). Hudba: vlastní styl `void` (frygická stupnice `KIT_PROG.phryg`, sub basa + pulzní oktáva, pomalu nabíhající plochy, kovové pingy s ozvěnou, „glitch“ hi-haty, dutá pulzní melodie), mix `rolecal.js` odchylka 0,1 dB, běh −30,5 dB.
+**Cíl mechanik:** všechny tři míří na otevřený problém „drž odstup a utíkej“ (10j): trhliny pouští nepřátele přímo k hrdinovi, ozvěna trestá běhání v kruhu, lucerna drží hráče v jednom putujícím kruhu.
+
+| Mapa | Rozvržení | Mechanika |
+|---|---|---|
+| okraj Okraj prázdnoty | paths + zóna prasklin (jen vzhled) | `rifts`: od 20 s každé 4 takty trhlina 30–60 px od každého hrdiny, za takt bouchne (zraní v kruhu 22) a pustí `n` nepřátel z `pool`; boss Chřtán ji otevírá sám (`KIT_OWN.maw`) |
+| trosky Trosky světů | open | bez mechaniky; rekvizity = trosky kapitol I–VI (`c7_tomb`, `c7_block`, `c7_ember`, `c7_ice`, `c7_plank`, `c6_scope`, `c6_orrery`) |
+| ozveny Síň ozvěn | plaza | `echo`: stín každého hrdiny jde jeho cestou o `delay`=2 takty později, na 1. dobu taktu bouchne (hrdina v kruhu `r` dostane `hazDm`, nepřátelé `edmg`) |
+| svetlo Poslední světlo | open, tma .9 | `lantern`: lucerna pluje po mapě (`spd` 15, s bossem ×1,3), mimo světlo (`r` 120, nebo dosah věže Lucerna) tik poškození; Můra ji každé 4 takty ztlumí na 60 % (`run.kn.dim`); šipka k lucerně mimo obrazovku (`kitArrow`) |
+| nicota Srdce nicoty | arena, finále | `rifts` (každé 3 takty od 45 s) + `pull` s `ph2:1` = černá díra ve středu až od 2. fáze Nicoty (`ph2:{mf:'ph2'}` → `MF.kit.ph2` → `KIT_MECH.x.ph2`) + `strike` (jen pro tahy bosse) |
+
+Nepřátelé: `shade` Stín (fast), `hollow` Vyhaslý (grunt, `die:'split'` → 2 stíny, `voidSplit`), `voideye` Oko prázdnoty (ranged3, letí), `devourer` Požírač (tank, dotek zpomalí). Bossové kit: maw (chase, trhliny), hoarder (keep, trosky), mirror (dash, přenos na zrcadlovou stranu od hrdiny), moth (chase, hasí lucernu), nothing (finále, spirály, černá díra). Věže `espire` Věž ozvěn (zásah + ozvěna `tech` o 2 doby později; odemkne ozveny) a `lantern` Lucerna (zpomalí, +15 % poškození, v Posledním světle bezpečí, p5 léčí; odemkne svetlo). Set `void` Výstroj poutníka nicotou (helm, armor, ring, gloves; 2 = úhyb +5 %, poškození +6 %; 4 = trhlina `lg.sv4` na 3. dobu 2. taktu). Legendárka `vheart` Kroky nicoty (boty, ozvěna kroku každé 2 takty). Hledaný `nameless` Bezejmenný (Vyhaslý, přenáší se za záda). Hrdinka `nyx` Nyx (`need:'okraj'`, cena z `HERO_PRICE` = 5 500, úhyb 8 %, zbraň `voidorb` Černá díra). Mistrovství `nothing` Světlonoš. Čísla: `kitTier` (vstup 4,81 HP, finále 5,29). Testy: `chapcheck.js c7`, `c7shots.js prefix [mapy] [s] [hrdina]` (odehraje s Nyx, věžemi, setem a legendárkou), boti `hraci.js kapitola:c7` (účet UCTY[6], boti znají trhliny, ozvěnu a lucernu).
+
 ## Zbývá / nápady
-- Kapitola VI (Hvězdářka): podle stejného rámce, mechanika jen u některých map, pár nových nepřátel, bez nového materiálu. Kapitola V má od 09c vlastní věže (Lodní dělo, Harpunářská věž).
+- Kapitola VIII: most `nicota` → `dawn` (zrod nového slunce) je připravený. Kapitola VII zatím nepřidala novou mechaniku do `FEATS` (návrh pro uživatele: Síň ozvěn = souboj se všemi bossy kapitoly za sebou).
 - Úkoly a Mistrovství pro nové mechaniky (zapálené pochodně `run.qc.torch`, zvony `bell`, pasti `trap` se už počítají).
 - Ověřit na telefonu výkon tmy v Kostnici a mlhy v bažině.
