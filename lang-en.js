@@ -3310,5 +3310,9 @@ window.KRYPTA_EN={
 "Přehlednější Novinky":"Cleaner What's new",
 "Kratší Novinky":"Shorter news",
 "Jen to hlavní, drobnosti po rozkliknutí.":"Just the main points, small stuff on tap.",
-"Text už nezajíždí pod posuvník.":"Text no longer runs under the scrollbar."
+"Text už nezajíždí pod posuvník.":"Text no longer runs under the scrollbar.",
+"Nová ikona pečeti":"New seal icon",
+"Pečeť místo zámku":"A seal instead of a lock",
+"Pečetě zbraní mají voskovou pečeť.":"Weapon seals now show a wax seal.",
+"Zapečetěné zbraně jsou v okně pečetí lépe vidět.":"Sealed weapons stand out better in the seal window."
 };

@@ -400,3 +400,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 11t (11. 11. 2026) – přehlednější Novinky
 - Uživatel: drobnosti zajížděly pod posuvník, Novinky měly moc textu a hlavní body často nebyly to hlavní. Nový vzhled záznamu (`.ne`, `.neh`, `.nic`, `<details class="nmore">`), `padding-right` u `.nl`, datum jen když se změní. Záznamy 11k–11s přepsané (max 3 body, jedna krátká věta). Nový test `novinky.js` hlídá délky od 11k dál.
+
+## 11u (11. 11. 2026) – ikona pečeti
+- Uživatel: ikona pečeti působila jako zamčené tlačítko. Nová ikona `seal` (červený vosk s otiskem a kapkami) na `#sealBtn`, na zapečetěných dlaždicích v okně pečetí (dřív zašedlý 16px zámek) a v Novinkách 11m.

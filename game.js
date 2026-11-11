@@ -553,6 +553,7 @@ const ICONS={
  seal_r:{pal:{r:'#b8302a',h:'#e8604a',d:'#7a1a16',k:'#5a1210'},rows:['..rrr...','.rhrrr..','rhrrrrr.','rrrkrrd.','rrrrrrd.','.rrrdd..','..rdd...','...d....']},
  seal_b:{pal:{r:'#2a5ab8',h:'#5a8ae8',d:'#163a7a',k:'#10285a'},rows:['..rrr...','.rhrrr..','rhrrrrr.','rrrkrrd.','rrrrrrd.','.rrrdd..','..rdd...','...d....']},
  seal_g:{pal:{r:'#2f8a3a',h:'#5ac06a',d:'#1a5a22',k:'#123e18'},rows:['..rrr...','.rhrrr..','rhrrrrr.','rrrkrrd.','rrrrrrd.','.rrrdd..','..rdd...','...d....']},
+ seal:{pal:{r:'#b32622',R:'#e0503e',h:'#ffb090',d:'#781414',D:'#4e0a0a'},rows:['..RRrr..','.RhRRRr.','RRddddrr','RdRhhRDr','RdRhhRDr','rrDDDDrr','.rrrrrr.','..d..d..']}, // 11u: vosková pečeť (pečetě zbraní), ne zámek
  lock:{pal:{k:'#2a2420',s:'#c8ccd8',g:'#f6c744',o:'#c28a10'},rows:['..sss...','.s...s..','.s...s..','ggggggg.','gggkggg.','gggkggo.','ggggggo.','.ooooo..']},
  pin:{pal:{r:'#e8453c',h:'#ff9a8a',d:'#8a1e1a',s:'#9aa0ac'},rows:['..rrr...','.rhrrr..','.rrrrd..','..rdd...','...s....','...s....','........','........']},
  gear:{pal:{s:'#d8d4e8',S:'#8a86a0'},rows:['.s.ss.s.','.ssssss.','ssSSSSss','.sS..Ss.','.sS..Ss.','ssSSSSss','.ssssss.','.s.ss.s.']},
@@ -3481,7 +3482,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11t';
+const GAME_VER='2026-11-11u';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7006,10 +7007,10 @@ function sealWhy(id,hero){const pool=sealPool(hero),st0=HEROES[hero]&&HEROES[her
     if(before.length&&!after.length)return {t:_t('O poslední fúzi by přišla zbraň ')+WEAPONS[y].name+_t('. Nejdřív odpečeť zbraň, se kterou se spojí.'),w:y};}
   return null;}
 function sealCount(){return Object.keys(save.seal||{}).filter(k=>save.seal[k]).length;}
-function sealBtnSync(){const b=$('#sealBtn');if(!b)return;const ic=$('#sealIc');if(ic&&!ic.src)ic.src=dataUrl(SPR.icon.lock);b.hidden=!featOn('fuse');const n=sealCount();$('#sealN').textContent=n?String(n):'';b.classList.toggle('has',!!n);}
+function sealBtnSync(){const b=$('#sealBtn');if(!b)return;const ic=$('#sealIc');if(ic&&!ic.src)ic.src=dataUrl(SPR.icon.seal);b.hidden=!featOn('fuse');const n=sealCount();$('#sealN').textContent=n?String(n):'';b.classList.toggle('has',!!n);}
 let sealCur=null;
 function openSeals(){const pop=$('#selPop'),hero=sel.hero,pool=sealPool(hero),st0=HEROES[hero]&&HEROES[hero].start;if(!sealCur||!pool.includes(sealCur))sealCur=st0&&pool.includes(st0)?st0:pool[0];
-  const live=x=>!sealOn(x)||x===st0,inPool=pool.filter(live).length,fz=FUSIONS.filter(f=>pool.includes(f.a)&&pool.includes(f.b)&&live(f.a)&&live(f.b)).length,wax=dataUrl(SPR.icon.lock);
+  const live=x=>!sealOn(x)||x===st0,inPool=pool.filter(live).length,fz=FUSIONS.filter(f=>pool.includes(f.a)&&pool.includes(f.b)&&live(f.a)&&live(f.b)).length,wax=dataUrl(SPR.icon.seal);
   const tiles=pool.map(id=>'<button class="stile'+(sealOn(id)&&id!==st0?' sealed':'')+(id===sealCur?' cur':'')+(id===st0?' st0':'')+'" data-wid="'+id+'" aria-label="'+WEAPONS[id].name+'"><img alt="" src="'+dataUrl(SPR.icon[id])+'">'+(sealOn(id)&&id!==st0?'<img class="wax" alt="" src="'+wax+'">':'')+'</button>').join('');
   const id=sealCur,W=WEAPONS[id],why=sealOn(id)&&id!==st0?null:sealWhy(id,hero),mates=sealMates(id,pool);
   const fus=mates.map(o=>{const U=WEAPONS[o.f.id],hid=U.secret&&!save.codex.f[o.f.id];return '<div class="sfu'+(live(o.m)?'':' off')+'"><img alt="" src="'+dataUrl(SPR.icon[o.f.id])+'"><i>=</i><img alt="" src="'+dataUrl(SPR.icon[id])+'"><i>+</i>'+(hid?'<b class="q">?</b>':'<img alt="" class="m" src="'+dataUrl(SPR.icon[o.m])+'">')+'<span>'+(hid?'???':U.name)+'</span></div>';}).join('')||'<p class="sfu0">'+_t('Zatím nemá s kým se spojit.')+'</p>';
@@ -10013,6 +10014,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11u',d:'11. 11. 2026',t:_t('Nová ikona pečeti'),hl:[
+  {ic:'seal',t:_t('Pečeť místo zámku'),d:_t('Pečetě zbraní mají voskovou pečeť.')}],
+ items:[_t('Zapečetěné zbraně jsou v okně pečetí lépe vidět.')]},
  {v:'2026-11-11t',d:'11. 11. 2026',t:_t('Přehlednější Novinky'),hl:[
   {ic:'scroll',t:_t('Kratší Novinky'),d:_t('Jen to hlavní, drobnosti po rozkliknutí.')}],
  items:[_t('Text už nezajíždí pod posuvník.')]},
@@ -10040,7 +10044,7 @@ const NEWS=[
   {ic:'magpie',t:_t('Mazlíček Straka'),d:_t('Trhá zezlátlé nepřátele.')}],
  items:[_t('Nové věže Zrcadlo a Lis.'),_t('Set Šat zlatého dvora a Midasova rukavice.'),_t('Hledaný Pokladník a mistrovství Poslední slovo.'),_t('Nová hudba: dvorní pochod.')]},
  {v:'2026-11-11m',d:'11. 11. 2026',t:_t('Pečetě zbraní'),hl:[
-  {ic:'lock',t:_t('Pečetě zbraní'),d:_t('Vyřaď zbraně z nabídky v Přípravě.')},
+  {ic:'seal',t:_t('Pečetě zbraní'),d:_t('Vyřaď zbraně z nabídky v Přípravě.')},
   {ic:'volcano',t:_t('8 nových fúzí'),d:_t('Každá zbraň hrdinů má svou fúzi.')}],
  items:[_t('Vždy zůstane aspoň 8 zbraní a každá s fúzí.'),_t('Recepty najdeš ve Sbírce.')]},
  {v:'2026-11-11l',d:'11. 11. 2026',t:_t('Kapitola VIII: Úsvit'),hl:[
