@@ -308,7 +308,7 @@ const HEROES={
   '..gggg','.ggggg','.gffff','.gfpff','..ffff','..gggg','.nnnnn','nnnbnn','.nnnnn','..n..n','..b..b']},
  bard:{name:_t('Bard'),desc:_t('Hraje do rytmu. Když schytá ránu, <b>kombo mu spadne jen na půlku</b>.'),start:'note',hp:0,armor:0,dmg:0,spd:0,cost:0,ach:'combo',pal:{a:'#b0303a',c:'#f6c744'},rows:[
   '.....c','....cc','...aaa','..aaaa','.aaaaa','.fffff','.fpfff','..ffff','.mmmmm','mmmymm','.mmmmm','..m..m','..n..n']},
- builder:{name:_t('Stavitel'),desc:_t('Mistr věží: staví je za <b>60 % ceny</b> a <b>začíná s jednou věží</b>.'),start:'axe',hp:15,armor:0,dmg:0,spd:0,cost:250,builder:true,pal:{},rows:[
+ builder:{name:_t('Stavitel'),desc:_t('Mistr věží: staví je za <b>60 % ceny</b> a <b>začíná s jednou věží</b>.'),start:'axe',hp:25,armor:0,dmg:0,spd:0,cost:250,builder:true,pal:{},rows:[
   '..yyyy','.yyyyy','yyyyyy','.fffff','.fpfff','..ffff','.ooooo','oouuuu','ouuuuu','.uuuuu','..u..u','..n..n']},
  // 08c: heroes built around a slot: one more weapon / a second pet; their talents strengthen exactly that
  warlord:{name:_t('Žoldák'),desc:_t('Unese <b>6 zbraní místo 5</b>, takže si poskládá větší arzenál.'),start:'halberd',hp:10,armor:0,dmg:0,spd:0,cost:1000,need:'trun',pal:{s:'#a8b0c0',a:'#8a2a2a',c:'#f6c744',S:'#5a6070'},rows:[
@@ -697,11 +697,15 @@ const MAPS={
   events:[{t:80,type:'ring',e:'scorp',n:18},{t:150,type:'ring',e:'cultist',n:16},{t:220,type:'ring',e:'mummy',n:16},{t:300,type:'ring',e:'wolf',n:16},{t:380,type:'ring',e:'bat',n:30}]}
 };
 // difficulty per map (enemy HP multiplier, extra spawns, win gold bonus, optional enemy damage multiplier); a new chapter is meant to be a wall you climb by farming the previous chapters' Nightmares: rises gently in a chapter, the finale jumps
-const MAP_TIER={hrbitov:[1,0,0],bazina:[1.05,.1,15],kostnice:[1.1,.2,30],zvonice:[1.15,.3,45],trun:[1.32,.45,90],
-  poust:[1.45,.6,60,1.24],kanon:[1.48,.6,75,1.25],karavana:[1.48,.58,90,1.22],hrobka:[1.55,.62,105,1.26],brana:[1.75,.7,150,1.3], // 10j: II schod nad I
-  doly:[3.1,1,110,1.7],kovarna:[3.45,1.05,125,1.75],reka:[3.8,1.1,140,1.85],krystaly:[4,1.15,155,1.9],srdce:[3.4,1.1,240,1.75], // 10j: III zeď
-  jezero:[3.9,1.05,170,1.75],pevnost:[4,1.05,185,1.75],tajga:[4.1,1.08,200,1.8],soutezka:[4.2,1.1,215,1.82],zima:[5.8,1.2,320,2.2], // 10j: IV schod nad III
-  vrakoviste:[6.6,1.2,230,2.15],pristav:[6.4,1.15,245,2.05],majak:[6.5,1.15,260,2.08],vir:[6.6,1.15,275,2.1],paluba:[7,1.2,380,2.15]}; // 10j: V schod nad novou IV
+// 11h: [HP ×, spawn navíc, zlato za výhru, poškození ×] vyladěné boty na cílovou úspěšnost podle síly hráče (tests/tools/ladeni.js,
+// účty ucty.js, 5 povah, ~1 800 běhů): průměrný hráč s účtem, se kterým na mapu přijde, vyhraje v každé kapitole zhruba stejně často.
+const MAP_TIER={
+  hrbitov:[.63,0,0,1],bazina:[.5,.1,15,1],kostnice:[.8,.2,30,1],zvonice:[.92,.3,45,1],trun:[1.32,.45,90,1], // kapitola I vítá (Hřbitov 70 % → Zvonice 45 %, Trůn 25 %)
+  poust:[1.58,.6,60,1.29],kanon:[1.65,.6,75,1.32],karavana:[1.46,.58,90,1.21],hrobka:[1.61,.62,105,1.28],brana:[1.29,.7,150,1.11], // II schod (40 % −3 na mapu, finále 20 %)
+  doly:[3.33,1,110,1.76],kovarna:[3.92,1.05,125,1.87],reka:[5.42,1.1,140,2.21],krystaly:[5.27,1.15,155,2.18],srdce:[3.2,1.1,240,1.7], // III zeď (25 %, finále 12 %)
+  jezero:[3.39,1.05,170,1.63],pevnost:[3.95,1.05,185,1.74],tajga:[5.08,1.08,200,2],soutezka:[3.9,1.1,215,1.75],zima:[4.22,1.2,320,1.88], // IV schod
+  vrakoviste:[11.81,1.2,230,2.88],pristav:[9.5,1.15,245,2.5],majak:[15.29,1.15,260,3.19],vir:[17.11,1.15,275,3.38],paluba:[5.81,1.2,380,1.96], // V schod (Maják a Vír na HP skoro nereagují, potřebují mechaniku)
+  hvezdarna:[6.59,.98,300,2.39],mlhovina:[14.91,1.32,315,3.01],ostrovy:[6.37,.94,330,2.49],souhvezdi:[11.81,.96,345,3.33],zatmeni:[7.01,1.04,480,2.67]}; // VI zeď (Mlhovina a Souhvězdí jdou vykitovat, HP vysoko)
 for(const id in MAPS){const T=MAP_TIER[id]||[1,0,0];MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];MAPS[id].dmm=T[3]||1;}
 // campaign: a chapter = one theme, five maps and one material; its last map is the finale with a special boss
 const CHAPTERS=[
@@ -717,6 +721,17 @@ const MAP_IDS=CHAPTERS.flatMap(c=>c.maps),CH_OF={};CHAPTERS.forEach((c,i)=>{c.i=
 const heroCh=h=>{const n=HEROES[h].need,C=n&&CH_OF[n];return C?C.i+(C.maps[C.maps.length-1]===n?1:0):-1;};
 const HERO_PRICE=ci=>ci<=5?[1000,1000,1500,2000,3000,4000][Math.max(0,ci)]:Math.round(4000*Math.pow(1.4,ci-5)/500)*500; // II 1000, III 1500, IV 2000, V 3000, VI 4000, VII 5500, VIII 8000
 for(const h in HEROES)if(heroCh(h)>=1&&!HEROES[h].costFix)HEROES[h].cost=HERO_PRICE(heroCh(h));
+// 11h: obtížnost roste se silou hráče. Vyladěné mapy mají řádek v MAP_TIER (tests/tools/ladeni.js: boti s účtem typického hráče
+// na cílovou úspěšnost DIFF_CIL). Mapa bez řádku (nová kapitola) dostane obtížnost ze vzorce: poslední dvě vyladěné kapitoly
+// přepočtené přes růst síly hráče a cílovou křivku. PWR počítá `node tests/tools/krivka.js zapis` (účty tests/tools/ucty.js,
+// síla čtená z kódu hry: úroveň hrdiny, Prestiž, talenty, Vylepšení, strom, výbava, sety, runy, Souhvězdí).
+//   u, v = útok a výdrž hráče na vstupu kapitoly (index = kapitola; za koncem tabulky se prodlouží stejným tempem)
+//   kh, kd = HP a poškození běžné mapy na cíl 40 % (khf, kdf finále), b = sklon (HP ×e^(1/b) ubere 1 logit výher)
+const PWR={u:[1.095,1.489,1.91,2.377,2.658,3.325,3.656,4.17,5.273,6.37],v:[135,355,599,678,814,1172,1348,1542,2073,2270],kh:160.51,khf:81.11,kd:3.393,kdf:2.384,b:2.67};
+const pwrAt=(a,ci)=>ci<a.length?a[ci]:a[a.length-1]*Math.pow(a[a.length-1]/a[a.length-2],ci-a.length+1);
+const isWall=ci=>ci%3===2; // III, VI, IX… = zeď
+// cílová úspěšnost průměrného hráče s účtem, se kterým na mapu přijde (stejné číslo v tests/tools/ladeni.js CIL)
+function DIFF_CIL(ci,mi,fin){if(fin)return ci===0?25:isWall(ci)?12:20;if(ci===0)return[70,60,50,45][mi]||45;return(isWall(ci)?25:40)-3*mi;}
 // maps without a hand-tuned MAP_TIER row take the staircase formula (chapter kit)
 for(const id of MAP_IDS)if(!MAP_TIER[id]){const T=kitTier(id);MAPS[id].hpm=+(T[0]*(MAPS[id].hpmK||1)).toFixed(2);MAPS[id].spx=+(T[1]+(MAPS[id].spxAdd||0)).toFixed(2);MAPS[id].gb=T[2];MAPS[id].dmm=T[3];}
 const ROMAN_CH=['I','II','III','IV','V','VI','VII','VIII'];
@@ -2426,11 +2441,11 @@ const WEAPONS={
  hammer:{name:_t('Roztavené kladivo'),desc:_t('Udeří do země před tebou a nechá louži lávy, která pálí.'),labels:{dmg:_t('Poškození'),rad:_t('Dosah'),burn:_t('Láva')},
   lv:[{n:1,dmg:20,rad:24,cd:1.8,burn:4},{n:1,dmg:24,rad:26,cd:1.7,burn:5},{n:1,dmg:28,rad:28,cd:1.6,burn:6},{n:1,dmg:34,rad:30,cd:1.5,burn:7},{n:1,dmg:40,rad:34,cd:1.4,burn:9},{n:1,dmg:48,rad:38,cd:1.3,burn:11}]},
  icicle:{name:_t('Krápníky'),desc:_t('Na nepřátele padají z nebe rampouchy a zmrazí je.'),labels:{n:_t('Krápníků'),dmg:_t('Poškození')},
-  lv:[{n:2,dmg:14,cd:1.4,frz:.5},{n:3,dmg:14,cd:1.4,frz:.5},{n:3,dmg:18,cd:1.3,frz:.6},{n:4,dmg:18,cd:1.2,frz:.6},{n:5,dmg:22,cd:1.1,frz:.7},{n:6,dmg:26,cd:1.0,frz:.8}]},
+  lv:[{n:2,dmg:12,cd:1.4,frz:.5},{n:3,dmg:12,cd:1.4,frz:.5},{n:3,dmg:16,cd:1.3,frz:.6},{n:4,dmg:16,cd:1.2,frz:.6},{n:5,dmg:19,cd:1.1,frz:.7},{n:6,dmg:23,cd:1.0,frz:.8}]}, // 11h −12 %: v davu daleko nejsilnější zbraň
  anchor:{name:_t('Kotva na řetězu'),desc:_t('Točí kotvou v širokém oblouku a stahuje nepřátele k sobě.'),labels:{dmg:_t('Poškození'),rad:_t('Dosah')},
-  lv:[{n:1,dmg:18,rad:44,cd:2.0},{n:1,dmg:22,rad:46,cd:1.9},{n:1,dmg:26,rad:50,cd:1.8},{n:1,dmg:30,rad:54,cd:1.7},{n:1,dmg:36,rad:58,cd:1.55},{n:1,dmg:44,rad:64,cd:1.4}]},
+  lv:[{n:1,dmg:20,rad:44,cd:2.0},{n:1,dmg:25,rad:46,cd:1.9},{n:1,dmg:30,rad:50,cd:1.8},{n:1,dmg:34,rad:54,cd:1.7},{n:1,dmg:40,rad:58,cd:1.55},{n:1,dmg:50,rad:64,cd:1.4}]}, // 11h +12 % (Pirátka v botech −8 bodů)
  stars:{name:_t('Souhvězdí'),desc:_t('Rozmisťuje hvězdy a na první dobu taktu je spojí paprsky, které zraní vše mezi nimi.'),labels:{n:_t('Hvězd'),dmg:_t('Poškození')},
-  lv:[{n:3,dmg:16,cd:1.0},{n:3,dmg:20,cd:.9},{n:4,dmg:20,cd:.9},{n:4,dmg:26,cd:.8},{n:5,dmg:30,cd:.75},{n:6,dmg:36,cd:.7}]},
+  lv:[{n:3,dmg:20,cd:1.0},{n:3,dmg:25,cd:.9},{n:4,dmg:25,cd:.9},{n:4,dmg:32,cd:.8},{n:5,dmg:38,cd:.75},{n:6,dmg:45,cd:.7}]}, // 11h +25 % (Astra v botech nejslabší)
  halberd:{name:_t('Halapartna'),desc:_t('Na první a třetí dobu sekne širokým obloukem před sebe. Každá další zbraň v buildu jí přidá 6 % poškození.'),labels:{dmg:_t('Poškození'),rad:_t('Dosah')},
   lv:[{dmg:16,rad:36,cd:1.0},{dmg:19,rad:38,cd:1.0},{dmg:23,rad:42,cd:1.0},{dmg:27,rad:44,cd:.95},{dmg:32,rad:48,cd:.9},{dmg:38,rad:54,cd:.85}]},
  voidorb:{name:_t('Černá díra'),desc:_t('Na první dobu taktu otevře u největší skupiny nepřátel černou díru. Ta je vtahuje a drtí a na konci taktu se zhroutí výbuchem.'),labels:{n:_t('Děr'),dmg:_t('Poškození'),rad:_t('Dosah')},
@@ -4500,11 +4515,12 @@ function hurtPlayerHaz(){const p=run.p;if(run.over||run.dying||p.down)return;if(
 const KIT_PROPS={},kitSpr={};
 const kitSprite=k=>kitSpr[k]||(kitSpr[k]=buildSprite(KIT_PROPS[k].rows,{pal:KIT_PROPS[k].pal,mirror:KIT_PROPS[k].mirror!==false,scale:KIT_PROPS[k].big?2:1}));
 // difficulty staircase (08p): every chapter is a wall, +~4 % per map, the finale clearly harder
+function mapFoes(M){let w=0,h=0,d=0;for(const s of M.spawns||[]){if(s.from>3||(s.to!==undefined&&s.to<3))continue;const e=ENEMY_DEFS[s.e];if(!e)continue;w+=s.w;h+=s.w*e.hp;d+=s.w*e.dmg;}
+  return w?{hp:h/w,hit:d/w*(1+3*.08)}:{hp:40,hit:10};}
 function kitTier(id){const C=CH_OF[id];if(!C)return null;const ci=C.i,mi=C.maps.indexOf(id),fin=mi===C.maps.length-1;
-  // 10d: from chapter VI on the base follows the real table (V entry 3.75, finale 3.8) – the old 2.7×1.22 made VI's first map easier than V's finale
-  // 10j: V went up to 6.4–7, VI stays: its beam/strike hazards scale with hpm (hazDm), at 3.85 VI is still harder than V for the same account (bots); a higher base made VI unbeatable even after grinding
-  const E=ci>=5?3.85*Math.pow(1.25,ci-5):[1,1.3,1.7,2.2,2.7][ci],ff=ci>=5?1.1:1.18;
-  return[+(E*(fin?ff:1+.035*mi)).toFixed(2),+Math.min(1.3,(.45+.09*ci)+(fin?.14:.02*mi)).toFixed(2),Math.round(60*ci+15*mi+(fin?120:0)),+((ci>=5?2+.12*(ci-5):1+.1*ci+(ci>=4?.05*(ci-3):0))+(fin?.08:0)).toFixed(2)];}
+  const F=mapFoes(MAPS[id]),lg=q=>Math.log(q/(1-q)),k=Math.exp((lg(.4)-lg(DIFF_CIL(ci,mi,fin)/100))/PWR.b);
+  const hpm=(fin?PWR.khf:PWR.kh)*k*pwrAt(PWR.u,ci)/F.hp,dmm=Math.max(1,(fin?PWR.kdf:PWR.kd)*Math.sqrt(k)*pwrAt(PWR.v,ci)/100/F.hit);
+  return[+hpm.toFixed(2),+Math.min(1.3,(.45+.09*ci)+(fin?.14:.02*mi)).toFixed(2),Math.round(60*ci+15*mi+(fin?120:0)),+dmm.toFixed(2)];}
 // boss and enemy numbers by chapter index (0 = chapter I): calibrated on chapter V, ×1.25 HP per chapter
 function kitBoss(ci,mi,fin){const k=Math.pow(1.25,ci-4);return{hp:Math.round((fin?25600:11000*(1+.07*mi))*k/100)*100,dmg:Math.round(22+2*(ci-4)+(fin?2:0)+.3*mi)};}
 function kitFoe(ci,role){const R=KIT_ROLE[role]||KIT_ROLE.grunt,h=Math.pow(1.25,ci-4),d=Math.pow(1.1,ci-4);return{hp:Math.round(R[0]*h),spd:R[1],dmg:Math.round(R[2]*d),r:R[3],xp:R[4]};}
