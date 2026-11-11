@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11d';
+const GAME_VER='2026-11-11e';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3113,7 +3113,7 @@ addEventListener('keydown',e=>{if(typing(e.target))return;keys[e.code]=true;
   if(!e.repeat&&state==='play'&&run){const i=['Digit1','Digit2','Digit3','Digit4','Digit5'].indexOf(e.code);if(i>=0&&run.deck&&run.deck[i])buildTower(run.deck[i]);if(e.code==='KeyE')upgradeTower();if(e.code==='KeyR')repairCrystal();}
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();});
 addEventListener('keyup',e=>{keys[e.code]=false;});
-for(const ev of ['pointerdown','touchend','click'])document.addEventListener(ev,()=>audioInit(),{passive:true,capture:true});addEventListener('keydown',()=>audioInit());
+for(const ev of ['pointerdown','pointerup','touchstart','touchend','click'])document.addEventListener(ev,()=>audioInit(),{passive:true,capture:true});addEventListener('keydown',()=>audioInit());
 // coming back to the app: try to wake the audio straight away (a tap will finish the job where the OS insists on one)
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ac)audioInit();});addEventListener('pageshow',()=>{if(ac)audioInit();});
 function getInput(){
@@ -8513,6 +8513,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11e',d:'11. 11. 2026',t:_t('Hudba hned od startu'),hl:[
+  {ic:'tune',t:_t('Hudba hned od startu'),d:_t('Menu hraje hned po spuštění. Kde to telefon nedovolí (iPhone chce nejdřív dotyk), rozjede hudbu první dotyk kamkoli.')}]},
  {v:'2026-11-11d',d:'11. 11. 2026',t:_t('Čitelná nápověda'),hl:[
   {ic:'scroll',t:_t('Nápověda pod otazníkem'),d:_t('Text na pergamenu je tmavý a ostrý, bez stínu. Zdroje hvězdných bodů jsou řádky jako v knize.')},
   {ic:'star',t:_t('Vrátit body funguje'),d:_t('Tlačítko Vrátit body v nápovědě Souhvězdí dřív nic nedělalo. Teď otevře vrácení bodů.')}]},
@@ -8969,7 +8971,7 @@ async function shareResult(){if(!run||!run.over)return;let c;try{c=await shareIm
 /* ============ boot ============ */
 // heavy start (sprites, menu map) runs after the splash has been painted; the online library loads in parallel
 function boot(){
-econInit();initSprites();bindUi();setSong('menu');
+econInit();initSprites();bindUi();setSong('menu');audioInit(); // 11e: hudba hned po spuštění; kde prohlížeč spuštění bez dotyku nedovolí (iPhone), rozjede ji první dotyk kamkoli
 // the menu backdrop map is built once now, before the first frame (later it reuses whatever map is already built)
 {const lm=save.lastMap&&MAPS[save.lastMap]&&mapUnlocked(save.lastMap)?save.lastMap:'hrbitov';MB.id=lm;try{buildMap(lm);}catch(_){}}
 {const mk=(w,h,fn)=>{const c=document.createElement('canvas');c.width=w;c.height=h;fn(c.getContext('2d'),w,h);return c.toDataURL();},R=document.documentElement.style;

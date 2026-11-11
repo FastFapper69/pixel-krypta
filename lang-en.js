@@ -2710,5 +2710,7 @@ window.KRYPTA_EN={
 "Nápověda pod otazníkem":"Help behind the question mark",
 "Text na pergamenu je tmavý a ostrý, bez stínu. Zdroje hvězdných bodů jsou řádky jako v knize.":"Text on the parchment is dark and crisp, without a shadow. Star point sources are listed like lines in a book.",
 "Vrátit body funguje":"Refund points works",
-"Tlačítko Vrátit body v nápovědě Souhvězdí dřív nic nedělalo. Teď otevře vrácení bodů.":"The Refund points button in the Constellation help did nothing before. Now it opens the refund."
+"Tlačítko Vrátit body v nápovědě Souhvězdí dřív nic nedělalo. Teď otevře vrácení bodů.":"The Refund points button in the Constellation help did nothing before. Now it opens the refund.",
+"Hudba hned od startu":"Music right from the start",
+"Menu hraje hned po spuštění. Kde to telefon nedovolí (iPhone chce nejdřív dotyk), rozjede hudbu první dotyk kamkoli.":"The menu music plays as soon as the game starts. Where the phone does not allow it (an iPhone wants a touch first), the first touch anywhere starts it."
 };
