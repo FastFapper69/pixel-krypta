@@ -356,4 +356,4 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 ## 11j (11. 11. 2026) – dokončení co-opu
 - Karty pouta (výboj, mráz, život, tah), Souhra (zabití na stejnou dobu, každá 10. truhla), Duetní fúze (recept rozdělený mezi hráče, rituál otázka–odpověď, ultimátka oběma), společné shrnutí na konci (zabití, poškození, oživení po hráčích), návrat po odpojení do 30 s (i po zavření stránky), co-op žebříček (`coop_runs`, `coop_board`). Podrobnosti `COOP.md` „11j“.
 - Oprava: karta duetu u kamaráda nesla recept (`cards[].f` i pro `duet`).
-- SQL co-op žebříčku je v `supabase/migrations/20261111a_coop_board.sql`; zkouška nanečisto prošla, naostro ho spustí uživatel.
+- SQL co-op žebříčku je v `supabase/migrations/20261111a_coop_board.sql`; zkouška nanečisto prošla, 11. 11. spuštěné naostro (Supabase MCP).

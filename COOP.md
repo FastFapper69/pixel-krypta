@@ -1,6 +1,6 @@
 # Pixel Krypta – návrh co-opu pro 2 hráče
 
-Stav: **fáze 0–5 hotové** (11j, 11. 11. 2026): karty pouta, Souhra, Duetní fúze, společné shrnutí, návrat po odpojení, co-op žebříček. Zbývá: ověřit naostro na dvou telefonech, spustit SQL co-op žebříčku (`supabase/migrations/20261111a_coop_board.sql`, uživatel v SQL Editoru), ladění podle testerů, případně lokální co-op na jednom telefonu.
+Stav: **fáze 0–5 hotové** (11j, 11. 11. 2026): karty pouta, Souhra, Duetní fúze, společné shrnutí, návrat po odpojení, co-op žebříček. Zbývá: ověřit naostro na dvou telefonech, ladění podle testerů, případně lokální co-op na jednom telefonu.
 
 ### Jak je to postavené (odchylky od návrhu)
 - Místo velkého refaktoru `run.p → run.players[]` hra používá **`withPl(pl, fn)`**: dočasně prohodí `run.p/W/P/hero/heroId/fused/fuseMiss/revived/meta` a `st` na partnera a pustí stávající kód. Sólo tak běží přesně stejnou cestou jako dřív.
@@ -126,7 +126,7 @@ Už dnes každá ultimátka přidává do hudby nástroj. V co-opu se vrstvy obo
 - [x] Duetní fúze (rituál otázka–odpověď, 11j).
 
 ### Fáze 5: dokončení
-- [x] Záložka Co-op v žebříčku (tabulka `coop_runs` + funkce `coop_board`, 11j; SQL čeká na spuštění uživatelem).
+- [x] Záložka Co-op v žebříčku (tabulka `coop_runs` + funkce `coop_board`, 11j; SQL spuštěné 11. 11.).
 - [ ] Ladění balancu podle testerů.
 - [ ] Případně lokální co-op na jednom telefonu (dva joysticky). Po fázi 0 už je to malá práce.
 
