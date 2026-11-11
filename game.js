@@ -3432,6 +3432,7 @@ function sfx(k,arg){
    case'gem':{const t=qTime(.5),i=run?run.gemChain||0:0;osc('square',NOTE(chordNote(i,2)),t,.06,.035,B,null,5200);osc('sine',NOTE(chordNote(i,3)),t+.012,.05,.02,B);break;}
    case'coin':{const t=qTime(.5);osc('square',NOTE(chordNote(3,2)),t,.06,.045,B,null,5200);osc('square',NOTE(chordNote(5,2)),t+sd*.5,.09,.045,B,null,5200);break;}
    case'hurt':osc('sawtooth',170,T,.2,.12,B,55,1800);noiz(T,.1,.1,B,'lowpass',900);break;
+   case'chestdrop':{const t=qTime(.5);[0,1,2,3].forEach(i=>osc('triangle',NOTE(chordNote(i,2)),t+i*.05,.12,.08,B,null,5000));break;}
    case'level':{const t=qTime(1);for(let i=0;i<6;i++)osc('square',NOTE(chordNote(i,1)),t+i*sd*.5,.16,.055,B,null,4200);break;}
    case'boss':{const t=qTime(4);duckMusic(-10,1.2);osc('sawtooth',NOTE(chordNote(0,-2)),t,1.4,.16,B,NOTE(chordNote(0,-3)),900);noiz(t,.8,.12,B,'lowpass',400);break;}
    case'win':{const t=qTime(2);for(let i=0;i<9;i++)osc('square',NOTE(chordNote(i,1)),t+i*sd*.5,.22,.06,B,null,4500);break;}
@@ -3496,7 +3497,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11z1';
+const GAME_VER='2026-11-11z2';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3899,11 +3900,14 @@ function killEnemy(e){
   if(st&&st.af&&!e.d.noHit){if(st.af.vamp&&!run.p.down)run.p.hp=Math.min(run.p.max,run.p.hp+st.af.vamp);if(st.af.gold&&e.elite)run.coins+=Math.round(st.af.gold);}run.combo++;run.comboT=(st&&st.tal&&st.tal.d5?2.4:1.6)+(run.thm==='rhythm'?1:0);sfx('kill');
   const Q=run.qc;if(Q){Q.k[e.id]=(Q.k[e.id]||0)+1;if(e.elite)Q.el++;if(e.boss)Q.boss++;if(run.combo>Q.combo)Q.combo=run.combo;
     if(e.want){Q.want=e.want;run.wanted=null;toast(_t('Hledaný dopaden! Odměnu si vyzvedni na Nástěnce'),2800);run.items.push({x:e.x-6,y:e.y,k:'mat',v:8});for(let i=0;i<3;i++)run.items.push({x:e.x+rnd(-8,8),y:e.y+rnd(-8,8),k:'coin'});}}
-  // combo milestones pay more the longer the combo lasts: 25 → 5, 50 → 10 … up to 40 gold (spent in the run on towers; only
-  // part of the run's gold is kept afterwards, see endCoins); every 200 also drops material
-  if(run.combo%25===0){const g=Math.min(40,5*(run.combo/25));run.coins+=g;const big=run.combo%200===0;
-    if(big&&MAT_OF[run.mapId])run.items.push({x:run.p.x+rnd(-14,14),y:run.p.y+rnd(-14,14),k:'mat',v:2+Math.min(3,Math.floor(run.combo/300))});
-    toast(_t('Kombo ')+run.combo+'! +'+g+_t(' zlata')+(big&&MAT_OF[run.mapId]?_t(' a Úlomky'):''),big?1600:1000);sfx(big?'level':'coin');
+  // 11z2: gold comes every 25 KILLS (a hit no longer wipes it out – in hard maps the combo kept resetting and towers came only late);
+  // a long combo still pays more: at least 10, from combo 75 → 15 … up to 40 (a clean combo gets about the same as before). Material every 200 combo.
+  run.kg=(run.kg||0)+1;
+  if(run.kg%25===0){const g=Math.min(40,Math.max(10,5*Math.floor(run.combo/25)));run.coins+=g;sfx('coin');
+    if(run.combo>=25)toast(_t('Kombo ')+run.combo+'! +'+g+_t(' zlata'),1000);
+    else if(run.nums.length<40)run.nums.push({x:run.p.x,y:run.p.y-14,vx:0,vy:-40,txt:'+'+g,life:.8,col:'#f6c744',t:0});}
+  if(run.combo>0&&run.combo%25===0){
+    if(run.combo%200===0&&MAT_OF[run.mapId]){run.items.push({x:run.p.x+rnd(-14,14),y:run.p.y+rnd(-14,14),k:'mat',v:2+Math.min(3,Math.floor(run.combo/300))});toast(_t('Kombo ')+run.combo+_t('! Padly Úlomky'),1600);sfx('level');}
     if(st&&st.tal&&st.tal.d20){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:110,dmg:20+run.level*2,hit:new Set(),life:1,noslow:true,col:'#7fe0c8'});}}
   const pal=e.d.pal||{},pa=pal.a||'#c869e0',cols=[pa,pal.b||mixHex(pa,SHADOW_HUE,.4),pal.c||mixHex(pa,LIGHT_HUE,.4),mixHex(pa,'#120c1a',.6)];
   const gy=e.y+e.h/2-4,n=e.boss?30:e.elite?12:5;
@@ -3915,7 +3919,7 @@ function killEnemy(e){
   if(e.elite||e.boss)run.hitstop=Math.max(run.hitstop||0,e.boss?.25:.08);
   const v=e.xp;
   if(run.gems.length>220){const g=pick(run.gems);g.v+=v;}else run.gems.push({x:e.x,y:e.y,v});
-  if(e.elite||e.boss)run.items.push({x:e.x,y:e.y,k:'chest'});
+  if(e.elite||e.boss){run.items.push({x:e.x,y:e.y,k:'chest',born:run.t});sfx('chestdrop');}
   if(MAT_OF[run.mapId]){if(e.boss){}else if(e.elite)run.items.push({x:e.x+6,y:e.y,k:'mat',v:rndi(2,3)+Math.round(.3*((st&&st.tr&&st.tr.l4)||0))});else if(Math.random()<.01)run.items.push({x:e.x,y:e.y,k:'mat',v:1});}
   else{const r=Math.random();
     if(r<.10)run.items.push({x:e.x,y:e.y,k:'coin'});
@@ -6510,6 +6514,18 @@ function menuBg(g){
   if(vig.width===VW*Z&&vig.height===VH*Z)g.drawImage(vig,0,0,VW,VH);
   if(bm.def.grade){g.globalCompositeOperation='soft-light';g.globalAlpha=bm.def.gradeA||.2;g.fillStyle=bm.def.grade;g.fillRect(0,0,VW,VH);g.globalAlpha=1;g.globalCompositeOperation='source-over';}
 }
+// 11z2: arrow at the screen edge pointing to something off screen (box with an icon + a tip toward the target); dodges the tower bar
+let ptrBB=null,ptrBBt=0;
+function edgePtr(g,cx,cy,col,spr,isz){if(cx>2&&cy>2&&cx<VW-2&&cy<VH-2)return false;
+  let mx=Math.round(clamp(cx,11,VW-11)),my=Math.round(clamp(cy,130,VH-50)); // pod horní lištou, statistikami a zbraněmi
+  const now=performance.now();if(now-ptrBBt>500){ptrBBt=now;const bb=$('#buildbar'),sr=cv.getBoundingClientRect();ptrBB=null;
+    if(bb&&!bb.hidden&&bb.offsetWidth){const r=bb.getBoundingClientRect();ptrBB={l:(r.left-sr.left)/S-9,t:(r.top-sr.top)/S-9,r:(r.right-sr.left)/S+9,b:(r.bottom-sr.top)/S+9};}}
+  if(ptrBB&&mx>ptrBB.l-6&&mx<ptrBB.r&&my>ptrBB.t&&my<ptrBB.b)mx=Math.round(ptrBB.l-6);
+  const a=Math.atan2(cy-my,cx-mx),tx=Math.round(mx+Math.cos(a)*13),ty=Math.round(my+Math.sin(a)*13);
+  g.fillStyle='#14101c';g.beginPath();g.moveTo(tx+Math.cos(a)*2,ty+Math.sin(a)*2);g.lineTo(mx+Math.cos(a+.9)*9,my+Math.sin(a+.9)*9);g.lineTo(mx+Math.cos(a-.9)*9,my+Math.sin(a-.9)*9);g.fill();
+  g.fillStyle=col;g.beginPath();g.moveTo(tx,ty);g.lineTo(mx+Math.cos(a+.85)*7.5,my+Math.sin(a+.85)*7.5);g.lineTo(mx+Math.cos(a-.85)*7.5,my+Math.sin(a-.85)*7.5);g.fill();
+  g.fillStyle='#14101c';g.fillRect(mx-7,my-7,15,15);g.fillStyle=col;g.fillRect(mx-6,my-6,13,13);g.fillStyle='#14101c';g.fillRect(mx-5,my-5,11,11);
+  if(spr){const w=isz,h=Math.round(isz*spr.h/spr.w);g.drawImage(spr.c,mx-(w>>1),my-(h>>1),w,h);}return true;}
 function render(){
   if(!ctx)return;
   const g=ctx;g.setTransform(Z,0,0,Z,0,0);g.imageSmoothingEnabled=false;g.clearRect(0,0,VW,VH);
@@ -6548,7 +6564,13 @@ function render(){
   // items
   for(const it of run.items){const x=RZ(it.x+ox),y=RZ(it.y+oy);if(x<-12||y<-12||x>VW+12||y>VH+12)continue;
     const bob=(((M.beatPos+it.x*.01)%1)+1)%1<.25?1:0;
-    if(it.k==='chest'){const s=SPR.misc.chest;shadow(g,x,y+s.h/2-3,s.w-2);blit(g,bob?s.c2:s.c,s,x,y-s.h/2);}
+    if(it.k==='chest'){const s=SPR.misc.chest,pu=M.pulse||0,age=run.t-(it.born||-9);
+      // 11z2: a gold beam of light + bigger chest, so it doesn't drown among enemies and gems
+      const bh=age<.6?60*age/.6:60,bw=age<.6?9-5*age/.6:4+pu;g.globalAlpha=.22+.18*pu;g.fillStyle='#ffe07a';g.fillRect(RZ(x-bw/2),RZ(y-4-bh),RZ(bw),RZ(bh));
+      g.globalAlpha=.45+.25*pu;g.fillRect(RZ(x-.5),RZ(y-4-bh),1,RZ(bh));g.globalAlpha=1;
+      g.globalAlpha=.35+.25*pu;g.fillStyle='#ffd24a';g.beginPath();g.ellipse(x,y+1,8+pu*2,3+pu,0,0,6.283);g.fill();g.globalAlpha=1;
+      shadow(g,x,y+s.h-2,s.w+2);g.drawImage(bob?s.c2:s.c,RZ(x-s.w),RZ(y-s.h*2+2),s.w*2,s.h*2);
+      if(((M.step+(it.x|0))&3)===0){g.fillStyle='#fff6c8';const sx=RZ(x+((it.x*7+M.step*3)%11)-5),sy=RZ(y-8-((M.step*5+it.y)%9));g.fillRect(sx,sy,1,1);}}
     else{const s=SPR.icon[it.k==='coin'?'coin':it.k==='mat'?(MAT_OF[run.mapId]||'coin'):it.k==='heart'?'heart':'magnet'];shadow(g,x,y+4,6);
       const nar=it.k==='coin'&&Math.floor(M.beatPos*2+it.x)%2?2:0;g.drawImage(s.c,RZ(x-s.w/2+nar/2),RZ(y-s.h/2-bob),s.w-nar,s.h);}}
   for(const t of run.towers){if(!inView(t,24)||(t.born!==undefined&&run.t-t.born<.45))continue;towerPlate(g,t,RZ(t.x+ox),RZ(t.y+oy));}
@@ -6763,6 +6785,12 @@ function render(){
   if(ak==='firefly'||ak==='ember'||ak==='soul'){for(const a of amb){const x=RZ(a.x+ox),y=RZ(a.y+oy),tw=(Math.sin(a.ph*(ak==='ember'?9:3))+1)/2;
       g.globalAlpha=clamp(a.life,0,1)*(.4+.6*tw);g.fillStyle=ak==='ember'?(tw>.5?'#ffd27a':'#ff7a2a'):ak==='soul'?(tw>.5?'#e0b0ff':'#a868ff'):'#d8ff8a';g.fillRect(x,y,1,1);
       if(tw>.7){g.globalAlpha*=.35;g.fillRect(x-1,y,3,1);g.fillRect(x,y-1,1,3);}}g.globalAlpha=1;}
+  // 11z2: pointers at the screen edge for the boss and the nearest chest (they used to get lost in the horde)
+  if(run.boss&&!run.boss.dead&&!BI){const b=run.boss,bx=b.x+ox,by=b.y+oy;
+    if(bx>-4&&by>-4&&bx<VW+4&&by<VH+4){const pu=M.pulse||0;g.globalAlpha=.5+.3*pu;g.strokeStyle='#ff4a3a';g.lineWidth=1;g.beginPath();g.ellipse(RZ(bx),RZ(by+b.h/2-2),b.w*.55+2*pu,(b.w*.55+2*pu)*.38,0,0,6.283);g.stroke();g.globalAlpha=1;}
+    else edgePtr(g,bx,by,(M.pulse||0)>.5?'#ff6a5a':'#e8453c',SPR.icon.skull,10);}
+  {let best=null,bd=1e9;for(const it of run.items)if(it.k==='chest'&&!it.dead){const d=Math.hypot(it.x-run.p.x,it.y-run.p.y);if(d<bd){bd=d;best=it;}}
+    if(best)edgePtr(g,best.x+ox,best.y+oy,'#f6c744',SPR.misc.chest,8);}
   // crystal pointer when it is off screen
   if(run.crystal){const c=run.crystal,cx=c.x+ox,cy=c.y+oy;
     if(cx<2||cy<2||cx>VW-2||cy>VH-2){const mx=Math.round(clamp(cx,10,VW-10)),my=Math.round(clamp(cy,42,VH-48));
@@ -8867,7 +8895,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('stick'),_t('Pohyb'),_t('Táhni prstem kamkoli po obrazovce. Hrdina útočí sám.')],
    [I('power'),_t('Úrovně'),_t('Sbírej krystaly z nepřátel. S každou úrovní vybereš novou zbraň nebo vylepšení.')],
    [I('music'),_t('Rytmus'),_t('Zbraně a věže střílí do rytmu hudby. Zabíjej bez zásahu a poroste ti kombo.')],
-   [I('coin'),_t('Kombo'),_t('Každých 25 komba dostaneš zlato, a čím delší kombo, tím víc (až 40). Každých 200 padnou i Úlomky. Po běhu si necháš asi třetinu zlata, zbytek je na věže.')],
+   [I('coin'),_t('Kombo'),_t('Každých 25 zabití dostaneš zlato, s delším kombem víc (až 40). Každých 200 komba padnou i Úlomky. Po běhu si necháš asi třetinu zlata, zbytek je na věže.')],
    [I('vortex'),_t('Fúze'),_t('Dvě zbraně na úrovni 5 spojíš v silnou ultimátku. Při rituálu ťukej do rytmu.')],
    [I('tower'),_t('Věže'),_t('Za zlato z běhu stavíš věže tlačítky vpravo dole.')],
    [I('potion'),_t('Předměty na zemi'),_t('Lektvar léčí, magnet přitáhne krystaly, truhla dá vylepšení navíc.')],
@@ -9861,7 +9889,7 @@ function coSt(){return run.cst||(run.cst={k:[0,0],d:[0,0],r:[0,0],sh:0,shb:-9,kb
 function coKill(i,e){const C=coSt();C.k[i]++;const bt=Math.floor(M.step/4);C.kb[i]=bt;if(C.kb[1-i]!==bt||C.shb===bt)return;
   C.shb=bt;C.sh++;run.combo+=2;run.comboT=Math.max(run.comboT||0,2.2);const P=players(),mx=(P[0].x+P[1].x)/2,my=(P[0].y+P[1].y)/2;
   if(run.nums.length<44)run.nums.push({x:mx,y:my-14,vx:0,vy:-40,txt:_t('SOUHRA')+' ×'+C.sh,life:.9,col:'#f6c744',big:true,t:0});
-  if(C.sh%10===0){run.items.push({x:mx,y:my,k:'chest'});toast0(_t('Souhra ×')+C.sh+_t('! Padla truhla'),1800);coToastMate(_t('Souhra ×')+C.sh+_t('! Padla truhla'));sfx('level');}
+  if(C.sh%10===0){run.items.push({x:mx,y:my,k:'chest',born:run.t});toast0(_t('Souhra ×')+C.sh+_t('! Padla truhla'),1800);coToastMate(_t('Souhra ×')+C.sh+_t('! Padla truhla'));sfx('level');}
   else if(C.sh===1&&!save.tipSh){save.tipSh=1;toast0(_t('Souhra! Zabíjejte oba na stejnou dobu'),2400);coToastMate(_t('Souhra! Zabíjejte oba na stejnou dobu'));}}
 function coToastMate(msg){if(run&&run.pls)netSend({t:'toast',m:msg});}
 // rhythm bond: a beam between the two heroes that hits on every beat, strongest at a mid distance
@@ -10078,6 +10106,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11z2',d:'11. 11. 2026',t:_t('Bedny, boss a zlato'),hl:[
+  {ic:'chest_gold',t:_t('Bedny září'),d:_t('Sloup světla a šipka, když je bedna mimo.')},
+  {ic:'skull',t:_t('Šipka k bossovi'),d:_t('Na okraji obrazovky ukáže, kde boss je.')},
+  {ic:'coin',t:_t('Zlato na věže dřív'),d:_t('Zlato padá každých 25 zabití, i po zásahu.')}],
+ items:[_t('Delší kombo dál dává víc zlata, Bard o nic nepřichází.'),_t('Pod bossem svítí červený kruh, ať ho v hordě najdeš.')]},
  {v:'2026-11-11z1',d:'11. 11. 2026',t:_t('Bossové mluví o střepech'),items:[_t('Finální bossové kapitol I–VII ti před bojem řeknou, o co jde.')]},
  {v:'2026-11-11z',d:'11. 11. 2026',t:_t('Jednodušší příběh'),items:[_t('Prolog a zápisy příběhu jsou kratší a srozumitelnější.')]},
  {v:'2026-11-11y',d:'11. 11. 2026',t:_t('Příběh od začátku'),hl:[

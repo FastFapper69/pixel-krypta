@@ -62,6 +62,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         K.force=H.f;
         if(R.t>R.map.dur+400){K.finish(false);return 'over';}
         if(n%40===0)towers(K,R,P);
+        if(H.t1==null&&R.towers.length)H.t1=R.t;if(H.c90==null&&R.t>=90)H.c90=R.coins; // 11z2: kdy padne první věž, zlato v 1:30
         if(n%40===0&&R.p.dvx!==undefined){const v=Math.hypot(R.p.dvx,R.p.dvy);H.akN=(H.akN||0)+1;H.akS=(H.akS||0)+v;let nd=1e9;for(const e of R.enemies)if(!e.dead){const d=Math.hypot(e.x-R.p.x,e.y-R.p.y);if(d<nd)nd=d;}H.ndS=(H.ndS||0)+Math.min(nd,300);}
         K.step(DT);}
       return 'run';
@@ -136,7 +137,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         if(R.crystal&&R.nearCrystal&&R.crystal.hp<R.crystal.max*.75&&Math.random()<(P.aware))K.repairCrystal();}
     });
     if(st==='over')break;if(st!=='run'&&st!=='play'&&st!=='levelup'&&st!=='fuse')await p.waitForTimeout(40);}
-  const r=await p.evaluate(()=>{const K=window.__krypta,R=K.run;if(!R.over)K.finish(false);const H=window.__hb;return Object.assign({},K.lastRun||K.tmRow('death'),{gain:R.gain,cap:R.t>R.map.dur+390,vAvg:H.akN?H.akS/H.akN:null,ndAvg:H.akN?H.ndS/H.akN:null});});
+  const r=await p.evaluate(()=>{const K=window.__krypta,R=K.run;if(!R.over)K.finish(false);const H=window.__hb;return Object.assign({},K.lastRun||K.tmRow('death'),{gain:R.gain,cap:R.t>R.map.dur+390,t1:H.t1,c90:H.c90,vAvg:H.akN?H.akS/H.akN:null,ndAvg:H.akN?H.ndS/H.akN:null});});
   return Object.assign(r,{pov:J.pov,acc:J.acc,ci:J.ci});}
 let ji=0;await Promise.all(pages.map(async p=>{while(ji<jobs.length){const J=jobs[ji++];try{rows.push(await runOne(p,J));}catch(e){errs.push(String(e).slice(0,200));}
   if(++done%10===0)process.stdout.write(done+' ');}}));

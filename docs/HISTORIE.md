@@ -480,3 +480,12 @@ Uživatel verzi 11y odmítl („too much, strašně nucený, zamotal jsem se, ke
 
 ## 11z1 (11. 11. 2026) – hlášky finálních bossů mluví o střepech
 Přání uživatele: spojit úvodní hlášky bossů s příběhem. Jen finále I–VII (`BOSS_INTRO` morvan, sphinx, titan, queen, kraken, eclipse, nothing): jedna věta s humorem, ve které zazní střep. Ostatní bossové si nechávají vtipy; Fénix, Herold a Aurel už k příběhu mluvili.
+
+## 11z2 (11. 11. 2026) – bedny, šipka k bossovi, zlato na věže
+Připomínky uživatele z testování s kamarády: bedna zaniká, boss se ztrácí v hordě, v těžších mapách skoro nejde postavit věž (zásahy nulovaly kombo, zlato padalo jen za kombo), hra je dlouhá.
+- Bedna: zlatý sloup světla, kruh, dvojnásobná velikost, jiskry, zvuk `chestdrop` při pádu; `it.born` = krátké vysunutí sloupu.
+- `edgePtr(g,cx,cy,barva,sprite,velikost)`: šipka na okraji obrazovky (rámeček s ikonou + hrot k cíli), drží se pod horní lištou (y ≥ 130) a uhne buildbaru. Boss (lebka, červená) a nejbližší bedna (zlatá). Pod bossem na obrazovce pulzuje červený kruh.
+- Zlato: `run.kg` počítá zabití; každých 25 zabití `min(40,max(10,5·⌊kombo/25⌋))` zlata (dřív jen při kombu 25, 50… a zásah ho vynuloval). Úlomky dál každých 200 komba, talent `d20` dál na kombu. **Pravidla komba se nemění** (Bard dál drží půlku, žebříček komba beze změny).
+- Měření `hraci.js` (nové pole `t1` = čas první věže, `c90` = zlato v 1:30) + `prvniVez.js`: zlato v 1:30 zima 41–62 → 57–100, Nicota 25 → 45, první věž Nováček na Nicotě 3:47 → 1:51. Ve Zlatém dvoře boti skoro nezabíjejí (0–2 zabití za 2 min u Nováčka a Agresora), to je jiný problém (síla účtu nebo mechanika `goldblood`).
+- Délka běhu (bod 4 uživatele) zatím ne: zkrácení map a řidší horda u bosse potřebují přeladit obtížnost.
+
