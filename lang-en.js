@@ -3256,5 +3256,17 @@ window.KRYPTA_EN={
 "Do žebříčku i offline":"Leaderboard works offline too",
 "Výsledky z hraní bez signálu se po připojení <b>samy doplní do žebříčku</b>. Nic nemusíš dělat.":"Results from offline play are <b>added to the leaderboard automatically</b> once you reconnect. Nothing to do.",
 "Po návratu signálu se hra k serveru připojí sama, nemusíš ji zavírat.":"When the signal returns, the game reconnects to the server on its own, no need to restart it.",
-"Když hraješ na dvou zařízeních, žebříček si nechá lepší výsledek z obou.":"If you play on two devices, the leaderboard keeps the better result of both."
+"Když hraješ na dvou zařízeních, žebříček si nechá lepší výsledek z obou.":"If you play on two devices, the leaderboard keeps the better result of both.",
+"Lehké":"Easy",
+"Akorát":"Just right",
+"Těžké":"Hard",
+"Díky! Podle toho hru ladím.":"Thanks! I tune the game by this.",
+"Napsat víc":"Write more",
+"Jak se ti hrálo?":"How was that run?",
+"Řekni, jak se ti hrálo":"Tell us how it went",
+"Rychlá otázka po běhu":"Quick question after a run",
+"Občas se hra po běhu zeptá, <b>jak se ti hrálo</b> a jestli byla mapa lehká, akorát nebo těžká. Stačí dvě klepnutí.":"Now and then the game asks after a run <b>how it went</b> and whether the map felt easy, just right or hard. Two taps and done.",
+"Podle toho ladím hru":"This is how I tune the game",
+"Odpovědi čte vývojář a podle nich ladí obtížnost. Kdo chce, napíše přes <b>Napsat víc</b> i delší názor.":"The developer reads the answers and tunes the difficulty by them. Want to say more? Tap <b>Write more</b>.",
+"Ptá se nejvýš jednou denně a funguje i bez internetu.":"It asks at most once a day and works offline too."
 };

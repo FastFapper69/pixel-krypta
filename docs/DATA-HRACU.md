@@ -25,4 +25,10 @@ select cause, count(*) from runs where "end"='death' group by 1 order by 2 desc 
 select hero, count(*) n, round(avg(won::int)*100) vyhry_pct, round(avg(hero_lv)) lv from runs where not coop group by 1 order by 2 desc;
 -- zbraně ve vítězných bězích
 select w.key zbran, count(*) from runs, jsonb_each(weapons) w where won group by 1 order by 2 desc;
+-- rychlá otázka po běhu (11s): spokojenost a pocit obtížnosti po mapách, propojené s během přes rid
+select ctx->>'map' mapa, count(*) n, round(avg(rating),1) hvezdy,
+  count(*) filter (where ctx->>'diff'='easy') lehke, count(*) filter (where ctx->>'diff'='ok') akorat, count(*) filter (where ctx->>'diff'='hard') tezke
+  from feedback where kind='rychle' group by 1 order by 2 desc;
+-- delší názory
+select created_at, nick, kind, rating, msg from feedback where kind <> 'rychle' order by created_at desc limit 30;
 ```

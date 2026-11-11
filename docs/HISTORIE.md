@@ -394,3 +394,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - `onlineRetry`: znovupřihlášení po návratu signálu; `onlineInit` hlídá souběh (`ON.initBusy`) a znovu použije klienta.
 - `statsMerge`: když je cloud novější, offline statistiky a rekordy map se neztratí.
 - `docs/DATA-HRACU.md`: jak Claude čte data hráčů.
+
+## 11s (11. 11. 2026) – rychlá otázka po běhu
+- Karta `#ovAsk` na obrazovce konce běhu (kamenná deska `rune`, 5 hvězd ze `SPR.icon.star`, tři volby obtížnosti). Odešle se po obou odpovědích, nebo při odchodu z obrazovky, když je aspoň jedna (`fbAskLeave` v `setState`). Fronta `save.fbQ`, `fbqFlush` po `runsFlush`. `openFeedback(pre)` umí předvyplnit hvězdy a druh.

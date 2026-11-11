@@ -36,7 +36,7 @@ let save={coins:0,heroes:{knight:true},cleared:{},best:{},meta:{hp:0,dmg:0,spd:0
 // Adding a new save.X needs no list anymore; only device-only settings go to LOCAL_KEYS. Feature migrations that need game data
 // (chMigrate, treeMigrate, econ2Migrate, nmMigrate, metaInit…) still run lazily where that data exists; SAVE_MIG is for whole-save changes.
 const SAVE_VER=1,SAVE_BAK=SAVE_KEY+'-bak';
-const LOCAL_KEYS=new Set(['sound','music','tipTower','cheat','stick','pinSet','nick','lastMap','treeBack','vol','shk','bt','runQ']);
+const LOCAL_KEYS=new Set(['sound','music','tipTower','cheat','stick','pinSet','nick','lastMap','treeBack','vol','shk','bt','runQ','fbQ']);
 const SAVE_MIG=[ // SAVE_MIG[v] turns a save of version v into v+1 (pure function on plain data)
   d=>d // 0→1: saves before 09r had no version; the shape is the same
 ];
@@ -49,7 +49,7 @@ function loadSave(){let raw=null,s=null;try{raw=localStorage.getItem(SAVE_KEY);}
   save.coins=+s.coins||0;Object.assign(save.heroes,s.heroes||{});Object.assign(save.cleared,s.cleared||{});Object.assign(save.best,s.best||{});Object.assign(save.meta,s.meta||{});
   if(typeof s.sound==='boolean')save.sound=s.sound;if(typeof s.music==='boolean')save.music=s.music;if(s.tipTower)save.tipTower=true;if(STICK_MODES.includes(s.stick))save.stick=s.stick;
   if(s.cheat&&isDev())save.cheat=true;if(s.pinSet)save.pinSet=true;if(s.nick)save.nick=s.nick;if(s.lastMap)save.lastMap=s.lastMap;
-  if(s.vol&&typeof s.vol==='object')save.vol={m:clamp01(+s.vol.m),s:clamp01(+s.vol.s)};if(s.shk!=null&&isFinite(+s.shk))save.shk=clamp01(+s.shk);if(s.bt!=null&&isFinite(+s.bt))save.bt=clamp01(+s.bt);if(Array.isArray(s.runQ))save.runQ=s.runQ.filter(r=>r&&typeof r==='object').slice(-300);
+  if(s.vol&&typeof s.vol==='object')save.vol={m:clamp01(+s.vol.m),s:clamp01(+s.vol.s)};if(s.shk!=null&&isFinite(+s.shk))save.shk=clamp01(+s.shk);if(s.bt!=null&&isFinite(+s.bt))save.bt=clamp01(+s.bt);if(Array.isArray(s.runQ))save.runQ=s.runQ.filter(r=>r&&typeof r==='object').slice(-300);if(Array.isArray(s.fbQ))save.fbQ=s.fbQ.filter(r=>r&&typeof r==='object').slice(-20);
   for(const k in s)if(!LOCAL_KEYS.has(k)&&!['coins','heroes','cleared','best','meta'].includes(k)&&s[k]!==undefined&&s[k]!==null)save[k]=s[k];
   save.version=Math.max(SAVE_VER,s.version|0);
   if(!loadSave.fromBak)try{localStorage.setItem(SAVE_BAK,raw);}catch(_){} // this session started from a good save → keep it as the backup
@@ -3481,7 +3481,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11r';
+const GAME_VER='2026-11-11s';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3495,7 +3495,7 @@ function withPl(pl,fn){const K=['p','W','P','hero','heroId','fused','fuseMiss','
   try{return fn();}finally{for(const k of K)pl[k]=run[k];pl.st=st;for(const k of K)run[k]=sv[k];st=s0;CO.ctxMate=c0;}}
 const screens={menu:$('#scr-menu'),towers:$('#scr-towers'),pets:$('#scr-pets'),select:$('#scr-select'),shop:$('#scr-shop'),levelup:$('#scr-levelup'),fuse:$('#scr-fuse'),coop:$('#scr-coop'),wait:$('#scr-wait'),hero:$('#scr-hero'),chests:$('#scr-chests'),forge:$('#scr-forge'),codex:$('#scr-codex'),guide:$('#scr-guide'),quests:$('#scr-quests'),pause:$('#scr-pause'),over:$('#scr-over'),board:$('#scr-board'),nick:$('#scr-nick'),master:$('#scr-master'),sky:$('#scr-sky')};
 function showScreen(n){for(const k in screens){const h=k!==n;screens[k].hidden=h;if(h)screens[k].style.animation='';}}
-function setState(s){const prevS=state;{const kr=document.getElementById('kRoom'),sc=screens[s];if(kr)kr.hidden=!(sc&&!sc.classList.contains('clear'));}if(s==='play')requestAnimationFrame(()=>{try{hudPaint();}catch(_){}});if(screens[s]&&screens[s].classList.contains('room'))qTexInit();if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
+function setState(s){const prevS=state;if(prevS==='over'&&s!=='over')try{fbAskLeave();}catch(_){}{const kr=document.getElementById('kRoom'),sc=screens[s];if(kr)kr.hidden=!(sc&&!sc.classList.contains('clear'));}if(s==='play')requestAnimationFrame(()=>{try{hudPaint();}catch(_){}});if(screens[s]&&screens[s].classList.contains('room'))qTexInit();if(s!==state){const np=$('#newsPop');if(np)np.hidden=true;}state=s;try{if(s!=='play'&&stick.active){stick.active=false;stick.id=null;stick.x=stick.y=0;}}catch(_){}
   $('#hud').hidden=!(run&&(s==='play'||s==='levelup'||s==='fuse'||s==='wait'||s==='pause'||s==='over'));
   if(s!=='play'){const tt=$('#toast');if(tt)tt.classList.remove('on');}{const tu=$('#tut');if(tu)tu.style.visibility=s==='play'?'':'hidden';}
   {const NO={select:['map','hero'],hero:['hero'],towers:[],shop:['rank'],forge:[]}[s];if(NO&&s!==prevS){seeNew(...NO);try{({select:renderSelect,hero:renderHero,towers:renderTowers,shop:renderShop,forge:renderForge})[s]();}catch(_){}}}
@@ -6068,7 +6068,7 @@ function showOver(){
     const k=qStars(q),kb=q.ns.filter(n=>r.b>=n).length;rows.push(['<img class="cdl" alt="" src="'+qIcon(q.ico)+'"> '+q.t,k>kb?'<b style="color:var(--gold)">'+'★'.repeat(k)+'</b>'+(k<3?' · '+qFmt(q,q.v):''):qFmt(q,q.v)]);}
   for(const A of run.achNew||[])rows.push(['<img class="cdl" alt="" src="'+dataUrl(A.hero?SPR.hero[A.hero]:SPR.icon[A.ic]||SPR.icon.trophy)+'"> '+A.name,_t('<b style="color:var(--gold)">Mistrovství!</b>')]);
   $('#ovTable').innerHTML=rows.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>').join('');
-  setState('over');
+  setState('over');fbAskRender();
 }
 function togglePause(force,remote){
   if(run&&run.coop&&!remote&&(state==='play'||state==='pause'))netSend({t:'pause',on:state==='play'?1:0});
@@ -7449,7 +7449,7 @@ function tmRow(end){const R=run,lv=o=>{const r={};for(const k in o)r[k]=typeof o
 const RUNQ_MAX=300,rid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,9);
 function tmSend(end){try{if(!run||run.tmSent||save.cheat||isGuest())return;run.tmSent=1;const row=tmRow(end);
   if(window.__krypta)window.__krypta.lastRun=row;
-  row.rid=rid();row.played_at=new Date().toISOString();row.offline=!(ON.ready&&ON.me);
+  row.rid=run.rid=rid();row.played_at=new Date().toISOString();row.offline=!(ON.ready&&ON.me);
   const Q=save.runQ||(save.runQ=[]);Q.push(row);if(Q.length>RUNQ_MAX)Q.splice(0,Q.length-RUNQ_MAX);
   try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}
   runsFlush();}catch(_){}}
@@ -7463,7 +7463,7 @@ async function runsFlush(){const Q=save.runQ;if(!Q||!Q.length||!ON.sb||!ON.me||!
       if(error&&error.code==='23505'){error=null;for(const r of part){const e=await put([r]);if(e&&e.code!=='23505'){error=e;break;}save.runQ=save.runQ.filter(x=>x!==r);}}
       if(error){if(error.code==='42P01'||error.code==='PGRST205')ON.noRuns=1;break;}
       save.runQ=save.runQ.filter(r=>!part.includes(r));try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}}}
-  catch(_){}ON.runsBusy=0;}
+  catch(_){}ON.runsBusy=0;fbqFlush();}
 // back online (signal returns, app comes back to the front, every minute while offline): sign in again and send what waits
 let reconT=0;
 function onlineRetry(){if(!onlineConfigured()||ON.initBusy)return;if(navigator.onLine===false)return;
@@ -10013,6 +10013,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11s',d:'11. 11. 2026',t:_t('Řekni, jak se ti hrálo'),hl:[
+  {ic:'star',t:_t('Rychlá otázka po běhu'),d:_t('Občas se hra po běhu zeptá, <b>jak se ti hrálo</b> a jestli byla mapa lehká, akorát nebo těžká. Stačí dvě klepnutí.')},
+  {ic:'scroll',t:_t('Podle toho ladím hru'),d:_t('Odpovědi čte vývojář a podle nich ladí obtížnost. Kdo chce, napíše přes <b>Napsat víc</b> i delší názor.')}],
+ items:[_t('Ptá se nejvýš jednou denně a funguje i bez internetu.')]},
  {v:'2026-11-11r',d:'11. 11. 2026',t:_t('Hraní bez signálu se počítá'),hl:[
   {ic:'scroll',t:_t('Běhy offline se neztratí'),d:_t('Když hraješ <b>bez internetu</b>, hra si každý běh zapíše do telefonu a pošle ho, jakmile jsi zase online.')},
   {ic:'trophy',t:_t('Do žebříčku i offline'),d:_t('Výsledky z hraní bez signálu se po připojení <b>samy doplní do žebříčku</b>. Nic nemusíš dělat.')}],
@@ -10418,7 +10422,7 @@ const newsUnseen=()=>NEWS.filter(n=>!save.newsSeen||n.v>save.newsSeen);
 /* ----- feedback: players write what they think; it goes to Supabase (insert only), a small daily reward ----- */
 const FB_KINDS=[['napad',_t('Nápad')],['chyba',_t('Chyba')],['balanc',_t('Obtížnost')],['jine',_t('Jiné')]],FB_MIN=15,FB_MAX=800,FB_GOLD=60,FB_DRAFT='pixel-krypta-fb';
 const fbRewardToday=()=>!(save.fb&&save.fb.d===today());
-function openFeedback(){const pop=$('#newsPop');const F={kind:'napad',rate:0,text:''};try{const d=JSON.parse(localStorage.getItem(FB_DRAFT)||'null');if(d){Object.assign(F,d);}}catch(_){}
+function openFeedback(pre){const pop=$('#newsPop');const F={kind:'napad',rate:0,text:''};try{const d=JSON.parse(localStorage.getItem(FB_DRAFT)||'null');if(d){Object.assign(F,d);}}catch(_){}if(pre){if(pre.rate)F.rate=pre.rate;if(pre.kind&&!F.text)F.kind=pre.kind;}
   const coin='<img alt="" src="'+dataUrl(SPR.icon.coin)+'">',rw=fbRewardToday();
   pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font:var(--k30)">'+_t('Tvůj názor')+'</h2>'+
     '<small>'+_t('Co tě baví, co ne, co bys přidal nebo co nefunguje? Čte to vývojář a podle toho hru ladí.')+'</small>'+
@@ -10450,6 +10454,37 @@ function openFeedback(){const pop=$('#newsPop');const F={kind:'napad',rate:0,tex
     catch(e){const t=errText(e);b.disabled=false;b.textContent=_t('Odeslat');save0();
       msg(/feedback_limit/.test(t)?_t('Dnes už jsi poslal dost zpráv, díky! Další pošli zítra.'):/relation|does not exist|schema cache/i.test(t)?_t('Zpětná vazba se zatím nedá odeslat. Text zůstane uložený.'):_t('Nepodařilo se odeslat: ')+t);}};
 }
+/* 11s: quick question on the results screen after a few runs (3rd, then every FBQ_EVERY-th, at most once a day):
+   stars + how hard the map felt, one tap each, no reward; goes to `feedback` (kind 'rychle', ctx = map, result, rid of the run)
+   through the device queue save.fbQ, so it also works offline. "Napsat víc" opens the full feedback with the stars filled in. */
+const FBQ_FIRST=3,FBQ_EVERY=6,FBQ_DIFF=[['easy',_t('Lehké')],['ok',_t('Akorát')],['hard',_t('Těžké')]];
+let fbA=null;
+function fbAskNow(){if(!run||!onlineConfigured()||save.cheat||isGuest()||run.tut||run.trial)return false;const n=(save.stats&&save.stats.runs)||0;
+  if(n<FBQ_FIRST||(n-FBQ_FIRST)%FBQ_EVERY)return false;return !(save.fbAsk&&save.fbAsk.d===today());}
+function fbAskRender(){const old=$('#ovAsk');if(old)old.remove();fbA=null;if(!fbAskNow())return;
+  const R=run;
+  fbA={rate:0,diff:null,sent:false,ctx:{map:R.mapId,nm:R.nm||0,won:!!R.won,t:Math.floor(R.t),hero:R.heroId,lv:R.level,coop:!!R.coop,hlv:heroLv(R.heroId),runs:(save.stats&&save.stats.runs)||0,rid:R.rid||null}};
+  save.fbAsk={d:today(),n:((save.fbAsk&&save.fbAsk.n)||0)+1};persist();
+  const el=document.createElement('div');el.id='ovAsk';el.className='ovask';el.setAttribute('data-k','slab');el.setAttribute('data-m','rune');el.setAttribute('data-s','ask');
+  $('#ovTable').after(el);fbAskPaint();}
+function fbAskPaint(){const el=$('#ovAsk');if(!el||!fbA)return;
+  if(fbA.sent){el.innerHTML='<p class="ok">'+KIT.img('star')+_t('Díky! Podle toho hru ladím.')+'</p><button class="more" id="ovAskMore">'+_t('Napsat víc')+'</button>';}
+  else el.innerHTML='<p>'+_t('Jak se ti hrálo?')+'</p><div class="st">'+[1,2,3,4,5].map(i=>'<button data-r="'+i+'" aria-label="'+i+'"><img alt="" class="'+(i<=fbA.rate?'on':'off')+'" src="'+dataUrl(SPR.icon.star)+'"></button>').join('')+'</div>'+
+    '<div class="df">'+FBQ_DIFF.map(([k,t])=>'<button data-dq="'+k+'"'+(fbA.diff===k?' class="on"':'')+'>'+t+'</button>').join('')+'</div>';
+  el.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{fbA.rate=+b.dataset.r;sfx('ui');fbAskDone();});
+  el.querySelectorAll('[data-dq]').forEach(b=>b.onclick=()=>{fbA.diff=b.dataset.dq;sfx('ui');fbAskDone();});
+  const m=$('#ovAskMore');if(m)m.onclick=()=>{sfx('ui');openFeedback({rate:fbA.rate,kind:fbA.diff&&fbA.diff!=='ok'?'balanc':'napad'});};
+  requestAnimationFrame(()=>{try{KIT.paint(el.parentNode);}catch(_){}});}
+function fbAskDone(){if(fbA.rate&&fbA.diff)fbAskSend();fbAskPaint();}
+function fbAskSend(){if(!fbA||fbA.sent||!(fbA.rate||fbA.diff))return;fbA.sent=true;
+  const row={kind:'rychle',rating:fbA.rate||null,msg:(fbA.rate?fbA.rate+'/5':'-')+' · '+(fbA.diff||'-')+' · '+fbA.ctx.map+(fbA.ctx.nm?' NM'+fbA.ctx.nm:'')+(fbA.ctx.won?' win':' loss'),ver:GAME_VER,lang:LANG,ctx:Object.assign({diff:fbA.diff},fbA.ctx),at:Date.now()};
+  const Q=save.fbQ||(save.fbQ=[]);Q.push(row);if(Q.length>20)Q.splice(0,Q.length-20);try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}fbqFlush();}
+function fbAskLeave(){if(fbA&&!fbA.sent)fbAskSend();fbA=null;}
+async function fbqFlush(){const Q=save.fbQ;if(!Q||!Q.length||!ON.sb||!ON.me||!ON.ready||ON.fbqBusy)return;ON.fbqBusy=1;
+  try{for(const r of Q.slice()){const o=Object.assign({uid:ON.me.id,nick:save.nick||null},r);delete o.at;const {error}=await ON.sb.from('feedback').insert(o);
+      // daily limit or a row the server won't take: drop it, it was only a quick answer; network trouble: keep it for later
+      if(error&&!/feedback_limit|check|violates/i.test(error.message||''))break;save.fbQ=save.fbQ.filter(x=>x!==r);try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}}}
+  catch(_){}ON.fbqBusy=0;}
 function newsIcon(ic){const [k,a,b]=String(ic).split(':');
   try{if(k==='boss'&&SPR.boss[a])return dataUrl(SPR.boss[a]);if(k==='enemy'&&SPR.enemy[a])return dataUrl(SPR.enemy[a]);if(k==='hero'&&SPR.hero[a])return dataUrl(SPR.hero[a]);
     if(k==='tower'&&SPR.tower[a])return dataUrl(SPR.tower[a]);if(k==='map'&&MAPS[a])return thumbUrl(a);if(k==='item'&&SLOTS[a])return dataUrl(itemSpr(a,+b||1));
