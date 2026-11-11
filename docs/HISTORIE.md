@@ -412,3 +412,56 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - `MAP_TIER[id][4]` = `bhm` (násobek HP bosse, `spawnBoss`; Noc dědí max. zdraví Dne). Nástroj `tests/tools/bossladeni.js` (2 hodnoty `bhm`, proloží logit, zápis 5. čísla), `hraci.js` `TIER` umí 5. číslo.
 - `hraci.js`: bot na Ostrovech padal (`run.kg` používají `gaps` i `growth`), boti drží kruh `shrink`. Kapitola X: `ladeni.js c10` 5 kol (strop HP z dvojnásobku výchozích čísel), Věčnost a Korunace `bhm`.
 - Popisy map (Vír, Trosky, Pole, Zahrada, Předměstí, Síň soch, Pokladnice) s novou mechanikou v CZ i EN, Novinky 11s. Snímky `tests/tools/mech11r.js`.
+
+## Předávky 10. 11. 2026 (přesunuto z CLAUDE.md při auditu 11x)
+
+### Předávka 2026-11-10 ~21:15 (verze 10r = vylepšení věže postáním, nad grafickou 10q; chat „logika a funkce“)
+- Hotový třetí bod z rozboru dokumentu „Herní Design a Systémová Architektura“: **postůj u věže `DW_BEATS`=2 doby (min. 1,1 s, `dwTime()`) → `towerUp(t)`** = stejná cena a účinek jako tlačítko; na úr. 3 se poškozená věž opraví. Jen nejbližší věž v okruhu `DW_R`=20 od každého hráče (co-op přes `players()`), čerstvá věž `DW_BORN`=4 s klid, bez zlata nic. `towerDwell(dt)` volá `updateTowers` jen u hostitele; průběh `t.dwk`/`t.dwA` jde kamarádovi jako 9. položka věže ve snímku (`T`). Kreslení: prstenec na zemi pod věží (zlatý, oprava zelená). Tlačítko Vylepšit zůstává. Jednorázový tip `save.tipDw`.
+- Proč 1,1 s minimum: při 142 BPM jsou 2 doby 0,85 s a průchod středem kruhu základní rychlostí 58 trvá ~0,7 s.
+- Bot (`bot.js 8 knight,builder,mage hrbitov,poust 0 zkuseny`) před/po: výhry i zlato v šumu, na Poušti méně smrtí kvůli krystalu. Test `tests/tools/vezpostat.js`.
+- Z dokumentu dál **nedělat** bez nového rozhodnutí uživatele (viz 10p níže): sokly, Krystal na všech mapách, Safíry, sběr všemi mazlíčky, minihra slučování, fialová pečeť.
+
+### Předávka 2026-11-10 ~21:00 (verze 10p = odznak fúze na kartě + kroužek rytmu; chat „logika a funkce“)
+- **Rozdělení práce (uživatel 10. 11. večer):** jeden chat dělá grafiku, druhý logiku a funkce. Oba pushují na `main`, takže platí pravidlo fetch + rebase před prací i před pushem.
+- **Dokument z Drive „Herní Design a Systémová Architektura“** (core loop a meta-game) jsem porovnal s hrou. Uživatel rozhodnutí nechal na mně. Závěr:
+  - **Hotovo v 10p:** odznak fúze na kartě nové úrovně (`fuseHint(id,lv)` → `optInfo().fz` → `.fzb` v `luCard`; jeden odznak = ultimátka, ke které zbraň vede, když hráč nese druhou půlku; `.rdy` zlatě = po vybrání jsou obě na 5; tajný recept až po ukutí; jde i do co-op karet). Kroužek rytmu pod hrdinou (v `render` u hrdiny, z `M.beatPos`; první doba taktu zlatá, protože na ni jedou bonusy za rytmus a mazlíčci; síla `save.bt` 0–1, posuvník `#vBt` v Nastavení, klíč jen v zařízení).
+  - **Další krok (nezačato):** vylepšení a oprava věže průchodem kolem ní (ušetří tlačítko v boji); po změně pustit boty, jestli to nerozhodí zlato v běhu.
+  - **Nedělat bez nového rozhodnutí uživatele:** pevné sokly a plně automatická stavba (berou volbu kam a co; rozbily by Stavitele, limit 8 věží, rostoucí ceny, Karavanu), Krystal jako jádro všech map (má ho jen Poušť a Karavana), Safíry (další měna proti Ekonomice 2.0; smysl až s vydáním v obchodech), sběr lootu všemi mazlíčky (je to schopnost Havrana a magnetu), rytmická minihra u slučování 3→1 bez přeskočení, fialová pečeť (fialová jde ze hry pryč).
+- Nastavení: čtvrtý posuvník se musel vejít na malý telefon → těsnější `.vols`, nápověda ke klávesnici jen s myší (`pointer:coarse` ji skrývá), `.sheet` má `max-height:100%` a posouvá se.
+- Test: `node tests/tools/fuzemark.js <složka> [cs|en] [telefon]` (pravidla odznaku, přetékání karet, snímky karet a fází kroužku). Novinky 10p (ikony `vortex`, `drum`), snímky CZ i EN zkontrolované.
+
+### Předávka 2026-11-10 ~20:00 (verze 10j = schody a zeď kapitol, loot podle kapitoly, ceny hrdinů, vše na main)
+- Obtížnost: II schod nad I, **III zeď**, IV a V zvednuté, aby schodiště drželo; VI beze změny. Čísla, metodika (měřit se stejným účtem `UCET=n`) a poučení (rozhoduje HP, `dmm`/`spx` málo) v `KAMPAN.md` „10j“. Otevřené: styl „drž odstup“ (Opatrný vyhrává skoro všude), Vrakoviště nereaguje na HP, účet po grindu ve IV vyhraje i finále.
+- Loot: zlato ×(1+0,15·kapitola) (`chGoldMul`), Esence finále taky; nový test `tests/tools/lootcurve.js`. Ceny hrdinů kapitol samy z `HERO_PRICE` (II 1 000 … VI 4 000), viz `EKONOMIKA.md` a skilly `nova-kapitola`, `novy-hrdina`.
+- Novinky 10j (ikony `map:doly`, `coin`, `ess`, `hero:astro`), snímky CZ i EN zkontrolované.
+
+### Předávka 2026-11-10 ~17:30 (verze 10i = menu skladba hypnotický darksynth, vše na main)
+- Menu: nová skladba vybraná po 6 kolech náčrtů (postup, co prošlo a co ne, je ve skillu `zvuk-a-hudba` „Menu“). Styl `title` = basový sekvencer + vrstvy, bez melodie. Engine: `spb` (3/4, 6/8 jen pro menu), `drive()`, nástroje `IN`, `pure` skladby bez enginového víru. `hudba-pravidla.js`: takt bez melodie projde, když ho nese psaný basový riff.
+- Novinky 10i (ikona `tune`). Hlasitost menu: běh −29,6 dB (`zvuk.js menu`).
+- Celý audit 10. 11. večer: `AUDIT.md` (vše prošlo; otevřené: slabší zeď kapitol II a IV, tiché selhání uložení, plynulost menu na pomalém telefonu, drobnosti na serveru).
+
+### Předávka 2026-11-10 ~16:40 (verze 10h = banger hudba + nová menu skladba, vše na main, Pages nasazené)
+- **Banger ve všech skladbách** (uživatel schválil podle poslechu pilotu na Hřbitově): `bangKit` šablona (táhlá oktávová basa, kopák do čtvrtin od E2, virbl s tleskem, 16. hi-haty, pumpování `pumpAt`/`M.pump`), kit pro každý styl (`STYLES.x.bang`), `BANG_TRIM` po stylech (běh −31 dB v `zvuk.js`), náběhy (vír + riser) a crash na nové sekci, pulzní vlny `p12`/`p25`, rychlejší gradace (int 1 od 10 s, 2 od 60 s). Tempo beze změny (spawny na taktech). `skladby.js`: změřeno 11/30 (hrbitov, poust, bazina, kostnice, zvonice, doly, kovarna, reka, pristav, majak, vir), všechny VERDIKT v cíli; zbytek uživatel nechtěl doměřovat.
+- **Menu**: nová skladba (outrun E moll 118, refrén 3+3+2), styl `title`, `free`+`pure`; vybraná po 3 kolech náčrtů – co neprošlo, je ve skillu `zvuk-a-hudba` („Menu“). Engine umí `lead[64]`, `bass[64]`, `cm[64]`, `pure`, stupnici `phryg`.
+- Novinky 10h s novými ikonami `tune` (zlaté noty) a `drum` (bubínek). Kontrola `hudba-pravidla.js` hlídá banger kit a BANG_TRIM u každého stylu.
+
+### Předávka 2026-11-10 ~14:15 (verze 10g = 10f + ledová hrdinka Vločka, vše na main, Pages nasazené)
+- 10f **hudba kapitoly VI + nástroje, ať další kapitoly projdou napoprvé**:
+  - `songKit` v2: `answer` (vlastní odpověď), `bossAnswer`, smyčka `A B R C D B A`, boss `X Y X Z`, prázdný takt generátor neudělá. Kapitola VI má vlastní styl `STYLES.star` (dřív půjčený `frost`), mix změřený `rolecal.js`.
+  - Engine: takt s jedinou držanou notou dostane v půlce tichou ozvěnu (o kvintu výš) – dřív díra 9–12 dB v klidu (hrobka, majak, paluba, trun). Bossové frost, forge a star mají v `pad` rytmické akordy při `E>=3` (dřív boss +1,7 až +2,8 dB).
+  - `SONGS.x.bossDb` = zesílení bosse jedné skladby (trun 1.5, vir 1.1, vrakoviste 1.2, krystaly 1.5, srdce 1.1, soutezka .8); `skladby.js` ho navrhne. Maják: konec fráze A o oktávu výš (byl pod reproduktorem telefonu).
+  - Výsledek: `skladby.js` všech 31 skladeb VERDIKT v cíli (propady 0, klid −2 až −6, boss +3 až +5).
+  - Úvodní motivy Trůnu zimy, Řeky, Soutěsky a Přístavu přepsané (kopírovaly Hřbitov, Bažinu, Srdce hory, Pevnost).
+  - Nové nástroje: `tests/tools/hudbacheck.js [cN|all]` + pravidla `hudba-pravidla.js` (volá je i `chapcheck.js`), `rolecal.js` (mix nového stylu proti odposlouchaným frost/sea), `skladby.js cN` s řádkem VERDIKT. Postup ve skillech `zvuk-a-hudba` („Hudba nové kapitoly“) a `nova-kapitola`.
+- 10f **jména hrdinů**: limit 85 % dlaždice (49 px při 12 px na telefonu 360 px), CZ i EN, písmo se nesmí zmenšovat. Přejmenováno: Lučištník → Střelec, Zbrojmistr → Žoldák (EN Warlord), Šamanka mrazu → Vločka (EN zůstává Frost Shaman, v kartě Shaman; „Vědma mrazu“ uživatel zamítl), Námořnice → Pirátka (EN Pirate), Hvězdářka → Astra (CZ i EN; v příběhu „hvězdářka Astra“), EN Blacksmith → Smith. Kontrola `tests/tools/jmenahrdinu.js`, volá ji `chapcheck.js hero:id`. Pravidlo ve skillu `novy-hrdina`. Staré Novinky nechávají stará jména (historie).
+
+### Předávka 2026-11-10 ~11:00 (verze 10e, vše na main, Pages nasazené)
+- 10d: balanc všech kapitol (viz KAMPAN.md „10d“) + plynulost menu (paprsky `.fc-rays` na GPU vrstvě, `heroStrip`/`bartFit` bez layout thrash, dozvuk levněji a po prvním snímku, Novinky po 6 + dočítání). Měření: `menuperf.js`; zaseknutí obrazovek dřív 200–340 ms, teď 60–130 ms (CPU 4× zpomalené).
+- 10e: **projeto všech 31 skladeb** (`tests/tools/skladby.js`). Melodie hraje v každé sekci (dřív hlavní téma A mlčelo ~110 s → propady na telefonu), doplněné prázdné takty v intrech pouště, kostnice, dolů, kovárny, krystalů, v Kaňonu C a menu B, boss `ENERGY_GAIN[3]` 1.12→1.3. Propady 225 → 0, klid −10 až −20 dB → −3 až −6 dB, boss +1–2 → +3–4,5 dB. Pravidla v skillu `zvuk-a-hudba`.
+- Otevřené ve zvuku (10e) vyřešeno v 10f: krystaly boss, variace kap. VI.
+- 10c: představení bosse trvá podle délky hlášky (`BI_TYPE` 30 znaků/s + 2,6 s čtení, finále 3,2 s; dřív 5/7 dob ≈ 2,7 s), hláška je HTML `#biLine` písmem UI (dřív 10px pixel font v canvasu = nečitelné háčky). Ověřeno SE/15, CZ/EN, nejdelší hláška (Orion), přeskočení i odchod do menu.
+- 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
+- Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
+
+## 11x – audit a technická čistka (11. 11. 2026)
+- Plný audit zelený, zpráva `AUDIT.md`. Uložení při plném úložišti (`saveRetry`, hláška přes `note`), pojistka `storyShow`, odstraněn mrtvý kód (`CHEST_ROWS`, `teleRing`, `FEAT_BTN`, `CO_ABC`, `sharp`…), 3 duplicitní klíče v `window.__krypta`, smazané `tests/tools/off2.html` a `net3_*.png`. Staré předávky z 10. 11. přesunuté sem z CLAUDE.md.

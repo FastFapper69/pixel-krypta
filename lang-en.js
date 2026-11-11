@@ -3336,5 +3336,9 @@ window.KRYPTA_EN={
 "Zlatá pole: nejbližší strašáci každé 4 takty ožijí.":"Golden Fields: the nearest scarecrows come alive every 4 bars.",
 "Zahrada světla: z květu u tebe vylétnou světlušky.":"Garden of Light: fireflies burst out of a flower next to you.",
 "Zlatá říše: nepřítel, který padne vedle tebe, tě vyléčí.":"Golden Realm: a foe that falls next to you heals you.",
-"Plovoucí ostrovy jsou lehčí, prázdnota byla skoro neprůchodná.":"Floating Isles are easier, the Void was nearly impassable."
+"Plovoucí ostrovy jsou lehčí, prázdnota byla skoro neprůchodná.":"Floating Isles are easier, the Void was nearly impassable.",
+"Postup se neuložil – telefon je plný.":"Progress not saved – phone storage is full.",
+"Údržba":"Maintenance",
+"Když je telefon plný, hra uvolní místo a postup uloží.":"When the phone is full, the game frees space and saves your progress.",
+"Úklid nepoužívaného kódu.":"Cleanup of unused code."
 };

@@ -45,7 +45,7 @@ console.log('rituál kamaráda',res);
 await H.waitForFunction(()=>window.__krypta.state==='play',null,{timeout:6000});await G.waitForFunction(()=>window.__krypta.state==='play',null,{timeout:6000});
 console.log('po fúzi: host vidí zbraně partnera',await R(H,()=>JSON.stringify(Object.fromEntries(Object.entries(window.__krypta.run.pls[1].W).map(([k,v])=>[k,[v.lv,v.mul]])))),
   '| guest HUD',await G.$$eval('#items .it',els=>els.map(e=>e.className+':'+e.innerText).join(' ')));
-await H.waitForTimeout(3000);await G.screenshot({path:'net3_g.png'});await H.screenshot({path:'net3_h.png'});
+await H.waitForTimeout(3000);await G.screenshot({path:'/tmp/net3_g.png'});await H.screenshot({path:'/tmp/net3_h.png'});
 // 4) end: host dies with god off and the guest down -> both see the end screen
 await H.evaluate(()=>{const K=window.__krypta,R=K.run;K.god=false;for(const q of K.players()){q.hp=1;q.inv=0;}R.revived=true;R.pls[1].revived=true;
   for(const q of K.players())R.eshots.push({x:q.x,y:q.y,vx:0,vy:0,dmg:99,r:3,life:1});});

@@ -16,3 +16,5 @@ tests/tools/manifest.webmanifest
 tests/tools/game.js
 tests/tools/krypta.css
 tests/tools/ladeni-runs.json
+tests/tools/off2.html
+/net3_*.png

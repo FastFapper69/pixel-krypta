@@ -4,7 +4,7 @@
 //
 // node hraci.js vse [běhů] [povahy] [hrdinové]   -> všechny mapy, účet podle kapitoly (FAZE=vstup|grind, finále bere účet „fin“)
 // node hraci.js mapy:doly,zima [běhů] …          -> vybrané mapy
-// node hraci.js zed [běhů=2] [povahy=all]        -> kapitoly I–V: první mapa a finále, účet při vstupu a po grindu, verdikt „zeď“
+// node hraci.js zed [běhů=2] [povahy=all]        -> všechny kapitoly: první mapa a finále, účet při vstupu a po grindu, verdikt „zeď“
 // node hraci.js kapitola:c5 [běhů=3] [povahy]    -> jedna kapitola (všech 5 map), vstup i grind
 // node hraci.js mapa:paluba[:vstup|grind] [běhů=4] [povahy] [hrdinové]
 // UCET=2 node hraci.js mapa:zima:vstup …  -> všechny mapy se stejným účtem (index kapitoly), na srovnání obtížnosti map

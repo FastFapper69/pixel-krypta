@@ -59,7 +59,7 @@ console.log('\n== OBRAZOVKY (chyby JS, chybějící soubory) ==');
   await G.p.waitForTimeout(1500);}catch(e){G.errs.push(e.message.split('\n')[0]);}
  G.errs.length?er('Konec běhu',G.errs.slice(0,3).join(' | ')):ok('Konec běhu','nová úroveň, pauza, výsledky bez chyb');await G.close();
  await b.close();}
-if(MODE==='plny'){console.log('\n== HRÁČI-BOTI (kapitoly I–VI) ==');const r=sh('node',['hraci.js','zed','1','expert,novacek'],1200);
+if(MODE==='plny'){console.log('\n== HRÁČI-BOTI (všechny kapitoly: první mapa a finále) ==');const r=sh('node',['hraci.js','zed','1','expert,novacek'],1200);
  const m=r.o.match(/chyby: (\[.*\])/);(!r.ok||(m&&m[1]!=='[]'))?er('Boti',(m?m[1]:r.o.slice(-200))):ok('Boti','bez chyb – tabulka výher: tests/tools/hraci-results.json');
  const pf=sh('node',['menuperf.js'],300);const slow=(pf.o.match(/"worst":(\d+)/g)||[]).map(x=>+x.split(':')[1]).filter(x=>x>250);slow.length?wr('Plynulost menu',slow.length+' přechodů se sekem > 250 ms'):ok('Plynulost menu');}
 console.log('\n== SOUHRN ==\n'+(bad?bad+' ✗ chyb, ':'')+(warn?warn+' ⚠ upozornění':'')+(!bad&&!warn?'vše v pořádku':''));
