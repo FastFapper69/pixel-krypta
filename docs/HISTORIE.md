@@ -390,7 +390,7 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - Regenerace 0,3 zdraví/s za úroveň (dřív 0,4). Bot: stav `run.kg`/`run.kb` sdílí kapitoly VI a VIII (různé mechaniky), `hraci.js` to rozliší.
 
 ## 11r (11. 11. 2026) – běhy offline do žebříčku a dat
-- Fronta běhů v zařízení `save.runQ` (LOCAL_KEYS, načítá `loadSave`, max 300), `runsFlush` po dávkách 50 (upsert podle `rid`, při starém serveru `insert` bez nových sloupců), `ON.noRuns` jen když tabulka chybí (dřív stačila jedna chyba sítě a telemetrie byla do konce sezení vypnutá – proto chyběla část běhů).
+- Fronta běhů v zařízení `save.runQ` (LOCAL_KEYS, načítá `loadSave`, max 300), `runsFlush` po dávkách 50 (insert, duplicitní `rid` = 23505 → po jednom a duplicity přeskočí; při starém serveru `insert` bez nových sloupců), `ON.noRuns` jen když tabulka chybí (dřív stačila jedna chyba sítě a telemetrie byla do konce sezení vypnutá – proto chyběla část běhů).
 - `onlineRetry`: znovupřihlášení po návratu signálu; `onlineInit` hlídá souběh (`ON.initBusy`) a znovu použije klienta.
 - `statsMerge`: když je cloud novější, offline statistiky a rekordy map se neztratí.
 - `docs/DATA-HRACU.md`: jak Claude čte data hráčů.

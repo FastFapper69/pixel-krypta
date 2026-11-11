@@ -5,3 +5,4 @@ alter table public.runs add column if not exists rid text;
 alter table public.runs add column if not exists played_at timestamptz;
 alter table public.runs add column if not exists offline boolean default false;
 create unique index if not exists runs_rid on public.runs (rid);
+-- Hra zapisuje obyčejným insertem; duplicitní rid vrátí 23505 a hra ten běh přeskočí (ON CONFLICT by přes RLS potřeboval pravidlo pro čtení).

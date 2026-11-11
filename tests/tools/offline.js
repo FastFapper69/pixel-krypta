@@ -3,9 +3,11 @@
 const L=require('./lib');L.prep();
 (async()=>{const P=await L.open({save:'mid'});const {p,errs}=P;
  const res=await p.evaluate(async()=>{const K=window.__krypta,out={},sent=[];let mode='old';
-  window.__sb={from:t=>({insert:rows=>{sent.push({t,how:'insert',rows});return Promise.resolve({error:null});},
-    upsert:(rows,o)=>{if(mode==='old')return Promise.resolve({error:{code:'PGRST204',message:"Could not find the 'offline' column"}});
-      if(mode==='down')return Promise.reject(new Error('Failed to fetch'));sent.push({t,how:'upsert',o,rows});return Promise.resolve({error:null});}}),rpc:()=>Promise.resolve({error:null})};
+  const seen=new Set();
+  window.__sb={from:t=>({insert:rows=>{if(mode==='old'&&rows.some(r=>'rid' in r))return Promise.resolve({error:{code:'PGRST204',message:"Could not find the 'offline' column"}});
+      if(mode==='down')return Promise.reject(new Error('Failed to fetch'));
+      if(rows.some(r=>r.rid&&seen.has(r.rid)))return Promise.resolve({error:{code:'23505',message:'duplicate key value violates unique constraint "runs_rid"'}});
+      rows.forEach(r=>r.rid&&seen.add(r.rid));sent.push({t,how:'insert',rows});return Promise.resolve({error:null});}}),rpc:()=>Promise.resolve({error:null})};
   const wait=ms=>new Promise(r=>setTimeout(r,ms));
   K._ev("ON.ready=false;ON.me=null;ON.sb=null;save.runQ=[];save.cheat=false");
   const play=end=>{K.startRun('knight','hrbitov',{});for(let i=0;i<30;i++)K.step(1/30);K._ev("tmSend('"+end+"')");};
@@ -18,7 +20,11 @@ const L=require('./lib');L.prep();
   out.stary={zbylo:K._ev("save.runQ.length"),poslano:sent.map(s=>s.how+':'+s.rows.length).join(),bezRid:sent.every(s=>s.rows.every(r=>!('rid' in r)&&r.uid==='me'))};
   // nový server: upsert s rid
   sent.length=0;mode='new';K._ev("ON.runsOld=0");play('win');await wait(50);
-  out.novy={zbylo:K._ev("save.runQ.length"),poslano:sent.map(s=>s.how+':'+s.rows.length+':'+s.o.onConflict).join(),online:sent[0]&&sent[0].rows[0].offline===false};
+  out.novy={zbylo:K._ev("save.runQ.length"),poslano:sent.map(s=>s.how+':'+s.rows.length+':'+!!s.rows[0].rid).join(),online:sent[0]&&sent[0].rows[0].offline===false};
+  // duplicita: běh už na serveru je (odpověď se ztratila) + nový běh → duplicitní se přeskočí, nový odejde
+  sent.length=0;const dup={rid:[...seen][0],hero:'knight'};
+  K._ev("save.runQ=[]");window.__dup=dup;K._ev("save.runQ.push(window.__dup)");play('death');await wait(50);
+  out.dupl={zbylo:K._ev("save.runQ.length"),poslano:sent.map(s=>s.rows.length).join(),rid:dup.rid,rids:sent.map(s=>s.rows.map(r=>r.rid).join('|')).join()};
   // výpadek sítě: běh zůstane ve frontě, po návratu odejde
   sent.length=0;mode='down';play('death');await wait(50);out.vypadek=K._ev("save.runQ.length");
   mode='new';await K._ev("runsFlush()");out.poNavratu=K._ev("save.runQ.length")+'/'+sent.length;
@@ -30,13 +36,15 @@ const L=require('./lib');L.prep();
   out.znovu=K._ev("statsMerge")(K._ev("JSON.parse(JSON.stringify(save.stats))"));
   // fronta přežije znovunačtení
   K._ev("ON.sb=null;ON.ready=false");play('death');return out;});
+ res.predReloadem=await p.evaluate(()=>{const K=window.__krypta;return [K._ev("save.runQ.length"),(JSON.parse(localStorage.getItem(K._ev("SAVE_KEY"))).runQ||[]).length,K._ev("!!ON.runsBusy")];});
  await p.reload();await p.waitForTimeout(1500);
  res.poReloadu=await p.evaluate(()=>window.__krypta._ev("(save.runQ||[]).length"));
  console.log(JSON.stringify(res,null,1));
  const s=res.slouceno||{},b=[];
  if(!(res.fronta===2&&res.offline&&res.vLocal===2&&!res.sync))b.push('fronta');
  if(!(res.stary.zbylo===0&&res.stary.poslano==='insert:2'&&res.stary.bezRid))b.push('starý server');
- if(!(res.novy.zbylo===0&&res.novy.poslano==='upsert:1:rid'&&res.novy.online))b.push('nový server');
+ if(!(res.novy.zbylo===0&&res.novy.poslano==='insert:1:true'&&res.novy.online))b.push('nový server');
+ if(!(res.dupl.zbylo===0&&res.dupl.poslano==='1'))b.push('duplicita');
  if(!(res.vypadek===1&&res.poNavratu==='0/1'))b.push('výpadek');
  if(!(res.zmena&&s.runs===9&&s.wins===3&&s.kills===500&&s.tot.combo===60&&s.best.hrbitov.nm===1&&s.best.poust&&s.best.bazina&&res.znovu===false))b.push('sloučení');
  if(res.poReloadu!==1)b.push('po znovunačtení');

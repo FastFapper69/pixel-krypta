@@ -7453,13 +7453,15 @@ function tmSend(end){try{if(!run||run.tmSent||save.cheat||isGuest())return;run.t
   const Q=save.runQ||(save.runQ=[]);Q.push(row);if(Q.length>RUNQ_MAX)Q.splice(0,Q.length-RUNQ_MAX);
   try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}
   runsFlush();}catch(_){}}
-// send the queue in batches; a duplicate rid is skipped by the server; old server without the new columns → send without them
+// send the queue in batches of 50; the server's unique rid drops a run sent twice (23505 → that batch goes one by one, duplicates are skipped);
+// old server without the new columns → send without them
 const RUN_NEW=['rid','played_at','offline'];
 async function runsFlush(){const Q=save.runQ;if(!Q||!Q.length||!ON.sb||!ON.me||!ON.ready||ON.runsBusy||ON.noRuns)return;ON.runsBusy=1;
-  try{while(save.runQ&&save.runQ.length){const part=save.runQ.slice(0,50),rows=part.map(r=>{const o=Object.assign({uid:ON.me.id},r);if(ON.runsOld)for(const k of RUN_NEW)delete o[k];return o;});
-      const {error}=ON.runsOld?await ON.sb.from('runs').insert(rows):await ON.sb.from('runs').upsert(rows,{onConflict:'rid',ignoreDuplicates:true});
-      if(error){if(!ON.runsOld&&(error.code==='PGRST204'||error.code==='42703'||error.code==='42P10'||/rid|played_at|offline|conflict/i.test(error.message||''))){ON.runsOld=1;continue;}
-        if(error.code==='42P01'||error.code==='PGRST205')ON.noRuns=1;break;}
+  const put=async rows=>{const {error}=await ON.sb.from('runs').insert(rows.map(r=>{const o=Object.assign({uid:ON.me.id},r);if(ON.runsOld)for(const k of RUN_NEW)delete o[k];return o;}));return error;};
+  try{while(save.runQ&&save.runQ.length){const part=save.runQ.slice(0,50);let error=await put(part);
+      if(error&&!ON.runsOld&&(error.code==='PGRST204'||error.code==='42703')&&/rid|played_at|offline/i.test(error.message||'')){ON.runsOld=1;continue;}
+      if(error&&error.code==='23505'){error=null;for(const r of part){const e=await put([r]);if(e&&e.code!=='23505'){error=e;break;}save.runQ=save.runQ.filter(x=>x!==r);}}
+      if(error){if(error.code==='42P01'||error.code==='PGRST205')ON.noRuns=1;break;}
       save.runQ=save.runQ.filter(r=>!part.includes(r));try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}}}
   catch(_){}ON.runsBusy=0;}
 // back online (signal returns, app comes back to the front, every minute while offline): sign in again and send what waits

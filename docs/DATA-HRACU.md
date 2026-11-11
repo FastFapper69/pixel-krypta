@@ -6,7 +6,7 @@ jakmile je online (po startu, po události `online`, při návratu aplikace do p
 a rekordy map berou lepší hodnotu z obou), takže offline výsledky nezmizí ani při hraní na dvou zařízeních.
 
 Sloupce navíc (migrace `supabase/migrations/20261111b_runs_offline.sql`): `rid` (id běhu, duplicity se zahodí), `played_at` (kdy se hrálo),
-`offline` (hrál bez spojení). Dokud migrace na serveru není, hra posílá běhy bez nich (`ON.runsOld`).
+`offline` (hrál bez spojení). Migrace je spuštěná (11. 11.); kdyby sloupce chyběly, hra pošle běhy bez nich (`ON.runsOld`).
 
 ## Jak číst (Claude)
 Přes Supabase MCP (`execute_sql`, projekt `mpxfppuigwvwlfhsnbgr`), nebo `KRYPTA_DEV_KEY=… node tests/tools/fbread.js runs`.
