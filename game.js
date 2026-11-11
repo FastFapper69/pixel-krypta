@@ -3167,7 +3167,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11j';
+const GAME_VER='2026-11-11k';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7101,13 +7101,13 @@ function skyTap(ev){const cv=$('#skyCv'),r=cv.getBoundingClientRect(),x=(ev.clie
 // ----- 09i: the Fallen Star story — in the last phase of a chapter finale the next chapter seeps in, then a "Cesta dál" card -----
 const BRIDGE={trun:{k:'sun',line:_t('Z Morvanovy lebky sálá žár pouštního slunce…')},brana:{k:'magma',line:_t('Pod Bránou slunce se probouzí žár hor…')},
   srdce:{k:'snow',line:_t('Srdce hory chladne, do jeskyně začíná sněžit…')},zima:{k:'thaw',line:_t('Ledový trůn taje, voda stoupá…')},paluba:{k:'stars',line:_t('Z roztržené oblohy padají hvězdy…')},zatmeni:{k:'void',line:_t('Za měsícem se otevírá Prázdnota…')},nicota:{k:'dawn',line:_t('Z nicoty se rodí nové slunce…')}};
-const STORY={trun:_t('Z Morvanovy lebky vypadl žhnoucí střep hvězdy. Ukazuje na jih, kde slunce spaluje písek.'),
-  brana:_t('Sfinga padla a Brána slunce se propadla. Ze tmy pod ní stoupá žár hor.'),
-  srdce:_t('Srdce hory vychladlo. Popel ztuhl ve sníh a nad horou se zvedá věčná zima.'),
-  zima:_t('Ledový trůn praskl. Roztátá voda se valí z hor až k moři, kde kotví prokleté lodě.'),
-  paluba:_t('Kraken klesl ke dnu a obloha se roztrhla. Střepy hvězdy padají z nebe a nahoře je pozoruje hvězdářka Astra.'),
-  zatmeni:_t('Zatmění se rozpadlo na hvězdný prach. Za měsícem ale zůstala díra do Prázdnoty a něco odtamtud natahuje ruku po posledním střepu…'),
-  nicota:_t('Nicota se zhroutila do sebe. Poslední střep hvězdy se rozzářil a v temnotě se začíná rodit nové slunce a s ním nový svět…')};
+const STORY={trun:_t('Z Morvanovy lebky vypadl žhnoucí střep hvězdy. Je v něm vyryté drobné zlaté oko. Bereš ho s sebou a střep ukazuje na jih, kde slunce spaluje písek.'),
+  brana:_t('Sfinga padla a Brána slunce se propadla. Z jejího oka vypadl druhý střep a s ním poslední hádanka: „Kdo sbírá střepy, ale ne pro sebe?“ Ze tmy pod branou stoupá žár hor.'),
+  srdce:_t('Srdce hory vychladlo a ve strusce zůstal třetí střep. Vedle něj je v popelu otisk zlatého oka, jako by někdo hlídal, kudy půjdeš. Popel ztuhl ve sníh a nad horou se zvedá věčná zima.'),
+  zima:_t('Ledový trůn praskl a z koruny vypadl čtvrtý střep. Královna stihla zašeptat: „Nes je dál. On už čeká.“ Roztátá voda se valí z hor až k moři, kde kotví prokleté lodě.'),
+  paluba:_t('Kraken klesl ke dnu a v jeho oku zářil pátý střep. Obloha se roztrhla a na okamžik se v ní otevřelo obrovské zlaté oko. Zbytek prasklé hvězdy padá z nebe a nahoře ho pozoruje hvězdářka Astra.'),
+  zatmeni:_t('Zatmění se rozpadlo na hvězdný prach a nechalo šestý střep. Astra si všimla, že střepy nepadají náhodně: na mapě oblohy tvoří tvar oka. Za měsícem zůstala díra do Prázdnoty a něco odtamtud natahuje ruku po posledním střepu…'),
+  nicota:_t('Nicota se zhroutila do sebe. Naposledy zašeptala: „Neneseš je sobě…“ Všech sedm střepů, které neseš, se rozzářilo a spojilo. Z nicoty se rodí nové slunce, zlaté jako oko, a pod ním nový svět…')};
 function bridgeDraw(g,ox,oy){const B=BRIDGE[run.mapId],e=run.boss;if(!B||!run.map.finale)return;
   if(!run.brOn){if(!e||e.dead||e.hp>e.max*.35)return;run.brOn=1;run.brA=0;run.brP=[];if(!RM)toast(B.line,2600);}
   const dt=Math.min(.05,frameDt||.016);run.brA=Math.min(1,run.brA+dt*.4);const a=run.brA,P=run.brP,k=B.k;if(RM&&P.length>20)P.length=20;
@@ -7129,11 +7129,21 @@ function bridgeDraw(g,ox,oy){const B=BRIDGE[run.mapId],e=run.boss;if(!B||!run.ma
     const r=(18+10*a)*(1+.04*Math.sin(run.t*3)),cx=VW/2,cy=VH+6;g.globalAlpha=.7*a;g.fillStyle='#ffe9a8';g.beginPath();g.arc(cx,cy,r,0,6.283);g.fill();g.globalAlpha=1;}
   else if(k==='stars'){spawn(2,9);g.fillStyle='rgba(20,20,60,'+(.32*a)+')';g.fillRect(0,0,VW,VH);
     for(let i=0;i<40;i++){const x=(i*97.3)%VW,y=(i*53.1)%(VH*.6),tw=.5+.5*Math.sin(run.t*3+i);g.globalAlpha=a*tw;g.fillStyle=i%5?'#fff6d8':'#ffe27a';g.fillRect(x,y,i%4?1:2,i%4?1:2);}g.globalAlpha=1;}
+  bridgeEye(g,a);
   for(const q of P){q.t+=dt;q.x+=q.vx*dt;q.y+=q.vy*dt;if(q.k==='snow')q.x+=Math.sin(run.t*2+q.s)*8*dt;
     const al=Math.min(1,q.t*3)*Math.min(1,(q.life-q.t)*2)*a;if(al<=0)continue;g.globalAlpha=al;
     if(q.k==='stars'){const gr2=g.createLinearGradient(q.x,q.y,q.x-q.vx*.25,q.y-q.vy*.25);gr2.addColorStop(0,'#fff6d8');gr2.addColorStop(1,'rgba(255,220,140,0)');g.strokeStyle=gr2;g.lineWidth=2;g.beginPath();g.moveTo(q.x,q.y);g.lineTo(q.x-q.vx*.25,q.y-q.vy*.25);g.stroke();g.fillStyle='#ffffff';g.fillRect(q.x-1.5,q.y-1.5,3,3);}
     else{g.fillStyle=q.c;g.fillRect(q.x,q.y,q.sz,q.sz);}}
   g.globalAlpha=1;run.brP=P.filter(q=>q.t<q.life&&q.y<VH+10&&q.y>-20&&q.x>-30&&q.x<VW+30);}
+// 11k: the red thread of Act I – a golden eye (Aurel) watches every finale, clearer with each chapter
+function bridgeEye(g,a){const ci=Math.max(0,CHAPTERS.indexOf(CH_OF[run.mapId]));if(ci>9)return;
+  const op=Math.min(1,a*1.4)*(.5+.5*Math.sin(Math.min(1,a*1.4)*1.571)),al=a*(.14+ci*.07);if(al<=.01||op<=.02)return;
+  const cx=Math.round(VW/2),cy=Math.round(VH*.3),w=26+ci*3,h=Math.max(1,Math.round((7+ci*.6)*op));
+  g.save();g.globalAlpha=al*.5;g.fillStyle='#ffd27a';g.beginPath();g.ellipse(cx,cy,w+8,h+8,0,0,6.283);g.fill();
+  g.globalAlpha=al;g.fillStyle='#2a1a06';g.beginPath();g.moveTo(cx-w,cy);g.quadraticCurveTo(cx,cy-h*2,cx+w,cy);g.quadraticCurveTo(cx,cy+h*2,cx-w,cy);g.fill();
+  g.strokeStyle='#ffd27a';g.lineWidth=1;g.stroke();
+  const lx=run.p?Math.max(-4,Math.min(4,(run.p.x-run.cam.x-VW/2)*.02)):0,ir=Math.min(h,6+ci*.4);
+  g.save();g.clip();g.fillStyle='#f6c744';g.beginPath();g.arc(cx+lx,cy,ir,0,6.283);g.fill();g.fillStyle='#120a02';g.fillRect(Math.round(cx+lx)-1,cy-Math.round(ir*.8),2,Math.round(ir*1.6));g.restore();g.restore();}
 function bridgeNew(k){if(k==='sun')return{k,x:rnd(-20,VW),y:-4,vx:rnd(14,26),vy:rnd(40,70),t:0,life:6,sz:pick([1,2,2]),c:pick(['#e8c88a','#c9a566','#f0dcae'])};
   if(k==='magma')return{k,x:rnd(0,VW),y:VH+2,vx:rnd(-6,6),vy:-rnd(20,45),t:0,life:4,sz:2,c:pick(['#ffb04a','#ff7a2a','#ffe27a'])};
   if(k==='snow')return{k,x:rnd(0,VW),y:-4,vx:rnd(-4,4),vy:rnd(12,24),t:0,life:12,sz:pick([1,2,2,3]),s:rnd(0,6),c:pick(['#ffffff','#e0f0ff'])};
@@ -7789,6 +7799,9 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
   const L=$('#gdList');L.innerHTML=h;const sc=L.closest('.scr');if(sc)sc.scrollTop=0;}
 function openGuide(){renderGuide(gdTab);setState('guide');}
 function openCodex(){econInit();const f=$('#cxFus'),l=$('#cxLeg');
+  // 11k: chronicle – the story page of every beaten finale, readable again (Act I red thread)
+  {let lock=0;$('#cxStory').innerHTML=CHAPTERS.map((C,i)=>{const fin=C.maps[C.maps.length-1];if(!STORY[fin])return '';const on=!!save.cleared[fin];if(!on&&lock++)return '';
+    return '<div class="kr'+(on?'':' lock')+'" data-k="slab" data-m="parch" data-s="kr'+i+'"><img alt="" src="'+(on?qMapImg(fin):dataUrl(SPR.icon.lock))+'"><div><b>'+_t('Kapitola ')+ROMAN_CH[i]+' · '+C.name+'</b><p>'+(on?STORY[fin]:_t('Poraz finále kapitoly a zápis se objeví.'))+'</p></div></div>';}).join('');}
   f.innerHTML=FUSIONS.map(F=>{const has=save.codex.f[F.id];return '<div class="cx'+(has?' on':'')+'"><img alt="" src="'+dataUrl(SPR.icon[F.id])+'"><b>'+(has?WEAPONS[F.id].name:'???')+'</b><small>'+(has?WEAPONS[F.a].name+' + '+WEAPONS[F.b].name:WEAPONS[F.id].secret?(WEAPONS[F.id].riddle||_t('Tajný recept: oheň a led…')):_t('Spoj dvě zbraně na úrovni 5…'))+'</small></div>';}).join('');
   l.innerHTML=LEG_IDS.map(id=>{const has=save.codex.l[id],L=LEGS[id];return '<div class="cx'+(has?' on':'')+'"><img alt="" src="'+dataUrl(itemSpr(L.slot,4))+'"><b>'+(has?L.name:'???')+'</b><small>'+(has?L.desc:SLOTS[L.slot].name+' · '+L.hint)+'</small></div>';}).join('');
   $('#cxSet').innerHTML=SET_IDS.map(id=>{const S=SETS[id],C=CHAPTERS.find(c=>c.id===S.ch),seen=save.codex.s[id]||{},n=Object.keys(seen).length;
@@ -8944,6 +8957,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11k',d:'11. 11. 2026',t:_t('Zlaté oko: stopa celým příběhem'),hl:[
+  {ic:'book',t:_t('Kronika'),d:_t('Ve Sbírce (Síň slávy) je nová <b>Kronika</b>. Po každém finále kapitoly se do ní zapíše kus příběhu a můžeš si ho kdykoli přečíst znovu.')},
+  {ic:'scroll',t:_t('Kdo sbírá střepy?'),d:_t('Příběhy finále I–VII mají nové stopy: každý boss nese <b>střep hvězdy</b> a nad každým finále se na chvíli otevře <b>zlaté oko</b>. Projdi si Kroniku, něco se chystá…')}],
+  items:[_t('Oko je s každou kapitolou zřetelnější.')]},
  {v:'2026-11-11j',d:'11. 11. 2026',t:_t('Co-op: pouto, souhra a duet'),hl:[
   {ic:'lightning',t:_t('Karty pouta'),d:_t('V co-opu se v nabídce úrovně objevují karty, které vylepší rytmické pouto: <b>výboj</b>, <b>mráz</b>, <b>život</b> a <b>tah</b> krystalů.')},
   {ic:'drum',t:_t('Souhra'),d:_t('Když oba zabijete nepřítele <b>na stejnou dobu</b>, naskočí Souhra a kombo roste rychleji. Každá desátá Souhra <b>shodí truhlu</b>.')},

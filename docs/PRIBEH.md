@@ -1,4 +1,4 @@
-# Pixel Krypta – příběh a plán aktů (návrh 11. 11. 2026, čeká na schválení)
+# Pixel Krypta – příběh a plán aktů (schváleno 11. 11. 2026, červená nit I–VII hotová v 11k)
 
 Struktura: **akt = 10 kapitol**, na konci aktu dynamický těžký boss přes celou kapitolu X.
 Akt I = kapitoly I–X (I–VII hotové, chybí VIII–X). Akt II = XI–XX.
@@ -10,10 +10,10 @@ Obtížnost dál podle `DIFF_CIL`: každá 3. kapitola je zeď (IX, XII, XV, XVI
 
 ### Jádro příběhu (co hráč pochopí až v kapitole IX)
 Nad světem kdysi visela **Hvězda** – pečeť, která držela svět pohromadě. Její strážce **Aurel** ji roztříštil, protože chtěl z jejího světla ukout vlastní slunce a vládnout mu.
-Střepy popadaly do sedmi říší a každý z někoho udělal tyrana (Morvan, Sfinga, Titán, Zimní královna, Kraken, Zatmění, Nicota).
+Velké střepy popadaly do říší a každý z někoho udělal tyrana (Morvan, Sfinga, Titán, Zimní královna, Kraken). Prasklé jádro hvězdy zůstalo viset na obloze a začalo padat, až když se po Krakenovi roztrhla obloha (VI). Šestý střep drželo Zatmění, sedmý, poslední, chtěla Nicota.
 Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nosí přímo Aurelovi.** Z posledního střepu se v kapitole VIII „rodí nové slunce“, jenže to slunce je Aurelův trůn.
 
-**Červená nit napříč kapitolami:** zlaté oko. Od kapitoly VIII se objevuje na rekvizitách, v hláškách bossů a v textech po finále. Volitelně ho lze dokreslit i do kapitol I–VII (oko na Morvanově lebce, na Bráně slunce…), aby šlo o nenápadnou stopu od začátku.
+**Červená nit (hotová v 11k):** texty po finále I–VII (`STORY`) říkají, že boss nesl střep a hrdina ho bere s sebou (1.–7.), plus stopy: oko vyryté ve střepu (I), hádanka „Kdo sbírá střepy, ale ne pro sebe?“ (II), otisk oka v popelu (III), „Nes je dál. On už čeká.“ (IV), oko na roztržené obloze (V), Astra: střepy tvoří tvar oka (VI), „Neneseš je sobě…“ a slunce zlaté jako oko (VII). Nad každým finále se při mostu (boss pod 35 %) otevře zlaté oko (`bridgeEye`), s každou kapitolou zřetelnější. Kronika ve Sbírce (`#cxStory`) dovolí texty přečíst znovu. Původní nápad: zlaté oko. Od kapitoly VIII se objevuje na rekvizitách, v hláškách bossů a v textech po finále. Volitelně ho lze dokreslit i do kapitol I–VII (oko na Morvanově lebce, na Bráně slunce…), aby šlo o nenápadnou stopu od začátku.
 
 ### Kapitoly I–VII (hotové) – jak na sebe navazují
 | Kap. | Říše | Co se stane | Most dál |

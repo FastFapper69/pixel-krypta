@@ -1464,3 +1464,10 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 .fz-pips i.mate{background:#1c2a3a;box-shadow:inset 0 0 0 2px #4a6a8a;opacity:.7}
 .brow .cav{display:flex;flex:none;gap:0}.brow .cav img{width:24px;height:24px;image-rendering:pixelated;object-fit:contain}.brow .cav img+img{margin-left:-6px}
 .k-card .st.k-eq img.ic.mh{width:auto;height:30px;margin-right:-8px;align-self:flex-end}
+
+/* 11k: Kronika (chronicle) in the codex – parchment pages, ink without shadow */
+.kr{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:start;padding:14px 14px 16px;color:#3a2412}
+.kr>img{width:64px;height:64px;object-fit:cover;image-rendering:pixelated;box-shadow:0 0 0 2px #4a371c}
+.kr b{display:block;font:var(--k20);color:#5a2a10}.kr p{margin:2px 0 0;font:var(--k20);color:#3a2412}
+.kr.lock{opacity:.75}.kr.lock>img{width:32px;height:32px;object-fit:contain;box-shadow:none;margin:16px}
+.kr,.kr *{text-shadow:none!important}
