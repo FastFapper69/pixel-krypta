@@ -8,6 +8,7 @@ description: "Postup a kontrolní seznam pro nového hrdinu Pixel Krypty (sprite
 Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Pirátka (`sailor`, kotva `anchor`), Kovářka (`smith`, kladivo `hammer`) a nejnovější Nyx (`nyx`, černá díra `voidorb`, 11h: zbraň jako efekt `fx` `bhole` s vtahováním a výbuchem na konci taktu, bonus přes existující `B.dodge`, prefix talentů `y`).
 
 ## Pravidla uživatele
+- **Hrdinů je málo a každý je událost (rozhodnutí 11. 11.):** nový hrdina jen tam, kde ho plánuje `docs/PRIBEH.md` (akt I: X Paladin zdarma za Aurela; akt II: XI, XV, XX). Jinak se prohlubují stávající hrdinové (Probuzení v aktu II).
 - Současných 5 hrdinů (Rytíř, Mág, Lučištník, Bard, Stavitel) zůstává základ. **Noví hrdinové nesou tematickou zbraň** (všem v nabídce od úrovně hrdiny 8, `W_UNL_LV`).
 - **Popis musí jasně říct bonus**, důležité v `<b>` (žádné „Pevná ruka“ bez vysvětlení). Okno koupě `confirmHero` ukazuje zbraň, bonus a talenty.
 - Hrdina kapitoly se kupuje po odemčení první mapy kapitoly (`need:'mapa'`); dokud kapitola není, `soon:'cN'` + `SOON_CH`. **Cenu nezadávej** (10j): dopočítá se z kapitoly přes `HERO_PRICE` (II 1 000, III 1 500, IV 2 000, V 3 000, VI 4 000, VII 5 500, dál ×1,4); vlastní cenu jen s `costFix:1`. V Novinkách piš cenu s `&nbsp;` (`4&nbsp;000`), jinak se číslo zalomí. Kontrola `lootcurve.js` (hrdina pozdější kapitoly musí být dražší).

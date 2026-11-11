@@ -50,7 +50,7 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 **Hledaný:** Zlatý jelen.
 **Most:** Fénix shoří a už nevstane. Slunce nad zahradou se otevře jako oko a všechno, na co pohlédne, se mění ve zlato.
 
-### Kapitola IX – Zlatá říše (`c9`, ZEĎ, hrdinka Straka)
+### Kapitola IX – Zlatá říše (`c9`, ZEĎ, bez hrdiny, mazlíček Straka)
 **Příběh:** město, na které slunce pohlédlo jako první. Obyvatelé jsou zlaté sochy, ulice dlážděné mincemi, všude poklady a chamtivost. Vládne tu **Herold**, Aurelův služebník. **Tady hráč poprvé uslyší Aurelovo jméno** a dojde mu, že střepy celou dobu nosil jemu.
 **Pocit:** zlato, sytě rudá, černá. Hudba „dvorní pochod“ (pompézní žestě, cembalo, slavnostní bubny).
 **Nové mechaniky:**
@@ -69,12 +69,12 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 **Odhalení Aurela musí zaznít silně (oprava z kontroly 11. 11.):** jméno nezazní poprvé v textu po výhře, ale **přímo v boji**. Úvodní karta Herolda: „Můj pán děkuje za střepy.“ Při přechodu do 2. fáze (`ph2.txt` + zpomalení na 1 takt + zlatý záblesk, oko z `bridgeEye` se otevře naplno uprostřed arény): **„Sedm střepů jsi nesl Aurelovi. Králi slunce. Děkujeme.“** Text po finále (`STORY.dvur`): „Herold padl a jeho poslední slova zněla v celém městě: Aurel. Strážce hvězdy, který ji sám rozbil. Ze dvora vede schodiště ze světla přímo do slunce.“ Od IX se Aurelovo jméno objevuje i v hláškách bossů.
 
 **Nepřátelé (4):** Pozlacený (pomalý obrněný grunt, praská), Výběrčí (rychlý, krade mince), Alchymista (střílí, mění zem ve zlato), **Mimik** (truhla, která kouše; vtip na naše truhly).
-**Hrdinka Straka** (zlodějka): zbraň Vrhací mince, kritické zásahy na zezlátlé nepřátele.
+**Bez nového hrdiny** (zeď = čas na grind, ne na nákupy). Místo hrdiny **mazlíček Straka**: krade zlaté krovky a mince z nepřátel, na zezlátlé nepřátele útočí silněji; vlastní truhla za zlato a Úlomky jako ostatní mazlíčci.
 **Věže:** Zrcadlo (odráží pohled slunce jako paprsek do nepřátel), Lis.
 **Set** Šat zlatého dvora, **legendárka** Midasova rukavice.
 **Most:** Herold padá. Z dvora vede schodiště ze světla přímo do slunce.
 
-### Kapitola X – Korunované slunce (`c10`, finále aktu, hrdina Paladin)
+### Kapitola X – Korunované slunce (`c10`, finále aktu, hrdina Paladin zdarma za Aurela)
 **Příběh:** uvnitř slunce, které Aurel ukoval ze střepů. Každá síň je postavená z jednoho ukradeného střepu, takže kapitola **připomíná celý akt**, jen spálený a pozlacený.
 **Pocit:** bílé světlo, zlato, rudé jádro. Hudba „korunovace“ (sbor, varhany, banger kit naplno).
 **Nové mechaniky:** hroutící se schody (plošiny mizí na takt), ozvěny starých bossů jako minibossové, údery kladiva v mřížce na takt.
@@ -94,7 +94,7 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 4. **Poslední jiskra (10–0 %):** slunce zhasne a jediné světlo je hrdina. Aurelovo oko ho honí 20 s. Poslední úder musí padnout na první dobu taktu (zpomalení a záblesk).
 
 **Úvodní karta:** speciální pro finále aktu. Hudba utichne, obrazovka praskne, pak drop.
-**Odměna:** titul a profilový obrázek aktu, legendárka Koruna sedmi střepů, otevření aktu II. **Návrh:** odložená Síň bossů se odemkne tady (dává smysl hned po Síni trofejí).
+**Odměna:** **hrdina Paladin zdarma** (trofej za celý akt, ne za zlato; jeho zbraň má fúzi se základní zbraní), titul a profilový obrázek aktu, legendárka Koruna sedmi střepů, otevření aktu II. **Návrh:** odložená Síň bossů se odemkne tady (dává smysl hned po Síni trofejí).
 **Závěrečný text aktu I (`STORY` finále X, oprava z kontroly 11. 11.: musí vysvětlit, proč se Spáč budí, když je hvězda zase celá):** „Aurel padl. Sedm střepů se spojilo v celou Hvězdu a ta se vrátila na oblohu. Poprvé po dlouhé době je normální noc. Jenže hvězda byla rozbitá příliš dlouho a pečeť, kterou držela, zůstala prasklá. Aurel stihl zašeptat: Hlupáku… ta hvězda nebyla moje. Hlídala JEHO spánek. A hluboko pod světem se něco obrátilo ze spánku na bok.“
 **Konec aktu:** Aurel padá, sedm střepů se spojí v celou Hvězdu a ta se vrátí na oblohu. Poprvé od začátku hry je normální noc. Aurelova poslední slova: *„Hlupáku… ta hvězda nebyla moje. Hlídala JEHO spánek.“* Někde hluboko pod světem se něco obrátí ze spánku na bok.
 
@@ -126,7 +126,7 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 - **Akt v Přípravě:** přepínač Akt I / Akt II nad seznamem kapitol (ať jich není 20 pod sebou).
 - **Kronika:** po každém finále se odemkne stránka příběhu (text `STORY` + pohlednice), dá se kdykoli znovu přečíst. Přirozeně vysvětlí návaznost.
 - **Mechaniky pořád přibývají:** 2–3 nové v každé kapitole, finále aktu všechny spojí.
-- **Hrdinové:** jeden nový za kapitolu (VIII Réva, IX Straka, X Paladin). Jména projdou `jmenahrdinu.js`.
+- **Hrdinové:** viz „Hrdinové, zbraně a odměny kapitol“ níže (rozhodnuto 11. 11.). Jména projdou `jmenahrdinu.js`.
 - **Pořadí práce:** VIII → IX → X (Aurel jako samostatný větší balík) → kronika a přepínač aktu → akt II.
 
 
@@ -136,5 +136,11 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 - Proč je Fénix nepřítel: první tvor nového slunce, hlídá kolébku (hotovo ve VIII).
 - Proč se Spáč budí, když je hvězda celá: pečeť zůstala prasklá (závěrečný text X výše, úvod aktu II).
 
-## Otevřený návrh: počet hrdinů a zbraní v aktu II (11. 11.)
-- Riziko: ~25 hrdinů a ~30 zbraní na konci aktu II. Hotovo: pečetě zbraní (11m). Nerozhodnuto: 3 hrdinové na akt místo 1 na kapitolu, zbraně nových hrdinů do společné nabídky až po aktu, „probuzení“ stávajících hrdinů místo nových.
+## Hrdinové, zbraně a odměny kapitol (ROZHODNUTO uživatelem 11. 11. 2026, závazné)
+**Méně hrdinů, ale každý je událost; místo nových hrdinů se prohlubují ti stávající.** Důvod: hrdina je hluboká investice (40 úrovní, talenty, Prestiž), při ~25 hrdinech by se tříštila a nový hrdina by nic neznamenal.
+- **Akt I:** VIII Réva (hotovo, 11l), **IX bez hrdiny** (zeď), **X Paladin zdarma** jako odměna za poražení Aurela.
+- **Akt II: jen 3 hrdinové** – v XI (uvítání v aktu), v XV (kapitola se 6dílným setem), ve XX (odměna za Spáče). Na konci aktu II tedy 17 hrdinů, ne 25.
+- **Probuzení (akt II):** každý hrdina z aktu I dostane v některé kapitole aktu II úkol a po splnění Probuzení = druhá ultimátka nebo silnější podoba startovní zbraně (ne nová zbraň do nabídky). Stojí zlato a Esenci, takže nahradí výdaje za nové hrdiny (ekonomika nesmí přijít o hlavní žrout zlata). Příběh: Spáčovy sny probouzí skrytou sílu hrdinů. Rozpis, který hrdina se probouzí ve které kapitole, se udělá s aktem II.
+- **Kapitoly bez hrdiny dostanou nového mazlíčka** (s vlastním kouskem do truhly mazlíčků), k tomu jako vždy set, 1–2 věže, legendárka, hledaný.
+- **Zbraně:** základních zbraní celkem ~20, nové přibývají hlavně jako **fúze** (cíl, který hráč skládá). Každá nová zbraň musí mít aspoň jednu fúzi se základní zbraní (pečetě 11m to hlídají). Zbraně hrdinů zůstávají jen pro ně do úrovně hrdiny 8.
+- **Ekonomika:** kde ubude cena hrdiny, musí být jiný výdaj (Probuzení, truhla mazlíčků). Ověřit `lootcurve.js` a `EKONOMIKA.md` při každé kapitole bez hrdiny.

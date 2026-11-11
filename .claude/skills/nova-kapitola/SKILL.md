@@ -61,7 +61,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 6. Legendárka finále: `LEGS` (s `fin:1`) + `FIN_LEG[finále]` + účinek.
 7. Hledaný: `WANTED` + `WANT_OF` (mapování kapitola → hledaný).
 8. Věž kapitoly (doporučeno 1–2): `TOWERS` + `TW_UNL` + `TW_INFO` + `TW_FLAG` + chování v `towerFire` a vrchol v `drawTower`. Výhra na mapě věž jen odemkne, **kartu dává jen Stavitelova bedna** (pravidlo uživatele 09c, nic dalšího se nastavovat nemusí). Kontrola `tests/tools/tw5.js` (upravit mapy a věže) a `twgallery.js`.
-9. Hrdina kapitoly (pokud je): viz skill `novy-hrdina`; `need:'první mapa'` místo `soon`.
+9. Hrdina kapitoly **jen podle plánu v `docs/PRIBEH.md`** (rozhodnutí 11. 11.: akt I – VIII Réva, IX nic, X Paladin zdarma za finále; akt II jen XI, XV, XX). Kapitola bez hrdiny přidá **mazlíčka** (+ výdaj zlata místo ceny hrdiny, ověř `lootcurve.js`). Hrdina: skill `novy-hrdina`; `need:'první mapa'` místo `soon`.
 10. Mistrovství za finále: `ACH` (`v:()=>save.cleared.<finále>?1:0`).
 11. Průvodce: `N` (nepřátelé) a `B` (bossové) v `renderGuide`.
 12. `lang-en.js` pro všechny nové texty (`node tests/tools/i18n.js static`).
