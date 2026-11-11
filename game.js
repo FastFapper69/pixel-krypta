@@ -3316,12 +3316,26 @@ function makeEnemy(id,x,y,elite){
     kx:0,ky:0,flash:0,slowT:0,elite:!!elite,boss:false,phase:Math.random()*6.28,off:{x:rnd(-9,9),y:rnd(-9,9)},mode:0,mT:rnd(1,2.5),dx:0,dy:0,
     kbm:elite?.3:1,xp:d.xp*(elite?5:1),hc:{},shootT:rnd(1,2.5),dead:false,par:Math.random()<.5};
 }
-function edgePos(margin){
+// 11j: whoever keeps running one way meets part of the new enemies ahead (fleeing in a straight line was a safe win on almost every map)
+const AHEAD_P=.5,AHEAD_A=.9,AHEAD_T=2.5;
+function trackRun(dt){for(const q of players()){if(q.trx===undefined||!(q.dvx===q.dvx)){q.trx=q.x;q.trY=q.y;q.dvx=q.dvy=0;} // own fields (lx/ly belong to the ice)
+  const k=Math.min(1,dt/AHEAD_T);if(dt>0){q.dvx+=((q.x-q.trx)/dt-q.dvx)*k;q.dvy+=((q.y-q.trY)/dt-q.dvy)*k;}q.trx=q.x;q.trY=q.y;}}
+function aheadK(p){const v=Math.hypot(p.dvx||0,p.dvy||0);return clamp((v/58-.35)/.45,0,1);} // 0 = stands/zigzags, 1 = runs steadily (base speed 58)
+function edgePos(margin,fwd){
   const p=run.pls?pick(alivePl().length?alivePl():players()):run.p,sz=run.map.size,dist=Math.hypot(VW,VH)/2+margin;
-  for(let i=0;i<10;i++){const a=Math.random()*6.283,x=p.x+Math.cos(a)*dist,y=p.y+Math.sin(a)*dist;
+  const ah=fwd?aheadK(p)>.15:Math.random()<AHEAD_P*aheadK(p),a0=Math.atan2(p.dvy||0,p.dvx||0);
+  for(let i=0;i<10;i++){const a=ah&&i<6?a0+rnd(-AHEAD_A,AHEAD_A):Math.random()*6.283,x=p.x+Math.cos(a)*dist,y=p.y+Math.sin(a)*dist;
     if(x>16&&y>16&&x<sz-16&&y<sz-16)return{x,y};}
   return{x:clamp(p.x+rnd(-dist,dist),16,sz-16),y:clamp(p.y+rnd(-dist,dist),16,sz-16)};
 }
+// 11j: enemies left far behind a fleeing hero come back at the edge of the screen, ahead of him if he keeps running
+// (the horde trailing behind used to fill the 170 limit, so no new waves came and running away was a safe win)
+const FAR_PAD=110,FAR_T=2.5,FAR_N=12;
+function farRecycle(dt){if(run.crystal||run.map.caravan)return;run.frT=(run.frT||0)+dt;if(run.frT<.5)return;const el=run.frT;run.frT=0;
+  withRng('p',()=>{const D=Math.hypot(VW,VH)/2+FAR_PAD;let n=0;
+    for(const e of run.enemies){if(e.dead||e.boss||e.elite)continue;const q=run.pls?nearPl(e.x,e.y):run.p;
+      if(Math.hypot(q.x-e.x,q.y-e.y)<D){e.farT=0;continue;}e.farT=(e.farT||0)+el;
+      if(e.farT>=FAR_T&&n<FAR_N){const P=edgePos(18,true);e.x=P.x;e.y=P.y;e.farT=0;n++;}}});}
 function spawnEnemy(id,elite){return withRng('p',()=>spawnEnemy0(id,elite));} // where it appears depends on the player, so it has its own stream (p) and the choice of WHO comes (s) stays the same for everyone
 function spawnEnemy0(id,elite){if(run.enemies.length>=170&&!elite)return null;const q=edgePos(18);const e=makeEnemy(id,q.x,q.y,elite);run.enemies.push(e);return e;}
 function spawnBoss(){
@@ -4446,8 +4460,8 @@ function update(dt){
   p.moving=mm>.05;if(p.moving){p.face.x=mx/Math.max(mm,.001);p.face.y=my/Math.max(mm,.001);const f=Math.hypot(p.face.x,p.face.y)||1;p.face.x/=f;p.face.y/=f;p.anim+=dt*10;}
   const sz=run.map.size,spd=st.speed*(p.down?.55:1)*plSpdMul(p);p.x=clamp(p.x+mx*spd*dt,14,sz-14);p.y=clamp(p.y+my*spd*dt,14,sz-14);mfCall('move',p,dt);
   if(run.bot&&run.pls)botStep(dt);
-  envPl(dt);if(run.pls)withPl(run.pls[1],()=>envPl(dt));
-  updateSpawns(dt);updateEnemies(dt);updateWeapons(dt);updateTowers(dt);updateCrystal(dt);updateShots(dt);updatePickups(dt);updateFx(dt);updateAmbient(dt);updateCarts(dt);updateWanted(dt);mfCall('update',dt);allyUpdate(dt);petUpdate(dt);sunEyeUpdate();qLive(dt);
+  envPl(dt);if(run.pls)withPl(run.pls[1],()=>envPl(dt));trackRun(dt);
+  updateSpawns(dt);farRecycle(dt);updateEnemies(dt);updateWeapons(dt);updateTowers(dt);updateCrystal(dt);updateShots(dt);updatePickups(dt);updateFx(dt);updateAmbient(dt);updateCarts(dt);updateWanted(dt);mfCall('update',dt);allyUpdate(dt);petUpdate(dt);sunEyeUpdate();qLive(dt);
   if(run.crystal&&run.qc&&!run.qc.crysX){if(run.crystal.hp>=run.crystal.max/2)run.qc.crys=run.t;else run.qc.crysX=1;}
   if(run.tut)tutTick(dt);
   if(!run.tip&&!save.tipTower&&run.t>5){run.tip=true;save.tipTower=true;persist();toast(_t('Vpravo dole postavíš věž za zlato'),3200);}
