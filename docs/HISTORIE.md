@@ -375,3 +375,9 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - Uživatel: „design mapy je celkem nuda, propracuj to a mysli i do budoucna“. Stavebnice map dostala návrhové nástroje: `kit.decor` (`kitDecor`: koberce, mozaiky, koleje, výstražné pruhy, lem dlažby, drť), `kit.set` (památky na přesném místě), `kit.rows` (řady podél cest, čáry, oblouky, čtvrti mřížkou, jen v zóně), `kit.pathTurn` (rovné ulice). Rekvizity jsou dál jen kresba.
 - 11 nových rekvizit IX (fontána, stánek, zlatý strom, pec, bedna, podstavec, svícen, drahokamy, koruna, trůn, prapor). Předělané všechny mapy IX: Předměstí = město s ulicemi a náměstím, Mincovna = dílna s kolejemi, Síň soch = koberce do kříže a les sloupů, Pokladnice = hromady pokladu, Zlatý dvůr = trůnní sál.
 - Nový test `tests/tools/mapfull.js` (celá mapa naráz). Výkon `heavy.js` (4× CPU) Předměstí 12 fps vs. Doly 9 fps. Postup ve skillu `nova-kapitola` „Návrh mapy“.
+
+## 11p (11. 11. 2026) – obtížnost na dva cíle
+- Uživatel: pokračovat v balancu („drž odstup“ vyhrává, Vrakoviště lehké); chce funkční systém pro další kapitoly a žádnou okamžitou smrt za chybu.
+- Rozbor (`hraci.js` s `POVX`/`safeSet`, `paky.js`): Opatrný vyhrává uhýbáním + obrannými kartami, ne útěkem; hrdina nerozhoduje. Pokus s nepřáteli před běžícím hrdinou a návratem opozdilců (větev `balanc-odstup`) na boty nepůsobil, do hry nešel.
+- `ladeni.js` ladí na dva cíle (průměrný hráč výhry přes `hpm`, neopatrný přežití přes `dmm`), `prolozeni.js` proloží všechna kola. Mapy I–VIII přeladěné (2 průchody, 5 kol × 36 běhů), `PWR` přepočtené. Podrobnosti `KAMPAN.md` „Dva cíle“.
+- Regenerace 0,3 zdraví/s za úroveň (dřív 0,4). Bot: stav `run.kg`/`run.kb` sdílí kapitoly VI a VIII (různé mechaniky), `hraci.js` to rozliší.

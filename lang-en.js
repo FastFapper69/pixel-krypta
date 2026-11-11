@@ -1,6 +1,14 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Spravedlivější obtížnost":"Fairer difficulty",
+"Chyba už neznamená konec":"One mistake is no longer the end",
+"Zásahy nepřátel jsou na všech mapách nastavené tak, aby tě <b>jedna chyba hned nezabila</b>. Kdo leze do davu, vydrží zhruba do půlky mapy.":"Enemy hits on every map are set so that <b>one mistake won't kill you right away</b>. Even if you charge into the crowd, you'll last about half the map.",
+"Výzva pro každého stejná":"The same challenge for everyone",
+"Obtížnost všech 45 map je znovu vyladěná podle hráčů, kteří hrají <b>normálně, ne dokonale</b>. Zdi kapitol III, VI a IX dál drží.":"All 45 maps are retuned for players who play <b>normally, not perfectly</b>. The walls of chapters III, VI and IX still hold.",
+"Regenerace slabší":"Regeneration weaker",
+"Léčí <b>0,3 zdraví za sekundu</b> na úroveň (dřív 0,4). Byla to nejsilnější obranná karta.":"Heals <b>0.3 health per second</b> per level (was 0.4). It was the strongest defensive card.",
+"Mapy, kde rozhodují hlavně mechaniky (Oko víru, Plovoucí ostrovy, Trosky světů, Zlatá pole, Zahrada světla), dostanou úpravu později.":"Maps where mechanics matter most (Eye of the Whirlpool, Floating Islands, Wreckage of Worlds, Golden Fields, Garden of Light) will be adjusted later.",
 "Zlatá říše dostala tvář":"The Golden Realm got a face",
 "Předměstí jako město":"Outskirts as a real town",
 "Dlážděné ulice lemované domy, lucerny, trhy a fontána na náměstí se slunečnou mozaikou.":"Cobbled streets lined with houses, lanterns, market stalls and a fountain on a square with a sun mosaic.",

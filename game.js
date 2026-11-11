@@ -869,18 +869,18 @@ const MAPS={
 // 11h: [HP ×, spawn navíc, zlato za výhru, poškození ×] vyladěné boty na cílovou úspěšnost podle síly hráče (tests/tools/ladeni.js,
 // účty ucty.js, 5 povah, ~1 800 běhů): průměrný hráč s účtem, se kterým na mapu přijde, vyhraje v každé kapitole zhruba stejně často.
 const MAP_TIER={
-  hrbitov:[.63,0,0,1],bazina:[.5,.1,15,1],kostnice:[.8,.2,30,1],zvonice:[.92,.3,45,1],trun:[1.32,.45,90,1], // kapitola I vítá (Hřbitov 70 % → Zvonice 45 %, Trůn 25 %)
-  poust:[1.58,.6,60,1.29],kanon:[1.65,.6,75,1.32],karavana:[1.46,.58,90,1.21],hrobka:[1.61,.62,105,1.28],brana:[1.29,.7,150,1.11], // II schod (40 % −3 na mapu, finále 20 %)
-  doly:[3.33,1,110,1.76],kovarna:[3.92,1.05,125,1.87],reka:[5.42,1.1,140,2.21],krystaly:[5.27,1.15,155,2.18],srdce:[3.2,1.1,240,1.7], // III zeď (25 %, finále 12 %)
-  jezero:[3.39,1.05,170,1.63],pevnost:[3.95,1.05,185,1.74],tajga:[5.08,1.08,200,2],soutezka:[3.9,1.1,215,1.75],zima:[4.22,1.2,320,1.88], // IV schod
-  vrakoviste:[11.81,1.2,230,2.88],pristav:[9.5,1.15,245,2.5],majak:[15.29,1.15,260,3.19],vir:[17.11,1.15,275,3.38],paluba:[6.6,1.2,380,2.09], // V schod (Maják a Vír na HP skoro nereagují, potřebují mechaniku)
-  hvezdarna:[5.92,.98,300,2.26],mlhovina:[14.91,1.32,315,3.01],ostrovy:[6.37,.94,330,2.49],souhvezdi:[11.81,.96,345,3.33],zatmeni:[7.01,1.04,480,2.67], // VI zeď (Mlhovina a Souhvězdí jdou vykitovat, HP vysoko)
-  okraj:[16.93,0.99,360,3.01],trosky:[20.71,1.01,375,3.18],ozveny:[15.3,1.03,390,2.84],svetlo:[8.82,1.05,405,2.49],nicota:[20.55,1.13,540,3.32],
-  rozbresk:[7.46,1.08,420,2],
-  pole:[14.89,1.1,435,3.33],
-  hodiny:[5.06,1.12,450,1.77],
-  zahrada:[22.19,1.14,465,3.51],
-  kolebka:[5.2,1.22,600,1.62],
+  hrbitov:[0.92,0,0,1],bazina:[0.79,.1,15,1],kostnice:[1.03,.2,30,1],zvonice:[1.3,.3,45,0.65],trun:[1.79,.45,90,0.5], // kapitola I vítá (Hřbitov 70 % → Zvonice 45 %, Trůn 25 %)
+  poust:[2.11,.6,60,1.29],kanon:[2.48,.6,75,0.77],karavana:[2.23,.58,90,1.21],hrobka:[2.6,.62,105,1.15],brana:[1.5,.7,150,1.11], // II schod (40 % −3 na mapu, finále 20 %)
+  doly:[3.54,1,110,1.26],kovarna:[3.57,1.05,125,1.54],reka:[3.6,1.1,140,2.21],krystaly:[2.95,1.15,155,1.88],srdce:[2.76,1.1,240,1.1], // III zeď (25 %, finále 12 %)
+  jezero:[3.85,1.05,170,1.63],pevnost:[3.47,1.05,185,1.74],tajga:[7.31,1.08,200,1.27],soutezka:[4.34,1.1,215,1.11],zima:[3.97,1.2,320,1.51], // IV schod
+  vrakoviste:[21.26,1.2,230,2.54],pristav:[17.1,1.15,245,1.98],majak:[22.07,1.15,260,2.54],vir:[30.8,1.15,275,2.31],paluba:[11.88,1.2,380,1.39], // V schod (Maják a Vír na HP skoro nereagují, potřebují mechaniku)
+  hvezdarna:[5.76,.98,300,1.97],mlhovina:[26.84,1.32,315,2.65],ostrovy:[6.78,.94,330,1.84],souhvezdi:[20.99,.96,345,2.22],zatmeni:[11.56,1.04,480,1.12], // VI zeď (Mlhovina a Souhvězdí jdou vykitovat, HP vysoko)
+  okraj:[29.75,0.99,360,2.29],trosky:[37.28,1.01,375,3.43],ozveny:[26.37,1.03,390,2.19],svetlo:[10.11,1.05,405,2.49],nicota:[22.66,1.13,540,2.75],
+  rozbresk:[8.87,1.08,420,2],
+  pole:[26.8,1.1,435,2.91],
+  hodiny:[5.3,1.12,450,1.77],
+  zahrada:[39.94,1.14,465,2.94],
+  kolebka:[6.16,1.22,600,1.62],
   predmesti:[124.93,1.17,480,9.13],
   mincovna:[29.14,1.19,495,4.39],
   sochy:[105.42,1.21,510,8.29],
@@ -3367,7 +3367,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11o';
+const GAME_VER='2026-11-11p';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -9591,6 +9591,11 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11p',d:'11. 11. 2026',t:_t('Spravedlivější obtížnost'),hl:[
+  {ic:'shield',t:_t('Chyba už neznamená konec'),d:_t('Zásahy nepřátel jsou na všech mapách nastavené tak, aby tě <b>jedna chyba hned nezabila</b>. Kdo leze do davu, vydrží zhruba do půlky mapy.')},
+  {ic:'skull',t:_t('Výzva pro každého stejná'),d:_t('Obtížnost všech 45 map je znovu vyladěná podle hráčů, kteří hrají <b>normálně, ne dokonale</b>. Zdi kapitol III, VI a IX dál drží.')},
+  {ic:'regen',t:_t('Regenerace slabší'),d:_t('Léčí <b>0,3 zdraví za sekundu</b> na úroveň (dřív 0,4). Byla to nejsilnější obranná karta.')}],
+ items:[_t('Mapy, kde rozhodují hlavně mechaniky (Oko víru, Plovoucí ostrovy, Trosky světů, Zlatá pole, Zahrada světla), dostanou úpravu později.')]},
  {v:'2026-11-11o',d:'11. 11. 2026',t:_t('Zlatá říše dostala tvář'),hl:[
   {ic:'map:predmesti',t:_t('Předměstí jako město'),d:_t('Dlážděné ulice lemované domy, lucerny, trhy a fontána na náměstí se slunečnou mozaikou.')},
   {ic:'map:mincovna',t:_t('Mincovna jako dílna'),d:_t('Koleje vozíků, výstražné pruhy, řady lisů, beden a pece podél zdí.')},

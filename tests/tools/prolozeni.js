@@ -30,7 +30,7 @@ for(const m in pts){const P=pts[m].filter(q=>q.n>0),I=info[m];if(!P.length||!I)c
  // nevěřit vzorci daleko za změřeným rozsahem: nejvýš o 30 % mimo hodnoty, které boti opravdu hráli
  const Hs=P.map(q=>q.h),Ds=P.map(q=>q.d);lh2=cl(lh2,Math.log(Math.min(...Hs)/1.3),Math.min(cap,Math.log(Math.max(...Hs)*1.3)));ld=cl(ld,Math.log(Math.min(...Ds)/1.3),Math.log(Math.max(...Ds)*1.3));
  if(!note&&Math.abs(a+bH*lh2+AD*ld-lg(tg))>.4){mech.push(m);note='mechanika';}
- const h=+cl(Math.exp(lh2),.3,40).toFixed(2),d=+cl(Math.exp(ld),.5,5).toFixed(2);
+ const h=+cl(Math.exp(lh2),.3,400).toFixed(2),d=+cl(Math.exp(ld),.5,20).toFixed(2);
  const pw=1/(1+Math.exp(-(a+bH*Math.log(h)+AD*Math.log(d)))),ps=sOf(Math.log(h),Math.log(d));
  out[m]=[h,d,0];rows.push([m,P.reduce((s,q)=>s+q.n,0),bH.toFixed(1),h,d,Math.round(pw*100)+'/'+I.cil,Math.round(cl(ps,0,1)*100)+'/'+Math.round(pz*100),note]);}
 // spx se nemění: vezmi ho z posledního souboru
