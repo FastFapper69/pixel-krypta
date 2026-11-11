@@ -43,5 +43,6 @@ Skutečné chyby: `no-redeclare`, `no-undef`, `no-dupe-keys` (u exportu `window.
 - Pracovní postup: velikost CLAUDE.md (cíl < 40 kB, historie do `docs/HISTORIE.md`), zastaralé testy v `tests/tools`, opakované ruční kroky → nástroj.
 
 ## Poučení z auditů
+- 11. 11. 2026 (11x): `toast` se v menu nezobrazí (je v HUD běhu) – hlášky mimo běh přes `note`. `newsshot.js` potřebuje verzi o jednu starší než nová Novinka. Do repa se dostaly výstupy testů (`off2.html`, `net3_*.png` v kořeni webu) – kontrolovat `git ls-files | xargs du` a testy fotit do `/tmp`. Server: migraci zkoušet v `DO $$ … raise exception $$` i s vložením jako `authenticated` (`set local role`, `request.jwt.claims`).
 - 9. 11. 2026 večer: okna otevřená během běhu (nabídka úrovně) zahazují kroky rytmu – úder ultimátky mizel.
 - 9. 11. 2026: duplicitní `duckMusic` (09r ztlumení nikdy nefungovalo), PIN bez limitu pokusů, žebříček stahuje cizí savy kvůli jednomu obrázku, pokles plynulosti menu po rámech v plátně, 108 kB CLAUDE.md.
