@@ -3496,7 +3496,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11x';
+const GAME_VER='2026-11-11y';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3697,7 +3697,7 @@ const BOSS_INTRO={
  griffin:{line:_t('Půl orel, půl lev, celý problém.'),acc:'#e8e8ff'},orion:{line:_t('Lovím od pravěku. Ty jsi jen další souhvězdí.'),acc:'#ffe58a'},eclipse:{line:_t('Slunce zhasne. Ty první.'),acc:'#b07aff'},
  maw:{line:_t('Mám hlad. A ty vypadáš jako předkrm.'),acc:'#2af0d0'},hoarder:{line:_t('Každá troska má svůj příběh. Tvoje bude příští.'),acc:'#f0b050'},mirror:{line:_t('Uhýbáš stejně jako já. Jenom hůř.'),acc:'#5af0d8'},moth:{line:_t('Světlo? To si vezmu.'),acc:'#ffe9a8'},
  thornmom:{line:_t('Objímá ráda. Trny taky.'),acc:'#ff9ab8'},reaper:{line:_t('Sklízí pole. Dneska tebe.'),acc:'#f6c744'},gnomon:{line:_t('Přesný čas? Tvůj poslední.'),acc:'#fff6c8'},honeyq:{line:_t('Med je sladký. Žihadla ne.'),acc:'#f6c744'},phoenix:{line:_t('Hlídám kolébku. Umřu? Klidně. Zase.'),acc:'#ff9a1a'},
- usurer:{line:_t('Půjčím ti život. S úrokem.'),acc:'#ffd040'},mintmaster:{line:_t('Razím mince. A hlavy.'),acc:'#ffd040'},gknight:{line:_t('Zlaté brnění, zlaté srdce. Obojí z kovu.'),acc:'#ff6a3a'},dragon:{line:_t('Moje. Moje. Všechno moje. I ty.'),acc:'#ff3a1a'},herald:{line:_t('Můj pán děkuje za střepy.'),acc:'#ffe27a'},stairward:{line:_t('Nahoru vede jen jedna cesta. A ta se hroutí.'),acc:'#fff2c8'},curator:{line:_t('Pěkná sbírka, že? Všechny jsi mi je přinesl ty.'),acc:'#ffd040'},sunsmith:{line:_t('Ukoval jsem slunce. Tebe ukovu taky.'),acc:'#ff9a3a'},den:{line:_t('Jeden svítí, druhá zhasíná. Padneme jen spolu.'),acc:'#ffe27a'},aurel:{line:_t('Sedm střepů. Sedm děkuji. Teď poklekni.'),acc:'#fff2b0'},nothing:{line:_t('Byl jsem tu před první hvězdou. Budu tu i po té poslední.'),acc:'#9a5ad8'},
+ usurer:{line:_t('Půjčím ti život. S úrokem.'),acc:'#ffd040'},mintmaster:{line:_t('Razím mince. A hlavy.'),acc:'#ffd040'},gknight:{line:_t('Zlaté brnění, zlaté srdce. Obojí z kovu.'),acc:'#ff6a3a'},dragon:{line:_t('Moje. Moje. Všechno moje. I ty.'),acc:'#ff3a1a'},herald:{line:_t('Střep jde vzít jen poraženému. Díky za špinavou práci.'),acc:'#ffe27a'},stairward:{line:_t('Nahoru vede jen jedna cesta. A ta se hroutí.'),acc:'#fff2c8'},curator:{line:_t('Pěkná sbírka, že? Všechny jsi mi je přinesl ty.'),acc:'#ffd040'},sunsmith:{line:_t('Ukoval jsem slunce. Tebe ukovu taky.'),acc:'#ff9a3a'},den:{line:_t('Jeden svítí, druhá zhasíná. Padneme jen spolu.'),acc:'#ffe27a'},aurel:{line:_t('Sedm střepů. Sedm děkuji. Teď poklekni.'),acc:'#fff2b0'},nothing:{line:_t('Byl jsem tu před první hvězdou. Budu tu i po té poslední.'),acc:'#9a5ad8'},
 };
 // card colours by chapter (dark, mid, light); slime king keeps his swampy green
 const CH_BG=[['#12081c','#2a1640','#4a2a6a'],['#2a1408','#6a3a14','#a8682a'],['#1a0808','#5a1a10','#9a3a14'],['#081428','#1a3a5a','#3a6a9a'],['#0c1a2e','#1a3a5a','#2a6a8a'],['#0a0a1c','#2a2a5a','#4a4a8a'],['#020608','#0c2a2a','#1a5a58'],['#2a1c06','#7a5a14','#d8a83a'],['#1a0606','#5a1410','#c8962a']];
@@ -8180,16 +8180,17 @@ function skyTap(ev){const cv=$('#skyCv'),r=cv.getBoundingClientRect(),x=(ev.clie
 // ----- 09i: the Fallen Star story — in the last phase of a chapter finale the next chapter seeps in, then a "Cesta dál" card -----
 const BRIDGE={trun:{k:'sun',line:_t('Z Morvanovy lebky sálá žár pouštního slunce…')},brana:{k:'magma',line:_t('Pod Bránou slunce se probouzí žár hor…')},
   srdce:{k:'snow',line:_t('Srdce hory chladne, do jeskyně začíná sněžit…')},zima:{k:'thaw',line:_t('Ledový trůn taje, voda stoupá…')},paluba:{k:'stars',line:_t('Z roztržené oblohy padají hvězdy…')},zatmeni:{k:'void',line:_t('Za měsícem se otevírá Prázdnota…')},nicota:{k:'dawn',line:_t('Z nicoty se rodí nové slunce…')},kolebka:{k:'gild',line:_t('Slunce otevírá oko…')},dvur:{k:'stairs',line:_t('Ze dvora stoupá schodiště ze světla…')}};
-const STORY={trun:_t('Z Morvanovy lebky vypadl žhnoucí střep hvězdy. Je v něm vyryté drobné zlaté oko. Bereš ho s sebou a střep ukazuje na jih, kde slunce spaluje písek.'),
-  brana:_t('Sfinga padla a Brána slunce se propadla. Z jejího oka vypadl druhý střep a s ním poslední hádanka: „Kdo sbírá střepy, ale ne pro sebe?“ Ze tmy pod branou stoupá žár hor.'),
-  srdce:_t('Srdce hory vychladlo a ve strusce zůstal třetí střep. Vedle něj je v popelu otisk zlatého oka, jako by někdo hlídal, kudy půjdeš. Popel ztuhl ve sníh a nad horou se zvedá věčná zima.'),
-  zima:_t('Ledový trůn praskl a z koruny vypadl čtvrtý střep. Královna stihla zašeptat: „Nes je dál. On už čeká.“ Roztátá voda se valí z hor až k moři, kde kotví prokleté lodě.'),
-  paluba:_t('Kraken klesl ke dnu a v jeho oku zářil pátý střep. Obloha se roztrhla a na okamžik se v ní otevřelo obrovské zlaté oko. Zbytek prasklé hvězdy padá z nebe a nahoře ho pozoruje hvězdářka Astra.'),
-  zatmeni:_t('Zatmění se rozpadlo na hvězdný prach a nechalo šestý střep. Astra si všimla, že střepy nepadají náhodně: na mapě oblohy tvoří tvar oka. Za měsícem zůstala díra do Prázdnoty a něco odtamtud natahuje ruku po posledním střepu…'),
-  nicota:_t('Nicota se zhroutila do sebe. Naposledy zašeptala: „Neneseš je sobě…“ Všech sedm střepů, které neseš, se rozzářilo a spojilo. Z nicoty se rodí nové slunce, zlaté jako oko, a pod ním nový svět…'),
-  kolebka:_t('Fénix shořel a tentokrát už nevstal. Slunce nad zahradou se pomalu otevřelo jako obrovské zlaté oko. Kam pohlédne, tam všechno zlátne: tráva, květy, i ptáci v letu. Na obzoru se třpytí město, které už zezlátlo celé…'),
-  korunace:_t('Aurel padl. Sedm střepů se spojilo v celou Hvězdu a ta se vrátila na oblohu. Poprvé po dlouhé době je normální noc. Jenže hvězda byla rozbitá příliš dlouho a pečeť, kterou držela, zůstala prasklá. Aurel stihl zašeptat: „Hlupáku… ta hvězda nebyla moje. Hlídala JEHO spánek.“ A hluboko pod světem se něco obrátilo ze spánku na bok.'),
-  dvur:_t('Herold padl a jeho poslední slovo zaznělo celým městem: Aurel. Strážce hvězdy, který ji sám rozbil, aby si z jejího světla ukoval slunce. Sedm střepů jsi celou dobu nosil jemu. Ze dvora teď vede schodiště ze světla přímo do slunce, kde na tebe čeká…')};
+const STORY={prolog:_t('Do zapomenuté krypty spadla jiskra z rozbité hvězdy. Uvízla ti v hrudi a rozbušila se jako srdce. Nevíš, kdo jsi, ani kdo tě tu pohřbil. Ten tlukot tě ale táhne ven.'),
+  trun:_t('Z Morvanovy lebky vypadl žhnoucí střep hvězdy a jiskra v tvé hrudi se rozbušila rychleji. Ve střepu je vyryté drobné zlaté oko. Míří na jih, do pouště.'),
+  brana:_t('Sfinga padla a z jejího oka vypadl druhý střep. Nechala ti poslední hádanku: „Co se dívá, i když spí?“ Pod propadlou branou stoupá žár hor.'),
+  srdce:_t('Srdce hory vychladlo a ve strusce zůstal třetí střep. V popelu vedle něj je otisk zlatého oka. Někdo hlídá, kudy jdeš. Popel tuhne ve sníh.'),
+  zima:_t('Ledový trůn praskl a z koruny vypadl čtvrtý střep. Královna stihla zašeptat: „Ty ho vzbudíš.“ Koho, to už neřekla. Roztátá voda se valí k moři.'),
+  paluba:_t('Kraken klesl ke dnu a v jeho oku zářil pátý střep. Obloha se roztrhla a na okamžik se v ní otevřelo obrovské zlaté oko. Z trhliny padají hvězdy.'),
+  zatmeni:_t('Zatmění se rozpadlo v prach a nechalo šestý střep. Na mapě oblohy tvoří místa, kam střepy dopadly, tvar oka. Za měsícem zeje díra do Prázdnoty.'),
+  nicota:_t('Nicota se zhroutila a pustila sedmý střep. Zašeptala: „Neneseš je sobě…“ Vtom se ti všech sedm vytrhlo z rukou a vzlétlo. Na nebi z nich někdo kuje nové slunce.'),
+  kolebka:_t('Fénix shořel a už nevstal. Slunce nad zahradou se otevřelo jako obrovské zlaté oko. Kam pohlédne, tam všechno zlátne. Na obzoru se třpytí město, které zezlátlo celé.'),
+  dvur:_t('Herold padl a jeho poslední slovo znělo celým městem: Aurel. Strážce hvězdy, který ji sám rozbil. Sedm střepů jsi celou dobu nosil jemu. Schodiště ze světla vede přímo do slunce.'),
+  korunace:_t('Aurel padl a hvězda se vrátila na oblohu. Poprvé je zase noc. Stihl ale zašeptat: „Hlupáku. Rozbít ji mi poradil hlas ze snu. Hlídala JEHO spánek.“ Hluboko pod světem se něco pohnulo. A jiskra v tvé hrudi mu odpověděla.')};
 function bridgeDraw(g,ox,oy){const B=BRIDGE[run.mapId],e=run.boss;if(!B||!run.map.finale)return;
   if(!run.brOn){if(!e||e.dead||e.hp>e.max*.35)return;run.brOn=1;run.brA=0;run.brP=[];if(!RM)toast(B.line,2600);}
   const dt=Math.min(.05,frameDt||.016);run.brA=Math.min(1,run.brA+dt*.4);const a=run.brA,P=run.brP,k=B.k;if(RM&&P.length>20)P.length=20;
@@ -8271,6 +8272,7 @@ function featCheck(){featInit();const out=[];for(const F of FEATS)if(!save.feat[
 const featAt=map=>FEATS.filter(F=>F.at===map&&!featOn(F.id));
 // the card: one at a time, after the run, on the menu or the campaign screen
 function featShow(){featInit();featCheck();if(state!=='menu'&&state!=='select')return;if($('#featPop')&&!$('#featPop').hidden)return;
+  if(!save.prolog){save.prolog=1;persist();if(!(save.stats&&save.stats.runs)&&state==='menu'&&!window.KRYPTA_NOPROLOG){prologShow();return;}}
   let F=null,sum=false;if(save.featSum){sum=true;save.featSum=0;}else if(save.featNew&&save.featNew.length){F=FEAT_OF[save.featNew.shift()];}
   if(!F&&!sum&&save.storyNew){storyShow(save.storyNew);save.storyNew=null;persist();return;}if(!F&&!sum)return;persist();
   let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
@@ -8283,6 +8285,12 @@ function featShow(){featInit();featCheck();if(state!=='menu'&&state!=='select')r
   const close=()=>{pop.hidden=true;setTimeout(featShow,250);};
   $('#fcOk').onclick=()=>{sfx('ui');close();};const g=$('#fcGo');if(g)g.onclick=()=>{sfx('ui');pop.hidden=true;F.go();};}
 // menu buttons and tabs: locked ones stay visible, dimmed with a lock, and say where they unlock
+// 11y: prolog – who you are and why you leave the crypt (shown once to a new player, later readable in the Chronicle)
+function prologShow(){let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
+  pop.innerHTML='<div class="fc story"><div class="fc-rays"></div><small>'+_t('PROLOG')+'</small><img class="th" alt="" src="'+qMapImg('hrbitov')+'"><h3>'+_t('Krypta')+'</h3><p>'+STORY.prolog+'</p>'+
+    '<div class="fc-b"><button class="btn" id="fcOk">'+_t('Vstát')+'</button></div></div>';
+  pop.hidden=false;pop.classList.remove('in');void pop.offsetWidth;pop.classList.add('in');
+  $('#fcOk').onclick=()=>{sfx('ui');pop.hidden=true;setTimeout(featShow,250);};}
 function storyShow(mp){if(mp==='korunace')return actEndShow(mp);const C=CH_OF[mp];if(!C)return;const N=CHAPTERS[C.i+1];let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
   pop.innerHTML='<div class="fc story"><div class="fc-rays"></div><small>'+_t('CESTA DÁL')+'</small><img class="th" alt="" src="'+(N?qMapImg(N.maps[0]):skyThumb(BRIDGE[mp]&&BRIDGE[mp].k==='void'))+'"><h3>'+(N?_t('Kapitola ')+ROMAN_CH[N.i]+' · '+N.name:_t('Kapitola ')+ROMAN_CH[C.i+1]+' · '+_t('připravujeme'))+'</h3><p>'+STORY[mp]+'</p>'+
     '<div class="fc-b"><button class="btn" id="fcOk">'+(N?_t('Vydat se dál'):_t('Pokračovat'))+'</button></div></div>';
@@ -8291,7 +8299,7 @@ function storyShow(mp){if(mp==='korunace')return actEndShow(mp);const C=CH_OF[mp
 // 11p: the end of act I – the story, the Paladin who joins you, and a teaser of act II
 function actEndShow(mp){let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
   pop.innerHTML='<div class="fc story"><div class="fc-rays"></div><small>'+_t('KONEC AKTU I')+'</small><img class="th" alt="" src="'+qMapImg(mp)+'"><h3>'+_t('Padlá hvězda')+'</h3><p>'+STORY[mp]+'</p>'+
-    '<p class="fc-l">'+_t('Přidal se k tobě')+' <b>'+HEROES.paladin.name+'</b>. '+_t('Akt II · Spáč · připravujeme.')+'</p><div class="fc-b"><button class="btn" id="fcOk">'+_t('Pokračovat')+'</button></div></div>';
+    '<p class="fc-l">'+_t('Z Aurelova prvního rytíře opadlo zlato. Přidal se k tobě')+' <b>'+HEROES.paladin.name+'</b>. '+_t('Akt II · Spáč · připravujeme.')+'</p><div class="fc-b"><button class="btn" id="fcOk">'+_t('Pokračovat')+'</button></div></div>';
   pop.hidden=false;pop.classList.remove('in');void pop.offsetWidth;pop.classList.add('in');sfx('win');
   $('#fcOk').onclick=()=>{sfx('ui');pop.hidden=true;if(heroOwned('paladin'))setTimeout(()=>heroCelebrate('paladin'),250);else setTimeout(featShow,250);};}
 function featUi(){featInit();{const b=$('#mSky');if(b){b.hidden=!featOn('sky');if(!b.hidden&&SPR.icon.star)$('#icSky').src=dataUrl(SPR.icon.star);}}if(!featUi.rn){featUi.rn=1;RUNE_IDS.forEach(runeIcon);}if(!featUi.img){featUi.img=1;document.documentElement.style.setProperty('--lockimg','url('+dataUrl(SPR.icon.lock)+')');}const L=[['#mHero','gear'],['#mChest','gear'],['#mForge','forge'],['#mQuest','quests']];
@@ -8905,7 +8913,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
 function openGuide(){renderGuide(gdTab);setState('guide');}
 function openCodex(){econInit();const f=$('#cxFus'),l=$('#cxLeg');
   // 11k: chronicle – the story page of every beaten finale, readable again (Act I red thread)
-  {let lock=0;$('#cxStory').innerHTML=CHAPTERS.map((C,i)=>{const fin=C.maps[C.maps.length-1];if(!STORY[fin])return '';const on=!!save.cleared[fin];if(!on&&lock++)return '';
+  {let lock=0;$('#cxStory').innerHTML='<div class="kr" data-k="slab" data-m="parch" data-s="kr-p"><img alt="" src="'+qMapImg('hrbitov')+'"><div><b>'+_t('Prolog')+' · '+_t('Krypta')+'</b><p>'+STORY.prolog+'</p></div></div>'+CHAPTERS.map((C,i)=>{const fin=C.maps[C.maps.length-1];if(!STORY[fin])return '';const on=!!save.cleared[fin];if(!on&&lock++)return '';
     return '<div class="kr'+(on?'':' lock')+'" data-k="slab" data-m="parch" data-s="kr'+i+'"><img alt="" src="'+(on?qMapImg(fin):dataUrl(SPR.icon.lock))+'"><div><b>'+_t('Kapitola ')+ROMAN_CH[i]+' · '+C.name+'</b><p>'+(on?STORY[fin]:_t('Poraz finále kapitoly a zápis se objeví.'))+'</p></div></div>';}).join('');}
   f.innerHTML=FUSIONS.map(F=>{const has=save.codex.f[F.id];return '<div class="cx'+(has?' on':'')+'"><img alt="" src="'+dataUrl(SPR.icon[F.id])+'"><b>'+(has?WEAPONS[F.id].name:'???')+'</b><small>'+(has?WEAPONS[F.a].name+' + '+WEAPONS[F.b].name:WEAPONS[F.id].secret?(WEAPONS[F.id].riddle||_t('Tajný recept: oheň a led…')):_t('Spoj dvě zbraně na úrovni 5…'))+'</small></div>';}).join('');
   l.innerHTML=LEG_IDS.map(id=>{const has=save.codex.l[id],L=LEGS[id];return '<div class="cx'+(has?' on':'')+'"><img alt="" src="'+dataUrl(itemSpr(L.slot,4))+'"><b>'+(has?L.name:'???')+'</b><small>'+(has?L.desc:SLOTS[L.slot].name+' · '+L.hint)+'</small></div>';}).join('');
@@ -10070,6 +10078,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11y',d:'11. 11. 2026',t:_t('Příběh od začátku'),hl:[
+  {ic:'map:hrbitov',t:_t('Prolog: proč jsi vstal'),d:_t('Jiskra hvězdy tě probudila v kryptě.')},
+  {ic:'boss:aurel',t:_t('Příběh je kratší a jasnější'),d:_t('Zápisy kapitol I–X jsou přepsané.')}],
+ items:[_t('Prolog i celý příběh najdeš ve Sbírce v Kronice.'),_t('Herold ti řekne, proč střepy nesebral jeho pán sám.')]},
  {v:'2026-11-11x',d:'11. 11. 2026',t:_t('Údržba'),items:[_t('Když je telefon plný, hra uvolní místo a postup uloží.'),_t('Úklid nepoužívaného kódu.')]},
  {v:'2026-11-11w',d:'11. 11. 2026',t:_t('Mapy, kde rozhodují mechaniky'),hl:[
   {ic:'map:trosky',t:_t('Nové mechaniky na 8 mapách'),d:_t('Prázdnota, vír, strašáci, roje a zlatá krev.')},

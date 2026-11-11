@@ -466,3 +466,12 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 ## 11x – audit a technická čistka (11. 11. 2026)
 - Plný audit zelený, zpráva `AUDIT.md`. Uložení při plném úložišti (`saveRetry`, hláška přes `note`), pojistka `storyShow`, odstraněn mrtvý kód (`CHEST_ROWS`, `teleRing`, `FEAT_BTN`, `CO_ABC`, `sharp`…), 3 duplicitní klíče v `window.__krypta`, smazané `tests/tools/off2.html` a `net3_*.png`. Staré předávky z 10. 11. přesunuté sem z CLAUDE.md.
 - Server (po souhlasu uživatele): migrace `20261111c_audit_vykon.sql` – RLS s `(select auth.uid())`, indexy `feedback_uid_created` a `runs_uid`, pevný `search_path` u `stats_clean`/`stats_entry_ok`, `feedback_limit` už nejde volat přes `/rpc`.
+
+## 11y (11. 11. 2026) – příběh od začátku, páteř přes akty
+Zadání uživatele: projít příběh, najít díry, opravit; příběh nemá být random ani obsáhlý, má mít zvraty a drama a počítat s dalšími akty.
+- **Prolog** (`STORY.prolog`, `prologShow`, `save.prolog`): karta jednou pro nového hráče v menu (stávající hráči ji mají v Kronice jako první zápis). Jiskra z rozbité hvězdy uvízla hrdinovi v hrudi a probudila ho.
+- **Zápisy `STORY` I–X přepsané nakrátko** (≤ 240 znaků). Opravené díry: sedmý střep z Nicoty, střepy se po VII hrdinovi vytrhnou a slunce z nich kuje Aurel (dřív slunce vzniklo samo a zároveň ho ukoval Aurel), Astra z textů pryč (je hratelná), hádanka Sfingy a slova Královny mají dvojí význam (Aurel × Spáč), Aurel v závěru řekne, že mu rozbití poradil hlas ze snu.
+- Herold v úvodní kartě: „Střep jde vzít jen poraženému. Díky za špinavou práci.“ (proč Aurel potřeboval hrdinu). Karta konce aktu: Paladin = Aurelův první rytíř, ze kterého opadlo zlato.
+- `docs/PRIBEH.md`: nová sekce **Páteř příběhu přes všechny akty** (tabulka aktů, motivy, pravidla psaní), akt II přepsaný (tóny ukolébavky, hlas ze snu, zvraty v XV, XVIII a XX), háček aktu III.
+- Test `tests/tools/pribeh.js`; `lib.prep()` vypíná prolog v testech (`KRYPTA_NOPROLOG`), zapne ho `L.open({prolog:1})`.
+
