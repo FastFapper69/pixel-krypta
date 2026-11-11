@@ -87,7 +87,8 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
 - Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
 
-## Aktuální stav (verze 11l, 11. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 11m, 11. 11. 2026, vše na main, Pages nasazené)
+- **11m pečetě zbraní** (`save.seal`, `openSeals`, `sealWhy`: min. 8 zbraní, žádná zbraň v nabídce bez fúze) a **8 nových fúzí** pro zbraně hrdinů. **Pravidlo: každá nová zbraň (i zbraň nového hrdiny) musí mít aspoň jednu fúzi** se základní zbraní, jinak ji pečetě nemají čím hlídat. Otevřený návrh uživateli (nerozhodnuto): v aktu II méně hrdinů (3 na akt), zbraně nových hrdinů jen pro ně.
 - **Příběh aktů: `docs/PRIBEH.md`** (akt = 10 kapitol; akt I končí kapitolou X a bossem Aurelem). 11k: červená nit (zlaté oko, střepy) v `STORY` I–VII, `bridgeEye` nad finále, Kronika ve Sbírce. **Nové kapitoly drží linku z PRIBEH.md** (texty `STORY`/`BRIDGE`, hlášky bossů; závazné opravy z kontroly příběhu jsou na konci PRIBEH.md: odhalení Aurela v boji v IX, závěrečný text X).
 - **11l kapitola VIII Úsvit** (hrdinka Réva, věže Úl a Sluneční hranol, set `dawn`, mechaniky `growth`, `sundial`, `bloom`, Fénix s vejcem; `KAMPAN.md`). Chat „obsah“ pokračuje kapitolou IX Zlatá říše.
 - **11j co-op dokončený** (karty pouta, Souhra, Duetní fúze, společné shrnutí, návrat po odpojení 30 s, co-op žebříček); podrobnosti `COOP.md` „11j“. SQL `supabase/migrations/20261111a_coop_board.sql` je v Supabase spuštěné (11. 11. přes Supabase MCP po povolení uživatelem); tabulka `coop_runs` se čte jen přes `coop_board()`.

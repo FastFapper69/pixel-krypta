@@ -363,3 +363,7 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 11l (11. 11. 2026) – kapitola VIII Úsvit
 - 5 map (rozbresk, pole, hodiny, zahrada, kolebka), mechaniky stavebnice `growth`, `sundial`, `bloom`, Fénix s vejcem (`egg` na bossovi, `phoenixEgg`/`phoenixHatch`). Nepřátelé sunfl, beetle, firefly, scarecrow; bossové thornmom, reaper, gnomon, honeyq, phoenix. Hrdinka Réva (`vines`), věže Úl a Sluneční hranol, set `dawn`, legendárka `fpen`, hledaný `rohac`, mistrovství `phoenix`, hudební styl `dawn` (lydický), most `gild`. Oprava z kontroly příběhu: Fénix hlídá kolébku nového slunce (popis, Průvodce, hláška, 2. fáze). `ROMAN_CH` do XX. Boti `hraci.js` znají semena, keře, poledne a květy.
+
+## 11m (11. 11. 2026) – pečetě zbraní a nové fúze
+- Pečetě: `save.seal` (synchronizuje se), tlačítko se zámkem `#sealBtn` vedle Vyrazit (jen s odemčenými fúzemi), okno `openSeals()` v `#selPop`. `levelOptions` vynechá zapečetěné zbraně (ne startovní zbraň hrdiny, v co-opu jen pro místního hráče). Hlídání `sealWhy`: v nabídce zůstane aspoň `SEAL_MIN`=8 zbraní a žádná zbraň v nabídce nepřijde o poslední fúzi.
+- 8 nových fúzí, aby měla fúzi každá zbraň hrdinů: volcano (kladivo+ohnivá koule), glacier (krápníky+mrazivá vlna), maelstrom (kotva+bumerang), skysong (souhvězdí+noty), reapwind (halapartna+čepele), bramble (šlahouny+aura), singul (černá díra+střela), lash (bič+sekera). Skládají se z hotových efektů (icicle s `ring`, `bhole` s `mark`, constellation pro skysong).

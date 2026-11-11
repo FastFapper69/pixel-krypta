@@ -135,3 +135,6 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 - Aurelovo jméno: odhalení přímo v boji s Heroldem v IX (výše, závazné pro IX).
 - Proč je Fénix nepřítel: první tvor nového slunce, hlídá kolébku (hotovo ve VIII).
 - Proč se Spáč budí, když je hvězda celá: pečeť zůstala prasklá (závěrečný text X výše, úvod aktu II).
+
+## Otevřený návrh: počet hrdinů a zbraní v aktu II (11. 11.)
+- Riziko: ~25 hrdinů a ~30 zbraní na konci aktu II. Hotovo: pečetě zbraní (11m). Nerozhodnuto: 3 hrdinové na akt místo 1 na kapitolu, zbraně nových hrdinů do společné nabídky až po aktu, „probuzení“ stávajících hrdinů místo nových.

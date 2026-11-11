@@ -17,6 +17,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Pirátka (`
 1. `HEROES[id]`: `name`, `sname` (krátké jméno do pásu, když je dlouhé; **limit jména v dlaždici: nejvýš 85 % = 49 px při 12 px písmu na telefonu 360 px, CZ i EN** – zhruba 7 znaků; písmo se nesmí zmenšovat, „Armsmaster“, „Námořnice“, „Hvězdářka“ byly přes – viz `tests/tools/jmenahrdinu.js`; jméno nesmí kolidovat s jiným `_t` textem, např. „Válečník“ už je), `desc` s `<b>`, `start` (zbraň), `hp`, `armor`, `dmg`, `spd`, `cost`, `need` nebo `soon`, `pal`, `rows` (sprite). Pořadí v `HERO_IDS` = pořadí v pásu.
 2. Zbraň v `WEAPONS` (6 úrovní `lv`, `labels`, `desc`), chování v `LOGIC[id]` (`fire` na krocích a/nebo `cont` každý snímek), rytmický posun `W_OFF[id]`, ikona `SPR.icon[id]` (řádky v ikonách), kreslení efektu (`ULT_DRAW`/fx), případně hudební vrstva v `playStep`.
 3. `W_HERO[zbraň]=id` (zbraň jen pro něj do úrovně 8).
+3b. **Fúze zbraně (11m, povinné):** nová zbraň musí mít aspoň jednu fúzi se základní zbraní (`ULTS`, ikona v `ICONS`, logika s `w.mul`), jinak ji Pečetě (`sealWhy`) nemají s čím hlídat a hráč by ji mohl mít v buildu bez kombinace.
 4. `TALENTS[id]` – 4 talenty `[5,…],[10,…],[15,…],[20,…]`; prefix v `heroBonus` (mapa `pre`) a účinky (`T.<prefix>5`…), změny zbraně v `talentW`.
 5. Bonus hrdiny, který není v číslech `HEROES`, do `heroBonus` (`if(h==='id')…`) nebo do běhu (`run.heroId==='id'`).
 6. Mistrovství (pokud se odemyká úspěchem, `ach:`), jinak cena.

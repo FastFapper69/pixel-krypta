@@ -1471,3 +1471,24 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 .kr b{display:block;font:var(--k20);color:#5a2a10}.kr p{margin:2px 0 0;font:var(--k20);color:#3a2412}
 .kr.lock{opacity:.75}.kr.lock>img{width:32px;height:32px;object-fit:contain;box-shadow:none;margin:16px}
 .kr,.kr *{text-shadow:none!important}
+
+/* 11m: weapon seals (Příprava) */
+.srow{display:flex;gap:10px;align-items:stretch}.srow #goBtn{flex:1;min-width:0}
+.sealb{position:relative;width:64px;flex:none;padding:0!important;display:grid;place-items:center}.sealb img{width:32px;height:32px;image-rendering:pixelated}
+.sealb b{position:absolute;right:4px;bottom:2px;font:var(--k20);color:#ffe08a}
+.seals{gap:12px}.seals .shint{margin:0;font:var(--k20);color:var(--muted)}
+.sgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.stile{position:relative;aspect-ratio:1;display:grid;place-items:center;padding:0;border:0;background:#1a1c20;box-shadow:inset 0 0 0 2px #34373e;cursor:pointer}
+.stile img{width:32px;height:32px;image-rendering:pixelated}
+.stile.sealed img{filter:grayscale(1) brightness(.45)}
+.stile .wax{position:absolute;right:2px;bottom:2px;width:16px;height:16px;image-rendering:pixelated}
+.stile.cur{box-shadow:inset 0 0 0 2px #f6c744,0 0 0 2px #f6c744}
+.stile.st0{box-shadow:inset 0 0 0 2px #5aa83a}.stile.st0.cur{box-shadow:inset 0 0 0 2px #f6c744,0 0 0 2px #f6c744}
+.sinfo{display:flex;flex-direction:column;gap:6px;padding:10px 12px;background:#14161a;box-shadow:inset 0 0 0 2px #2a2d33}
+.sinfo h3{margin:0;font:var(--k20);color:#f6c744}
+.sfu{display:flex;align-items:center;gap:4px;font:var(--k20)}.sfu img{width:24px;height:24px;image-rendering:pixelated}.sfu i{font-style:normal;color:var(--muted);width:10px;text-align:center}
+.sfu span{margin-left:6px;color:var(--fg);min-width:0;overflow-wrap:anywhere}.sfu .q{width:24px;text-align:center;color:var(--muted);font-weight:400}
+.sfu.off{opacity:.45}.sfu.off span{text-decoration:line-through}.sfu0{margin:0;font:var(--k20);color:var(--muted)}
+.sreason{margin:0;font:var(--k20);color:#ff8a7a}.sreason.ok{color:var(--muted)}
+.sfoot{display:flex;align-items:center;justify-content:space-between;gap:10px}.sfoot span{display:flex;align-items:center;gap:6px;font:var(--k20);color:var(--fg)}.sfoot img{width:24px;height:24px;image-rendering:pixelated}
+.sinfo .btn[disabled]{opacity:.5}
