@@ -78,6 +78,11 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 - Fialová je zakázaná jen v UI, ve světě hry (mapy, efekty, bossové) je v pořádku (uživatel 11. 11.).
 - Nová mechanika = nový záznam v `hraci.js` (`decide`): vyhnout se varování, nebo cíl (lucerna `goal=R.kn`), jinak boti umírají na něco, čemu se hráč vyhne.
 
+## Poučení z kapitoly VIII (11l)
+- **Nástrahy rostou s `hpm`** (`hazDm(base,pct)` = base × hpm + pct × max zdraví). U pozdních kapitol (hpm 5–20) dělá `dmg:8` z poledne jistou smrt a ladění pak srazí HP nepřátel na nesmysl. Base nástrah drž 1,5–3, sílu dej do `pct`.
+- Boss, který „neumře napoprvé“ (vejce Fénixe): `egg:n` v definici bosse, hák v `hurtEnemy` a začátek `BEH.kit`; časovač přes `run.t`, ne `dt` (zpomalení hry ho jinak natáhne).
+- Testy: `c8shots.js` (vzor pro další kapitolu), vejce ověřené ručním skriptem (zabít → vejce → vylíhne se s 60 %, druhá smrt je konečná).
+
 ## Ověření (vždy)
 - `node tests/tools/chapcheck.js cN` – vypíše chyby (včetně hudebních pravidel) a udělá přehled `cN_check.png` (pohlednice, nepřátelé, bossové, set). Musí skončit „Vše v pořádku“.
 - `node tests/tools/skladby.js cN` – hlasitost skladeb po taktech, musí skončit „VERDIKT: vše v cíli“.

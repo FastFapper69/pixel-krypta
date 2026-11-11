@@ -1,6 +1,6 @@
 # Pixel Krypta – kampaň a kapitoly
 
-Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI hotová (hrdinka Astra, dřív Hvězdářka). **Kapitola VII Prázdnota hotová (11h, hrdinka Nyx).** **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
+Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI hotová (hrdinka Astra, dřív Hvězdářka). **Kapitola VII Prázdnota hotová (11h, hrdinka Nyx).** **Kapitola VIII Úsvit hotová (11l, hrdinka Réva).** **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
 Návrh pro uživatele je i v dokumentu „Pixel Krypta – kampaň a kapitoly“ (Claude Docs).
 
 ## Stavebnice kapitol (08y) – nové kapitoly dělej takhle
@@ -131,8 +131,23 @@ Příběh: Zatmění otevřelo díru do Prázdnoty, Nicota chce poslední střep
 
 Nepřátelé: `shade` Stín (fast), `hollow` Vyhaslý (grunt, `die:'split'` → 2 stíny, `voidSplit`), `voideye` Oko prázdnoty (ranged3, letí), `devourer` Požírač (tank, dotek zpomalí). Bossové kit: maw (chase, trhliny), hoarder (keep, trosky), mirror (dash, přenos na zrcadlovou stranu od hrdiny), moth (chase, hasí lucernu), nothing (finále, spirály, černá díra). Věže `espire` Věž ozvěn (zásah + ozvěna `tech` o 2 doby později; odemkne ozveny) a `lantern` Lucerna (zpomalí, +15 % poškození, v Posledním světle bezpečí, p5 léčí; odemkne svetlo). Set `void` Výstroj poutníka nicotou (helm, armor, ring, gloves; 2 = úhyb +5 %, poškození +6 %; 4 = trhlina `lg.sv4` na 3. dobu 2. taktu). Legendárka `vheart` Kroky nicoty (boty, ozvěna kroku každé 2 takty). Hledaný `nameless` Bezejmenný (Vyhaslý, přenáší se za záda). Hrdinka `nyx` Nyx (`need:'okraj'`, cena z `HERO_PRICE` = 5 500, úhyb 8 %, zbraň `voidorb` Černá díra). Mistrovství `nothing` Světlonoš. Čísla: `kitTier` (vstup 4,81 HP, finále 5,29). Testy: `chapcheck.js c7`, `c7shots.js prefix [mapy] [s] [hrdina]` (odehraje s Nyx, věžemi, setem a legendárkou), boti `hraci.js kapitola:c7` (účet UCTY[6], boti znají trhliny, ozvěnu a lucernu).
 
+## Kapitola VIII Úsvit (11l, stavebnice)
+Příběh (`docs/PRIBEH.md`): po Nicotě se svět rodí pod novým sluncem a všechno roste až moc rychle. Světlo, které ve VII chránilo, tady pálí. Fénix je první tvor nového slunce a hlídá jeho kolébku; po finále se slunce otevře jako zlaté oko a svět zlátne (`BRIDGE.kolebka` k:`gild`, most do IX Zlatá říše). Paleta `C8G/C8W/C8T/C8P/C8Z/C8B`, rekvizity `c8_*`. Hudba: styl `dawn` (lydická stupnice `SCALES.lyd`, `KIT_PROG.lyd`, trojúhelníková basa, skleněná arpeggia, flétnová melodie), `STYLE_ROLE` z `rolecal.js`.
+**Cíl mechanik:** růst trestá běh pořád jedním směrem (keře vyrostou tam, kam míříš), stín hodin drží hráče v pohyblivém stínu (opak lucerny ze VII), květy jsou volba (léčí tebe i nepřátele).
+
+| Mapa | Rozvržení | Mechanika |
+|---|---|---|
+| rozbresk Rozbřesk | paths | `growth`: každé 3 takty od 20 s semena na směr pohybu každého hrdiny (`p.gvx/gvy`), za takt keř (`r` 18, `life` 16 s): zpomalí ×0,55 (nepřátele ×0,7, ne letce a bossy) a píchá (`hazDm`); boss Matka trnů zasévá sama (`KIT_OWN.thornmom`) |
+| pole Zlatá pole | paths + pšeničná zóna | bez mechaniky (`strike` jen pro tahy Žnece: řada kruhů přes řádek hrdiny) |
+| hodiny Sluneční hodiny | plaza | `sundial`: obelisk uprostřed, stín se otočí za `turn` taktů; každé `every` takty poledne: kdo není ve stínu (obelisk nebo 16 px u věže), dostane `hazDm`; takt předem varování (záře, prstenec, šipka ke stínu); nepřátelé na slunci ×1,1; Gnómon stínem cuká |
+| zahrada Zahrada světla | open | `bloom`: 7 obřích květů, každé 2 takty rozkvetou: hrdina v kruhu +6 % zdraví, nepřátelé +15 % (bossové 3 %) |
+| kolebka Kolébka slunce | arena, finále | `growth` + `sundial` (od 70 s) + `strike` (tahy Fénixe); Fénix (`egg:4`) po smrti → vejce (`phoenixEgg`, 22 % zdraví, 4 takty podle `run.t`), nerozbité se vylíhne s 60 % (`phoenixHatch`) |
+
+Nepřátelé: `sunfl` Slunečnice (ranged3), `beetle` Zlatý chroust (charger), `firefly` Světluška (fast, letí), `scarecrow` Strašák (tank). Bossové kit: thornmom, reaper (dash, kosa `KIT_OWN.reaper`), gnomon (keep), honeyq (keep, žihadla), phoenix (finále, vejce). Věže `prism` Sluneční hranol (paprsek celou řadou; odemkne hodiny) a `hive` Úl (včely na 3 nejbližší; odemkne zahrada). Set `dawn` Roucho úsvitu (helm, amulet, boots, gloves; 2 = regenerace +0,5/s a zdraví +6 %; 4 = Rozkvět `lg.sd4`). Legendárka `fpen` Fénixovo pero (prsten, jednou za běh vzkřísí). Hledaný `rohac` Zlatý roháč. Hrdinka `reva` Réva (`need:'rozbresk'`, 8 000, regenerace 0,4/s, zbraň `vines` Trnité šlahouny, talenty prefix `v`). Mistrovství `phoenix` Lovec fénixe. Testy: `chapcheck.js c8`, `c8shots.js prefix [mapy] [s] [hrdina]`, boti znají semena, keře, poledne a květy (`hraci.js`).
+**Poučení:** nástraha s `hazDm(base,…)` roste s `hpm` mapy. S `dmg:8` u slunce a `dmg:3` u keřů byla Kolébka i Hodiny 0 % při jakémkoli HP nepřátel; base nástrah drž nízko (1,5–3) a sílu dej do `pct`.
+
 ## Zbývá / nápady
 - **Plán příběhu aktů I a II (kapitoly VIII–XX, boss aktu Aurel): `docs/PRIBEH.md`** (návrh 11. 11., čeká na schválení).
-- Kapitola VIII: most `nicota` → `dawn` (zrod nového slunce) je připravený. Kapitola VII zatím nic do `FEATS` nepřidává. **Odložený nápad** (uživatel 11. 11.: nemazat, jen teď nedělat): Síň bossů = vybraná kapitola, všech 5 bossů za sebou bez vln, odměna jen za první dokončení.
+- Kapitola VIII hotová (11l). Další: IX Zlatá říše (zeď, Herold, odhalení Aurela v boji – viz `docs/PRIBEH.md`). Kapitola VII zatím nic do `FEATS` nepřidává. **Odložený nápad** (uživatel 11. 11.: nemazat, jen teď nedělat): Síň bossů = vybraná kapitola, všech 5 bossů za sebou bez vln, odměna jen za první dokončení.
 - Úkoly a Mistrovství pro nové mechaniky (zapálené pochodně `run.qc.torch`, zvony `bell`, pasti `trap` se už počítají).
 - Ověřit na telefonu výkon tmy v Kostnici a mlhy v bažině.

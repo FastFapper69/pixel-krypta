@@ -360,3 +360,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 11k (11. 11. 2026) – červená nit aktu I
 - `STORY` finále I–VII přepsané: každý boss nese střep, hrdina je sbírá, stopy zlatého oka (Aurel). `bridgeEye` kreslí při mostu nad finále zlaté oko (síla podle kapitoly, zornice sleduje hrdinu). Kronika: `#cxStory` ve Sbírce (pergameny `.kr`, odemčené finále + jedno zamčené). Plán příběhu `docs/PRIBEH.md`.
+
+## 11l (11. 11. 2026) – kapitola VIII Úsvit
+- 5 map (rozbresk, pole, hodiny, zahrada, kolebka), mechaniky stavebnice `growth`, `sundial`, `bloom`, Fénix s vejcem (`egg` na bossovi, `phoenixEgg`/`phoenixHatch`). Nepřátelé sunfl, beetle, firefly, scarecrow; bossové thornmom, reaper, gnomon, honeyq, phoenix. Hrdinka Réva (`vines`), věže Úl a Sluneční hranol, set `dawn`, legendárka `fpen`, hledaný `rohac`, mistrovství `phoenix`, hudební styl `dawn` (lydický), most `gild`. Oprava z kontroly příběhu: Fénix hlídá kolébku nového slunce (popis, Průvodce, hláška, 2. fáze). `ROMAN_CH` do XX. Boti `hraci.js` znají semena, keře, poledne a květy.

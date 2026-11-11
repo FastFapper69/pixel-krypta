@@ -43,6 +43,7 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 | **Kolébka slunce** (finále) | arena | Růst + Stín | **Fénix úsvitu**: po smrti se změní ve vejce a hráč ho musí rozbít do 4 taktů, jinak Fénix vstane s plným zdravím |
 
 **Nepřátelé (4):** Slunečnice (střílí semena), Zlatý chroust (výpad), Světluška (rychlá, letí), Strašák (tank, ve slunci se uzdravuje).
+**Proč je Fénix nepřítel:** je to první tvor nového slunce a hlídá jeho kolébku (služebník oka). Říká to popis finále, Průvodce i hláška „Hlídám kolébku.“ V půlce souboje: „Slunce nad kolébkou se na tebe dívá.“
 **Hrdinka Réva** (druidka): zbraň Trnité šlahouny, na první dobu taktu přikovají nepřátele k zemi.
 **Věže:** Slunečnice (paprsek), Úl (roj včel).
 **Set** Roucho úsvitu, **legendárka** Fénixovo pero (jednou za běh vstaneš z popela).
@@ -64,6 +65,8 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 | Síň soch | Sochy | Zlatý rytíř |
 | Pokladnice | Chamtivost | Drak Zlatohlav (leží na pokladu, čím víc jsi sebral, tím je vzteklejší) |
 | **Zlatý dvůr** (finále) | Pohled + Sochy | **Herold slunce**: „Můj pán děkuje za střepy.“ Pod 50 % zavolá Aurelův pohled přes celou arénu |
+
+**Odhalení Aurela musí zaznít silně (oprava z kontroly 11. 11.):** jméno nezazní poprvé v textu po výhře, ale **přímo v boji**. Úvodní karta Herolda: „Můj pán děkuje za střepy.“ Při přechodu do 2. fáze (`ph2.txt` + zpomalení na 1 takt + zlatý záblesk, oko z `bridgeEye` se otevře naplno uprostřed arény): **„Sedm střepů jsi nesl Aurelovi. Králi slunce. Děkujeme.“** Text po finále (`STORY.dvur`): „Herold padl a jeho poslední slova zněla v celém městě: Aurel. Strážce hvězdy, který ji sám rozbil. Ze dvora vede schodiště ze světla přímo do slunce.“ Od IX se Aurelovo jméno objevuje i v hláškách bossů.
 
 **Nepřátelé (4):** Pozlacený (pomalý obrněný grunt, praská), Výběrčí (rychlý, krade mince), Alchymista (střílí, mění zem ve zlato), **Mimik** (truhla, která kouše; vtip na naše truhly).
 **Hrdinka Straka** (zlodějka): zbraň Vrhací mince, kritické zásahy na zezlátlé nepřátele.
@@ -92,13 +95,14 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 
 **Úvodní karta:** speciální pro finále aktu. Hudba utichne, obrazovka praskne, pak drop.
 **Odměna:** titul a profilový obrázek aktu, legendárka Koruna sedmi střepů, otevření aktu II. **Návrh:** odložená Síň bossů se odemkne tady (dává smysl hned po Síni trofejí).
+**Závěrečný text aktu I (`STORY` finále X, oprava z kontroly 11. 11.: musí vysvětlit, proč se Spáč budí, když je hvězda zase celá):** „Aurel padl. Sedm střepů se spojilo v celou Hvězdu a ta se vrátila na oblohu. Poprvé po dlouhé době je normální noc. Jenže hvězda byla rozbitá příliš dlouho a pečeť, kterou držela, zůstala prasklá. Aurel stihl zašeptat: Hlupáku… ta hvězda nebyla moje. Hlídala JEHO spánek. A hluboko pod světem se něco obrátilo ze spánku na bok.“
 **Konec aktu:** Aurel padá, sedm střepů se spojí v celou Hvězdu a ta se vrátí na oblohu. Poprvé od začátku hry je normální noc. Aurelova poslední slova: *„Hlupáku… ta hvězda nebyla moje. Hlídala JEHO spánek.“* Někde hluboko pod světem se něco obrátí ze spánku na bok.
 
 ---
 
 ## AKT II – „Spáč“ (kapitoly XI–XX, hrubý plán)
 
-**Jádro:** svět je sen prastarého **Spáče**. Hvězda byla ukolébavka, která ho držela ve spánku. Celý akt I byla rozbitá, Spáč se začal budit a jeho sny prosakují do světa. Hrdina sestupuje vrstvami snu až k němu. Mechaniky jsou podivnější: čas, gravitace, proměny mapy.
+**Jádro:** svět je sen prastarého **Spáče**. Hvězda byla ukolébavka, která ho držela ve spánku. Celý akt I byla rozbitá a Spáč se mezitím začal budit. Obnovená hvězda zase svítí, ale pečeť zůstala prasklá a prasklinami do světa prosakují jeho sny. Hrdina sestupuje vrstvami snu až k němu. Mechaniky jsou podivnější: čas, gravitace, proměny mapy.
 
 | Kap. | Název | Téma a mechanika | Most dál |
 |---|---|---|---|
@@ -124,3 +128,10 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 - **Mechaniky pořád přibývají:** 2–3 nové v každé kapitole, finále aktu všechny spojí.
 - **Hrdinové:** jeden nový za kapitolu (VIII Réva, IX Straka, X Paladin). Jména projdou `jmenahrdinu.js`.
 - **Pořadí práce:** VIII → IX → X (Aurel jako samostatný větší balík) → kronika a přepínač aktu → akt II.
+
+
+## Kontrola příběhu (11. 11. 2026) – co se opravilo
+- Rozpor „hvězda rozbitá dávno“ × „hvězdy padají až po Krakenovi“: velké střepy dávno (I–V), prasklé jádro na obloze do VI (hotovo v 11k).
+- Aurelovo jméno: odhalení přímo v boji s Heroldem v IX (výše, závazné pro IX).
+- Proč je Fénix nepřítel: první tvor nového slunce, hlídá kolébku (hotovo ve VIII).
+- Proč se Spáč budí, když je hvězda celá: pečeť zůstala prasklá (závěrečný text X výše, úvod aktu II).
