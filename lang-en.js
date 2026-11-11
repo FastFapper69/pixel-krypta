@@ -3314,5 +3314,11 @@ window.KRYPTA_EN={
 "Nová ikona pečeti":"New seal icon",
 "Pečeť místo zámku":"A seal instead of a lock",
 "Pečetě zbraní mají voskovou pečeť.":"Weapon seals now show a wax seal.",
-"Zapečetěné zbraně jsou v okně pečetí lépe vidět.":"Sealed weapons stand out better in the seal window."
+"Zapečetěné zbraně jsou v okně pečetí lépe vidět.":"Sealed weapons stand out better in the seal window.",
+"nová za ":"new in ",
+"Dnes splněno":"Done today",
+"Nová karta denní výzvy":"New daily challenge card",
+"Denní výzva s pohlednicí":"Daily challenge with a postcard",
+"Mapa, modifikátor a odměny na první pohled.":"Map, modifier and rewards at a glance.",
+"Karta ukazuje, za jak dlouho přijde nová výzva.":"The card shows when the next challenge arrives."
 };

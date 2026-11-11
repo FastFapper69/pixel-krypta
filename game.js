@@ -3482,7 +3482,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11u';
+const GAME_VER='2026-11-11v';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7036,7 +7036,15 @@ function renderSelect(){sealBtnSync();
   renderCampaign();
   {const k=mapOpenAt(sel.map,sel.nm||0)?(sel.nm||0):0;const en=!!sel.endless;$('#goBtn').textContent=_t('Vyrazit')+(en?' · ∞':k?' · '+NM_SHORT[k]:'');$('#goBtn').classList.toggle('nm',!!k||en);}
   const di=dailyInfo(),db=$('#dailyBox');db.hidden=!featOn('daily'); // unlocks on the first desert map (09h)
-  db.innerHTML='<div class="card daily'+(di.done?' done':'')+_t('"><div class="t"><h3>Denní výzva · ')+MAPS[di.map].name+'</h3><small><b>'+di.mod.name+'</b></small><div class="k-bd">'+(di.done?'<span>'+KIT.img('sun')+'0/1</span>':'<span>'+KIT.img('clock')+'3:00</span><span><img alt="" class="kp" src="'+dataUrl(SPR.icon.chest_wood)+'" style="width:36px;height:32px"></span><span>'+KIT.img('shard')+'20</span>')+'</div><small class="kh"><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small class="kh">'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 3 minuty → truhla s předmětem + 20 Úlomků.'))+_t('</small><small class="kh">Stejný běh pro všechny · žebříček Dnes')+(mapUnlocked(di.map)?'':_t(' · mapu si tak vyzkoušíš, i když ji ještě nemáš (do kampaně se nepočítá)'))+_t('</small></div><button class="btn sm" id="dailyGo">Hrát</button></div>');
+  // 11v: kompaktní karta – pohlednice mapy, název, modifikátor s ikonou, odpočet; dole odměny a Hrát v jedné řadě
+  const sr=thumbSrc(di.map),th=sr?(sr.toDataURL?sr.toDataURL():sr.src):thumbUrl(di.map),mi=DAILY_MOD_IC[di.mod.id]||'skull',
+    left=(()=>{const n=new Date(),m=new Date(n);m.setHours(24,0,0,0);const h=Math.floor((m-n)/3600000);return h>=1?h+' h':Math.max(1,Math.ceil((m-n)/60000))+' min';})();
+  db.innerHTML='<div class="card daily'+(di.done?' done':'')+'"><div class="dtop"><span class="dth"><img alt="" src="'+th+'">'+(di.done?'<i class="dok">✓</i>':'')+'</span>'+
+    '<div class="dtx"><div class="dl"><span>'+_t('Denní výzva')+'</span><span class="dleft">'+KIT.img('clock')+_t('nová za ')+left+'</span></div><h3>'+MAPS[di.map].name+'</h3>'+
+    '<b class="dmod"><img alt="" src="'+dataUrl(SPR.icon[mi])+'">'+di.mod.name+'</b></div></div>'+
+    '<div class="dbot"><div class="k-bd">'+(di.done?'<span class="dyes">'+_t('Dnes splněno')+'</span>':'<span>'+KIT.img('clock')+'3:00</span><span><img alt="" class="kp" src="'+dataUrl(SPR.icon.chest_wood)+'" style="width:36px;height:32px"></span><span>'+KIT.img('shard')+'20</span>')+'</div>'+
+    '<button class="btn sm" id="dailyGo">'+_t('Hrát')+'</button></div>'+
+    '<small class="kh"><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small class="kh">'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 3 minuty → truhla s předmětem + 20 Úlomků.'))+_t('</small><small class="kh">Stejný běh pro všechny · žebříček Dnes')+(mapUnlocked(di.map)?'':_t(' · mapu si tak vyzkoušíš, i když ji ještě nemáš (do kampaně se nepočítá)'))+'</small></div>';
   $('#dailyGo').onclick=()=>{sfx('ui');startRun(heroOwned(sel.hero)?sel.hero:'knight',di.map,{mod:di.mod.id});};
 }
 // ----- upgrade tree (08g): three branches; each starts with its stat lines (the old Vylepšení, save.meta.hp…), then five key nodes
@@ -7791,6 +7799,7 @@ const TALENTS={knight:[[5,_t('Brnění +1')],[10,_t('Rotující čepele: +1 čep
   nyx:[[5,_t('Úhyb +4 %')],[10,_t('Černá díra: dosah +8')],[15,_t('Poškození +10 %')],[20,_t('Černá díra vybuchne silněji')]],
   reva:[[5,_t('Zdraví +10 %')],[10,_t('Šlahouny: +1 šlahoun')],[15,_t('Poškození +10 %')],[20,_t('Šlahouny drží o 40 % déle')]],
   paladin:[[5,_t('Zdraví +10 %')],[10,_t('Světelné kopí: +1 kopí')],[15,_t('Požehnání každé 4 takty')],[20,_t('Kopí na konci vybuchne světlem')]]};
+const DAILY_MOD_IC={fast:'haste',glass:'power',horde:'skull',noheal:'heart'};
 const DAILY_MODS=[{id:'fast',name:_t('Zběsilí'),desc:_t('Nepřátelé jsou o 30 % rychlejší.')},{id:'glass',name:_t('Skleněný kanón'),desc:_t('Dáváš +50 % poškození, ale máš poloviční zdraví.')},
   {id:'horde',name:_t('Horda'),desc:_t('O 60 % víc nepřátel, ale i o 30 % víc zkušeností.')},{id:'noheal',name:_t('Bez léčení'),desc:_t('Žádná regenerace, léčivá srdce ani oázy.')}];
 
@@ -10014,6 +10023,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11v',d:'11. 11. 2026',t:_t('Nová karta denní výzvy'),hl:[
+  {ic:'sun',t:_t('Denní výzva s pohlednicí'),d:_t('Mapa, modifikátor a odměny na první pohled.')}],
+ items:[_t('Karta ukazuje, za jak dlouho přijde nová výzva.')]},
  {v:'2026-11-11u',d:'11. 11. 2026',t:_t('Nová ikona pečeti'),hl:[
   {ic:'seal',t:_t('Pečeť místo zámku'),d:_t('Pečetě zbraní mají voskovou pečeť.')}],
  items:[_t('Zapečetěné zbraně jsou v okně pečetí lépe vidět.')]},

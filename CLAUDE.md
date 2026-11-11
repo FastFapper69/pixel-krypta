@@ -87,7 +87,8 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
 - Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
 
-## Aktuální stav (verze 11u, 11. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 11v, 11. 11. 2026, vše na main, Pages nasazené)
+- **11v karta denní výzvy** (uživatel: „weak, moc prázdného místa“): nahoře pohlednice mapy (`thumbSrc`), štítek Denní výzva + odpočet do půlnoci, název mapy, modifikátor s ikonou (`DAILY_MOD_IC`); dole odměny a Hrát v jedné řadě. Splněno = fajfka přes pohlednici. Styly `.card.daily .dtop/.dbot` na konci `krypta.css`.
 - **11u ikona pečeti**: `SPR.icon.seal` (vosková pečeť) místo zámku na tlačítku pečetí v Přípravě a na zapečetěných zbraních (`.stile .wax` 24 px, nezašedne). Zámek (`lock`) zůstává jen pro zamčené věci.
 - **11t Novinky přehlednější**: záznam = nadpis verze + datum (jen když se liší od předchozího), max 3 body (ikona v tmavé jamce, nadpis, jedna krátká věta), drobnosti sbalené v `<details class="nmore">`, `.nl` má místo pro posuvník. Záznamy 11k–11s přepsané nakrátko, starší historie zůstává dlouhá. Kontrola délek `novinky.js`.
 - **11s rychlá otázka po běhu** (přání uživatele 11. 11.: víc zpětné vazby): na konci 3. běhu a pak každého 6. (`FBQ_FIRST`, `FBQ_EVERY`), nejvýš jednou denně (`save.fbAsk`), hvězdy + Lehké/Akorát/Těžké, bez odměny; řádek `feedback` s `kind='rychle'`, `ctx` = mapa, NM, výsledek, hrdina, `rid` běhu; fronta `save.fbQ` (jen v zařízení) jako u běhů. „Napsat víc“ otevře plný názor s předvyplněnými hvězdami. Test `fbask.js`. Dotaz v `docs/DATA-HRACU.md`.

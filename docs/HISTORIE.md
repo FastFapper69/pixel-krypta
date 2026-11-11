@@ -403,3 +403,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 11u (11. 11. 2026) – ikona pečeti
 - Uživatel: ikona pečeti působila jako zamčené tlačítko. Nová ikona `seal` (červený vosk s otiskem a kapkami) na `#sealBtn`, na zapečetěných dlaždicích v okně pečetí (dřív zašedlý 16px zámek) a v Novinkách 11m.
+
+## 11v (11. 11. 2026) – karta denní výzvy
+- Uživatel: karta denní výzvy v Přípravě byla graficky slabá a měla moc prázdného místa. Nové rozložení: pohlednice mapy se zlatým rámem, štítek + odpočet do nové výzvy, název mapy (k30), modifikátor s ikonou (`DAILY_MOD_IC`), oddělená spodní řada s odměnami a tlačítkem Hrát; splněná výzva = zelená fajfka přes zašedlou pohlednici. Ověřeno nejdelším názvem mapy CZ (Pozlacené předměstí) i EN (Heart of the Mountain).

@@ -1521,3 +1521,21 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 .news .nmore summary::before{content:'▸ ';color:var(--gold)}.news .nmore[open] summary::before{content:'▾ '}
 .news .nmore ul,.news .ne>ul{margin:2px 0 0;padding:0 0 0 22px;font:var(--k20);color:var(--muted)}
 .news .ne li{margin:2px 0;overflow-wrap:anywhere}
+/* 11v denní výzva: pohlednice mapy + název + modifikátor, dole odměny a Hrát */
+.card.daily{display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:12px}
+.card.daily .dtop{display:flex;gap:12px;align-items:stretch}
+.card.daily .dth{position:relative;flex:none;width:76px;height:76px;box-shadow:0 0 0 2px #0b0c0e,0 0 0 4px #f2b632;margin:2px}
+.card.daily .dth img{width:76px;height:76px;object-fit:cover;image-rendering:pixelated;display:block}
+.card.daily .dth .dok{position:absolute;inset:0;display:grid;place-items:center;background:#0008;font:var(--k40);font-style:normal;color:#9fe08a;text-shadow:0 2px 0 #000}
+.card.daily .dtx{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:0}
+.card.daily .dl{display:flex;justify-content:space-between;align-items:center;gap:8px;font:var(--k20);color:#ffd75e;text-shadow:0 2px 0 #000}
+.card.daily .dleft{display:flex;align-items:center;gap:4px;color:#c9b88f;white-space:nowrap}
+.card.daily .dleft .kp{transform:scale(.75)}
+.card.daily h3{margin:0;font:var(--k30);color:#fff;text-shadow:0 2px 0 #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card.daily .dmod{display:flex;align-items:center;gap:6px;font:var(--k20);color:#ffd75e;text-shadow:0 2px 0 #000}
+.card.daily .dmod img{width:24px;height:24px;image-rendering:pixelated}
+.card.daily .dbot{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:2px solid #5a3f16;padding-top:8px}
+.card.daily .dbot .k-bd{margin:0;font:var(--k20)}
+.card.daily .dbot .dyes{color:#9fe08a}
+.card.daily .dbot #dailyGo{flex:none;min-width:96px}
+.card.daily.done .dth img{filter:grayscale(.6) brightness(.7)}
