@@ -10023,8 +10023,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
- {v:'2026-11-11v',d:'11. 11. 2026',t:_t('Nová karta denní výzvy'),hl:[
-  {ic:'sun',t:_t('Denní výzva s pohlednicí'),d:_t('Mapa, modifikátor a odměny na první pohled.')}],
+ {v:'2026-11-11v',d:'11. 11. 2026',t:_t('Denní výzva'),hl:[
+  {ic:'trophy',t:_t('Denní výzva s pohlednicí'),d:_t('Mapa, modifikátor a odměny na první pohled.')}],
  items:[_t('Karta ukazuje, za jak dlouho přijde nová výzva.')]},
  {v:'2026-11-11u',d:'11. 11. 2026',t:_t('Nová ikona pečeti'),hl:[
   {ic:'seal',t:_t('Pečeť místo zámku'),d:_t('Pečetě zbraní mají voskovou pečeť.')}],

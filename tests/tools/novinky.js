@@ -1,11 +1,11 @@
 // 11t: hlídá krátké Novinky (přání uživatele 11. 11.: moc textu, hlavní body nebyly to hlavní).
-// Od verze 2026-11-11k: nejvýš 3 hlavní body, nadpis bodu ≤ 28 znaků, popis bodu jedna krátká věta ≤ 50 znaků, drobnost ≤ 70 znaků (CZ i EN).
+// Od verze 2026-11-11k: ikona bodu musí existovat (newsIcon jinak tiše ukáže lebku), nejvýš 3 hlavní body, nadpis bodu ≤ 28 znaků, popis bodu jedna krátká věta ≤ 50 znaků, drobnost ≤ 70 znaků (CZ i EN).
 // node novinky.js
 const L=require('./lib');L.prep();
 (async()=>{const o=await L.open({save:'late'});
  const r=await o.p.evaluate(()=>{const K=window.__krypta,N=K.NEWS,plain=t=>String(t).replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' '),EN=window.KRYPTA_EN||{},bad=[];
   for(const n of N){if(n.v<'2026-11-11k')break;const hl=n.hl||[];if(hl.length>3)bad.push(n.v+': '+hl.length+' hlavních bodů (max 3)');
-   for(const h of hl){if(plain(h.t).length>28)bad.push(n.v+' nadpis: '+plain(h.t));if(plain(h.d).length>50)bad.push(n.v+' popis ('+plain(h.d).length+'): '+plain(h.d));}
+   for(const h of hl){if(h.ic!=='skull'&&K._ev('newsIcon')(h.ic)===K._ev('newsIcon')('__neni__'))bad.push(n.v+' ikona neexistuje (ukáže se lebka): '+h.ic);if(plain(h.t).length>28)bad.push(n.v+' nadpis: '+plain(h.t));if(plain(h.d).length>50)bad.push(n.v+' popis ('+plain(h.d).length+'): '+plain(h.d));}
    for(const i of n.items||[])if(plain(i).length>70)bad.push(n.v+' drobnost ('+plain(i).length+'): '+plain(i));}
   return bad;});
  // anglické texty stejné meze
