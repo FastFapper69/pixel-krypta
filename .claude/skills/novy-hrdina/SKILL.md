@@ -23,7 +23,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Pirátka (`
 5. Bonus hrdiny, který není v číslech `HEROES`, do `heroBonus` (`if(h==='id')…`) nebo do běhu (`run.heroId==='id'`).
 6. Mistrovství (pokud se odemyká úspěchem, `ach:`), hrdina zdarma za výhru mapy `win:'mapa'` + `cost:0` (Paladin za Aurela, 11p: přidá se v `finish`, oslava po kartě konce aktu), jinak cena.
 7. Průvodce se bere z dat (`HEROES`), zkontroluj text. Profilový obrázek se přidá sám (`avAll`).
-8. `HERO_DAT` (3. pád jména, „Nyx“ zůstává Nyx), `lang-en.js`, `NEWS` s `hero:id` ikonou, `GAME_VER`, `CLAUDE.md`.
+8. `HERO_DAT` (3. pád jména, „Nyx“ zůstává Nyx), `lang-en.js`, `NEWS` s `hero:id` ikonou (krátce: popis ≤ 50 znaků, kontrola `novinky.js`), `GAME_VER`, `CLAUDE.md`.
 9. Procenta v popisech a Novinkách piš s `&nbsp;` (`8&nbsp;%`), jinak se číslo na telefonu odlomí od znaku procenta.
 
 ## Ověření

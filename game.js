@@ -3481,7 +3481,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11s';
+const GAME_VER='2026-11-11t';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -10013,56 +10013,44 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11t',d:'11. 11. 2026',t:_t('Přehlednější Novinky'),hl:[
+  {ic:'scroll',t:_t('Kratší Novinky'),d:_t('Jen to hlavní, drobnosti po rozkliknutí.')}],
+ items:[_t('Text už nezajíždí pod posuvník.')]},
  {v:'2026-11-11s',d:'11. 11. 2026',t:_t('Řekni, jak se ti hrálo'),hl:[
-  {ic:'star',t:_t('Rychlá otázka po běhu'),d:_t('Občas se hra po běhu zeptá, <b>jak se ti hrálo</b> a jestli byla mapa lehká, akorát nebo těžká. Stačí dvě klepnutí.')},
-  {ic:'scroll',t:_t('Podle toho ladím hru'),d:_t('Odpovědi čte vývojář a podle nich ladí obtížnost. Kdo chce, napíše přes <b>Napsat víc</b> i delší názor.')}],
- items:[_t('Ptá se nejvýš jednou denně a funguje i bez internetu.')]},
- {v:'2026-11-11r',d:'11. 11. 2026',t:_t('Hraní bez signálu se počítá'),hl:[
-  {ic:'scroll',t:_t('Běhy offline se neztratí'),d:_t('Když hraješ <b>bez internetu</b>, hra si každý běh zapíše do telefonu a pošle ho, jakmile jsi zase online.')},
-  {ic:'trophy',t:_t('Do žebříčku i offline'),d:_t('Výsledky z hraní bez signálu se po připojení <b>samy doplní do žebříčku</b>. Nic nemusíš dělat.')}],
- items:[_t('Po návratu signálu se hra k serveru připojí sama, nemusíš ji zavírat.'),_t('Když hraješ na dvou zařízeních, žebříček si nechá lepší výsledek z obou.')]},
+  {ic:'star',t:_t('Otázka po běhu'),d:_t('Hvězdy a obtížnost mapy, dvě klepnutí.')}],
+ items:[_t('Ptá se nejvýš jednou denně.'),_t('„Napsat víc“ otevře delší názor.')]},
+ {v:'2026-11-11r',d:'11. 11. 2026',t:_t('Hraní bez signálu'),hl:[
+  {ic:'trophy',t:_t('Offline běhy do žebříčku'),d:_t('Po připojení se samy doplní.')}],
+ items:[_t('Po návratu signálu se hra připojí sama.'),_t('Ze dvou zařízení se počítá lepší výsledek.')]},
  {v:'2026-11-11q',d:'11. 11. 2026',t:_t('Spravedlivější obtížnost'),hl:[
-  {ic:'shield',t:_t('Chyba už neznamená konec'),d:_t('Zásahy nepřátel jsou na všech mapách nastavené tak, aby tě <b>jedna chyba hned nezabila</b>. Kdo leze do davu, vydrží zhruba do půlky mapy.')},
-  {ic:'skull',t:_t('Výzva pro každého stejná'),d:_t('Obtížnost map je znovu vyladěná podle hráčů, kteří hrají <b>normálně, ne dokonale</b>. Zdi kapitol III, VI a IX dál drží.')},
-  {ic:'regen',t:_t('Regenerace slabší'),d:_t('Léčí <b>0,3 zdraví za sekundu</b> na úroveň (dřív 0,4). Byla to nejsilnější obranná karta.')}],
- items:[_t('Mapy, kde rozhodují hlavně mechaniky (Oko víru, Plovoucí ostrovy, Trosky světů, Zlatá pole, Zahrada světla, Pozlacené předměstí, Síň soch, Pokladnice), dostanou úpravu později.')]},
+  {ic:'shield',t:_t('Jedna chyba nezabíjí'),d:_t('Zásahy nepřátel jsou mírnější na všech mapách.')},
+  {ic:'regen',t:_t('Regenerace 0,3/s'),d:_t('Dřív 0,4, byla moc silná.')}],
+ items:[_t('Zdi kapitol III, VI a IX dál drží.'),_t('Mapy s hlavní mechanikou se doladí později.')]},
  {v:'2026-11-11p',d:'11. 11. 2026',t:_t('Kapitola X: Korunované slunce'),hl:[
-  {ic:'map:schody',t:_t('Kapitola X: Korunované slunce'),d:_t('Finále prvního aktu. Uvnitř slunce, které Aurel ukoval ze střepů: <b>hroutící se schody</b>, <b>ožívající sochy bossů</b> z celé cesty, <b>kladivo na šachovnici</b> a dvůr, kde vládnou Den a Noc.')},
-  {ic:'boss:aurel',t:_t('Aurel, Korunované slunce'),d:_t('Boss aktu ve <b>čtyřech fázích</b>: král, sedm střepů (každý útočí silou své kapitoly, rozbij je), slunce (schovej se do stínu sloupů a věží) a poslední jiskra ve tmě.')},
-  {ic:'hero:paladin',t:_t('Paladin zdarma'),d:_t('Kdo porazí Aurela, k tomu se přidá <b>Paladin</b>. Každých 8 taktů ho požehná štít a jeho <b>Světelné kopí</b> projde celou řadou nepřátel. S Aurou ho slij do <b>Svatozáře</b>.')},
-  {ic:'boss:den',t:_t('Den a Noc'),d:_t('Dva bossové najednou. <b>Musí padnout do dvou taktů od sebe</b>, jinak jeden oživí druhého.')},
-  {ic:'tower:sanctum',t:_t('Kovadlina a Svatyně'),d:_t('Kovadlina kuje jiskry do nejbližších nepřátel. Svatyně pálí světlem a vrhá stín, který tě ve finále schová před výšlehem slunce.')},
-  {ic:'set:crown',t:_t('Zbroj padlé hvězdy'),d:_t('Šestidílný set se sedmi paprsky a padající hvězdou. Ve finále na odvážné čeká <b>Koruna sedmi střepů</b>.')}],
-  items:[_t('Konec aktu I v Kronice, titul Přemožitel slunce a hledaný Korunní strážce.'),_t('Nová hudba korunovace: varhany, sbor a žestě. Když útočí střep, zazní kousek melodie jeho kapitoly.')]},
+  {ic:'map:schody',t:_t('Finále aktu I'),d:_t('Hroutící se schody, sochy bossů a Den s Nocí.')},
+  {ic:'boss:aurel',t:_t('Aurel'),d:_t('Boss ve čtyřech fázích.')},
+  {ic:'hero:paladin',t:_t('Paladin zdarma'),d:_t('Za poražení Aurela.')}],
+ items:[_t('Den a Noc musí padnout do dvou taktů od sebe.'),_t('Nové věže Kovadlina a Svatyně.'),_t('Set Zbroj padlé hvězdy a Koruna sedmi střepů.'),_t('Konec aktu I v Kronice a titul Přemožitel slunce.'),_t('Nová hudba korunovace.')]},
  {v:'2026-11-11o',d:'11. 11. 2026',t:_t('Zlatá říše dostala tvář'),hl:[
-  {ic:'map:predmesti',t:_t('Předměstí jako město'),d:_t('Dlážděné ulice lemované domy, lucerny, trhy a fontána na náměstí se slunečnou mozaikou.')},
-  {ic:'map:mincovna',t:_t('Mincovna jako dílna'),d:_t('Koleje vozíků, výstražné pruhy, řady lisů, beden a pece podél zdí.')},
-  {ic:'map:sochy',t:_t('Síň soch'),d:_t('Rudé koberce do kříže, uličky podstavců se svícemi a les sloupů.')},
-  {ic:'map:dvur',t:_t('Pokladnice a Zlatý dvůr'),d:_t('Hromady pokladu s truhlami a korunami, trůnní sál s prapory, kruhem svící a trůnem Herolda.')}],
-  items:[_t('Mapy nových kapitol se teď skládají z ulic, řad a památek, ne z náhodně rozházených věcí.')]},
+  {ic:'map:mincovna',t:_t('Nové mapy kapitoly IX'),d:_t('Ulice, dílny, síně a trůnní sál.')}],
+ items:[]},
  {v:'2026-11-11n',d:'11. 11. 2026',t:_t('Kapitola IX: Zlatá říše'),hl:[
-  {ic:'map:predmesti',t:_t('Kapitola IX: Zlatá říše'),d:_t('Město, na které slunce pohlédlo jako první. Nad <b>Předměstím</b> loví <b>oko slunce</b>, v <b>Mincovně</b> dupou lisy, v <b>Síni soch</b> ožívají dvořané a v <b>Pokladnici</b> si můžeš vzít poklad, když se nebojíš mimiků a draka. Je to <b>zeď</b>, počítej s grindem.')},
-  {ic:'boss:herald',t:_t('Herold slunce'),d:_t('Finále na Zlatém dvoře. V půlce souboje ti Herold konečně řekne, <b>komu jsi celou dobu nosil střepy</b>.')},
-  {ic:'magpie',t:_t('Mazlíček Straka'),d:_t('Místo nového hrdiny nový mazlíček. Padá z truhly mazlíčků, když dojdeš do Zlaté říše. <b>Zezlátlé nepřátele trhá dvojnásobně</b> a občas vyklove minci.')},
-  {ic:'tower:gmirror',t:_t('Zrcadlo a Lis'),d:_t('Zrcadlo odráží světlo, a když je poblíž oko slunce, pálí dvojnásob. Lis pomalu, ale tvrdě drtí všechno kolem.')},
-  {ic:'set:gold',t:_t('Šat zlatého dvora a Midasova rukavice'),d:_t('Nový set (4 kusy = <b>Zlatý déšť</b>) a legendárka, se kterou každý dvanáctý zabitý nepřítel <b>vybuchne zlatem</b>.')}],
-  items:[_t('Nový hledaný Pokladník a mistrovství Poslední slovo.'),_t('Nová hudba kapitoly: slavnostní dvorní pochod.')]},
- {v:'2026-11-11m',d:'11. 11. 2026',t:_t('Pečetě zbraní a nové fúze'),hl:[
-  {ic:'lock',t:_t('Pečetě zbraní'),d:_t('V Přípravě je vedle tlačítka Vyrazit nové tlačítko se zámkem. Zapečetěná zbraň ti <b>nepadne v nabídce úrovně</b>, takže snáz poskládáš build, jaký chceš.')},
-  {ic:'vortex',t:_t('Fúze se neztratí'),d:_t('U každé zbraně vidíš, s čím se spojí. Pečeť nepustí, aby některé zbrani v nabídce <b>nezbyla žádná fúze</b>, a vždy zůstane aspoň 8 zbraní.')},
-  {ic:'volcano',t:_t('8 nových fúzí'),d:_t('Každá zbraň hrdinů má teď svou fúzi: <b>Sopečné kladivo</b>, <b>Ledovcová lavina</b>, <b>Kotevní vír</b>, <b>Nebeská píseň</b>, <b>Žací vichr</b>, <b>Trnová koruna</b>, <b>Horizont událostí</b> a <b>Řetězový bič</b>.')}],
-  items:[_t('Recepty nových fúzí najdeš ve Sbírce.')]},
+  {ic:'map:predmesti',t:_t('Kapitola IX'),d:_t('Pět map, oko slunce a mimikové. Je to zeď.')},
+  {ic:'boss:herald',t:_t('Herold slunce'),d:_t('Prozradí, komu jsi nosil střepy.')},
+  {ic:'magpie',t:_t('Mazlíček Straka'),d:_t('Trhá zezlátlé nepřátele.')}],
+ items:[_t('Nové věže Zrcadlo a Lis.'),_t('Set Šat zlatého dvora a Midasova rukavice.'),_t('Hledaný Pokladník a mistrovství Poslední slovo.'),_t('Nová hudba: dvorní pochod.')]},
+ {v:'2026-11-11m',d:'11. 11. 2026',t:_t('Pečetě zbraní'),hl:[
+  {ic:'lock',t:_t('Pečetě zbraní'),d:_t('Vyřaď zbraně z nabídky v Přípravě.')},
+  {ic:'volcano',t:_t('8 nových fúzí'),d:_t('Každá zbraň hrdinů má svou fúzi.')}],
+ items:[_t('Vždy zůstane aspoň 8 zbraní a každá s fúzí.'),_t('Recepty najdeš ve Sbírce.')]},
  {v:'2026-11-11l',d:'11. 11. 2026',t:_t('Kapitola VIII: Úsvit'),hl:[
-  {ic:'map:rozbresk',t:_t('Pět map ve světě, který se rodí znovu'),d:_t('Po Prázdnotě konečně barvy. Na <b>Rozbřesku</b> rostou trnité keře tam, kam běžíš, <b>Zlatá pole</b> jsou plná strašáků, na <b>Slunečních hodinách</b> tě v poledne pálí slunce mimo stín obelisku a v <b>Zahradě světla</b> léčí obří květy tebe i nepřátele.')},
-  {ic:'boss:phoenix',t:_t('Fénix úsvitu'),d:_t('Finále v Kolébce slunce. Když Fénix padne, <b>změní se ve vejce</b>. Rozbij ho, než se vylíhne, jinak vstane z popela.')},
-  {ic:'hero:reva',t:_t('Réva'),d:_t('Nová hrdinka za 8&nbsp;000 zlata po odemčení Rozbřesku. <b>Pořád se léčí</b> a její <b>Trnité šlahouny</b> na první dobu taktu přikovají nepřátele k zemi.')},
-  {ic:'tower:prism',t:_t('Úl a Sluneční hranol'),d:_t('Dvě nové věže: Úl pouští včely na tři nepřátele, Hranol propálí paprskem celou řadu.')},
-  {ic:'set:dawn',t:_t('Roucho úsvitu a Fénixovo pero'),d:_t('Nový set (4 kusy = <b>Rozkvět</b>, květ, který zraní a léčí) a legendárka, která tě <b>jednou za běh vzkřísí</b>.')}],
-  items:[_t('Příběh pokračuje: kdo se to dívá ze slunce?'),_t('Nový hledaný Zlatý roháč a mistrovství Lovec fénixe.'),_t('Nová hudba kapitoly: jasná ranní hymna.')]},
- {v:'2026-11-11k',d:'11. 11. 2026',t:_t('Zlaté oko: stopa celým příběhem'),hl:[
-  {ic:'book',t:_t('Kronika'),d:_t('Ve Sbírce (Síň slávy) je nová <b>Kronika</b>. Po každém finále kapitoly se do ní zapíše kus příběhu a můžeš si ho kdykoli přečíst znovu.')},
-  {ic:'scroll',t:_t('Kdo sbírá střepy?'),d:_t('Příběhy finále I–VII mají nové stopy: každý boss nese <b>střep hvězdy</b> a nad každým finále se na chvíli otevře <b>zlaté oko</b>. Projdi si Kroniku, něco se chystá…')}],
-  items:[_t('Oko je s každou kapitolou zřetelnější.')]},
+  {ic:'map:rozbresk',t:_t('Kapitola VIII'),d:_t('Pět map plných barev, trnů a slunce.')},
+  {ic:'boss:phoenix',t:_t('Fénix úsvitu'),d:_t('Rozbij jeho vejce, než se vylíhne.')},
+  {ic:'hero:reva',t:_t('Réva'),d:_t('Léčí se a přikovává nepřátele.')}],
+ items:[_t('Nové věže Úl a Sluneční hranol.'),_t('Set Roucho úsvitu a Fénixovo pero.'),_t('Hledaný Zlatý roháč a mistrovství Lovec fénixe.'),_t('Nová hudba: ranní hymna.')]},
+ {v:'2026-11-11k',d:'11. 11. 2026',t:_t('Zlaté oko'),hl:[
+  {ic:'book',t:_t('Kronika'),d:_t('Příběh kapitol najdeš ve Sbírce.')}],
+ items:[_t('Nad finále se otevírá zlaté oko. Kdo sbírá střepy?')]},
  {v:'2026-11-11j',d:'11. 11. 2026',t:_t('Co-op: pouto, souhra a duet'),hl:[
   {ic:'lightning',t:_t('Karty pouta'),d:_t('V co-opu se v nabídce úrovně objevují karty, které vylepší rytmické pouto: <b>výboj</b>, <b>mráz</b>, <b>život</b> a <b>tah</b> krystalů.')},
   {ic:'drum',t:_t('Souhra'),d:_t('Když oba zabijete nepřítele <b>na stejnou dobu</b>, naskočí Souhra a kombo roste rychleji. Každá desátá Souhra <b>shodí truhlu</b>.')},
@@ -10492,10 +10480,10 @@ function newsIcon(ic){const [k,a,b]=String(ic).split(':');
   return dataUrl(SPR.icon[ic]||(SPR.pet&&SPR.pet[ic])||SPR.icon.skull);}
 function openNews(all){const full=all?NEWS:newsUnseen().slice(0,3);if(!full.length)return;const pop=$('#newsPop');
   // 10d: the whole history (88 versions) took ~100 ms of layout on a slow phone – show 6, the rest follows when you scroll near the end
-  const FIRST=6,list=full.slice(0,FIRST),entry=n=>'<div><h3>'+n.t+'</h3><small>'+n.d+'</small>'+
-      // highlights big with an icon, the small stuff as a quiet list under them
-      (n.hl||[]).map(h=>'<div class="nhl"><img alt="" class="'+(String(h.ic).startsWith('map:')?'map':'')+'" src="'+newsIcon(h.ic)+'"><div><b>'+h.t+'</b><span>'+h.d+'</span></div></div>').join('')+
-      ((n.items||[]).length?(n.hl?'<p class="nsm">'+_t('Drobnosti')+'</p>':'')+'<ul'+(n.hl?' class="small"':'')+'>'+n.items.map(i=>'<li>'+i+'</li>').join('')+'</ul>':'')+'</div>';
+  // 11t: short entries – version name + date on one line, up to 3 highlights (icon, title, one short line), the small stuff folded under „Drobnosti“
+  const FIRST=6,list=full.slice(0,FIRST),entry=n=>{const k=full.indexOf(n),same=k>0&&full[k-1].d===n.d;return '<div class="ne"><div class="neh"><h3>'+n.t+'</h3>'+(same?'':'<small>'+n.d+'</small>')+'</div>'+
+      (n.hl||[]).map(h=>'<div class="nhl"><span class="nic"><img alt="" class="'+(String(h.ic).startsWith('map:')?'map':'')+'" src="'+newsIcon(h.ic)+'"></span><div><b>'+h.t+'</b><span>'+h.d+'</span></div></div>').join('')+
+      ((n.items||[]).length?(n.hl?'<details class="nmore"><summary>'+_t('Drobnosti')+' · '+n.items.length+'</summary><ul>'+n.items.map(i=>'<li>'+i+'</li>').join('')+'</ul></details>':'<ul>'+n.items.map(i=>'<li>'+i+'</li>').join('')+'</ul>'):'')+'</div>';};
   pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font:var(--k30)">Novinky</h2><div class="nl">')+list.map(entry).join('')+
     _t('</div><button class="btn" id="newsOk">Jdu hrát!</button></div>');
   if(full.length>FIRST){const nl=pop.querySelector('.nl');let at=FIRST;const more=()=>{if(at>=full.length||nl.scrollTop+nl.clientHeight<nl.scrollHeight-600)return;

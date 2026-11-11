@@ -15,7 +15,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 - Set kapitoly v **jiných slotech** než set předchozí kapitoly. **Každá pátá kapitola (V, X, XV…) má set 6 kusů** (`six:1`, `b6n`/`b6`), lepší kořist (`setRarity` +1 stupeň).
 - Popisy map: klíčová mechanika v `<b>…</b>` (CZ i EN). Mapa bez mechaniky bez `<b>`.
 - Každý boss má hlášku v `BOSS_INTRO` (krátká, vtipná, ve stylu Borderlands). Finále je delší intro samo (`map.finale`).
-- Novinky vždy v hezkém formátu: `hl:[{ic,t,d}]` s ikonou, která k bodu patří (`map:id`, `boss:id`, `enemy:id`, `hero:id`, `set:id`, `leg:id`), drobnosti v `items`.
+- Novinky vždy v hezkém formátu: `hl:[{ic,t,d}]` s ikonou, která k bodu patří (`map:id`, `boss:id`, `enemy:id`, `hero:id`, `set:id`, `leg:id`), drobnosti v `items`. **Krátce:** nejvýš 3 body (kapitola, boss, hrdina/mazlíček), popis bodu jedna věta ≤ 50 znaků; věže, set, legendárka, hledaný, hudba jdou do drobností. Kontrola `tests/tools/novinky.js`.
 - Před velkou změnou krátce shrň návrh a zeptej se. Po „udělej“ celý balík, ověř, nasaď, řekni verzi.
 
 ## Co dělat ručně (to dělá kapitolu jedinečnou)

@@ -397,3 +397,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 11s (11. 11. 2026) – rychlá otázka po běhu
 - Karta `#ovAsk` na obrazovce konce běhu (kamenná deska `rune`, 5 hvězd ze `SPR.icon.star`, tři volby obtížnosti). Odešle se po obou odpovědích, nebo při odchodu z obrazovky, když je aspoň jedna (`fbAskLeave` v `setState`). Fronta `save.fbQ`, `fbqFlush` po `runsFlush`. `openFeedback(pre)` umí předvyplnit hvězdy a druh.
+
+## 11t (11. 11. 2026) – přehlednější Novinky
+- Uživatel: drobnosti zajížděly pod posuvník, Novinky měly moc textu a hlavní body často nebyly to hlavní. Nový vzhled záznamu (`.ne`, `.neh`, `.nic`, `<details class="nmore">`), `padding-right` u `.nl`, datum jen když se změní. Záznamy 11k–11s přepsané (max 3 body, jedna krátká věta). Nový test `novinky.js` hlídá délky od 11k dál.
