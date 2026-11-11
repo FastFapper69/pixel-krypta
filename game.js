@@ -3496,7 +3496,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11z';
+const GAME_VER='2026-11-11z1';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3674,30 +3674,30 @@ const BOSS_INTRO={
  priest:{line:_t('Káže bahnu. Bahno poslouchá.'),acc:'#c8fff0'},
  warden:{line:_t('Hlídá kosti. I ty tvoje.'),acc:'#ff5a3a'},
  ringer:{line:_t('Zvoní hrana. Tobě.'),acc:'#e0a848'},
- morvan:{line:_t('Kostí má dost. Ale ty tvoje mu chybí.'),acc:'#7aff9a'},
+ morvan:{line:_t('Ten střep je můj. Kosti si nech.'),acc:'#7aff9a'},
  scorpking:{line:_t('Klepeta na tebe, žihadlo na dezert.'),acc:'#ffd040'},
  worm:{line:_t('Z písku leze jen s hladem.'),acc:'#f0dca0'},
  priestess:{line:_t('Zabalená na věčnost. Ty brzy taky.'),acc:'#7affd0'},
- sphinx:{line:_t('Hádanka: kdo tu dneska padne?'),acc:'#7affff'},
+ sphinx:{line:_t('Hádanka: kdo mi sáhne na střep a přežije? Nikdo.'),acc:'#7affff'},
  forgelord:{line:_t('Kuje železo, dokud jsi žhavý.'),acc:'#e8702c'},
  eel:{line:_t('Mokrý, kluzký a hrozně naštvaný.'),acc:'#5a9ac8'},
  colossus:{line:_t('Krásně se třpytí. Zuby ti vyrazí.'),acc:'#c8b8ff'},
- titan:{line:_t('Teplota: ano.'),acc:'#ffd040'},
+ titan:{line:_t('Střep hřeje. Ty shoříš.'),acc:'#ffd040'},
  serpent:{line:_t('Pod ledem je tma. A on.'),acc:'#8ac8e8'},
  fknight:{line:_t('Chladný profesionál.'),acc:'#8af0ff'},
  wendigo:{line:_t('Hladový od pravěku.'),acc:'#8affff'},
  yetiking:{line:_t('Vládne sněhu. Nesnáší návštěvy.'),acc:'#f6c744'},
- queen:{line:_t('Srdce z ledu. Ruce taky.'),acc:'#8af0ff'},
+ queen:{line:_t('Střep mi dal korunu. Tobě dá hrob.'),acc:'#8af0ff'},
  crabking:{line:_t('Chodí bokem. Bije zpříma.'),acc:'#f0a070'},
  captain:{line:_t('Hlavu ztratil. Nervy ne.'),acc:'#f6c744'},
  seawitch:{line:_t('Koupí ti duši. Za tvoji.'),acc:'#ffd060'},
  seasnake:{line:_t('Dlouhý jako seznam tvých chyb.'),acc:'#fff060'},
- kraken:{line:_t('Osm rukou. Žádné objetí.'),acc:'#ffe060'},
+ kraken:{line:_t('Osm rukou. Střep nepustí ani jedna.'),acc:'#ffe060'},
  astrolab:{line:_t('Planety mi poslouchají. Ty taky budeš.'),acc:'#e8b84a'},nebula:{line:_t('Nic nevidíš? To je ten vtip.'),acc:'#b07ae8'},
- griffin:{line:_t('Půl orel, půl lev, celý problém.'),acc:'#e8e8ff'},orion:{line:_t('Lovím od pravěku. Ty jsi jen další souhvězdí.'),acc:'#ffe58a'},eclipse:{line:_t('Slunce zhasne. Ty první.'),acc:'#b07aff'},
+ griffin:{line:_t('Půl orel, půl lev, celý problém.'),acc:'#e8e8ff'},orion:{line:_t('Lovím od pravěku. Ty jsi jen další souhvězdí.'),acc:'#ffe58a'},eclipse:{line:_t('Šestý střep? Nejdřív ti zhasnu.'),acc:'#b07aff'},
  maw:{line:_t('Mám hlad. A ty vypadáš jako předkrm.'),acc:'#2af0d0'},hoarder:{line:_t('Každá troska má svůj příběh. Tvoje bude příští.'),acc:'#f0b050'},mirror:{line:_t('Uhýbáš stejně jako já. Jenom hůř.'),acc:'#5af0d8'},moth:{line:_t('Světlo? To si vezmu.'),acc:'#ffe9a8'},
  thornmom:{line:_t('Objímá ráda. Trny taky.'),acc:'#ff9ab8'},reaper:{line:_t('Sklízí pole. Dneska tebe.'),acc:'#f6c744'},gnomon:{line:_t('Přesný čas? Tvůj poslední.'),acc:'#fff6c8'},honeyq:{line:_t('Med je sladký. Žihadla ne.'),acc:'#f6c744'},phoenix:{line:_t('Hlídám kolébku. Umřu? Klidně. Zase.'),acc:'#ff9a1a'},
- usurer:{line:_t('Půjčím ti život. S úrokem.'),acc:'#ffd040'},mintmaster:{line:_t('Razím mince. A hlavy.'),acc:'#ffd040'},gknight:{line:_t('Zlaté brnění, zlaté srdce. Obojí z kovu.'),acc:'#ff6a3a'},dragon:{line:_t('Moje. Moje. Všechno moje. I ty.'),acc:'#ff3a1a'},herald:{line:_t('Střep jde vzít jen poraženému. Díky za špinavou práci.'),acc:'#ffe27a'},stairward:{line:_t('Nahoru vede jen jedna cesta. A ta se hroutí.'),acc:'#fff2c8'},curator:{line:_t('Pěkná sbírka, že? Všechny jsi mi je přinesl ty.'),acc:'#ffd040'},sunsmith:{line:_t('Ukoval jsem slunce. Tebe ukovu taky.'),acc:'#ff9a3a'},den:{line:_t('Jeden svítí, druhá zhasíná. Padneme jen spolu.'),acc:'#ffe27a'},aurel:{line:_t('Sedm střepů. Sedm děkuji. Teď poklekni.'),acc:'#fff2b0'},nothing:{line:_t('Byl jsem tu před první hvězdou. Budu tu i po té poslední.'),acc:'#9a5ad8'},
+ usurer:{line:_t('Půjčím ti život. S úrokem.'),acc:'#ffd040'},mintmaster:{line:_t('Razím mince. A hlavy.'),acc:'#ffd040'},gknight:{line:_t('Zlaté brnění, zlaté srdce. Obojí z kovu.'),acc:'#ff6a3a'},dragon:{line:_t('Moje. Moje. Všechno moje. I ty.'),acc:'#ff3a1a'},herald:{line:_t('Střep jde vzít jen poraženému. Díky za špinavou práci.'),acc:'#ffe27a'},stairward:{line:_t('Nahoru vede jen jedna cesta. A ta se hroutí.'),acc:'#fff2c8'},curator:{line:_t('Pěkná sbírka, že? Všechny jsi mi je přinesl ty.'),acc:'#ffd040'},sunsmith:{line:_t('Ukoval jsem slunce. Tebe ukovu taky.'),acc:'#ff9a3a'},den:{line:_t('Jeden svítí, druhá zhasíná. Padneme jen spolu.'),acc:'#ffe27a'},aurel:{line:_t('Sedm střepů. Sedm děkuji. Teď poklekni.'),acc:'#fff2b0'},nothing:{line:_t('Poslední střep. A za ním už nic.'),acc:'#9a5ad8'},
 };
 // card colours by chapter (dark, mid, light); slime king keeps his swampy green
 const CH_BG=[['#12081c','#2a1640','#4a2a6a'],['#2a1408','#6a3a14','#a8682a'],['#1a0808','#5a1a10','#9a3a14'],['#081428','#1a3a5a','#3a6a9a'],['#0c1a2e','#1a3a5a','#2a6a8a'],['#0a0a1c','#2a2a5a','#4a4a8a'],['#020608','#0c2a2a','#1a5a58'],['#2a1c06','#7a5a14','#d8a83a'],['#1a0606','#5a1410','#c8962a']];
@@ -10078,6 +10078,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11z1',d:'11. 11. 2026',t:_t('Bossové mluví o střepech'),items:[_t('Finální bossové kapitol I–VII ti před bojem řeknou, o co jde.')]},
  {v:'2026-11-11z',d:'11. 11. 2026',t:_t('Jednodušší příběh'),items:[_t('Prolog a zápisy příběhu jsou kratší a srozumitelnější.')]},
  {v:'2026-11-11y',d:'11. 11. 2026',t:_t('Příběh od začátku'),hl:[
   {ic:'map:hrbitov',t:_t('Prolog: proč jsi vstal'),d:_t('Jiskra hvězdy tě probudila v kryptě.')},

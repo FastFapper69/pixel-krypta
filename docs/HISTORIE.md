@@ -478,3 +478,5 @@ Zadání uživatele: projít příběh, najít díry, opravit; příběh nemá b
 ## 11z (11. 11. 2026) – příběh zjednodušený
 Uživatel verzi 11y odmítl („too much, strašně nucený, zamotal jsem se, keep it simple“). Páteř v `docs/PRIBEH.md` zkrácená na tři věty a pravidlo jeden akt = jeden padouch, jeden cíl, jeden zvrat; z plánu pryč Bdělí, tóny ukolébavky, hlas ze snu, hrdina jako kus Spáče. Ve hře pryč jiskra v hrudi a hlas ze snu (prolog, I, X), Sfinga a Královna mají zpět původní jasné věty. Zůstává: prolog, krátké zápisy, opravy děr (sedmý střep, odlet střepů, Herold, Paladin).
 
+## 11z1 (11. 11. 2026) – hlášky finálních bossů mluví o střepech
+Přání uživatele: spojit úvodní hlášky bossů s příběhem. Jen finále I–VII (`BOSS_INTRO` morvan, sphinx, titan, queen, kraken, eclipse, nothing): jedna věta s humorem, ve které zazní střep. Ostatní bossové si nechávají vtipy; Fénix, Herold a Aurel už k příběhu mluvili.
