@@ -352,3 +352,8 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - **Obtížnost podle síly hráče.** Účty typického hráče `tests/tools/ucty.js` (společné pro boty, měřič síly a ladění; nově i runy, Souhvězdí, Prestiž, druhý mazlíček Krotitele a odemčené funkce podle vyhraných map – dřív boti hráli bez fúzí, talentů a mazlíčků). Měřič `sila.js` (útok/výdrž z `st`). Ladění `ladeni.js` (logistický model, `TIER` env v `hraci.js`), 3 kola × 30 map × 20 běhů + ověření 25 běhů: `MAP_TIER` přepsané, cíl `DIFF_CIL` (I vítá 70→45 %, běžná 40 % −3/mapa, finále 20 %, zeď III/VI 25 %/12 %). Model nových kapitol: `PWR` + `kitTier` (poslední dvě vyladěné kapitoly × růst síly × cílová křivka ÷ nepřátelé mapy), `krivka.js zapis`. Kapitola VII (11h z druhého chatu) dostala řádky v `MAP_TIER` se svými vyladěnými hodnotami a pak ladění na stejnou křivku.
 - **Hrdinové** (`herostat.js`): Hvězdy +25 %, Kotva +12 %, Stavitel 25 HP, Krápníky −12 %. Nikdo není drasticky OP (±15 bodů), rozhoduje styl.
 - `chapcheck.js` hlásí mapy ze vzorce a vlastní řádky daleko od vzorce.
+
+## 11j (11. 11. 2026) – dokončení co-opu
+- Karty pouta (výboj, mráz, život, tah), Souhra (zabití na stejnou dobu, každá 10. truhla), Duetní fúze (recept rozdělený mezi hráče, rituál otázka–odpověď, ultimátka oběma), společné shrnutí na konci (zabití, poškození, oživení po hráčích), návrat po odpojení do 30 s (i po zavření stránky), co-op žebříček (`coop_runs`, `coop_board`). Podrobnosti `COOP.md` „11j“.
+- Oprava: karta duetu u kamaráda nesla recept (`cards[].f` i pro `duet`).
+- SQL co-op žebříčku je v `supabase/migrations/20261111a_coop_board.sql`; zkouška nanečisto prošla, naostro ho spustí uživatel.

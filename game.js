@@ -3167,7 +3167,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11i';
+const GAME_VER='2026-11-11j';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3546,14 +3546,14 @@ function hurtEnemy(e,dmg,kx,ky){
   if(e.shield){e.flash=.05;if(Math.random()<.3)sparks(e.x,e.y-4,2,'#b07aff',kx,ky,90);if(!e.shT||run.t-e.shT>2.5){e.shT=run.t;toast(e.shield,1600);}return;}
   let d=dmg*st.dmg*(mfCall('dmgMul',e)||1)*(st.af&&st.af.hunter&&(e.boss||e.elite)?1+st.af.hunter:1),crit=false;if(e.mk>run.t)d*=e.mkm||1.2;if(e.elite&&run.thm==='hunt')d*=1.2;if(st.lg&&st.lg.skyW&&(e.boss||e.elite))d*=1.15;if(st.tr&&st.tr.a5)d*=1+Math.min(.025*st.tr.a5,run.combo/1000);if(Math.random()<(st.crit||.1)+(st.tr&&st.tr.a1&&(M.step%16)<4?.03*st.tr.a1:0)+(st.af&&st.af.rhythm&&(M.step%16)<4?st.af.rhythm:0)){d*=st.tal&&st.tal.a20?2:1.6;crit=true;}if(st.lg&&st.lg.metro&&(M.step%16)>=12)d*=2;d=Math.max(1,Math.round(d));
   if(crit&&st.lg&&st.lg.storm&&run.t-(run.sgT||-9)>.5){run.sgT=run.t;explode(e.x,e.y,26,10+run.level*1.5);}
-  run.tdm=(run.tdm||0)+d;e.hp-=d;if(st.lg&&st.lg.sfr2&&!e.boss)e.slowT=Math.max(e.slowT,.8);e.flash=.09;e.sq=1;e.kx+=(kx||0)*e.kbm;e.ky+=(ky||0)*e.kbm;
+  run.tdm=(run.tdm||0)+d;if(run.pls&&!CO.bondHit)coSt().d[run.p===run.pls[0].p?0:1]+=Math.min(d,e.hp);e.hp-=d;if(st.lg&&st.lg.sfr2&&!e.boss)e.slowT=Math.max(e.slowT,.8);e.flash=.09;e.sq=1;e.kx+=(kx||0)*e.kbm;e.ky+=(ky||0)*e.kbm;
   if(run.nums.length<40)run.nums.push({x:e.x+rnd(-3,3),y:e.y-e.h/2,vx:rnd(-14,14),vy:crit?-70:-55,txt:String(d)+(crit?'!':''),life:crit?.8:.6,col:crit?'#f6c744':'#ffffff',big:crit,t:0});
   sparks(e.x,e.y-2,crit?5:2,crit?'#fff6b0':'#ffffff',kx,ky,crit?150:110);
   if(crit)run.fx.push({k:'pop',x:e.x,y:e.y-2,r:2,max:9,life:.12,t:0,col:'#f6c744'});
   sfx('hit');if(e.hp<=0)killEnemy(e);
 }
 function killEnemy(e){
-  e.dead=true;if(run.pls){(CO.kills||(CO.kills=[])).push(e.nid||0);}run.kills++;
+  e.dead=true;if(run.pls){(CO.kills||(CO.kills=[])).push(e.nid||0);if(!CO.bondHit)coKill(run.p===run.pls[0].p?0:1,e);}run.kills++;
   if(st&&st.af&&!e.d.noHit){if(st.af.vamp&&!run.p.down)run.p.hp=Math.min(run.p.max,run.p.hp+st.af.vamp);if(st.af.gold&&e.elite)run.coins+=Math.round(st.af.gold);}run.combo++;run.comboT=(st&&st.tal&&st.tal.d5?2.4:1.6)+(run.thm==='rhythm'?1:0);sfx('kill');
   const Q=run.qc;if(Q){Q.k[e.id]=(Q.k[e.id]||0)+1;if(e.elite)Q.el++;if(e.boss)Q.boss++;if(run.combo>Q.combo)Q.combo=run.combo;
     if(e.want){Q.want=e.want;run.wanted=null;toast(_t('Hledaný dopaden! Odměnu si vyzvedni na Nástěnce'),2800);run.items.push({x:e.x-6,y:e.y,k:'mat',v:8});for(let i=0;i<3;i++)run.items.push({x:e.x+rnd(-8,8),y:e.y+rnd(-8,8),k:'coin'});}}
@@ -4896,6 +4896,7 @@ function levelOptions(){
   for(const id of P_IDS){const l=run.P[id]||0;
     if(l>0&&l<MAX_PLV)opts.push({k:'p',id,lv:l+1});
     else if(!l&&nPassives()<MAX_P)opts.push({k:'p',id,lv:1});}
+  if(run.pls&&run.level>=3){const fr=BOND_IDS.filter(id=>!(run.bond||{})[id]);if(fr.length)opts.push({k:'bond',id:pick(fr)});} // one bond card in the pool at a time
   const out=[],nOpt=st&&st.tr&&Math.random()<.1*st.tr.a3?4:3;while(out.length<nOpt&&opts.length){out.push(opts.splice((Math.random()*opts.length)|0,1)[0]);}
   if(!out.length){out.push({k:'heal'},{k:'gold'});}
   return out;
@@ -4915,6 +4916,8 @@ function optInfo(o){
   if(o.k==='fuse'){const U=WEAPONS[o.f.id];return{name:U.name,icon:o.f.id,tag:_t('Fúze'),desc:WEAPONS[o.f.a].name+' + '+WEAPONS[o.f.b].name+'. '+U.desc+_t(' Uvolní slot.'),fuse:true,eq:[o.f.a,o.f.b]};}
   if(o.k==='w'){const W=WEAPONS[o.id];return{name:W.name,icon:o.id,tag:W.ult?_t('Úr. ')+ROMAN[o.lv-1]:o.lv===1?_t('Nové'):_t('Úr. ')+o.lv,desc:o.lv===1?W.desc:weaponDiff(o.id,o.lv),st:weaponStats(o.id,o.lv),lv:o.lv,max:W.lv.length,isNew:o.lv===1,fz:fuseHint(o.id,o.lv)};}
   if(o.k==='p'){const P=PASSIVES[o.id];return{name:P.name,icon:o.id,tag:o.lv===1?_t('Nové'):_t('Úr. ')+o.lv,desc:P.txt,st:P.st?[[P.st[1],numLoc(P.st[0])]]:[],lv:o.lv,max:MAX_PLV,isNew:o.lv===1};}
+  if(o.k==='duet'){const U=WEAPONS[o.f.id];return{name:U.name,icon:o.f.id,tag:_t('Duet'),desc:_t('Duetní fúze: tvoje ')+WEAPONS[o.mine].name+_t(' a kamarádova druhá půlka. Ultimátku dostanete oba, když si kartu vyberete oba.'),fuse:true,duet:true,eq:[o.mine,o.mine===o.f.a?o.f.b:o.f.a],mh:o.mh};}
+  if(o.k==='bond'){const B=BOND[o.id];return{name:B.name,icon:B.ic,tag:_t('Pouto'),desc:B.desc,st:B.st,isNew:true,bond:true};}
   if(o.k==='heal')return{name:_t('Léčivý lektvar'),icon:'potion',tag:'',desc:_t('Doplní 40 % zdraví'),st:[[_t('Zdraví'),numLoc('+40 %')]]};
   return{name:_t('Měšec zlata'),icon:'coin',tag:'',desc:_t('+40 zlata'),st:[[_t('Zlato'),'+40']]};
 }
@@ -4928,7 +4931,7 @@ function fuseHint(id,lv){if(!run||!featOn('fuse')||WEAPONS[id].ult)return null;c
 function luCard(i,idx,fr){const b=document.createElement('button');b.className='k-card'+(i.fuse?' fuse':'')+(fr?' fresh':'');b.dataset.k='card';b.dataset.s=idx;if(i.fuse)b.dataset.fuse=1;if(fr)b.dataset.sel=1;
   const st=i.st?i.st.slice(0,4).map(([l,v])=>'<span>'+l+' <b>'+v+'</b></span>').join(''):(i.desc||'');
   b.innerHTML='<span class="sock" data-k="socket" data-s="'+idx+'"'+(i.fuse?' data-bg="#1c1026"':'')+'><img alt="" src="'+dataUrl(SPR.icon[i.icon])+'"></span><h3 class="nm">'+i.name+'</h3>'+
-    (i.eq?'<span class="st k-eq"><img alt="" class="ic" src="'+dataUrl(SPR.icon[i.eq[0]])+'">'+KIT.img('plus')+'<img alt="" class="ic" src="'+dataUrl(SPR.icon[i.eq[1]])+'"></span>':'<span class="st">'+st+'</span>')+
+    (i.eq?'<span class="st k-eq"><img alt="" class="ic" src="'+dataUrl(SPR.icon[i.eq[0]])+'">'+KIT.img('plus')+(i.mh&&SPR.hero[i.mh]?'<img alt="" class="ic mh" src="'+dataUrl(SPR.hero[i.mh])+'">':'')+'<img alt="" class="ic" src="'+dataUrl(SPR.icon[i.eq[1]])+'"></span>':'<span class="st">'+st+'</span>')+
     (i.fz?i.fz.map((f,n)=>SPR.icon[f.id]?'<span class="fzb'+(f.rdy?' rdy':'')+'" data-fz="'+f.id+'"><img alt="" src="'+dataUrl(SPR.icon[f.id])+'"></span>':'').join(''):'')+
     (i.isNew?'<span class="seal" data-k="seal" data-s="'+idx+'">'+KIT.img('sealStar')+'</span>':i.max?'<span class="pips">'+Array.from({length:i.max},(_,n)=>KIT.img(n<i.lv-1?'pipOn':n===i.lv-1?'pipNext':'pipOff')).join('')+'</span>':'');
   return b;}
@@ -4947,6 +4950,10 @@ function openLevelUp0(){
   if(fz.length){if((run.fuseMiss||0)>=2||Math.random()<(chest?.8:.6)){const fo=pick(fz);run.fuseMiss=0;
       opts=[{k:'fuse',f:fo}].concat(opts.filter(o=>!(o.k==='w'&&(o.id===fo.a||o.id===fo.b))).slice(0,2));}
     else run.fuseMiss=(run.fuseMiss||0)+1;}
+  run.duet=null;
+  if(run.pls&&!opts.some(o=>o.k==='fuse')){const dz=duetFusable();if(dz.length&&((run.duetMiss||0)>=2||Math.random()<(chest?.8:.6))){const d=pick(dz);run.duetMiss=0;
+      run.duet={f:d.f,a:d.ha,b:d.ga,res:[null,null],hh:run.heroId,gh:run.pls[1].heroId};opts=[{k:'duet',f:d.f,mine:d.ha,mh:run.pls[1].heroId}].concat(opts.filter(o=>!(o.k==='w'&&o.id===d.ha)).slice(0,2));}
+    else if(dz.length)run.duetMiss=(run.duetMiss||0)+1;}
   opts.forEach((o,idx)=>{const i=optInfo(o);
     const fr=o.k==='w'&&o.lv===1&&wFresh(o.id)&&!run.pls,b=luCard(i,idx,fr);
     if(fr){save.wNew=save.wNew.filter(x=>x!==o.id);persist();}
@@ -4967,6 +4974,7 @@ function fusable(){if(!featOn('fuse'))return[];return FUSIONS.filter(f=>run.W[f.
 function applyOption(o){
   if(state!=='levelup')return;run.luT=0;
   if(o.k==='fuse'){sfx('ui');startFuse(o.f);return;}
+  if(o.k==='duet'){sfx('ui');startFuse(o.f,undefined,undefined,[0,2]);return;}
   applyOptCore(o);
   afterOption();
 }
@@ -4974,11 +4982,13 @@ function applyOptCore(o){
   if(o.k==='w'){if(o.lv===1){addWeapon(o.id);if(st.tr&&st.tr.a2&&Math.random()<.06*st.tr.a2&&WEAPONS[o.id].lv.length>1){run.W[o.id].lv=2;toast(_t('Ostrost: ')+WEAPONS[o.id].name+_t(' rovnou na úrovni 2'),1400);}}else run.W[o.id].lv=o.lv;}
   else if(o.k==='p'){run.P[o.id]=o.lv;const oldMax=st.max;recalc();if(o.id==='heart'){run.p.hp+=st.max-oldMax;}}
   else if(o.k==='heal'){run.p.hp=Math.min(run.p.max,run.p.hp+Math.round(run.p.max*.4));}
+  else if(o.k==='bond'){(run.bond||(run.bond={}))[o.id]=1;toast0(BOND[o.id].name+'!',1600);coToastMate(BOND[o.id].name+'!');}
   else run.coins+=40;
 }
 function afterOption(){
   if(isGuest()){coWait();return;}
   if(run.pls&&run.lv){run.lv.host=true;if(!run.lv.guest){$('#waitTxt').textContent=_t('Kamarád ještě vybírá…');setState('wait');return;}}
+  if(run.duet)duetResolve();
   run.pending=Math.max(0,run.pending-1);recalc();run.p.max=st.max;run.p.hp=Math.min(run.p.hp,run.p.max);
   buildItemsHud();sfx('ui');
   if(run.pending>0)openLevelUp();else{setState('play');if(run.pls)netSend({t:'resume'});}
@@ -4987,21 +4997,23 @@ function afterOption(){
 let FZ=null;
 // beat position as heard: the conductor schedules audio ~50 ms ahead, plus the device output latency
 function audioBeat(){const lat=ac?.05+(ac.outputLatency||ac.baseLatency||0):0;return M.beatPos-lat/(M.stepDur*4);}
-function startFuse(f,idx,opts){
+function startFuse(f,idx,opts,only){
   const b0=Math.floor(audioBeat()),lg=run?(st&&st.lg)||{}:heroBonus(heroOwned(sel.hero)?sel.hero:'knight').lg;
-  FZ={f,idx,opts,wide:!!lg.crown||!!lg.skyM,targets:[2,3,4,5].map(i=>b0+i),res:[null,null,null,null],done:false};
+  FZ={f,idx,opts,wide:!!lg.crown||!!lg.skyM,targets:[2,3,4,5].map(i=>b0+i),res:[null,null,null,null],done:false,only};
+  if(only)for(let i=0;i<4;i++)if(!only.includes(i))FZ.res[i]='x';
   if(opts){$('#fzTitle').textContent=opts.title;$('#fzSub').textContent=opts.sub;$('#fzIcon').src=opts.icon;$('#fzA').hidden=$('#fzB').hidden=true;}
   else{$('#fzA').hidden=$('#fzB').hidden=false;$('#fzTitle').textContent=_t('Fúze!');$('#fzSub').textContent=WEAPONS[f.a].name+' + '+WEAPONS[f.b].name;
   $('#fzIcon').src=dataUrl(SPR.icon[f.id]);$('#fzA').src=dataUrl(SPR.icon[f.a]);$('#fzB').src=dataUrl(SPR.icon[f.b]);}
   $('#fzJudge').textContent='';$('#fzHint').textContent=_t('Ťukni kamkoliv do rytmu');
   const intro=!save.fzIntro;FZ.intro=intro;$('#fzIntro').hidden=!intro;$('#scr-fuse').classList.toggle('intro',intro);
-  [...$('#fzPips').children].forEach(i=>i.className='');$('#scr-fuse').classList.remove('done','perfect');
+  [...$('#fzPips').children].forEach((i,n)=>i.className=FZ.res[n]==='x'?'mate':'');$('#scr-fuse').classList.remove('done','perfect');
+  if(only){$('#fzTitle').textContent=_t('Duetní fúze!');$('#fzSub').textContent=only[0]===0?_t('Tvoje doby: 1 a 3'):_t('Tvoje doby: 2 a 4');}
   $('#toast').classList.remove('on');setState('fuse');fuseTick();
 }
 function fuseJudge(i,r){FZ.res[i]=r;const pip=$('#fzPips').children[i];pip.className=r==='p'?'p':r==='g'?'g':'m';
   const J=$('#fzJudge');J.textContent=r==='p'?_t('Perfektní!'):r==='g'?_t('Dobré'):_t('Vedle');J.className='fz-judge '+r;void J.offsetWidth;J.classList.add('pop');}
 // first ritual ever: the explanation is up, the beats start counting only after "start"
-function fuseIntroGo(){if(!FZ||!FZ.intro)return;FZ.intro=false;save.fzIntro=1;persist();const b0=Math.floor(audioBeat());FZ.targets=[2,3,4,5].map(i=>b0+i);$('#fzIntro').hidden=true;$('#scr-fuse').classList.remove('intro');sfx('ui');}
+function fuseIntroGo(){if(!FZ||!FZ.intro)return;FZ.intro=false;save.fzIntro=1;persist();const b0=Math.floor(audioBeat());FZ.targets=[2,3,4,5].map(i=>b0+i);if(FZ.only)FZ.res=FZ.res.map((r,i)=>FZ.only.includes(i)?null:'x');$('#fzIntro').hidden=true;$('#scr-fuse').classList.remove('intro');sfx('ui');}
 function fuseTap(){
   if(!FZ||FZ.done||FZ.intro)return;const b=audioBeat();let bi=-1,bd=9;
   FZ.targets.forEach((t,i)=>{if(FZ.res[i]===null&&Math.abs(b-t)<bd){bd=Math.abs(b-t);bi=i;}});
@@ -5019,12 +5031,13 @@ function fuseTick(){
     if(b<FZ.targets[0]-1.05)$('#fzHint').textContent=_t('Připrav se…');else $('#fzHint').textContent=_t('Ťukni kamkoliv do rytmu');}
   else ring.style.opacity=0;
   $('#fzCore').style.transform='scale('+(1+M.pulse*.12).toFixed(3)+')';
-  if(!FZ.done&&FZ.res.every(r=>r!==null)&&b>FZ.targets[3]+.2)finishFuse();
+  if(!FZ.done&&FZ.res.every(r=>r!==null)&&b>FZ.targets[FZ.only?FZ.only[1]:3]+.2)finishFuse();
 }
 function finishFuse(){
   const F=FZ;F.done=true;const per=F.res.filter(r=>r==='p').length,good=F.res.filter(r=>r==='g').length;
   if(F.opts){if(per===4){achInit().tot.pf++;}$('#fzTitle').textContent=per===4?_t('Perfektní!'):_t('Hotovo!');{const h=$('#fzHint');h.textContent='';if(F.opts.gain){const b=document.createElement('b');b.className='fzgain';b.textContent=F.opts.gain(per,good);h.appendChild(b);}}$('#scr-fuse').classList.add('done');if(per===4)$('#scr-fuse').classList.add('perfect');
     sfx(per===4?'win':'level');setTimeout(()=>{if(FZ===F){FZ=null;F.opts.done(per,good);}},F.opts.gain?2000:1200);return;}
+  if(F.only){duetDone(F,per,good);return;}
   if(isGuest()&&save.codex)save.codex.f[F.f.id]=true;
   const mul=per===4?1.25:1+per*.06+good*.03,f=F.f;
   if(isGuest()){const L=run.qcL||(run.qcL={fus:0,perf:0,pf:0});L.fus++;L.perf+=per;if(per===4)L.pf=(L.pf||0)+1;}else if(run.qc){run.qc.fus++;run.qc.perf+=per;if(per===4)run.qc.pf=(run.qc.pf||0)+1;}
@@ -5037,6 +5050,27 @@ function finishFuse(){
   const p=run.p;for(let i=0;i<40;i++){const a=i/40*6.283;addP({x:p.x,y:p.y-4,vx:Math.cos(a)*130,vy:Math.sin(a)*130,life:.6,col:i%2?'#f6c744':'#ffffff',sz:2,g:0});}
   setTimeout(()=>{if(FZ===F&&state==='fuse'){FZ=null;toast0(WEAPONS[f.id].name+'!',1800);if(isGuest()){netSend({t:'pick',i:F.idx,mul});coWait();}else afterOption();}},1400);
 }
+
+/* ----- duet fusion (11j): the recipe is split between the two heroes; both pick the card, each taps their half of the
+   ritual (host beats 1 and 3, friend 2 and 4), and both get the ultimate and lose their parent weapon ----- */
+function duetFusable(){if(!run.pls||!featOn('fuse'))return[];const g=run.pls[1].W,h=run.W,ok=(W,id)=>W[id]&&W[id].lv>=5,out=[];
+  for(const f of FUSIONS){if((run.fused||{})[f.id]||h[f.id]||g[f.id])continue;
+    if(ok(h,f.a)&&ok(g,f.b)&&!ok(h,f.b))out.push({f,ha:f.a,ga:f.b});else if(ok(h,f.b)&&ok(g,f.a)&&!ok(h,f.a))out.push({f,ha:f.b,ga:f.a});}
+  return out;}
+function duetDone(F,per,good){const f=F.f;
+  if(isGuest()){$('#fzTitle').textContent=per===2?_t('Perfektní!'):_t('Hotovo!');$('#fzHint').textContent=_t('Kamarád dokončuje svou půlku…');sfx(per===2?'win':'level');
+    setTimeout(()=>{if(FZ===F&&state==='fuse'){FZ=null;netSend({t:'pick',i:F.idx,mul:1,dz:[per,good]});coWait();}},1100);return;}
+  if(run.duet)run.duet.res[0]=[per,good];$('#fzTitle').textContent=per===2?_t('Perfektní!'):_t('Hotovo!');$('#fzHint').textContent='';sfx(per===2?'win':'level');
+  setTimeout(()=>{if(FZ===F&&state==='fuse'){FZ=null;afterOption();}},1100);}
+function duetResolve(){const D=run.duet;run.duet=null;const pl=run.pls&&run.pls[1];if(!D||!pl)return;
+  if(!D.res[0]||!D.res[1]){const who=D.res[0]?pl:null;run.p.hp=Math.min(run.p.max,run.p.hp+run.p.max*.3);run.coins+=30;
+    if(D.res[0]||D.res[1]){toast0(_t('Duet se nepovedl, vybrali jste si každý jinou kartu. +30 zlata'),2400);coToastMate(_t('Duet se nepovedl, vybrali jste si každý jinou kartu. +30 zlata'));}return;}
+  const per=D.res[0][0]+D.res[1][0],good=D.res[0][1]+D.res[1][1],mul=per===4?1.25:1+per*.06+good*.03,f=D.f;
+  fuseApply(f,mul);withPl(pl,()=>{CO.ctxMate=true;try{fuseApply(f,mul);recalc();}finally{CO.ctxMate=false;}});
+  if(run.qc){run.qc.fus++;run.qc.perf+=D.res[0][0];if(per===4)run.qc.pf=(run.qc.pf||0)+1;}
+  const msg=(per===4?_t('Perfektní duet! '):_t('Duetní fúze: '))+WEAPONS[f.id].name+(mul>1?_t(' · síla +')+Math.round((mul-1)*100)+' %':'');
+  toast0(msg,2400);coToastMate(msg);run.flashScr=.7;run.shake=4;sfx(per===4?'win':'level');
+  for(const q of players())for(let i=0;i<30;i++){const a=i/30*6.283;addP({x:q.x,y:q.y-4,vx:Math.cos(a)*120,vy:Math.sin(a)*120,life:.6,col:i%2?'#f6c744':'#9adcff',sz:2,g:0});}}
 
 /* ============ end of run ============ */
 // time counted for rewards: past the boss window nothing more is earned (raging boss ends kiting anyway)
@@ -5051,7 +5085,8 @@ const chGoldMul=()=>{const C=!run.endless&&CH_OF[run.mapId];return C?1+.15*C.i:1
 function finish(won){
   if(run.over)return;run.over=true;run.won=won;run.nmOpenNew=won&&!run.coop&&!run.endless&&!!run.map.finale&&(run.nm||0)<NM_MAX&&!nmWin(run.mapId,run.nm||0);seedRng(null);if(run.tut){save.tut=1;$('#tut').hidden=true;}
   tmSend(won?'win':run.crystalDead?'crystal':'death');if(!run.coop)recordRun(won);
-  if(run.pls){netSend({t:'end',won,cd:!!run.crystalDead,tt:run.t,c:run.coins,sp:run.spent||0,mt:run.mat||0,k:run.kills,lv:run.level,q:run.qc});setTimeout(()=>{netClose();CO.on=false;CO.role=null;},1500);}
+  if(run.coop&&CO.role!=='guest'){run.sum=coSum();coopRecord(won);}
+  if(run.pls){netSend({t:'end',won,cd:!!run.crystalDead,tt:run.t,c:run.coins,sp:run.spent||0,mt:run.mat||0,k:run.kills,lv:run.level,q:run.qc,sum:run.sum});setTimeout(()=>{netClose();CO.on=false;CO.role=null;},1500);}
   const gain=endCoins(won);save.coins+=gain;run.rw=runRewards(won);if(run.endless){save.endW=save.endW||{};run.endPrev=save.endW[run.mapId]||0;if((run.enW||0)>run.endPrev)save.endW[run.mapId]=run.enW||0;}const QC=qFinishC();run.qres=qCommit(QC);run.achNew=achTrack(QC,won);
   let unlocked='';
   if(won&&!run.trial){const nx=nextMap(run.mapId),was=nx&&mapUnlocked(nx);save.cleared[run.mapId]=true;featCheck();if(nx&&!was&&mapUnlocked(nx)){const C=CH_OF[nx];unlocked=(C!==CH_OF[run.mapId]?_t('kapitola ')+ROMAN_CH[C.i]+' '+C.name+' · ':'')+MAPS[nx].name;}}
@@ -5082,6 +5117,7 @@ function showOver(){
   $('#ovTitle').textContent=wkR&&wkR.best>=0?WK_TIER[wkR.best].name+'!':run.won?_t('Vítězství!'):dOk?_t('Výzva splněna!'):_t('Konec běhu');$('#ovTitle').className='title'+(run.won||dOk||(wkR&&wkR.best>=0)?'':' bad');
   $('#ovSub').textContent=dSub&&!run.won?dSub:run.won?(run.map.boss&&_t('Boss poražen: ')+BOSS_DEFS[run.map.boss].name+'.'+(run.unlocked?_t(' Odemčeno: ')+run.unlocked+'.':'')):(run.crystalDead?(run.map.caravan?_t('Karavanu vykradli a krypta zvítězila.'):_t('Krystal se rozbil a krypta zvítězila.')):run.endless?_t('Nekonečná krypta tě nakonec pohltila.'):_t('Krypta si tě tentokrát vzala.'));
   const rows=[[_t('Čas'),fmtTime(run.t)],[_t('Zabití'),run.kills],[_t('Úroveň'),run.level],[_t('Zlato celkem'),'+'+run.gain]];const W=run.rw||{};
+  coSumRows(rows);
   if(run.nm)rows.unshift([_t('Obtížnost'),NM_NAME[run.nm]]);
   if(wkR){rows.unshift([_t('Týdenní výzva'),run.mods.map(m=>DAILY_MODS.find(x=>x.id===m).name).join(' + ')]);for(const i of wkR.got)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.icon[WK_TIER[i].ic])+'"> '+WK_TIER[i].name,_t('<b style="color:var(--gold)">odměna čeká na Nástěnce</b>')]);}
   else if(run.mod&&!run.coop){const M=DAILY_MODS.find(x=>x.id===run.mod);rows.unshift([_t('Denní výzva'),(M?M.name:'')+(run.trial?' · '+_t('zkušební'):'')]);}
@@ -6461,7 +6497,27 @@ async function openBoard(){
   catch(e){$('#boardMsg').textContent=_t('Žebříček se nepodařilo načíst: ')+errText(e);}
   renderBoard();
 }
-let boardCh=null,boardIO=null;
+let boardCh=null,boardIO=null,coopRows=null,coopT=0;
+// co-op leaderboard (11j): each pair once with its best run (server function coop_board, nicks from profiles)
+function coopBoard(list,msg){
+  if(!coopRows||Date.now()-coopT>60000){if(coopRows==='…')return;const old=coopRows;coopRows='…';msg.textContent=_t('Načítám…');
+    ON.sb.rpc('coop_board',{p_map:null}).then(({data,error})=>{coopT=Date.now();coopRows=error?{err:1}:(data||[]);if(boardTab==='coop'&&state==='board')renderBoard();},()=>{coopRows=old&&old.err?old:{err:1};});return;}
+  if(coopRows==='…'){msg.textContent=_t('Načítám…');return;}
+  if(coopRows.err){msg.textContent=_t('Co-op žebříček se ještě chystá.');return;}
+  msg.textContent=_t('Nejlepší běh každé dvojice v co-opu s kamarádem. Běhy s botem se nepočítají.');
+  if(!coopRows.length){msg.textContent+=' '+_t('Zatím tu nikdo nemá výsledek. Buď první!');return;}
+  coopRows.forEach((r,i)=>{const el=document.createElement('div');el.className='brow coop';
+    const rk=document.createElement('b');rk.className='rk';rk.textContent=(i+1)+'.';
+    const av=document.createElement('span');av.className='cav';av.innerHTML=[r.host_hero,r.mate_hero].map(h=>'<img alt="" src="'+dataUrl(SPR.hero[h]||SPR.hero.knight)+'">').join('');
+    const nm=document.createElement('div');nm.className='nm';const n1=document.createElement('strong');n1.textContent=(r.host_nick||'?')+' + '+(r.mate_nick||'?');
+    const n2=document.createElement('div');n2.className='mini';n2.textContent=MAPS[r.map]?MAPS[r.map].name:r.map;nm.append(n1,n2);
+    const val=document.createElement('div');val.className='val';const v1=document.createElement('span'),v2=document.createElement('small');
+    v1.textContent=(r.nm?_t('NM ')+r.nm+' · ':'')+(r.won?_t('Výhra · '):'')+fmtTime(r.t);const ic=k=>'<img class="cdl" alt="" src="'+dataUrl(SPR.icon[k])+'">';v2.innerHTML=ic('skull')+(+r.kills||0)+(r.sh?' '+ic('drum')+(+r.sh||0):'');val.append(v1,v2);
+    el.append(rk,av,nm,val);list.appendChild(el);});}
+// host writes the finished co-op run (not with the bot); a missing table just fails quietly
+function coopRecord(won){if(!run.coop||run.bot||CO.role!=='host'||!ON.ready||!ON.me||run.coopRec)return;run.coopRec=1;const S=run.sum||{};
+  try{ON.sb.from('coop_runs').insert({host:ON.me.id,mate:LO.mateUid||null,host_hero:run.heroId,mate_hero:(S.h&&S.h[1])||LO.mateHero||'knight',map:run.mapId,nm:run.nm||0,won:!!won,
+    t:Math.min(7200,Math.round(run.t)),kills:Math.min(200000,run.kills),sh:S.sh||0,ver:GAME_VER}).then(()=>{coopRows=null;},()=>{});}catch(_){}}
 // one leaderboard row: rank, nick + title, what they reached
 function boardRow(r,i){const el=document.createElement('div');el.className='brow'+(ON.me&&r.id===ON.me.id?' me':'');if(!(ON.me&&r.id===ON.me.id)){el.tabIndex=0;el.setAttribute('role','button');el.onclick=()=>playerMenu(r);}
   const rk=document.createElement('b');rk.className='rk';rk.textContent=(i+1)+'.';
@@ -6531,6 +6587,7 @@ function renderBoard(){
   const list=$('#boardList'),msg=$('#boardMsg'),pod=$('#boardPod'),me=$('#boardMe');list.textContent='';pod.hidden=true;pod.textContent='';me.hidden=true;
   if(!onlineConfigured()){msg.textContent=_t('Žebříček zatím není připojený k serveru. Tahle verze hraje offline a postup se ukládá jen v tomhle prohlížeči.');return;}
   if(!ON.ready){msg.textContent=ON.err?_t('Připojení k serveru se nezdařilo: ')+ON.err:_t('Připojuji se…');return;}
+  if(boardTab==='coop')return coopBoard(list,msg);
   if(!boardRows)return;
   const blk=save.blk||[];
   const rows=boardRows.filter(r=>!(r.hidden&&!(ON.me&&r.id===ON.me.id))&&!blk.includes(r.id)).map(r=>{const st=r.stats||{},sv=st.card||boardCard(r.save||{}),b=boardTab==='celkem'||boardTab==='kombo'?null:boardTab==='dnes'?(st.daily&&st.daily.d===today()?st.daily:null):boardTab==='tyden'?(st.weekly&&st.weekly.w===weekKey()?st.weekly:null):(st.best||{})[boardTab];
@@ -8507,9 +8564,30 @@ addEventListener('pagehide',e=>{if(!e.persisted&&NET.open)netSend({t:'bye'});});
 function netClose(){NET.closed=true;NET.open=false;clearInterval(NET.hb);clearTimeout(NET.fb);clearInterval(NET.joinT);
   try{NET.pc&&NET.pc.close();}catch(e){}NET.pc=NET.dcE=NET.dcS=null;
   try{NET.ch&&NET.ch.unsubscribe();}catch(e){}NET.ch=null;NET.peer=null;NET.mode=null;}
-function netLost(){if(NET.closed)return;const was=NET.open;netClose();CO.on=false;
+function netLost(){if(NET.closed)return;const was=NET.open,code=NET.code;netClose();
+  // 11j: a dropped connection in the middle of a run waits 30 s for the friend to come back with the same code
+  if(run&&run.coop&&!run.over&&!run.bot&&code&&CO.role){if(CO.role==='guest')coGuestRetry(code);else coAway(code);return;}
+  CO.on=false;
   if(run&&run.coop&&!run.over){if(CO.role==='guest'){toast(_t('Spojení s kamarádem se přerušilo'),2600);finish(false);}else{coDropMate();}}
   else if(state==='coop'&&was)coStatus(_t('Kamarád se odpojil.'));CO.role=null;}
+const CO_BACK=30;
+// host: the friend's hero waits outside the run (weapons, level, pets kept); the room reopens under the same code
+function coAway(code){if(!run.pls)return;run.away={pl:run.pls[1],t:CO_BACK,code,say:20};run.pls=null;CO.on=true;
+  if(state==='wait'){run.lv.guest=true;afterOption();}
+  toast0(_t('Kamarád vypadl. Čekám 30 s, ať se vrátí…'),2600);netOpen('host',code).catch(()=>{});}
+function coRejoin(){const A=run.away;run.away=null;const q=A.pl.p;q.x=clamp(run.p.x+16,14,run.map.size-14);q.y=run.p.y;q.inv=2.5;q.lock=0;
+  run.pls=[{p:run.p},A.pl];run.lv={host:true,guest:true};CO.snapT=0;CO.on=true;
+  netSend({t:'start',map:run.mapId,hh:run.heroId,gh:A.pl.heroId,nm:run.nm||0,re:1});toast0(_t('Kamarád je zpátky!'),2000);sfx('level');}
+// guest: keep trying to reach the host for 30 s
+function coGuestRetry(code){run.reconn={t:CO_BACK,code,nx:0,say:20};CO.on=true;toast(_t('Spojení se přerušilo, zkouším se vrátit…'),2600);}
+function coBackTick(dt){
+  const A=run.away;if(A){A.t-=dt;if(NET.open&&!run.over)return coRejoin();
+    if(A.t<A.say){toast0(_t('Čekám na kamaráda… ')+Math.ceil(A.t)+' s',1400);A.say-=10;}
+    if(A.t<=0||run.over){run.away=null;netClose();CO.on=false;CO.role=null;if(!run.over)toast0(_t('Kamarád se nevrátil, hraješ dál sám'),2600);}return;}
+  const R=run.reconn;if(R){R.t-=dt;R.nx-=dt;
+    if(R.t<R.say){toast(_t('Zkouším se vrátit… ')+Math.ceil(R.t)+' s',1400);R.say-=10;}
+    if(R.t<=0){run.reconn=null;netClose();CO.on=false;CO.role=null;toast(_t('Spojení s kamarádem se přerušilo'),2600);if(!run.over)finish(false);return;}
+    if(!NET.open&&!R.busy&&R.nx<=0){R.nx=6;R.busy=1;netOpen('guest',R.code).catch(()=>{}).finally(()=>{R.busy=0;});}}}
 
 /* ----- lobby ----- */
 const CO_ABC='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -8531,7 +8609,7 @@ function coRoomUi(){$('#coStartBox').hidden=true;$('#coRoom').hidden=false;$('#c
   const hb=$('#coHeroes');hb.innerHTML='';
   for(const id in HEROES){if(!heroOwned(id))continue;const b=document.createElement('button');b.className='co-pick'+(LO.hero===id?' on':'');
     b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><span>'+HEROES[id].name+'</span>';
-    b.onclick=()=>{LO.hero=id;sfx('ui');coRoomUi();netSend({t:'hello',hero:id,meta:save.meta,nick:save.nick||'',bonus:heroBonus(id),pets:petsHello(id)});};hb.appendChild(b);}
+    b.onclick=()=>{LO.hero=id;sfx('ui');coRoomUi();netSend({t:'hello',uid:ON.me&&ON.me.id||null,hero:id,meta:save.meta,nick:save.nick||'',bonus:heroBonus(id),pets:petsHello(id)});};hb.appendChild(b);}
   const mb=$('#coMaps');mb.innerHTML='';
   for(const id of MAP_IDS){const own=host?mapUnlocked(id):LO.map===id;if(!own)continue;const b=document.createElement('button');
     b.className='co-pick map'+(LO.map===id?' on':'');b.disabled=!host;b.innerHTML='<span>'+MAPS[id].name+'</span>';
@@ -8555,13 +8633,13 @@ async function coJoin(code){
   try{await netOpen('guest',code);coRoomUi();coStatus(_t('Hledám hru ')+code+'…');}
   catch(e){$('#coErr').textContent=errText(e);CO.role=null;}
 }
-function coLobbyOpen(){CO.on=true;coStatus(_t('Spojeno')+(NET.mode==='bc'?_t(' (pomalejší spojení)'):'')+' · ping '+Math.round(NET.rtt||0)+' ms');
-  netSend({t:'hello',hero:LO.hero,meta:save.meta,nick:save.nick||'',bonus:heroBonus(LO.hero),pets:petsHello(LO.hero)});if(NET.role==='host')netSend({t:'map',map:LO.map,nm:LO.nm||0});
+function coLobbyOpen(){if(run&&run.away&&CO.role==='host'&&!run.over)return coRejoin();CO.on=true;coStatus(_t('Spojeno')+(NET.mode==='bc'?_t(' (pomalejší spojení)'):'')+' · ping '+Math.round(NET.rtt||0)+' ms');
+  netSend({t:'hello',uid:ON.me&&ON.me.id||null,hero:LO.hero,meta:save.meta,nick:save.nick||'',bonus:heroBonus(LO.hero),pets:petsHello(LO.hero)});if(NET.role==='host')netSend({t:'map',map:LO.map,nm:LO.nm||0});
   if(state==='coop')coRoomUi();sfx('level');}
-NET.h.hello=o=>{LO.mateHero=HEROES[o.hero]?o.hero:'knight';LO.mateMeta=o.meta||null;LO.mateBonus=o.bonus||null;LO.matePets=Array.isArray(o.pets)?o.pets.slice(0,2):[];LO.mateNick=o.nick||'';
+NET.h.hello=o=>{LO.mateUid=typeof o.uid==='string'&&/^[0-9a-f-]{36}$/.test(o.uid)?o.uid:null;LO.mateHero=HEROES[o.hero]?o.hero:'knight';LO.mateMeta=o.meta||null;LO.mateBonus=o.bonus||null;LO.matePets=Array.isArray(o.pets)?o.pets.slice(0,2):[];LO.mateNick=o.nick||'';
   if(state==='coop')coStatus(_t('Spojeno s ')+(LO.mateNick||_t('kamarádem'))+' ('+HEROES[LO.mateHero].name+') · ping '+Math.round(NET.rtt||0)+' ms');};
 NET.h.map=o=>{if(MAPS[o.map]){LO.map=o.map;LO.nm=o.nm||0;if(state==='coop')coRoomUi();}};
-NET.h.start=o=>{if(CO.role==='guest')guestStartRun(o);};
+NET.h.start=o=>{if(CO.role==='guest'){guestStartRun(o);if(o.re)toast(_t('Jsi zpátky ve hře!'),2000);}};
 NET.h.bye=()=>netLost();
 setInterval(()=>{if(state==='coop'&&NET.open&&!run)coStatus(_t('Spojeno s ')+(LO.mateNick||_t('kamarádem'))+' ('+HEROES[LO.mateHero].name+') · ping '+Math.round(NET.rtt||0)+' ms'+(NET.mode==='bc'?_t(' · pomalejší spojení'):''));},1500);
 
@@ -8582,7 +8660,7 @@ function coHostGo(bot){
 }
 /* ----- bot partner: an AI hero for co-op without a friend. Lives in the host simulation like a network partner, only its
    position comes from botStep() and its level-up cards from botPick(). It never spends the shared gold. ----- */
-function botPick(opts){let b=null,bs=-1;for(const o of opts||[]){const s=(o.k==='fuse'?100:o.k==='w'?(o.lv>1?12:8):4)+Math.random()*5;if(s>bs){bs=s;b=o;}}return b;}
+function botPick(opts){let b=null,bs=-1;for(const o of opts||[]){const s=(o.k==='fuse'||o.k==='duet'?100:o.k==='w'?(o.lv>1?12:8):4)+Math.random()*5;if(s>bs){bs=s;b=o;}}return b;}
 function botStep(dt){
   const pl=run.pls[1],q=pl.p,h=run.p,B=run.built||{},sz=run.map.size;
   if(q.lock>0)q.lock-=dt;q.forced=false;
@@ -8635,6 +8713,22 @@ function downPlayer(q){q.down=true;q.hp=0;q.rev=0;q.inv=0;q.flash=0;sfx('lose');
   if(alivePl().length===0){loseRun();return;}
   if(mine)toast0(_t('Padl jsi! Kamarád tě oživí, když k tobě dojde'),2600);else coToastMate(_t('Padl jsi! Kamarád tě oživí, když k tobě dojde'));
   if(mine)coToastMate(_t('Kamarád padl! Stoupni si k němu a oživ ho'));else toast0(_t('Kamarád padl! Stoupni si k němu a oživ ho'),2600);}
+// shared summary (11j): host builds it at the end and sends it; the guest sees itself first
+function coSum(){const C=coSt();return{h:[run.heroId,(run.pls&&run.pls[1].heroId)||LO.mateHero],n:[save.nick||'',run.bot?_t('Bot'):LO.mateNick||''],k:C.k.slice(),d:C.d.map(Math.round),r:C.r.slice(),sh:C.sh};}
+const coEsc=v=>String(v).slice(0,24).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+function coSumRows(rows){const S=run.sumR||run.sum;if(!run.coop||!S)return;const me=run.sumR?1:0,ic=k=>'<img class="cdl" alt="" src="'+dataUrl(SPR.icon[k])+'">',
+  num=v=>v>=1e4?numLoc(cz(Math.round(v/100)/10))+'k':String(v);
+  for(const i of [me,1-me]){const H=SPR.hero[S.h[i]]||SPR.hero.knight;rows.push(['<img class="cdl" alt="" src="'+dataUrl(H)+'"> '+(i===me?_t('Ty'):coEsc(S.n[i]||_t('Kamarád'))),
+    '<b>'+S.k[i]+'</b>'+ic('skull')+' <b>'+num(S.d[i])+'</b>'+ic('blade')+' <b>'+S.r[i]+'</b>'+ic('heart')]);}
+  if(S.sh)rows.push([ic('drum')+' '+_t('Souhra'),'<b style="color:var(--gold)">×'+S.sh+'</b>']);}
+// per-player numbers for the shared summary (11j)
+function coSt(){return run.cst||(run.cst={k:[0,0],d:[0,0],r:[0,0],sh:0,shb:-9,kb:[-9,-9]});}
+// Souhra (11j): both heroes kill something on the same beat → "Souhra ×N", the combo grows faster, every 10th drops a chest
+function coKill(i,e){const C=coSt();C.k[i]++;const bt=Math.floor(M.step/4);C.kb[i]=bt;if(C.kb[1-i]!==bt||C.shb===bt)return;
+  C.shb=bt;C.sh++;run.combo+=2;run.comboT=Math.max(run.comboT||0,2.2);const P=players(),mx=(P[0].x+P[1].x)/2,my=(P[0].y+P[1].y)/2;
+  if(run.nums.length<44)run.nums.push({x:mx,y:my-14,vx:0,vy:-40,txt:_t('SOUHRA')+' ×'+C.sh,life:.9,col:'#f6c744',big:true,t:0});
+  if(C.sh%10===0){run.items.push({x:mx,y:my,k:'chest'});toast0(_t('Souhra ×')+C.sh+_t('! Padla truhla'),1800);coToastMate(_t('Souhra ×')+C.sh+_t('! Padla truhla'));sfx('level');}
+  else if(C.sh===1&&!save.tipSh){save.tipSh=1;toast0(_t('Souhra! Zabíjejte oba na stejnou dobu'),2400);coToastMate(_t('Souhra! Zabíjejte oba na stejnou dobu'));}}
 function coToastMate(msg){if(run&&run.pls)netSend({t:'toast',m:msg});}
 // rhythm bond: a beam between the two heroes that hits on every beat, strongest at a mid distance
 function bondStr(d,w){const hi=w?180:140,lo=w?40:60,end=w?240:200;return d>end?0:d<40?.35:d<lo?.35+(d-40)/Math.max(1,lo-40)*.65:d<=hi?1:1-(d-hi)/(end-hi)*.75;}
@@ -8645,20 +8739,32 @@ function coopBeat(s){
     if(!o.down&&Math.hypot(o.x-q.x,o.y-q.y)<22){q.rev=(q.rev||0)+1;sfx('coin');
       const need=((o===run.pls[0].p?st:run.pls[1].st).lg||{}).heart?2:4;
       if(q.rev>=need){q.down=false;q.rev=0;q.hp=Math.ceil(q.max*.4);q.inv=2.5;sfx('level');run.flashScr=.3;
-        const mine=q===run.pls[0].p;if(run.qc){if(mine)run.qc.revG++;else run.qc.rev++;}if(mine){toast0(_t('Jsi zpátky!'),1600);coToastMate(_t('Oživil jsi kamaráda!'));}else{toast0(_t('Oživil jsi kamaráda!'),1600);coToastMate(_t('Jsi zpátky!'));}}}
+        const mine=q===run.pls[0].p;if(run.qc){if(mine)run.qc.revG++;else run.qc.rev++;}coSt().r[mine?1:0]++;if(mine){toast0(_t('Jsi zpátky!'),1600);coToastMate(_t('Oživil jsi kamaráda!'));}else{toast0(_t('Oživil jsi kamaráda!'),1600);coToastMate(_t('Jsi zpátky!'));}}}
     else q.rev=0;}
   if(a.down||b.down)return;
   run.bw=!!((st.lg||{}).chain||((run.pls[1].st||{}).lg||{}).chain);
   const d=Math.hypot(b.x-a.x,b.y-a.y),k=bondStr(d,run.bw);if(k<=0)return;
-  const dmg=(5+run.level*1.1)*k*(s%16===0?2:1)*(run.bw?1.5:1),L2=d*d||1;
-  for(const e of run.enemies){if(e.dead)continue;const t=clamp(((e.x-a.x)*(b.x-a.x)+(e.y-a.y)*(b.y-a.y))/L2,0,1),px=a.x+(b.x-a.x)*t,py=a.y+(b.y-a.y)*t;
-    if(Math.hypot(e.x-px,e.y-py)<e.r+3)hurtEnemy(e,dmg,0,0);}
+  const dmg=(5+run.level*1.1)*k*(s%16===0?2:1)*(run.bw?1.5:1),L2=d*d||1,BD=run.bond||{};
+  const onBeam=(x,y,r)=>{const t=clamp(((x-a.x)*(b.x-a.x)+(y-a.y)*(b.y-a.y))/L2,0,1);return Math.hypot(x-(a.x+(b.x-a.x)*t),y-(a.y+(b.y-a.y)*t))<r;};
+  CO.bondHit=true;try{
+  for(const e of run.enemies){if(e.dead)continue;if(onBeam(e.x,e.y,e.r+3)){if(BD.frost&&!e.boss)e.slowT=Math.max(e.slowT||0,1.2);hurtEnemy(e,dmg,0,0);}}
+  // bond cards (11j): lightning from the beam on the first beat of a bar, heal in the gold zone, gems pulled along the beam
+  if(BD.zap&&s%16===0){const mx=(a.x+b.x)/2,my=(a.y+b.y)/2;let e=null,bd=120;for(const q of run.enemies){if(q.dead||q.bur)continue;const dd=Math.hypot(q.x-mx,q.y-my);if(dd<bd){bd=dd;e=q;}}
+    if(e){run.fx.push({k:'ray',x:mx,y:my-4,x2:e.x,y2:e.y-3,w:2,life:.15,max:.15,col:'#9adcff'});hurtEnemy(e,dmg*3,0,0);sfx('zap');}}
+  }finally{CO.bondHit=false;}
+  if(BD.life&&k>=1)for(const q of P)if(!q.down&&q.hp<q.max)q.hp=Math.min(q.max,q.hp+q.max*.006);
+  if(BD.pull)for(const g of run.gems)if(!g.pull&&onBeam(g.x,g.y,26))g.pull=Math.hypot(g.x-a.x,g.y-a.y)<Math.hypot(g.x-b.x,g.y-b.y)?a:b;
 }
+const BOND={zap:{name:_t('Pouto: výboj'),ic:'lightning',desc:_t('Na první dobu taktu přeskočí z paprsku blesk na nejbližšího nepřítele.'),st:[[_t('Blesk'),'×3']]},
+  frost:{name:_t('Pouto: mráz'),ic:'frost',desc:_t('Nepřátelé zasažení paprskem zpomalí.'),st:[[_t('Zpomalení'),'1,2 s']]},
+  life:{name:_t('Pouto: život'),ic:'heart',desc:_t('Ve zlaté zóně paprsku se oba pomalu léčíte.'),st:[[_t('Léčení'),numLoc('+0,6 %')+'/'+_t('doba')]]},
+  pull:{name:_t('Pouto: tah'),ic:'magnet',desc:_t('Paprsek přitahuje krystaly zkušeností k bližšímu z vás.'),st:[[_t('Dosah'),'26']]}},BOND_IDS=Object.keys(BOND);
 NET.h.in=o=>{if(!run||!run.pls)return;const q=run.pls[1].p;if(q.lock>0)return;const sz=run.map.size;
   q.x=clamp(+o.x||q.x,14,sz-14);q.y=clamp(+o.y||q.y,14,sz-14);q.face.x=+o.fx||0;q.face.y=+o.fy||1;q.moving=!!o.mv;};
-NET.h.pick=o=>{if(!run||!run.pls||!run.lv||run.lv.guest)return;const opt=(run.lv.gOpts||[])[o.i];coApplyMate(opt,o.mul);};
-function coApplyMate(opt,mul){const pl=run.pls&&run.pls[1];if(!pl)return;clearTimeout(run.lv.tmr);
-  if(opt)withPl(pl,()=>{if(opt.k==='fuse')fuseApply(opt.f,mul||1);else applyOptCore(opt);recalc();run.p.max=st.max;run.p.hp=Math.min(run.p.hp,run.p.max);});
+NET.h.pick=o=>{if(!run||!run.pls||!run.lv||run.lv.guest)return;const opt=(run.lv.gOpts||[])[o.i];coApplyMate(opt,o.mul,Array.isArray(o.dz)?o.dz:null);};
+function coApplyMate(opt,mul,dz){const pl=run.pls&&run.pls[1];if(!pl)return;clearTimeout(run.lv.tmr);
+  if(opt&&opt.k==='duet'){if(run.duet)run.duet.res[1]=dz?[clamp(+dz[0]||0,0,2),clamp(+dz[1]||0,0,2)]:[0,0];}
+  else if(opt)withPl(pl,()=>{if(opt.k==='fuse')fuseApply(opt.f,mul||1);else applyOptCore(opt);recalc();run.p.max=st.max;run.p.hp=Math.min(run.p.hp,run.p.max);});
   run.lv.guest=true;if(run.lv.host)afterOption();}
 NET.h.pause=o=>{if(!run||run.over)return;if(o.on&&state==='play')togglePause(false,true);else if(!o.on&&state==='pause')togglePause(false,true);};
 NET.h.build=o=>{if(!run||!run.pls||!TOWERS[o.k])return;const q=o.ts||{},cl=(v,a,b)=>clamp(+v||1,a,b),ts={dm:cl(q.dm,1,3),hm:cl(q.hm,1,3),rm:cl(q.rm,1,1.2),cdm:cl(q.cdm,.8,1),cm:cl(q.cm,.75,1),p3:!!q.p3,p5:!!q.p5};
@@ -8675,8 +8781,9 @@ function coLevelOpen(chest){
     if(fz.length){if((run.fuseMiss||0)>=2||Math.random()<(chest?.8:.6)){const fo=pick(fz);run.fuseMiss=0;
         opts=[{k:'fuse',f:fo}].concat(opts.filter(o=>!(o.k==='w'&&(o.id===fo.a||o.id===fo.b))).slice(0,2));}
       else run.fuseMiss=(run.fuseMiss||0)+1;}
-    run.lv={host:false,guest:false,gOpts:opts,cards:opts.map(o=>Object.assign(optInfo(o),{f:o.k==='fuse'?o.f:null}))};});
-  if(run.bot){const o=botPick(opts);coApplyMate(o,o&&o.k==='fuse'?1.09:1);return;}
+    if(run.duet&&!opts.some(o=>o.k==='fuse'))opts=[{k:'duet',f:run.duet.f,mine:run.duet.b,mh:run.duet.hh}].concat(opts.filter(o=>!(o.k==='w'&&o.id===run.duet.b)).slice(0,2));
+    run.lv={host:false,guest:false,gOpts:opts,cards:opts.map(o=>Object.assign(optInfo(o),{f:o.k==='fuse'||o.k==='duet'?o.f:null}))};});
+  if(run.bot){const o=botPick(opts);coApplyMate(o,o&&o.k==='fuse'?1.09:1,o&&o.k==='duet'?[1,1]:null);return;}
   netSend({t:'lvl',cards:run.lv.cards,chest:!!chest});
   run.lv.tmr=setTimeout(()=>{if(run&&run.lv&&!run.lv.guest){const i=run.lv.gOpts.findIndex(o=>o.k!=='fuse');coApplyMate(run.lv.gOpts[Math.max(0,i)]);netSend({t:'lvlx'});}},25000);
 }
@@ -8702,6 +8809,7 @@ function coSnap(){
 const ETY=Object.keys(ENEMY_DEFS),SKINDS=['bolt','fire','arrow','axe','ice','shard','note','rang','steam'],IKINDS=['coin','heart','magnet','chest','mat'];
 function MAP_HERO(id){return [Object.keys(HEROES).indexOf(id)];}
 function coNetTick(dt){
+  if(run&&(run.away||run.reconn))coBackTick(dt);
   if(!run||!run.coop||!NET.open)return;
   if(CO.role==='host'&&run.pls){const q=run.pls[1].p;if(q.lock>0)q.lock-=dt;
     CO.snapT=(CO.snapT||0)-dt;if(CO.snapT<=0){CO.snapT=NET.mode==='bc'?1/8:1/15;coSnap();}}
@@ -8798,11 +8906,11 @@ NET.h.note=o=>note(o.m);
 NET.h.lvl=o=>{if(CO.role!=='guest'||!run)return;CO.cards=o.cards;
   $('#luTitle').textContent=o.chest?_t('Poklad!'):_t('Nová úroveň!');const list=$('#luList');list.innerHTML='';
   o.cards.forEach((i,idx)=>{const b=luCard(i,idx,false);
-    b.addEventListener('click',()=>{if(state!=='levelup')return;sfx('ui');if(i.fuse&&i.f){startFuse(i.f,idx);}else{netSend({t:'pick',i:idx});coWait();}});list.appendChild(b);});
+    b.addEventListener('click',()=>{if(state!=='levelup')return;sfx('ui');if(i.duet&&i.f){startFuse(i.f,idx,undefined,[1,3]);}else if(i.fuse&&i.f){startFuse(i.f,idx);}else{netSend({t:'pick',i:idx});coWait();}});list.appendChild(b);});
   sfx('level');setState('levelup');luPaint();};
 NET.h.lvlx=()=>{if(state==='levelup'||state==='wait')setState('play');};
 NET.h.resume=()=>{if(CO.role==='guest'&&run&&!run.over&&(state==='wait'||state==='levelup'))setState('play');};
-NET.h.end=o=>{if(CO.role==='guest'&&run&&!run.over){run.crystalDead=o.cd;if(o.tt!==undefined){run.t=o.tt;run.coins=o.c;run.spent=o.sp||0;run.mat=o.mt;run.kills=o.k;run.level=o.lv;}run.qcR=o.q||null;finish(!!o.won);setTimeout(()=>{netClose();CO.on=false;CO.role=null;},1500);}};
+NET.h.end=o=>{if(CO.role==='guest'&&run&&!run.over){run.crystalDead=o.cd;if(o.tt!==undefined){run.t=o.tt;run.coins=o.c;run.spent=o.sp||0;run.mat=o.mt;run.kills=o.k;run.level=o.lv;}run.qcR=o.q||null;run.sumR=o.sum||null;finish(!!o.won);setTimeout(()=>{netClose();CO.on=false;CO.role=null;},1500);}};
 function coWait(){$('#waitTxt').textContent=_t('Kamarád ještě vybírá…');setState('wait');}
 
 /* ----- shared rendering helpers ----- */
@@ -8836,6 +8944,13 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11j',d:'11. 11. 2026',t:_t('Co-op: pouto, souhra a duet'),hl:[
+  {ic:'lightning',t:_t('Karty pouta'),d:_t('V co-opu se v nabídce úrovně objevují karty, které vylepší rytmické pouto: <b>výboj</b>, <b>mráz</b>, <b>život</b> a <b>tah</b> krystalů.')},
+  {ic:'drum',t:_t('Souhra'),d:_t('Když oba zabijete nepřítele <b>na stejnou dobu</b>, naskočí Souhra a kombo roste rychleji. Každá desátá Souhra <b>shodí truhlu</b>.')},
+  {ic:'vortex',t:_t('Duetní fúze'),d:_t('Když máš jednu půlku receptu ty a druhou kamarád, nabídne se vám oběma duet. Ty ťukáš doby 1 a 3, kamarád 2 a 4 a <b>ultimátku dostanete oba</b>.')},
+  {ic:'heart',t:_t('Návrat po výpadku'),d:_t('Když kamarádovi vypadne spojení nebo zavře hru, hra na něj <b>30&nbsp;s počká</b>. Vrátí se stejným kódem i se svým hrdinou a zbraněmi.')},
+  {ic:'trophy',t:_t('Společné shrnutí a co-op žebříček'),d:_t('Na konci běhu uvidíte, kdo kolik zabil, kolik dal poškození a kolikrát koho oživil. V Síni slávy přibyla záložka <b>Co‑op</b> s nejlepšími dvojicemi.')}],
+  items:[_t('Do co-op žebříčku se běhy s botem nepočítají.'),_t('Duet funguje i s botem.')]},
  {v:'2026-11-11i',d:'11. 11. 2026',t:_t('Obtížnost roste s tebou'),hl:[
   {ic:'skull',t:_t('Obtížnost roste s tebou'),d:_t('Každá kapitola je teď stejně náročná vůči tomu, jak silný v ní obvykle jsi. Začátek je vlídnější, Prokleté pobřeží a Hvězdárna přitvrdily. Hlubiny a Hvězdárna zůstávají zdí.')},
   {ic:'hero:astro',t:_t('Slabší hrdinové posíleni'),d:_t('Astra: Souhvězdí +25 % poškození. Pirátka: Kotva +12 %. Stavitel: +25 zdraví místo +15.')}],

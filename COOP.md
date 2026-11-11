@@ -1,6 +1,6 @@
 # Pixel Krypta – návrh co-opu pro 2 hráče
 
-Stav: **fáze 0–3 a Rytmické pouto jsou hotové a nasazené** (listopad 2026). Zbývá: Souhra, Duetní fúze, co-op karty pouta, co-op žebříček, návrat po odpojení.
+Stav: **fáze 0–5 hotové** (11j, 11. 11. 2026): karty pouta, Souhra, Duetní fúze, společné shrnutí, návrat po odpojení, co-op žebříček. Zbývá: ověřit naostro na dvou telefonech, spustit SQL co-op žebříčku (`supabase/migrations/20261111a_coop_board.sql`, uživatel v SQL Editoru), ladění podle testerů, případně lokální co-op na jednom telefonu.
 
 ### Jak je to postavené (odchylky od návrhu)
 - Místo velkého refaktoru `run.p → run.players[]` hra používá **`withPl(pl, fn)`**: dočasně prohodí `run.p/W/P/hero/heroId/fused/fuseMiss/revived/meta` a `st` na partnera a pustí stávající kód. Sólo tak běží přesně stejnou cestou jako dřív.
@@ -118,15 +118,15 @@ Už dnes každá ultimátka přidává do hudby nástroj. V co-opu se vrstvy obo
 - [x] Sdílený level-up s čekáním na partnera a 15s limitem.
 - [x] Padnutí, duch a oživení do rytmu.
 - [x] Škálování pro 2, sdílená pauza, šipka k partnerovi.
-- [x] Odpojení, konec běhu a mince oběma. **Zbývá:** návrat po odpojení (30 s), společné shrnutí.
+- [x] Odpojení, konec běhu a mince oběma. Návrat po odpojení (30 s) a společné shrnutí (11j).
 
 ### Fáze 4: co-op prvky
-- [x] Rytmické pouto. **Zbývá:** 4 co-op karty pouta.
-- [ ] Souhra.
-- [ ] Duetní fúze (rituál otázka–odpověď).
+- [x] Rytmické pouto a 4 karty pouta (11j).
+- [x] Souhra (11j).
+- [x] Duetní fúze (rituál otázka–odpověď, 11j).
 
 ### Fáze 5: dokončení
-- [ ] Záložka Co-op v žebříčku (nová tabulka v Supabase, RLS).
+- [x] Záložka Co-op v žebříčku (tabulka `coop_runs` + funkce `coop_board`, 11j; SQL čeká na spuštění uživatelem).
 - [ ] Ladění balancu podle testerů.
 - [ ] Případně lokální co-op na jednom telefonu (dva joysticky). Po fázi 0 už je to malá práce.
 
@@ -151,3 +151,12 @@ Host simuluje mazlíčky obou hráčů (karty kamaráda přijdou v `hello.pets`)
 - Balanc (bot.js, profil zkušený, 11. 11.): Hřbitov 100 % sólo i s botem, Doly 0 % obojí, Poušť o něco lehčí s botem (hlídá krystal). Bot tedy není lehký režim, zdi kapitol drží. Měření: `BOT=knight node bot.js 5 knight,mage hrbitov,poust,doly 0 zkuseny`.
 - Test: `node tests/tools/botcoop.js [složka] [cs|en] [telefon]` (lobby, 60 s běhu, pouto, karty, zlato, oživení oběma směry, konec).
 - Možné další kroky: hláška, co si bot vybral; povaha bota (opatrný/útočný); bot staví věže na pokyn.
+
+## 11j – dokončení co-opu
+- **Karty pouta** (`BOND`, `k:'bond'` v `levelOptions`, jen s `run.pls`, od úrovně 3, v nabídce vždy jen jedna, sdílené v `run.bond`): `zap` blesk z paprsku na 1. dobu taktu (×3), `frost` zpomalí zasažené, `life` léčí oba ve zlaté zóně (0,6 %/doba), `pull` paprsek přitahuje krystaly k bližšímu hráči. Efekty v `coopBeat`; zásahy paprsku se nepočítají do Souhry ani statistik (`CO.bondHit`).
+- **Statistiky a Souhra** (`coSt()` = `run.cst`: `k`, `d`, `r` po hráčích): zabití připíše `killEnemy` tomu, v čí `withPl` běží (`coKill`), poškození `hurtEnemy`, oživení `coopBeat`. Souhra = oba zabijí na stejnou dobu (`Math.floor(M.step/4)`), +2 kombo, číslo „SOUHRA ×N“, každá 10. truhla (`items` `chest`).
+- **Shrnutí:** hostitel `coSum()` při `finish` → `run.sum`, pošle v `end` (`sum`); kamarád `run.sumR`, sebe vidí první. Řádky v `coSumRows` (ikony lebka/čepel/srdce, Souhra s bubínkem).
+- **Návrat po odpojení** (`CO_BACK`=30 s): `netLost` během běhu (ne s botem) → hostitel `coAway` (kamarádův `pl` se odloží do `run.away`, `run.pls=null`, místnost znovu otevře pod stejným kódem), kamarád `coGuestRetry` (každých 6 s `netOpen('guest')`). Po spojení `coLobbyOpen` u hostitele zavolá `coRejoin` → `start` s `re:1` → kamarád `guestStartRun`. Platí i pro zavřenou stránku a nové připojení kódem. Odpočet `coBackTick` v `coNetTick`. Zavření stránky u kamaráda pošle společnou pauzu, hostitel ji odklikne.
+- **Duetní fúze** (`duetFusable`, `run.duet`): recept rozdělený mezi oba (hostitel `ha`, kamarád `ga`, nikdo nemá obě půlky), nabídka 60 % (truhla 80 %, jistota na 3. pokus `duetMiss`). Karta `k:'duet'` (na kartě hrdina kamaráda u jeho půlky, `mh`); rituál `startFuse(f,idx,opts,only)`: hostitel doby 1 a 3 (`[0,2]`), kamarád 2 a 4 (`[1,3]`), cizí doby jsou `'x'` (pip `.mate`). Kamarád pošle `pick` s `dz:[perf,dobré]`, bot `[1,1]`. `duetResolve` v `afterOption`: oba vybrali → ultimátka oběma (síla jako u fúze ze společného výsledku, 4× perfektní = ×1,25 „Perfektní duet“), jinak útěcha +30 zlata a léčení.
+- **Co-op žebříček:** tabulka `coop_runs` (zapisuje jen hostitel `host=auth.uid()`, max 1×/min, limity hodnot), čtení jen přes `coop_board(p_map)` (přezdívky z `profiles`, skryté profily pryč, každá dvojice jednou). Klient `coopRecord` při `finish` (ne s botem), kamarád posílá `uid` v `hello`. Záložka `coop` v `#boardTabs`, `coopBoard()`; bez tabulky ukáže „se ještě chystá“.
+- **Testy:** `tests/tools/coopnove.js` (s botem: karty, Souhra, duet, shrnutí, snímky), `tests/coop-navrat.js` a `tests/coop-duet.js` (dvě stránky, WebRTC, mock; spustit `python3 -m http.server 8765` v kořeni). Hra si nese vlastní `vendor/supabase-*.js`, který by přepsal mock – testy ho podvrhnou prázdným souborem (`ctx.route`). Starý `coop-test.js` to zatím nedělá.

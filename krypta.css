@@ -1460,3 +1460,7 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 #scr-coop .co-pick.on{background-color:#3b3524!important;box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 0 0 4px var(--gold),inset 0 6px 0 0 #5a5030!important}
 #scr-coop .co-pick.on span{color:var(--gold)}
 #scr-coop .sticky .btn{width:100%}#scr-coop .sticky .hint{margin:0}
+/* 11j co-op: duet ritual – the friend's beats are dimmed blue; co-op leaderboard row shows both heroes */
+.fz-pips i.mate{background:#1c2a3a;box-shadow:inset 0 0 0 2px #4a6a8a;opacity:.7}
+.brow .cav{display:flex;flex:none;gap:0}.brow .cav img{width:24px;height:24px;image-rendering:pixelated;object-fit:contain}.brow .cav img+img{margin-left:-6px}
+.k-card .st.k-eq img.ic.mh{width:auto;height:30px;margin-right:-8px;align-self:flex-end}
