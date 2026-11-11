@@ -5,6 +5,7 @@ const noRtc=process.argv[2]==='nortc';
 (async()=>{const b=await chromium.launch();
 const ctx=await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true,deviceScaleFactor:2});
 await ctx.addInitScript({path:__dirname+'/supabase-mock.js'});
+await ctx.route('**/vendor/supabase-*.js',r=>r.fulfill({body:'',contentType:'text/javascript'})); // 11j: vlastní Supabase hry by přepsal mock
 const H=await ctx.newPage(),G=await ctx.newPage();for(const p of [H,G]){p.errs=[];p.on('pageerror',e=>p.errs.push(e.message+' '+(e.stack||'').split('\n')[1]));}
 if(noRtc){await G.addInitScript(()=>{delete window.RTCPeerConnection;window.__lat=60;window.__loss=.05;});await H.addInitScript(()=>{window.__lat=60;window.__loss=.05;});}
 await H.goto('http://127.0.0.1:8765/index.html');await H.waitForTimeout(500);
