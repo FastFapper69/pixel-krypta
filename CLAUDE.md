@@ -87,7 +87,8 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
 - Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
 
-## Aktuální stav (verze 11f, 11. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 11g, 11. 11. 2026, vše na main, Pages nasazené)
+- **11g:** krystal XP má vlastníka (`g.pull` = hrdina, ke kterému letí; dřív `true` → v co-opu ho táhli oba a visel na poutu). Nové místo, které přitahuje krystaly, nastav `g.pull=run.p` (uvnitř `withPl` je to správný hrdina).
 - **11f co-op s botem:** „Hrát s kamarádem“ → `#coBot` (jde i offline). Bot je partner v simulaci hostitele (`run.pls`, `run.bot`), bez sítě; pohyb `botStep(dt)`, karty `botPick`, start `coHostGo(true)`. Podrobnosti `COOP.md` „Bot“, test `tests/tools/botcoop.js`, balanc `BOT=hrdina node bot.js …`.
 - Hra: 6 kapitol (30 map, I–VI), 11 hrdinů, Noční můry I–III, Nekonečná krypta na finále, Runy, Souhvězdí, Nástěnka (denní úkoly, kontrakty, týdenní výzva), co-op beta, mazlíčci, věže jen z bedny. Podrobnosti kapitol `KAMPAN.md`, ekonomika `EKONOMIKA.md`, historie všech verzí `docs/HISTORIE.md`, mapa kódu `docs/KOD.md`.
 - Vzhled: starý styl (kámen a železo, kovaná tlačítka `.btn`) se postupně nahrazuje novou grafikou (viz níže); fialová jen pro Epické a kouzla. Staré obrazovky používají CSS rám `.btn:not(.art)`.

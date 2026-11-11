@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11f';
+const GAME_VER='2026-11-11g';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3695,7 +3695,7 @@ function fireAll(s){runeBeat(s);
     if(e){explode(e.x,e.y,26,26+run.level*3);run.fx.push({k:'shock',x:e.x,y:e.y,r:3,t:0,life:.4,max:30,col:'#ffe58a'});for(let i=0;i<10;i++)addP({x:e.x+rnd(-4,4),y:e.y-40+i*4,vx:rnd(-10,10),vy:80,life:.25,col:pick(['#ffe58a','#ffffff']),sz:1,g:0});}}
   if(st.lg&&st.lg.eheart&&s%32===16&&run.t>1){const p=run.p;for(const e of run.enemies)if(!e.dead&&Math.hypot(e.x-p.x,e.y-p.y)<130){e.mk=Math.max(e.mk||0,run.t+3);e.mkm=Math.max(e.mkm||1.2,1.3);}run.fx.push({k:'shock',x:p.x,y:p.y,r:3,t:0,life:.5,max:130,col:'#7a4ab8'});}
   if(st.lg&&st.lg.sf4&&s%32===0&&run.t>1)anvilStrike();
-  if(st.tr&&st.tr.l2&&s%(16*(17-st.tr.l2))===0&&run.t>1)run.gems.forEach(g=>g.pull=true);
+  if(st.tr&&st.tr.l2&&s%(16*(17-st.tr.l2))===0&&run.t>1)run.gems.forEach(g=>g.pull=run.p);
   if(st.lg&&st.lg.sfr4&&s%32===16&&run.t>1){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:84,dmg:20+run.level*2,hit:new Set(),life:1,freeze:true,col:'#8af0ff'});sfx('zap');}
   if(st.lg&&st.lg.st4&&s%32===8&&run.t>1){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:92,dmg:18+run.level*2,hit:new Set(),life:1,noslow:true,kb:7,col:'#5ae0d0'});sfx('zap');}
   if(st.lg&&st.lg.kheart&&s%32===24&&run.t>1){const p=run.p,near=run.enemies.filter(e=>!e.dead&&!e.bur&&!e.d.noHit&&Math.hypot(e.x-p.x,e.y-p.y)<150).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y)).slice(0,3);
@@ -4278,7 +4278,8 @@ function updatePickups(dt){updatePickups0(dt);if(run.pls)withPl(run.pls[1],()=>u
 function updatePickups0(dt){
   const p=run.p,mag=st.mag;
   for(const g of run.gems){const dx=p.x-g.x,dy=p.y-g.y,d=Math.hypot(dx,dy)||1;
-    if(g.pull||d<mag){g.pull=true;g.sp=(g.sp||40)+400*dt;g.x+=dx/d*g.sp*dt;g.y+=dy/d*g.sp*dt;}
+    if(g.pull&&g.pull!==p&&(g.pull===true||!run.pls))g.pull=p; // 11g: a gem flies to ONE hero (it used to be pulled by both → stuck on the bond line)
+    if(g.pull===p||(!g.pull&&d<mag)){g.pull=p;g.sp=(g.sp||40)+400*dt;g.x+=dx/d*g.sp*dt;g.y+=dy/d*g.sp*dt;}
     if(d<5){g.dead=true;addXP(g.v);run.gemChain=(run.t-(run.gemLast||-9)<.4)?Math.min(8,(run.gemChain||0)+1):0;run.gemLast=run.t;sfx('gem');
       if(run.parts.length<420)addP({x:p.x+rnd(-3,3),y:p.y-6,vx:rnd(-10,10),vy:-30,life:.25,col:'#bfeaff',sz:1,g:0});}}
   run.gems=run.gems.filter(g=>!g.dead);
@@ -4289,7 +4290,7 @@ function updatePickups0(dt){
       else if(it.k==='mat'){run.mat=(run.mat||0)+(it.v||1);sfx('coin');if(run.parts.length<420)for(let i=0;i<5;i++)addP({x:p.x,y:p.y-6,vx:rnd(-30,30),vy:rnd(-60,-20),life:.4,col:'#ffd27a',sz:1,g:0});}
       else if(it.k==='heart'&&hasMod('noheal')){}
       else if(it.k==='heart'){p.hp=Math.min(p.max,p.hp+Math.round(p.max*.3));toast(_t('Zdraví +'),900);sfx('level');}
-      else if(it.k==='magnet'){run.gems.forEach(g=>g.pull=true);toast(_t('Magnet!'),900);sfx('level');}
+      else if(it.k==='magnet'){run.gems.forEach(g=>g.pull=p);toast(_t('Magnet!'),900);sfx('level');}
       else if(it.k==='chest'){run.coins+=rndi(15,30);run.pending+=st.tr&&Math.random()<.08*st.tr.l1?2:1;sfx('coin');run.chestOpen=true;}}}
   run.items=run.items.filter(i=>!i.dead);
 }
@@ -7157,7 +7158,7 @@ function petStep(P,dt){const p=run.p,D=PETS[P.k],S=P.S;
       for(let i=0;i<22;i++){const v=rnd(60,150),a=Math.atan2(uy,ux)+rnd(-.35,.35);addP({k:'ember',x:P.x,y:P.y-4,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:rnd(.25,.5),col:pick(['#fff6c8','#f6c744','#f08a3c','#e8501e']),sz:1,g:0});}
       sfx('boom');}}
   // specials
-  if(P.k==='raven'){const R=70*S.pw;for(const g of run.gems)if(Math.hypot(g.x-P.x,g.y-P.y)<R)g.pull=true;
+  if(P.k==='raven'){const R=70*S.pw;for(const g of run.gems)if(Math.hypot(g.x-P.x,g.y-P.y)<R)g.pull=run.p;
     for(const it of run.items){if(it.k!=='coin'&&it.k!=='mat')continue;const ex=p.x-it.x,ey=p.y-it.y,dd=Math.hypot(it.x-P.x,it.y-P.y);if(dd<R){const l=Math.hypot(ex,ey)||1;it.x+=ex/l*110*dt;it.y+=ey/l*110*dt;}}}
   if(P.k==='owl'){P.markT-=dt;if(!P.mark||P.mark.dead||P.markT<=0){let be=null,bs=-1;for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit)continue;if(Math.hypot(e.x-p.x,e.y-p.y)>150)continue;const sc=(e.boss?1e6:e.elite?1e5:0)+e.hp;if(sc>bs){bs=sc;be=e;}}
       if(be){P.mark=be;P.markT=4;be.mk=run.t+4.2;be.mkm=1+.2*S.m*S.pw;}else P.mark=null;}
@@ -8563,6 +8564,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11g',d:'11. 11. 2026',t:_t('Krystaly v co-opu'),hl:[
+  {ic:'shard',t:_t('Krystaly už nevisí na poutu'),d:_t('Krystal teď letí jen k jednomu hrdinovi. Dřív ho v co-opu táhli oba naráz a zasekl se na čáře mezi vámi.')}]},
  {v:'2026-11-11f',d:'11. 11. 2026',t:_t('Co-op s botem'),hl:[
   {ic:'hero:mage',t:_t('Hrát s botem'),d:_t('Nemáš po ruce kamaráda? V „Hrát s kamarádem“ je nově bot. Vybereš mu hrdinu, drží s tebou rytmické pouto, sbírá krystaly a sám si volí zbraně. Jde to i bez internetu.')},
   {ic:'heart',t:_t('Navzájem se oživíte'),d:_t('Když padneš, bot k tobě doběhne a postaví tě na nohy. Když padne on, přijde jako duch za tebou. Společné zlato neutrácí, věže stavíš ty.')}],

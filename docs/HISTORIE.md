@@ -335,3 +335,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - **Co-op s botem**: `#coBot` v lobby, `coBotOpen`, `coHostGo(true)`, `run.bot`, `botStep(dt)` (pohyb), `botPick` (karty). Bot žije v simulaci hostitele jako síťový partner, bez sítě, jde i offline. Neutrácí zlato, hlídá krystal, oživuje a nechá se oživit. Popis v `COOP.md` „Bot“.
 - Lobby co-opu: vybraný hrdina/mapa je zase zlatě (kamenná karta z 10q přebíjela `.co-pick.on`), `#coGo` je v `.sticky` dole, nadpis „S botem“.
 - Testy: `botcoop.js`; `bot.js` umí `BOT=hrdina` (co-op s botem pro balanc).
+
+## 11g (11. 11. 2026)
+- Krystaly XP v co-opu: `g.pull` nese hrdinu (dřív `true`, takže po přitažení je `updatePickups0` táhl k oběma hrdinům a krystaly visely na čáře pouta). Magnet, talent `l2`, Havran i dosah magnetu nastaví vlastníka; starý `true` nebo vlastník po odpojení kamaráda přejde na hráče. Test v `botcoop.js` (před opravou 18 z 21 krystalů viselo, po ní 0).

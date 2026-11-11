@@ -27,6 +27,12 @@ console.log(JSON.stringify(rv));ok(rv.down===false,'bot oživil hráče za '+rv.
 const rb=await E(`(()=>{const K=window.__krypta,pl=run.pls[1];pl.revived=9;pl.pet=null;pl.p.inv=0;K.god=false;withPl(pl,()=>{run.skyG=1;hurtPlayer(99999,'test');});K.god=true;if(!pl.p.down)return{err:'bot nepadl'};
  let t=0;K.force={x:0,y:0};while(pl.p.down&&t<25){if(state==='levelup'){document.querySelector('#luList button').click();continue;}if(state!=='play')return{err:state};run.enemies.length=0;K.step(1/40);t+=1/40;}return{t:+t.toFixed(1),down:pl.p.down};})()`);
 console.log(JSON.stringify(rb));ok(rb.down===false,'padlý bot přišel k hráči a byl oživen za '+rb.t+' s');
+// 11g: krystaly mezi hráčem a botem se nesmí zaseknout na poutu (dřív je táhli oba naráz)
+const gm=await E(`(()=>{const K=window.__krypta,a=run.p,b=run.pls[1].p;b.x=a.x+100;b.y=a.y;run.enemies.length=0;run.gems.length=0;
+ for(let i=0;i<=20;i++){const t=i/20;run.gems.push({x:a.x+(b.x-a.x)*t,y:a.y+(i%3-1)*4,v:1});}
+ K.force={x:0,y:0};const lv0=run.level;let t=0;while(run.gems.length&&t<4){if(state==='levelup'){document.querySelector('#luList button').click();continue;}if(state!=='play')break;run.enemies.length=0;K.step(1/40);t+=1/40;}
+ return{left:run.gems.length,t:+t.toFixed(1)};})()`);
+console.log(JSON.stringify(gm));ok(gm.left===0,'krystaly mezi hráčem a botem sebrané za '+gm.t+' s (zbylo '+gm.left+')');
 // konec běhu: odměna, návrat do lobby bota
 await E("window.__krypta.finish(true)");await p.waitForTimeout(1400);await L.shot(p,out+'/botcoop-4-'+lang+'.png');
 ok(await E("state==='over'"),'konec běhu se ukázal');
