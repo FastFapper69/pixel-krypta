@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11c';
+const GAME_VER='2026-11-11d';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4930,7 +4930,11 @@ try{new MutationObserver(kaKick).observe(document.getElementById('app'),{subtree
 function kHelpSync(){for(const S of document.querySelectorAll('.scr:not([hidden])')){const hd=S.querySelector('.wrap>.head');if(!hd)continue;let b=hd.querySelector('.k-helpb');const has=[...S.querySelectorAll('.kh')].some(e=>e.textContent.trim()&&!e.closest('[hidden]'));
    if(!b){if(!has)continue;b=document.createElement('button');b.className='btn alt sm k-helpb';b.setAttribute('aria-label',_t('Nápověda'));b.innerHTML=KIT.img('help');b.onclick=()=>{sfx('ui');kHelpOpen(S);};hd.insertBefore(b,hd.querySelector('.btn'));}
    if(b.hidden===has)b.hidden=!has;}}
-function kHelpOpen(S){const P=$('#kHelp');$('#kHelpTxt').innerHTML=[...S.querySelectorAll('.kh')].filter(e=>e.textContent.trim()&&!e.closest('[hidden]')).map(e=>'<div>'+e.innerHTML+'</div>').join('');P.hidden=false;P.onclick=()=>{P.hidden=true;};const c=P.querySelector('.khcard');c._kk=null;KIT.paint(P);}
+function kHelpOpen(S){const P=$('#kHelp');$('#kHelpTxt').innerHTML=[...S.querySelectorAll('.kh')].filter(e=>e.textContent.trim()&&!e.closest('[hidden]')).map(e=>'<div>'+e.innerHTML+'</div>').join('');P.hidden=false;P.onclick=()=>{P.hidden=true;};
+  // 11d: tlačítka v nápovědě jsou kopie – kliknutí předají originálu (dřív nedělala nic) a dostanou kamennou kresbu
+  const org=[...S.querySelectorAll('.kh')].filter(e=>e.textContent.trim()&&!e.closest('[hidden]')).flatMap(e=>[...e.querySelectorAll('button')]);
+  [...$('#kHelpTxt').querySelectorAll('button')].forEach((b,i)=>{b.removeAttribute('id');b.dataset.k='btn';b.dataset.m=b.classList.contains('alt')||b.classList.contains('sm')?'slate':'gold';b.classList.add('ka');const o=org[i];b.onclick=e=>{e.stopPropagation();P.hidden=true;if(o&&!o.disabled)o.click();};});
+  const c=P.querySelector('.khcard');c._kk=null;KIT.paint(P);}
 // HUD běhu: kamenná koryta ukazatelů, kamenná tlačítka věží a pauzy (kreslí se při vstupu do běhu, za běhu se jen mění šířka tekutiny)
 function hudPaint(){const H=$('#hud');if(!H||H.hidden)return;for(const [q,g] of [['#hpBar','hp'],['#xpBar','xp'],['#crbar','xp'],['#bossbar .bar','hp']]){const e=H.querySelector(q);if(e){e.dataset.k='gauge';e.dataset.g=g;e.dataset.v=0;}}
   const p=$('#btnPause');p.dataset.k='btn';p.dataset.m='slate';for(const q of ['#upBtn','#repBtn']){const e=$(q);e.dataset.k='btn';e.dataset.m='gold';e.classList.add('ka');}KIT.paint(H);}
@@ -8509,6 +8513,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11d',d:'11. 11. 2026',t:_t('Čitelná nápověda'),hl:[
+  {ic:'scroll',t:_t('Nápověda pod otazníkem'),d:_t('Text na pergamenu je tmavý a ostrý, bez stínu. Zdroje hvězdných bodů jsou řádky jako v knize.')},
+  {ic:'star',t:_t('Vrátit body funguje'),d:_t('Tlačítko Vrátit body v nápovědě Souhvězdí dřív nic nedělalo. Teď otevře vrácení bodů.')}]},
  {v:'2026-11-11c',d:'11. 11. 2026',t:_t('Posuvné Souhvězdí'),hl:[
   {ic:'star',t:_t('Souhvězdí do strany'),d:_t('Souhvězdí jsou ve větších kartách v pruhu, který posouváš prstem do strany. Vybrané se samo posune doprostřed.')},
   {ic:'tower:arrow',t:_t('Stejné karty věží'),d:_t('Tlačítka věží v boji mají všechna stejný rám, takže ceny jsou pod sebou na stejném místě.')}]},

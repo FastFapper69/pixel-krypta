@@ -2705,5 +2705,10 @@ window.KRYPTA_EN={
 "Souhvězdí do strany":"Constellations side by side",
 "Souhvězdí jsou ve větších kartách v pruhu, který posouváš prstem do strany. Vybrané se samo posune doprostřed.":"Constellations are bigger cards in a strip you swipe sideways. The selected one slides to the middle.",
 "Stejné karty věží":"Matching tower cards",
-"Tlačítka věží v boji mají všechna stejný rám, takže ceny jsou pod sebou na stejném místě.":"Tower buttons in battle all share the same frame, so the prices line up."
+"Tlačítka věží v boji mají všechna stejný rám, takže ceny jsou pod sebou na stejném místě.":"Tower buttons in battle all share the same frame, so the prices line up.",
+"Čitelná nápověda":"Readable help",
+"Nápověda pod otazníkem":"Help behind the question mark",
+"Text na pergamenu je tmavý a ostrý, bez stínu. Zdroje hvězdných bodů jsou řádky jako v knize.":"Text on the parchment is dark and crisp, without a shadow. Star point sources are listed like lines in a book.",
+"Vrátit body funguje":"Refund points works",
+"Tlačítko Vrátit body v nápovědě Souhvězdí dřív nic nedělalo. Teď otevře vrácení bodů.":"The Refund points button in the Constellation help did nothing before. Now it opens the refund."
 };

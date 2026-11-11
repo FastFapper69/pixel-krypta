@@ -324,3 +324,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 ## 11c (11. 11. 2026)
 - Souhvězdí: záložky jako posuvný pruh do strany (karty 104 px, scroll-snap, vybrané se posune doprostřed). Je to 5 témat (Válečník, Strážce, Stavitel, Krotitel, Hudebník) společných pro všechny hrdiny, ne hrdinové.
 - Lišta věží v boji: `data-s` byl id věže, ale KIT ho bere jako semínko otlučení rámu → každé tlačítko mělo jinak vysoký spodek a ceny vypadaly posunuté. Teď `data-tw`.
+
+## 11d (11. 11. 2026)
+- Nápověda `#kHelp` (pergamen): text bez stínu, tmavý inkoust, jen řez 400 (Jersey nemá tučný – syntetický byl rozmazaný), řádky zdrojů hvězdných bodů jako zápis v knize. Tlačítka v kopii nápovědy předávají klik originálu (Vrátit body dřív nefungovalo), neaktivní se skryjí. `grafcheck.js` prochází i nápovědy (help_sky, help_hero, help_select).
