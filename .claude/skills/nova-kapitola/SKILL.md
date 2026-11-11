@@ -47,7 +47,12 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
   - `rifts` `{every:4, from:20, n:4, pool:['shade'], col, tip}` (11h) – u každého hrdiny se otevře trhlina, za takt bouchne a pustí nepřátele. Proti stylu „drž odstup“. Boss ji otevře `KIT_MECH.rifts.open(x,y,bar)`.
   - `echo` `{delay:2, from:25, r:24, dmg, pct, edmg}` (11h) – stín hrdiny jde jeho cestou o `delay` taktů později a na 1. dobu bouchne. Trestá běhání v kruhu.
   - `lantern` `{r:120, spd:15, from:6, dmg, pct}` (11h) – pro tmavou mapu (`dark` .9): bezpečí jen ve světle plující lucerny (nebo věže Lucerna), mimo tik poškození; `run.kn.dim` ji ztlumí.
-  - Háčky `KIT_MECH`: `init, update, gupdate, psp, espd, ground, top, over, glows, lights` (světlo do tmy, 11h), `ph2`, `snap/apply`.
+  - `shrink` `{from:40, every:12, r0:.47, step:.035, min:.24, dmg, pct, col, tip}` (11r) – prázdnota ukusuje okraj mapy po krocích (takt varování, příští okraj bliká), venku bolí a zpomaluje. **Bere prostor stylu „drž odstup“.** Bot: `R.ksh` v `hraci.js`.
+  - `goldblood` `{r:64, heal:.012, cap:.04, col, tip}` (11r) – nepřítel, který padne do `r` od hrdiny, ho vyléčí (`heal` max. zdraví, nejvýš `cap` za sekundu). **Odměna za boj zblízka:** neopatrný přežije déle, takže poškození (`dmm`) může jít nahoru a srazit průměrného.
+  - `statues` `{e:'statue'|'scarecrow'|…, n:20, every:4, k:2, wake:220, from}` – spící nepřátelé (jakýkoli druh přes `e`, spí s chováním `statue`), každé `every` taktů se probudí `k` nejbližších, zásah probudí hned.
+  - `bloom` `{…, swn:3, swR:130, sw:'firefly'}` (11r) – z rozkvetlého květu u hrdiny vyletí `swn` nepřátel (léčení v květu není zadarmo).
+  - Háčky `KIT_MECH`: `init, update, gupdate, psp, espd, ground, top, over, glows, lights` (světlo do tmy, 11h), `ph2`, `kill(o,e)` (smrt nepřítele u hostitele, 11r), `snap/apply`.
+  - **Když `ladeni.js`/`prolozeni.js` hlásí „mechanika“** (11r), podívej se, který cíl čísla nesrovnají: (a) průměrný vyhrává moc a HP narazilo na strop → mechanika, která bere prostor nebo tlačí nepřátele k hrdinovi (`shrink`, `statues`, roje z `bloom`, vyvržení víru); (b) neopatrný umírá, zatímco průměrný vyhrává (o obou rozhoduje `dmm`) → odměna za boj zblízka (`goldblood`). Pak mapu přelaď znovu.
   Tma = `dark` na mapě + světla z rekvizit (`light`).
 - **Boss**: `pat:'kit'`, `...kitBoss(ci,mi,fin)` (HP a poškození podle kapitoly), `kit:{move:'chase'|'keep'|'dash', keep:[far,near], dash:3.4, moves:[…], onDash:[…], ph2:{at:.5, txt, fast:.6, add:[…], mf:'hook'}, own:'jméno'}`.
   Tah `{on:'beat'|'bar', every, at, do, …}`: `ring {n,spd,mul}`, `fan {n,spread,spd}`, `aimed {n,spd}` (proud na hrdinu), `summon {e,n}`, `puddle {k,r,life}`, `strike {n,r}` (kruhy z nebe; mapa potřebuje mechaniku `strike` nebo `MF.kit`).
