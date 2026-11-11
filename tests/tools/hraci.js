@@ -84,9 +84,9 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         // chapter VII: opening rifts (warning circle), the echo of your own path
         for(const q of (R.kr&&R.kr.L)||[])if(!q.op&&seen(q))away(q.x,q.y,32,3.5);
         if(R.ke&&Math.random()<P.aware+.3)for(const q of R.ke.E||[])if(q)away(q.x,q.y,34,2.5);
-        if(R.kg){for(const q of R.kg.S)if(seen(q))away(q.x,q.y,26,3);for(const q of R.kg.B)away(q.x,q.y,q.r+6,1.5);} // 11k: seeds and thorn bushes
+        if(R.kg&&R.kg.S){for(const q of R.kg.S)if(seen(q))away(q.x,q.y,26,3);for(const q of R.kg.B)away(q.x,q.y,q.r+6,1.5);} // 11k: seeds and thorn bushes
         // chapter VI: telescope beams, the void between islands (unless the bridges shine), lines between wolves
-        if(R.kb&&R.t>12&&Math.random()<P.aware+.3){const C=map.size/2,o=(map.kit.mech.find(m=>m.id==='beam')||{}),n=o.n||2;for(let k=0;k<n;k++){const an=R.kb.a+k*6.283/n,cs=Math.cos(an),sn=Math.sin(an),dx=p.x-C,dy=p.y-C,pr=dx*cs+dy*sn,pp=-dx*sn+dy*cs;
+        if(R.kb&&R.kb.a!==undefined&&R.t>12&&Math.random()<P.aware+.3){const C=map.size/2,o=(map.kit.mech.find(m=>m.id==='beam')||{}),n=o.n||2;for(let k=0;k<n;k++){const an=R.kb.a+k*6.283/n,cs=Math.cos(an),sn=Math.sin(an),dx=p.x-C,dy=p.y-C,pr=dx*cs+dy*sn,pp=-dx*sn+dy*cs;
           if(pr>10&&pr<(o.len||520)&&Math.abs(pp)<30){const s2=pp>=0?1:-1;fx+=-sn*s2*4;fy+=cs*s2*4;}}}
         if(R.built.zone&&R.kg&&!R.kg.on&&Math.random()<P.aware+.4){const Z=R.built.zone,sz=map.size,at=(x,y)=>Z[Math.max(0,Math.min(sz-1,y|0))*sz+Math.max(0,Math.min(sz-1,x|0))];
           for(let k=0;k<8;k++){const a=k/8*6.283,x=p.x+Math.cos(a)*22,y=p.y+Math.sin(a)*22;if(at(x,y))away(x,y,26,3);}}
@@ -95,7 +95,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         if(R.built.traps&&(E('M.step')%16)>=11)for(const t of R.built.traps)if(seen(t))away(t.x,t.y,H.trapS*1.6+8,3);
         let goal=null;
         if(R.ks&&R.ks.warn>0&&Math.random()<P.aware+.4){const o=(map.kit.mech.find(m=>m.id==='sundial')||{}),d0=60+((o.len||460)-60)*.25;goal={x:R.ks.x+Math.cos(R.ks.a)*d0,y:R.ks.y+Math.sin(R.ks.a)*d0,sh:1};} // 11k: noon → into the obelisk's shadow
-        if(!goal&&R.kb&&p.hp<p.max*Math.max(.5,P.panic)){let bd=1e9;for(const f of R.kb.F){const d=Math.hypot(f.x-p.x,f.y-p.y);if(d<bd){bd=d;goal=f;}}} // 11k: low on health → to a flower
+        if(!goal&&R.kb&&R.kb.F&&p.hp<p.max*Math.max(.5,P.panic)){let bd=1e9;for(const f of R.kb.F){const d=Math.hypot(f.x-p.x,f.y-p.y);if(d<bd){bd=d;goal=f;}}} // 11k: low on health → to a flower
         if(R.kn){const o=(map.kit.mech.find(m=>m.id==='lantern')||{}),rr=(o.r||120)*(R.kn.dim>0?.6:1);if(Math.hypot(R.kn.x-p.x,R.kn.y-p.y)>rr*(.45+.3*(1-P.aware)))goal=R.kn;}
         if(R.fcy&&seen(R.fcy)){let bd=1e9;for(const i of R.fcy.act){const q=R.built.runes[i],d=Math.hypot(q.x-p.x,q.y-p.y);if(d<bd){bd=d;goal=q;}}}
         if(!goal&&(p.cold||0)>.55&&R.built.fires&&R.built.fires.length){let bd=1e9;for(const f of R.built.fires){const d=Math.hypot(f.x-p.x,f.y-p.y);if(d<bd){bd=d;goal=f;}}}

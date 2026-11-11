@@ -774,18 +774,18 @@ const MAPS={
 // 11h: [HP ×, spawn navíc, zlato za výhru, poškození ×] vyladěné boty na cílovou úspěšnost podle síly hráče (tests/tools/ladeni.js,
 // účty ucty.js, 5 povah, ~1 800 běhů): průměrný hráč s účtem, se kterým na mapu přijde, vyhraje v každé kapitole zhruba stejně často.
 const MAP_TIER={
-  hrbitov:[.63,0,0,1],bazina:[.5,.1,15,1],kostnice:[.8,.2,30,1],zvonice:[.92,.3,45,1],trun:[1.32,.45,90,1], // kapitola I vítá (Hřbitov 70 % → Zvonice 45 %, Trůn 25 %)
-  poust:[1.58,.6,60,1.29],kanon:[1.65,.6,75,1.32],karavana:[1.46,.58,90,1.21],hrobka:[1.61,.62,105,1.28],brana:[1.29,.7,150,1.11], // II schod (40 % −3 na mapu, finále 20 %)
-  doly:[3.33,1,110,1.76],kovarna:[3.92,1.05,125,1.87],reka:[5.42,1.1,140,2.21],krystaly:[5.27,1.15,155,2.18],srdce:[3.2,1.1,240,1.7], // III zeď (25 %, finále 12 %)
-  jezero:[3.39,1.05,170,1.63],pevnost:[3.95,1.05,185,1.74],tajga:[5.08,1.08,200,2],soutezka:[3.9,1.1,215,1.75],zima:[4.22,1.2,320,1.88], // IV schod
-  vrakoviste:[11.81,1.2,230,2.88],pristav:[9.5,1.15,245,2.5],majak:[15.29,1.15,260,3.19],vir:[17.11,1.15,275,3.38],paluba:[6.6,1.2,380,2.09], // V schod (Maják a Vír na HP skoro nereagují, potřebují mechaniku)
-  hvezdarna:[5.92,.98,300,2.26],mlhovina:[14.91,1.32,315,3.01],ostrovy:[6.37,.94,330,2.49],souhvezdi:[11.81,.96,345,3.33],zatmeni:[7.01,1.04,480,2.67], // VI zeď (Mlhovina a Souhvězdí jdou vykitovat, HP vysoko)
-  okraj:[16.93,0.99,360,3.01],trosky:[20.71,1.01,375,3.18],ozveny:[15.3,1.03,390,2.84],svetlo:[8.82,1.05,405,2.49],nicota:[20.55,1.13,540,3.32],
-  rozbresk:[7.46,1.08,420,2],
-  pole:[14.89,1.1,435,3.33],
-  hodiny:[5.06,1.12,450,1.77],
-  zahrada:[22.19,1.14,465,3.51],
-  kolebka:[5.2,1.22,600,1.62]}; // VII schod
+  hrbitov:[0.89,0,0,1],bazina:[0.79,.1,15,1],kostnice:[1.11,.2,30,1],zvonice:[1.36,.3,45,0.8],trun:[2,.45,90,0.6], // kapitola I vítá (Hřbitov 70 % → Zvonice 45 %, Trůn 25 %)
+  poust:[1.96,.6,60,1.29],kanon:[2.07,.6,75,0.94],karavana:[1.94,.58,90,1.21],hrobka:[2.23,.62,105,1.28],brana:[1.44,.7,150,1.11], // II schod (40 % −3 na mapu, finále 20 %)
+  doly:[3.63,1,110,1.39],kovarna:[2.66,1.05,125,1.54],reka:[4.18,1.1,140,2.21],krystaly:[3.84,1.15,155,1.88],srdce:[4.84,1.1,240,1.1], // III zeď (25 %, finále 12 %)
+  jezero:[3.95,1.05,170,1.63],pevnost:[3.46,1.05,185,1.74],tajga:[6.51,1.08,200,1.54],soutezka:[4.51,1.1,215,1.13],zima:[5.18,1.2,320,1.51], // IV schod
+  vrakoviste:[30.25,1.2,230,1.89],pristav:[18.08,1.15,245,1.61],majak:[21.92,1.15,260,2.54],vir:[34.81,1.15,275,2.05],paluba:[12.17,1.2,380,1.38], // V schod (Maják a Vír na HP skoro nereagují, potřebují mechaniku)
+  hvezdarna:[9.58,.98,300,2.26],mlhovina:[27.08,1.32,315,2.15],ostrovy:[12.04,.94,330,2.49],souhvezdi:[22.03,.96,345,1.76],zatmeni:[13.33,1.04,480,1.12], // VI zeď (Mlhovina a Souhvězdí jdou vykitovat, HP vysoko)
+  okraj:[38.06,0.99,360,1.83],trosky:[40,1.01,375,2.59],ozveny:[31.09,1.03,390,1.93],svetlo:[10.64,1.05,405,2.49],nicota:[22.34,1.13,540,2.75],
+  rozbresk:[9.65,1.08,420,2],
+  pole:[26.8,1.1,435,3.22],
+  hodiny:[5.58,1.12,450,1.77],
+  zahrada:[39.94,1.14,465,2.75],
+  kolebka:[6.47,1.22,600,1.62]}; // VII schod
 for(const id in MAPS){const T=MAP_TIER[id]||[1,0,0];MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];MAPS[id].dmm=T[3]||1;}
 // campaign: a chapter = one theme, five maps and one material; its last map is the finale with a special boss
 const CHAPTERS=[
