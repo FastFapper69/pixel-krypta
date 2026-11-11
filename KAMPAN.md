@@ -1,6 +1,6 @@
 # Pixel Krypta – kampaň a kapitoly
 
-Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI hotová (hrdinka Astra, dřív Hvězdářka). **Kapitola VII Prázdnota hotová (11h, hrdinka Nyx).** **Kapitola VIII Úsvit hotová (11l, hrdinka Réva).** **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
+Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI hotová (hrdinka Astra, dřív Hvězdářka). **Kapitola VII Prázdnota hotová (11h, hrdinka Nyx).** **Kapitola VIII Úsvit hotová (11l, hrdinka Réva).** **Kapitola IX Zlatá říše hotová (11n, bez hrdiny, mazlíček Straka).** **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
 Návrh pro uživatele je i v dokumentu „Pixel Krypta – kampaň a kapitoly“ (Claude Docs).
 
 ## Stavebnice kapitol (08y) – nové kapitoly dělej takhle
@@ -146,8 +146,24 @@ Příběh (`docs/PRIBEH.md`): po Nicotě se svět rodí pod novým sluncem a vš
 Nepřátelé: `sunfl` Slunečnice (ranged3), `beetle` Zlatý chroust (charger), `firefly` Světluška (fast, letí), `scarecrow` Strašák (tank). Bossové kit: thornmom, reaper (dash, kosa `KIT_OWN.reaper`), gnomon (keep), honeyq (keep, žihadla), phoenix (finále, vejce). Věže `prism` Sluneční hranol (paprsek celou řadou; odemkne hodiny) a `hive` Úl (včely na 3 nejbližší; odemkne zahrada). Set `dawn` Roucho úsvitu (helm, amulet, boots, gloves; 2 = regenerace +0,5/s a zdraví +6 %; 4 = Rozkvět `lg.sd4`). Legendárka `fpen` Fénixovo pero (prsten, jednou za běh vzkřísí). Hledaný `rohac` Zlatý roháč. Hrdinka `reva` Réva (`need:'rozbresk'`, 8 000, regenerace 0,4/s, zbraň `vines` Trnité šlahouny, talenty prefix `v`). Mistrovství `phoenix` Lovec fénixe. Testy: `chapcheck.js c8`, `c8shots.js prefix [mapy] [s] [hrdina]`, boti znají semena, keře, poledne a květy (`hraci.js`).
 **Poučení:** nástraha s `hazDm(base,…)` roste s `hpm` mapy. S `dmg:8` u slunce a `dmg:3` u keřů byla Kolébka i Hodiny 0 % při jakémkoli HP nepřátel; base nástrah drž nízko (1,5–3) a sílu dej do `pct`.
 
+## Kapitola IX Zlatá říše (11n, stavebnice, ZEĎ)
+Příběh (`docs/PRIBEH.md`): město, na které slunce pohlédlo jako první, všechno je zlaté. Herold slunce v půlce souboje (2. fáze, `KIT_OWN.herald`) poprvé vysloví Aurelovo jméno (toast + záblesk + most a zlaté oko už od 50 %); po finále `STORY.dvur`, most `BRIDGE.dvur` k:`stairs` (schodiště ze světla do X). **Bez hrdiny** (rozhodnutí 11. 11.), místo něj mazlíček **Straka** (`PETS.magpie`, r 3, `ch:'c9'` = v truhle mazlíčků až od odemčení Předměstí).
+Paleta `C9G/C9W/C9T/C9P/C9Z/C9B` (zlato, temně rudá), rekvizity `c9_*`. Hudba: styl `gold` (harmonická moll, tympány, víření virblu, tuba, žestě, cembalo, trubka), `STYLE_ROLE` z `rolecal.js`.
+**Zezlátnutí** (`gildEnemy`): +50 % zdraví, 1,3× XP, 15 % šance na minci, zlatý sprite (`gildSprite`). Dělá ho oko, Zrcadlo (p5), hledaný Pokladník.
+
+| Mapa | Rozvržení | Mechanika |
+|---|---|---|
+| predmesti Pozlacené předměstí | paths | `gaze`: světelné oko (`r` 56) pluje k nejbližšímu hrdinovi; v něm roste ukazatel `p.gz`, plný = zpomalení + `hazDm`; nepřátele v něm na dobu zezlatí; boss Lichvář krade zlato z běhu (vrátí po smrti) |
+| mincovna Mincovna | plaza | `press`: každé 2 takty pruhy (vodorovné/svislé střídavě) přes hrdinu, takt varování, úder zraní hrdinu a nepřátelům sebere 50 % max. zdraví; Mincmistr pouští kříž lisů |
+| sochy Síň soch | plaza | `statues`: 20 soch (`statue`, `beh:'statue'`), každé 4 takty ožijí 2 nejbližší (do 220), zásah probudí hned, doplňují se; Zlatý rytíř budí sochy |
+| pokladnice Pokladnice | open + zóna mincí | `greed`: 5 hromad, sebrání = +5 % poškození do konce běhu (max 6×), 3 mince, mimikové; hromada se po 25 s objeví jinde; Drak Zlatohlav sílí s počtem sebraných |
+| dvur Zlatý dvůr | arena, finále | `gaze` (od 40 s) + `statues` (12) + `strike` (tahy Herolda); ve 2. fázi Herold každé 4 takty postaví oko na hrdinu a zvětší ho (`kz.big`) |
+
+Nepřátelé: `gilded` Pozlacený (grunt), `taxman` Výběrčí (fast, `touch:'steal'` krade 3 mince, vrátí po smrti), `alchem` Alchymista (ranged3), `mimic` Mimik (charger); `statue` jen z mechaniky (XP jen 2, jinak by stojící sochy byly farma zkušeností). Bossové: usurer, mintmaster, gknight, dragon, herald (finále). Věže `gmirror` Zrcadlo (odemkne predmesti; u oka 3 cíle ×2) a `mint` Lis (mincovna). Set `gold` Šat zlatého dvora (armor, ring, helm, boots; 2 = zlato +10 % a poškození +6 %; 4 = Zlatý déšť `lg.sg4`). Legendárka `midas` Midasova rukavice (každý 12. zabitý vybuchne). Hledaný `treasurer` Pokladník. Mistrovství `herald` Poslední slovo. Testy: `chapcheck.js c9`, `c9shots.js`, boti se vyhýbají oku a lisům (`hraci.js`).
+**Čísla:** ladění dalo vysoké HP (predmesti 125, sochy 105, pokladnice 188, dvur 94; mincovna 29, protože lisy berou nepřátelům půlku zdraví) – oko, sochy a poklad bez vysokého HP nestačí (zezlátlí nepřátelé dávají víc XP, poklad sílí). Prvotní verze měla 2× XP za zezlátnutí, plné XP ze soch a +8 % za poklad a mapy na HP skoro nereagovaly; po zmírnění (1,3× XP, socha XP 2, poklad +5 % max 6×) ladění konvergovalo. Kontrola schodu stejným účtem (UCET=7): Zahrada světla 25 % → Předměstí 6 % = zeď funguje.
+
 ## Zbývá / nápady
 - **Plán příběhu aktů I a II (kapitoly VIII–XX, boss aktu Aurel): `docs/PRIBEH.md`** (návrh 11. 11., čeká na schválení).
-- Kapitola VIII hotová (11l). Další: IX Zlatá říše (zeď, Herold, odhalení Aurela v boji – viz `docs/PRIBEH.md`). Kapitola VII zatím nic do `FEATS` nepřidává. **Odložený nápad** (uživatel 11. 11.: nemazat, jen teď nedělat): Síň bossů = vybraná kapitola, všech 5 bossů za sebou bez vln, odměna jen za první dokončení.
+- Kapitola IX hotová (11n). Další: X Korunované slunce (finále aktu I, boss Aurel ve 4 fázích, Paladin zdarma – viz `docs/PRIBEH.md`). Kapitola VII zatím nic do `FEATS` nepřidává. **Odložený nápad** (uživatel 11. 11.: nemazat, jen teď nedělat): Síň bossů = vybraná kapitola, všech 5 bossů za sebou bez vln, odměna jen za první dokončení.
 - Úkoly a Mistrovství pro nové mechaniky (zapálené pochodně `run.qc.torch`, zvony `bell`, pasti `trap` se už počítají).
 - Ověřit na telefonu výkon tmy v Kostnici a mlhy v bažině.

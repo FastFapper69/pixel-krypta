@@ -26,7 +26,7 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 | VI | Nebeská hvězdárna | Zatmění se rozpadne | za měsícem je Prázdnota |
 | VII | Prázdnota | Nicota se zhroutí, poslední střep se rozzáří | rodí se nové slunce |
 
-### Kapitola VIII – Úsvit (`c8`, hrdinka Réva)
+### Kapitola VIII – Úsvit (`c8`, hrdinka Réva) – HOTOVO 11l
 **Příběh:** svět se po Nicotě rodí znovu. Pod novým sluncem všechno roste až moc rychle: zlaté louky, obří květy, trny přes trosky. Světlo, které v kapitole VII chránilo, tady pálí.
 **Pocit:** po černé Prázdnotě konečně barvy. Zlatá, teplá zelená a bílá. Hudba „ranní hymna“ (vlastní styl `dawn`, durová/lydická, jasná arpeggia, teplé plochy).
 **Nové mechaniky (postupně):**
@@ -50,7 +50,7 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 **Hledaný:** Zlatý jelen.
 **Most:** Fénix shoří a už nevstane. Slunce nad zahradou se otevře jako oko a všechno, na co pohlédne, se mění ve zlato.
 
-### Kapitola IX – Zlatá říše (`c9`, ZEĎ, bez hrdiny, mazlíček Straka)
+### Kapitola IX – Zlatá říše (`c9`, ZEĎ, bez hrdiny, mazlíček Straka) – HOTOVO 11n
 **Příběh:** město, na které slunce pohlédlo jako první. Obyvatelé jsou zlaté sochy, ulice dlážděné mincemi, všude poklady a chamtivost. Vládne tu **Herold**, Aurelův služebník. **Tady hráč poprvé uslyší Aurelovo jméno** a dojde mu, že střepy celou dobu nosil jemu.
 **Pocit:** zlato, sytě rudá, černá. Hudba „dvorní pochod“ (pompézní žestě, cembalo, slavnostní bubny).
 **Nové mechaniky:**

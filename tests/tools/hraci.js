@@ -85,6 +85,8 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         for(const q of (R.kr&&R.kr.L)||[])if(!q.op&&seen(q))away(q.x,q.y,32,3.5);
         if(R.ke&&Math.random()<P.aware+.3)for(const q of R.ke.E||[])if(q)away(q.x,q.y,34,2.5);
         if(R.kg){for(const q of R.kg.S)if(seen(q))away(q.x,q.y,26,3);for(const q of R.kg.B)away(q.x,q.y,q.r+6,1.5);} // 11k: seeds and thorn bushes
+        if(R.kz&&R.t>10&&Math.random()<P.aware+.4)away(R.kz.x,R.kz.y,(R.kz.big>0?100:60)+12,2.5); // 11n: the sun's gaze
+        if(R.kpr)for(const q of R.kpr.L)if(!q.hit&&seen(q)){if(q.v)away(q.c,p.y,q.w/2+10,3);else away(p.x,q.c,q.w/2+10,3);} // 11n: press lanes
         // chapter VI: telescope beams, the void between islands (unless the bridges shine), lines between wolves
         if(R.kb&&R.t>12&&Math.random()<P.aware+.3){const C=map.size/2,o=(map.kit.mech.find(m=>m.id==='beam')||{}),n=o.n||2;for(let k=0;k<n;k++){const an=R.kb.a+k*6.283/n,cs=Math.cos(an),sn=Math.sin(an),dx=p.x-C,dy=p.y-C,pr=dx*cs+dy*sn,pp=-dx*sn+dy*cs;
           if(pr>10&&pr<(o.len||520)&&Math.abs(pp)<30){const s2=pp>=0?1:-1;fx+=-sn*s2*4;fy+=cs*s2*4;}}}
