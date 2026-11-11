@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11b';
+const GAME_VER='2026-11-11c';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4946,7 +4946,7 @@ function buildItemsHud(){
 const bbRef={};
 function buildBarInit(){
   const box=$('#buildbar');box.innerHTML='';
-  for(const k in bbRef)delete bbRef[k];((run&&run.deck)||T_BASE).forEach(k=>{const b=document.createElement('button');b.className='bb';b.dataset.k='btn';b.dataset.m='slate';b.dataset.s=k;b.setAttribute('aria-label',TOWERS[k].name);
+  for(const k in bbRef)delete bbRef[k];((run&&run.deck)||T_BASE).forEach(k=>{const b=document.createElement('button');b.className='bb';b.dataset.k='btn';b.dataset.m='slate';b.dataset.tw=k; // 11c: data-s je semínko kresby KIT – každá věž měla jinak otlučený rámb.setAttribute('aria-label',TOWERS[k].name);
     b.innerHTML='<img alt="" src="'+dataUrl(SPR.tower[k])+'"><span class="c"><img alt="" src="'+dataUrl(SPR.icon.coin)+'"><b></b></span>';
     onTap(b,()=>buildTower(k));box.appendChild(b);bbRef[k]={b,c:b.querySelector('b')};});
 }
@@ -6715,11 +6715,13 @@ function skyRespec(){const S=skyInit(),free=S.rw!==weekKey(),pop=$('#skyPop');
   $('#skyR').onclick=()=>{if(free)S.rw=weekKey();else{if((save.mats.ess||0)<SKY_RESPEC)return;save.mats.ess-=SKY_RESPEC;}for(const C of SKY){S.lit[C.id]=0;S.rk[C.id]=[0,0,0,0,0,0,0];}persist();sfx('ui');pop.hidden=true;skySel=0;renderSky();};}
 // screen
 let skyCon='war',skySel=0,skyFx=null,skyRaf=0;
-function openSky(){skyInit();qTexInit();const p=$('#skyPop');if(p)p.hidden=true;renderSky();setState('sky');skyLoop();}
+function openSky(){skyInit();qTexInit();renderSky.seen=0;const p=$('#skyPop');if(p)p.hidden=true;renderSky();setState('sky');skyLoop();}
 function renderSky(){const C=SKY_OF[skyCon],pts=skyPts();
   $('#skyPts').innerHTML='<img alt="" src="'+dataUrl(SPR.icon.star)+'"><b>'+pts+'</b><span>'+_t('hvězdných bodů')+'</span>';
   $('#skyTabs').innerHTML=SKY.map(K=>{let n=0;for(let i=0;i<7;i++)if(skyLit(K.id,i))n++;const can=[0,1,2,3,4,5,6].some(i=>(skyOpen(K,i)&&pts>=SKY_COST[i])||(skyCanUp(K.id,i)&&pts>=skyNextCost(K.id,i)));
     return '<button data-c="'+K.id+'" class="'+(K.id===skyCon?'on':'')+(n===7?' full':'')+'" style="--sc:'+K.col+'"><img alt="" src="'+dataUrl(SPR.icon[K.ic])+'"><span>'+K.name+'</span><i>'+n+'/7</i>'+(can?'<em></em>':'')+'</button>';}).join('');
+  requestAnimationFrame(()=>{const on=$('#skyTabs .on'),bx=$('#skyTabs');if(!on||bx.scrollWidth<=bx.clientWidth)return;const a=on.getBoundingClientRect(),c=bx.getBoundingClientRect(); // 11c: posuvný pruh – vybrané souhvězdí doprostřed
+    bx.scrollTo({left:Math.max(0,Math.round(bx.scrollLeft+a.left-c.left-(c.width-a.width)/2)),behavior:renderSky.seen?'smooth':'auto'});renderSky.seen=1;});
   $('#skyTabs').querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{sfx('ui');skyCon=b.dataset.c;skySel=[0,1,2,3,4,5,6].find(i=>skyOpen(SKY_OF[skyCon],i))??0;renderSky();});
   const lit=skyLit(C.id,skySel),open=skyOpen(C,skySel),L=skyLv(C.id,skySel),cost=lit?skyNextCost(C.id,skySel):SKY_COST[skySel],up=skyCanUp(C.id,skySel),[bk,bv]=C.b[skySel];
   const pips='<span class="sk-pips">'+[0,1,2].map(k=>'<i class="'+(k<L?'on':'')+'"></i>').join('')+'</span>';
@@ -8507,6 +8509,9 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11c',d:'11. 11. 2026',t:_t('Posuvné Souhvězdí'),hl:[
+  {ic:'star',t:_t('Souhvězdí do strany'),d:_t('Souhvězdí jsou ve větších kartách v pruhu, který posouváš prstem do strany. Vybrané se samo posune doprostřed.')},
+  {ic:'tower:arrow',t:_t('Stejné karty věží'),d:_t('Tlačítka věží v boji mají všechna stejný rám, takže ceny jsou pod sebou na stejném místě.')}]},
  {v:'2026-11-11b',d:'11. 11. 2026',t:_t('Ostré písmo všude'),hl:[
   {ic:'tower:arrow',t:_t('Věže v balíčku bez nápisů'),d:_t('Karty věží ukazují obrázek a barevný proužek rarity. Zmenšené jméno bylo rozmazané.')},
   {ic:'scroll',t:_t('Ostré nadpisy oken'),d:_t('Nadpisy oken (nákup hrdiny, názor, soukromí, Novinky…) a drobné popisky už nemají rozmazanou velikost písma.')}],

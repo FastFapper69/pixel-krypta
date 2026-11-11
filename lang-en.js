@@ -2700,5 +2700,10 @@ window.KRYPTA_EN={
 "Ostré nadpisy oken":"Crisp window titles",
 "Nadpisy oken (nákup hrdiny, názor, soukromí, Novinky…) a drobné popisky už nemají rozmazanou velikost písma.":"Window titles (buying a hero, feedback, privacy, What's new…) and small captions no longer use a blurry font size.",
 "Na konci běhu už lišta věží neprosvítá do tabulky.":"The tower bar no longer shows through the results table at the end of a run.",
-"Novinku v menu ukazuje červená pečeť v rohu tlačítka. Nápis NOVÉ na malém telefonu zakrýval název.":"Something new in the menu is marked by a red seal in the button corner. The NEW label covered the name on small phones."
+"Novinku v menu ukazuje červená pečeť v rohu tlačítka. Nápis NOVÉ na malém telefonu zakrýval název.":"Something new in the menu is marked by a red seal in the button corner. The NEW label covered the name on small phones.",
+"Posuvné Souhvězdí":"Sliding Constellation",
+"Souhvězdí do strany":"Constellations side by side",
+"Souhvězdí jsou ve větších kartách v pruhu, který posouváš prstem do strany. Vybrané se samo posune doprostřed.":"Constellations are bigger cards in a strip you swipe sideways. The selected one slides to the middle.",
+"Stejné karty věží":"Matching tower cards",
+"Tlačítka věží v boji mají všechna stejný rám, takže ceny jsou pod sebou na stejném místě.":"Tower buttons in battle all share the same frame, so the prices line up."
 };
