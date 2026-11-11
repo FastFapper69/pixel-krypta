@@ -316,3 +316,7 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 11a – čitelný plakát hledaného (2026-11-11)
 - Připomínka uživatele: text na plakátu špatně čitelný. Třída `.ka` (stavebnice) dává černý stín textu, na světlém pergamenu ho zdvojovala. Na pergamenech (`.poster.ka`, `.gd.ka`, `.kq`, `.kc`) stín vypnutý, tmavší inkoust.
+
+## 11b (11. 11. 2026) – grafická kontrola celé hry
+- Nový test `tests/tools/grafcheck.js`: projde všechny obrazovky, okna a stavy běhu (CZ/EN, SE/15) a hledá rozmazané velikosti písma, tmavý text s tmavým stínem, text mimo displej nebo přes rám, překrývající se texty (jen viditelné, ořezané scrollováním) a nevykreslené prvky KIT.
+- Opravy: nadpisy oken 24/26/28 px → `--k30`; `small` dědí velikost (prohlížeč dával 15,56 px); balíček věží bez nápisů (jméno se zmenšovalo o 1 px), rarita jako barevný proužek; lišta věží neprosvítá do výsledků běhu; NOVÉ v menu nahrazeno pečetí `sealDot` (na iPhonu SE zakrývalo název tlačítka).

@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11a';
+const GAME_VER='2026-11-11b';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3134,7 +3134,7 @@ const STICK_INFO={touch:[_t('Pevný v místě dotyku'),_t('Joystick se objeví t
   fixed:[_t('Pevně vlevo dole'),_t('Joystick je pořád na stejném místě vlevo dole. Hodí se, když chceš mít palec vždy na jednom místě.')],
   follow:[_t('Plovoucí'),_t('Joystick jede za prstem, když ho táhneš dál. Dobré na rychlé otočky.')]};
 function openControls(){const pop=$('#newsPop');
-  const draw=()=>{pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font-size:26px">Ovládání</h2><small>Postava útočí sama, ty jen běháš. Vyber, jak se má chovat joystick:</small><div class="stack">')+
+  const draw=()=>{pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font:var(--k30)">Ovládání</h2><small>Postava útočí sama, ty jen běháš. Vyber, jak se má chovat joystick:</small><div class="stack">')+
     STICK_MODES.map(m=>'<button class="card ctl'+(save.stick===m?' sel':'')+'" data-m="'+m+'"><h3>'+STICK_INFO[m][0]+(save.stick===m?_t(' <span class="ttl">Zapnuto</span>'):'')+'</h3><small>'+STICK_INFO[m][1]+'</small></button>').join('')+
     _t('</div><small>Na počítači: WASD nebo šipky, Esc je pauza. Režim jde změnit i v pauze během hry.</small><button class="btn" id="newsOk">Hotovo</button></div>');
     pop.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{save.stick=b.dataset.m;persist();stickLabels();sfx('ui');draw();});
@@ -5628,7 +5628,7 @@ function heroLock(id){const h=HEROES[id];if(h.soon)return _t('Přijde s kapitolo
   if(h.ach){const A=ACHM[h.ach];return achDone(A)?_t('Splněno, vyzvedni si ho v Mistrovství.'):_t('Odemkneš v Mistrovství: ')+A.desc;}return '';}
 function confirmHero(id){const h=HEROES[id],pop=$('#newsPop'),coin='<img alt="" src="'+dataUrl(SPR.icon.coin)+'" style="width:14px;vertical-align:-2px">';
   const lock=heroLock(id),miss=lock?0:Math.max(0,h.cost-save.coins);
-  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+(lock?_t('Zamčený hrdina'):miss?_t('Hrdina za zlato'):_t('Koupit hrdinu?'))+'</h2>'+
+  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font:var(--k30)">'+(lock?_t('Zamčený hrdina'):miss?_t('Hrdina za zlato'):_t('Koupit hrdinu?'))+'</h2>'+
     '<div class="hbuy"><img alt="" src="'+dataUrl(SPR.hero[id])+'"><h3>'+h.name+'</h3><p class="hdesc">'+h.desc+'</p></div>'+
     '<div class="hweap"><img alt="" src="'+dataUrl(SPR.icon[h.start])+'"><div><small>'+_t('Začíná se zbraní')+'</small><b>'+WEAPONS[h.start].name+'</b><span>'+WEAPONS[h.start].desc+'</span></div></div>'+
     (TALENTS[id]?'<div class="htal"><small>'+_t('Talenty s úrovní hrdiny')+'</small>'+TALENTS[id].map(([l,t])=>'<div><b>'+_t('úr. ')+l+'</b>'+t+'</div>').join('')+'</div>':'')+
@@ -5741,6 +5741,7 @@ const isFresh=(kind,key)=>(kind==='item'||kind==='tw')?(seenInit(),!save.seen[ke
 function seeOne(key){seenInit();if(save.seen[key])return false;save.seen[key]=1;persist();try{refreshNew();}catch(_){}return true;}
 const NEW_TAG=()=>'<b class="newtag">'+_t('NOVÉ')+'</b>';
 function refreshNew(){try{const it=newOf('item').length+newOf('hero').length,tw=newOf('tw').length,mp=newOf('map').length,rk=newOf('rank').length;
+  if(!refreshNew.img){refreshNew.img=1;document.documentElement.style.setProperty('--kNew','url('+KIT.pic('sealDot').url+')');} // 11b: pečeť místo nápisu NOVÉ (na malém telefonu zakrýval název)
   const T=(sel,on)=>{const e=$(sel);if(e){e.classList.toggle('new',!!on);e.dataset.new=_t('NOVÉ');}};
   T('#mPlay',mp);T('#mHero',it||tw);T('#mForge',rk);
   document.querySelectorAll('.sectabs [data-to=hero]').forEach(b=>b.classList.toggle('has',!!it));
@@ -6225,7 +6226,7 @@ function boardSub(r){if(boardTab==='celkem')return bNum(r.st.kills||0)+_t(' zabi
 
 // 09y: privacy policy (short version of PRIVACY.md – keep both in sync), licences of what the game uses, deleting all own data
 function openPrivacy(){const pop=$('#newsPop'),L=(t,d)=>'<h3>'+t+'</h3><p>'+d+'</p>',blk=(save.blk||[]).length;
-  pop.innerHTML='<div class="pop-card news priv"><h2 class="title" style="font-size:26px">'+_t('Soukromí a licence')+'</h2><div class="priv-body">'+
+  pop.innerHTML='<div class="pop-card news priv"><h2 class="title" style="font:var(--k30)">'+_t('Soukromí a licence')+'</h2><div class="priv-body">'+
     L(_t('Co hra ukládá'),_t('Na tomto zařízení tvůj postup a nastavení. Na serveru (Supabase, EU – Irsko): anonymní účet, přezdívku a otisk PINu, pokud si je nastavíš, postup a statistiky pro synchronizaci a žebříček, souhrn každého běhu (mapa, hrdina, čas, zabití, verze, jazyk), zpětnou vazbu, kterou napíšeš (s typem zařízení a prohlížeče, ať jde chybu najít), a nahlášení hráčů. Neukládáme jméno, e-mail ani polohu.'))+
     L(_t('Kdo to vidí'),_t('Přezdívku, titul, statistiky a postup vidí ostatní v žebříčku. Zbytek vidí jen autor hry, aby mohl hru ladit a opravovat chyby. Žádné reklamy, žádné sledování, nic neprodáváme.'))+
     L(_t('Komu se posílá tvoje IP adresa'),_t('Jako u každého webu ji vidí hosting hry (GitHub Pages) a server Supabase. Při hře s kamarádem se kvůli spojení posílá i serveru Google STUN. Písma a knihovny má hra u sebe.'))+
@@ -6238,7 +6239,7 @@ function openPrivacy(){const pop=$('#newsPop'),L=(t,d)=>'<h3>'+t+'</h3><p>'+d+'<
   const ub=$('#prUnblk');if(ub)ub.onclick=()=>{save.blk=[];persist();sfx('ui');note(_t('Skrytí hráči jsou zase vidět.'));openPrivacy();};
   $('#prDel').onclick=()=>{sfx('ui');confirmDelete();};}
 function confirmDelete(){const pop=$('#newsPop');
-  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:24px">'+_t('Smazat všechna data?')+'</h2><p class="hint">'+_t('Smaže se tvůj účet na serveru, přezdívka, postup, statistiky, zpětná vazba i nahlášení a také postup v tomhle zařízení. Hra začne úplně od začátku. Nejde to vrátit.')+'</p>'+
+  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font:var(--k30)">'+_t('Smazat všechna data?')+'</h2><p class="hint">'+_t('Smaže se tvůj účet na serveru, přezdívka, postup, statistiky, zpětná vazba i nahlášení a také postup v tomhle zařízení. Hra začne úplně od začátku. Nejde to vrátit.')+'</p>'+
     '<div class="stack"><button class="btn alt danger" id="delYes">'+_t('Ano, smazat všechno')+'</button><button class="btn" id="delNo">'+_t('Zpět')+'</button></div><p class="hint" id="delMsg"></p></div>';
   $('#delNo').onclick=()=>{sfx('ui');openPrivacy();};
   $('#delYes').onclick=async()=>{const b=$('#delYes'),m=$('#delMsg');b.disabled=true;m.textContent=_t('Mažu…');
@@ -6248,7 +6249,7 @@ function confirmDelete(){const pop=$('#newsPop');
     catch(e){b.disabled=false;m.textContent=_t('Smazání se nepovedlo: ')+errText(e);}};}
 // 09y: a player in the leaderboard – report the nickname (goes to public.reports, checked by the author) or hide them on this device
 function playerMenu(r){const pop=$('#newsPop');sfx('ui');
-  pop.innerHTML='<div class="pop-card news pm"><h2 class="title" style="font-size:24px"></h2><p class="hint">'+_t('Přezdívka je nevhodná nebo hráč obtěžuje? Nahlas ho, autor hry to do 24 hodin prověří. Hráče si můžeš i skrýt, pak ho v žebříčku neuvidíš.')+'</p>'+
+  pop.innerHTML='<div class="pop-card news pm"><h2 class="title" style="font:var(--k30)"></h2><p class="hint">'+_t('Přezdívka je nevhodná nebo hráč obtěžuje? Nahlas ho, autor hry to do 24 hodin prověří. Hráče si můžeš i skrýt, pak ho v žebříčku neuvidíš.')+'</p>'+
     '<div class="stack"><button class="btn" id="pmRep">'+_t('Nahlásit přezdívku')+'</button><button class="btn alt" id="pmHide">'+_t('Skrýt hráče')+'</button><button class="btn alt" id="pmNo">'+_t('Zpět')+'</button></div></div>';
   pop.querySelector('h2').textContent=r.nick;pop.hidden=false;
   $('#pmNo').onclick=()=>{pop.hidden=true;sfx('ui');};
@@ -6994,12 +6995,12 @@ function openTowers(){econInit();twPick=null;renderTowers();setState('towers');}
 function fitCards(root){const go=()=>requestAnimationFrame(()=>fitCards0(root));go();if(document.fonts&&document.fonts.status!=='loaded')document.fonts.ready.then(go);}
 function fitCards0(root){{if(!root)return;
   // shrink each that does not fit, then give every name / every chip in the row the same (smallest) size so the row looks even
-  for(const sel of ['.tslot b','.tslot small.rp'])for(const row of root.querySelectorAll('.tdeck,.ptslot')){const els=[...row.querySelectorAll(sel)],same=sel!=='.tslot b';let min=99; // chips: one size for the row; names: each only as small as it must be
+  for(const sel of ['.tslot small.rp'])for(const row of root.querySelectorAll('.tdeck,.ptslot')){const els=[...row.querySelectorAll(sel)],same=sel!=='.tslot b';let min=99; // chips: one size for the row; names: each only as small as it must be
     for(const el of els){el.style.fontSize='';let f=parseFloat(getComputedStyle(el).fontSize),n=0;while(el.clientWidth>0&&el.scrollWidth>el.clientWidth&&f>7.5&&n++<14){f-=.5;el.style.fontSize=f+'px';}min=Math.min(min,f);}
     if(same&&min<99)for(const el of els)el.style.fontSize=min+'px';}}}
 function renderTowers(){fitCards(document.getElementById('scr-towers'));twInit();$('#twMats').innerHTML=matsHtml();const T=save.tw,d=T.deck;
   $('#twDeck').innerHTML=[0,1,2,3,4].map(i=>{const c=twCard(d[i]),b=i===4;
-    return '<button class="tslot'+(b?' bld':'')+(twPick?' pick':'')+(c?' r'+c.r:' empty')+'" data-i="'+i+'">'+(c?'<img alt="" src="'+dataUrl(SPR.tower[c.k])+'"><b>'+TOWERS[c.k].name+'</b><small class="rp" style="--rc:'+RAR[c.r].col+'">'+RAR[c.r].name+'</small>'+(c.lv?'<i class="tlv">+'+c.lv+'</i>':''):'<span class="plus">+</span>')+
+    return '<button class="tslot'+(b?' bld':'')+(twPick?' pick':'')+(c?' r'+c.r:' empty')+'" data-i="'+i+'"'+(c?' aria-label="'+TOWERS[c.k].name+' · '+RAR[c.r].name+'"':'')+'>'+(c?'<img alt="" src="'+dataUrl(SPR.tower[c.k])+'"><i class="rgem" style="--rc:'+RAR[c.r].col+'"></i>'+(c.lv?'<i class="tlv">+'+c.lv+'</i>':''):'<span class="plus">+</span>')+
       (b?'<i class="bt" title="'+_t('jen Stavitel')+'"><img alt="" src="'+dataUrl(SPR.hero.builder)+'"></i>':'')+'</button>';}).join('');
   $('#twHint').classList.toggle('kh',!twPick);$('#twHint').textContent=twPick?_t('Ťukni na místo, kam dáš věž ')+TOWERS[twCard(twPick).k].name+'.':_t('Do běhu si bereš 4 věže, Stavitel 5. Nové věže a lepší rarity jsou ve Stavitelově bedně v Obchodu.');
   $('#twHint').classList.toggle('on',!!twPick);
@@ -7303,7 +7304,7 @@ function rfLines(kind,o){if(kind==='item')return Object.keys(o.st||{}).map(k=>[k
 function rfRoll(kind,o,k){if(kind==='item'){o.st[k]=rollStat(k,o.r,Math.random());return;}const B=kind==='tw'?TW_BON:PET_BON,R=B[k].r[Math.max(0,o.r-1)];o.b[k]=Math.round(R[0]+(R[1]-R[0])*Math.random())/100;}
 function openReforge(kind,o,back){const pop=$('#newsPop');let last=null,was=null;
   const draw=()=>{const c=rfCost(o.rf),L=rfLines(kind,o),ok=canPay(c);
-    pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Přebroušení')+'</h2><small>'+_t('Ťukni na vlastnost a znovu se vylosuje v rozsahu rarity. Každé další přebroušení téhož kusu je dražší.')+'</small>'+
+    pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font:var(--k30)">'+_t('Přebroušení')+'</h2><small>'+_t('Ťukni na vlastnost a znovu se vylosuje v rozsahu rarity. Každé další přebroušení téhož kusu je dražší.')+'</small>'+
       '<ul class="ic-st rfl">'+L.map(l=>'<li class="'+(l[0]===last?'nv':'')+'"><span>'+l[1]+'</span><b>'+(l[0]===last&&was!=null?'<s>'+was+'</s> ':'')+l[2]+'</b><button class="btn alt sm" data-rk="'+l[0]+'"'+(ok?'':' disabled')+' aria-label="'+_t('Přebrousit')+'">↻</button></li>').join('')+'</ul>'+
       '<p class="costs rfc">'+costHtml(c,1)+'</p>'+missHint(c)+'<div class="pop-btns"><button class="btn sm" id="newsOk">'+_t('Hotovo')+'</button></div></div>';
     pop.querySelectorAll('[data-rk]').forEach(b=>b.onclick=()=>{const c2=rfCost(o.rf);if(!canPay(c2))return;const k=b.dataset.rk;was=(rfLines(kind,o).find(l=>l[0]===k)||[])[2];payC(c2);rfRoll(kind,o,k);o.rf=(o.rf||0)+1;last=k;persist();sfx('level');draw();});
@@ -7333,7 +7334,7 @@ function renderForge(){$('#fMats').innerHTML=matsHtml();const fb=$('#forgeList')
      row(SPR.pet[c.k],'3× '+petStars(n,1)+' → '+petStars(n+1,1),PETS[c.k].name+' · '+_t('máš ')+PG[k].length+_t(' ks'),()=>petStarGo(c,'forge'));}}
   if(!any)fb.insertAdjacentHTML('afterbegin','<div class="card"><p class="hint" style="margin:0">'+_t('Chybí ti 3 stejné kusy')+'</p><p class="hint kh" style="margin:0">'+_t('Zatím nemáš co slučovat. Potřebuješ 3 stejné kusy: předměty stejného druhu a rarity, karty stejné věže a rarity, nebo 3 stejné mazlíčky se stejným počtem hvězd. Nasazené předměty a věže v arzenálu se neslučují.')+'</p></div>');}
 function openMerge(key){const used=mergeUsed(key),back=mergeRefund(used),pop=$('#newsPop'),[sl,r0,set]=key.split('|'),r=+r0,nm=set?SETS[set].pieces[sl].name:SLOTS[sl].name;
-  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Sloučení')+'</h2><div class="mslots"><div class="card mslot sel"><img alt="" src="'+dataUrl(itemSpr(sl,r+1,set||undefined))+'"><b style="color:'+RAR[r+1].col+'">'+nm+'</b><small>'+RAR[r+1].name+'</small></div></div>'+
+  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font:var(--k30)">'+_t('Sloučení')+'</h2><div class="mslots"><div class="card mslot sel"><img alt="" src="'+dataUrl(itemSpr(sl,r+1,set||undefined))+'"><b style="color:'+RAR[r+1].col+'">'+nm+'</b><small>'+RAR[r+1].name+'</small></div></div>'+
     '<small>'+_t('Použijí se: ')+used.map(i=>'<b style="color:'+RAR[i.r].col+'">'+itemName(i)+(i.lv?' +'+i.lv:'')+'</b>').join(', ')+'.</small>'+
     (back.gold?'<p class="ic-lg">'+_t('Tyhle předměty jsou vylepšené. Polovinu vylepšení dostaneš zpátky: ')+costHtml(back).replace(/ no/g,'')+'</p>':'')+
     '<div class="pop-btns"><button class="btn" id="mGo">'+_t('Sloučit')+'</button><button class="btn alt sm" id="newsOk">'+_t('Zpět')+'</button></div></div>';
@@ -8506,6 +8507,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11b',d:'11. 11. 2026',t:_t('Ostré písmo všude'),hl:[
+  {ic:'tower:arrow',t:_t('Věže v balíčku bez nápisů'),d:_t('Karty věží ukazují obrázek a barevný proužek rarity. Zmenšené jméno bylo rozmazané.')},
+  {ic:'scroll',t:_t('Ostré nadpisy oken'),d:_t('Nadpisy oken (nákup hrdiny, názor, soukromí, Novinky…) a drobné popisky už nemají rozmazanou velikost písma.')}],
+  items:[_t('Novinku v menu ukazuje červená pečeť v rohu tlačítka. Nápis NOVÉ na malém telefonu zakrýval název.'),_t('Na konci běhu už lišta věží neprosvítá do tabulky.')]},
  {v:'2026-11-11a',d:'11. 11. 2026',t:_t('Čitelný plakát hledaného'),hl:[
   {ic:'scroll',t:_t('Ostrý text na pergamenu'),d:_t('Jméno hledaného, kapitola a odměny na plakátu už nejsou rozmazané. Totéž platí pro úkoly a kontrakty na Nástěnce.')}]},
  {v:'2026-11-10u',d:'10. 11. 2026',t:_t('Vybraná mapa je zase vidět'),hl:[
@@ -8830,7 +8835,7 @@ const FB_KINDS=[['napad',_t('Nápad')],['chyba',_t('Chyba')],['balanc',_t('Obtí
 const fbRewardToday=()=>!(save.fb&&save.fb.d===today());
 function openFeedback(){const pop=$('#newsPop');const F={kind:'napad',rate:0,text:''};try{const d=JSON.parse(localStorage.getItem(FB_DRAFT)||'null');if(d){Object.assign(F,d);}}catch(_){}
   const coin='<img alt="" src="'+dataUrl(SPR.icon.coin)+'">',rw=fbRewardToday();
-  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font-size:26px">'+_t('Tvůj názor')+'</h2>'+
+  pop.innerHTML='<div class="pop-card news"><h2 class="title" style="font:var(--k30)">'+_t('Tvůj názor')+'</h2>'+
     '<small>'+_t('Co tě baví, co ne, co bys přidal nebo co nefunguje? Čte to vývojář a podle toho hru ladí.')+'</small>'+
     '<div class="tabs fbk" id="fbKind">'+FB_KINDS.map(k=>'<button data-fk="'+k[0]+'">'+k[1]+'</button>').join('')+'</div>'+
     '<div class="fbs"><small>'+_t('Jak tě hra baví?')+'</small><div class="st" id="fbStars">'+[1,2,3,4,5].map(i=>'<button data-r="'+i+'" aria-label="'+i+'">★</button>').join('')+'</div></div>'+
@@ -8871,7 +8876,7 @@ function openNews(all){const full=all?NEWS:newsUnseen().slice(0,3);if(!full.leng
       // highlights big with an icon, the small stuff as a quiet list under them
       (n.hl||[]).map(h=>'<div class="nhl"><img alt="" class="'+(String(h.ic).startsWith('map:')?'map':'')+'" src="'+newsIcon(h.ic)+'"><div><b>'+h.t+'</b><span>'+h.d+'</span></div></div>').join('')+
       ((n.items||[]).length?(n.hl?'<p class="nsm">'+_t('Drobnosti')+'</p>':'')+'<ul'+(n.hl?' class="small"':'')+'>'+n.items.map(i=>'<li>'+i+'</li>').join('')+'</ul>':'')+'</div>';
-  pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font-size:28px">Novinky</h2><div class="nl">')+list.map(entry).join('')+
+  pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font:var(--k30)">Novinky</h2><div class="nl">')+list.map(entry).join('')+
     _t('</div><button class="btn" id="newsOk">Jdu hrát!</button></div>');
   if(full.length>FIRST){const nl=pop.querySelector('.nl');let at=FIRST;const more=()=>{if(at>=full.length||nl.scrollTop+nl.clientHeight<nl.scrollHeight-600)return;
       nl.insertAdjacentHTML('beforeend',full.slice(at,at+10).map(entry).join(''));at+=10;};nl.addEventListener('scroll',more,{passive:true});}
@@ -8908,7 +8913,7 @@ function pwaGuide(){const ios=isIOS(),br=ios?iosBrowser():'android',K=(ic,t)=>'<
 function pwaInstall(){
   if(pwaEvt){const e=pwaEvt;pwaEvt=null;e.prompt();e.userChoice.then(()=>refreshMenu()).catch(()=>{});return;}
   const G=pwaGuide(),pop=$('#newsPop');
-  pop.innerHTML='<div class="pop-card news ig"><h2 class="title" style="font-size:26px">'+_t('Přidat na plochu')+'</h2>'+
+  pop.innerHTML='<div class="pop-card news ig"><h2 class="title" style="font:var(--k30)">'+_t('Přidat na plochu')+'</h2>'+
     '<p class="ig-why">'+(G.ios?_t('iPhone nedovolí hře přidat ikonu sama, zabere to ale jen tři ťuknutí v ')+'<b>'+G.name+'</b>.':_t('Tvůj prohlížeč nenabídl instalaci jedním ťuknutím, jde to ale ručně:'))+'</p>'+
     '<ol class="ig-steps">'+G.steps.map(t=>'<li>'+t+'</li>').join('')+'</ol>'+
     '<p class="ig-why small">'+_t('Hra pak běží přes celou obrazovku jako aplikace a postup zůstane uložený.')+'</p>'+
@@ -8945,7 +8950,7 @@ async function shareResult(){if(!run||!run.over)return;let c;try{c=await shareIm
   const blob=await new Promise(r=>c.toBlob(r,'image/png'));const file=blob&&new File([blob],'pixel-krypta.png',{type:'image/png'});
   try{if(file&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text,url:GAME_URL});return;}}catch(e){if(e&&e.name==='AbortError')return;}
   const url=c.toDataURL('image/png'),pop=$('#newsPop');
-  pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font-size:26px">Tvůj výsledek</h2><img class="shareimg" alt="Výsledek" src="')+url+_t('"><small>Podrž prst na obrázku a ulož ho, nebo ho stáhni. Pak ho dej do stories.</small>')+
+  pop.innerHTML=_t('<div class="pop-card news"><h2 class="title" style="font:var(--k30)">Tvůj výsledek</h2><img class="shareimg" alt="Výsledek" src="')+url+_t('"><small>Podrž prst na obrázku a ulož ho, nebo ho stáhni. Pak ho dej do stories.</small>')+
     '<a class="btn" id="shDl" download="pixel-krypta.png" href="'+url+_t('" style="text-align:center;text-decoration:none">Stáhnout obrázek</a><button class="btn alt" id="newsOk">Zavřít</button></div>');
   pop.hidden=false;$('#newsOk').onclick=()=>{pop.hidden=true;sfx('ui');};}
 

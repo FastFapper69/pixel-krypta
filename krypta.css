@@ -885,7 +885,7 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:inherit}
  text-shadow:none;letter-spacing:0;text-transform:none;font-size:18.6667px;line-height:24px;font-family:'Jersey 10',var(--font);font-weight:800;line-height:24px;color:#131518;background:var(--rc);clip-path:none;
  box-shadow:0 0 0 1px #0c0d0fa0} /* 09u: a small centred chip at the bottom of the card, not a left-aligned bar across it */
 .tslot:not(.empty){padding-bottom:9px}
-.tslot b{max-width:100%;overflow:hidden;padding:0;-webkit-hyphens:manual;hyphens:manual;letter-spacing:-.01em}
+.tslot b{max-width:100%;overflow:hidden;padding:0;-webkit-hyphens:manual;hyphens:manual}
 @media (max-width:370px){#scr-towers .tdeck{gap:3px;padding-left:3px;padding-right:3px}#scr-towers .tdeck .tslot{padding-left:1px;padding-right:1px}}
 .tslot .tlv{position:absolute;top:5px;left:5px;font-style:normal;font-weight:800;font-size:18.6667px;line-height:24px;font-family:'Jersey 10',var(--font);line-height:24px;padding:2px 3px;color:#ffe08a;background:#0c0d0fd8;box-shadow:0 0 0 1px #ffe08a66;text-shadow:none}
 #scr-towers .ttile{background:var(--tx-blue,#244c80) 0 0/32px 32px;image-rendering:pixelated}
@@ -1435,3 +1435,10 @@ button,input,select,textarea{font-family:inherit}
 #scr-quests .poster.ka,#scr-quests .poster.ka *,#scr-guide .gd.ka *,.kq *,.kc *{text-shadow:none!important}
 #scr-quests .poster .pz-h{text-shadow:0 2px 0 #d2bb86!important}
 #scr-quests .poster h3{color:#5a1a10}#scr-quests .poster small{color:#4a3420}#scr-quests .poster .rw,#scr-quests .poster .rw .mt{color:#3a2414}
+small{font-size:inherit}
+/* 11b: balíček věží bez nápisů – jméno se do úzké karty nevešlo a zmenšené písmo bylo rozmazané; rarita = barevný proužek */
+#scr-towers .tdeck .tslot{justify-content:center;gap:8px;min-height:104px}#scr-towers .tdeck .tslot>img{width:48px;height:48px}#scr-towers .tdeck .rgem{display:block;width:28px;height:6px;background:var(--rc);box-shadow:0 0 0 2px #0b0c0e,0 2px 0 2px #0b0c0e}
+/* 11b: věže z lišty prosvítaly do tabulky na konci běhu */
+body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
+/* 11b: novinka v menu = červená pečeť v rohu tlačítka (nápis NOVÉ zakrýval název na malém iPhonu) */
+#mStack .btn.art.new::after{content:'';top:-8px;right:-6px;width:24px;height:24px;padding:0;background:var(--kNew) 0 0/100% 100% no-repeat;image-rendering:pixelated;box-shadow:none;letter-spacing:0}
