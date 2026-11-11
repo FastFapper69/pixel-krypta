@@ -30,8 +30,8 @@ const b=await chromium.launch();const errs=[];
 const pages=[];for(let i=0;i<2;i++){const c=await b.newContext({viewport:{width:390,height:800},hasTouch:true,isMobile:true});const p=await c.newPage();p.on('pageerror',e=>errs.push(e.message));
   await p.goto('file://'+__dirname+'/'+(process.env.F||'off.html'));await p.waitForTimeout(500);
   await p.evaluate(T=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;K.save.tut=1;
-    // TIER='{"mapa":[hpm,dmm,spx,speedMul]}' = zkušební obtížnost bez úpravy game.js (krivka.js ladit)
-    if(T){const M=K._ev('MAPS'),O=JSON.parse(T);for(const id in O){const [h,d,x,v]=O[id];if(h!=null)M[id].hpm=h;if(d!=null)M[id].dmm=d;if(x!=null)M[id].spx=x;if(v!=null)M[id].speedMul=v;}}},process.env.TIER||'');pages.push(p);}
+    // TIER='{"mapa":[hpm,dmm,spx,speedMul,bhm]}' = zkušební obtížnost bez úpravy game.js (krivka.js ladit)
+    if(T){const M=K._ev('MAPS'),O=JSON.parse(T);for(const id in O){const [h,d,x,v,bh]=O[id];if(h!=null)M[id].hpm=h;if(d!=null)M[id].dmm=d;if(x!=null)M[id].spx=x;if(v!=null)M[id].speedMul=v;if(bh!=null)M[id].bhm=bh;}}},process.env.TIER||'');pages.push(p);}
 const chs=await pages[0].evaluate(()=>window.__krypta._ev('JSON.stringify(CHAPTERS.map(c=>({id:c.id,i:c.i,name:c.name,maps:c.maps})))')).then(JSON.parse);
 const pov=(PARG&&PARG!=='all'?PARG.split(','):Object.keys(POVAHY));
 // jobs
@@ -84,7 +84,8 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         // chapter VII: opening rifts (warning circle), the echo of your own path
         for(const q of (R.kr&&R.kr.L)||[])if(!q.op&&seen(q))away(q.x,q.y,32,3.5);
         if(R.ke&&Math.random()<P.aware+.3)for(const q of R.ke.E||[])if(q)away(q.x,q.y,34,2.5);
-        if(R.kg){for(const q of R.kg.S)if(seen(q))away(q.x,q.y,26,3);for(const q of R.kg.B)away(q.x,q.y,q.r+6,1.5);} // 11k: seeds and thorn bushes
+        if(R.ksh&&Math.random()<P.aware+.3){const C=map.size/2,dx=C-p.x,dy=C-p.y,d=Math.hypot(dx,dy)||1,lim=(R.ksh.next&&R.ksh.warn>0?Math.min(R.ksh.next,R.ksh.r):R.ksh.r)-36;if(d>lim){const k=Math.min(4,1.5+(d-lim)/20);fx+=dx/d*k;fy+=dy/d*k;}} // 11r: the void eats the edge → stay inside the ring
+        if(R.kg&&R.kg.S){for(const q of R.kg.S)if(seen(q))away(q.x,q.y,26,3);for(const q of R.kg.B)away(q.x,q.y,q.r+6,1.5);} // 11k: seeds and thorn bushes
         if(R.kz&&R.t>10&&Math.random()<P.aware+.4)away(R.kz.x,R.kz.y,(R.kz.big>0?100:60)+12,2.5); // 11n: the sun's gaze
         if(R.kpr)for(const q of R.kpr.L)if(!q.hit&&seen(q)){if(q.v)away(q.c,p.y,q.w/2+10,3);else away(p.x,q.c,q.w/2+10,3);} // 11n: press lanes
         if(R.kcl)for(const q of R.kcl.L)if(seen(q))away(q.x+q.s/2,q.y+q.s/2,q.s*.8,q.open?3:3.5); // 11p: crumbling stairs (cracked and fallen tiles)
