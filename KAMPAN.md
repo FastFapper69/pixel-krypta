@@ -62,6 +62,16 @@ Zadání uživatele: obtížnost map má růst stejně jako síla hráče (všec
 - **Výsledek 11i** (ověření 25 nových běhů na mapu, vstup): I 28–60 %, II 32–48 %, III 8–32 %, IV 24–28 %, V 32–44 %, VI 8–28 %, VII 20–50 % (předtím I 0–30 %, V a VI až 85 %). Po grindu: I–V 60–100 %, VI 20–53 % (zeď i po grindu). Kapitola VII měla s hodnotami z 11h 70–90 % (laděná boty bez fúzí a talentů), teď 40/50/30/35/20 %.
 - **Hrdinové** (`tests/tools/herostat.js`, 11 hrdinů × 3 povahy, kapitoly III a IV, 60 běhů na hrdinu): o výsledku rozhoduje hlavně styl (Opatrný vyhrává s každým), hrdinové v rozmezí ±15 bodů: Rytíř, Kovářka a Bard nahoře, Astra a Stavitel dole. 11i: Hvězdy +25 %, Kotva +12 %, Stavitel +25 zdraví (bylo 15), Krápníky −12 % (v davu nejsilnější zbraň).
 
+## Dva cíle (11q, 11. 11. 2026) – PLATÍ, nahrazuje průměr 5 povah z 11i
+Zadání uživatele: chyba nemá být okamžitá smrt a systém má jít použít na další kapitoly bez nového vymýšlení.
+- **Průměrný hráč** = Stavitel + Fúzní lovec (běžné reflexy a odstup). Vyhraje `CIL(ci,mi)` (= `DIFF_CIL`, stejná křivka jako 11i). Páka **HP nepřátel** `hpm` (na ně působí silně, sklon ≈ −4 logitu na ln HP).
+- **Neopatrný hráč** = Agresor + Sběratel (lezou do nepřátel). Spodní hranice: průměrně přežije aspoň **50 % délky mapy** (zeď a finále 40 %), výhry nehlídáme. Páka **síla zásahů** `dmm` (přežití +0,39 na −1 ln dmm; dřív umírali za 1–2 min).
+- **Zkušený hráč** = Opatrný + Expert: jen se vypíše. Uhýbá a od nepřátel skoro nedostává zásahy, žádná globální páka ho nezastaví (`paky.js`: HP ×1,5 → 100→89 %, spawn +1 → 94 %, rychlost ×1,25 → 72 %, ale spolu se slabšími zásahy zas 94–100 %). Zeď pro něj dělají mechaniky map a bossové.
+- **Strop HP** ×1,8 proti výchozí hodnotě; zbytek dorovná poškození, jen dokud neopatrný neklesne pod hranici. Mapy, kde to nestačí, potřebují mechaniku: **Vír, Ostrovy, Trosky, Zlatá pole, Zahrada světla**, v IX **Předměstí, Síň soch, Pokladnice** (tam rozhoduje poškození o obou skupinách naráz: když neopatrný přežije 40 %, průměrný vyhrává 70–100 %; ty tři mají dál čísla z 11n).
+- **Postup:** `ladeni.js cN 3 6` (3 kola, 36 běhů na mapu a kolo) → `prolozeni.js h0.json kola…` (proloží VŠECHNA kola: jedno kolo je jen 12 běhů na skupinu a šum ±15 bodů; sklon nejméně −2,5, nejvýš 30 % mimo změřený rozsah) → `ladeni.js zapis` → `krivka.js zapis`. Data `tests/tools/data/11m/`.
+- Pozdější kapitoly (V, VII, VIII) na HP reagují málo: účty mají hodně brnění (`d−armor`) a HP jen prodlužuje běh. Tam rozhoduje `dmm`.
+- Regenerace 0,4 → 0,3 zdraví/s za úroveň (byla nejsilnější obranná karta).
+
 ## Rozbor „drž odstup“ (11. 11. dopoledne, data `tests/tools/data/11j/`)
 Měřeno `hraci.js` s variantami povah (`POVX`, `safeSet`; výsledek nově ukládá `vAvg` = průměrná rychlost a `ndAvg` = vzdálenost nejbližšího nepřítele), účet při vstupu, kapitoly III–V, 8 běhů na buňku.
 - **Hrdina nerozhoduje:** Opatrný mág vyhrává stejně jako Opatrný lučištník (75–100 %).

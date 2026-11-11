@@ -1,6 +1,14 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Spravedlivější obtížnost":"Fairer difficulty",
+"Chyba už neznamená konec":"One mistake is no longer the end",
+"Zásahy nepřátel jsou na všech mapách nastavené tak, aby tě <b>jedna chyba hned nezabila</b>. Kdo leze do davu, vydrží zhruba do půlky mapy.":"Enemy hits on every map are set so that <b>one mistake won't kill you right away</b>. Even if you charge into the crowd, you'll last about half the map.",
+"Výzva pro každého stejná":"The same challenge for everyone",
+"Obtížnost map je znovu vyladěná podle hráčů, kteří hrají <b>normálně, ne dokonale</b>. Zdi kapitol III, VI a IX dál drží.":"The maps are retuned for players who play <b>normally, not perfectly</b>. The walls of chapters III, VI and IX still hold.",
+"Regenerace slabší":"Regeneration weaker",
+"Léčí <b>0,3 zdraví za sekundu</b> na úroveň (dřív 0,4). Byla to nejsilnější obranná karta.":"Heals <b>0.3 health per second</b> per level (was 0.4). It was the strongest defensive card.",
+"Mapy, kde rozhodují hlavně mechaniky (Oko víru, Plovoucí ostrovy, Trosky světů, Zlatá pole, Zahrada světla, Pozlacené předměstí, Síň soch, Pokladnice), dostanou úpravu později.":"Maps where mechanics matter most (Eye of the Whirlpool, Floating Islands, Wreckage of Worlds, Golden Fields, Garden of Light, Gilded Suburb, Hall of Statues, Treasury) will be adjusted later.",
 "Kapitola X: Korunované slunce":"Chapter X: The Crowned Sun",
 "Finále prvního aktu. Uvnitř slunce, které Aurel ukoval ze střepů: <b>hroutící se schody</b>, <b>ožívající sochy bossů</b> z celé cesty, <b>kladivo na šachovnici</b> a dvůr, kde vládnou Den a Noc.":"The finale of the first act. Inside the sun Aurel forged from the shards: <b>crumbling stairs</b>, <b>statues of bosses</b> from your whole journey coming alive, <b>a hammer on a chessboard</b> and a court ruled by Day and Night.",
 "Boss aktu ve <b>čtyřech fázích</b>: král, sedm střepů (každý útočí silou své kapitoly, rozbij je), slunce (schovej se do stínu sloupů a věží) a poslední jiskra ve tmě.":"The act boss in <b>four phases</b>: the king, seven shards (each attacks with its chapter's power, break them), the sun (hide in the shade of pillars and towers) and the last spark in the dark.",
@@ -945,7 +953,7 @@ window.KRYPTA_EN={
 "\">Jiný úkol</button>":"\">Other quest</button>",
 "\">Mistrovství</span>":"\">Mastery</span>",
 "\">Vyzvednout</button>":"\">Claim</button>",
-"+0,4 zdraví za sekundu":"+0.4 health per second",
+"+0,3 zdraví za sekundu":"+0.3 health per second",
 "+1 věž navíc":"+1 extra tower",
 "+10 % dosah sbírání za stupeň":"+10 % pickup range per rank",
 "+10 % zlata z běhu":"+10 % gold from runs",

@@ -382,3 +382,9 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - Aurel ve 4 fázích (král, sedm střepů s útoky kapitol a citátem jejich hudby, slunce se stínem sloupů a věží, poslední jiskra ve tmě se zásahem na první dobu). Úvod finále aktu: ticho a prasknutí obrazovky.
 - Paladin zdarma za Aurela (`win:'korunace'`), Světelné kopí a fúze Svatozář (s Aurou). Věže Kovadlina a Svatyně, šestidílný set Zbroj padlé hvězdy, legendárka Koruna sedmi střepů, hledaný Korunní strážce, titul Přemožitel slunce, karta Konec aktu I.
 - Hudební styl `crown`. Testy `c10shots.js` (všechny fáze Aurela a dvojčata), `aktx.js` (úvod, konec aktu, zamčený Paladin). `wgallery.js` bere počet úrovní zbraně z dat (dřív padal na nových ultimátkách).
+
+## 11q (11. 11. 2026) – obtížnost na dva cíle
+- Uživatel: pokračovat v balancu („drž odstup“ vyhrává, Vrakoviště lehké); chce funkční systém pro další kapitoly a žádnou okamžitou smrt za chybu.
+- Rozbor (`hraci.js` s `POVX`/`safeSet`, `paky.js`): Opatrný vyhrává uhýbáním + obrannými kartami, ne útěkem; hrdina nerozhoduje. Pokus s nepřáteli před běžícím hrdinou a návratem opozdilců (větev `balanc-odstup`) na boty nepůsobil, do hry nešel.
+- `ladeni.js` ladí na dva cíle (průměrný hráč výhry přes `hpm`, neopatrný přežití přes `dmm`), `prolozeni.js` proloží všechna kola. Mapy I–VIII přeladěné (2 průchody, 5 kol × 36 běhů), `PWR` přepočtené. Podrobnosti `KAMPAN.md` „Dva cíle“.
+- Regenerace 0,3 zdraví/s za úroveň (dřív 0,4). Bot: stav `run.kg`/`run.kb` sdílí kapitoly VI a VIII (různé mechaniky), `hraci.js` to rozliší.
