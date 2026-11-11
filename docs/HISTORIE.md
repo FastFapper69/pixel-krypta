@@ -313,3 +313,6 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 10u – vybraná mapa v Přípravě (2026-11-10)
 - Připomínka uživatele: výběr mapy nebyl vidět. Kamenný rám karet z 10q přebil `.mnode.sel` a popis mapy byl od 10o pod otazníkem. Teď `.card.mnode.sel` zlatý rám + `.mdesc` s popisem vybrané mapy.
+
+## 11a – čitelný plakát hledaného (2026-11-11)
+- Připomínka uživatele: text na plakátu špatně čitelný. Třída `.ka` (stavebnice) dává černý stín textu, na světlém pergamenu ho zdvojovala. Na pergamenech (`.poster.ka`, `.gd.ka`, `.kq`, `.kc`) stín vypnutý, tmavší inkoust.

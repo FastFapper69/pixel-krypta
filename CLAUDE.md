@@ -86,7 +86,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - 10b: `#combo` top `calc(100px + var(--sat))` – na iPhonech s výřezem dřív vjížděl do tlačítka pauzy (pevných 100 px); teď je pod lištou XP, ověřeno SE/15/Max, poušť s krystalem a bossem, kombo ×1240.
 - Pravidla: celý audit jen na požádání, po změně rychlý test v dotčené oblasti; vizuální změny vždy prohlédnout (CZ i EN, malý iPhone); Novinky v hezkém formátu s ikonami.
 
-## Aktuální stav (verze 10u, 10. 11. 2026 večer, vše na main, Pages nasazené)
+## Aktuální stav (verze 11a, 10. 11. 2026 večer, vše na main, Pages nasazené)
 - Hra: 6 kapitol (30 map, I–VI), 11 hrdinů, Noční můry I–III, Nekonečná krypta na finále, Runy, Souhvězdí, Nástěnka (denní úkoly, kontrakty, týdenní výzva), co-op beta, mazlíčci, věže jen z bedny. Podrobnosti kapitol `KAMPAN.md`, ekonomika `EKONOMIKA.md`, historie všech verzí `docs/HISTORIE.md`, mapa kódu `docs/KOD.md`.
 - Vzhled: starý styl (kámen a železo, kovaná tlačítka `.btn`) se postupně nahrazuje novou grafikou (viz níže); fialová jen pro Epické a kouzla. Staré obrazovky používají CSS rám `.btn:not(.art)`.
 - Server: hra mluví s `profiles` jen přes `my_profile` / `save_profile` / `claim_profile_v2` (limit PINu), skóre čistí `stats_clean`, protokoly `private.pin_fail` a `private.cheat_log`. Migrace v `supabase/migrations/`.
@@ -101,6 +101,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **Nový klíč `save.X`** se ukládá a synchronizuje sám; klíč jen pro zařízení přidej do `LOCAL_KEYS`. Test `savekeys.js`.
 - **Novinky:** `NEWS` s `hl:[{ic,t,d}]` + `items`, ikona musí sedět k bodu, `GAME_VER` = první položka (hlídá audit). Každý nový text `_t('…')` přeložit v `lang-en.js` (test `i18n.js`).
 - **Písmo (10p):** jen `var(--k20|--k30|--k40)` = Jersey 10 18,6667px/24px, Jersey 15 27px/31px, Jersey 20 34px/40px. Jiná velikost nebo výška řádku = rozmazané písmo na iPhonu (pixel písma musí vyjít na celý CSS pixel).
+- **Text na pergamenu bez černého stínu** (`.ka` ho přidává kvůli kameni; na světlém podkladu písmo zdvojí). Nový pergamen přidej do pravidla `text-shadow:none` na konci `krypta.css`.
 - **Atribut `data-k` patří stavebnici `KIT`** (druh kresby). Herní data na prvcích ukládej pod jiným jménem (`data-kc`, `data-fk`…), jinak je `kAuto` přepíše na `btn` (v 10n tak přestalo jít vyzvednout kontrakt).
 - **Tlačítka:** u `.btn` nepřepisovat `background` (zničí kovaný rám), měnit `--f1/--f2/--f3`, `--fh/--fl/--fd/--fdd`, `--u`. Žádné `isolation`/`z-index:-1`/zlomky pixelů u rámů (iPhone rozmaže).
 - **Horní okraj:** nic důležitého do `--sat + 30px` (iOS 26 rozmazání), test `topcheck.js`.

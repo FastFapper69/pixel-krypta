@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-10u';
+const GAME_VER='2026-11-11a';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -8506,6 +8506,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11a',d:'11. 11. 2026',t:_t('Čitelný plakát hledaného'),hl:[
+  {ic:'scroll',t:_t('Ostrý text na pergamenu'),d:_t('Jméno hledaného, kapitola a odměny na plakátu už nejsou rozmazané. Totéž platí pro úkoly a kontrakty na Nástěnce.')}]},
  {v:'2026-11-10u',d:'10. 11. 2026',t:_t('Vybraná mapa je zase vidět'),hl:[
   {ic:'map:bazina',t:_t('Mapa s popisem'),d:_t('Vybraná mapa v Přípravě má zase zlatý rámeček a pod sebou popis, co tě na ní čeká.')}]},
  {v:'2026-11-10t',d:'10. 11. 2026',t:_t('Nová Nástěnka'),hl:[

@@ -1431,3 +1431,7 @@ button,input,select,textarea{font-family:inherit}
 .card.mnode.sel h3{color:#ffd75e}
 .card.mnode .mdesc{margin:6px 0 0;font:var(--k20);color:#e9e2d0;text-shadow:0 2px 0 #000}
 .card.mnode:active{transform:translateY(2px)}
+/* pergamen: žádný černý stín textu (na světlém podkladu písmo rozmazává), tmavší inkoust */
+#scr-quests .poster.ka,#scr-quests .poster.ka *,#scr-guide .gd.ka *,.kq *,.kc *{text-shadow:none!important}
+#scr-quests .poster .pz-h{text-shadow:0 2px 0 #d2bb86!important}
+#scr-quests .poster h3{color:#5a1a10}#scr-quests .poster small{color:#4a3420}#scr-quests .poster .rw,#scr-quests .poster .rw .mt{color:#3a2414}
