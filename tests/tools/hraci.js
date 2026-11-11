@@ -20,6 +20,8 @@ const POVAHY={
  stavitel:{name:'Stavitel',hero:'builder',react:.25,aware:.75,keep:1.1,approach:.2,greed:.8,gemR:80,panic:.35,cards:'std',ritual:['g','p','g','m','g'],towers:6,upgrade:1,jitter:.12},
  fuzak:{name:'Fúzní lovec',hero:'mage',react:.22,aware:.75,keep:1,approach:.4,greed:.8,gemR:80,panic:.3,cards:'fuse',ritual:['p','p','g','p','g'],towers:2,jitter:.1},
  expert:{name:'Expert',hero:'bard',react:.12,aware:.97,keep:1,approach:.5,greed:1,gemR:100,panic:.35,cards:'expert',ritual:['p','p','p','p','g'],towers:3,upgrade:1,jitter:.05}};
+// POVX='{"opatrny_std":{"base":"opatrny","cards":"std"}}' = varianty povah pro rozklad (base = z které povahy vyjít)
+if(process.env.POVX){const X=JSON.parse(process.env.POVX);for(const k in X){const o=X[k];POVAHY[k]=Object.assign({},POVAHY[o.base||k]||{},o,{name:o.name||k});}}
 // účty hráče podle kapitoly a fáze (vstup / finále / grind) jsou v ucty.js (11h: i talenty, runy, Souhvězdí a odemčené funkce –
 // dřív měli boti vypnuté fúze, talenty i mazlíčky, protože save.feat byl prázdný)
 const UC=require('./ucty');
@@ -60,6 +62,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         K.force=H.f;
         if(R.t>R.map.dur+400){K.finish(false);return 'over';}
         if(n%40===0)towers(K,R,P);
+        if(n%40===0&&R.p.dvx!==undefined){const v=Math.hypot(R.p.dvx,R.p.dvy);H.akN=(H.akN||0)+1;H.akS=(H.akS||0)+v;let nd=1e9;for(const e of R.enemies)if(!e.dead){const d=Math.hypot(e.x-R.p.x,e.y-R.p.y);if(d<nd)nd=d;}H.ndS=(H.ndS||0)+Math.min(nd,300);}
         K.step(DT);}
       return 'run';
       function decide(K,E,R,P,H,seen){const p=R.p,map=R.map,low=p.hp<p.max*P.panic,keepM=P.keep*(low?1.6:1),appr=low?0:P.approach;let fx=0,fy=0;
@@ -110,7 +113,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
           const partner=k==='w'&&fus.some(x=>(x.a===id&&own[x.b])||(x.b===id&&own[x.a]));let sc;
           switch(P.cards){
            case'chaos':sc=f?40:Math.random()*20;break;
-           case'safe':sc=f?60:k==='p'&&['heart','shield','regen'].includes(id)?14:have?10:k==='w'?6:4;break;
+           case'safe':sc=f?60:k==='p'&&(P.safeSet||['heart','shield','regen']).includes(id)?14:have?10:k==='w'?6:4;break;
            case'dmg':sc=f?90:k==='p'&&['power','haste','eye'].includes(id)?14:have?13:k==='w'?10:3;break;
            case'greed':sc=f?80:k==='p'&&['magnet','greed'].includes(id)?15:have?11:k==='w'?7:4;break;
            case'fuse':sc=f?100:partner?20:have?12:k==='w'?8:4;break;
@@ -124,7 +127,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         if(R.crystal&&R.nearCrystal&&R.crystal.hp<R.crystal.max*.75&&Math.random()<(P.aware))K.repairCrystal();}
     });
     if(st==='over')break;if(st!=='run'&&st!=='play'&&st!=='levelup'&&st!=='fuse')await p.waitForTimeout(40);}
-  const r=await p.evaluate(()=>{const K=window.__krypta,R=K.run;if(!R.over)K.finish(false);return Object.assign({},K.lastRun||K.tmRow('death'),{gain:R.gain,cap:R.t>R.map.dur+390});});
+  const r=await p.evaluate(()=>{const K=window.__krypta,R=K.run;if(!R.over)K.finish(false);const H=window.__hb;return Object.assign({},K.lastRun||K.tmRow('death'),{gain:R.gain,cap:R.t>R.map.dur+390,vAvg:H.akN?H.akS/H.akN:null,ndAvg:H.akN?H.ndS/H.akN:null});});
   return Object.assign(r,{pov:J.pov,acc:J.acc,ci:J.ci});}
 let ji=0;await Promise.all(pages.map(async p=>{while(ji<jobs.length){const J=jobs[ji++];try{rows.push(await runOne(p,J));}catch(e){errs.push(String(e).slice(0,200));}
   if(++done%10===0)process.stdout.write(done+' ');}}));

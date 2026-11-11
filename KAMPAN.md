@@ -62,6 +62,14 @@ Zadání uživatele: obtížnost map má růst stejně jako síla hráče (všec
 - **Výsledek 11i** (ověření 25 nových běhů na mapu, vstup): I 28–60 %, II 32–48 %, III 8–32 %, IV 24–28 %, V 32–44 %, VI 8–28 %, VII 20–50 % (předtím I 0–30 %, V a VI až 85 %). Po grindu: I–V 60–100 %, VI 20–53 % (zeď i po grindu). Kapitola VII měla s hodnotami z 11h 70–90 % (laděná boty bez fúzí a talentů), teď 40/50/30/35/20 %.
 - **Hrdinové** (`tests/tools/herostat.js`, 11 hrdinů × 3 povahy, kapitoly III a IV, 60 běhů na hrdinu): o výsledku rozhoduje hlavně styl (Opatrný vyhrává s každým), hrdinové v rozmezí ±15 bodů: Rytíř, Kovářka a Bard nahoře, Astra a Stavitel dole. 11i: Hvězdy +25 %, Kotva +12 %, Stavitel +25 zdraví (bylo 15), Krápníky −12 % (v davu nejsilnější zbraň).
 
+## Rozbor „drž odstup“ (11. 11. dopoledne, data `tests/tools/data/11j/`)
+Měřeno `hraci.js` s variantami povah (`POVX`, `safeSet`; výsledek nově ukládá `vAvg` = průměrná rychlost a `ndAvg` = vzdálenost nejbližšího nepřítele), účet při vstupu, kapitoly III–V, 8 běhů na buňku.
+- **Hrdina nerozhoduje:** Opatrný mág vyhrává stejně jako Opatrný lučištník (75–100 %).
+- **Rozhodují dvě věci najednou:** obranné karty (Srdce, Štít, Regenerace) a odstup. Stejný pohyb s běžnými kartami 0–100 % (průměr ~50), Agresor s odstupem 0–88 %, Agresor s obrannými kartami 0–50 %. Z karet nejvíc Regenerace (bez ní doly 88 → 0 %), Srdce a Štít málo.
+- **Není to útěk, ale uhýbání:** bot jede průměrně polovinou rychlosti (vAvg ~30 z 58) a drží nejbližšího nepřítele 35–50 px (ostatní 22–35). Proto nepomohlo ani rodit nepřátele před běžícím hrdinou, ani vracet opozdilce na okraj obrazovky (větev `balanc-odstup`, Opatrný dál 88–100 %).
+- **Ostatní povahy lezou do nepřátel** (`keep` < 1, `approach` až 1) a na vstupu do III umírají za 1–2 min. Průměr 5 povah (`DIFF_CIL`) je tak průměr dvou světů: Opatrný a Expert ~100 %, ostatní 0–20 %.
+- HP mapy (`hpm`) ani poškození (`dmm`) uhýbajícího hráče skoro nezmění (nemusí zabíjet, nedostává zásahy), boss má HP nezávislé na `MAP_TIER`.
+
 ## Balanc (bot, 2026-11-07g) – historie, čísla neplatí
 Profil `zkuseny` (hrdina 10): hřbitov 93 %, kapitola I 87–93 %, Trůn kostí 62 %; poušť ~43 %, kaňon ~50 %, karavana ~66 %, hrobka ~50 %, Brána slunce ~29 %.
 Profil `novy`: hřbitov 83 %, bažina 50 %, zvonice 16 %, Trůn 0 % (postup vyžaduje úrovně hrdiny). Bot je průměrný hráč, ladit podle telemetrie (`runs`).
