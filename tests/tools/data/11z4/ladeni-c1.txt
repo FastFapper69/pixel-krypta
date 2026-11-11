@@ -1,0 +1,20 @@
+
+kolo 1 (136 s)
+  hrbitov     hpm 0.92 dmm 1        průměrný 92/85 %   neopatrný přežije 74/65 %  zkušený 100 % v cíli
+  bazina      hpm 0.79 dmm 1        průměrný 67/75 %   neopatrný přežije 78/65 %  zkušený 75 %  v cíli
+  kostnice    hpm 1.03 dmm 1        průměrný 75/60 %   neopatrný přežije 48/50 %  zkušený 100 % → hpm 1.12, dmm 1
+  zvonice     hpm 1.3 dmm 0.65      průměrný 58/50 %   neopatrný přežije 53/50 %  zkušený 92 %  v cíli
+
+kolo 2 (111 s)
+  hrbitov     hpm 0.92 dmm 1        průměrný 83/85 %   neopatrný přežije 59/65 %  zkušený 100 % v cíli
+  bazina      hpm 0.79 dmm 1        průměrný 83/75 %   neopatrný přežije 70/65 %  zkušený 75 %  v cíli
+  kostnice    hpm 1.12 dmm 1        průměrný 42/60 %   neopatrný přežije 54/50 %  zkušený 83 %  → hpm 1.01, dmm 1
+  zvonice     hpm 1.3 dmm 0.65      průměrný 33/50 %   neopatrný přežije 50/50 %  zkušený 92 %  → hpm 1.18, dmm 0.65
+
+kolo 3 (117 s)
+  hrbitov     hpm 0.92 dmm 1        průměrný 92/85 %   neopatrný přežije 75/65 %  zkušený 100 % v cíli
+  bazina      hpm 0.79 dmm 1        průměrný 92/75 %   neopatrný přežije 55/65 %  zkušený 100 % → hpm 1.17, dmm 0.76
+  kostnice    hpm 1.01 dmm 1        průměrný 83/60 %   neopatrný přežije 56/50 %  zkušený 92 %  → hpm 1.17, dmm 1
+  zvonice     hpm 1.18 dmm 0.65     průměrný 42/50 %   neopatrný přežije 55/50 %  zkušený 83 %  v cíli
+
+hotovo: ladeni-last.json (zapiš: node ladeni.js zapis)

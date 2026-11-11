@@ -492,3 +492,27 @@ Připomínky uživatele z testování s kamarády: bedna zaniká, boss se ztrác
 ## 11z3 (11. 11. 2026) – značky v menu, čísla v Síni slávy
 Připomínky uživatele: v menu byly dvě značky pro novou věc (pečeť u `.new`, červený čtvereček u `.has`) → všude pečeť `sealDot` (`--kNew`, `kNewInit` v `openMenu`), v horní liště 18 px nad ikonou. Číslo 2. a 3. místa v Síni slávy bylo useknuté (rámeček 16 px pro řádek 24 px) → `.tc .rk` 20×24.
 
+## 11z4 (11. 11. 2026) – první minuty hry, kratší běhy, data o odchodech
+Rozbor postupu (uživatel: „děláme něco v procesu špatně?“): obsah roste rychleji, než ho kdo hraje. Data 11. 11.: 6 hráčů, 54 běhů (37 vývojář),
+5 testerů 17 běhů, nikdo se nevrátil druhý den, nikdo za kapitolu I, 2 z 6 umřeli v prvním běhu a už nehráli. Proto teď začátek hry místo nových kapitol.
+- **Tutoriál znovu** (`tutTick`, uživatel: „první level jako tutorial strašný, nápisy divné a nejasné“): pruh s ikonou a jednou krátkou větou, každý krok čeká
+  na hráče a odškrtne se (zelený rámeček, ✓, zvuk): pohyb → útočí sám → krystaly (zlatá šipka nad nejbližším krystalem `tutPtr`) → zlato → věž (blikající
+  tlačítko `tutHi`, `.tuton`) → věž sílí. Přerušení: bedna, málo zdraví, vylepšení věže (bliká `#upBtn`), boss se blíží, boss. Test `tests/tools/tutorial.js`.
+- První běh: Hrát jde rovnou na Hřbitov (bez Přípravy), v liště jen jedna věž, poškození hráče ×0,6 (s bossem ×0,8) – `TUT_DMG`.
+- **Hřbitov v noci** (uživatel: „první level je oproti druhému ošklivý a jednoduchý“): měsíční paleta trávy a cest, `dark` .5, modrý `grade`,
+  rozpadlá podlaha kaple s runovým kruhem místo cihlového disku, 30 hrobových řad, otevřené hroby, tmavé stromy, světla luceren a svíček.
+- **Kratší běhy** (uživatel: 7 min do bosse): boss nejpozději `DUR_CAP` 300 s, finále `DUR_FIN` 330 s. Běh se nezředí, ale stlačí: `map.ts` = stará délka / nová,
+  `runMin()` (HP nepřátel, nabídka druhů) a spawn běží ve starém čase, elity a události posunuté, `rewT` počítá staré sekundy → stejně nepřátel, XP, zlata
+  a materiálu za běh. Během boje s bossem chodí jen každý 3. běžný spawn (`BOSS_HORDE`). Kapitoly I–III přeladěné boty (`data/11z4`).
+- **Obtížnost začátku**: `DIFF_CIL`/`CIL` kapitola I 85/75/60/50 % (dřív 70/60/50/45), přežití neopatrného na prvních dvou mapách 65 %.
+  **Boti začátek přeceňují** (data 11. 11.: Hřbitov lidé 4/8, boti 92 %; Utopené hroby lidé 1/6, boti 67–92 %), proto Hřbitov a Utopené hroby nastavené ručně
+  podle bota Nováček (`hrbitov:[0.62,0,0,0.6,0.85]` = i boss ×0,85, `bazina:[0.7,.1,15,0.75]`): Nováček bez úlev prvního běhu Hřbitov ~60 %, Hroby ~75 %.
+  **`ladeni.js zapis` by je přepsal – kapitolu I přes něj nepouštět bez kontroly Nováčkem.** Hřbitov bez pavouků, Utopené hroby bez lučištníků
+  (zabili 3 z 5 nováčků), v Kostnici lučištníci od 1. minuty a méně (`kostnice:[0.9,.2,30,0.75]`).
+  **Oprava:** šípy lučištníků/čarodějů/horníků (`beh:'ranged'`) měly pevné poškození mimo páku mapy `dmm`; teď `×min(1,dmm)` – změkčení mapy
+  na ně platí, těžší mapy se nezměnily. (Noční můra je dál nezesiluje – kdyby se to mělo změnit, přeladit.)
+- **Nový hráč**: v okně přezdívky jen obrázky, které si může vybrat (dřív 60 zamčených siluet a Uložit hluboko dole), Uložit přilepené dole (`.nsv`).
+  Opravený skrytý řádek `$('#nickSave').hidden` (byl za komentářem).
+- **Data o odchodech**: běh opuštěný zavřením aplikace se zapíše jako `end='left'` (`runPendKeep` při skrytí, `save.runPend` v zařízení, odejde při dalším
+  spuštění; test `opusteny.js`). Dotazy na návraty D1/D7 a první běhy v `docs/DATA-HRACU.md`.
+

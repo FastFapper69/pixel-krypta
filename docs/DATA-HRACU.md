@@ -32,3 +32,24 @@ select ctx->>'map' mapa, count(*) n, round(avg(rating),1) hvezdy,
 -- delší názory
 select created_at, nick, kind, rating, msg from feedback where kind <> 'rychle' order by created_at desc limit 30;
 ```
+
+## Návraty a kde noví hráči končí (11z4)
+Od 11z4 se zapisuje i běh, který hráč opustil zavřením aplikace (`end='left'`, snímek `save.runPend` při skrytí aplikace, odejde při dalším spuštění).
+Hráč, který po odchodu už hru nikdy nespustí, se neukáže ani tak; na to je počet profilů bez běhu (vznikne přezdívkou).
+
+```sql
+-- trychtýř: kolik hráčů, kolik se vrátilo další den (D1) a po týdnu (D7), kolik běhů a kam se dostali (bez vývojáře)
+with r as (select uid, coalesce(played_at,created_at) at time zone 'Europe/Prague' ts, map, won, "end" from runs where not coop),
+h as (select uid, min(ts)::date d0, count(*) n, count(distinct ts::date) dny from r group by uid)
+select count(*) hracu,
+  count(*) filter (where exists(select 1 from r where r.uid=h.uid and r.ts::date=d0+1)) d1,
+  count(*) filter (where exists(select 1 from r where r.uid=h.uid and r.ts::date>=d0+7)) d7,
+  count(*) filter (where n=1) jen_1_beh, round(avg(n),1) behu_prumer
+from h where uid <> 'a64b77c9-c3e2-4bb4-800d-1ec9b38dd249';
+-- první běh každého hráče: mapa, výsledek, čas (končí noví hráči smrtí na první mapě?)
+select distinct on (uid) uid, map, "end", t, towers from runs where not coop order by uid, coalesce(played_at,created_at);
+-- profily bez jediného běhu (vytvořil přezdívku a nedohrál)
+select count(*) from profiles p where not exists(select 1 from runs r where r.uid=p.id);
+```
+Stav 11. 11. 2026: 5 testerů mimo vývojáře, žádný se další den nevrátil (D1 0/5), 17 běhů, nikdo za kapitolu I; 2 ze 6 skončili první běh smrtí
+na Hřbitově a už nehráli; 2 profily z 11. 11. bez jediného běhu.

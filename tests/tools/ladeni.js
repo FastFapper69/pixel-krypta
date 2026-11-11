@@ -6,15 +6,15 @@
 //    Páka = síla zásahů (dmm), na přežití působí nejvíc.
 //  - ZKUŠENÝ hráč (Opatrný, Expert) se jen zapisuje: uhýbá a od nepřátel skoro nedostává zásahy, žádná globální páka ho
 //    nezastaví (měřeno paky.js); smí vyhrávat často, zdí pro něj jsou mechaniky map a bossové.
-// Cíl CIL(ci,mi): kapitola I vítá (Hřbitov 70 % → Zvonice 45 %), další kapitoly začínají schodem (40 % a −3 body na mapu),
+// Cíl CIL(ci,mi): kapitola I vítá (Hřbitov 85 % → Zvonice 50 %, 11z4), další kapitoly začínají schodem (40 % a −3 body na mapu),
 // každá třetí kapitola (III, VI, IX…) je zeď (25 %), finále s bossem je špička (20 %, ve zdi 12 %).
 // Smyčka: změří obě skupiny, posune hpm a dmm společně (citlivosti z paky.js, tlumené), opakuje.
 // node ladeni.js <c3|vse|mapa,mapa> [kola=3] [běhů na povahu=6]   -> ladeni-last.json, `node ladeni.js zapis` ho zapíše do game.js
 const {execFileSync}=require('child_process'),fs=require('fs'),path=require('path');
 const PRUM=['stavitel','fuzak'],NEOP=['agresor','sberatel'],ZKUS=['opatrny','expert'],POV=[...PRUM,...NEOP,...ZKUS].join(',');
 const STENA=ci=>ci%3===2;
-function PREZ(ci,mi,fin){return fin||STENA(ci)?.4:.5;} // průměrné přežití neopatrného hráče jako díl délky mapy
-function CIL(ci,mi,fin){if(fin)return ci===0?25:STENA(ci)?12:ci%10===9?15:20;if(ci===0)return[70,60,50,45][mi];return(STENA(ci)?25:40)-3*mi;}
+function PREZ(ci,mi,fin){return fin||STENA(ci)?.4:ci===0&&mi<2?.65:.5;} // průměrné přežití neopatrného hráče jako díl délky mapy
+function CIL(ci,mi,fin){if(fin)return ci===0?25:STENA(ci)?12:ci%10===9?15:20;if(ci===0)return[85,75,60,50][mi]; /* 11z4: nováček prohrával první dvě mapy (uživatel i testeři) → vítá víc */return(STENA(ci)?25:40)-3*mi;}
 const logit=p=>Math.log(p/(1-p)),clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const GAME=path.join(__dirname,'..','..','game.js');
 function chapters(){const s=fs.readFileSync(GAME,'utf8'),m=s.match(/const CHAPTERS=\[([\s\S]*?)\]\;/)[1],out=[];let i=0;

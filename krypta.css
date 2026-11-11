@@ -1544,3 +1544,15 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 #mTop .btn.ic.has::after,#mTop .btn.ic.new::after,#mNews.has::after,#mBoard.has::after,#mSet.has::after,#mGuide.has::after{content:'';top:-3px;right:-5px;z-index:2;width:18px;height:18px;padding:0;background:var(--kNew) 0 0/100% 100% no-repeat;image-rendering:pixelated;box-shadow:none;animation:none}
 /* 11z3: rank number on the 2nd/3rd place avatar was cut off (16px box for a 24px line) */
 .tc .rk,.tc.p1 .rk{min-width:20px;height:24px;padding:0 3px;font:400 18.6667px/24px 'Jersey 10',var(--font);color:#15171b;box-shadow:inset 0 0 0 0 transparent}
+
+/* 11z4: Save on the new-player screen stays at the bottom of the screen */
+.nsv .btn{width:100%}#scr-nick .sticky.nsv{z-index:20;background:linear-gradient(#0c0d0f00,#0c0d0fee 34%,#0c0d0f)}.nsv[hidden]{display:none}
+/* 11z4 tutorial banner: icon + one line, green with a tick when the step is done; pulsing tower button it points at */
+#tut{display:flex;align-items:center;gap:10px;text-align:left;font:var(--k20);padding:8px 12px}
+#tut[hidden]{display:none}
+#tut img{width:32px;height:32px;flex:none;image-rendering:pixelated;object-fit:contain}
+#tut span{flex:1}
+#tut.ok{box-shadow:inset 0 0 0 3px #5cc45c}
+#tut.ok span::after{content:' ✓';color:#7ee07e}
+#buildbar .bb.tuton,#upBtn.tuton{animation:tutBtn .5s steps(1) infinite}
+@keyframes tutBtn{0%{filter:brightness(1.45) drop-shadow(0 0 0 #f6c744)}50%{filter:none}}

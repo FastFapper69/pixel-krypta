@@ -1,0 +1,26 @@
+
+kolo 1 (461 s)
+  zvonice     hpm 1.3 dmm 0.65      průměrný 50/45 %   neopatrný přežije 49/50 %  zkušený 100 % v cíli
+  trun        hpm 1.79 dmm 0.5      průměrný 0/25 %    neopatrný přežije 42/40 %  zkušený 58 %  → hpm 1.31, dmm 0.5
+  karavana    hpm 2.23 dmm 1.21     průměrný 58/34 %   neopatrný přežije 58/50 %  zkušený 42 %  → hpm 2.57, dmm 1.21
+  hrobka      hpm 2.6 dmm 1.15      průměrný 8/31 %    neopatrný přežije 39/50 %  zkušený 33 %  → hpm 2.54, dmm 0.98
+  brana       hpm 1.5 dmm 1.11      průměrný 17/20 %   neopatrný přežije 39/40 %  zkušený 42 %  v cíli
+  doly        hpm 3.54 dmm 1.26     průměrný 17/25 %   neopatrný přežije 38/40 %  zkušený 75 %  v cíli
+  kovarna     hpm 3.57 dmm 1.54     průměrný 33/22 %   neopatrný přežije 45/40 %  zkušený 100 % → hpm 3.91, dmm 1.54
+  reka        hpm 3.6 dmm 2.21      průměrný 17/19 %   neopatrný přežije 43/40 %  zkušený 92 %  v cíli
+  krystaly    hpm 2.95 dmm 1.88     průměrný 67/16 %   neopatrný přežije 49/40 %  zkušený 100 % → hpm 4.13, dmm 1.88
+  srdce       hpm 2.76 dmm 1.1      průměrný 0/12 %    neopatrný přežije 41/40 %  zkušený 83 %  → hpm 2.31, dmm 1.1
+
+kolo 2 (459 s)
+  zvonice     hpm 1.3 dmm 0.65      průměrný 42/45 %   neopatrný přežije 49/50 %  zkušený 100 % v cíli
+  trun        hpm 1.31 dmm 0.5      průměrný 58/25 %   neopatrný přežije 43/40 %  zkušený 92 %  → hpm 1.61, dmm 0.5
+  karavana    hpm 2.57 dmm 1.21     průměrný 50/34 %   neopatrný přežije 42/50 %  zkušený 42 %  → hpm 3.46, dmm 0.98
+  hrobka      hpm 2.54 dmm 0.98     průměrný 25/31 %   neopatrný přežije 52/50 %  zkušený 33 %  v cíli
+  brana       hpm 1.5 dmm 1.11      průměrný 8/20 %    neopatrný přežije 39/40 %  zkušený 42 %  → hpm 1.36, dmm 1.11
+  doly        hpm 3.54 dmm 1.26     průměrný 17/25 %   neopatrný přežije 40/40 %  zkušený 100 % v cíli
+  kovarna     hpm 3.91 dmm 1.54     průměrný 17/22 %   neopatrný přežije 38/40 %  zkušený 100 % v cíli
+  reka        hpm 3.6 dmm 2.21      průměrný 25/19 %   neopatrný přežije 41/40 %  zkušený 100 % v cíli
+  krystaly    hpm 4.13 dmm 1.88     průměrný 25/16 %   neopatrný přežije 38/40 %  zkušený 100 % → hpm 4.55, dmm 1.88
+  srdce       hpm 2.31 dmm 1.1      průměrný 8/12 %    neopatrný přežije 48/40 %  zkušený 75 %  v cíli
+
+hotovo: ladeni-last.json (zapiš: node ladeni.js zapis)
