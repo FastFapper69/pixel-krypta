@@ -87,6 +87,8 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         if(R.kg){for(const q of R.kg.S)if(seen(q))away(q.x,q.y,26,3);for(const q of R.kg.B)away(q.x,q.y,q.r+6,1.5);} // 11k: seeds and thorn bushes
         if(R.kz&&R.t>10&&Math.random()<P.aware+.4)away(R.kz.x,R.kz.y,(R.kz.big>0?100:60)+12,2.5); // 11n: the sun's gaze
         if(R.kpr)for(const q of R.kpr.L)if(!q.hit&&seen(q)){if(q.v)away(q.c,p.y,q.w/2+10,3);else away(p.x,q.c,q.w/2+10,3);} // 11n: press lanes
+        if(R.kcl)for(const q of R.kcl.L)if(seen(q))away(q.x+q.s/2,q.y+q.s/2,q.s*.8,q.open?3:3.5); // 11p: crumbling stairs (cracked and fallen tiles)
+        if(R.kan)for(const q of R.kan.L){if(q.hit||!seen(q))continue;for(let cy=q.gy;cy<q.gy+q.h;cy++)for(let cx=q.gx;cx<q.gx+q.w;cx++){const on=q.pat===0?((cx+cy)&1)===0:q.pat===1?((cx+cy)&1)===1:q.pat===2?(cy&1)===0:(cx&1)===1;if(on)away(cx*44+22,cy*44+22,34,2.2);}} // 11p: the anvil's chessboard
         // chapter VI: telescope beams, the void between islands (unless the bridges shine), lines between wolves
         if(R.kb&&R.t>12&&Math.random()<P.aware+.3){const C=map.size/2,o=(map.kit.mech.find(m=>m.id==='beam')||{}),n=o.n||2;for(let k=0;k<n;k++){const an=R.kb.a+k*6.283/n,cs=Math.cos(an),sn=Math.sin(an),dx=p.x-C,dy=p.y-C,pr=dx*cs+dy*sn,pp=-dx*sn+dy*cs;
           if(pr>10&&pr<(o.len||520)&&Math.abs(pp)<30){const s2=pp>=0?1:-1;fx+=-sn*s2*4;fy+=cs*s2*4;}}}
@@ -96,6 +98,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         for(const f of R.fx)if((f.k==='magma'||f.k==='venom')&&seen(f))away(f.x,f.y,(f.r||14)+10,3);
         if(R.built.traps&&(E('M.step')%16)>=11)for(const t of R.built.traps)if(seen(t))away(t.x,t.y,H.trapS*1.6+8,3);
         let goal=null;
+        if(R.kcr&&R.kcr.ph===3&&R.kcr.fw&&R.boss&&Math.random()<P.aware+.5){const C=map.size/2,S=R.boss;let bd=1e9;for(const q of E('C10_COLS')){const px=C+q[0],py=C+q[1],ux=px-S.x,uy=py-S.y,L=Math.hypot(ux,uy)||1,gx=px+ux/L*22,gy=py+uy/L*22,d=Math.hypot(gx-p.x,gy-p.y);if(d<bd){bd=d;goal={x:gx,y:gy,sh:1};}}} // 11p: the solar flare → behind a pillar
         if(R.ks&&R.ks.warn>0&&Math.random()<P.aware+.4){const o=(map.kit.mech.find(m=>m.id==='sundial')||{}),d0=60+((o.len||460)-60)*.25;goal={x:R.ks.x+Math.cos(R.ks.a)*d0,y:R.ks.y+Math.sin(R.ks.a)*d0,sh:1};} // 11k: noon → into the obelisk's shadow
         if(!goal&&R.kb&&p.hp<p.max*Math.max(.5,P.panic)){let bd=1e9;for(const f of R.kb.F){const d=Math.hypot(f.x-p.x,f.y-p.y);if(d<bd){bd=d;goal=f;}}} // 11k: low on health → to a flower
         if(R.kn){const o=(map.kit.mech.find(m=>m.id==='lantern')||{}),rr=(o.r||120)*(R.kn.dim>0?.6:1);if(Math.hypot(R.kn.x-p.x,R.kn.y-p.y)>rr*(.45+.3*(1-P.aware)))goal=R.kn;}

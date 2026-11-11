@@ -1,7 +1,7 @@
 # Pixel Krypta – příběh a plán aktů (schváleno 11. 11. 2026, červená nit I–VII hotová v 11k)
 
 Struktura: **akt = 10 kapitol**, na konci aktu dynamický těžký boss přes celou kapitolu X.
-Akt I = kapitoly I–X (I–VII hotové, chybí VIII–X). Akt II = XI–XX.
+Akt I = kapitoly I–X (všechny hotové, X v 11p). Akt II = XI–XX.
 Obtížnost dál podle `DIFF_CIL`: každá 3. kapitola je zeď (IX, XII, XV, XVIII), finále aktu má vlastní špičku.
 
 ---
@@ -74,7 +74,7 @@ Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nos
 **Set** Šat zlatého dvora, **legendárka** Midasova rukavice.
 **Most:** Herold padá. Z dvora vede schodiště ze světla přímo do slunce.
 
-### Kapitola X – Korunované slunce (`c10`, finále aktu, hrdina Paladin zdarma za Aurela)
+### Kapitola X – Korunované slunce (`c10`, finále aktu, hrdina Paladin zdarma za Aurela) – HOTOVO 11p
 **Příběh:** uvnitř slunce, které Aurel ukoval ze střepů. Každá síň je postavená z jednoho ukradeného střepu, takže kapitola **připomíná celý akt**, jen spálený a pozlacený.
 **Pocit:** bílé světlo, zlato, rudé jádro. Hudba „korunovace“ (sbor, varhany, banger kit naplno).
 **Nové mechaniky:** hroutící se schody (plošiny mizí na takt), ozvěny starých bossů jako minibossové, údery kladiva v mřížce na takt.

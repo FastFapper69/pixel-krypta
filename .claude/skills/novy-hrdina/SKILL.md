@@ -21,7 +21,7 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase`. Vzor: Pirátka (`
 3b. **Fúze zbraně (11m, povinné):** nová zbraň musí mít aspoň jednu fúzi se základní zbraní (`ULTS`, ikona v `ICONS`, logika s `w.mul`), jinak ji Pečetě (`sealWhy`) nemají s čím hlídat a hráč by ji mohl mít v buildu bez kombinace.
 4. `TALENTS[id]` – 4 talenty `[5,…],[10,…],[15,…],[20,…]`; prefix v `heroBonus` (mapa `pre`) a účinky (`T.<prefix>5`…), změny zbraně v `talentW`.
 5. Bonus hrdiny, který není v číslech `HEROES`, do `heroBonus` (`if(h==='id')…`) nebo do běhu (`run.heroId==='id'`).
-6. Mistrovství (pokud se odemyká úspěchem, `ach:`), jinak cena.
+6. Mistrovství (pokud se odemyká úspěchem, `ach:`), hrdina zdarma za výhru mapy `win:'mapa'` + `cost:0` (Paladin za Aurela, 11p: přidá se v `finish`, oslava po kartě konce aktu), jinak cena.
 7. Průvodce se bere z dat (`HEROES`), zkontroluj text. Profilový obrázek se přidá sám (`avAll`).
 8. `HERO_DAT` (3. pád jména, „Nyx“ zůstává Nyx), `lang-en.js`, `NEWS` s `hero:id` ikonou, `GAME_VER`, `CLAUDE.md`.
 9. Procenta v popisech a Novinkách piš s `&nbsp;` (`8&nbsp;%`), jinak se číslo na telefonu odlomí od znaku procenta.

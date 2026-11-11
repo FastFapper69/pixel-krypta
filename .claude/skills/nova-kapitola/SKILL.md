@@ -90,6 +90,15 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
 - Boss, který „neumře napoprvé“ (vejce Fénixe): `egg:n` v definici bosse, hák v `hurtEnemy` a začátek `BEH.kit`; časovač přes `run.t`, ne `dt` (zpomalení hry ho jinak natáhne).
 - Testy: `c8shots.js` (vzor pro další kapitolu), vejce ověřené ručním skriptem (zabít → vejce → vylíhne se s 60 %, druhá smrt je konečná).
 
+## Poučení z kapitoly X (11p, finále aktu)
+- **Boss s více fázemi**: `ph2.at` zapne 2. fázi, další fáze řeš v `KIT_OWN.x` podle `e.hp/e.max` (stav v `run.kcr`), `e.noMoves`/`e.ls` vypne tahy z `kit.moves`, vrácená rychlost řídí pohyb. Nesmrtelnost `e.inv`, „nesmí padnout dřív“ přes `d.aurel` + `aurelHold` v háku `hurtEnemy`.
+- **Dva bossové najednou**: druhý jako `boss:true` s `twin2:1` (nevyhraje běh), spawn přes háček mechaniky `boss(o,e)` (`MF.kit.boss`), pruh bosse ukazuje součet (`bossFrac`).
+- **Úvod finále aktu**: `BI.act` přidá 2 doby ticha a prasknutí (`actCrack`, `actHush`), stuha „FINÁLE AKTU“. Konec aktu: vlastní karta (`actEndShow`) místo „Cesta dál“.
+- Útoky z dřívějších kapitol znovu: `aurStrike(x,y,r,col,slow)` (kruh `strike` s vlastní barvou), `trophySprite(id)` (pozlacený boss), citát hudby `aurQuote(i)` (první noty `SONGS[finále].sec.A.lead`).
+- Stín jako úkryt počítej od zdroje světla (`aurShade`: za sloupem pryč od bosse), bot ho musí znát (`hraci.js` goal).
+- Akt má vlastní cíl úspěšnosti finále (`DIFF_CIL` a `CIL` v `ladeni.js`: `ci%10===9` → 15 %).
+- Testy: `c10shots.js` (projde všechny fáze až do výhry), `aktx.js` (úvod, konec aktu, zamčený hrdina).
+
 ## Ověření (vždy)
 - `node tests/tools/chapcheck.js cN` – vypíše chyby (včetně hudebních pravidel) a udělá přehled `cN_check.png` (pohlednice, nepřátelé, bossové, set). Musí skončit „Vše v pořádku“.
 - `node tests/tools/skladby.js cN` – hlasitost skladeb po taktech, musí skončit „VERDIKT: vše v cíli“.

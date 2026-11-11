@@ -11,7 +11,7 @@ const pre=process.argv[2]||'wg',map=process.argv[4]||'hrbitov';
  const all=ids.length?ids:['bolt','blade','lightning','fireball','axe','aura','arrows','frost','note','rang','hammer','icicle','anchor','stars','halberd','whip','vortex','storm','meteor','blizzard','echo','steam','thunder','frostblade','arcane','flamering'];
  for(const id of all){
   await p.evaluate(([id,map])=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;K.god=true;K.save.tut=1;K.startRun('knight',map);const r=K.run;r.tut=null;const ids=['skeleton','zombie','bat','slime','ghost','spider'];let nn=0;window.__fill=()=>{let n=0;while(r.enemies.length<(window.__N||14)&&n++<30){const a=Math.random()*6.283,d=40+Math.random()*110;r.enemies.push(K.makeEnemy(ids[nn++%6],r.p.x+Math.cos(a)*d,r.p.y+Math.sin(a)*d*1.5));}};
-    r.W={};r.W[id]={lv:id in {vortex:1,storm:1,meteor:1,blizzard:1,echo:1,steam:1,thunder:1,frostblade:1,arcane:1,flamering:1}?3:6,ang:0,mul:1};r.t=150;
+    r.W={};r.W[id]={lv:K._ev('WEAPONS')[id].lv.length,ang:0,mul:1};r.t=150;
     for(let i=0;i<600;i++){r.pending=0;r.xp=0;window.__fill();K.step(1/60);}r.p.hp=r.p.max;},[id,map]);
   for(let k=0;k<3;k++){await p.evaluate(n=>{const K=window.__krypta;const r=K.run;for(let i=0;i<n;i++){r.pending=0;r.xp=0;window.__fill();K.step(1/60);}},k?9:0);
    await p.screenshot({path:pre+'_'+id+'_'+k+'.png',clip:process.env.CLIP?JSON.parse(process.env.CLIP):{x:80,y:290,width:230,height:230}});}

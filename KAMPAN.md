@@ -1,6 +1,6 @@
 # Pixel Krypta – kampaň a kapitoly
 
-Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI hotová (hrdinka Astra, dřív Hvězdářka). **Kapitola VII Prázdnota hotová (11h, hrdinka Nyx).** **Kapitola VIII Úsvit hotová (11l, hrdinka Réva).** **Kapitola IX Zlatá říše hotová (11n, bez hrdiny, mazlíček Straka).** **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
+Stav: **kapitoly I–V hotové (III od 2026-11-07y, IV od 2026-11-08e, V od 2026-11-08o)**. Kapitola VI hotová (hrdinka Astra, dřív Hvězdářka). **Kapitola VII Prázdnota hotová (11h, hrdinka Nyx).** **Kapitola VIII Úsvit hotová (11l, hrdinka Réva).** **Kapitola IX Zlatá říše hotová (11n, bez hrdiny, mazlíček Straka).** **Kapitola X Korunované slunce hotová (11p, finále aktu I, Paladin zdarma za Aurela).** **Žádná kapitola nepřidává nový materiál** (jen Úlomky a Esence).
 Návrh pro uživatele je i v dokumentu „Pixel Krypta – kampaň a kapitoly“ (Claude Docs).
 
 ## Stavebnice kapitol (08y) – nové kapitoly dělej takhle
@@ -164,8 +164,22 @@ Nepřátelé: `gilded` Pozlacený (grunt), `taxman` Výběrčí (fast, `touch:'s
 
 **Vzhled (11o):** mapy IX stojí na `kit.decor`/`set`/`rows` – Předměstí: rovné dlážděné ulice (`pathTurn` .22), domy podél ulic, fontána a mozaika na náměstí, trhy ve čtvrtích; Mincovna: koleje, výstražné pruhy, řady lisů a beden, pece u zdí; Síň soch: koberce do kříže, uličky podstavců se svícemi, les sloupů; Pokladnice: tři hromady pokladu (oblouky truhel, korun, drahokamů); Zlatý dvůr: mozaika, koberce, trůn, kruh praporů a svící. Celá mapa: `tests/tools/mapfull.js`.
 
+## Kapitola X Korunované slunce (11p, stavebnice, finále aktu I)
+Příběh (`docs/PRIBEH.md`): uvnitř slunce, které Aurel ukoval ze sedmi střepů; každá síň připomíná akt. Paleta `C10G/C10W/C10T/C10S/C10F/C10K/C10L/C10B/C10R`, rekvizity `c10_*`, barvy střepů `SH7_COL` (kapitoly I–VII). Hudba: styl `crown` (varhany, sbor, žestě, banger kit), útok střepu přehraje začátek hlavního motivu finále své kapitoly (`aurQuote`).
+
+| Mapa | Rozvržení | Mechanika |
+|---|---|---|
+| schody Schody světla | paths (rovné, `pathTurn` .12) nad oblaky | `collapse`: každé 2 takty kolem hrdiny praskne 8 dlaždic 40 px (takt varování), pak se na 1,5 taktu propadnou; díra = `hazDm` + zpomalení, nepřátelé spadnou (50 % zdraví); Strážce schodů boří schody pod hrdinou |
+| trofeje Síň trofejí | plaza, koberce do kříže | `trophies`: 7 pozlacených soch finálních bossů I–VII (`trophy`, `beh:'trophy'`) na podstavcích v kruhu r 250; každých 6 taktů ožije nejbližší (útok podle bosse, `trophyMove`), rozbité se po 45 s vrátí; Kurátor je budí |
+| hkovarna Hvězdná kovárna | plaza, lávové kanály (`decor` `channel`) | `anvil`: každé 2 takty šachovnice 5×5 políček 44 px kolem hrdiny (4 vzory se střídají), takt varování, rozsvícená políčka udeří (hrdina `hazDm`, nepřátelé −50 %) |
+| vecnost Dvůr věčnosti | arena, den/noc (`decor` `split`) | `twins`: Den a Noc (`den` + druhý boss `noc` přes háček `boss`); padlé dvojče (`twinFall`) se po 2 taktech zvedne s 50 %, padnou jen spolu; elitní mix nepřátel I–IX |
+| korunace Korunované slunce | arena, 6 sloupů `C10_COLS`, 7 podstavců střepů `C10_SH` | `crown` + `KIT_OWN.aurel`: 4 fáze podle zdraví (viz níže) |
+
+**Aurel** (`aurel:1`, `aurelHold`): 1) král 100–70 % (vějíře, garda); 2) 70–40 % sedm střepů (`shard7`, `beh:'orbit'`), každé 2 takty jeden použije útok své kapitoly (`SH7_ATK`), rozbitý ubere Aurelovi 4 %; 3) 40–10 % slunce: Aurel ve středu, spirály, každé 4 takty výšleh (takt varování, zbělání), bezpečí jen ve stínu za sloupem (`aurShade`, pryč od Aurela) nebo u věže (Svatyně má velký stín); 4) pod 10 % tma (`run.kdark`), 16 s nesmrtelný a honí hrdinu, pak padne jen zásahem na první dobu taktu (`e.ls===2`). Úvodní karta finále aktu: 2 doby ticho a prasknutí (`actCrack`, `actHush`).
+Nepřátelé: `sunguard` (tank), `spark` (fast, létá, `die:'burst'` kruh jisker), `chorist` (`beh:'chorus'`, každý 2. takt léčí okolí o 12 %). Konec aktu: `actEndShow` (STORY.korunace, Paladin, „Akt II připravujeme“), Paladin `win:'korunace'`, titul `aurel`.
+
 ## Zbývá / nápady
 - **Plán příběhu aktů I a II (kapitoly VIII–XX, boss aktu Aurel): `docs/PRIBEH.md`** (návrh 11. 11., čeká na schválení).
-- Kapitola IX hotová (11n). Další: X Korunované slunce (finále aktu I, boss Aurel ve 4 fázích, Paladin zdarma – viz `docs/PRIBEH.md`). Kapitola VII zatím nic do `FEATS` nepřidává. **Odložený nápad** (uživatel 11. 11.: nemazat, jen teď nedělat): Síň bossů = vybraná kapitola, všech 5 bossů za sebou bez vln, odměna jen za první dokončení.
+- Akt I hotový (X v 11p). Další: akt II (`docs/PRIBEH.md`: XI Mělký sen, hrdina; Probuzení hrdinů; přepínač aktu v Přípravě). Kapitola VII zatím nic do `FEATS` nepřidává. **Odložený nápad** (uživatel 11. 11.: nemazat, jen teď nedělat): Síň bossů = vybraná kapitola, všech 5 bossů za sebou bez vln, odměna jen za první dokončení.
 - Úkoly a Mistrovství pro nové mechaniky (zapálené pochodně `run.qc.torch`, zvony `bell`, pasti `trap` se už počítají).
 - Ověřit na telefonu výkon tmy v Kostnici a mlhy v bažině.

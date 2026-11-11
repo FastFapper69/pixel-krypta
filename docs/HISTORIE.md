@@ -375,3 +375,10 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 - Uživatel: „design mapy je celkem nuda, propracuj to a mysli i do budoucna“. Stavebnice map dostala návrhové nástroje: `kit.decor` (`kitDecor`: koberce, mozaiky, koleje, výstražné pruhy, lem dlažby, drť), `kit.set` (památky na přesném místě), `kit.rows` (řady podél cest, čáry, oblouky, čtvrti mřížkou, jen v zóně), `kit.pathTurn` (rovné ulice). Rekvizity jsou dál jen kresba.
 - 11 nových rekvizit IX (fontána, stánek, zlatý strom, pec, bedna, podstavec, svícen, drahokamy, koruna, trůn, prapor). Předělané všechny mapy IX: Předměstí = město s ulicemi a náměstím, Mincovna = dílna s kolejemi, Síň soch = koberce do kříže a les sloupů, Pokladnice = hromady pokladu, Zlatý dvůr = trůnní sál.
 - Nový test `tests/tools/mapfull.js` (celá mapa naráz). Výkon `heavy.js` (4× CPU) Předměstí 12 fps vs. Doly 9 fps. Postup ve skillu `nova-kapitola` „Návrh mapy“.
+
+## 11p (11. 11. 2026) – kapitola X Korunované slunce, konec aktu I
+- Pět map uvnitř Aurelova slunce (Schody světla, Síň trofejí, Hvězdná kovárna, Dvůr věčnosti, Korunované slunce), postavené nástroji z 11o (nové `decor` `channel` a `split`).
+- Mechaniky stavebnice: `collapse` (hroutící se schody), `trophies` (ožívající sochy bossů I–VII), `anvil` (kladivo na šachovnici), `twins` (Den a Noc musí padnout spolu), `crown` (Aurelova aréna).
+- Aurel ve 4 fázích (král, sedm střepů s útoky kapitol a citátem jejich hudby, slunce se stínem sloupů a věží, poslední jiskra ve tmě se zásahem na první dobu). Úvod finále aktu: ticho a prasknutí obrazovky.
+- Paladin zdarma za Aurela (`win:'korunace'`), Světelné kopí a fúze Svatozář (s Aurou). Věže Kovadlina a Svatyně, šestidílný set Zbroj padlé hvězdy, legendárka Koruna sedmi střepů, hledaný Korunní strážce, titul Přemožitel slunce, karta Konec aktu I.
+- Hudební styl `crown`. Testy `c10shots.js` (všechny fáze Aurela a dvojčata), `aktx.js` (úvod, konec aktu, zamčený Paladin). `wgallery.js` bere počet úrovní zbraně z dat (dřív padal na nových ultimátkách).

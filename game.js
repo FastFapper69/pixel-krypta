@@ -228,6 +228,17 @@ const ENEMY_DEFS={
   '......','.nnnnn','nnnnnn','yyyyyy','tmtmtm','mmmmmm','tmtmtm','nnnnny','nbbbbb','nbbbbb']},
  statue:{name:_t('Socha'),...kitFoe(8,'tank'),xp:2,beh:'statue',pal:{y:'#c8982a',Y:'#ffe27a',k:'#3a2408',s:'#6a5a3a'},rows:[
   '...yy.','..yYyy','..ykyy','..yyyy','...yy.','.yyYyy','y.yyyy','y.yyyy','..yyyy','..y..y','..ssss','ssssss']},
+ // ----- chapter X the Crowned Sun (11p) -----
+ sunguard:{name:_t('Sluneční strážce'),...kitFoe(9,'tank'),beh:'chase',pal:{w:'#f0e8d8',y:'#e0b030',k:'#2a1a04',e:'#ff6a3a',r:'#c8301a'},rows:[
+  '....r.','...rr.','..wwww','..wkkk','..wkek','..wwww','.yyyyy','ywwwyw','ywwwyw','.wwyww','..wwww','..w..w','..y..y']},
+ spark:{name:_t('Jiskra'),...kitFoe(9,'fast'),beh:'chase',fly:1,die:'burst',pal:{y:'#ffe27a',o:'#ff9a1a',r:'#e8401a',w:'#ffffff',k:'#3a1404'},rows:[
+  '.....y','....yo','...yoo','..yoww','..owkw','..oowo','...roo','....rr','.....r']},
+ chorist:{name:_t('Zpěvák kůru'),...kitFoe(9,'ranged'),beh:'chorus',pal:{h:'#f0e8d8',f:'#e8c8a0',k:'#1a0806',r:'#8a1a10',y:'#e0b030'},rows:[
+  '...hhh','..hhhh','..hfff','..hkff','...ffk','..rrrr','.rryrr','rrryrr','.rryrr','..rrrr','..r..r']},
+ trophy:{name:_t('Ozvěna'),...kitFoe(9,'tank'),hp:Math.round(kitFoe(9,'tank').hp*3.5),xp:18,beh:'trophy',pal:{y:'#c8982a',Y:'#ffe27a',k:'#3a2408',s:'#6a5a3a'},rows:[
+  '...yy.','..yYyy','..ykyy','..yyyy','...yy.','.yyYyy','y.yyyy','y.yyyy','..yyyy','..y..y','..ssss','ssssss']},
+ shard7:{name:_t('Střep'),...kitFoe(9,'tank'),hp:Math.round(kitFoe(9,'tank').hp*2.2),spd:30,xp:10,beh:'orbit',pal:{a:'#ffffff',b:'#ffd040',c:'#a8781a'},rows:[
+  '.....a','....ab','...abb','...abc','....bc','.....c']},
  // finale objects: a soul jar that does not move or hurt, it just has to break
  phyl:{name:_t('Fylaktérie'),hp:420,spd:0,dmg:0,r:7,xp:6,beh:'static',noHit:1,pal:{a:'#8a6a44',c:'#3a9a6a',g:'#7af0b0',s:'#8a8698',S:'#5a5668'},rows:[
   '....aa','...aaa','..cggg','.cgggg','.ggege','.ggggg','..gggg','..ssss','.SSSSS','.sssss']}
@@ -357,6 +368,31 @@ const BOSS_DEFS={
   '....y.y.y','....yyyyy','...wwwwww','...wwwwke','...wwwwww','....wwwww','..ccccccc','.ccccrccc','cccccrccc','cccrrrrrr','.cccccccc','.cccccccc','..ccccccc','..cc.cccc','..ccc.ccc','.rr...rrr'],
   kit:{move:'keep',keep:[140,100],moves:[{on:'beat',every:2,do:'ring',n:16,spd:44},{on:'bar',every:2,do:'fan',n:5},{on:'bar',every:3,at:1,do:'summon',e:'gilded',n:3},{on:'bar',every:4,at:3,do:'summon',e:'alchem',n:2}],
    ph2:{at:.5,fast:.6,add:[{on:'beat',every:4,at:3,do:'aimed',n:4,spd:78},{on:'bar',every:2,at:1,do:'strike',n:2,r:28}]},own:'herald'}},
+ // ----- chapter X the Crowned Sun (kit bosses, 11p) -----
+ stairward:{name:_t('Strážce schodů'),...kitBoss(9,0,0),spd:30,r:17,pat:'kit',pal:{w:'#f0e8d8',W:'#c8c0b0',y:'#e0b030',k:'#2a1a04',e:'#ffffff',b:'#bfeaff',r:'#c8301a'},rows:[
+  '......rrr','.....yyyy','....wwwww','....wkkkk','....wkkek','....wwwww','..yyyyyyy','.ywwWwwww','ywwwWwwyw','ywbbbwwyw','ywbbbwwww','.ywbwwwww','..wwwwWww','..www..ww','..yyy..yy'],
+  kit:{move:'dash',dash:3.2,onDash:[{do:'ring',n:12,spd:44}],moves:[{on:'bar',every:2,do:'fan',n:5},{on:'bar',every:3,at:1,do:'summon',e:'sunguard',n:2}],
+   ph2:{at:.5,txt:_t('Schody se hroutí pod tebou!'),fast:.6,add:[{on:'beat',every:4,at:2,do:'aimed',n:3,spd:74}]},own:'stairward'}},
+ curator:{name:_t('Kurátor'),...kitBoss(9,1,0),spd:20,r:17,pat:'kit',pal:{r:'#5a1008',R:'#8a1a10',y:'#ffd040',m:'#f0e8d8',k:'#1a0604',c:'#c8901a',l:'#fff6c8'},rows:[
+  '.....yyyy','....rrrrr','...rrmmmm','...rmmkmm','...rmmmmm','....rrmmm','..RRRRRRR','.RRyRRRRy','RRRyRRRRy','lcRyRRRRy','lcRRRRRRR','.cRRRRRRR','..RRRRRRR','..RRR.RRR','..rr...rr'],
+  kit:{move:'keep',keep:[130,90],moves:[{on:'beat',every:2,do:'ring',n:14,spd:42},{on:'bar',every:2,at:1,do:'fan',n:5},{on:'bar',every:4,at:3,do:'summon',e:'chorist',n:2}],
+   ph2:{at:.5,txt:_t('Celá sbírka se probouzí!'),fast:.6,add:[{on:'bar',every:2,do:'aimed',n:4,spd:78}]},own:'curator'}},
+ sunsmith:{name:_t('Aurelův kovář'),...kitBoss(9,2,0),spd:22,r:18,pat:'kit',pal:{s:'#c88a5a',k:'#1a0e08',a:'#3a2a20',y:'#ffd040',o:'#ff7a1a',h:'#9a9aa8',e:'#ffffff',b:'#5a3a20'},rows:[
+  '.....aaaa','....aaaaa','....sssss','....ssess','....sssss','.....ssss','.hh.sssss','hhhsoooos','hhhssooos','.b.ssooss','.b..sooss','.b..aaaaa','....aa.aa','...bbb.bb'],
+  kit:{move:'chase',moves:[{on:'beat',every:3,do:'ring',n:12,spd:42},{on:'bar',every:2,do:'fan',n:5},{on:'bar',every:3,at:1,do:'summon',e:'spark',n:4}],
+   ph2:{at:.5,txt:_t('Výheň se rozžhavila do běla!'),fast:.6,add:[{on:'beat',every:4,at:2,do:'aimed',n:3,spd:74}]},own:'sunsmith'}},
+ den:{name:_t('Den a Noc'),...kitBoss(9,3,0),spd:22,r:17,pat:'kit',twin:1,pal:{y:'#ffe27a',Y:'#ffd040',o:'#ff9a1a',k:'#2a1404',w:'#fff6d8',r:'#c8401a'},rows:[
+  '.y...y..y','..y.yyyyy','...yYYYYY','..yYwwwww','...Ywwkww','..yYwwwww','...Ywwwrr','....YYYYY','...ooooYo','..oooooYo','..ooooooo','..ooo.ooo','..rr...rr'],
+  kit:{move:'keep',keep:[120,80],moves:[{on:'beat',every:2,do:'ring',n:14,spd:42},{on:'bar',every:2,at:1,do:'fan',n:5}],
+   ph2:{at:.5,txt:_t('Den hoří naplno!'),fast:.6,add:[{on:'bar',every:2,at:1,do:'strike',n:2,r:28}]},own:'den'}},
+ noc:{name:_t('Noc'),...kitBoss(9,3,0),spd:28,r:17,pat:'kit',twin:1,pal:{y:'#bfd0ff',Y:'#8aa0e8',o:'#2a3a7a',k:'#05060a',w:'#e8eeff',r:'#1a2050'},rows:[
+  '.y...y..y','..y.yyyyy','...yYYYYY','..yYwwwww','...Ywwkww','..yYwwwww','...Ywwwrr','....YYYYY','...ooooYo','..oooooYo','..ooooooo','..ooo.ooo','..rr...rr'],
+  kit:{move:'dash',dash:3,onDash:[{do:'ring',n:10,spd:40}],moves:[{on:'bar',every:2,do:'aimed',n:3,spd:70}],
+   ph2:{at:.5,txt:_t('Noc tě obklopuje!'),fast:.6,add:[{on:'bar',every:3,at:1,do:'summon',e:'shade',n:3}]},own:'noc'}},
+ aurel:{name:_t('Aurel, Korunované slunce'),...kitBoss(9,4,1),spd:22,r:20,pat:'kit',big:1,aurel:1,pal:{y:'#ffe27a',Y:'#ffd040',w:'#fff6d8',k:'#1a0604',r:'#8a1a10',c:'#c8901a',a:'#e8e4d4',b:'#e0b868',m:'#ff6a1a',z:'#c8a8ff',t:'#5ae0d0'},rows:[
+  '...a.b.mz','...yyyyyy','...yYyYyy','....wwwww','....wwkww','....wwwww','.....wrrw','..ccccccc','.cYcccccc','cYYrrrrcc','cYccrrrcc','.cccccccc','..ccccccc','..ccc.ccc','..cc...cc','.rr....rr'],
+  kit:{move:'chase',moves:[{on:'beat',every:2,do:'fan',n:5,spread:.3},{on:'bar',every:4,at:1,do:'summon',e:'sunguard',n:2}],
+   ph2:{at:.7,txt:_t('Koruna se roztříštila! Rozbij střepy.'),fast:.8,add:[{on:'bar',every:2,at:1,do:'ring',n:16,spd:42}]},own:'aurel'}},
  sphinx:{name:_t('Sfinga, strážkyně brány'),hp:11500,spd:22,dmg:20,r:17,pat:'sphinx',big:1,pal:{a:'#e0b868',b:'#a8783a',u:'#2a4ab0',y:'#f6c744',f:'#d8a868',o:'#7affff'},
   rows:['.....yyyy','....yuuyu','...yuuyyy','...uyffff','...yufoff','...uyffff','...yuffff','....yyfff','.....yyyy','...aaaaaa','.aaaaaaaa','aaaaaaaaa','aabaaaaba','aabaaaaba','.abaaaaba','.aaa.aaa.','.bb...bb.']}
 };
@@ -390,7 +426,9 @@ const HEROES={
  nyx:{name:_t('Nyx'),desc:_t('Mizí ve stínech: <b>8&nbsp;% šance, že se zásahu úplně vyhne</b>.'),start:'voidorb',hp:0,armor:0,dmg:0,spd:0,cost:5500,need:'okraj',pal:{a:'#1a2030',c:'#2a3448',y:'#5af0d8'},rows:[
   '......','....aa','...aaa','..aaya','.aaaaa','.affff','.afpff','.ccccc','ccycca','.ccccc','..c..c']},
  reva:{name:_t('Réva'),desc:_t('Druidka z rozkvetlých luk: <b>každou sekundu si doplní 0,4 zdraví</b>.'),start:'vines',hp:0,armor:0,dmg:0,spd:0,cost:8000,need:'rozbresk',pal:{r:'#ff7aa8',l:'#5aa83a',s:'#f0c8a0',k:'#1a1008',g:'#3e7a2a',y:'#f6e27a',b:'#5a3e1a'},rows:[
-  '....r.','...lll','..llll','..lsss','.llsks','.llsss','..gggg','.ggygg','g.gggg','.ggggg','..b..b']}};
+  '....r.','...lll','..llll','..lsss','.llsks','.llsss','..gggg','.ggygg','g.gggg','.ggggg','..b..b']},
+ paladin:{name:_t('Paladin'),desc:_t('Svatý rytíř slunce: <b>+15 zdraví</b> a <b>každých 8 taktů ho požehná štít</b>, který pohltí jeden zásah.'),start:'sunspear',hp:15,armor:0,dmg:0,spd:0,cost:0,win:'korunace',pal:{h:'#e0b030',w:'#f0e8d8',W:'#c8c0b0',k:'#1a1008',r:'#c8301a',y:'#ffd040',b:'#5a3a1a'},rows:[
+  '....hh','..wwhh','.wwwww','.wkkkk','.wwwww','..WWww','.rryyy','rrwwyw','r.wwww','..wwww','..w..w','..b..b']}};
 const HERO_IDS=Object.keys(HEROES),HERO_LIVE=HERO_IDS.filter(h=>!HEROES[h].soon);
 const CHEST_ROWS=['...nnnnn','..nlllll','.nnnnnnn','.mmmmmmm','.nnnnnnn','.ddddddd','.mmmmmmy','.nnnnnyy','.nlnnnyY','.nnnnnyy','.mmmmmmm','.nnnnnnn','.ddddddd'];
 const CHEST_PAL={wood:{n:'#8a5a32',l:'#b07a48',d:'#5a3a1e',m:'#6a6a78',y:'#e0b040',Y:'#3a2010'},
@@ -435,7 +473,7 @@ function chestArt(kind){const W=36,H=32;return artSprite(W,H,g=>{const R=(x,y,w,
     R(15,4,6,3,'#e8607a');R(12,3,4,3,'#e8607a');R(20,3,4,3,'#e8607a');R(12,3,4,1,'#ff9ab0');R(20,3,4,1,'#ff9ab0');R(17,4,2,2,'#b83a5a');
     const px=18,py=21;R(px-2,py,4,3,'#f4ecd8');R(px-3,py+1,6,1,'#f4ecd8');for(const [dx,dy] of [[-4,-2],[-2,-3],[1,-3],[3,-2]])R(px+dx,py+dy,1,2,'#f4ecd8');}
  });}
-const HERO_DAT={knight:_t('Rytíři'),mage:_t('Mágovi'),archer:_t('Střelci'),builder:_t('Staviteli'),bard:_t('Bardovi'),warlord:_t('Žoldákovi'),tamer:_t('Krotiteli'),nyx:_t('Nyx'),reva:_t('Révě'),smith:_t('Kovářce'),shaman:_t('Vločce'),sailor:_t('Pirátce'),astro:_t('Astře')};
+const HERO_DAT={knight:_t('Rytíři'),mage:_t('Mágovi'),archer:_t('Střelci'),builder:_t('Staviteli'),bard:_t('Bardovi'),warlord:_t('Žoldákovi'),tamer:_t('Krotiteli'),nyx:_t('Nyx'),reva:_t('Révě'),paladin:_t('Paladinovi'),smith:_t('Kovářce'),shaman:_t('Vločce'),sailor:_t('Pirátce'),astro:_t('Astře')};
 const SOON_CH={c3:'III',c4:'IV',c5:'V',c6:'VI'};
 
 /* ----- art: icons (8x8, not mirrored) ----- */
@@ -492,6 +530,8 @@ const ICONS={
  maelstrom:{pal:{s:'#9aa0b4',k:'#6a6e80',w:'#8ad8ff'},rows:['..kk.kk.','.k..k..k','..ssss..','.s.ss.s.','ss.ss.ss','.ssssss.','w......w','.wwwwww.']},
  skysong:{pal:{y:'#ffe58a',w:'#ffffff',n:'#7ae8ff'},rows:['y....w..','...w.ww.','..www.w.','...w.ww.','.n..w...','nnn.....','.n.n..y.','..nn....']},
  reapwind:{pal:{s:'#c8ccd8',d:'#6a6e80',n:'#8a5a32'},rows:['...ss...','..s..s..','.s.dd.s.','s.dnnd.s','s.dnnd.s','.s.dd.s.','..s..s..','...ss...']},
+ sunspear:{pal:{y:'#ffd040',w:'#fff6d8',k:'#8a6214'},rows:['......ww','.....wyw','....wyw.','...kyw..','..kk....','.kk.....','kk......','k.......']},
+ halo:{pal:{y:'#ffd040',w:'#fff6d8'},rows:['..wyyw..','.y....y.','w..yy..w','y.y..y.y','y.y..y.y','w..yy..w','.y....y.','..wyyw..']},
  bramble:{pal:{g:'#5aa83a',r:'#ff7aa8'},rows:['g.g..g.g','.ggggg..','g.r..g.g','.g....g.','.g....g.','g.g..r.g','..ggggg.','g.g..g.g']},
  singul:{pal:{k:'#05060a',w:'#e8fff8',r:'#2af0d0'},rows:['.rrrrrr.','r.kkkk.r','rkkwwkkr','rkwkkwkr','rkwkkwkr','rkkwwkkr','r.kkkk.r','.rrrrrr.']},
  lash:{pal:{n:'#8a5a32',y:'#f6c744'},rows:['n......n','.n....n.','..n..n..','...yy...','...yy...','..n..n..','.n....n.','n......n']},
@@ -563,6 +603,16 @@ const C8G=['#4e6e24','#5a7a2a','#668a30','#729838','#7ea640','#8ab24a'],C8W=['#1
 // chapter IX the Golden Realm (11n): streets paved with gold, deep red carpets and walls, gold tiles; everything the sun looked at is gold
 const C9G=['#4a3614','#564018','#624a1c','#6e5420','#7a5e26','#86682c'],C9W=['#1a0808','#2a0e0c','#3a1410','#4a1a14'],C9T=['#6e5420','#7a5e26','#86682c','#927232'],
   C9P=['#5a1410','#6a1814','#7a1e18','#88261e'],C9S=['#7a5a20','#866426','#92702c','#9e7a32'],C9R=['#5a1008','#8a1a10','#d8a830','#ffd040'],C9Z=['#9a7418','#b48a22','#cca230','#e2bc44'],C9B=[['#3a2a10','#f6d460'],['#4a3412','#ffffff']];
+// chapter X Crowned Sun (11p): inside the sun Aurel forged from the shards – white light, gold, a red core; the stairs float on dusky clouds
+const C10G=['#5a5470','#625b78','#6a6280','#726a88','#7a7290','#827a98'],C10W=['#1a0604','#2a0a06','#3a100a','#4a160c'],C10T=['#8a7a62','#96866c','#a29276','#ae9e80'],
+  C10S=['#b8a888','#c2b292','#ccbc9c','#d6c6a6'],C10F=['#3a2a24','#44322a','#4e3a30','#584236'],C10K=['#4e4436','#584c3c','#625442','#6c5c48','#766450','#806c56'],
+  C10L=['#8a1a08','#b8300c','#e05a14','#ff8a2a'],C10B=[['#3a3450','#fff6d8'],['#4a4060','#ffd040']],C10R=['#5a1008','#8a1a10','#e0b030','#fff2b0'];
+// the six pillars of the throne arena (Aurel's sun phase: their shade is the only safe place) and the seven shard pedestals
+const C10_COLS=[0,1,2,3,4,5].map(k=>{const a=k/6*6.283;return[Math.round(Math.cos(a)*165),Math.round(Math.sin(a)*150)];}),
+  C10_SH=[0,1,2,3,4,5,6].map(k=>{const a=-1.12+k/7*6.283;return[Math.round(Math.cos(a)*250),Math.round(Math.sin(a)*235)];});
+// the seven shards' colours (chapters I–VII) and the trophy plinths of the Hall of Trophies (one per finale boss of I–VII)
+const SH7_COL=['#e8e4d4','#f0b050','#ff6a1a','#8ad8ff','#3a8ad8','#b8a8ff','#5af0d8'],TROPHY_IDS=['morvan','sphinx','titan','queen','kraken','eclipse','nothing'],
+  C10_TR=TROPHY_IDS.map((_,i)=>{const a=-1.5708+i/7*6.283;return[Math.round(Math.cos(a)*250),Math.round(Math.sin(a)*250)];});
 const MAPS={
  hrbitov:{name:_t('Zapomněný hřbitov'),desc:_t('Ze hrobů lezou slizy a kostlivci. Přežij 4 minuty a sejmi Krále slizů.'),dur:240,size:900,seed:11,style:'gk',grade:'#ffa860',gradeA:.28,dark:.34,amb:'#120a1c',ambient:'firefly',patch:['#33443a','#25312b','#3b4a3c'],pebble:['#4a5550','#6f7a74'],flower:['#c869e0','#e8e4d4','#f6c744'],
   c1:'#2d3b35',c2:'#2a3731',specks:['#3a4d42','#243029','#33463b'],tuft:'#46634a',wall:'#1b1f24',wallHi:'#2b3038',
@@ -822,6 +872,60 @@ const MAPS={
   spawns:[{e:'gilded',from:0,w:4},{e:'taxman',from:0,w:3},{e:'alchem',from:0,w:2},{e:'mimic',from:1,w:2},{e:'starimp',from:1,w:2},{e:'golem',from:3,w:1}],
   elites:[{t:50,e:'gilded'},{t:110,e:'mimic'},{t:170,e:'alchem'},{t:230,e:'golem'},{t:290,e:'gilded'},{t:350,e:'mimic'},{t:400,e:'golem'}],
   events:[{t:80,type:'ring',e:'taxman',n:24},{t:150,type:'ring',e:'gilded',n:18},{t:220,type:'ring',e:'alchem',n:14},{t:300,type:'ring',e:'mimic',n:22},{t:380,type:'ring',e:'gilded',n:24}]},
+ // ----- chapter X: the Crowned Sun (11p, chapter kit, the act finale) – inside the sun Aurel forged; every hall is built from one stolen shard -----
+ schody:{name:_t('Schody světla'),desc:_t('Schodiště ze světla vede přímo do slunce. <b>Schody se na takt hroutí</b>: takt předem dlaždice prasknou, pak se propadnou do oblak. Kdo stojí na díře, padá a zraní se. Vydrž 5:30 a poraz Strážce schodů.'),dur:330,size:1000,seed:601,style:'kit',grade:'#ffe9c0',gradeA:.18,dark:.12,amb:'#1a1020',ambient:'mote',c1:'#6a6280',
+  speedMul:1,base:1,boss:'stairward',pools:0,kit:{ground:C10G,wall:C10W,path:C10S,accent:['#7a7290','#8a82a0'],layout:'paths',paths:5,pathW:44,pathTurn:.12,plaza:96,bits:C10B,spark:'#fff6d8',shadow:'#1a1020',
+   decor:[{d:'mosaic',r:84,pal:C10R,rays:24},{d:'scatter',n:520,pal:['#fff6d8','#ffe27a','#bfd0ff'],sz:1}],
+   rows:[{k:'c10_pillar',along:'path',step:74,gap:34,skip:130,r:22},{k:'c10_brazier',along:'path',step:148,gap:12,skip:150,r:14,light:{r:34,col:'#ffd27a',a:.6}},
+     {k:['c10_cloud','c10_cloud','c10_star'],fill:{step:70,jit:22,out:200,p:.6},r:18}],
+   camp:{k:'c10_brazier',light:{r:44,col:'#ffd27a',a:.6}},props:[{k:['c10_star','c10_cloud'],n:50,r:16}],mech:[{id:'collapse',every:2,from:15,n:7,s:40,dmg:2,pct:.06,col:'#fff2c8',tip:_t('Schody se hroutí! Uhni z prasklých dlaždic.')}]},
+  spawns:[{e:'sunguard',from:0,w:4},{e:'spark',from:0,w:3},{e:'chorist',from:1,w:2},{e:'gilded',from:1,w:2},{e:'firefly',from:0,w:2},{e:'golem',from:3,w:1}],
+  elites:[{t:60,e:'sunguard'},{t:130,e:'chorist'},{t:200,e:'golem'},{t:270,e:'sunguard'}],
+  events:[{t:90,type:'ring',e:'spark',n:22},{t:170,type:'ring',e:'sunguard',n:14},{t:250,type:'ring',e:'spark',n:26}]},
+ trofeje:{name:_t('Síň trofejí'),desc:_t('Aurel si tu vystavil všechny, které jsi porazil. <b>Pozlacené sochy bossů z celé cesty ožívají</b> jako ozvěny a útočí jako kdysi. Vydrž 6 minut a poraz Kurátora.'),dur:360,size:1000,seed:607,style:'kit',grade:'#ffe27a',gradeA:.16,dark:.2,amb:'#1a0c06',ambient:'mote',c1:'#96866c',
+  speedMul:1,base:1,boss:'curator',pools:0,kit:{ground:C10K,wall:C10W,tile:C10T,tileS:28,layout:'plaza',R:460,bits:C10B,spark:'#ffe27a',shadow:'#1a0808',
+   decor:[{d:'rug',x:0,y:0,w:56,h:900,pal:C10R},{d:'rug',x:0,y:0,w:900,h:44,pal:C10R},{d:'mosaic',r:66,pal:C10R,rays:14},{d:'trim',pal:['#2a1a10','#ffd040']}],
+   set:C10_TR.map((q,i)=>({k:'c10_plinth',x:q[0],y:q[1]+8,light:{r:30,col:SH7_COL[i],a:.45}})),
+   rows:[{k:['c10_ban0','c10_ban1','c10_ban2','c10_ban3','c10_ban4','c10_ban5','c10_ban6'],line:[-420,-400,420,-400],step:60,r:18},{k:['c10_ban0','c10_ban1','c10_ban2','c10_ban3','c10_ban4','c10_ban5','c10_ban6'],line:[-420,400,420,400],step:60,r:18},
+     {k:'c10_brazier',line:[-120,-380,-120,380],step:120,mirror:1,r:14,light:{r:34,col:'#ffd27a',a:.6}},
+     {k:'c10_pillar',fill:{step:100,jit:0,out:330},r:30,light:{r:22,col:'#ffd27a',a:.25},lightEvery:3}],
+   camp:{k:'c10_brazier',light:{r:44,col:'#ffd27a',a:.6}},props:[{k:['c9_vase','c9_crown','c9_coins'],n:40,r:24}],
+   mech:[{id:'trophies',every:6,from:16,col:'#ffd040',tip:_t('Ozvěna ožívá! Rozbij ji, než tě dožene.')},{id:'strike',from:99999,col:'#ffd27a'}]},
+  spawns:[{e:'sunguard',from:0,w:4},{e:'spark',from:0,w:3},{e:'chorist',from:0,w:2},{e:'skeleton',from:1,w:2},{e:'mummy',from:1,w:2},{e:'golem',from:3,w:1}],
+  elites:[{t:60,e:'sunguard'},{t:130,e:'chorist'},{t:200,e:'golem'},{t:270,e:'sunguard'},{t:330,e:'spark'}],
+  events:[{t:90,type:'ring',e:'sunguard',n:16},{t:170,type:'ring',e:'spark',n:24},{t:260,type:'ring',e:'skeleton',n:24},{t:320,type:'ring',e:'sunguard',n:20}]},
+ hkovarna:{name:_t('Hvězdná kovárna'),desc:_t('Tady Aurel ukoval ze střepů slunce. <b>Obří kladivo dopadá v mřížce na takt</b>: takt předem se rozsvítí políčka jako na šachovnici, pak udeří. Nepřátele rozdrtí, tak je tam nalákej. Vydrž 6 minut a poraz Aurelova kováře.'),dur:360,size:1000,seed:613,style:'kit',grade:'#ffb070',gradeA:.18,dark:.32,amb:'#1a0804',ambient:'ember',c1:'#4e3a30',
+  speedMul:1,base:1,boss:'sunsmith',pools:0,kit:{ground:C10F,wall:C10W,tile:C10K,tileS:32,layout:'plaza',R:460,bits:[['#2a1a10','#ff9a3a'],['#3a2414','#ffd040']],spark:'#ffb040',shadow:'#120604',
+   decor:[{d:'channel',x1:-450,y1:-210,x2:450,y2:-210,w:16,pal:['#2a1008','#c8300c','#ff8a2a','#ffe27a']},{d:'channel',x1:-450,y1:210,x2:450,y2:210,w:16,pal:['#2a1008','#c8300c','#ff8a2a','#ffe27a']},{d:'channel',x1:0,y1:-450,x2:0,y2:-260,w:12,pal:['#2a1008','#c8300c','#ff8a2a','#ffe27a']},{d:'channel',x1:0,y1:260,x2:0,y2:450,w:12,pal:['#2a1008','#c8300c','#ff8a2a','#ffe27a']},
+     {d:'stripes',x:-300,y:0,w:60,h:200,pal:['#e8401a']},{d:'stripes',x:300,y:0,w:60,h:200,pal:['#e8401a']},{d:'mosaic',r:80,pal:['#2a1a10','#5a3a20','#ff9a3a','#ffd040'],rays:12},{d:'trim',pal:['#120604','#ff9a3a']}],
+   rows:[{k:'c10_ember',line:[-440,-210,440,-210],step:44,r:4,light:{r:30,col:'#ff7a2a',a:.5},lightEvery:2},{k:'c10_ember',line:[-440,210,440,210],step:44,r:4,light:{r:30,col:'#ff7a2a',a:.5},lightEvery:2},
+     {k:'c10_anvil',line:[-160,-100,160,-100],step:80,r:20},{k:'c10_anvil',line:[-160,100,160,100],step:80,r:20},
+     {k:'c9_furnace',line:[-400,-380,-400,380],step:126,mirror:1,r:30,light:{r:44,col:'#ff8a3a',a:.65}},
+     {k:['c10_anvil','c9_crate','c9_stack','c9_crate'],fill:{step:80,jit:12,box:230,p:.75},r:24}],
+   camp:{k:'c10_brazier',light:{r:44,col:'#ff9a3a',a:.6}},props:[{k:['c9_stack','c9_coins'],n:40,r:16,light:{r:16,col:'#ffb04a',a:.3},lightEvery:5}],
+   mech:[{id:'anvil',every:2,from:18,cs:44,dmg:2,pct:.08,edmg:130,col:'#ff9a3a',tip:_t('Kladivo! Stoupni si na tmavé políčko.')}]},
+  spawns:[{e:'spark',from:0,w:4},{e:'sunguard',from:0,w:3},{e:'imp',from:0,w:2},{e:'chorist',from:1,w:2},{e:'gilded',from:1,w:2},{e:'golem',from:2,w:2}],
+  elites:[{t:60,e:'sunguard'},{t:130,e:'golem'},{t:200,e:'chorist'},{t:270,e:'sunguard'},{t:330,e:'golem'}],
+  events:[{t:90,type:'ring',e:'spark',n:26},{t:170,type:'ring',e:'sunguard',n:16},{t:250,type:'ring',e:'imp',n:22},{t:320,type:'ring',e:'spark',n:30}]},
+ vecnost:{name:_t('Dvůr věčnosti'),desc:_t('Polovina dvora pod věčným poledním sluncem, druhá ve věčné noci. Chodí tu <b>elitní nepřátelé z celé cesty</b> a vládnou <b>Den a Noc</b>: musí padnout <b>do dvou taktů od sebe</b>, jinak jeden toho druhého oživí. Vydrž 6:15.'),dur:375,size:960,seed:619,style:'kit',grade:'#ffe9c0',gradeA:.16,dark:.22,amb:'#100c1c',ambient:'mote',c1:'#8a7a62',
+  speedMul:1,base:1,boss:'den',pools:0,kit:{ground:C10K,wall:C10W,tile:C10T,layout:'arena',R:320,bits:C10B,spark:'#fff6d8',shadow:'#100810',
+   decor:[{d:'split',r:318,pal:['#ffd040','#e0b030','#2a3a7a','#141a40']},{d:'mosaic',x:-140,r:60,pal:C10R,rays:16},{d:'mosaic',x:140,r:60,pal:['#05060a','#2a3a7a','#8aa0e8','#e8eeff'],rays:16},{d:'trim',pal:['#1a1020','#ffe27a']}],
+   rows:[{k:'c9_banner',arc:{r:306,n:8,a0:1.9,a1:4.4},r:20},{k:'c10_nban',arc:{r:306,n:8,a0:-1.24,a1:1.24},r:20},{k:'c9_candle',arc:{r:262,n:12},r:16,light:{r:32,col:'#ffe27a',a:.55}},
+     {k:['c10_pillar','c10_pillar','c10_star','c10_cloud'],fill:{step:88,jit:8,out:350},r:30}],
+   props:[{k:['c10_star','c9_vase'],n:40,at:'edge',r:24}],mech:[{id:'twins',win:2,col:'#ffe27a'},{id:'strike',from:99999,col:'#ffd27a'}]},
+  spawns:[{e:'sunguard',from:0,w:3},{e:'spark',from:0,w:3},{e:'chorist',from:0,w:2},{e:'skeleton',from:0,w:1},{e:'mummy',from:0,w:1},{e:'yeti',from:1,w:1},{e:'pirate',from:1,w:1},{e:'starwolf',from:2,w:1},{e:'hollow',from:2,w:1},{e:'beetle',from:1,w:1},{e:'gilded',from:1,w:1}],
+  elites:[{t:45,e:'skeleton'},{t:90,e:'mummy'},{t:135,e:'yeti'},{t:180,e:'pirate'},{t:225,e:'starwolf'},{t:270,e:'hollow'},{t:315,e:'gilded'},{t:350,e:'sunguard'}],
+  events:[{t:80,type:'ring',e:'spark',n:24},{t:160,type:'ring',e:'sunguard',n:16},{t:240,type:'ring',e:'hollow',n:16},{t:320,type:'ring',e:'spark',n:30}]},
+ korunace:{name:_t('Korunované slunce'),desc:_t('Finále aktu. V srdci slunce sedí na trůnu Aurel, strážce hvězdy, který ji sám rozbil. Nosí korunu ze sedmi střepů, které jsi mu přinesl. <b>Boj má čtyři fáze</b> a v té předposlední tě ochrání jen <b>stín sloupů a věží</b>. Vydrž 7:30.'),dur:450,size:940,seed:631,style:'kit',grade:'#fff2c8',gradeA:.2,dark:.18,amb:'#1a0a04',ambient:'mote',c1:'#a29276',finale:1,
+  speedMul:1,base:1,boss:'aurel',pools:0,kit:{ground:C10K,wall:C10W,tile:C10T,layout:'arena',R:320,bits:C10B,spark:'#fff6d8',shadow:'#1a0808',
+   decor:[{d:'mosaic',r:140,pal:C10R,rays:28},{d:'rug',x:0,y:-232,w:46,h:120,pal:C10R},{d:'trim',pal:['#2a1a10','#fff2b0']}],
+   set:[{k:'c9_throne',x:0,y:-292,light:{r:60,col:'#ffe27a',a:.6}}].concat(C10_COLS.map(q=>({k:'c10_pillar',x:q[0],y:q[1],light:{r:26,col:'#fff2c8',a:.35}})),C10_SH.map((q,i)=>({k:'c10_sp'+i,x:q[0],y:q[1],light:{r:34,col:SH7_COL[i],a:.55}}))),
+   rows:[{k:['c10_ban0','c10_ban1','c10_ban2','c10_ban3','c10_ban4','c10_ban5','c10_ban6'],arc:{r:304,n:14,a0:-1.3,a1:4.44},r:20},
+     {k:['c10_pillar','c10_pillar','c9_column','c10_star'],fill:{step:84,jit:8,out:340},r:30}],
+   props:[{k:['c10_star','c9_coins','c9_vase'],n:40,at:'edge',r:24}],mech:[{id:'crown',col:'#fff2b0'},{id:'strike',from:99999,col:'#ffe27a'}]},
+  spawns:[{e:'sunguard',from:0,w:4},{e:'spark',from:0,w:3},{e:'chorist',from:0,w:2},{e:'gilded',from:1,w:2},{e:'hollow',from:2,w:1},{e:'golem',from:3,w:1}],
+  elites:[{t:50,e:'sunguard'},{t:110,e:'chorist'},{t:170,e:'golem'},{t:230,e:'sunguard'},{t:290,e:'spark'},{t:350,e:'chorist'},{t:410,e:'golem'}],
+  events:[{t:80,type:'ring',e:'spark',n:26},{t:150,type:'ring',e:'sunguard',n:18},{t:220,type:'ring',e:'chorist',n:12},{t:300,type:'ring',e:'spark',n:30},{t:380,type:'ring',e:'sunguard',n:24}]},
  // ----- chapter I: the realm of the dead -----
  bazina:{name:_t('Utopené hroby'),desc:_t('Hřbitov se propadá do bažiny. <b>Voda zpomaluje</b>, z mlhy lezou utopenci. Vydrž 4:30 a poraz Bahenního kněze.'),dur:270,size:920,seed:41,style:'swamp',grade:'#5ad0b0',gradeA:.26,dark:.52,amb:'#04121a',ambient:'wisp',c1:'#2a3424',
   speedMul:1,base:1.02,boss:'priest',pools:0,
@@ -885,7 +989,12 @@ const MAP_TIER={
   mincovna:[29.14,1.19,495,4.39],
   sochy:[105.42,1.21,510,8.29],
   pokladnice:[188.1,1.23,525,11.14],
-  dvur:[93.81,1.3,660,7.55]}; // VII schod
+  dvur:[93.81,1.3,660,7.55],
+  schody:[12.58,1.26,540,4.33],
+  trofeje:[6.94,1.28,555,3.41],
+  hkovarna:[13.96,1.3,570,4.54],
+  vecnost:[27,1.3,585,6.4],
+  korunace:[26.39,1.3,720,6.24]}; // VII schod
 for(const id in MAPS){const T=MAP_TIER[id]||[1,0,0];MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];MAPS[id].dmm=T[3]||1;}
 // campaign: a chapter = one theme, five maps and one material; its last map is the finale with a special boss
 const CHAPTERS=[
@@ -897,7 +1006,8 @@ const CHAPTERS=[
  {id:'c6',name:_t('Nebeská hvězdárna'),mat:'shard',col:'#b8a8ff',maps:['hvezdarna','mlhovina','ostrovy','souhvezdi','zatmeni']},
  {id:'c7',name:_t('Prázdnota'),mat:'shard',col:'#5af0d8',maps:['okraj','trosky','ozveny','svetlo','nicota']},
  {id:'c8',name:_t('Úsvit'),mat:'shard',col:'#f6c744',maps:['rozbresk','pole','hodiny','zahrada','kolebka']},
- {id:'c9',name:_t('Zlatá říše'),mat:'shard',col:'#e0b030',maps:['predmesti','mincovna','sochy','pokladnice','dvur']}];
+ {id:'c9',name:_t('Zlatá říše'),mat:'shard',col:'#e0b030',maps:['predmesti','mincovna','sochy','pokladnice','dvur']},
+ {id:'c10',name:_t('Korunované slunce'),mat:'shard',col:'#fff2b0',maps:['schody','trofeje','hkovarna','vecnost','korunace']}];
 const MAP_IDS=CHAPTERS.flatMap(c=>c.maps),CH_OF={};CHAPTERS.forEach((c,i)=>{c.i=i;for(const m of c.maps)CH_OF[m]=c;});
 // 10j: a chapter hero's price follows the chapter in which it can be bought (gold income grows with the chapter); new heroes get it automatically
 const heroCh=h=>{const n=HEROES[h].need,C=n&&CH_OF[n];return C?C.i+(C.maps[C.maps.length-1]===n?1:0):-1;};
@@ -909,11 +1019,11 @@ for(const h in HEROES)if(heroCh(h)>=1&&!HEROES[h].costFix)HEROES[h].cost=HERO_PR
 // síla čtená z kódu hry: úroveň hrdiny, Prestiž, talenty, Vylepšení, strom, výbava, sety, runy, Souhvězdí).
 //   u, v = útok a výdrž hráče na vstupu kapitoly (index = kapitola; za koncem tabulky se prodlouží stejným tempem)
 //   kh, kd = HP a poškození běžné mapy na cíl 40 % (khf, kdf finále), b = sklon (HP ×e^(1/b) ubere 1 logit výher)
-const PWR={u:[1.095,1.489,1.91,2.377,2.658,3.325,3.656,4.562,4.991,7.039,7.878,8.34,8.469],v:[135,355,599,678,814,1207,1207,1207,1207,1577,1722,1870,1962],kh:432.21,khf:995.13,kd:5.843,kdf:8.770,b:2.67};
+const PWR={u:[1.095,1.489,1.91,2.377,2.658,3.325,3.656,4.562,4.991,7.039,7.878,8.34,8.469,8.598],v:[135,355,599,678,814,1207,1207,1207,1207,1719,1872,2027,2109,2195],kh:592.65,khf:995.13,kd:6.323,kdf:8.770,b:2.67};
 const pwrAt=(a,ci)=>ci<a.length?a[ci]:a[a.length-1]*Math.pow(a[a.length-1]/a[a.length-2],ci-a.length+1);
 const isWall=ci=>ci%3===2; // III, VI, IX… = zeď
 // cílová úspěšnost průměrného hráče s účtem, se kterým na mapu přijde (stejné číslo v tests/tools/ladeni.js CIL)
-function DIFF_CIL(ci,mi,fin){if(fin)return ci===0?25:isWall(ci)?12:20;if(ci===0)return[70,60,50,45][mi]||45;return(isWall(ci)?25:40)-3*mi;}
+function DIFF_CIL(ci,mi,fin){if(fin)return ci===0?25:isWall(ci)?12:ci%10===9?15:20;if(ci===0)return[70,60,50,45][mi]||45;return(isWall(ci)?25:40)-3*mi;}
 // maps without a hand-tuned MAP_TIER row take the staircase formula (chapter kit)
 for(const id of MAP_IDS)if(!MAP_TIER[id]){const T=kitTier(id);MAPS[id].hpm=+(T[0]*(MAPS[id].hpmK||1)).toFixed(2);MAPS[id].spx=+(T[1]+(MAPS[id].spxAdd||0)).toFixed(2);MAPS[id].gb=T[2];MAPS[id].dmm=T[3];}
 const ROMAN_CH=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
@@ -2634,10 +2744,12 @@ const WEAPONS={
   lv:[{n:3,dmg:15,cd:2,pin:.7},{n:3,dmg:19,cd:2,pin:.7},{n:4,dmg:22,cd:2,pin:.8},{n:4,dmg:28,cd:2,pin:.9},{n:5,dmg:32,cd:2,pin:1},{n:6,dmg:38,cd:2,pin:1.1}]},
  voidorb:{name:_t('Černá díra'),desc:_t('Na první dobu taktu otevře u největší skupiny nepřátel černou díru. Ta je vtahuje a drtí a na konci taktu se zhroutí výbuchem.'),labels:{n:_t('Děr'),dmg:_t('Poškození'),rad:_t('Dosah')},
   lv:[{n:1,dmg:4,rad:30,cd:2,boom:16},{n:1,dmg:5,rad:32,cd:2,boom:20},{n:1,dmg:6,rad:36,cd:2,boom:26},{n:2,dmg:6,rad:36,cd:2,boom:30},{n:2,dmg:8,rad:40,cd:2,boom:38},{n:2,dmg:10,rad:46,cd:2,boom:48}]},
+ sunspear:{name:_t('Světelné kopí'),desc:_t('Na takt bodne paprskem světla do nejbližších nepřátel. Paprsek projde celou řadou a zraní všechny, kterými proletí.'),labels:{n:_t('Kopí'),dmg:_t('Poškození'),len:_t('Délka')},
+  lv:[{n:1,dmg:16,len:90,cd:1.4},{n:1,dmg:20,len:96,cd:1.3},{n:2,dmg:22,len:100,cd:1.3},{n:2,dmg:27,len:106,cd:1.2},{n:3,dmg:31,len:112,cd:1.1},{n:3,dmg:37,len:120,cd:1}]},
  whip:{name:_t('Bič'),desc:_t('Šlehne do dálky přes celou řadu nepřátel a označí je. Mazlíčci útočí na označené o 30 % silněji.'),labels:{n:_t('Šlehů'),dmg:_t('Poškození'),len:_t('Délka')},
   lv:[{n:1,dmg:12,len:78,cd:1.2},{n:1,dmg:15,len:82,cd:1.1},{n:2,dmg:15,len:86,cd:1.1},{n:2,dmg:19,len:90,cd:1.0},{n:2,dmg:23,len:96,cd:.9},{n:3,dmg:28,len:104,cd:.8}]}
 };
-const W_HERO={vines:'reva',hammer:'smith',icicle:'shaman',anchor:'sailor',stars:'astro',halberd:'warlord',whip:'tamer',voidorb:'nyx'},W_UNL_LV=8;
+const W_HERO={sunspear:'paladin',vines:'reva',hammer:'smith',icicle:'shaman',anchor:'sailor',stars:'astro',halberd:'warlord',whip:'tamer',voidorb:'nyx'},W_UNL_LV=8;
 // a hero weapon joins the common pool once its hero is level 8 (or for that hero himself)
 const wOpen=id=>!W_HERO[id]||(run&&run.heroId===W_HERO[id])||(heroOwned(W_HERO[id])&&heroLv(W_HERO[id])>=W_UNL_LV);
 const W_IDS=Object.keys(WEAPONS);
@@ -2678,6 +2790,8 @@ Object.assign(ULTS,{ // 11m: every hero weapon now has a fusion too (with a base
   lv:[{n:6,dmg:52,cd:.7,zdmg:22},{n:7,dmg:62,cd:.65,zdmg:27},{n:8,dmg:74,cd:.6,zdmg:32}]},
  reapwind:{ult:1,from:['halberd','blade'],name:_t('Žací vichr'),desc:_t('Halapartna se točí kolem tebe a seká na všechny strany. Každá další zbraň v buildu jí přidá 6 % poškození.'),labels:{dmg:_t('Poškození'),rad:_t('Dosah')},
   lv:[{dmg:44,rad:58,cd:.9},{dmg:54,rad:62,cd:.85},{dmg:66,rad:68,cd:.8}]},
+ halo:{ult:1,from:['sunspear','aura'],name:_t('Svatozář'),desc:_t('Kolem tebe krouží kruh světelných kopí, který pořád zraňuje, a na takt z něj vyletí kopí do všech stran.'),labels:{n:_t('Kopí'),dmg:_t('Poškození'),rad:_t('Dosah'),adm:_t('Kruh')},
+  lv:[{n:8,dmg:60,len:130,cd:1,rad:46,adm:12},{n:10,dmg:72,len:140,cd:1,rad:50,adm:15},{n:12,dmg:86,len:150,cd:1,rad:54,adm:18}]},
  bramble:{ult:1,from:['vines','aura'],name:_t('Trnová koruna'),desc:_t('Kolem tebe roste kruh trní, který pořád píchá, a na první dobu taktu vyrazí šlahouny pod všemi nepřáteli v něm.'),labels:{n:_t('Šlahounů'),dmg:_t('Poškození'),rad:_t('Dosah'),adm:_t('Trní')},
   lv:[{n:8,dmg:50,cd:2,pin:1.2,rad:78,adm:10},{n:9,dmg:60,cd:2,pin:1.3,rad:84,adm:13},{n:11,dmg:72,cd:2,pin:1.4,rad:90,adm:16}]},
  singul:{ult:1,from:['voidorb','bolt'],name:_t('Horizont událostí'),desc:_t('Černé díry jsou obří a nepřátelé v nich dostávají víc poškození. Na konci taktu se zhroutí ničivým výbuchem.'),labels:{n:_t('Děr'),dmg:_t('Poškození'),rad:_t('Dosah')},
@@ -2758,17 +2872,17 @@ function audioWatch(){if(!ac||document.hidden)return;const t0=ac.currentTime;cle
    out, plus a "phone bass" path: the lows are saturated into harmonics around 200–600 Hz, which an iPhone speaker can play. */
 // 10h: every song is a 'bang' song unless it says bang:false; the denser arrangement is louder, BANG_TRIM brings each style back to the run level (zvuk.js ~-31 dB)
 const isBang=S=>!!S&&S.bang!==false;
-const BANG_TRIM={grave:-3.6,desert:-3.6,forge:-1.7,frost:-4.4,sea:-2,star:-2.7,void:-2.7,dawn:-2.7,gold:-2.7,title:-.8};
-const STYLE_TRIM={desert:1,forge:-3.6,frost:.9,sea:-1.4,star:-1,void:-1,dawn:-1,gold:-1,title:0};
+const BANG_TRIM={grave:-3.6,desert:-3.6,forge:-1.7,frost:-4.4,sea:-2,star:-2.7,void:-2.7,dawn:-2.7,gold:-2.7,crown:-2.7,title:-.8};
+const STYLE_TRIM={desert:1,forge:-3.6,frost:.9,sea:-1.4,star:-1,void:-1,dawn:-1,gold:-1,crown:-1,title:0};
 // 09z10: hlasitost nástrojů (dB) podle stylu – změřeno sólo (tests/tools/poslech-offline.js, rolecal): melodie, arpeggio a akordy
 // byly o 15–40 dB pod bicími, mix byl z 95 % basy 100–300 Hz → mono, tmavý, z telefonu skoro neslyšný.
 // Cíl vůči bicím: basa −3, melodie −4, arpeggio −9, akordy −10. Bicí všude −8 dB kvůli rezervě.
 const ROLE_DB={drums:-8,bass:-8,lead:-8,arp:-8,pad:-8,fx:0};
 const STYLE_ROLE={grave:{bass:0,lead:19.3,arp:20,pad:9},desert:{bass:4.8,lead:21.9,arp:19.7,pad:10.5},forge:{bass:8,lead:22,arp:22,pad:20.9},
-  frost:{bass:1.5,lead:16.4,arp:19.4,pad:16},sea:{bass:6.4,lead:19.4,arp:22,pad:16.7},star:{bass:.3,lead:17.5,arp:22.8,pad:18.7},void:{bass:2.3,lead:16.4,arp:24.2,pad:15.3},dawn:{bass:2.9,lead:21.5,arp:23.5,pad:18.2},gold:{bass:2,lead:15.9,arp:27.9,pad:17.7},title:{bass:6.2,lead:20,arp:24,pad:23}};
+  frost:{bass:1.5,lead:16.4,arp:19.4,pad:16},sea:{bass:6.4,lead:19.4,arp:22,pad:16.7},star:{bass:.3,lead:17.5,arp:22.8,pad:18.7},void:{bass:2.3,lead:16.4,arp:24.2,pad:15.3},dawn:{bass:2.9,lead:21.5,arp:23.5,pad:18.2},gold:{bass:2,lead:15.9,arp:27.9,pad:17.7},crown:{bass:2.3,lead:17,arp:26.6,pad:13},title:{bass:6.2,lead:20,arp:24,pad:23}};
 const MUSIC_LVL=1.9;                        // music level inside the mix
 const MASTER_PRE=.55;                       // music + effects into the master; the old soft-knee compressor took ~10 dB, this keeps the overall loudness                 // dB, measured so all chapters sit at the same loudness
-const STYLE_REV={grave:.22,desert:.16,forge:.1,frost:.28,sea:.15,star:.3,void:.3,dawn:.26,gold:.22,title:.3}; // reverb return per style
+const STYLE_REV={grave:.22,desert:.16,forge:.1,frost:.28,sea:.15,star:.3,void:.3,dawn:.26,gold:.22,crown:.3,title:.3}; // reverb return per style
 const ENERGY_GAIN=[.82,.92,1,1.3];           // M.int 0 calm intro, 1 run, 2 late run, 3 boss (≈ -1.7 / -0.7 / 0 / +2.3 dB; 10b: boss was only +1–2 dB over the run)
 // master: gentle glue compressor (hard knee, so quiet parts keep their dynamics and the boss is really louder) + a safety limiter.
 // The old one had the default 30 dB soft knee and squashed everything above ~-29 dB, which flattened calm vs boss.
@@ -3367,7 +3481,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11o';
+const GAME_VER='2026-11-11p';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3568,13 +3682,13 @@ const BOSS_INTRO={
  griffin:{line:_t('Půl orel, půl lev, celý problém.'),acc:'#e8e8ff'},orion:{line:_t('Lovím od pravěku. Ty jsi jen další souhvězdí.'),acc:'#ffe58a'},eclipse:{line:_t('Slunce zhasne. Ty první.'),acc:'#b07aff'},
  maw:{line:_t('Mám hlad. A ty vypadáš jako předkrm.'),acc:'#2af0d0'},hoarder:{line:_t('Každá troska má svůj příběh. Tvoje bude příští.'),acc:'#f0b050'},mirror:{line:_t('Uhýbáš stejně jako já. Jenom hůř.'),acc:'#5af0d8'},moth:{line:_t('Světlo? To si vezmu.'),acc:'#ffe9a8'},
  thornmom:{line:_t('Objímá ráda. Trny taky.'),acc:'#ff9ab8'},reaper:{line:_t('Sklízí pole. Dneska tebe.'),acc:'#f6c744'},gnomon:{line:_t('Přesný čas? Tvůj poslední.'),acc:'#fff6c8'},honeyq:{line:_t('Med je sladký. Žihadla ne.'),acc:'#f6c744'},phoenix:{line:_t('Hlídám kolébku. Umřu? Klidně. Zase.'),acc:'#ff9a1a'},
- usurer:{line:_t('Půjčím ti život. S úrokem.'),acc:'#ffd040'},mintmaster:{line:_t('Razím mince. A hlavy.'),acc:'#ffd040'},gknight:{line:_t('Zlaté brnění, zlaté srdce. Obojí z kovu.'),acc:'#ff6a3a'},dragon:{line:_t('Moje. Moje. Všechno moje. I ty.'),acc:'#ff3a1a'},herald:{line:_t('Můj pán děkuje za střepy.'),acc:'#ffe27a'},nothing:{line:_t('Byl jsem tu před první hvězdou. Budu tu i po té poslední.'),acc:'#9a5ad8'},
+ usurer:{line:_t('Půjčím ti život. S úrokem.'),acc:'#ffd040'},mintmaster:{line:_t('Razím mince. A hlavy.'),acc:'#ffd040'},gknight:{line:_t('Zlaté brnění, zlaté srdce. Obojí z kovu.'),acc:'#ff6a3a'},dragon:{line:_t('Moje. Moje. Všechno moje. I ty.'),acc:'#ff3a1a'},herald:{line:_t('Můj pán děkuje za střepy.'),acc:'#ffe27a'},stairward:{line:_t('Nahoru vede jen jedna cesta. A ta se hroutí.'),acc:'#fff2c8'},curator:{line:_t('Pěkná sbírka, že? Všechny jsi mi je přinesl ty.'),acc:'#ffd040'},sunsmith:{line:_t('Ukoval jsem slunce. Tebe ukovu taky.'),acc:'#ff9a3a'},den:{line:_t('Jeden svítí, druhá zhasíná. Padneme jen spolu.'),acc:'#ffe27a'},aurel:{line:_t('Sedm střepů. Sedm děkuji. Teď poklekni.'),acc:'#fff2b0'},nothing:{line:_t('Byl jsem tu před první hvězdou. Budu tu i po té poslední.'),acc:'#9a5ad8'},
 };
 // card colours by chapter (dark, mid, light); slime king keeps his swampy green
 const CH_BG=[['#12081c','#2a1640','#4a2a6a'],['#2a1408','#6a3a14','#a8682a'],['#1a0808','#5a1a10','#9a3a14'],['#081428','#1a3a5a','#3a6a9a'],['#0c1a2e','#1a3a5a','#2a6a8a'],['#0a0a1c','#2a2a5a','#4a4a8a'],['#020608','#0c2a2a','#1a5a58'],['#2a1c06','#7a5a14','#d8a83a'],['#1a0606','#5a1410','#c8962a']];
 let BI=null;const BI_TYPE=30; // one-liner typing speed, characters per second
 // 10b: the one-liner is an HTML line in the UI font (was a 10 px pixel font in the low-res canvas → diacritics unreadable)
-function biLineSet(B,gone){const el=$('#biLine');if(!B||!B.line){el.hidden=true;return;}const t0=B.beat*2.5;if(B.t<t0){el.hidden=true;return;}
+function biLineSet(B,gone){const el=$('#biLine');if(!B||!B.line){el.hidden=true;return;}const t0=B.beat*(B.act?4.5:2.5);if(B.t<t0){el.hidden=true;return;}
   const n=Math.min(B.line.length,Math.floor((B.t-t0)*BI_TYPE));if(el.hidden||el.dataset.n!=String(n)||el.dataset.id!==B.id){el.dataset.n=n;el.dataset.id=B.id;el.hidden=false;
     el.className=B.fin?'fin':'';el.style.setProperty('--acc',B.fin?'#e0563a':B.T.acc);el.replaceChildren(document.createTextNode(B.line.slice(0,n)),Object.assign(document.createElement('i'),{textContent:B.line.slice(n)}));}
   const k=cv.clientWidth/VW;el.style.transform='translateX('+Math.round(-gone*k)+'px)';}
@@ -3624,10 +3738,19 @@ function bossIntroStart(e){const id=e.id,fin=!!run.map.finale,T=biTheme(id),sp=S
   const beat=M.stepDur*4,ln=(T.line||'').length,beats=Math.max(fin?9:7,Math.ceil((2.5*beat+ln/BI_TYPE+(fin?3.2:2.6))/beat+.6)); // 10b: was 5/7 beats (~2.7 s), the line was readable ~0.6 s
   BI={id,e,fin,t:0,beat,beats,T,card:biCard(T,fin,VW,VH),sp,sil:biTint(sp,'#000000'),glow:biTint(sp,fin?'#ff5a3a':T.acc),
     title:biText(main,size,gold,-.16),sub:sub?biText(sub.toUpperCase(),Math.max(10,Math.round(size*.42)),['#ffffff','#e8e4dc','#bfb8c8'],-.16):null,
-    line:T.line,ribbon:fin?biText(_t('FINÁLE KAPITOLY'),11,['#ffffff','#ffd0c0'],0):null,typed:0};
-  $('#hud').classList.add('bi');$('#toast').classList.remove('on');bossIntroSfx(fin);}
+    line:T.line,ribbon:fin?biText(id==='aurel'?_t('FINÁLE AKTU I'):_t('FINÁLE KAPITOLY'),11,['#ffffff','#ffd0c0'],0):null,typed:0};
+  if(id==='aurel'){BI.act=1;BI.beats+=2;actHush(beat*2);setTimeout(()=>{if(BI&&BI.act)bossIntroSfx(true);},beat*2000);} // 11p: the act finale – the music stops, the screen cracks, then the drop
+  else bossIntroSfx(fin);
+  $('#hud').classList.add('bi');$('#toast').classList.remove('on');}
+// the music falls silent for the length of the crack, then comes back with the drop
+function actHush(d){if(!ac||!M.musicBus||!save.music)return;try{const G=M.musicBus.gain,t=ac.currentTime,v=G.value;G.cancelScheduledValues(t);G.setValueAtTime(v,t);G.linearRampToValueAtTime(.0001,t+.12);G.setValueAtTime(.0001,t+d-.02);G.linearRampToValueAtTime(v,t+d+.03);
+  osc('sine',55,t+.1,d*.9,.25,M.sfxBus||M.musicBus,30);noiz(t+d*.45,.08,.25,M.sfxBus||M.musicBus,'highpass',3000);}catch(err){}}
+// two beats of black screen with a crack of light spreading over it
+function actCrack(g,k){g.save();g.fillStyle='#000000';g.fillRect(0,0,VW,VH);const cx=VW/2,cy=VH*.45,n=9,len=Math.min(1,k*.75)*Math.hypot(VW,VH)*.6;
+  g.strokeStyle='#fff2b0';g.lineWidth=1;g.shadowColor='#ffe27a';for(let i=0;i<n;i++){let x=cx,y=cy,a=i/n*6.283+.3;g.globalAlpha=.9;g.beginPath();g.moveTo(x,y);for(let s=0;s<len;s+=10){a+=Math.sin(i*7.3+s*.13)*.35;x+=Math.cos(a)*10;y+=Math.sin(a)*10;g.lineTo(RZ(x),RZ(y));}g.stroke();}
+  if(k>1.6){g.globalAlpha=(k-1.6)/.4;g.fillStyle='#ffffff';g.fillRect(0,0,VW,VH);}g.restore();}
 // draws on top of everything; k = time in beats
-function drawBossIntro(g){const B=BI;if(!B)return;const k=B.t/B.beat,N=B.beats,out=clamp((k-(N-.6))/.6,0,1),ease=x=>1-Math.pow(1-x,3),gone=Math.round(ease(out)*VW*1.3);
+function drawBossIntro(g){const B=BI;if(!B)return;if(B.act&&B.t<B.beat*2){actCrack(g,B.t/B.beat);biLineSet(B,VW*2);return;}const k=B.t/B.beat-(B.act?2:0),N=B.beats-(B.act?2:0),out=clamp((k-(N-.6))/.6,0,1),ease=x=>1-Math.pow(1-x,3),gone=Math.round(ease(out)*VW*1.3);
   g.save();g.globalAlpha=clamp(k*3,0,1)*.7*(1-out);g.fillStyle='#000000';g.fillRect(0,0,VW,VH);g.globalAlpha=1;
   const sc0=Math.max(2,Math.floor(Math.min(VW*(B.fin?.7:.58)/B.sp.w,VH*(B.fin?.42:.34)/B.sp.h)));
   // probliknutí: two white flashes on the first two eighths, the boss as a black silhouette in a burst
@@ -3745,6 +3868,7 @@ function sparks(x,y,n,col,dirx,diry,spd){for(let i=0;i<n;i++){let a=Math.random(
 function smokePuff(x,y,n,col,size){for(let i=0;i<n;i++)addP({k:'smoke',x:x+rnd(-4,4),y:y+rnd(-4,4),vx:rnd(-22,22),vy:rnd(-30,-8),life:rnd(.5,.95),max:.95,sz:rnd(1.5,2.5)*(size||1),grow:5*(size||1),drag:2.5,g:0,col:col||'#5a5068',a:.5});}
 function hurtEnemy(e,dmg,kx,ky){
   if(e.dead||e.bur||isGuest())return;
+  if(e.inv||e.fallen||(e.ls===2&&(M.step%16)>=4))return;
   if(e.shield){e.flash=.05;if(Math.random()<.3)sparks(e.x,e.y-4,2,'#b07aff',kx,ky,90);if(!e.shT||run.t-e.shT>2.5){e.shT=run.t;toast(e.shield,1600);}return;}
   let d=dmg*st.dmg*(mfCall('dmgMul',e)||1)*(st.af&&st.af.hunter&&(e.boss||e.elite)?1+st.af.hunter:1),crit=false;if(e.mk>run.t)d*=e.mkm||1.2;if(e.elite&&run.thm==='hunt')d*=1.2;if(st.lg&&st.lg.skyW&&(e.boss||e.elite))d*=1.15;if(st.tr&&st.tr.a5)d*=1+Math.min(.025*st.tr.a5,run.combo/1000);if(Math.random()<(st.crit||.1)+(st.tr&&st.tr.a1&&(M.step%16)<4?.03*st.tr.a1:0)+(st.af&&st.af.rhythm&&(M.step%16)<4?st.af.rhythm:0)){d*=st.tal&&st.tal.a20?2:1.6;crit=true;}if(st.lg&&st.lg.metro&&(M.step%16)>=12)d*=2;d=Math.max(1,Math.round(d));
   if(crit&&st.lg&&st.lg.storm&&run.t-(run.sgT||-9)>.5){run.sgT=run.t;explode(e.x,e.y,26,10+run.level*1.5);}
@@ -3752,10 +3876,10 @@ function hurtEnemy(e,dmg,kx,ky){
   if(run.nums.length<40)run.nums.push({x:e.x+rnd(-3,3),y:e.y-e.h/2,vx:rnd(-14,14),vy:crit?-70:-55,txt:String(d)+(crit?'!':''),life:crit?.8:.6,col:crit?'#f6c744':'#ffffff',big:crit,t:0});
   sparks(e.x,e.y-2,crit?5:2,crit?'#fff6b0':'#ffffff',kx,ky,crit?150:110);
   if(crit)run.fx.push({k:'pop',x:e.x,y:e.y-2,r:2,max:9,life:.12,t:0,col:'#f6c744'});
-  sfx('hit');if(e.hp<=0){if(e.d.egg&&!e.egged&&!run.over)phoenixEgg(e);else killEnemy(e);}
+  sfx('hit');if(e.hp<=0){if(e.d.egg&&!e.egged&&!run.over)phoenixEgg(e);else if(e.d.twin&&!run.over&&twinFall(e)){}else if(e.d.aurel&&!run.over&&aurelHold(e)){}else killEnemy(e);}
 }
 function killEnemy(e){
-  e.dead=true;if(!isGuest()){if(e.gild&&Math.random()<.15)run.items.push({x:e.x,y:e.y,k:'coin'});if(e.stolen)for(let i=0;i<Math.min(e.stolen,30);i+=3)run.items.push({x:e.x+rnd(-10,10),y:e.y+rnd(-8,8),k:'coin'});
+  e.dead=true;if(e.shardOf)aurShardBroken(e);if(!isGuest()){if(e.gild&&Math.random()<.15)run.items.push({x:e.x,y:e.y,k:'coin'});if(e.stolen)for(let i=0;i<Math.min(e.stolen,30);i+=3)run.items.push({x:e.x+rnd(-10,10),y:e.y+rnd(-8,8),k:'coin'});
     if(st&&st.lg&&st.lg.midas&&!e.boss&&(run.mdK=(run.mdK||0)+1)%12===0){explode(e.x,e.y,50,30+run.level*4);run.fx.push({k:'shock',x:e.x,y:e.y,r:4,t:0,life:.45,max:56,col:'#ffd040',big:1});for(let i=0;i<10;i++)addP({x:e.x,y:e.y-4,vx:rnd(-60,60),vy:rnd(-80,-20),life:.6,col:pick(['#ffe27a','#ffd040']),sz:1,g:160});}}if(run.pls){(CO.kills||(CO.kills=[])).push(e.nid||0);if(!CO.bondHit)coKill(run.p===run.pls[0].p?0:1,e);}run.kills++;
   if(st&&st.af&&!e.d.noHit){if(st.af.vamp&&!run.p.down)run.p.hp=Math.min(run.p.max,run.p.hp+st.af.vamp);if(st.af.gold&&e.elite)run.coins+=Math.round(st.af.gold);}run.combo++;run.comboT=(st&&st.tal&&st.tal.d5?2.4:1.6)+(run.thm==='rhythm'?1:0);sfx('kill');
   const Q=run.qc;if(Q){Q.k[e.id]=(Q.k[e.id]||0)+1;if(e.elite)Q.el++;if(e.boss)Q.boss++;if(run.combo>Q.combo)Q.combo=run.combo;
@@ -3785,12 +3909,13 @@ function killEnemy(e){
   if(e.d.die==='puddle')run.fx.push({k:'puddle',x:e.x,y:e.y+2,r:11,life:5,max:5,seed:Math.random()*9});
   else if(e.d.die==='magma')run.fx.push({k:'magma',x:e.x,y:e.y+2,r:9,life:3,max:3,seed:Math.random()*9});
   else if(e.d.die==='split')voidSplit(e);
+  else if(e.d.die==='burst'){if(!isGuest())ring(e.x,e.y-3,e.elite?8:5,46,5*(1+run.t/60*.08)*(run.map.dmm||1),Math.random()*6,srcOf(e));for(let i=0;i<8;i++)addP({k:'ember',x:e.x,y:e.y-4,vx:rnd(-60,60),vy:rnd(-70,-10),life:rnd(.3,.5),col:pick(['#ffe27a','#ff9a1a','#ffffff']),sz:1,g:120});}
   else if(e.d.die==='snow'){if(!isGuest())ring(e.x,e.y-3,e.elite?6:4,42,4*(1+run.t/60*.08),Math.random()*6,srcOf(e));for(let i=0;i<8;i++)addP({x:e.x+rnd(-4,4),y:e.y-4,vx:rnd(-50,50),vy:rnd(-70,-20),life:rnd(.4,.7),col:pick(['#ffffff','#dff0ff']),sz:2,gy:e.y+4});}
   if(e.elite&&st&&st.lg&&st.lg.skull&&!isGuest())allySpawn(e.x,e.y);
   if(st&&st.lg&&!isGuest()){if(e.elite&&st.lg.sb2){const p=run.p,h=Math.ceil(p.max*.1);if(!p.down&&p.hp<p.max){p.hp=Math.min(p.max,p.hp+h);run.nums.push({x:p.x,y:p.y-10,txt:'+'+h,life:.8,col:'#8affa0'});}}
     if(st.lg.sb4&&e.bm&&run.t-e.bm<.3&&(run.allies||[]).filter(a=>!a.tw).length<3)allySpawn(e.x,e.y);}
   if(e.id==='phyl'){mfCall('jarBroken',e);}
-  if(e.boss){run.boss=null;$('#bossbar').hidden=true;run.flashScr=.5;if(run.endless)enBossDown(e);else winRun();}
+  if(e.boss&&!e.twin2){run.boss=null;$('#bossbar').hidden=true;run.flashScr=.5;if(run.endless)enBossDown(e);else winRun();}
 }
 function hurtPlayer(d,src){
   const p=run.p;if(p.inv>0||run.over||run.dying||p.down||isGuest())return;
@@ -3834,7 +3959,7 @@ function nearest(n,maxD){
 function inView(e,m){const c=run.cam;return e.x>c.x-m&&e.x<c.x+VW+m&&e.y>c.y-m&&e.y<c.y+VH+m;}
 function fire(s){s.hit=new Map();s.rehit=s.rehit||Infinity;s.rot=0;run.shots.push(s);}
 // discrete weapons fire on 16th-note steps; offsets interleave them so the volley sounds like a groove
-const W_OFF={vines:0,voidorb:0,bolt:0,arrows:2,lightning:0,fireball:8,axe:6,frost:0,aura:2,vortex:2,storm:0,meteor:8,blizzard:2,note:4,rang:10,echo:0,steam:8,halberd:0,whip:4,thunder:6,frostblade:0,arcane:2,flamering:4};
+const W_OFF={sunspear:0,vines:0,voidorb:0,bolt:0,arrows:2,lightning:0,fireball:8,axe:6,frost:0,aura:2,vortex:2,storm:0,meteor:8,blizzard:2,note:4,rang:10,echo:0,steam:8,halberd:0,whip:4,thunder:6,frostblade:0,arcane:2,flamering:4};
 const LOGIC={
  bolt:{fire(w,P){const ts=nearest(P.n,180);if(!ts.length)return;sfx('shoot',0);const p=run.p;
   for(let i=0;i<P.n;i++){const t=ts[i%ts.length];let a=Math.atan2(t.y-p.y,t.x-p.x);if(i>=ts.length)a+=(((i-ts.length)>>1)+1)*.2*(i%2?1:-1);
@@ -3933,6 +4058,11 @@ Object.assign(LOGIC,{
  reapwind:{fire(w,P){const p=run.p,a=Math.atan2(p.face.y,p.face.x),m=(w.mul||1)*(1+.06*Math.max(0,Object.keys(run.W).length-1)),R=P.rad;
    for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit)continue;const dx=e.x-p.x,dy=e.y-p.y,d=Math.hypot(dx,dy)||1;if(d>R+e.r)continue;hurtEnemy(e,P.dmg*m,dx/d*70,dy/d*70);}
    for(let i=0;i<4;i++)run.fx.push({k:'halb',x:p.x,y:p.y,a:a+i*1.571,rad:R,life:.26,max:.26});sfx('shoot',2);run.shake=Math.max(run.shake,2);}},
+ sunspear:{fire(w,P){const p=run.p,ts=nearest(P.n,P.len+20);if(!ts.length)return;for(let i=0;i<P.n;i++){const t=ts[i%ts.length];let a=Math.atan2(t.y-p.y,t.x-p.x);if(i>=ts.length)a+=(i-ts.length+1)*.5;spearHit(p.x,p.y-4,a,P.len,P.dmg*(w.mul||1),P.boom);}sfx('shoot',2);}},
+ halo:{cont(w,P,dt){const p=run.p,m=w.mul||1;w.ha=(w.ha||0)+dt*2.2;w.tk=(w.tk||0)-dt;if(w.tk>0)return;w.tk=.3;
+   for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit)continue;const d=Math.hypot(e.x-p.x,e.y-p.y);if(Math.abs(d-P.rad)<10+e.r)hurtEnemy(e,P.adm*m,0,0);}
+   for(let i=0;i<10;i++){const a=w.ha+i/10*6.283;run.fx.push({k:'ray',x:p.x+Math.cos(a)*(P.rad-9),y:p.y-4+Math.sin(a)*(P.rad-9),x2:p.x+Math.cos(a)*(P.rad+9),y2:p.y-4+Math.sin(a)*(P.rad+9),w:2,life:.32,max:.32});}},
+  fire(w,P){const p=run.p,m=w.mul||1,o=w.ha||0;for(let i=0;i<P.n;i++)spearHit(p.x,p.y-4,o+i/P.n*6.283,P.len,P.dmg*m,0);run.fx.push({k:'shock',x:p.x,y:p.y-4,r:4,t:0,life:.35,max:P.rad,col:'#fff2b0'});sfx('zap');}},
  bramble:{cont(w,P,dt){const p=run.p,m=w.mul||1;w.tk=(w.tk||0)-dt;if(w.tk>0)return;w.tk=.35;let any=0;
    for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit)continue;if(Math.hypot(e.x-p.x,e.y-p.y)<P.rad+e.r){hurtEnemy(e,P.adm*m,0,0);any=1;}}
    if(any)run.fx.push({k:'shock',x:p.x,y:p.y,r:P.rad-4,t:0,life:.3,max:P.rad,col:'#5aa83a'});},
@@ -4019,7 +4149,16 @@ function constellation(){const sid=run.W.stars?'stars':'skysong',W=run.W[sid],S=
   const hit=new Set();for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i],dx=b.x-a.x,dy=b.y-a.y,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L;
     for(const e of run.enemies){if(e.dead||e.bur||hit.has(e))continue;const rx=e.x-a.x,ry=e.y-a.y,al=rx*ux+ry*uy;if(al<0||al>L)continue;if(Math.abs(rx*uy-ry*ux)<e.r+5){hit.add(e);hurtEnemy(e,P.dmg,0,0);}}}
   run.fx.push({k:'cline',x:pts[0].x,y:pts[0].y,pts,life:.4,max:.4});sfx('zap');}
+// a spear of light: hits every foe along the line (11p Paladin)
+function spearHit(x,y,a,L,dmg,boom){const ca=Math.cos(a),sa=Math.sin(a);for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit)continue;const dx=e.x-x,dy=e.y-3-y,al=dx*ca+dy*sa;if(al<-4||al>L)continue;if(Math.abs(-dx*sa+dy*ca)<e.r+4)hurtEnemy(e,dmg,ca*40,sa*40);}
+  const tx=x+ca*L,ty=y+sa*L;run.fx.push({k:'ray',x,y,x2:tx,y2:ty,w:3,life:.16,max:.16});run.fx.push({k:'pop',x:tx,y:ty,r:2,max:7,life:.14,t:0,col:'#fff2b0'});if(boom)explode(tx,ty,22,dmg*.6);}
 function fireAll(s){runeBeat(s);
+  if(st.lg&&st.lg.bless&&s%(st.tal&&st.tal.l15?64:128)===0&&run.t>1&&!run.p.down&&!run.p.sh){const p=run.p;p.sh=1;run.fx.push({k:'shock',x:p.x,y:p.y-4,r:3,t:0,life:.45,max:26,col:'#fff2b0',big:1});for(let i=0;i<8;i++)addP({x:p.x+rnd(-6,6),y:p.y-14,vx:rnd(-12,12),vy:rnd(10,30),life:.5,col:pick(['#fff2b0','#ffd040']),sz:1,g:0});}
+  if(st.lg&&st.lg.sc4&&s%32===0&&run.t>1){const p=run.p,o=(s/32)*.45;for(let i=0;i<7;i++){const a=o+i/7*6.283,ca=Math.cos(a),sa=Math.sin(a),L=92;for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit)continue;const dx=e.x-p.x,dy=e.y-3-(p.y-4),al=dx*ca+dy*sa;if(al<0||al>L||Math.abs(-dx*sa+dy*ca)>e.r+4)continue;hurtEnemy(e,18+run.level*3,0,0);}
+      run.fx.push({k:'shock',x:p.x+ca*L,y:p.y-4+sa*L,r:2,t:0,life:.3,max:10,col:SH7_COL[i]});run.fx.push({k:'ray',x:p.x,y:p.y-4,x2:p.x+ca*L,y2:p.y-4+sa*L,w:1,life:.18,max:.18});}sfx('zap');}
+  if(st.lg&&st.lg.sc6&&s%64===32&&run.t>1){const p=run.p;let e=null,bn=-1;for(const q of run.enemies){if(q.dead||q.bur||q.d.noHit||Math.hypot(q.x-p.x,q.y-p.y)>200)continue;let n=0;for(const o of run.enemies)if(!o.dead&&Math.abs(o.x-q.x)<40&&Math.abs(o.y-q.y)<40)n++;if(n>bn){bn=n;e=q;}}
+    if(e){explode(e.x,e.y,64,50+run.level*6);run.fx.push({k:'shock',x:e.x,y:e.y,r:4,t:0,life:.55,max:72,col:'#fff2b0',big:1});for(let i=0;i<14;i++)addP({x:e.x+rnd(-4,4),y:e.y-60+i*4,vx:rnd(-12,12),vy:120,life:.3,col:pick(['#fff2b0','#ffffff','#ffd040']),sz:1,g:0});run.shake=Math.max(run.shake,4);}}
+  if(st.lg&&st.lg.crown7&&s%32===16&&run.t>1){const ts=nearest(7,180),p=run.p;ts.forEach((e,i)=>{hurtEnemy(e,22+run.level*3,0,0);run.fx.push({k:'ray',x:p.x,y:p.y-6,x2:e.x,y2:e.y-3,w:2,life:.18,max:.18});run.fx.push({k:'shock',x:e.x,y:e.y-3,r:2,t:0,life:.3,max:14,col:SH7_COL[i]});});if(ts.length)sfx('zap');}
   if(run.W.stars&&(s%16===0||(s%16===8&&(run.W.stars.xn||{}).bt)))constellation();
   else if(run.W.skysong&&s%8===0)constellation();
   if(st.lg&&st.lg.ss4&&s%16===0&&run.t>1)sunDisk(Math.floor(s/16));
@@ -4223,11 +4362,15 @@ const TOWERS={
  gmirror:{name:_t('Zrcadlo'),cost:45,range:110,dmg:14,cd:1.2,hp:90,ch:'c9',pal:{w:'#ffffff',i:'#bfeaff',y:'#e0b030',k:'#8a6a1a',a:'#c8962a',c:'#e2ba48',d:'#5a3a14'},
   rows:['........','......yy','.....yii','....yiwi','....yiiw','....yiwi','.....yii','......yy','.......k','......kk','.....kkk','......kk','..cccccc','.caccaca','aaaaaaaa','dddddddd']},
  mint:{name:_t('Lis'),cost:40,range:62,dmg:30,cd:2,hp:120,ch:'c9',pal:{k:'#3a2a20',s:'#9a9aa8',y:'#c8962a',a:'#8a6a3a',c:'#a8844c',d:'#4a3018'},
-  rows:['........','........','....kkkk','....k..k','....k.kk','....k..k','.....sss','.....sss','......ss','......ss','....yyyy','....yyyy','..aaaaaa','.acaaaca','aaaaaaaa','dddddddd']}
+  rows:['........','........','....kkkk','....k..k','....k.kk','....k..k','.....sss','.....sss','......ss','......ss','....yyyy','....yyyy','..aaaaaa','.acaaaca','aaaaaaaa','dddddddd']},
+ anvil:{name:_t('Kovadlina'),cost:45,range:96,dmg:16,cd:1.6,hp:110,ch:'c10',pal:{k:'#3a3a44',h:'#9a9aa8',y:'#ffd040',o:'#ff7a1a',a:'#8a6a3a',c:'#a8844c',d:'#4a3018'},
+  rows:['........','........','........','........','........','....hhhh','.......k','.......k','....kkkk','..kkkhhh','.....kkk','....oyyy','..aaaaaa','.acaaaca','aaaaaaaa','dddddddd']},
+ sanctum:{name:_t('Svatyně'),cost:40,range:70,dmg:8,cd:1,hp:120,ch:'c10',shade:46,pal:{w:'#f0e8d8',W:'#c8c0b0',y:'#ffd040',Y:'#fff6c8',k:'#3a2a20',a:'#a8988a',c:'#c4b496',d:'#5a4a38'},
+  rows:['........','......yy','.....yYY','......yy','.......w','....wwww','...wWWWW','...wWkkk','...wWkYY','...wWkYY','...wWWWW','..wwwwww','..aaaaaa','.acaaaca','aaaaaaaa','dddddddd']}
 };
 const T_IDS=Object.keys(TOWERS),T_BASE=['arrow','fire','frost','tesla'];
 // Arsenal: towers you take into a run (4, the Builder 5), each with a menu level 1–5 (gold + material); levels 3 and 5 add a perk
-const TW_UNL={crypt:'bazina',bell:'zvonice',obelisk:'kanon',sandpit:'hrobka',oasis:'brana',forge:'kovarna',ram:'krystaly',hearth:'pevnost',icelance:'soutezka',cannon:'pristav',harpoon:'vir',scope:'mlhovina',gwell:'souhvezdi',espire:'ozveny',lantern:'svetlo',prism:'hodiny',hive:'zahrada',gmirror:'predmesti',mint:'mincovna'},TW_SOON=[];
+const TW_UNL={crypt:'bazina',bell:'zvonice',obelisk:'kanon',sandpit:'hrobka',oasis:'brana',forge:'kovarna',ram:'krystaly',hearth:'pevnost',icelance:'soutezka',cannon:'pristav',harpoon:'vir',scope:'mlhovina',gwell:'souhvezdi',espire:'ozveny',lantern:'svetlo',prism:'hodiny',hive:'zahrada',gmirror:'predmesti',mint:'mincovna',anvil:'hkovarna',sanctum:'vecnost'},TW_SOON=[];
 const TW_INFO={arrow:[_t('Rychle střílí šípy na jednoho nepřítele.'),_t('Dva šípy naráz.'),_t('Každý šíp prorazí o jednoho nepřítele víc.')],
  fire:[_t('Hází ohnivé koule, které vybuchnou.'),_t('Výbuch o 30 % větší.'),_t('Dvě koule naráz.')],
  frost:[_t('Mrazivá vlna zraní a zpomalí nepřátele kolem.'),_t('Vlna dosáhne o 15 % dál.'),_t('Vlna nepřátele na chvíli zmrazí.')],
@@ -4247,6 +4390,8 @@ const TW_INFO={arrow:[_t('Rychle střílí šípy na jednoho nepřítele.'),_t('
  espire:[_t('Zasáhne nepřítele a o dvě doby později na stejném místě vybuchne ozvěna zásahu.'),_t('Ozvěna vybuchne o 40 % šířeji.'),_t('Ozvěna se zopakuje ještě jednou.')],
  gmirror:[_t('Odráží světlo na nejbližšího nepřítele. Když je oko slunce v jeho dosahu, paprsek zasáhne tři nepřátele a dvakrát silněji.'),_t('Paprsek zasáhne o jednoho nepřítele víc.'),_t('Zasažení nepřátelé zezlátnou: víc zkušeností, ale víc zdraví.')],
  mint:[_t('Pomalu, ale tvrdě dupne a rozdrtí všechny nepřátele kolem sebe.'),_t('Dosah o 25 % větší.'),_t('Rozdrcení nepřátelé zůstanou chvíli stát.')],
+ anvil:[_t('Udeří kladivem a vystřelí spršku jisker do tří nejbližších nepřátel.'),_t('Jisker o dvě víc.'),_t('Jiskry po dopadu vybuchnou.')],
+ sanctum:[_t('Pálí světlem nepřátele kolem sebe a vrhá velký stín. Ve finále aktu tě ten stín schová před výšlehem slunce.'),_t('Stín je o třetinu větší.'),_t('Hrdinu ve stínu svatyně pomalu léčí.')],
  hive:[_t('Vypustí včely na tři nejbližší nepřátele.'),_t('Pět včel naráz.'),_t('Včely nepřátele zpomalí.')],
  prism:[_t('Paprsek slunce projde všemi nepřáteli v řadě až na kraj dosahu.'),_t('Paprsek je dvakrát širší.'),_t('Zasažení nepřátelé dostávají o 15 % víc poškození.')],
  lantern:[_t('Svítí kolem sebe: nepřátelé ve světle jsou pomalejší a dostávají o 15 % víc poškození. V Posledním světle je u ní bezpečno.'),_t('Dosah o 25 % větší.'),_t('Ve světle se léčíš.')],
@@ -4420,6 +4565,11 @@ function towerFire(t){
       for(const e of c.slice(0,(lit?3:1)+(p3?1:0))){hurtEnemy(e,dmg*(lit?2:1),0,0);if(p5)gildEnemy(e);run.fx.push({k:'ray',x:t.x,y:ty,x2:e.x,y2:e.y-3,w:lit?3:2,life:.14,max:.14});}sfx('zap');break;}
     case'mint':{const R=range*(p3?1.25:1),c=enemiesNear(t.x,t.y,R);if(!c.length)return;t.kick=1;for(const e of c){hurtEnemy(e,dmg,0,0);if(p5&&!e.boss)e.pin=Math.max(e.pin||0,run.t+.6);}
       run.fx.push({k:'shock',x:t.x,y:t.y,r:4,t:0,life:.35,max:R,col:'#c8962a',big:1});run.shake=Math.max(run.shake,2);sfx('boom');break;}
+    case'anvil':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;c.sort((a,b)=>((a.x-t.x)**2+(a.y-t.y)**2)-((b.x-t.x)**2+(b.y-t.y)**2));const ty=t.y-t.spr.h/2+6;t.kick=1;
+      for(const e of c.slice(0,p3?5:3)){hurtEnemy(e,dmg,0,0);if(p5)explode(e.x,e.y,16,dmg*.6);run.fx.push({k:'ray',x:t.x,y:ty,x2:e.x,y2:e.y-3,w:1,life:.12,max:.12});if(run.parts.length<380)for(let i=0;i<3;i++)addP({k:'ember',x:e.x,y:e.y-4,vx:rnd(-50,50),vy:rnd(-70,-20),life:rnd(.2,.4),col:pick(['#ffd040','#ff7a1a']),sz:1,g:160});}
+      run.fx.push({k:'pop',x:t.x,y:ty,r:2,max:8,life:.14,t:0,col:'#ffd040'});sfx('boom');break;}
+    case'sanctum':{const c=enemiesNear(t.x,t.y,range);for(const e of c)hurtEnemy(e,dmg,0,0);if(c.length){t.kick=1;run.fx.push({k:'shock',x:t.x,y:t.y-6,r:4,t:0,life:.35,max:range,col:'#fff6c8'});}
+      if(p5)for(const p of players())if(!p.down&&p.hp<p.max&&Math.hypot(p.x-t.x,p.y-t.y)<aurTowerShade(t))p.hp=Math.min(p.max,p.hp+1);break;}
     case'hive':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;c.sort((a,b)=>((a.x-t.x)**2+(a.y-t.y)**2)-((b.x-t.x)**2+(b.y-t.y)**2));const ty=t.y-t.spr.h/2;t.kick=1;
       for(const e of c.slice(0,p3?5:3)){hurtEnemy(e,dmg,0,0);if(p5)e.slowT=Math.max(e.slowT||0,.8);run.fx.push({k:'ray',x:t.x,y:ty,x2:e.x,y2:e.y-3,w:1,life:.1,max:.1});addP({x:e.x,y:e.y-4,vx:rnd(-20,20),vy:rnd(-30,-10),life:.3,col:'#f6c744',sz:1,g:0});}sfx('shoot',1);break;}
     case'prism':{const c=enemiesNear(t.x,t.y,range);if(!c.length)return;let e=c[0],bd=-1;for(const q of c){const d=(q.x-t.x)**2+(q.y-t.y)**2;if(d>bd){bd=d;e=q;}}
@@ -4886,6 +5036,11 @@ function kitDecor(g,D,o){const {C,R,lay,size,pm,inZ,rng}=o,P=D.pal||['#5a1410','
   else if(D.d==='stripes'){const x=C+(D.x||0)-D.w/2,y=C+(D.y||0)-D.h/2,st=D.step||8;for(let yy=0;yy<D.h;yy+=.5)for(let xx=0;xx<D.w;xx+=.5)if(((xx+yy)/st|0)%2===0&&(xx<3||yy<3||xx>D.w-3||yy>D.h-3))fr(x+xx,y+yy,.5,.5,P[0]);}
   else if(D.d==='trim'){if(lay==='plaza'){for(const s of [-1,1]){for(let t=-R;t<=R;t+=.5){fr(C+t,C+s*R,.5,1,P[0]);fr(C+s*R,C+t,1,.5,P[0]);if(((t+R)|0)%10<1){fr(C+t,C+s*(R-4),1.5,1.5,P[1]);fr(C+s*(R-4),C+t,1.5,1.5,P[1]);}}}}
     else{for(let j=0;j<720;j++){const a=j/720*6.283;fr(C+Math.cos(a)*(R-5),C+Math.sin(a)*(R-5),.6,.6,P[0]);if(j%24===0)fr(C+Math.cos(a)*(R-10)-1,C+Math.sin(a)*(R-10)-1,2,2,P[1]);}}}
+  else if(D.d==='channel'){const x1=C+D.x1,y1=C+D.y1,x2=C+D.x2,y2=C+D.y2,L=Math.hypot(x2-x1,y2-y1),ux=(x2-x1)/L,uy=(y2-y1)/L,nx=-uy,ny=ux,w=D.w||14;
+    for(let s=0;s<L;s+=.5){const x=x1+ux*s,y=y1+uy*s;for(let k=-w/2;k<=w/2;k+=.5){const e=Math.abs(k)>w/2-2;fr(x+nx*k,y+ny*k,.6,.6,e?P[0]:Math.abs(k)<w*.15&&((s*.7+k)|0)%5<2?P[2]:P[1]);}}
+    for(let s=4;s<L;s+=9){const x=x1+ux*s+nx*rng()*w*.3,y=y1+uy*s+ny*rng()*w*.3;fr(x,y,1.5,1,P[3]||P[2]);}}
+  else if(D.d==='split'){const r=D.r||300;g.save();g.beginPath();g.arc(C*Z,C*Z,r*Z,0,6.283);g.clip();g.globalAlpha=.3;g.fillStyle=P[1];g.fillRect((C-r)*Z,(C-r)*Z,r*Z,2*r*Z);g.fillStyle=P[3];g.fillRect(C*Z,(C-r)*Z,r*Z,2*r*Z);g.globalAlpha=.5;
+    for(let y=C-r;y<C+r;y+=4)for(let x=C-r;x<C+r;x+=4)if(((x+y)/4|0)%2===0)fr(x,y,1,1,x<C?P[0]:P[2]);g.globalAlpha=.8;fr(C-1,C-r,2,2*r,'#fff6d8');g.restore();g.globalAlpha=1;}
   else if(D.d==='scatter'){for(let i=0;i<(D.n||200);i++){const x=20+rng()*(size-40),y=20+rng()*(size-40);if(inZ(x,y)||(pm&&pm(x,y)>.3))continue;const c=P[(rng()*P.length)|0];fr(x,y,D.sz||1,D.sz||1,c);if(rng()<.3)fr(x+1,y-1,.5,.5,'#ffffff');}}}
 
 // ----- map mechanics: pick one (or none) per map in kit.mech; every one is host-simulated and synced to the co-op guest -----
@@ -4897,9 +5052,9 @@ const KIT_MECH={
  // strikes from above on the beat: a circle under each hero, it bursts after warn bars (eruption, meteor, lightning...)
  strike:{init(o){run.kst=[];run.ksN=0;},
   update(o,dt){const L=run.kst,sz=run.map.size;
-   for(let i=L.length-1;i>=0;i--){const q=L[i];q.t-=dt;if(!q.hit&&q.t<=0){q.hit=1;q.sw=0;sfx('boom');run.shake=Math.max(run.shake,4);run.fx.push({k:'shock',x:q.x,y:q.y,r:4,t:0,life:.4,max:q.r*1.3,col:o.col||'#ffd27a',big:1});
+   for(let i=L.length-1;i>=0;i--){const q=L[i];q.t-=dt;if(!q.hit&&q.t<=0){q.hit=1;q.sw=0;sfx('boom');run.shake=Math.max(run.shake,4);run.fx.push({k:'shock',x:q.x,y:q.y,r:4,t:0,life:.4,max:q.r*1.3,col:q.col||o.col||'#ffd27a',big:1});
       for(let j=0;j<14;j++){const a=Math.random()*6.283;addP({k:'ember',x:q.x,y:q.y-2,vx:Math.cos(a)*rnd(40,120),vy:Math.sin(a)*rnd(40,90)-50,life:rnd(.3,.6),col:pick([o.col||'#ffd27a','#ffffff']),sz:1,g:160});}
-      for(const p of players()){if(p.down||Math.hypot(p.x-q.x,p.y-q.y)>q.r)continue;const dm=hazDm(o.dmg||14,o.pct||.12,p);const hit=()=>{hurtPlayer(dm,o.src||'strike');if(o.slow)p.slw=Math.max(p.slw||0,o.slow);};if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}
+      for(const p of players()){if(p.down||Math.hypot(p.x-q.x,p.y-q.y)>q.r)continue;const dm=hazDm(o.dmg||14,o.pct||.12,p);const hit=()=>{hurtPlayer(dm,o.src||'strike');if(o.slow||q.slow)p.slw=Math.max(p.slw||0,o.slow||q.slow);};if(run.pls&&p!==run.p)withPl(run.pls[1],hit);else hit();}
       for(const e of run.enemies)if(!e.boss&&!e.dead&&!e.bur&&Math.hypot(e.x-q.x,e.y-q.y)<q.r+e.r)hurtEnemy(e,o.edmg||60,0,0);
       if(o.leave)run.fx.push({k:o.leave,x:q.x,y:q.y,r:q.r*.7,life:5,max:5,seed:Math.random()*9});if(run.qc)run.qc.kst=(run.qc.kst||0)+1;}
      if(q.hit){q.sw+=dt;if(q.sw>.5)L.splice(i,1);}}
@@ -4907,7 +5062,7 @@ const KIT_MECH={
    if(o.tip&&!run.kTip){run.kTip=1;toast(o.tip,2200);}
    for(const p of players()){if(p.down)continue;for(let n=0;n<(o.n||1);n++)L.push({x:clamp(p.x+(n?rnd(-60,60):rnd(-14,14)),30,sz-30),y:clamp(p.y+(n?rnd(-60,60):rnd(-14,14)),30,sz-30),r:o.r||30,t:bar,max:bar,hit:0,sw:0});}},
   gupdate(o,dt){for(const q of run.kst||[]){q.t-=dt;if(q.hit)q.sw+=dt;}},
-  ground(o,g,ox,oy){for(const q of run.kst||[]){if(q.hit)continue;const x=q.x+ox,y=q.y+oy;if(x<-q.r||y<-q.r||x>VW+q.r||y>VH+q.r)continue;const k=1-clamp(q.t/q.max,0,1),c=o.col||'#ff7a3a';
+  ground(o,g,ox,oy){for(const q of run.kst||[]){if(q.hit)continue;const x=q.x+ox,y=q.y+oy;if(x<-q.r||y<-q.r||x>VW+q.r||y>VH+q.r)continue;const k=1-clamp(q.t/q.max,0,1),c=q.col||o.col||'#ff7a3a';
     circ(g,x,y,q.r,c,.1+.14*k+(M.pulse>.6?.05:0));circ(g,x,y,q.r*k,c,.22);ringPix(g,x,y,q.r,'#ffffff',.5+.4*k);ringPix(g,x,y,q.r-1,c,.7);}},
   snap(){return run.kst&&run.kst.length?run.kst.map(q=>[q.x|0,q.y|0,q.r,+q.t.toFixed(2),+q.max.toFixed(2),q.hit?+q.sw.toFixed(2):-1]):null;},
   apply(o,a){run.kst=(a||[]).map(v=>({x:v[0],y:v[1],r:v[2],t:v[3],max:v[4],hit:v[5]>=0?1:0,sw:Math.max(0,v[5])}));}},
@@ -5023,7 +5178,7 @@ Object.assign(SONGS,{
  zatmeni:songKit({bpm:140,root:47,scale:'harm',style:'star',motif:[0,null,3,4,null,7,6,4],answer:[6,null,4,3,null,1,null,4],boss:[7,null,8,7,null,4,3,null],bossAnswer:[3,4,null,6,7,null,8,null]})});
 const kitEach=(h,a,b,c)=>{for(const o of kitM()){const m=KIT_MECH[o.id];if(m&&m[h])m[h](o,a,b,c);}};
 const kitMul=(h,a)=>{let v=1;for(const o of kitM()){const m=KIT_MECH[o.id];if(m&&m[h])v*=m[h](o,a);}return v;};
-MF.kit={init(){kitEach('init');},update(dt){kitEach('update',dt);},gupdate(dt){kitEach('gupdate',dt);},psp(p){return kitMul('psp',p);},espd(e){return kitMul('espd',e);},
+MF.kit={init(){kitEach('init');},boss(e){kitEach('boss',e);},update(dt){kitEach('update',dt);},gupdate(dt){kitEach('gupdate',dt);},psp(p){return kitMul('psp',p);},espd(e){return kitMul('espd',e);},
  ground(g,ox,oy){kitEach('ground',g,ox,oy);},top(g,ox,oy){kitEach('top',g,ox,oy);},over(g,ox,oy){kitEach('over',g,ox,oy);},glows(GL){kitEach('glows',GL);},lights(L){kitEach('lights',L);},ph2(e){kitEach('ph2',e);},
  snap(){const o={};for(const m of kitM()){const M2=KIT_MECH[m.id];if(M2&&M2.snap){const v=M2.snap(m);if(v)o[m.id]=v;}}return Object.keys(o).length?o:null;},
  apply(a){a=a||{};for(const m of kitM()){const M2=KIT_MECH[m.id];if(M2&&M2.apply)M2.apply(m,a[m.id]);}}};
@@ -5431,6 +5586,213 @@ Object.assign(SONGS,{
  sochy:songKit({bpm:118,root:50,scale:'harm',style:'gold',motif:[4,null,3,null,2,1,null,0],answer:[2,null,4,6,null,4,null,3],boss:[9,null,8,7,null,6,null,4]}),
  pokladnice:songKit({bpm:126,root:55,scale:'harm',style:'gold',motif:[0,2,null,3,4,null,6,4],answer:[3,null,2,0,null,2,null,4],boss:[7,null,9,8,null,7,6,null]}),
  dvur:songKit({bpm:136,root:48,scale:'harm',style:'gold',motif:[0,null,7,6,4,null,3,4],answer:[6,null,4,3,null,2,0,null],boss:[7,null,8,11,null,9,7,null],bossAnswer:[4,6,null,7,8,null,11,null]})});
+// ----- chapter X the Crowned Sun (11p): props, map mechanics (collapse, anvil, trophies, twins, crown), bosses' own attacks, music -----
+Object.assign(KIT_PROPS,{
+ c10_pillar:{big:1,mirror:false,rows:['yyyyy','.www.','.wWw.','.wWw.','.wWw.','.wWw.','.wWw.','.wWw.','yyyyy','bbbbb'],pal:{y:'#e0b030',w:'#f0e8d8',W:'#c8c0b0',b:'#8a7a5a'}},
+ c10_brazier:{mirror:false,rows:['y.o.y','.ooo.','oyYyo','.kkk.','..k..','..k..','.kkk.'],pal:{o:'#ff9a1a',y:'#ffd040',Y:'#fff6c8',k:'#8a6a1a'}},
+ c10_cloud:{mirror:false,rows:['..ww..','.wWWw.','wWWWWw','.wwww.'],pal:{w:'#8a82a0',W:'#b8b0c8'}},
+ c10_star:{mirror:false,rows:['.y.','yYy','.y.'],pal:{y:'#ffe27a',Y:'#ffffff'}},
+ c10_ember:{mirror:false,rows:['.o.','oyo','.o.'],pal:{o:'#ff7a1a',y:'#ffe27a'}},
+ c10_plinth:{big:1,mirror:false,rows:['yyyyyyy','.aaaaa.','.aYaYa.','.aaaaa.','yyyyyyy','bbbbbbb'],pal:{y:'#e0b030',a:'#c8c0b0',Y:'#ffd040',b:'#5a4a38'}},
+ c10_anvil:{mirror:false,rows:['kkkkkk.','khhhhkk','.hhhh..','..kk...','.kkkk..','bbbbbb.'],pal:{k:'#3a3a44',h:'#8a8a98',b:'#2a1a10'}},
+ c10_nban:{big:1,mirror:false,rows:['kkkkk','.rrr.','.ryr.','.rrr.','.ryr.','.rrr.','.r.r.','..k..','..k..','..k..','.kkk.'],pal:{k:'#4a5a8a',r:'#1a2050',y:'#bfd0ff'}}});
+SH7_COL.forEach((c,i)=>{KIT_PROPS['c10_ban'+i]={big:1,mirror:false,rows:['kkkkk','.rrr.','.ryr.','.rrr.','.ryr.','.rrr.','.r.r.','..k..','..k..','..k..','.kkk.'],pal:{k:'#8a6214',r:c,y:'#fff6d8'}};
+  KIT_PROPS['c10_sp'+i]={big:1,mirror:false,rows:['...c...','..cCc..','..cCc..','...c...','.yyyyy.','..aaa..','.aaaaa.','bbbbbbb'],pal:{c,C:'#ffffff',y:'#e0b030',a:'#c8c0b0',b:'#5a4a38'}};});
+// trophies: the finale bosses of chapters I–VII as gilded statues (live = their own colours once they wake)
+const trophySprite=(id,live)=>{SPR.tro=SPR.tro||{};const k=id+(live?1:0);if(SPR.tro[k])return SPR.tro[k];const D=BOSS_DEFS[id];let pal=D.pal;
+  if(!live){const R=['#4a3008','#8a6214','#c8962a','#ffd860'];pal={};for(const c in D.pal){const v=hex2rgb(D.pal[c]),l=(v[0]*.3+v[1]*.59+v[2]*.11)/255;pal[c]=R[Math.min(3,Math.floor(l*4.2))];}}
+  return SPR.tro[k]=buildSprite(D.rows,{pal});};
+const trophyWake=e=>{if(e.awake)return;e.awake=1;e.spr=trophySprite(e.tid,1);e.w=e.spr.w;e.h=e.spr.h;run.fx.push({k:'shock',x:e.x,y:e.y-8,r:3,t:0,life:.45,max:34,col:SH7_COL[e.ti]||'#ffd040',big:1});sfx('boss');
+  for(let i=0;i<10;i++)addP({x:e.x+rnd(-6,6),y:e.y-8,vx:rnd(-40,40),vy:rnd(-60,-20),life:.45,col:pick(['#ffe27a','#8a6214']),sz:1,g:120});
+  toast(_t('Ožívá ozvěna: ')+BOSS_DEFS[e.tid].name.split(',')[0],1800);};
+BEH.trophy=function(e,dt,c){if(!e.awake){if(e.hp<e.max-1)trophyWake(e);return[0,0];}if(run.barNow){e.tb=(e.tb||0)+1;if(e.tb%2===0)trophyMove(e,c);}return[c.cx*c.sp*.85,c.cy*c.sp*.85];};
+function trophyMove(e,c){const src=srcOf(e),d=e.dmg*.5,tp=c.tp,sz=run.map.size;switch(e.ti){
+  case 0:summonAt('skeleton',e.x,e.y,2,22);break;
+  case 1:fan(e.x,e.y,Math.atan2(tp.y-e.y,tp.x-e.x),5,.26,58,d,src);sfx('shoot',2);break;
+  case 2:aurStrike(tp.x,tp.y,26,SH7_COL[2]);break;
+  case 3:ring(e.x,e.y,12,34,d,run.t,src);sfx('zap');break;
+  case 4:{const a=Math.atan2(tp.y-e.y,tp.x-e.x);for(let i=0;i<3;i++){const s=62*(1+.2*i);run.eshots.push({x:e.x,y:e.y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,dmg:d,r:3,life:4,src});}sfx('shoot',1);break;}
+  case 5:ring(e.x,e.y,10,46,d,0,src);ring(e.x,e.y,10,30,d,.31,src);sfx('zap');break;
+  default:{const a=Math.random()*6.283;e.x=clamp(tp.x+Math.cos(a)*64,20,sz-20);e.y=clamp(tp.y+Math.sin(a)*64,20,sz-20);run.fx.push({k:'shock',x:e.x,y:e.y,r:3,t:0,life:.35,max:30,col:SH7_COL[6]});ring(e.x,e.y,8,40,d,0,src);sfx('zap');}}}
+// a strike circle with its own colour (and an optional slow) – used by Aurel's shards, the Titan's echo and the bosses of this chapter
+function aurStrike(x,y,r,col,slow){const sz=run.map.size,bar=M.stepDur*16;run.kst=run.kst||[];run.kst.push({x:clamp(x,20,sz-20),y:clamp(y,20,sz-20),r,t:bar,max:bar,hit:0,sw:0,col,slow});}
+// the choir singer heals the foes around it every other bar (a priority target); on the other bars it sings a note at you
+BEH.chorus=function(e,dt,c){const want=c.dist>110?1:c.dist<80?-.7:0;
+  if(run.barNow){e.chb=(e.chb||0)+1;if(e.chb%2===0){let n=0;for(const q of run.enemies){if(q===e||q.dead||q.boss||q.d.noHit||q.hp>=q.max)continue;if(Math.hypot(q.x-e.x,q.y-e.y)<80){q.hp=Math.min(q.max,q.hp+q.max*.12);n++;addP({x:q.x,y:q.y-8,vx:0,vy:-24,life:.5,col:'#ffe27a',sz:1,g:0});}}
+      for(let i=0;i<6;i++)addP({x:e.x+rnd(-6,6),y:e.y-10,vx:rnd(-16,16),vy:rnd(-30,-14),life:.6,col:pick(['#ffe27a','#fff6d8']),sz:1,g:0});if(n)run.fx.push({k:'shock',x:e.x,y:e.y,r:3,t:0,life:.4,max:80,col:'#ffe27a'});}
+    else if(c.dist<160){const a=Math.atan2(c.uy,c.ux);run.eshots.push({x:e.x,y:e.y-6,vx:Math.cos(a)*52,vy:Math.sin(a)*52,dmg:e.dmg*.8,r:3,life:4,src:srcOf(e)});}}
+  return[c.cx*c.sp*want,c.cy*c.sp*want];};
+// Aurel's seven shards orbit the arena; each carries its chapter's attack
+const shardSprite=i=>{SPR.sh7=SPR.sh7||[];return SPR.sh7[i]||(SPR.sh7[i]=buildSprite(ENEMY_DEFS.shard7.rows,{pal:{a:'#ffffff',b:SH7_COL[i],c:'#3a2a40'}}));};
+BEH.orbit=function(e,dt,c){const C=run.map.size/2;e.oa=(e.oa||0)+dt*.35;const tx=C+Math.cos(e.oa)*250,ty=C+Math.sin(e.oa)*235,dx=tx-e.x,dy=ty-e.y,d=Math.hypot(dx,dy)||1,v=Math.min(80,d*3);e.kx=0;e.ky=0;return[dx/d*v,dy/d*v];};
+const SH7_ATK=[
+ (e,tp,s)=>{for(let i=0;i<3;i++)aurStrike(tp.x+(i?rnd(-46,46):0),tp.y+(i?rnd(-46,46):0),24,SH7_COL[0]);},            // I: bone hands from the ground
+ (e,tp,s)=>{const a=Math.random()*6.283;run.kcr.gust={end:run.t+M.stepDur*24,dx:Math.cos(a),dy:Math.sin(a)};sfx('wind');},  // II: a sandstorm
+ (e,tp,s)=>{for(let i=0;i<4;i++){const a=i/4*6.283+Math.random(),r=rnd(12,40);run.fx.push({k:'magma',x:tp.x+Math.cos(a)*r,y:tp.y+Math.sin(a)*r,r:12,life:5,max:5,seed:Math.random()*9});}sfx('boom');}, // III: magma cracks
+ (e,tp,s)=>{aurStrike(tp.x,tp.y,22,SH7_COL[3],1.2);for(let i=0;i<4;i++){const a=i/4*6.283+.4;aurStrike(tp.x+Math.cos(a)*40,tp.y+Math.sin(a)*40,22,SH7_COL[3],1.2);}},  // IV: frost runes (they slow)
+ (e,tp,s)=>{const a=Math.atan2(tp.y-s.y,tp.x-s.x),d=Math.hypot(tp.x-s.x,tp.y-s.y);for(let i=1;i<=5;i++){const k=Math.min(d+40,i*Math.max(40,d/4));aurStrike(s.x+Math.cos(a)*k,s.y+Math.sin(a)*k,20,SH7_COL[4]);}},  // V: a tentacle slams along a line
+ (e,tp,s)=>{for(let i=0;i<6;i++)aurStrike(tp.x+rnd(-80,80),tp.y+rnd(-80,80),18,SH7_COL[5]);},  // VI: falling stars
+ (e,tp,s)=>{const a=Math.random()*6.283,x=tp.x+Math.cos(a)*54,y=tp.y+Math.sin(a)*54;aurStrike(x,y,30,SH7_COL[6]);run.kcr.rift.push({x,y,t:run.t+M.stepDur*16});}];  // VII: a rift that spits out shadows
+// a shard's attack also quotes its chapter: the first notes of that finale's main theme on the trumpet
+function aurQuote(i){if(!save.music||!ac||!M.musicBus||!M.song)return;const S=SONGS[['trun','brana','srdce','zima','paluba','zatmeni','nicota'][i]];if(!S||!S.sec||!S.sec.A||!S.sec.A.lead)return;
+  const L=S.sec.A.lead.filter(v=>v!=null).slice(0,4),sc=SCALES[S.scale]||SCALES.minor,c=chordAt(Math.max(0,M.step)),sd=M.stepDur,t0=Math.max(ac.currentTime+.02,M.lastAudio||0);
+  try{L.forEach((d,k)=>{const n=c.root+12+sc[((d%7)+7)%7]+12*Math.floor(d/7);STYLES.crown.lead(NOTE(n),t0+k*sd*2,sd*1.8,.9);});}catch(err){}}
+function aurShards(e){const K=run.kcr,C=run.map.size/2;K.sh=[];K.ord=[0,1,2,3,4,5,6].sort(()=>Math.random()-.5);K.oi=0;
+  for(let i=0;i<7;i++){const q=C10_SH[i],s=makeEnemy('shard7',C+q[0],C+q[1],false);s.si=i;s.oa=Math.atan2(q[1],q[0]);s.spr=shardSprite(i);s.w=s.spr.w;s.h=s.spr.h;s.kbm=0;s.shardOf=1;run.enemies.push(s);K.sh.push(s);
+    run.fx.push({k:'shock',x:s.x,y:s.y-4,r:3,t:0,life:.5,max:30,col:SH7_COL[i],big:1});}
+  run.flashScr=Math.max(run.flashScr||0,.4);run.flashCol='#fff6d8';run.shake=10;sfx('boss');}
+function aurShardBroken(s){const b=run.boss;if(!b||b.id!=='aurel'||b.dead)return;if(run.kcr&&!run.kcr.p3)b.hp=Math.max(b.max*.405,b.hp-b.max*.04);b.flash=.2;
+  run.fx.push({k:'shock',x:s.x,y:s.y-4,r:4,t:0,life:.5,max:60,col:SH7_COL[s.si],big:1});for(let i=0;i<12;i++)addP({x:s.x,y:s.y-4,vx:rnd(-70,70),vy:rnd(-80,-10),life:.5,col:pick([SH7_COL[s.si],'#ffffff']),sz:1,g:140});
+  toast(_t('Střep ')+ROMAN_CH[s.si]+_t(' rozbit!'),1400);sfx('coin');}
+const aurTowerShade=t=>t.k==='sanctum'?Math.round((TOWERS.sanctum.shade||46)*(t.lv>=3?1.33:1)):24;
+// in the sun phase the shade lies behind each pillar, away from Aurel (the sun), or around a tower
+function aurShade(p){const S=run.boss,C=run.map.size/2;if(!S)return true;for(const q of C10_COLS){const px=C+q[0],py=C+q[1],ux=px-S.x,uy=py-S.y,L=Math.hypot(ux,uy)||1,nx=ux/L,ny=uy/L,dx=p.x-px,dy=p.y-py,al=dx*nx+dy*ny,pe=Math.abs(-dx*ny+dy*nx);if(al>2&&al<48&&pe<10+al*.12)return true;}
+  for(const t of run.towers)if(!t.dead&&Math.hypot(p.x-t.x,p.y-t.y)<aurTowerShade(t))return true;return false;}
+// the twins: one falls, the other revives it after a few bars unless it falls too
+function twinFall(e){const o=run.enemies.find(q=>q!==e&&q.d.twin&&!q.dead);if(!o)return false;
+  if(o.fallen){if(e===run.boss){o.fallen=0;killEnemy(o);return false;}e.fallen=0;killEnemy(e);o.fallen=0;killEnemy(o);return true;}
+  const W=(kitM().find(m=>m.id==='twins')||{}).win||2;e.fallen=run.t;e.hp=1;e.reviveAt=run.t+M.stepDur*16*W;e.kx=0;e.ky=0;
+  toast((e.id==='den'?_t('Den padl!'):_t('Noc padla!'))+' '+_t('Rychle, druhý do dvou taktů!'),2200);sfx('boss');run.fx.push({k:'shock',x:e.x,y:e.y-6,r:4,t:0,life:.5,max:50,col:e.id==='den'?'#ffe27a':'#8aa0e8',big:1});return true;}
+// Aurel cannot fall before his last phase; at the very end only a hit on the first beat of a bar counts
+function aurelHold(e){if(e.ls!==2){e.hp=Math.max(1,e.max*(run.kcr&&run.kcr.p4?.012:.09));return true;}
+  run.hitstop=Math.max(run.hitstop||0,.6);run.flashScr=1;run.flashCol='#ffffff';run.shake=14;return false;}
+const bossFrac=()=>{const b=run.boss;if(!b)return 0;const t=run.twinB&&!run.twinB.dead&&b.id==='den'?run.twinB:null;
+  return t?clamp(((b.fallen?0:Math.max(0,b.hp))+(t.fallen?0:Math.max(0,t.hp)))/(b.max+t.max),0,1):clamp(b.hp/b.max,0,1);};
+Object.assign(KIT_MECH,{
+ // collapse: every few bars the stair tiles around each hero crack (one bar), then fall into the clouds for a while; standing on a hole hurts
+ collapse:{init(o){run.kcl={L:[],n:0};},
+  inHole(x,y){const C=run.kcl;if(!C)return null;for(const q of C.L)if(q.open&&x>=q.x&&x<q.x+q.s&&y>=q.y&&y<q.y+q.s)return q;return null;},
+  drop(x,y,n,o){const C=run.kcl||(run.kcl={L:[],n:0}),s=(o&&o.s)||40,bar=M.stepDur*16,hold=bar*1.5,sz=run.map.size,seen=new Set(C.L.map(q=>q.x+','+q.y));
+   const add=(gx,gy)=>{const X=gx*s,Y=gy*s,k=X+','+Y;if(X<0||Y<0||X+s>sz||Y+s>sz||seen.has(k))return;seen.add(k);C.L.push({x:X,y:Y,s,t:bar,max:bar,open:0,ht:hold});};
+   const gx=Math.floor(x/s),gy=Math.floor(y/s);add(gx,gy);for(let k=0;k<n;k++)add(gx+rndi(-3,3),gy+rndi(-3,3));},
+  update(o,dt){const C=run.kcl;if(!C)return;
+   for(let i=C.L.length-1;i>=0;i--){const q=C.L[i];if(!q.open){q.t-=dt;if(q.t<=0){q.open=1;if(!C.boomT||run.t-C.boomT>.2){C.boomT=run.t;sfx('boom');run.shake=Math.max(run.shake,3);}
+       if(run.parts.length<380)for(let j=0;j<5;j++)addP({x:q.x+rnd(0,q.s),y:q.y+rnd(0,q.s),vx:rnd(-20,20),vy:rnd(10,40),life:rnd(.3,.6),col:pick(['#d6c6a6','#b8a888','#fff6d8']),sz:2,g:120});
+       for(const p of players())if(!p.down&&p.x>=q.x&&p.x<q.x+q.s&&p.y>=q.y&&p.y<q.y+q.s)kitHit(p,hazDm(o.dmg||2,o.pct||.06,p),'fall');
+       for(const e of run.enemies){if(e.dead||e.bur||e.boss||e.d.fly||e.d.noHit)continue;if(e.x>=q.x&&e.x<q.x+q.s&&e.y>=q.y&&e.y<q.y+q.s)hurtEnemy(e,e.max*.5+(o.edmg||120),0,0);}
+       if(run.qc)run.qc.kst=(run.qc.kst||0)+1;}}
+    else{q.ht-=dt;if(q.ht<=0)C.L.splice(i,1);}}
+   for(const p of players()){if(p.down)continue;if(KIT_MECH.collapse.inHole(p.x,p.y)){p.kclT=(p.kclT||1)-dt;if(p.kclT<=0){p.kclT=1;kitTick(p,hazDm(1,.02,p),'fall',o.col||'#fff2c8');}}else p.kclT=1;}
+   if(run.t<(o.from||15)||run.over||!run.barNow)return;C.n++;if(C.n%(o.every||2))return;if(o.tip&&!run.kclTip){run.kclTip=1;toast(o.tip,2400);}
+   for(const p of players())if(!p.down)KIT_MECH.collapse.drop(p.x,p.y,o.n||7,o);},
+  gupdate(o,dt){const C=run.kcl;if(C)for(const q of C.L){if(!q.open){q.t-=dt;if(q.t<=0)q.open=1;}else q.ht-=dt;}},
+  psp(o,p){return KIT_MECH.collapse.inHole(p.x,p.y)?.7:1;},
+  ground(o,g,ox,oy){const C=run.kcl;if(!C)return;for(const q of C.L){const x=q.x+ox,y=q.y+oy,s=q.s;if(x>VW||y>VH||x+s<0||y+s<0)continue;
+    if(!q.open){const k=1-clamp(q.t/q.max,0,1);g.globalAlpha=.1+.28*k;g.fillStyle='#fff2c8';g.fillRect(RZ(x),RZ(y),s,s);g.globalAlpha=.55+.45*k;g.fillStyle='#3a2a40';
+      const n=2+Math.floor(k*4);for(let i=0;i<n;i++){const sx=x+((i*17+q.x*.3)%s),sy=y+((i*11+q.y*.7)%(s-8));for(let j=0;j<8;j++)g.fillRect(RZ(sx+j*((i%2)?.7:-.7)),RZ(sy+j),1,1);}
+      g.globalAlpha=.75;g.fillStyle='#fff6d8';g.fillRect(RZ(x),RZ(y),s,1);g.fillRect(RZ(x),RZ(y+s-1),s,1);g.fillRect(RZ(x),RZ(y),1,s);g.fillRect(RZ(x+s-1),RZ(y),1,s);g.globalAlpha=1;}
+    else{g.fillStyle='#0c0818';g.fillRect(RZ(x),RZ(y),s,s);g.fillStyle='#1a1430';g.fillRect(RZ(x+2),RZ(y+3),s-4,s-5);g.fillStyle='#fff6d8';for(let i=0;i<5;i++)g.fillRect(RZ(x+2+((i*13+q.x)%(s-4))),RZ(y+3+((i*7+q.y)%(s-6))),1,1);
+      g.fillStyle='#8a82a0';g.fillRect(RZ(x),RZ(y),s,2);}}},
+  snap(){const C=run.kcl;return C&&C.L.length?C.L.map(q=>[q.x,q.y,q.s,+q.t.toFixed(2),+q.max.toFixed(2),q.open,+q.ht.toFixed(2)]):null;},
+  apply(o,a){run.kcl=run.kcl||{L:[],n:0};run.kcl.L=(a||[]).map(v=>({x:v[0],y:v[1],s:v[2],t:v[3],max:v[4],open:v[5],ht:v[6]}));}},
+ // anvil: every few bars a giant hammer hits the squares of a chessboard pattern around each hero (one bar of warning); the dark squares are safe
+ anvil:{init(o){run.kan={L:[],n:0};},
+  on(pat,cx,cy){return pat===0?((cx+cy)&1)===0:pat===1?((cx+cy)&1)===1:pat===2?(cy&1)===0:(cx&1)===1;},
+  hitAt(x,y,cs){const A=run.kan;if(!A)return null;const cx=Math.floor(x/cs),cy=Math.floor(y/cs);for(const q of A.L)if(cx>=q.gx&&cx<q.gx+q.w&&cy>=q.gy&&cy<q.gy+q.h&&KIT_MECH.anvil.on(q.pat,cx,cy))return q;return null;},
+  drop(gx,gy,pat,bar){const A=run.kan||(run.kan={L:[],n:0});A.L.push({gx,gy,w:5,h:5,pat,t:bar,max:bar,hit:0,sw:0});},
+  update(o,dt){const A=run.kan;if(!A)return;const cs=o.cs||44;
+   for(let i=A.L.length-1;i>=0;i--){const q=A.L[i];q.t-=dt;if(q.t<=0&&!q.hit){q.hit=1;q.sw=0;run.shake=Math.max(run.shake,5);sfx('boom');
+      const inQ=(x,y)=>{const cx=Math.floor(x/cs),cy=Math.floor(y/cs);return cx>=q.gx&&cx<q.gx+q.w&&cy>=q.gy&&cy<q.gy+q.h&&KIT_MECH.anvil.on(q.pat,cx,cy);};
+      for(const p of players())if(!p.down&&inQ(p.x,p.y))kitHit(p,hazDm(o.dmg||2,o.pct||.08,p),'anvil');
+      for(const e of run.enemies){if(e.dead||e.bur||e.d.noHit)continue;if(inQ(e.x,e.y))hurtEnemy(e,e.boss?e.max*.03:e.max*.5+(o.edmg||130),0,0);}
+      if(run.qc)run.qc.kst=(run.qc.kst||0)+1;}
+    if(q.hit){q.sw+=dt;if(q.sw>.45)A.L.splice(i,1);}}
+   if(run.t<(o.from||18)||run.over||!run.barNow)return;A.n++;if(A.n%(o.every||2))return;if(o.tip&&!run.kanTip){run.kanTip=1;toast(o.tip,2400);}
+   const bar=M.stepDur*16,pat=(A.n/(o.every||2))%4;for(const p of players())if(!p.down)KIT_MECH.anvil.drop(Math.floor(p.x/cs)-2,Math.floor(p.y/cs)-2,pat,bar);},
+  gupdate(o,dt){const A=run.kan;if(A)for(const q of A.L){q.t-=dt;if(q.t<=0){q.hit=1;q.sw=(q.sw||0)+dt;}}},
+  ground(o,g,ox,oy){const A=run.kan;if(!A)return;const cs=o.cs||44,c=o.col||'#ff9a3a';
+   for(const q of A.L)for(let cy=q.gy;cy<q.gy+q.h;cy++)for(let cx=q.gx;cx<q.gx+q.w;cx++){const x=cx*cs+ox,y=cy*cs+oy;if(x>VW||y>VH||x+cs<0||y+cs<0)continue;const on=KIT_MECH.anvil.on(q.pat,cx,cy);
+     if(!q.hit){const k=1-clamp(q.t/q.max,0,1);if(on){g.globalAlpha=.12+.3*k;g.fillStyle=c;g.fillRect(RZ(x+1),RZ(y+1),cs-2,cs-2);g.globalAlpha=.6+.4*k;g.fillRect(RZ(x+1),RZ(y+1),6,1);g.fillRect(RZ(x+1),RZ(y+1),1,6);g.fillRect(RZ(x+cs-7),RZ(y+cs-2),6,1);g.fillRect(RZ(x+cs-2),RZ(y+cs-7),1,6);}
+       else{g.globalAlpha=.16;g.fillStyle='#000000';g.fillRect(RZ(x+1),RZ(y+1),cs-2,cs-2);}g.globalAlpha=1;}
+     else if(on){const a=clamp(1-q.sw/.45,0,1);g.globalAlpha=.75*a;g.fillStyle='#2a1a10';g.fillRect(RZ(x+1),RZ(y+1),cs-2,cs-2);g.globalAlpha=.9*a;g.fillStyle='#ffe27a';g.fillRect(RZ(x+1),RZ(y+1),cs-2,1);g.fillRect(RZ(x+1),RZ(y+cs-2),cs-2,1);g.globalAlpha=1;}}},
+  snap(){const A=run.kan;return A&&A.L.length?A.L.map(q=>[q.gx,q.gy,q.pat,+q.t.toFixed(2),+q.max.toFixed(2),q.hit?+q.sw.toFixed(2):-1]):null;},
+  apply(o,a){run.kan=run.kan||{L:[],n:0};run.kan.L=(a||[]).map(v=>({gx:v[0],gy:v[1],w:5,h:5,pat:v[2],t:v[3],max:v[4],hit:v[5]>=0?1:0,sw:Math.max(0,v[5])}));}},
+ // trophies: the seven finale bosses of the act stand on plinths as gilded statues; every few bars the one nearest a hero wakes as an echo
+ trophies:{init(o){const C=run.map.size/2;run.ktr={n:0,L:[],back:[]};C10_TR.forEach((q,i)=>KIT_MECH.trophies.make(i,C+q[0],C+q[1]));},
+  make(i,x,y){const e=makeEnemy('trophy',x,y,false);e.ti=i;e.tid=TROPHY_IDS[i];e.spr=trophySprite(e.tid);e.w=e.spr.w;e.h=e.spr.h;e.kbm=.15;e.tro=1;run.enemies.push(e);run.ktr.L[i]=e;},
+  update(o,dt){const T=run.ktr;if(!T||run.over)return;const C=run.map.size/2;
+   for(let i=0;i<7;i++){const e=T.L[i];if(e&&e.dead&&!T.back[i])T.back[i]=run.t+(o.back||45);if(T.back[i]&&run.t>=T.back[i]){const q=C10_TR[i];if(players().every(p=>Math.hypot(p.x-C-q[0],p.y-C-q[1])>90)){T.back[i]=0;KIT_MECH.trophies.make(i,C+q[0],C+q[1]);}else T.back[i]=run.t+5;}}
+   if(!run.barNow||run.t<(o.from||16))return;T.n++;if(T.n%(o.every||6))return;
+   let best=null,bd=1e9;for(const e of T.L){if(!e||e.dead||e.awake)continue;for(const p of players()){if(p.down)continue;const d=Math.hypot(p.x-e.x,p.y-e.y);if(d<bd){bd=d;best=e;}}}
+   if(best&&bd<(o.wake||420)){if(o.tip&&!run.ktrTip){run.ktrTip=1;toast(o.tip,2400);}trophyWake(best);if(run.qc)run.qc.kst=(run.qc.kst||0)+1;}},
+  ground(o,g,ox,oy){const T=run.ktr;if(!T||run.t<(o.from||16)||(T.n+1)%(o.every||6))return;for(const e of T.L){if(!e||e.dead||e.awake)continue;const x=e.x+ox,y=e.y+oy;if(x<-30||y<-30||x>VW+30||y>VH+30)continue;ringPix(g,x,y+4,12+2*M.pulse,SH7_COL[e.ti],.35+.4*M.pulse);}},
+  glows(o,GL){const T=run.ktr;if(T)for(const e of T.L)if(e&&!e.dead&&e.awake)GL(e.x,e.y-6,20,SH7_COL[e.ti],.3);},
+  snap(){const T=run.ktr;return T?[T.n]:null;},apply(o,a){if(a){run.ktr=run.ktr||{n:0,L:[],back:[]};run.ktr.n=a[0];}}},
+ // twins: Day and Night arrive together and must fall within a couple of bars of each other
+ twins:{boss(o,e){if(e.id!=='den'||run.twinB)return;const sz=run.map.size,d=BOSS_DEFS.noc,sp=SPR.boss.noc,x=clamp(e.x+90,30,sz-30),y=e.y;
+   const n={id:'noc',d,x,y,hp:e.max,max:e.max,spd:d.spd,dmg:e.dmg,r:d.r,spr:sp,w:sp.w,h:sp.h,kx:0,ky:0,flash:0,slowT:0,elite:false,boss:true,twin2:1,phase:0,off:{x:0,y:0},mode:0,mT:3,dx:0,dy:0,kbm:0,xp:60,hc:{},shootT:2.5,tA:3,tB:6,dead:false,par:false,born:run.t};
+   run.enemies.push(n);run.twinB=n;},
+  ground(o,g,ox,oy){const A=run.boss,B=run.twinB;if(!A||!B||A.dead||B.dead||A.id!=='den')return;
+   if(!A.fallen&&!B.fallen){const mx=(A.x+B.x)/2+ox,my=(A.y+B.y)/2+oy-6;g.globalAlpha=.25+.15*M.pulse;g.lineWidth=1;g.strokeStyle='#ffe27a';g.beginPath();g.moveTo(A.x+ox,A.y+oy-6);g.lineTo(mx,my);g.stroke();g.strokeStyle='#8aa0e8';g.beginPath();g.moveTo(mx,my);g.lineTo(B.x+ox,B.y+oy-6);g.stroke();g.globalAlpha=1;}
+   for(const e of [A,B]){if(!e.fallen)continue;const k=clamp((e.reviveAt-run.t)/Math.max(.1,e.reviveAt-e.fallen),0,1),x=e.x+ox,y=e.y+oy;circ(g,x,y,22,'#000000',.35);g.strokeStyle=e.id==='den'?'#ffe27a':'#8aa0e8';g.lineWidth=2;g.globalAlpha=.9;g.beginPath();g.arc(x,y-4,20,-1.5708,-1.5708+6.283*k);g.stroke();g.globalAlpha=1;}}},
+ // crown: Aurel's arena – shards' attacks, the sandstorm, rifts, the sun flare (phase 3) and the darkness (phase 4)
+ crown:{init(o){run.kcr={ph:1,sh:[],rift:[],fn:0,fw:0};},
+  update(o,dt){const K=run.kcr;if(!K)return;const sz=run.map.size;
+   if(K.gust&&run.t<K.gust.end){const f=26;for(const p of players()){if(p.down)continue;p.x=clamp(p.x+K.gust.dx*f*dt,14,sz-14);p.y=clamp(p.y+K.gust.dy*f*dt,14,sz-14);}}
+   for(let i=K.rift.length-1;i>=0;i--){const r=K.rift[i];if(run.t>=r.t){K.rift.splice(i,1);summonAt('shade',r.x,r.y,3,18);run.fx.push({k:'shock',x:r.x,y:r.y,r:4,t:0,life:.4,max:34,col:SH7_COL[6],big:1});}}
+   if(K.ph===3&&!run.over){if(run.barNow){K.fn++;if(K.fn%4===3)K.fw=run.t+M.stepDur*16;}
+     if(K.fw&&run.t>=K.fw){K.fw=0;run.flashScr=Math.max(run.flashScr||0,.6);run.flashCol='#fff6d8';run.shake=Math.max(run.shake,6);sfx('boom');
+       for(const p of players()){if(p.down||aurShade(p))continue;kitHit(p,hazDm(o.dmg||3,o.pct||.14,p),'sun');}
+       for(const e of run.enemies)if(!e.boss&&!e.dead&&!e.bur&&!e.d.noHit&&!aurShade(e))hurtEnemy(e,e.max*.35,0,0);}}
+   if(K.ph===4)run.kdark=Math.min(.93,(run.kdark==null?(run.map.dark||0):run.kdark)+dt*.45);},
+  gupdate(o,dt){const K=run.kcr;if(K&&K.ph===4)run.kdark=Math.min(.93,(run.kdark==null?(run.map.dark||0):run.kdark)+dt*.45);},
+  ground(o,g,ox,oy){const K=run.kcr,S=run.boss;if(!K||K.ph!==3||!S)return;const C=run.map.size/2,warn=K.fw?1-clamp((K.fw-run.t)/(M.stepDur*16),0,1):0;
+   for(const q of C10_COLS){const px=C+q[0],py=C+q[1],ux=px-S.x,uy=py-S.y,L=Math.hypot(ux,uy)||1,nx=ux/L,ny=uy/L,tx=-ny,ty=nx;
+     g.globalAlpha=.32+.25*warn;g.fillStyle='#1a1020';g.beginPath();g.moveTo(px+nx*4+tx*10+ox,py+ny*4+ty*10+oy);g.lineTo(px+nx*48+tx*16+ox,py+ny*48+ty*16+oy);g.lineTo(px+nx*48-tx*16+ox,py+ny*48-ty*16+oy);g.lineTo(px+nx*4-tx*10+ox,py+ny*4-ty*10+oy);g.closePath();g.fill();g.globalAlpha=1;}
+   for(const t of run.towers)if(!t.dead)circ(g,t.x+ox,t.y+oy,aurTowerShade(t),'#1a1020',.28+.2*warn);},
+  top(o,g,ox,oy){const K=run.kcr,b=run.boss;if(!K||!b||b.id!=='aurel')return;
+   if(b.ls===2){const on=(M.step%16)<4,x=b.x+ox,y=b.y+oy-14;ringPix(g,x,y,28+(on?4:0),on?'#ffe27a':'#8a7a62',on?.95:.45);if(on)ringPix(g,x,y,24,'#ffffff',.6);}
+   if(K.ph===2)for(const s of K.sh){if(s.dead)continue;g.globalAlpha=.22;g.strokeStyle=SH7_COL[s.si];g.lineWidth=1;g.beginPath();g.moveTo(s.x+ox,s.y+oy-4);g.lineTo(b.x+ox,b.y+oy-18);g.stroke();g.globalAlpha=1;}},
+  over(o,g){const K=run.kcr;if(!K)return;if(K.ph===3&&K.fw){const k=1-clamp((K.fw-run.t)/(M.stepDur*16),0,1);g.globalAlpha=.06+.3*k*k;g.fillStyle='#fff6d8';g.fillRect(0,0,VW,VH);g.globalAlpha=1;}
+   if(K.gust&&run.t<K.gust.end){g.globalAlpha=.35;g.fillStyle='#e0b868';const t=run.t;for(let i=0;i<40;i++){const s=(i*97.13)%1,u=((s*VW*1.7+t*220)%(VW+80))-40,v=(i*53.7)%VH,x=K.gust.dx>0?u:VW-u;g.fillRect(RZ(x),RZ(v+Math.sin(t*3+i)*4),RZ(8+6*s),1);}g.globalAlpha=1;}},
+  glows(o,GL){const K=run.kcr;if(!K)return;for(const s of K.sh)if(!s.dead)GL(s.x,s.y-4,20,SH7_COL[s.si],.45);const b=run.boss;if(b&&b.id==='aurel'&&K.ph===3)GL(b.x,b.y-10,90,'#fff2c8',.35+.15*M.pulse);},
+  lights(o,L){const K=run.kcr,b=run.boss;if(K&&K.ph===4&&b)L(b.x,b.y-12,40,1);},
+  snap(){const K=run.kcr;return K?[K.ph,K.fw?+(K.fw-run.t).toFixed(2):0]:null;},apply(o,a){if(!a)return;run.kcr=run.kcr||{ph:1,sh:[],rift:[],fn:0,fw:0};run.kcr.ph=a[0];run.kcr.fw=a[1]?run.t+a[1]:0;}}});
+// bosses' own attacks
+KIT_OWN.stairward=(e,dt,c,ph)=>{if(run.barNow&&e.kbar%3===1&&run.kcl){KIT_MECH.collapse.drop(c.tp.x,c.tp.y,ph===2?7:4);sfx('wind');}};
+KIT_OWN.curator=(e,dt,c,ph)=>{if(run.barNow&&e.kbar%(ph===2?2:3)===1){const T=run.ktr,S=T?T.L.filter(q=>q&&!q.dead&&!q.awake).sort((a,b)=>Math.hypot(a.x-e.x,a.y-e.y)-Math.hypot(b.x-e.x,b.y-e.y)):[];if(S.length)trophyWake(S[0]);else summonAt('chorist',e.x,e.y,1,26);}};
+KIT_OWN.sunsmith=(e,dt,c,ph)=>{if(run.barNow&&e.kbar%3===1&&run.kan){const cs=44,bar=M.stepDur*16;KIT_MECH.anvil.drop(Math.floor(c.tp.x/cs)-2,Math.floor(c.tp.y/cs)-2,e.kbar%2,bar);if(ph===2)KIT_MECH.anvil.drop(Math.floor(e.x/cs)-2,Math.floor(e.y/cs)-2,2+e.kbar%2,bar);sfx('wind');}};
+KIT_OWN.den=(e,dt,c,ph)=>{if(run.barNow&&e.kbar%4===2){ring(e.x,e.y,20,36,e.dmg*.45,(e.kbeat||0)*.2,srcOf(e));run.flashScr=Math.max(run.flashScr||0,.15);run.flashCol='#ffe27a';sfx('zap');}};
+KIT_OWN.noc=(e,dt,c,ph)=>{if(run.barNow&&e.kbar%4===0&&e.kbar>0){const tp=c.tp,a=Math.random()*6.283,sz=run.map.size;for(let i=0;i<10;i++)addP({x:e.x+rnd(-6,6),y:e.y-6,vx:rnd(-40,40),vy:rnd(-40,40),life:.4,col:pick(['#8aa0e8','#05060a']),sz:2,g:0});
+   e.x=clamp(tp.x+Math.cos(a)*70,30,sz-30);e.y=clamp(tp.y+Math.sin(a)*70,30,sz-30);ring(e.x,e.y,12,40,e.dmg*.42,0,srcOf(e));run.fx.push({k:'shock',x:e.x,y:e.y,r:4,t:0,life:.4,max:40,col:'#8aa0e8'});sfx('zap');}};
+// Aurel, the Crowned Sun: the King (100–70 %), Seven Shards (70–40 %), the Sun (40–10 %), the Last Spark (10–0 %)
+KIT_OWN.aurel=(e,dt,c,ph)=>{const K=run.kcr||(run.kcr={ph:1,sh:[],rift:[],fn:0,fw:0}),f=e.hp/e.max,C=run.map.size/2;
+  if(f<.7&&!K.p2){K.p2=1;K.ph=2;aurShards(e);}
+  if(f<.4&&!K.p3){K.p3=1;K.ph=3;e.noMoves=1;for(const s of K.sh)if(!s.dead){s.dead=true;run.fx.push({k:'shock',x:s.x,y:s.y-4,r:3,t:0,life:.4,max:26,col:SH7_COL[s.si]});}
+    run.eshots.length=0;run.flashScr=.7;run.flashCol='#fff6d8';run.shake=10;sfx('boss');toast(_t('Aurel splývá se sluncem! Před výšlehem se schovej do stínu sloupů a věží.'),3800);}
+  if(f<.1&&!K.p4){K.p4=1;K.ph=4;e.inv=1;e.ls=1;e.lsEnd=run.t+16;run.eshots.length=0;run.shake=10;sfx('boss');toast(_t('Slunce zhasíná… Přežij Aurelovo oko!'),3000);}
+  if(K.ph===2&&run.barNow&&e.kbar%2===0)for(let k=0;k<7;k++){const i=K.ord[K.oi++%7],s=K.sh[i];if(s&&!s.dead){SH7_ATK[i](e,c.tp,s);aurQuote(i);run.fx.push({k:'ray',x:s.x,y:s.y-4,x2:c.tp.x,y2:c.tp.y-4,w:2,life:.25,max:.25});break;}}
+  if(K.ph===3){if(run.beatNow){e.spA=(e.spA||0)+.37;ring(e.x,e.y,4,40,e.dmg*.4,e.spA,srcOf(e));}const dx=C-e.x,dy=C-e.y,d=Math.hypot(dx,dy);return d>4?[dx/d*40,dy/d*40]:[0,0];}
+  if(K.ph===4){if(e.ls===1&&run.t>=e.lsEnd){e.ls=2;e.inv=0;e.hp=Math.min(e.hp,e.max*.012);toast(_t('Teď! Zasáhni ho na první dobu taktu.'),3000);sfx('boss');}
+    if(e.ls===1&&run.barNow&&e.kbar%2===1)fan(e.x,e.y,Math.atan2(c.tp.y-e.y,c.tp.x-e.x),3,.2,56,e.dmg*.4,srcOf(e));
+    return e.ls===2?[c.cx*c.sp*.25,c.cy*c.sp*.25]:[c.cx*c.sp*1.15,c.cy*c.sp*1.15];}};
+// music: the coronation (11p) – an organ and a choir over the full banger kit; brass lead, organ arpeggios
+STYLES.crown={
+ drums(x){const {s16,t,I,E}=x,B=M.musicBus;
+  if(E>=1){if(s16===0||s16===8||(E>=2&&s16%4===0))tone('sine',78,t,.32,.85,{slide:46});
+    if(s16===4||s16===12){noiz(t,.14,E>=3?.3:.22,B,'bandpass',1900);noiz(t,.03,.09,B,'highpass',6800);}
+    if(E>=2&&(s16===14||s16===15))noiz(t,.05,.12,B,'bandpass',2600);
+    if((I>=2||E>=2)&&s16%2===0)noiz(t,.012,.05,B,'highpass',9000);else if(s16%4===2)noiz(t,.012,.04,B,'highpass',9200);
+    if(E>=3&&s16===0)noiz(t,.6,.05,B,'highpass',5000);}
+  else{if(s16===0)tone('sine',70,t,.45,.5,{slide:42});if(s16===8)noiz(t,.1,.05,B,'bandpass',1600);}},
+ bass(x){const {s16,t,c,E,I,sd}=x;if(s16%2&&E<3)return;if(E===0&&s16%8)return;const n=E>=3&&s16%2?12:E>=2||I>=2?[0,12,7,12,0,12,10,7][s16>>1]:(s16%8?7:0);
+  const f=NOTE(c.root-12+n);tone('square',f,t,sd*1.6,.045,{lp:700});tone('triangle',f,t,sd*1.8,.2);},
+ pad(x){const {s16,t,c,sd,E}=x;
+  if(E>=3&&(s16===0||s16===8)){for(const k of c.tones){const f=NOTE(c.root+12+k);tone('sawtooth',f,t,sd*7,.034,{lp:2400,a:.05,det:-6});tone('triangle',f*2,t,sd*7,.02,{a:.05,vib:5});}return;}
+  if(s16!==0)return;const v=E===0?.03:.022;for(const k of c.tones){const f=NOTE(c.root+12+k);tone('triangle',f,t,sd*15,v,{a:.6,vib:5});tone('sine',f*2,t,sd*15,v*.6,{a:.7,vib:4});tone('sawtooth',f,t,sd*15,v*.35,{lp:1200,a:.6,det:5});}},
+ arp(x){const {s16,t,c,sd,cyc,E}=x;if(s16%2&&!(E>=3))return;const P=[[0,1,2,3],[3,2,1,0],[0,2,1,3]][cyc%3],k=P[(s16>>1)&3],f=NOTE(c.root+24+(k===3?12:c.tones[k%3]));
+  tone('square',f,t,sd*.8,.018,{lp:3000});tone('square',f*2,t,sd*.6,.008,{lp:3800});tone('sine',f/2,t,sd*.9,.012);},
+ lead(f,t,dur,v){tone('sawtooth',f,t,dur,.042*v,{lp:2600,a:.02,vib:4});tone('square',f,t,dur*.9,.018*v,{lp:2100});tone('triangle',f*2,t,dur*1.1,.02*v,{a:.04,vib:5});tone('sine',f,t,dur*1.05,.045*v,{a:.01});}};
+STYLES.crown.bang=bangKit({kick:78,snare:1900,hat:9000,push:10,bass:{calm:{0:0,8:7},run:[0,12,7,12,0,12,10,12],full:[0,12,7,12,0,12,10,12,0,12,8,12,7,12,10,12]},
+  voice:(f,t,d,a,E)=>{tone('triangle',f,t,d*1.1,.21*a);tone('square',f*2,t,d*.5,.016*a,{lp:E>=3?1400:850});tone('sawtooth',f,t,d*.7,.028*a,{lp:E>=3?1100:650});},
+  extra:x=>{const {s16,t,E}=x,B=M.musicBus;if(E>=1&&(s16===6||s16===14))noiz(t,.012,.06,B,'highpass',9200);if(E>=2&&s16===15)noiz(t,.06,.07,B,'bandpass',2300);}});
+Object.assign(SONGS,{
+ schody:songKit({bpm:128,root:52,scale:'harm',style:'crown',motif:[0,null,2,4,null,7,4,null],answer:[5,null,4,2,null,4,null,0],boss:[7,null,9,8,null,7,4,null]}),
+ trofeje:songKit({bpm:120,root:50,scale:'minor',style:'crown',motif:[4,null,3,4,null,7,null,5],answer:[3,null,2,0,null,2,4,null],boss:[7,null,10,9,null,7,5,null]}),
+ hkovarna:songKit({bpm:134,root:53,scale:'harm',style:'crown',motif:[0,0,null,3,null,2,0,null],answer:[4,null,3,2,null,0,null,2],boss:[7,7,null,8,null,7,4,null]}),
+ vecnost:songKit({bpm:124,root:49,scale:'dorian',style:'crown',motif:[0,null,4,null,2,5,null,4],answer:[7,null,5,4,null,2,null,4],boss:[9,null,7,5,null,4,2,null]}),
+ korunace:songKit({bpm:140,root:48,scale:'harm',style:'crown',motif:[0,null,4,7,null,8,7,null],answer:[4,null,3,0,null,2,null,4],boss:[7,null,8,11,null,8,7,null],bossAnswer:[4,7,null,8,11,null,12,null]})});
+SONGS.trofeje.bossDb=1.3;SONGS.hkovarna.bossDb=1.1;SONGS.korunace.bossDb=1.2; // skladby.js c10 (11p)
 function kitMove(e,mv,c,ph){const src=srcOf(e),d=e.dmg*(mv.mul||.55);switch(mv.do){
   case'ring':ring(e.x,e.y,mv.n||12,mv.spd||48,d,(e.kbeat||0)*.37,src);sfx('zap');break;
   case'fan':fan(e.x,e.y,Math.atan2(c.uy,c.ux),mv.n||5,mv.spread||.26,mv.spd||60,d,src);sfx('shoot',2);break;
@@ -5439,11 +5801,12 @@ function kitMove(e,mv,c,ph){const src=srcOf(e),d=e.dmg*(mv.mul||.55);switch(mv.d
   case'puddle':run.fx.push({k:mv.k||'puddle',x:c.tp.x+rnd(-12,12),y:c.tp.y+rnd(-12,12),r:mv.r||15,life:mv.life||6,max:mv.life||6,seed:Math.random()*9});break;
   case'strike':{run.kst=run.kst||[];const bar=M.stepDur*16;for(let i=0;i<(mv.n||1);i++)run.kst.push({x:c.tp.x+(i?rnd(-50,50):0),y:c.tp.y+(i?rnd(-50,50):0),r:mv.r||28,t:bar,max:bar,hit:0,sw:0});break;}}}
 BEH.kit=function(e,dt,c){if(e.egg>0){e.egg=Math.max(.001,e.eggEnd-run.t);if(run.beatNow){e.flash=.08;run.fx.push({k:'shock',x:e.x,y:e.y-8,r:3,t:0,life:.3,max:26+20*(1-e.egg/e.eggMax),col:'#ffd27a'});}if(run.t>=e.eggEnd)phoenixHatch(e);return[0,0];}
+  if(e.fallen){e.kx=0;e.ky=0;if(run.t>=e.reviveAt&&!run.over){e.fallen=0;e.hp=e.max*.5;toast(e.id==='den'?_t('Noc oživila Den!'):_t('Den oživil Noc!'),2000);sfx('boss');run.fx.push({k:'shock',x:e.x,y:e.y-6,r:4,t:0,life:.5,max:60,col:e.id==='den'?'#ffe27a':'#8aa0e8',big:1});}return[0,0];}
   const K=e.d.kit,ph=K.ph2&&e.hp<e.max*(K.ph2.at||.5)?2:1;
   if(ph===2&&!e.ph2){e.ph2=1;if(K.ph2.txt)toast(K.ph2.txt,2400);run.shake=8;sfx('boss');if(K.ph2.mf)mfCall(K.ph2.mf,e);}
   if(run.beatNow)e.kbeat=(e.kbeat||0)+1;if(run.barNow)e.kbar=(e.kbar||0)+1;
   const fast=ph===2&&K.ph2.fast||1,moves=ph===2&&K.ph2.add?K.moves.concat(K.ph2.add):K.moves;
-  if(!(K.move==='dash'&&e.mode===2))for(const mv of moves){const ev=Math.max(1,Math.round((mv.every||1)*fast)),on=mv.on==='bar'?run.barNow&&e.kbar%ev===(mv.at||0)%ev:run.beatNow&&e.kbeat%ev===(mv.at||0)%ev;if(on)kitMove(e,mv,c,ph);}
+  if(!(K.move==='dash'&&e.mode===2)&&!e.noMoves&&!e.ls)for(const mv of moves){const ev=Math.max(1,Math.round((mv.every||1)*fast)),on=mv.on==='bar'?run.barNow&&e.kbar%ev===(mv.at||0)%ev:run.beatNow&&e.kbeat%ev===(mv.at||0)%ev;if(on)kitMove(e,mv,c,ph);}
   if(K.own&&KIT_OWN[K.own]){const v=KIT_OWN[K.own](e,dt,c,ph);if(v)return v;}
   if(K.move==='dash'){const v=dashMove(e,dt,c,K.dash||3.4);if(e.dashEnd){e.dashEnd=0;for(const mv of K.onDash||[])kitMove(e,mv,c,ph);}return v;}
   if(K.move==='keep'){const [far,near]=K.keep||[100,70],w=c.dist>far?1:c.dist<near?-.7:0;return[c.cx*c.sp*w,c.cy*c.sp*w];}
@@ -5825,7 +6188,7 @@ function updateHud(force){
   if(force||L.c!==run.coins){L.c=run.coins;$('#coinTxt').textContent=run.coins;}
   if(force||L.k!==run.kills){L.k=run.kills;$('#killTxt').textContent=run.kills;}
   if(force||L.mt!==run.mat){L.mt=run.mat;$('#matTxt').textContent=run.mat||0;}
-  if(run.boss){const b=Math.floor(run.boss.hp/run.boss.max*100);if(L.b!==b){L.b=b;$('#bossFill').style.transform='scaleX('+clamp(run.boss.hp/run.boss.max,0,1)+')';}}
+  if(run.boss){const fr=bossFrac(),b=Math.floor(fr*100);if(L.b!==b){L.b=b;$('#bossFill').style.transform='scaleX('+fr+')';}}
   const ps=(1+M.pulse*.1).toFixed(2);if(L.ps!==ps){L.ps=ps;$('#time').style.transform='scale('+ps+')';}
   if(L.combo!==run.combo){L.combo=run.combo;const el=$('#combo');el.hidden=run.combo<5;
     if(run.combo>=5){$('#comboN').textContent='×'+run.combo;el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}}
@@ -5983,7 +6346,7 @@ function drawHarp(g,f,ox,oy){const x0=f.x+ox,y0=f.y+oy,x1=f.ex+ox,y1=f.ey+oy,L=M
   const a=Math.atan2(y1-y0,x1-x0),c=Math.cos(a),s=Math.sin(a);g.fillStyle='#4a3424';for(let i=1;i<6;i++)g.fillRect(RZ(x1-c*i),RZ(y1-s*i),.5,.5);
   g.fillStyle='#d8dce4';g.fillRect(RZ(x1),RZ(y1),1,1);g.fillRect(RZ(x1+c),RZ(y1+s),.5,.5);g.fillStyle='#9aa0ac';g.fillRect(RZ(x1-c*1.5-s*1.5),RZ(y1-s*1.5+c*1.5),.5,.5);g.fillRect(RZ(x1-c*1.5+s*1.5),RZ(y1-s*1.5-c*1.5),.5,.5);}
 function towerXray(g,u,x,y){const s=u.spr,o=outlineOf(s.c,'#fff6d8'),top=y-s.h/2;g.globalAlpha=.5;g.drawImage(o,RZ(x-s.w/2)-1,RZ(top)-1,s.w+2,s.h+2);g.globalAlpha=1;}
-const TW_FLAG={gmirror:'#bfeaff',mint:'#c8962a',hive:'#f6c744',prism:'#fff6c8',espire:'#2af0d0',lantern:'#ffd27a',scope:'#ffe58a',gwell:'#7a6ad8',cannon:'#c8403a',harpoon:'#4a8aa8',hearth:'#ff9a3a',icelance:'#8af0ff',forge:'#ff7a2a',ram:'#c8a070',arrow:'#4aa3e8',fire:'#e8453c',frost:'#3ac8c0',tesla:'#c869e0',crypt:'#8affa0',bell:'#f0c870',obelisk:'#3a6ad8',sandpit:'#e0c080',oasis:'#3ac8c0'};
+const TW_FLAG={anvil:'#ff9a3a',sanctum:'#fff6c8',gmirror:'#bfeaff',mint:'#c8962a',hive:'#f6c744',prism:'#fff6c8',espire:'#2af0d0',lantern:'#ffd27a',scope:'#ffe58a',gwell:'#7a6ad8',cannon:'#c8403a',harpoon:'#4a8aa8',hearth:'#ff9a3a',icelance:'#8af0ff',forge:'#ff7a2a',ram:'#c8a070',arrow:'#4aa3e8',fire:'#e8453c',frost:'#3ac8c0',tesla:'#c869e0',crypt:'#8affa0',bell:'#f0c870',obelisk:'#3a6ad8',sandpit:'#e0c080',oasis:'#3ac8c0'};
 function drawTower(g,u,x,y){const s=u.spr,top=y-s.h/2,sq=u.kick>.45,k=u.kick||0,lv=u.lv||1,t=run.t;
   shadow(g,x,y+(s.h>>1)-4,s.w-2);
   const img=sq?(u.flash>0?s.f2:s.c2):(u.flash>0?s.f:s.c),bt=u.born===undefined?1:clamp((t-u.born)/.45,0,1);
@@ -6027,7 +6390,7 @@ function buildVignette(){const W2=VW*Z,H2=VH*Z;vig.width=W2;vig.height=H2;const 
   gr.addColorStop(0,'rgba(10,6,20,0)');gr.addColorStop(1,'rgba(10,6,20,.5)');v.fillStyle=gr;v.fillRect(0,0,W2,H2);}
 // darkness with stepped pixel light pools punched out around everything that glows
 function renderLight(g,ox,oy){
-  const dk=run.map.dark;if(!dk)return;
+  const dk=run.kdark!=null?Math.max(run.kdark,run.map.dark||0):run.map.dark;if(!dk)return;
   // the darkness mask is all soft gradients → drawn at world resolution (¼ of the pixels) and scaled up smoothly
   if(lc.width!==VW||lc.height!==VH){lc.width=VW;lc.height=VH;}
   const l=lctx;l.setTransform(1,0,0,1,0,0);l.globalCompositeOperation='source-over';l.globalAlpha=1;l.fillStyle=run.map.amb;l.fillRect(0,0,VW,VH);
@@ -6484,6 +6847,7 @@ function mapThumb(id){if(thumbs[id])return thumbs[id];
   return thumbs[id]=c;}
 function heroLock(id){const h=HEROES[id];if(h.soon)return _t('Přijde s kapitolou ')+SOON_CH[h.soon]+'.';
   if(h.need&&!mapUnlocked(h.need))return _t('Odemkneš, až se dostaneš na mapu ')+MAPS[h.need].name+_t(' (kapitola ')+ROMAN_CH[CH_OF[h.need].i]+').';
+  if(h.win&&!save.cleared[h.win])return _t('Přidá se k tobě, až porazíš Aurela ve finále kapitoly X.');
   if(h.ach){const A=ACHM[h.ach];return achDone(A)?_t('Splněno, vyzvedni si ho v Mistrovství.'):_t('Odemkneš v Mistrovství: ')+A.desc;}return '';}
 function confirmHero(id){const h=HEROES[id],pop=$('#newsPop'),coin='<img alt="" src="'+dataUrl(SPR.icon.coin)+'" style="width:14px;vertical-align:-2px">';
   const lock=heroLock(id),miss=lock?0:Math.max(0,h.cost-save.coins);
@@ -6663,7 +7027,7 @@ function openSeals(){const pop=$('#selPop'),hero=sel.hero,pool=sealPool(hero),st
 function renderSelect(){sealBtnSync();
   $('#selMats').innerHTML=matsHtml();
   const hl=$('#heroList');
-  heroStrip(hl,HERO_IDS,sel.hero,(id,own)=>{const h=HEROES[id];return own?_t('úr. ')+heroLv(id):h.soon?_t('kap. ')+SOON_CH[h.soon]:h.need&&!mapUnlocked(h.need)?_t('kap. ')+ROMAN_CH[CH_OF[h.need].i]:h.ach?'<img alt="" src="'+dataUrl(SPR.icon.medal)+'">':'<img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+h.cost;},(id,own)=>{const h=HEROES[id];
+  heroStrip(hl,HERO_IDS,sel.hero,(id,own)=>{const h=HEROES[id];return own?_t('úr. ')+heroLv(id):h.soon?_t('kap. ')+SOON_CH[h.soon]:h.need&&!mapUnlocked(h.need)?_t('kap. ')+ROMAN_CH[CH_OF[h.need].i]:h.ach?'<img alt="" src="'+dataUrl(SPR.icon.medal)+'">':h.win?_t('kap. ')+ROMAN_CH[CH_OF[h.win].i]:'<img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+h.cost;},(id,own)=>{const h=HEROES[id];
       if(own){if(sel.hero!==id){sel.hero=id;sfx('ui');renderSelect();}}
       else{sfx('ui');confirmHero(id);}}); // 09u: a locked hero always opens its detail (what it can do) – the reason or missing gold is shown there
   {const id=heroOwned(sel.hero)?sel.hero:'knight',h=HEROES[id];
@@ -7288,7 +7652,8 @@ LEGS.eheart={slot:'amulet',fin:'zatmeni',name:_t('Srdce zatmění'),desc:_t('Ka�
 LEGS.vheart={slot:'boots',fin:'nicota',name:_t('Kroky nicoty'),desc:_t('Každé dva takty za sebou necháš ozvěnu kroku, která za takt vybuchne a zraní nepřátele kolem.'),hint:_t('Leží v Srdci nicoty, jen pro odvážné (NM III+)…')};
 LEGS.fpen={slot:'ring',fin:'kolebka',name:_t('Fénixovo pero'),desc:_t('Jednou za běh tě místo smrti vzkřísí: vstaneš se 40 % zdraví v ohnivém výbuchu.'),hint:_t('Leží v Kolébce slunce, jen pro odvážné (NM III+)…')};
 LEGS.midas={slot:'gloves',fin:'dvur',name:_t('Midasova rukavice'),desc:_t('Každý dvanáctý nepřítel, kterého zabiješ, zezlátne a vybuchne zlatým výbuchem.'),hint:_t('Leží na Zlatém dvoře, jen pro odvážné (NM III+)…')};
-const LEG_IDS=Object.keys(LEGS),FIN_LEG={trun:'skull',brana:'sphinx',srdce:'mheart',zima:'wheart',paluba:'kheart',zatmeni:'eheart',nicota:'vheart',kolebka:'fpen',dvur:'midas'};
+LEGS.crown7={slot:'helm',fin:'korunace',name:_t('Koruna sedmi střepů'),desc:_t('Každé dva takty z ní vyletí sedm střepů do sedmi nejbližších nepřátel, každý v barvě jedné kapitoly.'),hint:_t('Leží v srdci Korunovaného slunce, jen pro odvážné (NM III+)…')};
+const LEG_IDS=Object.keys(LEGS),FIN_LEG={trun:'skull',brana:'sphinx',srdce:'mheart',zima:'wheart',paluba:'kheart',zatmeni:'eheart',nicota:'vheart',kolebka:'fpen',dvur:'midas',korunace:'crown7'};
 // chapter sets: 4 pieces with fixed epic-level stats; drop from the chapter finale (with pity) and one comes from the chapter treasure.
 // 2 pieces = a bonus, 4 pieces = a unique ability on the beat. Flags go into heroBonus().lg, so they reach run stats and co-op like legendaries.
 const SETS={
@@ -7320,6 +7685,10 @@ SETS.dawn={ch:'c8',fin:'kolebka',col:'#f6c744',name:_t('Roucho úsvitu'),slots:[
 SETS.gold={ch:'c9',fin:'dvur',col:'#e0b030',name:_t('Šat zlatého dvora'),slots:['armor','ring','helm','boots'],
   pieces:{armor:{name:_t('Dvorní kabátec'),st:['hp','armor','regen']},ring:{name:_t('Pečetní prsten'),st:['crit','dmg','xp']},helm:{name:_t('Zlatá maska'),st:['hp','armor','crit']},boots:{name:_t('Střevíce z brokátu'),st:['spd','hp','dmg']}},
   b2:_t('Zlato z běhu +10 % a poškození +6 %.'),b4n:_t('Zlatý déšť'),b4:_t('Na první dobu každého druhého taktu dopadne zlatý déšť na čtyři nejbližší nepřátele a zraní je.')};
+SETS.crown={ch:'c10',fin:'korunace',col:'#fff2b0',name:_t('Zbroj padlé hvězdy'),six:1,slots:['helm','armor','amulet','ring','boots','gloves'],
+  pieces:{helm:{name:_t('Přilba úsvitu'),st:['hp','armor','crit']},armor:{name:_t('Hvězdný krunýř'),st:['hp','armor','regen']},amulet:{name:_t('Srdce hvězdy'),st:['dmg','crit','fuse']},ring:{name:_t('Prsten sedmi světel'),st:['crit','cd','xp']},boots:{name:_t('Boty ze světla'),st:['spd','dodge','hp']},gloves:{name:_t('Rukavice kováře hvězd'),st:['dmg','cd','crit']}},
+  b2:_t('Poškození +8 % a zdraví +8 %.'),b4n:_t('Sedm světel'),b4:_t('Na první dobu každého druhého taktu z tebe vyrazí sedm paprsků v barvách střepů a zraní nepřátele, kterých se dotknou.'),
+  b6n:_t('Hvězda se vrací'),b6:_t('Ultimátky z fúzí +15 %. Každé čtyři takty spadne na největší skupinu nepřátel hvězda a vybuchne.')};
 const SET_IDS=Object.keys(SETS),SET_OF_CH={};for(const id of SET_IDS){SET_OF_CH[SETS[id].ch]=id;SETS[id].slots=SETS[id].slots||SET_SLOTS;}
 // pieces that drop now (each set uses different slots; every 5th chapter has a six-piece set); older pieces in other slots still count
 const setSlots=id=>SETS[id].slots,setMax=id=>SETS[id].slots.length;
@@ -7383,7 +7752,8 @@ const TALENTS={knight:[[5,_t('Brnění +1')],[10,_t('Rotující čepele: +1 čep
   sailor:[[5,_t('Rychlost pohybu +5 %')],[10,_t('Kotva: dosah +10')],[15,_t('Rychlost útoků +10 %')],[20,_t('Kotva se točí i za tebou')]],
   astro:[[5,_t('Kritický zásah +5 %')],[10,_t('Souhvězdí: +1 hvězda')],[15,_t('Ultimátky +15 %')],[20,_t('Hvězdy se spojí dvakrát za takt')]],
   nyx:[[5,_t('Úhyb +4 %')],[10,_t('Černá díra: dosah +8')],[15,_t('Poškození +10 %')],[20,_t('Černá díra vybuchne silněji')]],
-  reva:[[5,_t('Zdraví +10 %')],[10,_t('Šlahouny: +1 šlahoun')],[15,_t('Poškození +10 %')],[20,_t('Šlahouny drží o 40 % déle')]]};
+  reva:[[5,_t('Zdraví +10 %')],[10,_t('Šlahouny: +1 šlahoun')],[15,_t('Poškození +10 %')],[20,_t('Šlahouny drží o 40 % déle')]],
+  paladin:[[5,_t('Zdraví +10 %')],[10,_t('Světelné kopí: +1 kopí')],[15,_t('Požehnání každé 4 takty')],[20,_t('Kopí na konci vybuchne světlem')]]};
 const DAILY_MODS=[{id:'fast',name:_t('Zběsilí'),desc:_t('Nepřátelé jsou o 30 % rychlejší.')},{id:'glass',name:_t('Skleněný kanón'),desc:_t('Dáváš +50 % poškození, ale máš poloviční zdraví.')},
   {id:'horde',name:_t('Horda'),desc:_t('O 60 % víc nepřátel, ale i o 30 % víc zkušeností.')},{id:'noheal',name:_t('Bez léčení'),desc:_t('Žádná regenerace, léčivá srdce ani oázy.')}];
 
@@ -7414,23 +7784,24 @@ function heroBonus(h){
   const eq=(save.eq&&save.eq[h])||{};
   const sc={};for(const s of SLOT_IDS){const it=eq[s]&&itemById(eq[s]);if(!it)continue;const S=itemStats(it);for(const k in S)B[k]+=S[k];if(it.lg)B.lg[it.lg]=1;if(it.af&&AFX[it.af])B.af[it.af]=(B.af[it.af]||0)+afVal(it);if(it.set)sc[it.set]=(sc[it.set]||0)+1;if(it.rn&&featOn('runes'))runeBonus(B,it);}
   runeApply(B);
-  if(sc.star>=2){B.crit+=.06;B.fuse+=.10;}if(sc.star>=4)B.lg.sst4=1;if(sc.void>=2){B.dodge+=.05;B.dmg+=.06;}if(sc.void>=4)B.lg.sv4=1;if(sc.dawn>=2){B.regen+=.5;B.hpPct+=.06;}if(sc.dawn>=4)B.lg.sd4=1;if(sc.gold>=2){B.gold+=.10;B.dmg+=.06;}if(sc.gold>=4)B.lg.sg4=1;if(sc.bone>=2){B.hpPct+=.10;B.lg.sb2=1;}if(sc.bone>=4)B.lg.sb4=1;if(sc.sun>=2){B.cd+=.08;B.spd+=.06;}if(sc.sun>=4)B.lg.ss4=1;if(sc.forge>=2){B.dmg+=.10;B.armor+=1;}if(sc.forge>=4)B.lg.sf4=1;if(sc.frost>=2){B.hpPct+=.10;B.lg.sfr2=1;}if(sc.frost>=4)B.lg.sfr4=1;if(sc.tide>=2){B.spd+=.08;B.mag+=.15;}if(sc.tide>=4)B.lg.st4=1;if(sc.tide>=6){B.lg.st6=1;B.dmg+=.10;B.hpPct+=.10;}B.sets=sc;
+  if(sc.star>=2){B.crit+=.06;B.fuse+=.10;}if(sc.star>=4)B.lg.sst4=1;if(sc.void>=2){B.dodge+=.05;B.dmg+=.06;}if(sc.void>=4)B.lg.sv4=1;if(sc.dawn>=2){B.regen+=.5;B.hpPct+=.06;}if(sc.dawn>=4)B.lg.sd4=1;if(sc.gold>=2){B.gold+=.10;B.dmg+=.06;}if(sc.gold>=4)B.lg.sg4=1;if(sc.crown>=2){B.dmg+=.08;B.hpPct+=.08;}if(sc.crown>=4)B.lg.sc4=1;if(sc.crown>=6){B.lg.sc6=1;B.fuse+=.15;}if(sc.bone>=2){B.hpPct+=.10;B.lg.sb2=1;}if(sc.bone>=4)B.lg.sb4=1;if(sc.sun>=2){B.cd+=.08;B.spd+=.06;}if(sc.sun>=4)B.lg.ss4=1;if(sc.forge>=2){B.dmg+=.10;B.armor+=1;}if(sc.forge>=4)B.lg.sf4=1;if(sc.frost>=2){B.hpPct+=.10;B.lg.sfr2=1;}if(sc.frost>=4)B.lg.sfr4=1;if(sc.tide>=2){B.spd+=.08;B.mag+=.15;}if(sc.tide>=4)B.lg.st4=1;if(sc.tide>=6){B.lg.st6=1;B.dmg+=.10;B.hpPct+=.10;}B.sets=sc;
   const L=heroLv(h),L1=Math.min(L,20)-1,L2=Math.max(0,L-20),pr=heroPr(h)*PR_PCT;B.hpPct+=.02*L1+.01*L2+pr;B.dmg+=.02*L1+.01*L2+pr;
   const TO=featOn('talents');
   for(const t of TAL_TIERS){if(!TO||L<t)continue;const c=heroTal(h,t);if(c<0)continue;const id=TAL_CH[t][c].id;B.tal[id]=1;
     if(id==='atk')B.dmg+=.08;else if(id==='def'){B.hpPct+=.12;B.armor+=1;}else if(id==='crit')B.crit+=.06;else if(id==='rate')B.cd+=.08;
     else if(id==='hunt'){B.spd+=.06;B.mag+=.25;}else if(id==='fuse')B.fuse+=.15;else if(id==='tough'){B.regen+=.5;B.dodge+=.04;}}
-  const pre={knight:'k',mage:'m',archer:'a',builder:'b',bard:'d',smith:'s',shaman:'h',sailor:'n',astro:'z',warlord:'w',tamer:'t',nyx:'y',reva:'v'}[h]||'x';if(TO)for(const t of [5,10,15,20])if(L>=t)B.tal[pre+t]=1;
+  const pre={knight:'k',mage:'m',archer:'a',builder:'b',bard:'d',smith:'s',shaman:'h',sailor:'n',astro:'z',warlord:'w',tamer:'t',nyx:'y',reva:'v',paladin:'l'}[h]||'x';if(TO)for(const t of [5,10,15,20])if(L>=t)B.tal[pre+t]=1;
   const T=B.tal;if(T.w5)B.dmg+=.05;if(T.w15)B.cd+=.10;if(T.w20)B.dmg+=.10;B.petd=(T.t5?.15:0)+(T.t20?.25:0);B.petr=T.t10?.15:0;B.petp=T.t15?.20:0;if(T.k5)B.armor+=1;if(T.k15)B.hpPct+=.15;if(T.m5)B.crit+=.05;if(T.m15)B.dmg+=.10;if(T.m20)B.fuse+=.20;if(T.a5)B.spd+=.05;
   if(T.b5)B.tcost+=.10;if(T.b15)B.thp+=.30;if(T.b20)B.tmax+=1;if(T.d15)B.cd+=.10;
-  if(T.s5)B.armor+=1;if(T.s15)B.hpPct+=.15;if(T.h5)B.mag+=.20;if(T.h15)B.dmg+=.10;if(T.n5)B.spd+=.05;if(T.n15)B.cd+=.10;if(T.z5)B.crit+=.05;if(T.z15)B.fuse+=.15;if(T.y5)B.dodge+=.04;if(T.y15)B.dmg+=.10;if(T.v5)B.hpPct+=.10;if(T.v15)B.dmg+=.10;
-  if(h==='shaman')B.mag+=.20;if(h==='astro')B.fuse+=.15;if(h==='nyx')B.dodge+=.08;if(h==='reva')B.regen+=.4;
+  if(T.s5)B.armor+=1;if(T.s15)B.hpPct+=.15;if(T.h5)B.mag+=.20;if(T.h15)B.dmg+=.10;if(T.n5)B.spd+=.05;if(T.n15)B.cd+=.10;if(T.z5)B.crit+=.05;if(T.z15)B.fuse+=.15;if(T.y5)B.dodge+=.04;if(T.y15)B.dmg+=.10;if(T.v5)B.hpPct+=.10;if(T.v15)B.dmg+=.10;if(T.l5)B.hpPct+=.10;
+  if(h==='shaman')B.mag+=.20;if(h==='astro')B.fuse+=.15;if(h==='nyx')B.dodge+=.08;if(h==='reva')B.regen+=.4;if(h==='paladin')B.lg.bless=1;
   skyApply(B);
   return B;}
 // talents that change a starting weapon
 function talentW(id){const T=(st&&st.tal)||{};const o={};
   if(T.wpn&&run&&HEROES[run.heroId]&&HEROES[run.heroId].start===id&&WEAPONS[id].lv[0].dmg)o.dmg=Math.max(1,Math.round(WEAPONS[id].lv[0].dmg*.3));
   if(T.s10&&id==='hammer')o.rad=8;if(T.s20&&id==='hammer')o.n=1;if(T.h10&&id==='icicle')o.n=2;if(T.h20&&id==='icicle')o.frz=.5;if(T.n10&&id==='anchor')o.rad=10;if(T.n20&&id==='anchor')o.n=1;if(T.z10&&id==='stars')o.n=1;if(T.z20&&id==='stars')o.bt=1;if(T.y10&&id==='voidorb')o.rad=8;if(T.y20&&id==='voidorb')o.boom=24;if(T.v10&&id==='vines')o.n=1;if(T.v20&&id==='vines')o.pin=.4;
+  if(T.l10&&id==='sunspear')o.n=1;if(T.l20&&id==='sunspear')o.boom=1;
   if(T.k10&&id==='blade')o.n=1;if(T.d10&&id==='note')o.n=1;if(T.m10&&id==='bolt')o.n=1;if(T.a10&&id==='arrows')o.n=2;if(T.a15&&id==='arrows')o.pierce=1;
   return Object.keys(o).length?o:null;}
 function wP(id,w){const P=WEAPONS[id].lv[w.lv-1];if(!w.xn)return P;if(w._pl===w.lv&&w._p)return w._p;const o=Object.assign({},P);for(const k in w.xn)o[k]=(o[k]||0)+w.xn[k];w._pl=w.lv;w._p=o;return o;}
@@ -7511,6 +7882,7 @@ function runRewards(won){
   if(won&&R.nm>0){const k=Math.min(NM_MAX,R.nm);save.nmw=save.nmw||{};nmFirst=!save.nmw[k+'|'+R.mapId];save.nmw[k+'|'+R.mapId]=1;if(nmFirst&&k>=3&&R.map.boss)out.av='b:'+R.map.boss;
     if(nmFirst&&save.inv.length<INV_MAX){const it=makeItem(ECON.nmItem[k]);addItem(it);out.item=it;}
     if(R.map.boss&&!R.coop&&!R.trial){const rk=runeDrop('boss',{nm:R.nm});if(rk)out.rune=rk;}}
+  if(won&&R.mapId==='korunace'&&!R.trial&&!save.heroes.paladin)save.heroes.paladin=true; // 11p: the Paladin joins you for beating Aurel
   if(won&&fin&&!R.trial){save.fin=save.fin||{};if(!save.fin[R.mapId]){save.fin[R.mapId]=1;if(STORY[R.mapId])save.storyNew=R.mapId;const it=makeItem(rollRarity(ECON.chests[2]));addItem(it);out.fin=it;}
     const lg=FIN_LEG[R.mapId];if(lg&&(R.nm||0)>=3&&Math.random()<.25){const it=makeItem(4,null,null,lg);addItem(it);out.leg=it;}
     const sid=SET_OF_CH[CH_OF[R.mapId].id];if(sid){save.setP=save.setP||{};const miss=save.setP[sid]||0;
@@ -7721,6 +8093,7 @@ const STORY={trun:_t('Z Morvanovy lebky vypadl žhnoucí střep hvězdy. Je v n�
   zatmeni:_t('Zatmění se rozpadlo na hvězdný prach a nechalo šestý střep. Astra si všimla, že střepy nepadají náhodně: na mapě oblohy tvoří tvar oka. Za měsícem zůstala díra do Prázdnoty a něco odtamtud natahuje ruku po posledním střepu…'),
   nicota:_t('Nicota se zhroutila do sebe. Naposledy zašeptala: „Neneseš je sobě…“ Všech sedm střepů, které neseš, se rozzářilo a spojilo. Z nicoty se rodí nové slunce, zlaté jako oko, a pod ním nový svět…'),
   kolebka:_t('Fénix shořel a tentokrát už nevstal. Slunce nad zahradou se pomalu otevřelo jako obrovské zlaté oko. Kam pohlédne, tam všechno zlátne: tráva, květy, i ptáci v letu. Na obzoru se třpytí město, které už zezlátlo celé…'),
+  korunace:_t('Aurel padl. Sedm střepů se spojilo v celou Hvězdu a ta se vrátila na oblohu. Poprvé po dlouhé době je normální noc. Jenže hvězda byla rozbitá příliš dlouho a pečeť, kterou držela, zůstala prasklá. Aurel stihl zašeptat: „Hlupáku… ta hvězda nebyla moje. Hlídala JEHO spánek.“ A hluboko pod světem se něco obrátilo ze spánku na bok.'),
   dvur:_t('Herold padl a jeho poslední slovo zaznělo celým městem: Aurel. Strážce hvězdy, který ji sám rozbil, aby si z jejího světla ukoval slunce. Sedm střepů jsi celou dobu nosil jemu. Ze dvora teď vede schodiště ze světla přímo do slunce, kde na tebe čeká…')};
 function bridgeDraw(g,ox,oy){const B=BRIDGE[run.mapId],e=run.boss;if(!B||!run.map.finale)return;
   if(!run.brOn){if(!e||e.dead||e.hp>e.max*.35)return;run.brOn=1;run.brA=0;run.brP=[];if(!RM)toast(B.line,2600);}
@@ -7815,11 +8188,17 @@ function featShow(){featInit();featCheck();if(state!=='menu'&&state!=='select')r
   const close=()=>{pop.hidden=true;setTimeout(featShow,250);};
   $('#fcOk').onclick=()=>{sfx('ui');close();};const g=$('#fcGo');if(g)g.onclick=()=>{sfx('ui');pop.hidden=true;F.go();};}
 // menu buttons and tabs: locked ones stay visible, dimmed with a lock, and say where they unlock
-function storyShow(mp){const C=CH_OF[mp],N=CHAPTERS[C.i+1];let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
+function storyShow(mp){const C=CH_OF[mp],N=CHAPTERS[C.i+1];if(mp==='korunace')return actEndShow(mp);let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
   pop.innerHTML='<div class="fc story"><div class="fc-rays"></div><small>'+_t('CESTA DÁL')+'</small><img class="th" alt="" src="'+(N?qMapImg(N.maps[0]):skyThumb(BRIDGE[mp]&&BRIDGE[mp].k==='void'))+'"><h3>'+(N?_t('Kapitola ')+ROMAN_CH[N.i]+' · '+N.name:_t('Kapitola ')+ROMAN_CH[C.i+1]+' · '+_t('připravujeme'))+'</h3><p>'+STORY[mp]+'</p>'+
     '<div class="fc-b"><button class="btn" id="fcOk">'+(N?_t('Vydat se dál'):_t('Pokračovat'))+'</button></div></div>';
   pop.hidden=false;pop.classList.remove('in');void pop.offsetWidth;pop.classList.add('in');sfx('win');
   $('#fcOk').onclick=()=>{sfx('ui');pop.hidden=true;if(N){sel.map=N.maps[0];sel.nm=0;sel.picked=1;chSel=null;renderSelect();setState('select');}else setTimeout(featShow,250);};}
+// 11p: the end of act I – the story, the Paladin who joins you, and a teaser of act II
+function actEndShow(mp){let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
+  pop.innerHTML='<div class="fc story"><div class="fc-rays"></div><small>'+_t('KONEC AKTU I')+'</small><img class="th" alt="" src="'+qMapImg(mp)+'"><h3>'+_t('Padlá hvězda')+'</h3><p>'+STORY[mp]+'</p>'+
+    '<p class="fc-l">'+_t('Přidal se k tobě')+' <b>'+HEROES.paladin.name+'</b>. '+_t('Akt II · Spáč · připravujeme.')+'</p><div class="fc-b"><button class="btn" id="fcOk">'+_t('Pokračovat')+'</button></div></div>';
+  pop.hidden=false;pop.classList.remove('in');void pop.offsetWidth;pop.classList.add('in');sfx('win');
+  $('#fcOk').onclick=()=>{sfx('ui');pop.hidden=true;if(heroOwned('paladin'))setTimeout(()=>heroCelebrate('paladin'),250);else setTimeout(featShow,250);};}
 function featUi(){featInit();{const b=$('#mSky');if(b){b.hidden=!featOn('sky');if(!b.hidden&&SPR.icon.star)$('#icSky').src=dataUrl(SPR.icon.star);}}if(!featUi.rn){featUi.rn=1;RUNE_IDS.forEach(runeIcon);}if(!featUi.img){featUi.img=1;document.documentElement.style.setProperty('--lockimg','url('+dataUrl(SPR.icon.lock)+')');}const L=[['#mHero','gear'],['#mChest','gear'],['#mForge','forge'],['#mQuest','quests']];
   for(const [sel2,id] of L){const b=$(sel2);if(b)b.classList.toggle('flock',!featOn(id));}
   document.querySelectorAll('.sectabs [data-to=towers]').forEach(b=>b.classList.toggle('flock',!featOn('arsenal')));
@@ -7902,13 +8281,17 @@ const ITEM_ART={
  gold_armor:{pal:{a:'#8a1a10',b:'#5a1008',y:'#ffd040'},rows:['......','.aa...','aaaa.y','aaaaaa','aaya.a','.aaaaa','.aaaya','.aaaaa','.ayaaa','.bbbbb','......','......']},
  gold_ring:{pal:{a:'#ffd040',b:'#a8781a',k:'#5a1008',y:'#ff6a3a',w:'#ffe9a8'},rows:['....aa','...akk','...kyy','...kyw','...kyy','..bkkk','.ab...','.a....','.a....','.b....','..bbbb','......']},
  gold_helm:{pal:{a:'#e0b030',b:'#8a6214',k:'#2a1a04',y:'#ffe27a'},rows:['......','......','...aaa','..aaaa','.aaaya','.akkka','.aaaaa','.aaaka','..aaaa','...aab','....bb','......']},
+ crown_helm:{pal:{a:'#f0e8d8',b:'#a89878',k:'#2a1a04',y:'#ffd040'},rows:['......','..y.y.','.yyyyy','..aaaa','.aaaaa','.akkka','.aaaaa','.aaaka','..aaaa','...aab','....bb','......']},
+ crown_armor:{pal:{a:'#f0e8d8',b:'#a89878',y:'#ffd040'},rows:['......','.aa...','aaaa.y','aaaaaa','aaya.a','.aaaaa','.aaaya','.aaaaa','.ayaaa','.bbbbb','......','......']},
+ crown_amulet:{pal:{c:'#ffd040',k:'#8a6214',y:'#fff2b0',w:'#ffffff',s:'#ff6a1a'},rows:['..c...','...c..','....c.','.....c','....kk','...kyy','...kyw','...kyy','...kss','....kk','......','......']},
+ crown_ring:{pal:{a:'#ffd040',b:'#a8781a',k:'#8a1a10',y:'#fff2b0',w:'#ffffff'},rows:['....aa','...akk','...kyy','...kyw','...kyy','..bkkk','.ab...','.a....','.a....','.b....','..bbbb','......']},
  sun_ring:{pal:{a:'#f6c744',c:'#c28a10',r:'#ff7a3a',y:'#fff0a0'},rows:['...r.r','....rr','...ryy','..rryy','...ryy','..aarr','.ca...','.a....','.a....','.c....','..cccc','......']}};
 {const BR=['............','...cccccc...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaab...','...aaaaabb..','...aaaaaaab.','..aaaaaaaaab','..aagaaaaaab','..bbbbbbbbbb','............'],
   GR=['.....a.a....','...a.a.a.a..','...a.a.a.a..','...aaaaaaa..','.a.aaaaaaa..','.aaaaaaaaa..','..aaaaaaab..','...aaaaaab..','...ccccccc..','...ccgcccc..','...bbbbbbb..','............'];
  const art=(rows,a,b,c)=>({full:1,pal:{a,b,c},rows});
  Object.assign(ITEM_ART,{sun_boots:art(BR,'#e8c070','#a8783a','#f6c744'),sun_gloves:art(GR,'#e8dcc0','#a89878','#2a5ab8'),
   forge_gloves:art(GR,'#8a5a3a','#4a2e1e','#e8702c'),forge_boots:art(BR,'#6a6a78','#3a3a48','#e8702c'),
-  frost_gloves:art(GR,'#bfeaff','#5a8ad8','#8af0ff'),tide_boots:art(BR,'#2a3a5a','#141c2e','#5ae0d0'),tide_gloves:art(GR,'#8a6a4a','#4a3a2a','#5ae0d0'),star_boots:art(BR,'#4a3a98','#2a2060','#ffe58a'),void_gloves:art(GR,'#2a3040','#141820','#5af0d8'),dawn_boots:art(BR,'#6a4a2a','#3e2a14','#5aa83a'),dawn_gloves:art(GR,'#3e7a2a','#24481a','#e8f0b0'),gold_boots:art(BR,'#8a1a10','#5a1008','#ffd040')});}
+  frost_gloves:art(GR,'#bfeaff','#5a8ad8','#8af0ff'),tide_boots:art(BR,'#2a3a5a','#141c2e','#5ae0d0'),tide_gloves:art(GR,'#8a6a4a','#4a3a2a','#5ae0d0'),star_boots:art(BR,'#4a3a98','#2a2060','#ffe58a'),void_gloves:art(GR,'#2a3040','#141820','#5af0d8'),dawn_boots:art(BR,'#6a4a2a','#3e2a14','#5aa83a'),dawn_gloves:art(GR,'#3e7a2a','#24481a','#e8f0b0'),gold_boots:art(BR,'#8a1a10','#5a1008','#ffd040'),crown_boots:art(BR,'#f0e8d8','#a89878','#ffd040'),crown_gloves:art(GR,'#e0b030','#8a6214','#fff2b0')});}
 // item picture: base items by slot and tier (the gem takes the rarity colour), set pieces have their own art
 function itemSpr(sl,r,set,b){const k=set?set+'_'+sl:b&&ITEM_ART[b]?b:sl+Math.min(3,r),key=k+':'+r;if(itemSprCache[key])return itemSprCache[key];const A=ITEM_ART[k]||ITEM_ART[sl+'0'];
   const rc=RAR[Math.max(1,r)].col;return itemSprCache[key]=buildSprite(A.rows,{mirror:!A.full,pal:set?Object.assign({},A.pal,{g:rc,e:rc}):Object.assign({g:rc},A.pal)});}
@@ -8400,7 +8783,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('power'),_t('Vylepšení věže'),_t('Chvíli postůj u věže a vylepší se sama, nebo ťukni na Vylepšit. Maximum je úroveň 3, pak ji tím opravíš.')],
    [I('heart'),_t('Oprava'),_t('Nepřátelé věže ničí. Plně vylepšenou věž opravíš stejným tlačítkem.')],
    [dataUrl(SPR.hero.builder),HEROES.builder.name,HEROES.builder.desc]].map(r=>gdRow(...r)).join('');}
-  else if(tab==='world'){const N={'slime':_t('Pomalý, chodí v houfech.'),'bat':_t('Rychlý, létá v kličkách.'),'skeleton':_t('Jde rovnou po tobě.'),'ghost':_t('Pomalu kličkuje k tobě.'),'spider':_t('Malý a hodně rychlý.'),'zombie':_t('Pomalý, ale hodně vydrží.'),'mage':_t('Drží si odstup a střílí.'),'golem':_t('Obr, vydrží hodně a tvrdě bije.'),'wolf':_t('Rozběhne se proti tobě.'),'flameskull':_t('Řítí se na tebe v plamenech.'),'drowned':_t('Pomalý, ve vodě ho nic nezdrží. Po smrti nechá louži, která zpomaluje.'),'bonearcher':_t('Kostlivec s lukem, drží si odstup.'),'digger':_t('Každých pár taktů vykope z hrobu kostlivce.'),'scorp':_t('Vrhá se na tebe a jeho žihadlo otráví.'),'mummy':_t('Odolná. Když tě chytí, zpomalí tě.'),'cultist':_t('Hází vějíř tří nožů.'),'imp':_t('Malý a rychlý, poletuje v kličkách.'),'magslime':_t('Po smrti nechá kaluž magmatu, která pálí.'),'miner':_t('Drží si odstup a hází krumpáče.'),'yeti':_t('Pomalý a odolný. Hází sněhové koule, které zpomalí.'),'wraith':_t('Kličkuje k tobě a jeho dotek zpomaluje.'),'icearcher':_t('Drží si odstup a střílí dvojice ledových šípů, které zpomalí.'),'snowman':_t('Po smrti se rozletí na střepy ledu.'),'crab':_t('Na chvíli se zastaví a pak vyrazí přímo na tebe.'),'pirate':_t('Odolný a po smrti nechá louži, která zpomaluje.'),'jelly':_t('Na každou dobu poskočí k tobě, její dotek zpomaluje.'),'gull':_t('Krouží kolem a střemhlav se vrhá dolů.'),'starimp':_t('Na takt se přenese těsně k tobě.'),'meteor':_t('Rozjede se a vrazí do tebe.'),'starwolf':_t('Mezi vlky svítí čáry, které pálí.'),'comet':_t('Létá rovně napříč a nechává hořící ohon.'),'shade':_t('Rychlý stín, jde rovnou po tobě.'),'hollow':_t('Po smrti se rozpadne na dva stíny.'),'voideye':_t('Vznáší se, drží odstup a střílí vějíř tří střel.'),'devourer':_t('Obr, hodně vydrží a jeho dotek zpomaluje.'),'sunfl':_t('Stojí v trávě a střílí vějíř semen.'),'beetle':_t('Rozběhne se a vrhne se na tebe.'),'firefly':_t('Malá a rychlá, létá v rojích.'),'scarecrow':_t('Pomalý, ale hodně vydrží.'),'gilded':_t('Zlatá socha, která se dala do pohybu. Pomalá a odolná.'),'taxman':_t('Rychlý, a když se tě dotkne, ukradne ti zlato. Zabij ho a vrátí ho.'),'alchem':_t('Drží odstup a hází vějíř lahviček.'),'mimic':_t('Truhla, která kouše. Rozběhne se a vrhne se na tebe.'),'statue':_t('Stojí, dokud se nepřiblížíš nebo do ní neudeříš.')},B={'slimeking':_t('Svolává další slizy.'),'lich':_t('Střílí kruhy střel.'),'demon':_t('Vrhá se na tebe a pálí kruhy střel.'),'priest':_t('Volá utopence a pod nohy ti plive louže.'),'warden':_t('Vrhá se, dupe a zhasíná pochodně.'),'ringer':_t('Každý úder zvonu je kruh střel.'),'morvan':_t('Chrání ho tři fylaktérie. Pod polovinou zdraví uzavře arénu.'),'scorpking':_t('Vrhá se a nechává za sebou jed.'),'worm':_t('Plave pod pískem, kde je nezranitelný, a vyráží pod tebou.'),'priestess':_t('Kletbou ti na chvíli obrátí ovládání.'),'sphinx':_t('Nejdřív hlídá sluneční paprsek, pak tě loví, potápí obelisky a volá vojáky.'),'forgelord':_t('Každý úder kladiva je kruh jisker, volá skřety a pod nohy ti lije magma.'),'eel':_t('Plave pod vodou, kde je nezranitelný, a vyráží pod tebou.'),'colossus':_t('Vrhá se a při dopadu se roztříští do kruhu krystalů.'),'titan':_t('Střídá vějíř a kruh magmatu. Pod polovinou zdraví se hora probudí a vybuchuje častěji.'),'crab':_t('Vrhá se bokem na tebe. Voda mu nevadí.'),'pirate':_t('Pomalý a odolný. Voda mu nevadí, po smrti nechá louži.'),'jelly':_t('Pluje do rytmu, na každou dobu vyrazí kupředu. Dotek tě zpomalí.'),'gull':_t('Krouží kolem tebe a střemhlav se vrhá.'),'crabking':_t('Vrhá se na tebe a dopad rozstříkne vějíř bublin. Volá kraby.'),'captain':_t('Pálí salvy dělových koulí a volá utopené piráty.'),'seawitch':_t('Mizí v mlze a objevuje se u tebe. Kruhy bublin a medúzy.'),'seasnake':_t('Krouží kolem tebe, plive vějíře a každý čtvrtý takt se vrhne napříč.'),'kraken':_t('Číhá u okraje paluby, pálí inkoust a útočí chapadly. Pod polovinou zdraví bouře zesílí a chapadla lámou palubu.'),'astrolab':_t('Drží odstup, střílí kruhy a spirály, volá skřítky.'),'nebula':_t('Kape hvězdný sliz a přenáší se k tobě.'),'griffin':_t('Vrhá se napříč a shazuje na tebe hvězdy.'),'orion':_t('Střílí šípy proudem i vějířem a volá vlky.'),'eclipse':_t('Kruhy střel, padající hvězdy a vlci. Když slunce mizí, bojuje dvakrát tvrději.'),'maw':_t('Jde po tobě, otevírá kolem tebe trhliny a volá stíny.'),'hoarder':_t('Drží odstup a metá po tobě obří trosky. Volá vyhaslé.'),'mirror':_t('Vrhá se napříč a přenáší se na opačnou stranu od tebe.'),'moth':_t('Kape prach, volá stíny a zhasíná lucernu.'),'nothing':_t('Spirály a kruhy střel, stíny a oči. Když polyká světlo, střed arény tě táhne do černé díry.'),'thornmom':_t('Jde po tobě a kolem tebe zasévá trnité keře.'),'reaper':_t('Vrhá se napříč a seká kosou přes celou řadu, ve které stojíš.'),'gnomon':_t('Drží odstup, roztáčí stín hodin a v poledne pálí kruhy.'),'honeyq':_t('Volá roje světlušek, kape med a střílí žihadla.'),'phoenix':_t('První tvor nového slunce, hlídá jeho kolébku. Kruhy ohně a ohnivá stopa. Když padne, změní se ve vejce: rozbij ho, než se Fénix vylíhne.'),'usurer':_t('Drží odstup, střílí a když jsi blízko, krade ti zlato. Po smrti ho vrátí.'),'mintmaster':_t('Jde po tobě a pouští lisy přes řádek i sloupec, kde stojíš.'),'gknight':_t('Vrhá se napříč a budí sochy kolem sebe.'),'dragon':_t('Leží na pokladu a chrlí oheň. Čím víc pokladu sebereš, tím je vzteklejší.'),'herald':_t('Aurelův služebník. Kruhy střel a dvořané; v půlce souboje ti řekne pravdu a oko slunce tě začne lovit.'),'serpent':_t('Plave pod ledem, kde ho nezraníš. Vynoří se s kruhem střepů a chvíli útočí.'),'fknight':_t('Vrhá se na tebe, dopad rozmetá kruh ledu. Volá ledové přízraky.'),'wendigo':_t('Bleskové výpady končí vějířem střepů. Každé tři takty zavyje a přivolá vlky.'),'yetiking':_t('Střídá obří sněhové koule a dupnutí. Volá sněhuláky a yetie.'),'queen':_t('Kruhy ledových střepů a pomocníci. Pod polovinou zdraví začne aréna zamrzat a v bezpečí jsi jen v zářící runě.')};
+  else if(tab==='world'){const N={'slime':_t('Pomalý, chodí v houfech.'),'bat':_t('Rychlý, létá v kličkách.'),'skeleton':_t('Jde rovnou po tobě.'),'ghost':_t('Pomalu kličkuje k tobě.'),'spider':_t('Malý a hodně rychlý.'),'zombie':_t('Pomalý, ale hodně vydrží.'),'mage':_t('Drží si odstup a střílí.'),'golem':_t('Obr, vydrží hodně a tvrdě bije.'),'wolf':_t('Rozběhne se proti tobě.'),'flameskull':_t('Řítí se na tebe v plamenech.'),'drowned':_t('Pomalý, ve vodě ho nic nezdrží. Po smrti nechá louži, která zpomaluje.'),'bonearcher':_t('Kostlivec s lukem, drží si odstup.'),'digger':_t('Každých pár taktů vykope z hrobu kostlivce.'),'scorp':_t('Vrhá se na tebe a jeho žihadlo otráví.'),'mummy':_t('Odolná. Když tě chytí, zpomalí tě.'),'cultist':_t('Hází vějíř tří nožů.'),'imp':_t('Malý a rychlý, poletuje v kličkách.'),'magslime':_t('Po smrti nechá kaluž magmatu, která pálí.'),'miner':_t('Drží si odstup a hází krumpáče.'),'yeti':_t('Pomalý a odolný. Hází sněhové koule, které zpomalí.'),'wraith':_t('Kličkuje k tobě a jeho dotek zpomaluje.'),'icearcher':_t('Drží si odstup a střílí dvojice ledových šípů, které zpomalí.'),'snowman':_t('Po smrti se rozletí na střepy ledu.'),'crab':_t('Na chvíli se zastaví a pak vyrazí přímo na tebe.'),'pirate':_t('Odolný a po smrti nechá louži, která zpomaluje.'),'jelly':_t('Na každou dobu poskočí k tobě, její dotek zpomaluje.'),'gull':_t('Krouží kolem a střemhlav se vrhá dolů.'),'starimp':_t('Na takt se přenese těsně k tobě.'),'meteor':_t('Rozjede se a vrazí do tebe.'),'starwolf':_t('Mezi vlky svítí čáry, které pálí.'),'comet':_t('Létá rovně napříč a nechává hořící ohon.'),'shade':_t('Rychlý stín, jde rovnou po tobě.'),'hollow':_t('Po smrti se rozpadne na dva stíny.'),'voideye':_t('Vznáší se, drží odstup a střílí vějíř tří střel.'),'devourer':_t('Obr, hodně vydrží a jeho dotek zpomaluje.'),'sunfl':_t('Stojí v trávě a střílí vějíř semen.'),'beetle':_t('Rozběhne se a vrhne se na tebe.'),'firefly':_t('Malá a rychlá, létá v rojích.'),'scarecrow':_t('Pomalý, ale hodně vydrží.'),'gilded':_t('Zlatá socha, která se dala do pohybu. Pomalá a odolná.'),'taxman':_t('Rychlý, a když se tě dotkne, ukradne ti zlato. Zabij ho a vrátí ho.'),'alchem':_t('Drží odstup a hází vějíř lahviček.'),'mimic':_t('Truhla, která kouše. Rozběhne se a vrhne se na tebe.'),'statue':_t('Stojí, dokud se nepřiblížíš nebo do ní neudeříš.'),'sunguard':_t('Obrněný a pomalý, hodně vydrží.'),'spark':_t('Rychlá a létá. Když ji zabiješ, rozprskne se do kruhu jisker.'),'chorist':_t('Drží odstup. Jeho chorál léčí nepřátele kolem, zabij ho první.'),'trophy':_t('Pozlacená socha bossa z dřívějška. Ožije a útočí jako kdysi.'),'shard7':_t('Krouží arénou a útočí silou své kapitoly. Rozbij ho.')},B={'slimeking':_t('Svolává další slizy.'),'lich':_t('Střílí kruhy střel.'),'demon':_t('Vrhá se na tebe a pálí kruhy střel.'),'priest':_t('Volá utopence a pod nohy ti plive louže.'),'warden':_t('Vrhá se, dupe a zhasíná pochodně.'),'ringer':_t('Každý úder zvonu je kruh střel.'),'morvan':_t('Chrání ho tři fylaktérie. Pod polovinou zdraví uzavře arénu.'),'scorpking':_t('Vrhá se a nechává za sebou jed.'),'worm':_t('Plave pod pískem, kde je nezranitelný, a vyráží pod tebou.'),'priestess':_t('Kletbou ti na chvíli obrátí ovládání.'),'sphinx':_t('Nejdřív hlídá sluneční paprsek, pak tě loví, potápí obelisky a volá vojáky.'),'forgelord':_t('Každý úder kladiva je kruh jisker, volá skřety a pod nohy ti lije magma.'),'eel':_t('Plave pod vodou, kde je nezranitelný, a vyráží pod tebou.'),'colossus':_t('Vrhá se a při dopadu se roztříští do kruhu krystalů.'),'titan':_t('Střídá vějíř a kruh magmatu. Pod polovinou zdraví se hora probudí a vybuchuje častěji.'),'crab':_t('Vrhá se bokem na tebe. Voda mu nevadí.'),'pirate':_t('Pomalý a odolný. Voda mu nevadí, po smrti nechá louži.'),'jelly':_t('Pluje do rytmu, na každou dobu vyrazí kupředu. Dotek tě zpomalí.'),'gull':_t('Krouží kolem tebe a střemhlav se vrhá.'),'crabking':_t('Vrhá se na tebe a dopad rozstříkne vějíř bublin. Volá kraby.'),'captain':_t('Pálí salvy dělových koulí a volá utopené piráty.'),'seawitch':_t('Mizí v mlze a objevuje se u tebe. Kruhy bublin a medúzy.'),'seasnake':_t('Krouží kolem tebe, plive vějíře a každý čtvrtý takt se vrhne napříč.'),'kraken':_t('Číhá u okraje paluby, pálí inkoust a útočí chapadly. Pod polovinou zdraví bouře zesílí a chapadla lámou palubu.'),'astrolab':_t('Drží odstup, střílí kruhy a spirály, volá skřítky.'),'nebula':_t('Kape hvězdný sliz a přenáší se k tobě.'),'griffin':_t('Vrhá se napříč a shazuje na tebe hvězdy.'),'orion':_t('Střílí šípy proudem i vějířem a volá vlky.'),'eclipse':_t('Kruhy střel, padající hvězdy a vlci. Když slunce mizí, bojuje dvakrát tvrději.'),'maw':_t('Jde po tobě, otevírá kolem tebe trhliny a volá stíny.'),'hoarder':_t('Drží odstup a metá po tobě obří trosky. Volá vyhaslé.'),'mirror':_t('Vrhá se napříč a přenáší se na opačnou stranu od tebe.'),'moth':_t('Kape prach, volá stíny a zhasíná lucernu.'),'nothing':_t('Spirály a kruhy střel, stíny a oči. Když polyká světlo, střed arény tě táhne do černé díry.'),'thornmom':_t('Jde po tobě a kolem tebe zasévá trnité keře.'),'reaper':_t('Vrhá se napříč a seká kosou přes celou řadu, ve které stojíš.'),'gnomon':_t('Drží odstup, roztáčí stín hodin a v poledne pálí kruhy.'),'honeyq':_t('Volá roje světlušek, kape med a střílí žihadla.'),'phoenix':_t('První tvor nového slunce, hlídá jeho kolébku. Kruhy ohně a ohnivá stopa. Když padne, změní se ve vejce: rozbij ho, než se Fénix vylíhne.'),'usurer':_t('Drží odstup, střílí a když jsi blízko, krade ti zlato. Po smrti ho vrátí.'),'mintmaster':_t('Jde po tobě a pouští lisy přes řádek i sloupec, kde stojíš.'),'gknight':_t('Vrhá se napříč a budí sochy kolem sebe.'),'dragon':_t('Leží na pokladu a chrlí oheň. Čím víc pokladu sebereš, tím je vzteklejší.'),'herald':_t('Aurelův služebník. Kruhy střel a dvořané; v půlce souboje ti řekne pravdu a oko slunce tě začne lovit.'),'stairward':_t('Vrhá se na tebe a pod nohama ti boří schody.'),'curator':_t('Drží odstup a probouzí ozvěny bossů ze své sbírky.'),'sunsmith':_t('Jde po tobě a kladivem ti značí šachovnici pod nohy.'),'den':_t('Den a Noc. Musí padnout do dvou taktů od sebe, jinak jeden oživí druhého.'),'aurel':_t('Čtyři fáze: král, sedm střepů, slunce a poslední jiskra. Ve fázi slunce se schovej do stínu.'),'serpent':_t('Plave pod ledem, kde ho nezraníš. Vynoří se s kruhem střepů a chvíli útočí.'),'fknight':_t('Vrhá se na tebe, dopad rozmetá kruh ledu. Volá ledové přízraky.'),'wendigo':_t('Bleskové výpady končí vějířem střepů. Každé tři takty zavyje a přivolá vlky.'),'yetiking':_t('Střídá obří sněhové koule a dupnutí. Volá sněhuláky a yetie.'),'queen':_t('Kruhy ledových střepů a pomocníci. Pod polovinou zdraví začne aréna zamrzat a v bezpečí jsi jen v zářící runě.')};
     h=gdSec(_t('Hrdinové'))+Object.keys(HEROES).map(id=>gdRow(dataUrl(SPR.hero[id]),HEROES[id].name,HEROES[id].desc+(HEROES[id].soon?' '+_t('Přijde s kapitolou ')+SOON_CH[HEROES[id].soon]+_t('. Jeho zbraň dostanou všichni, až ho vylepšíš na úroveň 8.'):''))).join('')
      +CHAPTERS.map(C=>gdSec(_t('Kapitola ')+ROMAN_CH[C.i]+' · '+C.name)+C.maps.map(id=>gdRow(thumbs[id]?thumbs[id].toDataURL():thumbUrl(id),MAPS[id].name+(MAPS[id].finale?_t(' (finále)'):''),MAPS[id].desc)).join('')).join('')
      +gdSec(_t('Nepřátelé'))+ENEMY_IDS.filter(id=>!ENEMY_DEFS[id].noHit).map(id=>gdRow(dataUrl(SPR.enemy[id]),ENEMY_DEFS[id].name,N[id]||'')).join('')
@@ -8454,6 +8837,7 @@ const ACH=[
  {id:'eclipse',ic:'trophy',name:_t('Strážce hvězd'),desc:_t('Poraz Zatmění ve finále kapitoly VI.'),title:_t('Strážce hvězd'),n:1,v:()=>save.cleared.zatmeni?1:0,g:900},
  {id:'nothing',ic:'trophy',name:_t('Světlonoš'),desc:_t('Poraz Nicotu ve finále kapitoly VII.'),title:_t('Světlonoš'),n:1,v:()=>save.cleared.nicota?1:0,g:1000},
  {id:'phoenix',ic:'trophy',name:_t('Lovec fénixe'),desc:_t('Poraz Fénixe úsvitu ve finále kapitoly VIII.'),title:_t('Lovec fénixe'),n:1,v:()=>save.cleared.kolebka?1:0,g:1200},
+ {id:'aurel',ic:'trophy',name:_t('Konec aktu I'),desc:_t('Poraz Aurela ve finále kapitoly X.'),title:_t('Přemožitel slunce'),n:1,v:()=>save.cleared.korunace?1:0,g:2000},
  {id:'herald',ic:'trophy',name:_t('Poslední slovo'),desc:_t('Poraz Herolda slunce ve finále kapitoly IX.'),title:_t('Kdo zná jméno'),n:1,v:()=>save.cleared.dvur?1:0,g:1500},
  {id:'titan',ic:'trophy',name:_t('Krotitel hory'),desc:_t('Poraz Magmového titána ve finále kapitoly III.'),title:_t('Krotitel hory'),n:1,v:()=>save.cleared.srdce?1:0,g:700},
  {id:'combo',ic:'note',name:_t('Rytmus v krvi'),desc:_t('Dosáhni komba 300 v jednom běhu.'),title:_t('Bard'),n:300,v:S=>S.tot.combo,g:150,hero:'bard'},
@@ -8509,7 +8893,7 @@ const Q_PL={slime:_t('slizů'),bat:_t('netopýrů'),skeleton:_t('kostlivců'),gh
  drowned:_t('utopenců'),bonearcher:_t('kostěných lučištníků'),digger:_t('hrobníků'),scorp:_t('štírů'),cultist:_t('pouštních kultistů'),mummy:_t('mumií'),imp:_t('ohnivých skřetů'),magslime:_t('magmových slizů'),
  miner:_t('duchů horníků'),wraith:_t('ledových přízraků'),snowman:_t('sněhuláků'),icearcher:_t('ledových lučištníků'),yeti:_t('yetiů'),crab:_t('krabů'),pirate:_t('utopených pirátů'),gull:_t('racků'),jelly:_t('medúz'),
  starimp:_t('hvězdných skřítků'),meteor:_t('meteoritů'),starwolf:_t('souhvězdních vlků'),comet:_t('komet'),
- shade:_t('stínů'),hollow:_t('vyhaslých'),voideye:_t('očí prázdnoty'),devourer:_t('požíračů'),sunfl:_t('slunečnic'),beetle:_t('chroustů'),firefly:_t('světlušek'),scarecrow:_t('strašáků'),gilded:_t('pozlacených'),taxman:_t('výběrčích'),alchem:_t('alchymistů'),mimic:_t('mimiků'),statue:_t('soch')};
+ shade:_t('stínů'),hollow:_t('vyhaslých'),voideye:_t('očí prázdnoty'),devourer:_t('požíračů'),sunfl:_t('slunečnic'),beetle:_t('chroustů'),firefly:_t('světlušek'),scarecrow:_t('strašáků'),gilded:_t('pozlacených'),taxman:_t('výběrčích'),alchem:_t('alchymistů'),mimic:_t('mimiků'),statue:_t('soch'),sunguard:_t('slunečních strážců'),spark:_t('jisker'),chorist:_t('zpěváků kůru'),trophy:_t('ozvěn'),shard7:_t('střepů')};
 const Q_ACC={knight:_t('Rytíře'),archer:_t('Střelce'),mage:_t('Mága'),builder:_t('Stavitele'),bard:_t('Barda')};
 const qMin=s=>Math.floor(s/60)+_t(' min')+(s%60?' '+(s%60)+' s':'');
 const Q_TPL=[
@@ -8584,8 +8968,9 @@ const WANTED={baron:{map:'hrbitov',e:'skeleton',name:_t('Kostěný baron'),desc:
   comet:{map:'hvezdarna',e:'comet',name:_t('Bludná kometa'),desc:_t('Křižuje mapu a za sebou nechává hořící ohon. Na úder metá kruh jisker.')},
   nameless:{map:'okraj',e:'hollow',name:_t('Bezejmenný'),desc:_t('Mizí ve tmě a objeví se ti za zády. Na úder metá kruh stínů.')},
   rohac:{map:'rozbresk',e:'beetle',name:_t('Zlatý roháč'),desc:_t('Vrhá se po tobě a kudy proběhne, tam vyrostou trny. Na úder metá kruh zlatých krovek.')},
+  crownguard:{map:'schody',e:'sunguard',name:_t('Korunní strážce'),desc:_t('Obrněný strážce slunce. Na úder metá kruh světla a kudy projde, tam se prolomí schody.')},
   treasurer:{map:'predmesti',e:'mimic',name:_t('Pokladník'),desc:_t('Truhla, která utíká s cizím zlatem. Na úder metá kruh mincí a kudy proběhne, tam zezlátne zem.')}};
-const WANT_OF={};for(const id of MAP_IDS)WANT_OF[id]=({c1:'baron',c2:'widow',c3:'smith',c4:'bigfoot',c5:'seawolf',c6:'comet',c7:'nameless',c8:'rohac',c9:'treasurer'})[CH_OF[id].id];
+const WANT_OF={};for(const id of MAP_IDS)WANT_OF[id]=({c1:'baron',c2:'widow',c3:'smith',c4:'bigfoot',c5:'seawolf',c6:'comet',c7:'nameless',c8:'rohac',c9:'treasurer',c10:'crownguard'})[CH_OF[id].id];
 const W_RW={g:150,m:20,c:2,itemP:.35};
 
 const qHash=s=>{let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;};
@@ -8698,6 +9083,7 @@ function updateWanted(dt){
       for(let i=0;i<12;i++)addP({x:e.x,y:e.y-6,vx:rnd(-40,40),vy:rnd(-40,40),life:.35,col:pick(['#5af0d8','#0c0e14','#9a5ad8']),sz:1,g:0});
       e.x=clamp(tp.x-f.x*44,16,sz-16);e.y=clamp(tp.y-f.y*44,16,sz-16);ring(e.x,e.y,10,46,e.dmg*.4,run.t,srcOf(e));sfx('zap');}}
   else if(e.want==='treasurer'){if(e.wA<=0&&run.beatNow){e.wA=2.4;ring(e.x,e.y,12,48,e.dmg*.4,run.t,srcOf(e));sfx('coin');}if(e.wB<=0&&run.barNow){e.wB=3;for(const q of run.enemies)if(!q.dead&&Math.hypot(q.x-e.x,q.y-e.y)<60)gildEnemy(q);}}
+  else if(e.want==='crownguard'){if(e.wA<=0&&run.beatNow){e.wA=2.6;ring(e.x,e.y,12,46,e.dmg*.4,run.t,srcOf(e));sfx('zap');}if(e.wB<=0&&run.barNow){e.wB=4;if(run.kcl)KIT_MECH.collapse.drop(e.x,e.y,3);}}
   else if(e.want==='rohac'){if(e.wA<=0&&run.beatNow){e.wA=2.6;ring(e.x,e.y,10,50,e.dmg*.4,run.t,srcOf(e));sfx('shoot',2);}
     if(e.wB<=0&&run.barNow){e.wB=4;if(run.kg)KIT_MECH.growth.plant(e.x,e.y,M.stepDur*16);}}
   else if(e.want==='comet'){if(e.wA<=0&&run.beatNow){e.wA=2.4;ring(e.x,e.y,10,50,e.dmg*.4,run.t,srcOf(e));sfx('zap');}}
@@ -9591,6 +9977,14 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11p',d:'11. 11. 2026',t:_t('Kapitola X: Korunované slunce'),hl:[
+  {ic:'map:schody',t:_t('Kapitola X: Korunované slunce'),d:_t('Finále prvního aktu. Uvnitř slunce, které Aurel ukoval ze střepů: <b>hroutící se schody</b>, <b>ožívající sochy bossů</b> z celé cesty, <b>kladivo na šachovnici</b> a dvůr, kde vládnou Den a Noc.')},
+  {ic:'boss:aurel',t:_t('Aurel, Korunované slunce'),d:_t('Boss aktu ve <b>čtyřech fázích</b>: král, sedm střepů (každý útočí silou své kapitoly, rozbij je), slunce (schovej se do stínu sloupů a věží) a poslední jiskra ve tmě.')},
+  {ic:'hero:paladin',t:_t('Paladin zdarma'),d:_t('Kdo porazí Aurela, k tomu se přidá <b>Paladin</b>. Každých 8 taktů ho požehná štít a jeho <b>Světelné kopí</b> projde celou řadou nepřátel. S Aurou ho slij do <b>Svatozáře</b>.')},
+  {ic:'boss:den',t:_t('Den a Noc'),d:_t('Dva bossové najednou. <b>Musí padnout do dvou taktů od sebe</b>, jinak jeden oživí druhého.')},
+  {ic:'tower:sanctum',t:_t('Kovadlina a Svatyně'),d:_t('Kovadlina kuje jiskry do nejbližších nepřátel. Svatyně pálí světlem a vrhá stín, který tě ve finále schová před výšlehem slunce.')},
+  {ic:'set:crown',t:_t('Zbroj padlé hvězdy'),d:_t('Šestidílný set se sedmi paprsky a padající hvězdou. Ve finále na odvážné čeká <b>Koruna sedmi střepů</b>.')}],
+  items:[_t('Konec aktu I v Kronice, titul Přemožitel slunce a hledaný Korunní strážce.'),_t('Nová hudba korunovace: varhany, sbor a žestě. Když útočí střep, zazní kousek melodie jeho kapitoly.')]},
  {v:'2026-11-11o',d:'11. 11. 2026',t:_t('Zlatá říše dostala tvář'),hl:[
   {ic:'map:predmesti',t:_t('Předměstí jako město'),d:_t('Dlážděné ulice lemované domy, lucerny, trhy a fontána na náměstí se slunečnou mozaikou.')},
   {ic:'map:mincovna',t:_t('Mincovna jako dílna'),d:_t('Koleje vozíků, výstražné pruhy, řady lisů, beden a pece podél zdí.')},
