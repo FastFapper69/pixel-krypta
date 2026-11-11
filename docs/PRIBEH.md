@@ -1,0 +1,126 @@
+# Pixel Krypta – příběh a plán aktů (návrh 11. 11. 2026, čeká na schválení)
+
+Struktura: **akt = 10 kapitol**, na konci aktu dynamický těžký boss přes celou kapitolu X.
+Akt I = kapitoly I–X (I–VII hotové, chybí VIII–X). Akt II = XI–XX.
+Obtížnost dál podle `DIFF_CIL`: každá 3. kapitola je zeď (IX, XII, XV, XVIII), finále aktu má vlastní špičku.
+
+---
+
+## AKT I – „Padlá hvězda“
+
+### Jádro příběhu (co hráč pochopí až v kapitole IX)
+Nad světem kdysi visela **Hvězda** – pečeť, která držela svět pohromadě. Její strážce **Aurel** ji roztříštil, protože chtěl z jejího světla ukout vlastní slunce a vládnout mu.
+Střepy popadaly do sedmi říší a každý z někoho udělal tyrana (Morvan, Sfinga, Titán, Zimní královna, Kraken, Zatmění, Nicota).
+Hrdina celou dobu sbírá střepy, aby zlo zastavil. **Netuší, že je tím nosí přímo Aurelovi.** Z posledního střepu se v kapitole VIII „rodí nové slunce“, jenže to slunce je Aurelův trůn.
+
+**Červená nit napříč kapitolami:** zlaté oko. Od kapitoly VIII se objevuje na rekvizitách, v hláškách bossů a v textech po finále. Volitelně ho lze dokreslit i do kapitol I–VII (oko na Morvanově lebce, na Bráně slunce…), aby šlo o nenápadnou stopu od začátku.
+
+### Kapitoly I–VII (hotové) – jak na sebe navazují
+| Kap. | Říše | Co se stane | Most dál |
+|---|---|---|---|
+| I | Říše mrtvých | Z Morvanovy lebky vypadne žhnoucí střep | ukazuje na jih → poušť |
+| II | Písečná říše | Sfinga padá, Brána slunce se propadne | pod ní žár hor |
+| III | Hlubiny | Srdce hory vychladne | popel ztuhne ve sníh |
+| IV | Ledová říše | Ledový trůn praskne | voda teče k moři |
+| V | Prokleté pobřeží | Kraken klesne, obloha se roztrhne | padají hvězdy |
+| VI | Nebeská hvězdárna | Zatmění se rozpadne | za měsícem je Prázdnota |
+| VII | Prázdnota | Nicota se zhroutí, poslední střep se rozzáří | rodí se nové slunce |
+
+### Kapitola VIII – Úsvit (`c8`, hrdinka Réva)
+**Příběh:** svět se po Nicotě rodí znovu. Pod novým sluncem všechno roste až moc rychle: zlaté louky, obří květy, trny přes trosky. Světlo, které v kapitole VII chránilo, tady pálí.
+**Pocit:** po černé Prázdnotě konečně barvy. Zlatá, teplá zelená a bílá. Hudba „ranní hymna“ (vlastní styl `dawn`, durová/lydická, jasná arpeggia, teplé plochy).
+**Nové mechaniky (postupně):**
+- **Růst:** na takt dopadají semena a vyrostou z nich trnité keře, které zpomalují a zavírají cesty (proti stylu „utíkej v kruhu“). Útoky a věže je spálí.
+- **Stín hodin:** obří obelisk vrhá rotující stín. Ve stínu je bezpečí, na světle hrdinu v poledne pálí a nepřátelé sílí. Je to obrácená lucerna ze VII: tam bylo potřeba světlo, tady stín.
+- **Květy:** na první dobu taktu rozkvetou a léčí každého, kdo u nich stojí, i nepřátele. Je to taktické rozhodnutí.
+
+| Mapa | Rozvržení | Mechanika | Boss |
+|---|---|---|---|
+| Rozbřesk | open | Růst | Matka trnů (rozsévá keře) |
+| Zlatá pole | paths, pšenice, strašáci | žádná | Žnec (kosa přes pole v pruzích na takt) |
+| Sluneční hodiny | plaza s obeliskem | Stín hodin | Gnómon, živé hodiny (sám točí stínem) |
+| Zahrada světla | open, obří květy | Květy | Medová královna (roje včel) |
+| **Kolébka slunce** (finále) | arena | Růst + Stín | **Fénix úsvitu**: po smrti se změní ve vejce a hráč ho musí rozbít do 4 taktů, jinak Fénix vstane s plným zdravím |
+
+**Nepřátelé (4):** Slunečnice (střílí semena), Zlatý chroust (výpad), Světluška (rychlá, letí), Strašák (tank, ve slunci se uzdravuje).
+**Hrdinka Réva** (druidka): zbraň Trnité šlahouny, na první dobu taktu přikovají nepřátele k zemi.
+**Věže:** Slunečnice (paprsek), Úl (roj včel).
+**Set** Roucho úsvitu, **legendárka** Fénixovo pero (jednou za běh vstaneš z popela).
+**Hledaný:** Zlatý jelen.
+**Most:** Fénix shoří a už nevstane. Slunce nad zahradou se otevře jako oko a všechno, na co pohlédne, se mění ve zlato.
+
+### Kapitola IX – Zlatá říše (`c9`, ZEĎ, hrdinka Straka)
+**Příběh:** město, na které slunce pohlédlo jako první. Obyvatelé jsou zlaté sochy, ulice dlážděné mincemi, všude poklady a chamtivost. Vládne tu **Herold**, Aurelův služebník. **Tady hráč poprvé uslyší Aurelovo jméno** a dojde mu, že střepy celou dobu nosil jemu.
+**Pocit:** zlato, sytě rudá, černá. Hudba „dvorní pochod“ (pompézní žestě, cembalo, slavnostní bubny).
+**Nové mechaniky:**
+- **Pohled slunce:** po mapě kluže kužel světla (oko). Kdo v něm zůstane, pomalu zezlátne (zpomalení, pak krátké zkamenění). Schovat se jde za sloupy. Nepřátelé v něm zezlátnou taky: jsou odolnější, ale nechají víc zlata.
+- **Chamtivost:** po mapě leží hromádky pokladu. Sebrat je dá sílu v běhu (ne moc zlata, ekonomika zůstává těsná), ale každá probudí strážce nebo zrychlí vlny. Riziko proti odměně.
+- **Sochy:** zlaté sochy na každý 4. takt ožívají. Dají se rozbít předem.
+
+| Mapa | Mechanika | Boss |
+|---|---|---|
+| Pozlacené předměstí | Pohled slunce | Lichvář (krade ti zlato z běhu, když zasáhne) |
+| Mincovna | lisy dupou na takt v pruzích | Mincmistr |
+| Síň soch | Sochy | Zlatý rytíř |
+| Pokladnice | Chamtivost | Drak Zlatohlav (leží na pokladu, čím víc jsi sebral, tím je vzteklejší) |
+| **Zlatý dvůr** (finále) | Pohled + Sochy | **Herold slunce**: „Můj pán děkuje za střepy.“ Pod 50 % zavolá Aurelův pohled přes celou arénu |
+
+**Nepřátelé (4):** Pozlacený (pomalý obrněný grunt, praská), Výběrčí (rychlý, krade mince), Alchymista (střílí, mění zem ve zlato), **Mimik** (truhla, která kouše; vtip na naše truhly).
+**Hrdinka Straka** (zlodějka): zbraň Vrhací mince, kritické zásahy na zezlátlé nepřátele.
+**Věže:** Zrcadlo (odráží pohled slunce jako paprsek do nepřátel), Lis.
+**Set** Šat zlatého dvora, **legendárka** Midasova rukavice.
+**Most:** Herold padá. Z dvora vede schodiště ze světla přímo do slunce.
+
+### Kapitola X – Korunované slunce (`c10`, finále aktu, hrdina Paladin)
+**Příběh:** uvnitř slunce, které Aurel ukoval ze střepů. Každá síň je postavená z jednoho ukradeného střepu, takže kapitola **připomíná celý akt**, jen spálený a pozlacený.
+**Pocit:** bílé světlo, zlato, rudé jádro. Hudba „korunovace“ (sbor, varhany, banger kit naplno).
+**Nové mechaniky:** hroutící se schody (plošiny mizí na takt), ozvěny starých bossů jako minibossové, údery kladiva v mřížce na takt.
+
+| Mapa | Mechanika | Boss |
+|---|---|---|
+| Schody světla | úzké cesty, schody se hroutí na takt | Strážce schodů |
+| Síň trofejí | sochy Morvana, Sfingy, Titána, Královny, Krakena, Zatmění a Nicoty ožívají jako minibossové (ochutnávka odložené Síně bossů) | Kurátor |
+| Hvězdná kovárna | kladivo dopadá v mřížce na takt | Aurelův kovář |
+| Dvůr věčnosti | elitní mix nepřátel I–IX | Den a Noc (dva bossové najednou, musí padnout do 2 taktů od sebe) |
+| **Korunované slunce** (finále aktu) | aréna se mění podle fáze | **Aurel** |
+
+**Boss aktu – Aurel, Korunované slunce (4 fáze):**
+1. **Král (100–70 %):** zlatý král s korunou ze sedmi střepů. Seky mečem na takt, volá královskou gardu.
+2. **Sedm střepů (70–40 %):** koruna se roztříští a střepy krouží kolem arény. Každé 2 takty jeden z nich použije mechaniku své kapitoly: kostěné ruce ze země (I), písečná bouře (II), praskliny s magmatem (III), mrazivé runy (IV), chapadla (V), padající hvězdy (VI), trhliny (VII). Střepy jdou rozbít: rozbitý střep vypne svou mechaniku a ubere Aurelovi zdraví. Pořadí je v každém běhu jiné.
+3. **Slunce (40–10 %):** Aurel splyne se sluncem přes celou obrazovku. Světelný kruh se zmenšuje a bezpečí je jen ve stínu tvých věží (tower defense má ve finále smysl). Spirály střel v rytmu, hudba na maximu.
+4. **Poslední jiskra (10–0 %):** slunce zhasne a jediné světlo je hrdina. Aurelovo oko ho honí 20 s. Poslední úder musí padnout na první dobu taktu (zpomalení a záblesk).
+
+**Úvodní karta:** speciální pro finále aktu. Hudba utichne, obrazovka praskne, pak drop.
+**Odměna:** titul a profilový obrázek aktu, legendárka Koruna sedmi střepů, otevření aktu II. **Návrh:** odložená Síň bossů se odemkne tady (dává smysl hned po Síni trofejí).
+**Konec aktu:** Aurel padá, sedm střepů se spojí v celou Hvězdu a ta se vrátí na oblohu. Poprvé od začátku hry je normální noc. Aurelova poslední slova: *„Hlupáku… ta hvězda nebyla moje. Hlídala JEHO spánek.“* Někde hluboko pod světem se něco obrátí ze spánku na bok.
+
+---
+
+## AKT II – „Spáč“ (kapitoly XI–XX, hrubý plán)
+
+**Jádro:** svět je sen prastarého **Spáče**. Hvězda byla ukolébavka, která ho držela ve spánku. Celý akt I byla rozbitá, Spáč se začal budit a jeho sny prosakují do světa. Hrdina sestupuje vrstvami snu až k němu. Mechaniky jsou podivnější: čas, gravitace, proměny mapy.
+
+| Kap. | Název | Téma a mechanika | Most dál |
+|---|---|---|---|
+| XI | Mělký sen | pastelová snová krajina, létající nábytek; mapa se na takt přeskládá (mrknutí) | sen ztmavne |
+| XII | Říše strachu (zeď) | tma, strachy jsou neviditelné, dokud se na ně nepodíváš | strach rozbije hodiny |
+| XIII | Rozbité hodiny | zóny zpomaleného a přetočeného času; boss si vrací zdraví, když ho netrefíš do rytmu | čas teče dolů ke kořenům |
+| XIV | Kořeny světa | kořeny světového stromu, svítící houby; kořeny rostou a uzavírají mapu | kořeny pohání stroj |
+| XV | Hodinový stroj (zeď) | město z ozubených kol, která pohánějí sen; podlahy se točí, automaty | stroj vypouští páru do nebe |
+| XVI | Bouřné výšiny | bouřliví obři, blesky na takt, vítr | blesk rozbije dno moře |
+| XVII | Potopené vzpomínky | ruiny civilizace, která snila před námi; bubliny vzduchu | v ruinách je knihovna |
+| XVIII | Knihovna osudu (zeď) | každý život je kniha; boss ti píše kletby do běhu | poslední kniha je o Spáči |
+| XIX | Tělo spáče | uvnitř obra, žíly; **tlukot srdce řídí hudbu i vlny** | srdce vede k oku |
+| XX | Spáčovo oko | finále aktu: boss Spáč (viz níže) | akt III |
+
+**Boss aktu II – Spáč:** oko, které se během boje postupně otevírá. Spáč sní kopie bossů z aktu I. **Poslední fáze: stín tvého hrdiny s tvojí výbavou a zbraněmi** (bojuješ sám se sebou).
+**Konec aktu II (háček na akt III):** Spáč se probudí a usměje se. *„Děkuju. Konečně můžu vyjít ven.“*
+
+---
+
+## Co to znamená pro systémy (návrh)
+- **Akt v Přípravě:** přepínač Akt I / Akt II nad seznamem kapitol (ať jich není 20 pod sebou).
+- **Kronika:** po každém finále se odemkne stránka příběhu (text `STORY` + pohlednice), dá se kdykoli znovu přečíst. Přirozeně vysvětlí návaznost.
+- **Mechaniky pořád přibývají:** 2–3 nové v každé kapitole, finále aktu všechny spojí.
+- **Hrdinové:** jeden nový za kapitolu (VIII Réva, IX Straka, X Paladin). Jména projdou `jmenahrdinu.js`.
+- **Pořadí práce:** VIII → IX → X (Aurel jako samostatný větší balík) → kronika a přepínač aktu → akt II.
