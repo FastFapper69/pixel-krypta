@@ -31,6 +31,13 @@ Komunikuj česky. Nejdřív `git fetch` + `git pull --rebase` a přečti `KAMPAN
   `layout`: `paths` (cesty od středu), `plaza` (dlážděný čtverec ±R), `arena` (kruhová aréna R, hodí se na finále), `open`.
   `props`: `{k:'klíč'|['a','b'], n, tall, r (rozestup), sh (stín), at:'any'|'ring'|'edge'|'zone'|'path', ring, sq, light:{r,col,a,dy}, lightEvery}`. `camp`: 4 rekvizity kolem startu.
   `zone`: šumová oblast (`pal`, `thr`, `cells`) – voda, bažina, láva, krystaly… zpomaluje jen s mechanikou `slow`.
+- **Návrh mapy (11o, uživatel: „design mapy je nuda“)** – náhodně rozházené `props` nestačí. Každá mapa má mít **místo s příběhem**: osu, střed, čtvrti, památky. Nástroje (pořadí kreslení: `decor` → `set` → `rows` → `camp` → náhodné `props`):
+  - `decor:[…]` = kresba do země (`kitDecor`): `rug {x,y,w,h,pal:[okraj,výplň,vzor],step}` (koberec/cesta), `mosaic {x,y,r,pal[4],rays}` (rozeta ve středu), `rails {x1,y1,x2,y2,pal}` (koleje), `stripes {x,y,w,h,pal,step}` (výstražné pruhy), `trim {pal}` (lem dlažby nebo arény), `scatter {n,pal,sz}` (drť, mince).
+  - `set:[{k,x,y,light,tall,sh}]` = památky na přesném místě (souřadnice od středu): fontána, trůn, pokladnice.
+  - `rows:[…]` = řady: `along:'path'` (domy podél ulic: `step,gap,side,skip`), `line:[x1,y1,x2,y2]` (+`mirror`), `arc:{x,y,r,n,a0,a1,sq}` (kruh praporů, svíček), `fill:{step,jit,out,in,box,p}` (čtvrť mřížkou, `out` = jen mimo střed), `inzone:1` (jen v zóně); `light`, `lightEvery`.
+  - `pathTurn` (výchozí .7) = jak moc se cesty kroutí; .2 = rovné ulice města.
+  - Pravidla: **střed (~150 px) nech volný** pro boj, hustotu dávej ven; dekor v zemi je tmavší než nepřátelé (zlaté pozadí × zlatí nepřátelé = neviditelní); rekvizity jsou jen kresba, nebrání pohybu.
+  - Kontrola: `node tests/tools/mapfull.js mapa,mapa prefix` (celá mapa naráz) + `cNshots.js` (pohled z běhu) + `heavy.js off.html mapa 4` (výkon, srovnej s `doly`). Vzor: mapy kapitoly IX v `MAPS` (město, mincovna, síň soch, pokladnice, trůnní sál).
 - **Mechaniky `KIT_MECH`** (`kit.mech:[{id,...}]`, víc najednou jde):
   - `slow` `{slow:.65, eslow:.75}` – zóna zpomaluje (ne letce, bossy a nepřátele se `zone:1`).
   - `strike` `{every:3 (takty), bossEvery, from:40 (s), warn:1, r:30, n:1, dmg:14, pct:.12, edmg:60, col, leave:'magma'|'puddle', slow, tip, src}` – kruh pod hrdinou, za takt bouchne.

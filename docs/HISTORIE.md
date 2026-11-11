@@ -370,3 +370,8 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 11n (11. 11. 2026) – kapitola IX Zlatá říše (zeď)
 - 5 map (predmesti, mincovna, sochy, pokladnice, dvur), mechaniky stavebnice `gaze`, `press`, `statues`, `greed`, zezlátnutí nepřátel (`gildEnemy`). Nepřátelé gilded, taxman (`touch:'steal'`), alchem, mimic, statue; bossové usurer, mintmaster, gknight, dragon, herald (odhalení Aurela ve 2. fázi). Bez hrdiny, mazlíček Straka (`magpie`, v truhle až od kapitoly IX). Věže Zrcadlo a Lis, set `gold`, legendárka `midas`, hledaný `treasurer`, mistrovství `herald`, hudební styl `gold`, most `stairs`.
+
+## 11o (11. 11. 2026) – tvář map Zlaté říše
+- Uživatel: „design mapy je celkem nuda, propracuj to a mysli i do budoucna“. Stavebnice map dostala návrhové nástroje: `kit.decor` (`kitDecor`: koberce, mozaiky, koleje, výstražné pruhy, lem dlažby, drť), `kit.set` (památky na přesném místě), `kit.rows` (řady podél cest, čáry, oblouky, čtvrti mřížkou, jen v zóně), `kit.pathTurn` (rovné ulice). Rekvizity jsou dál jen kresba.
+- 11 nových rekvizit IX (fontána, stánek, zlatý strom, pec, bedna, podstavec, svícen, drahokamy, koruna, trůn, prapor). Předělané všechny mapy IX: Předměstí = město s ulicemi a náměstím, Mincovna = dílna s kolejemi, Síň soch = koberce do kříže a les sloupů, Pokladnice = hromady pokladu, Zlatý dvůr = trůnní sál.
+- Nový test `tests/tools/mapfull.js` (celá mapa naráz). Výkon `heavy.js` (4× CPU) Předměstí 12 fps vs. Doly 9 fps. Postup ve skillu `nova-kapitola` „Návrh mapy“.

@@ -1,6 +1,15 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+"Zlatá říše dostala tvář":"The Golden Realm got a face",
+"Předměstí jako město":"Outskirts as a real town",
+"Dlážděné ulice lemované domy, lucerny, trhy a fontána na náměstí se slunečnou mozaikou.":"Cobbled streets lined with houses, lanterns, market stalls and a fountain on a square with a sun mosaic.",
+"Mincovna jako dílna":"The Mint as a workshop",
+"Koleje vozíků, výstražné pruhy, řady lisů, beden a pece podél zdí.":"Cart rails, hazard stripes, rows of presses and crates, furnaces along the walls.",
+"Rudé koberce do kříže, uličky podstavců se svícemi a les sloupů.":"Red carpets in a cross, aisles of plinths with candles and a forest of columns.",
+"Pokladnice a Zlatý dvůr":"Treasury and Golden Court",
+"Hromady pokladu s truhlami a korunami, trůnní sál s prapory, kruhem svící a trůnem Herolda.":"Treasure hoards with chests and crowns, a throne hall with banners, a ring of candles and the Herald's throne.",
+"Mapy nových kapitol se teď skládají z ulic, řad a památek, ne z náhodně rozházených věcí.":"Maps of new chapters are now built from streets, rows and landmarks instead of randomly scattered props.",
 "Kapitoly jako schody":"Chapters as steps",
 "Každá kapitola je schod":"Every chapter is a step",
 "Další kapitola teď vždycky začíná těžší, než končila ta předchozí. <b>Hlubiny jsou zeď</b>: bez Nočních můr v Písečné říši je neprojdeš. Přitvrdila i Ledová říše a Pobřeží.":"Each next chapter now always starts harder than the previous one ended. <b>The Depths are a wall</b>: you won't get through without Nightmares in the Sand Realm. The Ice Realm and the Coast got tougher too.",
