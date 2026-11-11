@@ -1,5 +1,5 @@
 // Bot, který hraje celé běhy a vypíše statistiky (míra výher, čas, co zabíjí, které zbraně vyhrávají).
-// env F=jiný soubor hry místo off.html
+// env F=jiný soubor hry místo off.html; env BOT=hrdina → co-op s botem (parťák řízený hrou, viz botStep v game.js)
 // Spuštění (vedle leží off.html, viz README):  node bot.js [počet_běhů=6] [hrdinové=all] [mapy=all] [nm=0] [novy|zkuseny|max]
 //   např.  node bot.js 10 knight,bard hrbitov
 // Bot je „průměrně rozumný hráč“: utíká před hordou a střelami, sbírá krystaly, brání krystal v poušti,
@@ -19,12 +19,12 @@ const heroes=HERO==='all'?['knight','archer','mage','builder','bard']:HERO.split
 const maps=MAPA==='all'?ids.maps:MAPA.split(',');
 const rows=[];const t0=Date.now();
 for(const map of maps)for(const hero of heroes)for(let i=0;i<N;i++){
-  await p.evaluate(([hero,map,nm,seed,prof])=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;K.god=false;
+  await p.evaluate(([hero,map,nm,seed,prof,bot])=>{const K=window.__krypta;K.save.sound=false;K.save.music=false;K.god=false;
     const S=K.save,f=prof==='max'?1:prof==='zkuseny'?.5:0;S.meta=S.meta||{};S.hlv=S.hlv||{};
     for(const [id,mx] of [['hp',5],['dmg',5],['spd',5],['mag',5],['xp',5],['revive',1],['build',4]])S.meta[id]=Math.floor(mx*f+(mx===1&&f>=1?0:0));
     S.hlv[hero]=prof==='max'?20:prof==='zkuseny'?10:1;S.eq={};S.cheat=false;K.lastRun=null;
     let s=seed;Math.random=()=>((s=(s*16807)%2147483647)/2147483647);
-    K.startRun(hero,map,{nm});window.__bot={seed};window.__dbg=[];},[hero,map,NM,1000+i*7919+hero.length*31+map.length*131,PROF]);
+    if(bot){S.hlv[bot]=S.hlv[hero];K._ev("LO.hero='"+hero+"';LO.map='"+map+"';LO.nm="+nm+";LO.botHero='"+bot+"';CO.bot=true;coHostGo(true)");}else K.startRun(hero,map,{nm});window.__bot={seed};window.__dbg=[];},[hero,map,NM,1000+i*7919+hero.length*31+map.length*131,PROF,process.env.BOT||'']);
   // simuluj po kouscích, aby šlo čekat na rituál fúze (setTimeout ve hře)
   for(let guard=0;guard<400;guard++){
     const st=await p.evaluate(()=>{const K=window.__krypta,DT=1/40;

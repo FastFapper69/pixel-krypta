@@ -1455,3 +1455,8 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 #kHelpTxt .sk-sum{color:#5a3c1e;margin:10px 0}
 #kHelpTxt .btn{width:100%;margin-top:4px}#kHelpTxt .btn:disabled{display:none}
 #kHelpTxt,#kHelpTxt *{font-weight:400!important}#kHelpTxt .hint{text-align:left}
+
+/* 11f co-op: vybraný hrdina/mapa je zase poznat (kamenná karta přebíjela zlatý rámeček), Začít hru drží dole */
+#scr-coop .co-pick.on{background-color:#3b3524!important;box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 0 0 4px var(--gold),inset 0 6px 0 0 #5a5030!important}
+#scr-coop .co-pick.on span{color:var(--gold)}
+#scr-coop .sticky .btn{width:100%}#scr-coop .sticky .hint{margin:0}

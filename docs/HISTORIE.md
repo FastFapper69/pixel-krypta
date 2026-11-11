@@ -330,3 +330,8 @@ Survivors základ, 4 hrdinové, 3 mapy, věže + Stavitel, krystal v poušti, te
 
 ## 11e (11. 11. 2026)
 - `audioInit()` hned při startu (po `setSong(menu)`): v prohlížečích, které to dovolí, hraje menu bez dotyku; jinde (iOS Safari/PWA) zůstane kontext `suspended` a rozjede ho první dotyk (posluchače pointerdown/pointerup/touchstart/touchend/click/keydown). Ověřeno v Chromiu se třemi autoplay politikami.
+
+## 11f (11. 11. 2026)
+- **Co-op s botem**: `#coBot` v lobby, `coBotOpen`, `coHostGo(true)`, `run.bot`, `botStep(dt)` (pohyb), `botPick` (karty). Bot žije v simulaci hostitele jako síťový partner, bez sítě, jde i offline. Neutrácí zlato, hlídá krystal, oživuje a nechá se oživit. Popis v `COOP.md` „Bot“.
+- Lobby co-opu: vybraný hrdina/mapa je zase zlatě (kamenná karta z 10q přebíjela `.co-pick.on`), `#coGo` je v `.sticky` dole, nadpis „S botem“.
+- Testy: `botcoop.js`; `bot.js` umí `BOT=hrdina` (co-op s botem pro balanc).

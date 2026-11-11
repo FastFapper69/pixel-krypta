@@ -140,3 +140,14 @@ Už dnes každá ultimátka přidává do hudby nástroj. V co-opu se vrstvy obo
 
 ## Mazlíčci (08j)
 Host simuluje mazlíčky obou hráčů (karty kamaráda přijdou v `hello.pets`), posílá je ve snímku (`pt`, `pf`), guest je jen kreslí. Detaily v `CLAUDE.md` (sekce Mazlíčci).
+
+## Bot (11f) – co-op bez kamaráda
+- Lobby: `#coBot` „Hrát s botem“ v `#scr-coop` (funguje i offline) → `coBotOpen()` (`CO.bot=true`, bez `NET`) → místnost s výběrem svého hrdiny, **hrdiny bota** (`LO.botHero`, jen vlastnění hrdinové), mapy a Noční můry → `coHostGo(true)`.
+- Bot je stejný partner jako síťový kamarád (`run.pls[1]`, `withPl`), jen `run.bot=true` a `CO.role` zůstává prázdné, takže se nic neposílá (`netSend` bez spojení nic nedělá). Platí všechna pravidla co-opu: škálování pro dva, společné XP a zlato, pouto, oživování, nepočítá se do rekordů a žebříčku. Sílu bere z hráčova účtu (`save.meta`, `heroBonus(hrdina bota)`, mazlíček hráče).
+- `botStep(dt)` (volá `update` před `envPl`): odpuzování od nepřátel, střel, lávy, vozíků, víru, děr a chapadel (stejné jako testovací `bot.js`), cíle podle pořadí: padlý bot jde jako duch k hráči · padlý hráč → doběhnout a stát u něj (oživení) · oáza pod 40 % zdraví · dál než 150 od hráče → návrat (pouto se trhá ve 200) · na mapě s krystalem hlídá krystal · srdce, předměty a krystaly XP poblíž · jinak k nejbližšímu nepříteli. Drží se ve zlaté zóně pouta (64–128). Pohyb je vyhlazený (`q.bvx/bvy`), rychlost ze statistik bota.
+- `botPick(opts)` v `coLevelOpen`: fúze > vylepšení zbraně > nová zbraň > pasivka (s trochou náhody), fúze s bonusem ×1,09 (průměrný rituál). Vybírá hned, hráč nikdy nečeká.
+- Bot **neutrácí společné zlato**: nestaví, neopravuje a `towerDwell` ho ignoruje.
+- Do Mistrovství (co-op výhry a zabití `cw`/`ck`) se běhy s botem nepočítají; úkol na oživení ano.
+- Balanc (bot.js, profil zkušený, 11. 11.): Hřbitov 100 % sólo i s botem, Doly 0 % obojí, Poušť o něco lehčí s botem (hlídá krystal). Bot tedy není lehký režim, zdi kapitol drží. Měření: `BOT=knight node bot.js 5 knight,mage hrbitov,poust,doly 0 zkuseny`.
+- Test: `node tests/tools/botcoop.js [složka] [cs|en] [telefon]` (lobby, 60 s běhu, pouto, karty, zlato, oživení oběma směry, konec).
+- Možné další kroky: hláška, co si bot vybral; povaha bota (opatrný/útočný); bot staví věže na pokyn.

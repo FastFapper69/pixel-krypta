@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Pixel Krypta</title>
 <!-- 09y: fonts are served from the game itself (no Google Fonts → no visitor IP sent to Google; licences in licenses/) -->
-<link rel="stylesheet" href="krypta.css?v=2026-11-11e">
+<link rel="stylesheet" href="krypta.css?v=2026-11-11f">
 </head>
 <body>
 <div id="splash"><img src="icon-192.png" alt=""><b>PIXEL KRYPTA</b><i></i></div>
@@ -130,17 +130,19 @@
         <button class="btn" id="coHost">Založit hru</button>
         <div class="co-join"><input id="coCode" maxlength="4" placeholder="0000" inputmode="numeric" pattern="[0-9]*" autocomplete="off" spellcheck="false"><button class="btn alt" id="coJoin">Připojit</button></div>
         <p class="co-err" id="coErr"></p>
+        <button class="btn alt" id="coBot">Hrát s botem</button>
       </div>
       <div class="stack" id="coRoom" hidden>
-        <p class="sec">Kód hry</p>
+        <p class="sec" id="coCodeSec">Kód hry</p>
         <div class="co-code" id="coCodeShow">----</div>
         <button class="btn alt sm" id="coShare">Poslat kamarádovi</button>
         <p class="co-status" id="coStatus"></p>
         <p class="sec">Tvůj hrdina</p><div class="co-picks" id="coHeroes"></div>
+        <p class="sec" id="coBotSec" hidden>Hrdina bota</p><div class="co-picks" id="coBotHeroes" hidden></div>
         <p class="sec">Mapa</p><div class="co-picks" id="coMaps"></div>
         <div class="co-picks nm" id="coNm"></div>
-        <button class="btn" id="coGo" disabled>Začít hru</button>
-        <p class="hint" id="coWait">Hru spustí ten, kdo ji založil.</p>
+        <div class="sticky"><button class="btn" id="coGo" disabled>Začít hru</button>
+        <p class="hint" id="coWait">Hru spustí ten, kdo ji založil.</p></div>
       </div>
     </div>
   </section>
@@ -327,9 +329,9 @@ window.KRYPTA_ONLINE={url:'https://mpxfppuigwvwlfhsnbgr.supabase.co',key:'sb_pub
 <script>/* 09z7: English texts are downloaded only for English players (same language rule as LANG in game.js) */
 (function(){var l=null;try{l=localStorage.getItem('pixel-krypta-lang');}catch(e){}
 if(l!=='cs'&&l!=='en')l=/^(cs|sk)\b/i.test(String((navigator.languages&&navigator.languages[0])||navigator.language||''))?'cs':'en';
-window.KRYPTA_LANG=l;if(l==='en')document.write('<script src="lang-en.js?v=2026-11-11e"><\/script>');})();
+window.KRYPTA_LANG=l;if(l==='en')document.write('<script src="lang-en.js?v=2026-11-11f"><\/script>');})();
 </script>
-<script src="game.js?v=2026-11-11e"></script>
+<script src="game.js?v=2026-11-11f"></script>
 
 <div id="kHelp" hidden><div class="khcard" data-k="slab" data-m="parch"><div id="kHelpTxt"></div></div></div>
 </body>

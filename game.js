@@ -3075,7 +3075,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11e';
+const GAME_VER='2026-11-11f';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3967,7 +3967,7 @@ const DW_R=20,DW_BEATS=2,DW_BORN=4;
 // aspoň 1,1 s: při 140 BPM jsou 2 doby 0,86 s a průchod středem kruhu (40 j při rychlosti 58) trvá 0,7 s – bez rezervy by se věž vylepšovala náhodou
 const dwTime=()=>Math.max(1.1,M.stepDur*4*DW_BEATS);
 function towerDwell(dt){
-  const bd=dwTime(),P=players().filter(q=>q&&!q.down&&!q.dead),hot=new Set();
+  const bd=dwTime(),P=players().filter(q=>q&&!q.down&&!q.dead&&!(run.bot&&q.isMate)),hot=new Set();
   for(const q of P){let nt=null,nd=DW_R;for(const t of run.towers){const d=Math.hypot(t.x-q.x,t.y-q.y);if(d<nd){nd=d;nt=t;}}if(nt)hot.add(nt);}
   for(const t of run.towers){
     const can=t.lv<3?run.coins>=towerUpCost(t):t.hp<t.max*.95;
@@ -4325,6 +4325,7 @@ function update(dt){
   if(run.curse>0){run.curse-=dt;mx=-mx;my=-my;}if(run.curseW>0)run.curseW-=dt;
   p.moving=mm>.05;if(p.moving){p.face.x=mx/Math.max(mm,.001);p.face.y=my/Math.max(mm,.001);const f=Math.hypot(p.face.x,p.face.y)||1;p.face.x/=f;p.face.y/=f;p.anim+=dt*10;}
   const sz=run.map.size,spd=st.speed*(p.down?.55:1)*plSpdMul(p);p.x=clamp(p.x+mx*spd*dt,14,sz-14);p.y=clamp(p.y+my*spd*dt,14,sz-14);mfCall('move',p,dt);
+  if(run.bot&&run.pls)botStep(dt);
   envPl(dt);if(run.pls)withPl(run.pls[1],()=>envPl(dt));
   updateSpawns(dt);updateEnemies(dt);updateWeapons(dt);updateTowers(dt);updateCrystal(dt);updateShots(dt);updatePickups(dt);updateFx(dt);updateAmbient(dt);updateCarts(dt);updateWanted(dt);mfCall('update',dt);allyUpdate(dt);petUpdate(dt);sunEyeUpdate();qLive(dt);
   if(run.crystal&&run.qc&&!run.qc.crysX){if(run.crystal.hp>=run.crystal.max/2)run.qc.crys=run.t;else run.qc.crysX=1;}
@@ -6048,7 +6049,7 @@ function bindUi(){
   $('#coHost').onclick=()=>coHostStart();
   $('#coJoin').onclick=()=>coJoin($('#coCode').value);
   $('#coCode').addEventListener('keydown',e=>{if(e.key==='Enter')coJoin($('#coCode').value);});
-  $('#coGo').onclick=()=>coHostGo();
+  $('#coGo').onclick=()=>coHostGo(CO.bot);$('#coBot').onclick=()=>coBotOpen();
   $('#coBack').onclick=()=>{sfx('ui');if(NET.open)netSend({t:'bye'});openMenu();};
   $('#coShare').onclick=async()=>{const url=location.origin+location.pathname+'?hra='+NET.code,txt=_t('Pojď hrát Pixel Kryptu se mnou! Kód hry: ')+NET.code;
     try{if(navigator.share){await navigator.share({title:_t('Pixel Krypta'),text:txt,url});return;}}catch(e){return;}
@@ -6068,7 +6069,7 @@ function bindUi(){
   $('#pResume').onclick=()=>{sfx('ui');togglePause();};
   $('#pQuit').onclick=()=>{if(run&&run.coop&&!run.over)netSend(CO.role==='guest'?{t:'quit'}:{t:'end',won:false});if(run&&!run.over){tmSend('quit');run.over=true;if(run.tut)save.tut=1;const gain=endCoins(false);save.coins+=gain;if(!isGuest())qCommit(qSnap());persist();}openMenu();};
   $('#ovShare').onclick=()=>{sfx('ui');shareResult();};
-  $('#ovAgain').onclick=()=>{sfx('ui');if(run.coop){openMenu();return;}if(run.wk){qTab='wk';openQuests();return;}if(run.won&&!run.mod){const nx=nextMap(run.mapId);sel.map=nx&&mapUnlocked(nx)?nx:run.mapId;}else sel.map=run.mapId;sel.picked=true;chSel=null;
+  $('#ovAgain').onclick=()=>{sfx('ui');if(run.coop){const b=run.bot;openMenu();if(b){openCoop();coBotOpen();}return;}if(run.wk){qTab='wk';openQuests();return;}if(run.won&&!run.mod){const nx=nextMap(run.mapId);sel.map=nx&&mapUnlocked(nx)?nx:run.mapId;}else sel.map=run.mapId;sel.picked=true;chSel=null;
     // leave the run like openMenu does, so the live menu background replaces the frozen last frame
     seedRng(null);$('#tut').hidden=true;run=null;setSong('menu');stick.active=false;stickEl.hidden=true;refreshMenu();renderSelect();setState('select');};
   $('#ovMenu').onclick=()=>{sfx('ui');openMenu();};
@@ -7429,7 +7430,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('potion'),_t('Předměty na zemi'),_t('Lektvar léčí, magnet přitáhne krystaly, truhla dá vylepšení navíc.')],
    [I('skull'),_t('Boss'),_t('Přežij do konce a poraz bosse. Když ho nezabiješ do 2 minut, začne zuřit.')],
    [I('trophy'),_t('Výhra'),_t('Poražený boss odemkne další mapu kapitoly. Finále kapitoly odemkne její Noční můru.')],
-   [dataUrl(SPR.hero.knight)+'|'+dataUrl(SPR.hero.mage),_t('S kamarádem'),_t('Hrajte ve dvou, každý na svém telefonu. Padlého kamaráda oživíš, když u něj postojíš.')]].map(r=>gdRow(...r)).join('');}
+   [dataUrl(SPR.hero.knight)+'|'+dataUrl(SPR.hero.mage),_t('S kamarádem'),_t('Hrajte ve dvou, každý na svém telefonu, nebo si vezmi bota. Padlého kamaráda oživíš, když u něj postojíš.')]].map(r=>gdRow(...r)).join('');}
   else if(tab==='weapons'){
     h=gdSec(_t('Zbraně'))+W_IDS.map(id=>gdRow(I(id),WEAPONS[id].name,WEAPONS[id].desc+(W_HERO[id]&&!wOpen(id)?' '+_t('Zbraň hrdiny ')+HERO_DAT[W_HERO[id]]+_t(', všem se odemkne na jeho úrovni 8.'):''))).join('')
      +gdSec(_t('Pasivky'))+P_IDS.map(id=>gdRow(I(id),PASSIVES[id].name,PASSIVES[id].txt)).join('')
@@ -7518,8 +7519,8 @@ const bTitle=c=>c&&c.tl&&ACHM[c.tl]?ACHM[c.tl].title:'';
 const titleOf=sv=>{const A=sv&&sv.title&&ACHM[sv.title];return A&&sv.ach&&sv.ach[A.id]?A.title:'';};
 // end of a run: lifetime counters (both co-op sides; C = the run counters as qFinishC() returns them)
 function achTrack(C,won){const S=achInit(),T=S.tot,before=ACH.filter(achDone).map(A=>A.id);
-  if(C){T.el+=C.el||0;T.cart+=C.cart||0;T.pf+=C.pf||0;T.combo=Math.max(T.combo,C.combo||0);if(run.coop)T.ck+=C.kills||0;}
-  if(won){S.hw[run.heroId]=1;if(run.nm)T.nmw=Math.max(T.nmw,run.nm);if(run.coop)T.cw++;}
+  if(C){T.el+=C.el||0;T.cart+=C.cart||0;T.pf+=C.pf||0;T.combo=Math.max(T.combo,C.combo||0);if(run.coop&&!run.bot)T.ck+=C.kills||0;}
+  if(won){S.hw[run.heroId]=1;if(run.nm)T.nmw=Math.max(T.nmw,run.nm);if(run.coop&&!run.bot)T.cw++;}
   return ACH.filter(A=>achDone(A)&&!before.includes(A.id)&&!save.ach[A.id]);}
 function achClaim(id){const A=ACHM[id];if(!A||save.ach[id]||!achDone(A))return false;save.ach[id]=1;save.coins+=A.g;
   const newH=A.hero&&!save.heroes[A.hero];if(A.hero)save.heroes[A.hero]=true;if(!save.title)save.title=id;persist();sfx('win');if(newH)setTimeout(()=>heroCelebrate(A.hero),400);
@@ -8246,14 +8247,18 @@ const CO_ABC='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const LO={hero:'knight',map:'hrbitov',mateHero:'knight',mateMeta:null,mateNick:''};
 function coStatus(t){const e=$('#coStatus');if(e)e.textContent=t;}
 function openCoop(code){
-  audioInit();LO.hero=heroOwned(sel.hero)?sel.hero:'knight';LO.map=mapUnlocked(sel.map)?sel.map:'hrbitov';
+  audioInit();CO.bot=false;$('#scr-coop .head h2').textContent=_t('S kamarádem');LO.hero=heroOwned(sel.hero)?sel.hero:'knight';LO.map=mapUnlocked(sel.map)?sel.map:'hrbitov';
   $('#coStartBox').hidden=false;$('#coRoom').hidden=true;$('#coCode').value=code||'';
   const ok=onlineConfigured()&&typeof window.supabase!=='undefined';$('#coHost').disabled=!ok;$('#coJoin').disabled=!ok;
   $('#coErr').textContent=ok?'':_t('Co-op potřebuje připojení k internetu.');
   setState('coop');if(code&&ok)coJoin(code);
 }
 function coRoomUi(){$('#coStartBox').hidden=true;$('#coRoom').hidden=false;$('#coCodeShow').textContent=NET.code;
-  const host=NET.role==='host';$('#coShare').hidden=!host;$('#coGo').hidden=!host;$('#coWait').hidden=host;
+  const bot=!!CO.bot,host=bot||NET.role==='host';$('#scr-coop .head h2').textContent=bot?_t('S botem'):_t('S kamarádem');$('#coShare').hidden=!host||bot;$('#coGo').hidden=!host;$('#coWait').hidden=host;
+  for(const id of ['coCodeSec','coCodeShow','coStatus'])$('#'+id).hidden=bot;$('#coBotSec').hidden=!bot;$('#coBotHeroes').hidden=!bot;
+  if(bot){const bb=$('#coBotHeroes');bb.innerHTML='';if(!heroOwned(LO.botHero))LO.botHero=LO.hero;
+    for(const id in HEROES){if(!heroOwned(id))continue;const b=document.createElement('button');b.className='co-pick'+(LO.botHero===id?' on':'');
+      b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><span>'+HEROES[id].name+'</span>';b.onclick=()=>{LO.botHero=id;sfx('ui');coRoomUi();};bb.appendChild(b);}}
   const hb=$('#coHeroes');hb.innerHTML='';
   for(const id in HEROES){if(!heroOwned(id))continue;const b=document.createElement('button');b.className='co-pick'+(LO.hero===id?' on':'');
     b.innerHTML='<img alt="" src="'+dataUrl(SPR.hero[id])+'"><span>'+HEROES[id].name+'</span>';
@@ -8265,8 +8270,10 @@ function coRoomUi(){$('#coStartBox').hidden=true;$('#coRoom').hidden=false;$('#c
   const nb=$('#coNm');nb.innerHTML='';const tiers=host?nmTiers(LO.map):NM_MAX;
   for(let t=0;t<=NM_MAX;t++){if(!host&&t!==(LO.nm||0))continue;if(t>tiers)break;const b=document.createElement('button');b.className='co-pick'+((LO.nm||0)===t?' on':'');b.disabled=!host;
     b.innerHTML='<span>'+NM_NAME[t]+'</span>';b.onclick=()=>{LO.nm=t;sfx('ui');coRoomUi();netSend({t:'map',map:LO.map,nm:t});};nb.appendChild(b);}
-  $('#coGo').disabled=!NET.open;
+  $('#coGo').disabled=!(NET.open||CO.bot);
 }
+// bot partner lobby: no network, the player picks both heroes and the map
+function coBotOpen(){sfx('ui');if(NET.ch)netClose();CO.on=false;CO.role=null;CO.bot=true;$('#coErr').textContent='';coRoomUi();}
 function coCode(){let s='';for(let i=0;i<4;i++)s+=(Math.random()*10)|0;return s;}
 async function coHostStart(){
   sfx('ui');CO.role='host';const code=coCode();
@@ -8290,8 +8297,9 @@ NET.h.bye=()=>netLost();
 setInterval(()=>{if(state==='coop'&&NET.open&&!run)coStatus(_t('Spojeno s ')+(LO.mateNick||_t('kamarádem'))+' ('+HEROES[LO.mateHero].name+') · ping '+Math.round(NET.rtt||0)+' ms'+(NET.mode==='bc'?_t(' · pomalejší spojení'):''));},1500);
 
 /* ----- host: the partner lives inside the host's simulation ----- */
-function coHostGo(){
-  if(!NET.open||CO.role!=='host')return;sfx('ui');
+function coHostGo(bot){
+  bot=bot===true;if(!bot&&(!NET.open||CO.role!=='host'))return;sfx('ui');
+  if(bot){LO.mateHero=heroOwned(LO.botHero)?LO.botHero:LO.hero;LO.mateMeta=save.meta;LO.mateBonus=heroBonus(LO.mateHero);LO.matePets=petsHello(LO.mateHero);LO.nm=Math.min(LO.nm||0,nmTiers(LO.map));}
   const o={t:'start',map:LO.map,hh:LO.hero,gh:LO.mateHero,nm:LO.nm||0};netSend(o);
   startRun(LO.hero,LO.map,{nm:LO.nm||0});
   run.coop=true;run.nidc=0;run.sidc=0;save.coopPlayed=1;
@@ -8300,8 +8308,49 @@ function coHostGo(){
   run.pls=[{p:run.p},pl];
   withPl(pl,()=>{recalc();run.p.max=st.max;run.p.hp=st.max;addWeapon(hero.start);if(hero.builder)addTower('arrow',run.p.x+24,run.p.y);});
   {const mp=LO.matePets||[];pl.pet=petMake(mp[0],pl.p,false,pl.bonus);pl.pet2=LO.mateHero==='tamer'?petMake(mp[1],pl.p,true,pl.bonus):null;}
-  run.lv={host:true,guest:true};CO.snapT=0;CO.lastState='';
-  toast0(_t('Hrajete spolu! Mezi vámi je rytmické pouto'),2600);
+  run.lv={host:true,guest:true};CO.snapT=0;CO.lastState='';run.bot=bot;
+  toast0(bot?_t('Bot jde s tebou! Mezi vámi je rytmické pouto'):_t('Hrajete spolu! Mezi vámi je rytmické pouto'),2600);
+}
+/* ----- bot partner: an AI hero for co-op without a friend. Lives in the host simulation like a network partner, only its
+   position comes from botStep() and its level-up cards from botPick(). It never spends the shared gold. ----- */
+function botPick(opts){let b=null,bs=-1;for(const o of opts||[]){const s=(o.k==='fuse'?100:o.k==='w'?(o.lv>1?12:8):4)+Math.random()*5;if(s>bs){bs=s;b=o;}}return b;}
+function botStep(dt){
+  const pl=run.pls[1],q=pl.p,h=run.p,B=run.built||{},sz=run.map.size;
+  if(q.lock>0)q.lock-=dt;q.forced=false;
+  let fx=0,fy=0,near=null,nd=1e9;const rescue=h.down&&!q.down,calm=rescue?.4:1;
+  const push=(x,y,rad,w)=>{const dx=q.x-x,dy=q.y-y,d=Math.hypot(dx,dy)+.01;if(d<rad){const k=(rad-d)/rad*w;fx+=dx/d*k;fy+=dy/d*k;}return d;};
+  if(!q.down){
+    for(const e of run.enemies){if(e.dead||e.bur)continue;const d=push(e.x,e.y,(e.boss?52:e.elite?34:20)+e.r,(e.boss?4:e.elite?2.5:1.6)*calm);if(d<nd){nd=d;near=e;}}
+    for(const s of run.eshots)push(s.x,s.y,30,2.5*calm);
+    for(const o of B.pools||[])push(o.x,o.y,o.r+14,3);
+    for(const c of run.carts||[])push(c.x,c.y,45,4);
+    if(B.vc)push(B.vc.x,B.vc.y,170,3);
+    for(const o of run.holes||[])push(o.x,o.y,o.r+12,3);
+    for(const t of run.tent||[]){if(t.hit||q.x<t.xa||q.x>t.xb)continue;const dy=q.y-t.y;if(Math.abs(dy)<t.w+10)fy+=(dy>=0?1:-1)*3;}
+  }
+  // goal: get revived / revive the player, heal, stay inside the bond, collect what lies around, otherwise keep fighting
+  const hx=h.x-q.x,hy=h.y-q.y,dh=Math.hypot(hx,hy)+.01;let gx=0,gy=0,gw=0,stop=0;
+  if(q.down){gx=h.x;gy=h.y;gw=1.5;stop=12;}
+  else if(rescue){gx=h.x;gy=h.y;gw=3;stop=9;}
+  else{
+    if(q.hp<q.max*.4&&B.oases&&B.oases.length&&dh<190){let bd=160;for(const o of B.oases){const d=Math.hypot(o.x-q.x,o.y-q.y);if(d<bd){bd=d;gx=o.x;gy=o.y;gw=1.4;stop=6;}}}
+    if(!gw&&dh>150){gx=h.x;gy=h.y;gw=dh>185?3:1.5;stop=110;}
+    if(!gw&&run.crystal){const c=run.crystal;let bd=48,t=null;for(const e of run.enemies){if(e.dead||e.bur)continue;const d=Math.hypot(e.x-c.x,e.y-c.y);if(d<bd){bd=d;t=e;}}
+      if(t&&Math.hypot(c.x-h.x,c.y-h.y)<200){gx=t.x;gy=t.y;gw=1.1;stop=22;}} // crystal maps: guard the crystal while the player hunts
+    if(!gw){let bd=q.hp<q.max*.7?130:0;for(const i of run.items){if(i.k!=='heart')continue;const d=Math.hypot(i.x-q.x,i.y-q.y);if(d<bd&&Math.hypot(i.x-h.x,i.y-h.y)<175){bd=d;gx=i.x;gy=i.y;gw=1.3;}}}
+    if(!gw){let bd=80;const look=L=>{for(const i of L){const d=Math.hypot(i.x-q.x,i.y-q.y);if(d<bd&&Math.hypot(i.x-h.x,i.y-h.y)<150){bd=d;gx=i.x;gy=i.y;gw=.9;}}};look(run.items);look(run.gems);}
+    if(!gw&&near&&nd>46){gx=near.x;gy=near.y;gw=.5;}
+    // the bond is strongest at a middle distance: do not hug the player, do not drift away
+    if(dh<64){fx-=hx/dh*.7;fy-=hy/dh*.7;}else if(dh>128&&dh<=150){fx+=hx/dh*.6;fy+=hy/dh*.6;}
+  }
+  if(gw){const dx=gx-q.x,dy=gy-q.y,d=Math.hypot(dx,dy)+.01;if(d>stop){fx+=dx/d*gw;fy+=dy/d*gw;}}
+  // edges of the map push back a little, so the bot does not get cornered
+  if(q.x<40)fx+=(40-q.x)/40*2;else if(q.x>sz-40)fx-=(q.x-sz+40)/40*2;if(q.y<40)fy+=(40-q.y)/40*2;else if(q.y>sz-40)fy-=(q.y-sz+40)/40*2;
+  let m=Math.hypot(fx,fy);if(m>1){fx/=m;fy/=m;m=1;}if(m<.18){fx=fy=0;}
+  const k=Math.min(1,dt*9);q.bvx=(q.bvx||0)+(fx-(q.bvx||0))*k;q.bvy=(q.bvy||0)+(fy-(q.bvy||0))*k;
+  const vm=Math.hypot(q.bvx,q.bvy);q.moving=vm>.12;
+  if(q.moving){q.face.x=q.bvx/vm;q.face.y=q.bvy/vm;q.anim=(q.anim||0)+dt*10;
+    withPl(pl,()=>{const spd=st.speed*(q.down?.55:1)*plSpdMul(q);q.x=clamp(q.x+q.bvx*spd*dt,14,sz-14);q.y=clamp(q.y+q.bvy*spd*dt,14,sz-14);mfCall('move',q,dt);});}
 }
 function coDropMate(){if(!run)return;run.pls=null;toast0(_t('Kamarád se odpojil, hraješ dál sám'),2600);if(state==='wait'){run.lv.guest=true;afterOption();}}
 function players(){return run.pls?[run.pls[0].p,run.pls[1].p]:run.mate?[run.p,run.mate]:[run.p];}
@@ -8354,6 +8403,7 @@ function coLevelOpen(chest){
         opts=[{k:'fuse',f:fo}].concat(opts.filter(o=>!(o.k==='w'&&(o.id===fo.a||o.id===fo.b))).slice(0,2));}
       else run.fuseMiss=(run.fuseMiss||0)+1;}
     run.lv={host:false,guest:false,gOpts:opts,cards:opts.map(o=>Object.assign(optInfo(o),{f:o.k==='fuse'?o.f:null}))};});
+  if(run.bot){const o=botPick(opts);coApplyMate(o,o&&o.k==='fuse'?1.09:1);return;}
   netSend({t:'lvl',cards:run.lv.cards,chest:!!chest});
   run.lv.tmr=setTimeout(()=>{if(run&&run.lv&&!run.lv.guest){const i=run.lv.gOpts.findIndex(o=>o.k!=='fuse');coApplyMate(run.lv.gOpts[Math.max(0,i)]);netSend({t:'lvlx'});}},25000);
 }
@@ -8513,6 +8563,10 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-11f',d:'11. 11. 2026',t:_t('Co-op s botem'),hl:[
+  {ic:'hero:mage',t:_t('Hrát s botem'),d:_t('Nemáš po ruce kamaráda? V „Hrát s kamarádem“ je nově bot. Vybereš mu hrdinu, drží s tebou rytmické pouto, sbírá krystaly a sám si volí zbraně. Jde to i bez internetu.')},
+  {ic:'heart',t:_t('Navzájem se oživíte'),d:_t('Když padneš, bot k tobě doběhne a postaví tě na nohy. Když padne on, přijde jako duch za tebou. Společné zlato neutrácí, věže stavíš ty.')}],
+  items:[_t('V co-op místnosti je zase vidět, kterého hrdinu a mapu máš vybrané.'),_t('Tlačítko Začít hru drží dole, i když je map hodně.')]},
  {v:'2026-11-11e',d:'11. 11. 2026',t:_t('Hudba hned od startu'),hl:[
   {ic:'tune',t:_t('Hudba hned od startu'),d:_t('Menu hraje hned po spuštění. Kde to telefon nedovolí (iPhone chce nejdřív dotyk), rozjede hudbu první dotyk kamkoli.')}]},
  {v:'2026-11-11d',d:'11. 11. 2026',t:_t('Čitelná nápověda'),hl:[
@@ -8996,5 +9050,5 @@ requestAnimationFrame(()=>setTimeout(boot,0));
 
 /* debug / test hooks */
 window.__krypta={_ev:x=>eval(x),KIT,PETS,PET_IDS,petRoll,petInit,openPets,renderPets,openPetCard,openChestShop,openPetChest,openTowerChest,petRevive,guestStartRun,makeEnemy,render,PQ,mapOpenAt,nmWon,nmTiers,SPR,MAPS,CHAPTERS,mapsBuilt,buildMap,mapThumb,mapUnlocked,renderSelect,renderCampaign,get MF(){return MF},openGuide,renderGuide,finishFuse,afterOption,tmRow,explode,spawnEnemy,hurtEnemy,killEnemy,get run2(){return run},upInvest,mergeRefund,openMerge,matInfo,musicRender,get musicErr(){return M.err},finish,ACH,achTrack,achClaim,achProg,openMaster,openNews,NEWS,shareImage,shareResult,seedRng,tutTick,titleOf,get ac(){return ac},get run(){return run},get state(){return state},get st(){return st},save,step:tick,startRun,M,applyOption,levelOptions,
-  openMenu,ON,onlineInit,makeSetItem,addItem,SETS,renderSelect,setBoardRows:r=>{boardRows=r;renderBoard();},CO,NET,LO,econInit,makeItem,openChest,heroBonus,heroUp,upgradeItem,doMerge,dismantleItem,mergeCandidates,openHero,openChestShop,openCodex,openQuests,qEnsure,qCommit,qClaim,qClaimMs,qClaimWanted,qReroll,qSnap,spawnWanted,qNewDay,dailyInfo,runRewards,itemById,ECON,openCoop,coHostStart,coJoin,coHostGo,withPl,players,openBoard,saveNick,fusable,startFuse,fuseTap,audioBeat,FUSIONS,get FZ(){return FZ},buildTower,upgradeTower,repairCrystal,force:null,god:false,MAPS,WEAPONS,PASSIVES,ENEMY_DEFS,setSel:(h,m)=>{sel.hero=h;sel.map=m;}};
+  openMenu,ON,onlineInit,makeSetItem,addItem,SETS,renderSelect,setBoardRows:r=>{boardRows=r;renderBoard();},CO,NET,LO,econInit,makeItem,openChest,heroBonus,heroUp,upgradeItem,doMerge,dismantleItem,mergeCandidates,openHero,openChestShop,openCodex,openQuests,qEnsure,qCommit,qClaim,qClaimMs,qClaimWanted,qReroll,qSnap,spawnWanted,qNewDay,dailyInfo,runRewards,itemById,ECON,openCoop,coHostStart,coJoin,coHostGo,coBotOpen,botStep,withPl,players,openBoard,saveNick,fusable,startFuse,fuseTap,audioBeat,FUSIONS,get FZ(){return FZ},buildTower,upgradeTower,repairCrystal,force:null,god:false,MAPS,WEAPONS,PASSIVES,ENEMY_DEFS,setSel:(h,m)=>{sel.hero=h;sel.map=m;}};
 })();
