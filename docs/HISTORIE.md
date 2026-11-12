@@ -539,3 +539,10 @@ Uživatel: „ubrat zlato“ (12b ukázalo +420…730 za běh v kapitole I, Mág
 (10–40 každých 25 zabití) se po běhu z 30 % připisovalo do banky (`keepGold`). Teď se sčítá do `run.kgG` a `endCoins` ho odečte – v běhu na věže
 zůstává stejně. Boti (`hraci.js` vstup, 6 běhů): výhra Hřbitov ~200, Hroby ~245, Kostnice ~235, Zvonice ~290, Trůn ~360 = cíl 150–400 z `EKONOMIKA.md`.
 
+## 12d (12. 11. 2026) – komiksové cutscény
+Uživatel: „chci jednoduché cutscény u důležitých momentů… pixel komiks?“ Po maketě (statické stránky) a animovaném prototypu (video z enginu, rozbor:
+odhalení Aurela splývalo s Heroldem, oko vypadalo jako křížek, na konci 4 s nic, tenké rámy) „udělej to“. Ve hře `CMX`: 11 komiksů (prolog, finále I–VIII
+šablonou `fin()`, zvrat IX, konec aktu X), stránka 393×774 art px škálovaná nearest, písmo Jersey v nativní velikosti, pixelový rozpad panelu (Bayer),
+rám s nýty a barvou scény (`FR`: kost, zlato, kámen, led, žár, prázdnota), bossové se rozpadnou na vlastní pixely a zůstane po nich hromádka (Morvanovi koruna),
+oko kreslené po 2px (víčko, duhovka, štěrbina). Výkon ~2–6 ms na snímek (desktop Chromium). Test `komiks.js`, `pribeh.js` přepsaný na komiksy.
+
