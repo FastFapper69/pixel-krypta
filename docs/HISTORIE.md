@@ -516,3 +516,11 @@ Rozbor postupu (uživatel: „děláme něco v procesu špatně?“): obsah rost
 - **Data o odchodech**: běh opuštěný zavřením aplikace se zapíše jako `end='left'` (`runPendKeep` při skrytí, `save.runPend` v zařízení, odejde při dalším
   spuštění; test `opusteny.js`). Dotazy na návraty D1/D7 a první běhy v `docs/DATA-HRACU.md`.
 
+## 12a (12. 11. 2026) – tutoriál blbuvzdorný
+Uživatel po hraní od nuly: chybí vysvětlení komba, animace textu tutoriálu se seká, výběr zbraní nejasný („mělo by to být blbuvzdorné“).
+- Pruh tutoriálu najíždí plynule (`tutIn`: posun + průhlednost, ease-out) místo stupňovitého zvětšení `rvIn` steps(3), které rozmazávalo a sekalo písmo.
+- Krok komba: když hráč poprvé dosáhne komba 12 – „Kombo = zabití bez zásahu. Vyšší kombo dá víc zlata.“, ukazatel komba bliká (`#combo.tuton`).
+- Karty nové úrovně v prvních běhech (`luEasy()`: tutoriál nebo < `LU_EASY_RUNS` = 3 běhy) píšou slovy, co karta je (`luKind`): Nová zbraň · popis,
+  Silnější zbraň · úroveň N, Nový/Silnější bonus · účinek; čísla se vrátí od 4. běhu. První dvě nabídky tutoriálu mají nad kartami dva řádky
+  `#luHint` („Vyber jednu kartu. / Zbraně útočí samy, bonusy tě posílí.“). Odpočet 10 s na výběr karty až od 4. běhu (dřív od 2.).
+

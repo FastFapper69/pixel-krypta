@@ -47,11 +47,12 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - Hudba: pravidla, menu skladba a postup náčrtů ve skillu `zvuk-a-hudba`; nová kapitola `hudbacheck.js` + `skladby.js cN`.
 - Jména hrdinů: limit 85 % dlaždice v CZ i EN, písmo se nezmenšuje (`jmenahrdinu.js`, skill `novy-hrdina`).
 
-## Aktuální stav (verze 11z4, 11. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 12a, 12. 11. 2026, vše na main, Pages nasazené)
 - **POSTUP OD 11z4 (rozhodnutí uživatele 11. 11. po rozboru procesu):** obsah předběhl hráče (6 hráčů, nikdo se nevrátil druhý den, nikdo za kapitolu I).
   **Nové kapitoly a akt II jsou zmrazené, dokud se testeři nedostanou aspoň do kapitoly III.** Přednost má začátek hry (prvních 30 minut), délka běhu a
   měření návratů (`docs/DATA-HRACU.md` „Návraty“ – před každou větší prací se podívej, kde noví hráči končí). **Jen jeden chat najednou** (souběžné chaty
   si přepisovaly čísla) a pro testery raději jedna dávka denně než verze po každé změně.
+- **12a tutoriál blbuvzdorný** (připomínky uživatele po hraní od nuly): plynulý pruh `tutIn`, krok komba, karty v prvních 3 bězích slovy (`luEasy`, `luKind`), `#luHint`, odpočet karty až od 4. běhu. **Pravidlo: nový hráč nesmí narazit na prvek, který mu nikdo nevysvětlil – nová mechanika na začátku hry dostane krok v `tutTick`.**
 - **11z4 první minuty a kratší běhy** (podrobně `docs/HISTORIE.md`): nový tutoriál `tutTick` (krok čeká na hráče, ikona, ✓, šipka `tutPtr`, blikající
   tlačítko `tutHi`; test `tutorial.js`), první Hrát rovnou na Hřbitov, `TUT_DMG`; Hřbitov v noci; boss do `DUR_CAP` 300 s / finále 330 s se stlačeným
   časem `map.ts` + `runMin()` (stejně nepřátel a odměn), `BOSS_HORDE`; kapitola I vítá víc (`DIFF_CIL` 85/75/60/50); okno nového hráče; `end='left'`

@@ -1548,11 +1548,14 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 /* 11z4: Save on the new-player screen stays at the bottom of the screen */
 .nsv .btn{width:100%}#scr-nick .sticky.nsv{z-index:20;background:linear-gradient(#0c0d0f00,#0c0d0fee 34%,#0c0d0f)}.nsv[hidden]{display:none}
 /* 11z4 tutorial banner: icon + one line, green with a tick when the step is done; pulsing tower button it points at */
-#tut{display:flex;align-items:center;gap:10px;text-align:left;font:var(--k20);padding:8px 12px}
+#tut{display:flex;align-items:center;gap:10px;text-align:left;font:var(--k20);padding:8px 12px;animation:tutIn .32s cubic-bezier(.2,.8,.3,1) both;will-change:transform,opacity}
+@keyframes tutIn{from{transform:translateY(-14px);opacity:0}to{transform:none;opacity:1}} /* 11z4: smooth slide instead of the stepped zoom (user: the text jerked) */
 #tut[hidden]{display:none}
 #tut img{width:32px;height:32px;flex:none;image-rendering:pixelated;object-fit:contain}
 #tut span{flex:1}
 #tut.ok{box-shadow:inset 0 0 0 3px #5cc45c}
 #tut.ok span::after{content:' ✓';color:#7ee07e}
-#buildbar .bb.tuton,#upBtn.tuton{animation:tutBtn .5s steps(1) infinite}
+#buildbar .bb.tuton,#upBtn.tuton,#combo.tuton{animation:tutBtn .5s steps(1) infinite}
 @keyframes tutBtn{0%{filter:brightness(1.45) drop-shadow(0 0 0 #f6c744)}50%{filter:none}}
+#luHint{font:var(--k20);color:#ffe9a8;text-align:center;margin:-4px 8px 8px}
+#luList .k-card .kd{display:block;white-space:normal;color:#e8e0cc}#luList .k-card .kd b{color:#f6c744}

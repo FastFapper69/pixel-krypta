@@ -3513,7 +3513,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-11z4';
+const GAME_VER='2026-11-12a';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -5927,8 +5927,13 @@ function fuseHint(id,lv){if(!run||!featOn('fuse')||WEAPONS[id].ult)return null;c
     if(WEAPONS[f.id].secret&&!(save.codex&&save.codex.f[f.id]))continue;out.push({id:f.id,rdy:lv>=5&&w.lv>=5,m:w.lv});}
   out.sort((a,b)=>b.rdy-a.rdy||b.m-a.m);return out.length?[{id:out[0].id,rdy:out[0].rdy}]:null;} // jen jeden odznak: dva zakryly půlku ikony zbraně
 // jedna karta nabídky (hostitel i host v co-opu); fr = nově odemčená zbraň
+// 11z4: the first runs explain each card in words (user: "weapon choice must be foolproof"); later the numbers come back
+const LU_EASY_RUNS=3,luEasy=()=>!!(run&&(run.tut||!(save.stats&&save.stats.runs>=LU_EASY_RUNS)));
+function luKind(i){if(i.fuse||i.bond||!i.icon)return null;const W=WEAPONS[i.icon],P=PASSIVES[i.icon];
+  if(W&&i.isNew)return'<b>'+_t('Nová zbraň')+'</b> · '+W.desc;if(W)return'<b>'+_t('Silnější zbraň')+'</b> · '+_t('úroveň ')+i.lv;
+  if(P)return'<b>'+(i.isNew?_t('Nový bonus'):_t('Silnější bonus'))+'</b> · '+P.txt;return null;}
 function luCard(i,idx,fr){const b=document.createElement('button');b.className='k-card'+(i.fuse?' fuse':'')+(fr?' fresh':'');b.dataset.k='card';b.dataset.s=idx;if(i.fuse)b.dataset.fuse=1;if(fr)b.dataset.sel=1;
-  const st=i.st?i.st.slice(0,4).map(([l,v])=>'<span>'+l+' <b>'+v+'</b></span>').join(''):(i.desc||'');
+  const kd=luEasy()?luKind(i):null,st=kd?'<span class="kd">'+kd+'</span>':i.st?i.st.slice(0,4).map(([l,v])=>'<span>'+l+' <b>'+v+'</b></span>').join(''):(i.desc||'');
   b.innerHTML='<span class="sock" data-k="socket" data-s="'+idx+'"'+(i.fuse?' data-bg="#1c1026"':'')+'><img alt="" src="'+dataUrl(SPR.icon[i.icon])+'"></span><h3 class="nm">'+i.name+'</h3>'+
     (i.eq?'<span class="st k-eq"><img alt="" class="ic" src="'+dataUrl(SPR.icon[i.eq[0]])+'">'+KIT.img('plus')+(i.mh&&SPR.hero[i.mh]?'<img alt="" class="ic mh" src="'+dataUrl(SPR.hero[i.mh])+'">':'')+'<img alt="" class="ic" src="'+dataUrl(SPR.icon[i.eq[1]])+'"></span>':'<span class="st">'+st+'</span>')+
     (i.fz?i.fz.map((f,n)=>SPR.icon[f.id]?'<span class="fzb'+(f.rdy?' rdy':'')+'" data-fz="'+f.id+'"><img alt="" src="'+dataUrl(SPR.icon[f.id])+'"></span>':'').join(''):'')+
@@ -5959,7 +5964,8 @@ function openLevelUp0(){
     b.addEventListener('click',()=>{applyOption(o);});list.appendChild(b);});
   if(run.pls)coLevelOpen(chest);
   // light time pressure: 10 s to choose, then a random card (not in the first run, not in co-op – that has its own wait)
-  run.luT=!run.pls&&!run.tut&&save.stats&&save.stats.runs>0?LU_TIME:0;run.luTick=3;$('#luTime').hidden=!run.luT;$('#luTime').className='lutime';luBar();
+  const H=$('#luHint');if(H){H.hidden=!(run.tut&&(run.tutLu=(run.tutLu||0)+1)<=2)||chest;H.innerHTML=_t('Vyber jednu kartu.')+'<br>'+_t('Zbraně útočí samy, bonusy tě posílí.');}
+  run.luT=!run.pls&&!luEasy()?LU_TIME:0;run.luTick=3;$('#luTime').hidden=!run.luT;$('#luTime').className='lutime';luBar();
   sfx('level');setState('levelup');luPaint();
 }
 const LU_TIME=10;
@@ -6110,6 +6116,7 @@ function tutTick(dt){const T=run.tut,p=run.p,el=$('#tut'),tw0=(run.deck||T_BASE)
   if(!T.ch&&T.s>=5&&run.items.some(i=>i.k==='chest'&&!i.dead)&&(T.t<=0||T.ok)){T.ch=1;T.chW=1;show('chest',_t('Bedna! Doběhni pro ni.'),14);return;}
   if(T.chW&&!run.items.some(i=>i.k==='chest'&&!i.dead)){T.chW=0;done();}
   const free=T.s>=9&&(T.t<=0||T.ok)&&!T.chW;
+  if(free&&!T.cb&&run.combo>=12){T.cb=1;show('flamering',_t('Kombo = zabití bez zásahu. Vyšší kombo dá víc zlata.'),6);const c=$('#combo');c.classList.add('tuton');setTimeout(()=>c.classList.remove('tuton'),6000);return;}
   if(free&&!T.hp&&p.hp<p.max*.45){T.hp=1;show('heart',_t('Málo zdraví! Uteč z davu, zdraví se doplní.'),4.5);return;}
   if(free&&!T.up&&run.nearTower&&run.nearTower.lv<3&&run.coins>=towerUpCost(run.nearTower)){T.up=1;T.upW=1;show('tower',_t('Jsi u věže. Vylepši ji tlačítkem dole.'),10);$('#upBtn').classList.add('tuton');return;}
   if(T.upW&&(run.nearTower&&run.nearTower.lv>1||T.t<=0)){T.upW=0;$('#upBtn').classList.remove('tuton');if(T.t>0)done();}
@@ -10162,6 +10169,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12a',d:'12. 11. 2026',t:_t('Jasnější tutoriál'),hl:[{ic:'flamering',t:_t('Co je kombo'),d:_t('Tutoriál vysvětlí, co dělá kombo.')},{ic:'blade',t:_t('Jasné karty'),d:_t('První běhy píšou, co karta udělá.')}],items:[_t('Text tutoriálu najíždí plynule, nesekaně.'),_t('Prvním 3 během neběží na výběr karty čas.')]},
  {v:'2026-11-11z4',d:'11. 11. 2026',t:_t('Nový tutoriál a kratší běhy'),hl:[{ic:'stick',t:_t('Nový tutoriál'),d:_t('Krok za krokem, s ukazateli a fajfkou.')},{ic:'skull',t:_t('Boss dřív'),d:_t('Přijde nejpozději v 5. minutě.')},{ic:'boss:slimeking',t:_t('Řidší horda u bosse'),d:_t('Během boje s bossem chodí méně nepřátel.')}],items:[_t('Mapy jsou kratší, ale nepřátel, zlata a zkušeností je stejně.'),_t('První běh je mírnější a ukazuje jen jednu věž.'),_t('Nový hráč vidí jen obrázky, které si může vybrat.'),_t('Tlačítko Uložit u přezdívky je vždy na obrazovce.')]},
  {v:'2026-11-11z3',d:'11. 11. 2026',t:_t('Drobnosti v menu'),items:[_t('Všechno nové v menu značí stejná pečeť.'),_t('V Síni slávy je dobře vidět číslo 2. a 3. místa.')]},
  {v:'2026-11-11z2',d:'11. 11. 2026',t:_t('Bedny, boss a zlato'),hl:[
