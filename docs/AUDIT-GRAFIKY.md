@@ -30,16 +30,16 @@ UI obrazovky jsou technicky čisté a konzistentní (kámen, dřevo, pergamen). 
 Nejsilnější sada: 25 věží, každá jiný tvar a materiál, společný sokl drží jednotný styl.
 | # | Nález | Návrh | Priorita | Pracnost | Stav |
 |---|---|---|---|---|---|
-| V1 | **Šípová věž a Dělo** jsou si podobné hranaté bloky; **Krb** (hearth) je šedý kvádr bez čitelného znaku; **Pískoviště** je ploché. | Dokreslit: Šípová = štíhlá věž s lukem nebo střílnou a praporkem, Dělo = hlaveň vepředu, Krb = komín s ohněm, Pískoviště = vír písku nahoře. | střední | M | ⬜ |
-| V2 | Věže stojí bez pohybu. | Nečinnost: praporek, dým, záře krystalu, kmitání plamene (2–3 snímky). | střední | M | ⬜ |
-| V3 | Úroveň věže (1–3, rarita karty) není na spritu vidět. | Malé odznaky na soklu (proužky / drahokam podle rarity). | střední | S | ⬜ |
+| V1 | **Šípová věž a Dělo** jsou si podobné hranaté bloky; **Krb** (hearth) je šedý kvádr bez čitelného znaku; **Pískoviště** je ploché. | Dokreslit: Šípová = štíhlá věž s lukem nebo střílnou a praporkem, Dělo = hlaveň vepředu, Krb = komín s ohněm, Pískoviště = vír písku nahoře. | střední | M | ✅ 12v (Střelecká věž se špičatou střechou, střílnou a praporkem; Dělo s hlavní a koly; Ohniště = mísa s plameny; Písečný vír s vírem) |
+| V2 | Věže stojí bez pohybu. | Nečinnost: praporek, dým, záře krystalu, kmitání plamene (2–3 snímky). | střední | M | – už bylo (oheň, praporky a pohyb věží se kreslí v `drawTower`; audit hodnotil jen statické sprity) |
+| V3 | Úroveň věže (1–3, rarita karty) není na spritu vidět. | Malé odznaky na soklu (proužky / drahokam podle rarity). | střední | S | – už bylo (zlatý pás od úrovně 2, praporky na 2. a 3. úrovni) |
 
 ## 4. Nepřátelé, bossové, mazlíčci (`nepratele.png`, `bossove.png`, `mazlicci.png`)
 | # | Nález | Návrh | Priorita | Pracnost | Stav |
 |---|---|---|---|---|---|
 | N1 | Nepřátelé jsou pestří a čitelní. Šablonu „panák s rukama“ sdílí Zombie, Utopenec, Horník, Pirát, Prázdný a Alchymista. | Při nové kapitole dávat jiné siluety (zvíře, létající, plazivé). Stávající nechat. | nízká | – | ⬜ |
-| B1 | **Červ, Jeskynní úhoř a Stín pod ledem** jsou stejný sprite (`pat:'worm'`, `rows:[]`). Úhoř a Stín mají skoro stejnou paletu. | Úhoř: ploutve a světélkující skvrny; Stín pod ledem: ledové krystaly na hřbetě, bledé oči. | střední | M | ⬜ |
-| B2 | **Aurel, finální boss aktu I**, vypadá jako Herold a není nejokázalejší. | Největší sprite ve hře, koruna se střepem, zlatý plášť, svatozář, 2 snímky pohybu. | vysoká | M | ⬜ |
+| B1 | **Červ, Jeskynní úhoř a Stín pod ledem** jsou stejný sprite (`pat:'worm'`, `rows:[]`). Úhoř a Stín mají skoro stejnou paletu. | Úhoř: ploutve a světélkující skvrny; Stín pod ledem: ledové krystaly na hřbetě, bledé oči. | střední | M | ✅ 12v (úhoř: ploutve, světélkující skvrny; Stín: ledové krystaly, bledé oči) |
+| B2 | **Aurel, finální boss aktu I**, vypadá jako Herold a není nejokázalejší. | Největší sprite ve hře, koruna se střepem, zlatý plášť, svatozář, 2 snímky pohybu. | vysoká | M | ✅ 12v (24×21, paprsky, koruna se střepem, plášť, slunce na hrudi; úvodní karta bosse drží vysoké bosse v obraze) |
 | B3 | Bossové mají jiné stínování (šum/dither) než ostatní sprity, několik jich je ze šablony „kvádr s rukama“ (Mincmistr, Zlatý rytíř, Kurátor, Slunečný kovář). | Nechat jako odlišení bossů, ale u šablonových dodat znak (nástroj, zbraň, tvar hlavy). | nízká | M | ⬜ |
 | P1 | Mazlíčci jsou v pořádku, čitelní a s charakterem. | – | – | – | – |
 

@@ -391,14 +391,18 @@ const BOSS_DEFS={
   '.y...y..y','..y.yyyyy','...yYYYYY','..yYwwwww','...Ywwkww','..yYwwwww','...Ywwwrr','....YYYYY','...ooooYo','..oooooYo','..ooooooo','..ooo.ooo','..rr...rr'],
   kit:{move:'dash',dash:3,onDash:[{do:'ring',n:10,spd:40}],moves:[{on:'bar',every:2,do:'aimed',n:3,spd:70}],
    ph2:{at:.5,txt:_t('Noc tě obklopuje!'),fast:.6,add:[{on:'bar',every:3,at:1,do:'summon',e:'shade',n:3}]},own:'noc'}},
- aurel:{name:_t('Aurel, Korunované slunce'),...kitBoss(9,4,1),spd:22,r:20,pat:'kit',big:1,aurel:1,pal:{y:'#ffe27a',Y:'#ffd040',w:'#fff6d8',k:'#1a0604',r:'#8a1a10',c:'#c8901a',a:'#e8e4d4',b:'#e0b868',m:'#ff6a1a',z:'#c8a8ff',t:'#5ae0d0'},rows:[
-  '...a.b.mz','...yyyyyy','...yYyYyy','....wwwww','....wwkww','....wwwww','.....wrrw','..ccccccc','.cYcccccc','cYYrrrrcc','cYccrrrcc','.cccccccc','..ccccccc','..ccc.ccc','..cc...cc','.rr....rr'],
+ aurel:{name:_t('Aurel, Korunované slunce'),...kitBoss(9,4,1),spd:22,r:20,pat:'kit',big:1,aurel:1,pal:{h:'#fff2b0',y:'#ffe27a',Y:'#ffd040',w:'#fff6d8',k:'#1a0604',r:'#8a1a10',c:'#c8901a',a:'#e8e4d4',b:'#e0b868',m:'#ff6a1a',z:'#c8a8ff',t:'#5ae0d0'},rows:[
+  '......h....t','..h.....y.tt','...h...yy.Yt','.......yYyYY','..h....YYYYY','.h.....wwwww','h......wwkww','.h.....wwwww','.......wbbbb','.......bbbbb','..rrYYYccccc','.rrYYYYcccmc','rrr.YYccmmmm','rrr..cccccmc','rrr..ccccccc','rrr..aaaaaaa','rrr..aaaaaaa','.rr..aaaa.aa','.rr..aaa..aa','..r..cc...cc','.....YY...YY'], // 12u (audit B2): větší, svatozář, koruna se střepem, plášť
   kit:{move:'chase',moves:[{on:'beat',every:2,do:'fan',n:5,spread:.3},{on:'bar',every:4,at:1,do:'summon',e:'sunguard',n:2}],
    ph2:{at:.7,txt:_t('Koruna se roztříštila! Rozbij střepy.'),fast:.8,add:[{on:'bar',every:2,at:1,do:'ring',n:16,spd:42}]},own:'aurel'}},
  sphinx:{name:_t('Sfinga, strážkyně brány'),hp:11500,spd:22,dmg:20,r:17,pat:'sphinx',big:1,pal:{a:'#e0b868',b:'#a8783a',u:'#2a4ab0',y:'#f6c744',f:'#d8a868',o:'#7affff'},
   rows:['.....yyyy','....yuuyu','...yuuyyy','...uyffff','...yufoff','...uyffff','...yuffff','....yyfff','.....yyyy','...aaaaaa','.aaaaaaaa','aaaaaaaaa','aabaaaaba','aabaaaaba','.abaaaaba','.aaa.aaa.','.bb...bb.']}
 };
-BOSS_DEFS.eel.rows=BOSS_DEFS.worm.rows;BOSS_DEFS.serpent.rows=BOSS_DEFS.worm.rows;
+// 12u (audit grafiky B1): úhoř a Stín pod ledem už nejsou kopie Červa
+BOSS_DEFS.eel.pal.f='#3a7aa8';BOSS_DEFS.eel.pal.g='#7affd0';
+BOSS_DEFS.eel.rows=['...ff...','..ffaaaa','.aaaaaaa','aaggaaaa','arrrrrca','arwwrrrr','farrrrrr','ffrwwrrr','.aarrrca','..aaaaaa','..abgbbb','..aaaaaa','...bgbbb','...aaaaa','....aaaa'];
+BOSS_DEFS.serpent.pal.i='#e8f8ff';BOSS_DEFS.serpent.pal.j='#8ad8ff';BOSS_DEFS.serpent.pal.e='#e8f8ff';
+BOSS_DEFS.serpent.rows=['..i...i.','..ij..ij','..aaaaaa','.aaaaaaa','aaeeaaaa','arrrrrcc','arwrwrrr','arrrrrrr','aarrrrcc','.aaaaaaa','.ijbbbbb','..aaaaaa','.ijbbbbb','...aaaaa','..ijbbbb'];
 const HEROES={
  knight:{name:_t('Rytíř'),desc:_t('Tank do první linie: <b>+25 zdraví</b> a <b>brnění +1</b>.'),start:'blade',hp:25,armor:1,dmg:0,spd:0,cost:0,pal:{a:'#4aa3e8'},rows:[
   '...rrr','..ssss','.ssppp','.sssss','..aaaa','.saaaa','saabaa','.saaaa','..b..b','..nn.n']},
@@ -3551,7 +3555,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12u';
+const GAME_VER='2026-11-12v';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3833,7 +3837,7 @@ function drawBossIntro(g){const B=BI;if(!B)return;if(B.act&&B.t<B.beat*2){actCra
     if(B.ribbon&&k1>.6){const ry=Math.round(VH*.16),rx=6-gone;g.fillStyle='#140c1c';g.fillRect(0,ry-2,VW,17);g.fillStyle='#8a1a1a';g.fillRect(0,ry,VW,13);
       for(let x=(B.t*30|0)%12-12;x<VW;x+=12){g.fillStyle='#b8301e';g.fillRect(x,ry,6,13);}g.drawImage(B.ribbon,rx,Math.round(ry+6-B.ribbon.height/2));}
     // the boss, big, breaking out over the band's upper edge; finale: a pulsing glow outline
-    const sc=sc0,bw=B.sp.w*sc,bh=B.sp.h*sc,cx=VW*.68,top=VH*.27-cx*.16,bx=RZ(cx-bw/2)+Math.round((1-ease(clamp(k1/.8,0,1)))*VW*.6)-gone+sh,by=RZ(top-bh*.32)+Math.round(Math.sin(B.t*3)*1.5)+sh;
+    const sc=sc0,bw=B.sp.w*sc,bh=B.sp.h*sc,cx=VW*.68,top=VH*.27-cx*.16,bx=RZ(cx-bw/2)+Math.round((1-ease(clamp(k1/.8,0,1)))*VW*.6)-gone+sh,by=Math.max(6,RZ(top-bh*.32))+Math.round(Math.sin(B.t*3)*1.5)+sh; // 12u: vysoký boss (nový Aurel) se nesmí useknout nahoře
     if(B.fin){g.globalAlpha=.55+.35*Math.sin(B.t*10);for(const [dx,dy] of [[-1,0],[1,0],[0,-1],[0,1],[-2,0],[2,0],[0,-2]])g.drawImage(B.glow,bx+dx,by+dy,bw,bh);g.globalAlpha=1;}
     g.globalAlpha=.35;g.fillStyle='#000000';g.fillRect(bx+Math.round(bw*.15),by+bh-2,Math.round(bw*.7),3);g.globalAlpha=1;
     const rev=clamp((k1-.35)/.3,0,1);g.drawImage(B.sp.c,bx,by,bw,bh);if(rev<1){g.globalAlpha=1-rev;g.drawImage(B.sil,bx,by,bw,bh);g.globalAlpha=1;}
@@ -4399,8 +4403,8 @@ function updateFx(dt){
 
 /* ----- towers ----- */
 const TOWERS={
- arrow:{name:_t('Střelecká věž'),cost:25,range:92,dmg:7,cd:.65,hp:70,flag:'#4aa3e8',pal:{a:'#9a96a8',b:'#5e5a74',c:'#c8c4d8',n:'#9a6a40',d:'#5a3824'},
-  rows:['.nn.nn.n','.nnnnnnn','.ddddddd','..aaaaaa','..acaaca','..aaaakk','..caaakk','..aaaaaa','..aacaaa','..abaaaa','..aaaaca','..aaaaaa','.aacaaaa','.aaaacaa','aaaaaaaa','bbbbbbbb']},
+ arrow:{name:_t('Střelecká věž'),cost:25,range:92,dmg:7,cd:.65,hp:70,flag:'#4aa3e8',pal:{r:'#c8402a',k:'#1a1418',a:'#9a96a8',b:'#5e5a74',c:'#c8c4d8',n:'#9a6a40',d:'#5a3824'},
+  rows:['.......r','......rr','.......n','.....nnn','....nnnn','...nnnnn','..dddddd','...aaaaa','...acaak','...aaaak','...caaak','...aaaaa','..aacaaa','..abaaaa','.aaaacaa','bbbbbbbb']},
  fire:{name:_t('Ohnivá věž'),cost:40,range:98,dmg:20,cd:2.2,rad:22,hp:90,flag:'#e8453c',pal:{a:'#7a5a58',b:'#3e2a2c',c:'#a88482',h:'#4a4458',j:'#8a84a0'},
   rows:['jjjjjjjj','hoooooyy','.hhhhhhh','...hhhhh','.....hhh','...aaaaa','...acaaa','...aaaay','...caaao','...aaaaa','..aaacaa','..abaaaa','..aaaaay','.aaacaaa','aaaaaaaa','bbbbbbbb']},
  frost:{name:_t('Mrazivá věž'),cost:30,range:72,dmg:4,cd:2,hp:80,flag:'#bfeaff',pal:{a:'#8a9ab8',b:'#4a5a7a',c:'#c8d8f0',u:'#4aa3e8'},
@@ -4414,18 +4418,18 @@ const TOWERS={
   rows:['nnnnnnnn','.n.....d','.n....yy','.n...yoo','.n...ooo','.n..oooo','.n..oooo','.n.ooooo','.n.ddddd','.n.....d','.n......','.n......','aaaaaaaa','aacaaaca','aaaaaaaa','bbbbbbbb']},
  obelisk:{name:_t('Obelisk'),cost:45,range:110,dmg:9,cd:1.1,hp:80,ch:'c2',pal:{a:'#dcb87c',y:'#f6c744',u:'#3a6ad8',c:'#b89058',b:'#7a5a30'},
   rows:['.......y','......yy','......aa','......aa','.....aaa','.....aau','.....aaa','.....aua','.....aaa','....aaua','....aaaa','....aaaa','...ccccc','..cccccc','cccccccc','bbbbbbbb']},
- sandpit:{name:_t('Písečný vír'),cost:30,range:66,dmg:3,cd:1,hp:100,ch:'c2',pal:{a:'#9a8a6a',c:'#7a6a4a',s:'#e0c080',d:'#b8904a',b:'#5e5036'},
-  rows:['........','........','........','........','........','........','........','...aaaaa','..accccc','.acssdss','.acsdsss','.acssdds','..accccc','..aaaaaa','.aaaaaaa','bbbbbbbb']},
+ sandpit:{name:_t('Písečný vír'),cost:30,range:66,dmg:3,cd:1,hp:100,ch:'c2',pal:{e:'#f0dca0',a:'#9a8a6a',c:'#7a6a4a',s:'#e0c080',d:'#b8904a',b:'#5e5036'},
+  rows:['........','......ee','.....ese','....eses','.....ese','......es','.....ese','...aaaaa','..accccc','.acssdss','.acsdsss','.acssdds','..accccc','..aaaaaa','.aaaaaaa','bbbbbbbb']},
  oasis:{name:_t('Oáza'),cost:50,range:110,dmg:4,cd:.5,hp:80,ch:'c2',pal:{a:'#dcb87c',c:'#b89058',b:'#7a5a30',t:'#3ac8c0',i:'#bff4e8',w:'#ffffff'},
   rows:['.......w','......ww','......ti','.....tii','.....tii','......ti','......tt','.....aaa','....aaca','...aaaaa','..accccc','.acwwttt','.acttttt','..aaaaaa','.aaaaaaa','bbbbbbbb']},
  forge:{name:_t('Výheň'),cost:45,range:74,dmg:7,cd:2.6,hp:110,ch:'c3',pal:{b:'#6a4a40',c:'#8a6250',k:'#1a0e10',o:'#ff7a2a',y:'#ffe08a',a:'#5a5468',d:'#3a3448'},rows:['.....kk.', '.....bb.', '.....bc.', '.....bb.', '..bbbbbb', '.bcbbcbb', '.bbbbbbb', '.bbkkkkk', '.bbkoooo', '.bbkoyyy', '.bbkoooo', '.bbbbbbb', '..aaaaaa', '.aaaaaaa', 'aaaaaaaa', 'dddddddd']},
  ram:{name:_t('Parní beran'),cost:50,range:100,dmg:24,cd:3.2,hp:100,ch:'c3',pal:{c:'#b87333',n:'#8a5a2a',s:'#6a6a78',w:'#e8eef4',a:'#7a7488',d:'#4a4458'},rows:['........', '........', '.....w..', '....www.', '.....w..', '.....ss.', '..cccccc', '.cnnnnnn', '.cnnnnnn', '..cccccc', '...aaaaa', '..aacaaa', '..aaaaaa', '.aaaaaca', 'aaaaaaaa', 'dddddddd']},
  // chapter IV
- hearth:{name:_t('Ohniště'),cost:40,range:64,dmg:6,cd:1.1,hp:130,ch:'c4',pal:{a:'#7a7488',b:'#4a4458',c:'#9a94a8',d:'#3a3448',n:'#6a4628',o:'#f08a3c',y:'#ffd060'},rows:['........','........','........','........','........','........','..nn.nnn','.nnnnnnn','.aaaaaaa','.acaaaca','.aaaaaaa','..aaaaaa','..abaaaa','..aaacaa','.aaaaaaa','dddddddd']},
+ hearth:{name:_t('Ohniště'),cost:40,range:64,dmg:6,cd:1.1,hp:130,ch:'c4',pal:{o:'#ff8a2a',y:'#ffe08a',r:'#e8401a',a:'#7a7488',b:'#4a4458',c:'#9a94a8',d:'#3a3448',n:'#6a4628',o:'#f08a3c',y:'#ffd060'},rows:['........','........','.......y','.....y.o','....yoyo','...yoooo','...ooroo','..oorrro','..orrrrr','.aaaaaaa','.acaaaca','..aaaaaa','..abaaaa','.aaaacaa','aaaaaaaa','dddddddd']},
  icelance:{name:_t('Rampouchová věž'),cost:45,range:110,dmg:16,cd:2.0,hp:90,ch:'c4',pal:{a:'#8a9ab8',b:'#4a5a7a',c:'#c8d8f0',d:'#3a4a68',i:'#e8fbff',u:'#7ac8f0'},rows:['.......i','......iu','......iu','.....iuu','.....iuu','....iuuu','....uuuu','...aaaaa','...acaaa','...aaaau','..aacaaa','..abaaaa','..aaaaca','.aaaaaaa','aaaaaaaa','dddddddd']},
  // chapter V
  cannon:{name:_t('Lodní dělo'),cost:45,range:104,dmg:10,cd:2.8,rad:17,hp:100,ch:'c5',pal:{n:'#9a6a40',d:'#5a3824',l:'#c8945a',k:'#1e1a24',s:'#4a4858',o:'#c8a070',y:'#e8d0a0',a:'#8a8478',c:'#aaa494',b:'#5a5448',r:'#a8302a'},
-  rows:['........','........','........','.l..l..l','.lnnlnnl','.nnnnnnn','.ddddddd','..aaaaaa','..acaaac','..oyoyoy','..aaaaaa','..abasks','..aaabkk','..acaaaa','.aaaacaa','bbbbbbbb']},
+  rows:['........','........','....ssss','...sskkk','...skkkk','...skkkk','...sskkk','....ssss','..nnnnnn','.nnnnnnn','kkknnnnn','kyknnnnn','kkkaaaaa','.aaaacaa','aaaaaaaa','bbbbbbbb']},
  harpoon:{name:_t('Harpunářská věž'),cost:45,range:120,dmg:22,cd:3.4,hp:120,ch:'c5',pal:{n:'#7a5232',d:'#4a2c1a',l:'#a87848',o:'#e0c890',y:'#fff0c8',k:'#1e1a24',s:'#6a7280',a:'#7a7488',c:'#9a94a8',b:'#4a4458',r:'#a8302a'},
   rows:['........','........','........','.....lll','.....nnn','......nd','....d.nd','.....dnd','......nd','...ooooo','..oyoyoy','...ooooo','..llllll','..nnnnnn','..d..dnd','.aaacaaa']},
  // chapter VI
@@ -10661,6 +10665,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12v',d:'12. 11. 2026',t:_t('Bossové a věže'),hl:[{ic:'boss:aurel',t:_t('Aurel v plné kráse'),d:_t('Finální boss aktu I je větší a vznešenější.')},{ic:'tower:cannon',t:_t('Věže v novém kabátě'),d:_t('Střelecká věž, Dělo, Ohniště a Vír.')},{ic:'boss:eel',t:_t('Úhoř a Stín pod ledem'),d:_t('Už nevypadají jako Písečný červ.')}],
+  items:[_t('Úvodní karta bosse už neusekne vysokého bosse.')]},
  {v:'2026-11-12u',d:'12. 11. 2026',t:_t('Bič a zvuky map'),hl:[{ic:'whip',t:_t('Bič s prásknutím'),d:_t('Bič je vidět a práskne do rytmu.')},{ic:'bell',t:_t('Zvony a láva v rytmu'),d:_t('Zvon je slyšet a láva prská do taktu.')},{ic:'halberd',t:_t('Výraznější zbraně'),d:_t('Kopí, halapartna a šípy jsou lépe vidět.')}],
   items:[_t('Černá díra vybuchuje fialově, ne oranžově.'),_t('Čísla poškození se sčítají a jsou menší.'),_t('Ohnivé plochy jsou průhlednější, nepřátelé pod nimi nemizí.'),_t('Erupce, laviny a chapadla ohlásí úder zvukem.'),_t('Pečeť na kartě jen u nové zbraně.')]},
  {v:'2026-11-12t',d:'12. 11. 2026',t:_t('Obchod a Příprava'),hl:[{ic:'chest_wood',t:_t('Truhla zdarma na očích'),d:_t('Obchod ukáže značku, když čeká denní truhla.')},{ic:'hero:knight',t:_t('Příprava neposkakuje'),d:_t('Výběr hrdiny už s obrazovkou nehne.')}],

@@ -1,6 +1,14 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+'Bossové a věže':'Bosses and towers',
+'Aurel v plné kráse':'Aurel in full glory',
+'Finální boss aktu I je větší a vznešenější.':'The Act I final boss is bigger and grander.',
+'Věže v novém kabátě':'Towers in new coats',
+'Střelecká věž, Dělo, Ohniště a Vír.':'Arrow Tower, Cannon, Hearth and Sand Vortex.',
+'Úhoř a Stín pod ledem':'Eel and Shadow under Ice',
+'Už nevypadají jako Písečný červ.':'They no longer look like the Sand Worm.',
+'Úvodní karta bosse už neusekne vysokého bosse.':'The boss intro card no longer cuts off tall bosses.',
 'Bič a zvuky map':'Whip and map sounds',
 'Bič s prásknutím':'Whip with a crack',
 'Bič je vidět a práskne do rytmu.':'The whip is visible and cracks on the beat.',

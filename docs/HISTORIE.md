@@ -638,3 +638,8 @@ Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co 
 - Čísla poškození: zásahy na jednoho nepřítele za 0,25 s se sčítají (`e.nr`, `val`), kritická velikost 2→1, velká (3/2) jen od 200.
 - Karta nové úrovně: pečeť jen u nové zbraně/pouta (`!PASSIVES[i.icon]`), nový bonus ukazuje tečky.
 - Zvuky: `bell` přepsaný (základ ≥ 520 Hz, alikvoty 2/2,4/3/4,07, úder bandpass 3,2 kHz, tichý hluboký tón f/4), `LOUD` bell 1,7; `lava` (pop + syčení, `LOUD` 2,2) a `lavaSpit()` (louž nejblíž hrdinovi ve výhledu, každá druhá doba, kapky + kouř); `warn` (dvě noty akordu) při rozsvícení erupcí, lavin a chapadel; `bridge` u Hvězdných mostů; `boom` + bandpass 850 Hz. Měření `sfxposlech.js`: zvon na Zvonici +8–10 dB nad hudbou, ostatní 0 až +5 dB.
+
+## 12v (12. 11. 2026) – audit grafiky, 2. dávka: bossové a věže
+- Úhoř (`eel`) a Stín pod ledem (`serpent`) už nesdílí řádky Červa: úhoř má ploutve a světélkující skvrny (`f`, `g`), Stín ledové krystaly a bledé oči (`i`, `j`, `e`).
+- Aurel: nový sprite 12×21 (zrcadlený na 24 š.), paprsky svatozáře nad hlavou, koruna se střepem (`t`), plášť (`r`), slunce na hrudi (`m`). Úvodní karta bosse: `by` se nesmí dostat nad 6 px (vysoký boss se usekl). `komiks.js` OK.
+- Věže: Střelecká věž (špičatá střecha, střílna, praporek), Lodní dělo (hlaveň s ústím, lafeta, kola dole), Ohniště (kamenná mísa s plameny), Písečný vír (vír nad jámou). Úroveň a pohyb věží se už kreslily (`drawTower`), audit V2/V3 hodnotil jen statické sprity.
