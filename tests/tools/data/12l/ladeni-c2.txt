@@ -1,0 +1,23 @@
+
+kolo 1 (193 s)
+  poust       hpm 2.11 dmm 1.29     průměrný 83/40 %   neopatrný přežije 71/50 %  zkušený 58 %  → hpm 2.76, dmm 1.29
+  kanon       hpm 2.48 dmm 0.77     průměrný 50/37 %   neopatrný přežije 49/50 %  zkušený 100 % v cíli
+  karavana    hpm 3.46 dmm 0.98     průměrný 8/34 %    neopatrný přežije 46/50 %  zkušený 8 %   → hpm 2.83, dmm 0.98
+  hrobka      hpm 2.54 dmm 0.98     průměrný 50/31 %   neopatrný přežije 44/50 %  zkušený 33 %  → hpm 2.86, dmm 0.98
+  brana       hpm 1.36 dmm 1.11     průměrný 33/20 %   neopatrný přežije 45/40 %  zkušený 33 %  → hpm 1.52, dmm 1.11
+
+kolo 2 (188 s)
+  poust       hpm 2.76 dmm 1.29     průměrný 58/40 %   neopatrný přežije 53/50 %  zkušený 42 %  → hpm 3.06, dmm 1.29
+  kanon       hpm 2.48 dmm 0.77     průměrný 67/37 %   neopatrný přežije 44/50 %  zkušený 100 % → hpm 3.59, dmm 0.63
+  karavana    hpm 2.83 dmm 0.98     průměrný 50/34 %   neopatrný přežije 59/50 %  zkušený 42 %  → hpm 3.12, dmm 0.98
+  hrobka      hpm 2.86 dmm 0.98     průměrný 33/31 %   neopatrný přežije 40/50 %  zkušený 50 %  → hpm 3.52, dmm 0.79
+  brana       hpm 1.52 dmm 1.11     průměrný 8/20 %    neopatrný přežije 43/40 %  zkušený 50 %  → hpm 1.38, dmm 1.11
+
+kolo 3 (193 s)
+  poust       hpm 3.06 dmm 1.29     průměrný 50/40 %   neopatrný přežije 43/50 %  zkušený 17 %  v cíli
+  kanon       hpm 3.59 dmm 0.63     průměrný 17/37 %   neopatrný přežije 47/50 %  zkušený 100 % → hpm 3.15, dmm 0.63
+  karavana    hpm 3.12 dmm 0.98     průměrný 33/34 %   neopatrný přežije 45/50 %  zkušený 33 %  v cíli
+  hrobka      hpm 3.52 dmm 0.79     průměrný 17/31 %   neopatrný přežije 45/50 %  zkušený 17 %  → hpm 3.21, dmm 0.79
+  brana       hpm 1.38 dmm 1.11     průměrný 8/20 %    neopatrný přežije 39/40 %  zkušený 58 %  → hpm 1.25, dmm 1.11
+
+hotovo: ladeni-last.json (zapiš: node ladeni.js zapis)

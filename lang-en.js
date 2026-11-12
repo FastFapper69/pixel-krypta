@@ -3508,4 +3508,10 @@ window.KRYPTA_EN={
 "Výzvy na tvých mapách":"Challenges on your maps",
 "Denní i týdenní jen na vyhraných mapách.":"Daily and weekly only on maps you have won.",
 "Žebříček Dnes a Týden ukazuje, na jaké mapě kdo hrál.":"The Today and Week boards show which map each player played.",
+"Poušť bez zdi":"Desert without a wall",
+"Karavana je lehčí":"Caravan is easier",
+"Nepřátelé mají méně zdraví.":"Enemies have less health.",
+"Poslední světlo opravené":"Last Light fixed",
+"Lucerna už nezhasne po prvním zabití.":"The lantern no longer goes out after a kill.",
+"Hrobka faraona: nepřátelé zraňují o trochu méně.":"Pharaoh's Tomb: enemies hit a little softer.",
 };

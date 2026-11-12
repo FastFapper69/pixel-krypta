@@ -978,7 +978,7 @@ const MAPS={
 // 11z4: hrbitov a bazina nastavené podle skutečných nováčků, ne botů: boti vyhrávali 92 a 67–92 %, lidé 4/8 a 1/6 → HP i poškození níž, boss Hřbitova ×0,85
 const MAP_TIER={
   hrbitov:[0.62,0,0,0.6,0.85],bazina:[0.7,.1,15,0.75],kostnice:[0.9,.2,30,0.75],zvonice:[1.18,.3,45,0.65],trun:[1.61,.45,90,0.5], // kapitola I vítá (Hřbitov 70 % → Zvonice 45 %, Trůn 25 %)
-  poust:[2.11,.6,60,1.29],kanon:[2.48,.6,75,0.77],karavana:[3.46,.58,90,0.98],hrobka:[2.54,.62,105,0.98],brana:[1.36,.7,150,1.11], // II schod (40 % −3 na mapu, finále 20 %)
+  poust:[2.11,.6,60,1.29],kanon:[2.48,.6,75,0.77],karavana:[2.63,.58,90,0.98],hrobka:[2.54,.62,105,0.87],brana:[1.36,.7,150,1.11], // II schod (40 % −3 na mapu, finále 20 %); 12l: jen ulehčení (boti chtěli Poušť a Kaňon přitvrdit, skuteční hráči tam ale už padají), data tests/tools/data/12l
   doly:[3.54,1,110,1.26],kovarna:[3.91,1.05,125,1.54],reka:[3.6,1.1,140,2.21],krystaly:[4.55,1.15,155,1.88],srdce:[2.31,1.1,240,1.1], // III zeď (25 %, finále 12 %)
   jezero:[3.85,1.05,170,1.63],pevnost:[3.93,1.05,185,1.74],tajga:[7.31,1.08,200,1.27],soutezka:[4.88,1.1,215,1.11],zima:[3.61,1.2,320,1.51], // IV schod
   vrakoviste:[21.26,1.2,230,2.54],pristav:[17.1,1.15,245,1.98],majak:[28.04,1.15,260,2.54],vir:[72.07,1.15,275,1.32,3.41],paluba:[11.88,1.2,380,1.39], // V schod (Maják a Vír na HP skoro nereagují, potřebují mechaniku)
@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12k';
+const GAME_VER='2026-11-12l';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3951,8 +3951,8 @@ function killEnemy(e){
     if(e.want){Q.want=e.want;run.wanted=null;toast(_t('Hledaný dopaden! Odměnu si vyzvedni na Nástěnce'),2800);run.items.push({x:e.x-6,y:e.y,k:'mat',v:8});for(let i=0;i<3;i++)run.items.push({x:e.x+rnd(-8,8),y:e.y+rnd(-8,8),k:'coin'});}}
   // 11z2: gold comes every 25 KILLS (a hit no longer wipes it out – in hard maps the combo kept resetting and towers came only late);
   // a long combo still pays more: at least 10, from combo 75 → 15 … up to 40 (a clean combo gets about the same as before). Material every 200 combo.
-  run.kn=(run.kn||0)+1; // 12d: was run.kg – that name belongs to the growth/gaps mechanics (an object), the counter turned it into a number and crashed those maps
-  if(run.kn%25===0){const g=Math.min(40,Math.max(10,5*Math.floor(run.combo/25)));run.coins+=g;run.kgG=(run.kgG||0)+g;sfx('coin');
+  run.killCnt=(run.killCnt||0)+1; // 12l: was run.kg (growth/gaps), then run.kn – that is the lantern of Poslední světlo (12e–12k it turned into a string, the light vanished and the dark killed in seconds). Long name on purpose.
+  if(run.killCnt%25===0){const g=Math.min(40,Math.max(10,5*Math.floor(run.combo/25)));run.coins+=g;run.kgG=(run.kgG||0)+g;sfx('coin');
     // 12b: gold always as a number above the hero; the toast only for every new hundred of combo (the 15-minute bot run got one every 2–3 s)
     if(run.nums.length<40)run.nums.push({x:run.p.x,y:run.p.y-14,vx:0,vy:-40,txt:'+'+g,life:.8,col:'#f6c744',t:0});
     if((run.cbT||0)>run.combo)run.cbT=0;const h=Math.floor(run.combo/100)*100;if(h>=100&&h>(run.cbT||0)&&h%200){run.cbT=h;toast(_t('Kombo ')+run.combo+'! +'+g+_t(' zlata'),1000);}}
@@ -10497,6 +10497,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12l',d:'12. 11. 2026',t:_t('Poušť bez zdi'),hl:[{ic:'map:karavana',t:_t('Karavana je lehčí'),d:_t('Nepřátelé mají méně zdraví.')},{ic:'map:svetlo',t:_t('Poslední světlo opravené'),d:_t('Lucerna už nezhasne po prvním zabití.')}],items:[_t('Hrobka faraona: nepřátelé zraňují o trochu méně.')]},
  {v:'2026-11-12k',d:'12. 11. 2026',t:_t('Férové výzvy'),hl:[{ic:'trophy',t:_t('Výzvy na tvých mapách'),d:_t('Denní i týdenní jen na vyhraných mapách.')}],items:[_t('Žebříček Dnes a Týden ukazuje, na jaké mapě kdo hrál.')]},
  {v:'2026-11-12j',d:'12. 11. 2026',t:_t('Nástěnka bez záhad'),hl:[{ic:'candle',t:_t('Týdenní svíčky na Dnes'),d:_t('Dokud je Týden zamčený, najdeš je dole.')}],items:[_t('Pečeť Nástěnky svítí, jen když tam opravdu je co vyzvednout.')]},
  {v:'2026-11-12i',d:'12. 11. 2026',t:_t('Pečeti v menu'),hl:[{ic:'bell',t:_t('Všechny pečeti poskakují'),d:_t('Nové i čekající značky se hýbou stejně.')}],items:[]},
