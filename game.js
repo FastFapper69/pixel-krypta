@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12p';
+const GAME_VER='2026-11-12q';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -4918,7 +4918,7 @@ function updateSpawns0(dt){
 
 /* ----- main update ----- */
 function update(dt){
-  const p=run.p;run.t+=dt;
+  const p=run.p;run.t+=dt;if(run.mod&&!run.dailyIt&&run.t>=DAILY_T)dailyTick();
   if(run.comboT>0){run.comboT-=dt;if(run.comboT<=0)run.combo=0;}
   if(run.hitstop>0){run.hitstop-=dt;run.beatNow=run.barNow=false;return;}
   if(run.dying){run.dying-=dt;if(run.dying<=0){run.dying=0;loseRun();return;}
@@ -6187,7 +6187,7 @@ function showOver(){
     $('#ovW').innerHTML=Object.keys(run.W).map(id=>'<div class="it'+(WEAPONS[id].ult?' ult':'')+'"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><em>'+(WEAPONS[id].ult?ROMAN[run.W[id].lv-1]:run.W[id].lv)+'</em></div>').join('')+
       Object.keys(run.P).map(id=>'<div class="it"><img alt="" src="'+dataUrl(SPR.icon[id])+'"><em>'+run.P[id]+'</em></div>').join('');}catch(_){}
   const wkR=run.wk&&!run.coop?(run.rw&&run.rw.wkT)||{got:[],best:-1}:null;
-  const dOk=run.mod&&!run.wk&&!run.coop&&(run.won||run.t>=180),dSub=wkR?wkSub(wkR):!run.mod||run.coop?null:run.rw&&run.rw.daily?_t('Přežil jsi 3 minuty a dnešní výzvu máš splněnou.'):dOk?_t('Dnešní výzvu už máš splněnou. Tenhle pokus se počítá do žebříčku Dnes.'):_t('Do splnění výzvy chybělo ')+Math.ceil(180-run.t)+_t(' s. Zkus to znovu.');
+  const dOk=run.mod&&!run.wk&&!run.coop&&(run.won||run.t>=DAILY_T),dSub=wkR?wkSub(wkR):!run.mod||run.coop?null:run.rw&&run.rw.daily?_t('Přežil jsi 2 minuty a dnešní výzvu máš splněnou.'):dOk?_t('Dnešní výzvu už máš splněnou. Tenhle pokus se počítá do žebříčku Dnes.'):_t('Do splnění výzvy chybělo ')+Math.ceil(DAILY_T-run.t)+_t(' s. Zkus to znovu.');
   $('#ovTitle').textContent=wkR&&wkR.best>=0?WK_TIER[wkR.best].name+'!':run.won?_t('Vítězství!'):dOk?_t('Výzva splněna!'):_t('Konec běhu');$('#ovTitle').className='title'+(run.won||dOk||(wkR&&wkR.best>=0)?'':' bad');
   $('#ovSub').textContent=dSub&&!run.won?dSub:run.won?(run.map.boss&&_t('Boss poražen: ')+BOSS_DEFS[run.map.boss].name+'.'+(run.unlocked?_t(' Odemčeno: ')+run.unlocked+'.':'')):(run.crystalDead?(run.map.caravan?_t('Karavanu vykradli a krypta zvítězila.'):_t('Krystal se rozbil a krypta zvítězila.')):run.endless?_t('Nekonečná krypta tě nakonec pohltila.'):_t('Krypta si tě tentokrát vzala.'));
   const rows=[[_t('Čas'),fmtTime(run.t)],[_t('Zabití'),run.kills],[_t('Úroveň'),run.level],[_t('Zlato celkem'),'+'+run.gain]];const W=run.rw||{};
@@ -7229,7 +7229,7 @@ function renderSelect(){sealBtnSync();setTimeout(()=>{const m=$('#mapList .mnode
     '<b class="dmod"><img alt="" src="'+dataUrl(SPR.icon[mi])+'">'+di.mod.name+'</b></div></div>'+
     '<div class="dbot"><div class="k-bd">'+(di.done?'<span class="dyes">'+_t('Dnes splněno')+'</span>':'<span>'+KIT.img('clock')+'3:00</span><span><img alt="" class="kp" src="'+dataUrl(SPR.icon.chest_wood)+'" style="width:36px;height:32px"></span><span>'+KIT.img('shard')+'20</span>')+'</div>'+
     '<button class="btn sm" id="dailyGo">'+_t('Hrát')+'</button></div>'+
-    '<small class="kh"><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small class="kh">'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 3 minuty → truhla s předmětem + 20 Úlomků.'))+_t('</small><small class="kh">Mapa, kterou už máš vyhranou · žebříček Dnes')+'</small></div>';
+    '<small class="kh"><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small class="kh">'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 2 minuty → truhla s předmětem + 20 Úlomků.'))+_t('</small><small class="kh">Mapa, kterou už máš vyhranou · žebříček Dnes')+'</small></div>';
   $('#dailyGo').onclick=()=>{sfx('ui');startRun(heroOwned(sel.hero)?sel.hero:'knight',di.map,{mod:di.mod.id});};
 }
 // ----- upgrade tree (08g): three branches; each starts with its stat lines (the old Vylepšení, save.meta.hp…), then five key nodes
@@ -7394,7 +7394,7 @@ function bartFit(){ // popisky ve dvojicích: všechny čtyři stejně – Jerse
 function menuScene(){const sc=document.getElementById('mScene'),S=document.getElementById('scr-menu'),st=document.getElementById('mStack'),par=document.getElementById('parade'),top=document.getElementById('mTop');if(!sc||!S||S.hidden||!st.offsetHeight)return;
  const R=S.getBoundingClientRect(),y0=Math.round(top.getBoundingClientRect().bottom-R.top),y1=Math.round(st.getBoundingClientRect().top-R.top)-10,H=Math.max(40,Math.floor((y1-y0)/2)*2),W=Math.ceil(S.clientWidth/2)*2;
  sc.style.top=(y0+S.scrollTop)+'px';sc.style.height=H+'px';sc.style.width=W+'px';const f=Math.round((par.getBoundingClientRect().bottom-R.top-y0)/2)-1;sc.dataset.f=Math.max(20,Math.min(H/2-6,f));
- KIT.paint(S);const B=sc._kB;if(B&&B.torch){sc.querySelectorAll('.k-flame').forEach((e,i)=>{e.style.left=(B.torch[i][0]*2-6)+'px';e.style.top=(B.torch[i][1]*2-18)+'px';});}}
+ KIT.paint(S);try{lootUi();}catch(_){}const B=sc._kB;if(B&&B.torch){sc.querySelectorAll('.k-flame').forEach((e,i)=>{e.style.left=(B.torch[i][0]*2-6)+'px';e.style.top=(B.torch[i][1]*2-18)+'px';});}}
 function bartWrap(b){for(const n of [...b.childNodes])if(n.nodeType===3&&n.textContent.trim()){const s=document.createElement('span');s.className='lbl';n.replaceWith(s);s.appendChild(n);}} // holý text by plátno překrylo
 function bartAll(){bartFit();try{menuScene();}catch(_){}for(const id in BART_KIND){const b=document.getElementById(id);if(b){b.classList.add('art','art-'+BART_KIND[id]);if(id!=='mCur')bartWrap(b);bartApply(b);}}}
 function bartInit(){bartAll();
@@ -8136,7 +8136,8 @@ function runRewards(won){
       if((nmFirst&&!R.coop)||miss>=SET_PITY||Math.random()<SET_DROP+.05*(R.nm||0)){(save.setCh=save.setCh||[]).push({sid,r:setRarity(R.nm||0,sid)});out.setCh=sid;save.setP[sid]=0;}else save.setP[sid]=miss+1;
       save.chT=save.chT||{};if(!save.chT[CH_OF[R.mapId].id])out.tre=1;}}
   if(R.wk&&!R.coop)out.wkT=wkResult(won);
-  if(R.mod&&!R.wk&&!R.coop&&(won||R.t>=180)&&save.daily.chal!==today()){save.daily.chal=today();achInit().tot.dc++;qkAdd('daily',1);save.mats[mid]+=20;if(out.mat)out.mat[1]+=20;const it=makeItem(rollRarity(ECON.chests[1]));addItem(it);out.daily=it;}
+  if(R.mod&&!R.wk&&!R.coop&&(won||R.t>=DAILY_T))dailyGrant(); // 12q: odměna přijde hned ve 2:00 (dailyTick), tady jen pojistka
+  if(R.dailyIt){out.daily=R.dailyIt;if(out.mat)out.mat[1]+=20;}
   return out;}
 
 // ----- 09k: Runy — a rune goes into an Epic (1 slot) or Legendary/set item (2 slots); only loot, never bought -----
@@ -8399,10 +8400,11 @@ function skyThumb(v){const c=document.createElement('canvas');c.width=c.height=6
 const FEATS=[
  {id:'gear',at:'hrbitov',ic:'shield',name:_t('Vybavení a Obchod'),d:_t('Předměty z truhel nasadíš hrdinům. V Obchodě je každý den truhla zdarma.'),go:()=>openChestShop()}, // 12b: show the free chest, not an empty inventory
  {id:'quests',at:'hrbitov',ic:'candle',name:_t('Nástěnka'),d:_t('Tři denní úkoly se třemi hvězdami. Za hvězdy dostaneš svíčky a za svíčky truhly.'),go:()=>{qTab='day';openQuests();}}, // 12n: denní úkoly hned 1. výhrou (data: kdo odešel, měl nejvýš 2 výhry a žádný denní háček)
+ {id:'daily',at:'bazina',ic:'trophy',name:_t('Denní výzva'),d:_t('Každý den jedna z map, které už máš vyhrané, s modifikátorem. Přežij 2 minuty a čeká tě truhla.'),go:()=>openMenu()}, // 12q: 2minutová denní výzva hned po 2. výhře
+ {id:'loot',at:'bazina',ic:'chest_wood',name:_t('Kořist krypty'),d:_t('Truhla nahoře v menu se plní, i když nehraješ. Za 8 hodin je plná a pak čeká.'),go:()=>openMenu()}, // 12q: postup, i když jsi zaseklý
  {id:'fuse',at:'kostnice',ic:'vortex',name:_t('Fúze zbraní'),d:_t('Dvě zbraně na úrovni 5 spojíš v běhu v jednu ultimátní. Ťukej do rytmu a bude silnější.')},
  {id:'forge',at:'zvonice',ic:'power',name:_t('Kovárna: vylepšování'),d:_t('Vylepšuj předměty a kupuj trvalá vylepšení hrdinů za zlato a Úlomky.'),go:()=>{renderShop();setState('shop');}},
  {id:'nm',at:'trun',ic:'eye',name:_t('Noční můra a Nekonečná krypta'),d:_t('Mapy kapitoly znovu a těžší, s lepší kořistí. A souboj s finálním bossem, který se vrací silnější.')},
- {id:'daily',at:'poust',ic:'trophy',name:_t('Denní výzva'),d:_t('Každý den jedna z map, které už máš vyhrané, s modifikátorem. Přežij 3 minuty a čeká tě truhla.'),go:()=>openMenu()},
  {id:'arsenal',at:'kanon',ic:'tower',name:_t('Arzenál věží'),d:_t('Vyber si 4 věže do běhu. Nové věže a lepší rarity padají ze Stavitelovy bedny.'),go:()=>openTowers()},
  {id:'wanted',at:'karavana',ic:'skull',name:_t('Lov na hledané'),d:_t('Na Nástěnce visí plakát s elitním nepřítelem. Přijmi lov, ulov ho a vyzvedni odměnu.'),go:()=>{qTab='day';openQuests();}},
  {id:'merge',at:'hrobka',ic:'hammer',name:_t('Kovárna: slučování'),d:_t('Tři stejné kusy sliješ v jeden lepší: předměty a věže o raritu výš, mazlíčky o hvězdu.'),go:()=>openForge()},
@@ -9710,6 +9712,27 @@ async function evFlush(){const Q=save.evQ;if(!Q||!Q.length||!ON.sb||!ON.me||!ON.
       if(error){if(error.code==='42P01'||error.code==='PGRST205')ON.noEv=1;break;}
       save.evQ=save.evQ.filter(r=>!part.includes(r));try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}}}
   catch(_){}ON.evBusy=0;}
+// 12q: denní výzva na 2 minuty (research: krátký denní mód s jistou odměnou). Odměna přijde hned ve 2:00, běh jde dál kvůli žebříčku Dnes.
+const DAILY_T=120;
+function dailyGrant(){const R=run;if(!R||!R.mod||R.wk||R.coop||R.dailyIt||save.daily.chal===today())return null;const mid=MAT_OF[R.mapId]||'shard';
+  save.daily.chal=today();achInit().tot.dc++;qkAdd('daily',1);save.mats[mid]=(save.mats[mid]||0)+20;const it=makeItem(rollRarity(ECON.chests[1]));addItem(it);R.dailyIt=it;persist();evLog('daily',R.mapId,Math.round(R.t));return it;}
+function dailyTick(){if(dailyGrant()){sfx('win');const m=_t('Výzva splněna! Truhla je tvoje, můžeš hrát dál.');
+  setTimeout(()=>{const t=$('#toast');if(t&&t.classList.contains('on'))setTimeout(()=>toast(m,3500),2400);else toast(m,3500);},80);} // ve 2:00 často zároveň skončí úkol „Přežití“ – hláška počká
+  else if(run)run.dailyIt=run.dailyIt||true;}
+// 12q: Kořist krypty – truhla u ohně v menu se plní 8 hodin (i offline), strop ≈ půlka odměny za výhru v nejvyšší vyhrané kapitole
+const LOOT_H=8,LOOT_MIN=1/8;
+function lootInit(){if(!save.loot||!isFinite(save.loot.t))save.loot={t:Date.now()-LOOT_H/2*36e5};if(save.loot.t>Date.now())save.loot.t=Date.now();return save.loot;}
+const lootFill=()=>Math.max(0,Math.min(1,(Date.now()-lootInit().t)/(LOOT_H*36e5)));
+function lootFull(){const k=1+.15*lwChapter();return{g:Math.round(140*k/5)*5,sh:Math.round(20*k)};}
+// v horní liště hned za měnou (na malém iPhonu pod průvodem v síni nezbývá místo)
+function lootUi(){const T=$('#mTop'),cur=$('#mCur');if(!T||!cur)return;let b=$('#mLoot');const on=featOn('loot');
+  if(!on){if(b)b.hidden=true;return;}
+  if(!b){b=document.createElement('button');b.id='mLoot';b.className='mloot';b.setAttribute('aria-label',_t('Kořist krypty'));b.innerHTML='<img alt=""><i class="lb"><i></i></i>';cur.after(b);b.onclick=lootClaim;}
+  b.hidden=false;b.querySelector('img').src=dataUrl(SPR.icon.chest_wood);const f=lootFill();b.querySelector('.lb i').style.width=(Math.floor(f*8)*4)+'px';b.classList.toggle('full',f>=1);}
+function lootClaim(){const f=lootFill();sfx('ui');if(f<LOOT_MIN){const m=Math.ceil((LOOT_MIN-f)*LOOT_H*60);note(_t('Truhla se teprve plní. Zkus to za ')+m+_t(' min.'));return;}
+  const F=lootFull(),g=Math.round(F.g*f),sh=Math.round(F.sh*f);gainC({gold:g,shard:sh});save.loot.t=Date.now();persist();evLog('loot',null,Math.round(f*100));
+  sfx('chestopen');note(_t('Kořist krypty: +')+g+_t(' zlata, +')+sh+_t(' Úlomků'));try{openMenu();}catch(_){lootUi();}}
+setInterval(()=>{if(state==='menu')try{lootUi();}catch(_){}},30000);
 // 12o: chyby JS do events (ev='err'): zpráva + místo, nejvýš 5 za relaci, každá jen jednou (náhrada za Sentry)
 function evErr(msg,src){try{const S=evErr.seen||(evErr.seen=new Set());const k=String(msg||'?').slice(0,40);if(S.size>=5||S.has(k))return;S.add(k);
   evLog('err',k,null);const Q=save.evQ;if(Q&&Q.length)Q[Q.length-1].k=(k+' @'+String(src||'').replace(/^.*\//,'').slice(0,24)).slice(0,48);}catch(_){}}
@@ -10588,6 +10611,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12q',d:'12. 11. 2026',t:_t('Kořist krypty'),hl:[{ic:'chest_wood',t:_t('Kořist krypty'),d:_t('Truhla v menu se plní, i když nehraješ.')},{ic:'trophy',t:_t('Denní výzva na 2 minuty'),d:_t('Odemkne se už po druhé výhře.')}],
+  items:[_t('Odměna výzvy přijde hned ve 2:00, pak můžeš hrát dál.')]},
  {v:'2026-11-12p',d:'12. 11. 2026',t:_t('Porovnání výbavy'),hl:[{ic:'item:helm:3',t:_t('Porovnání s nasazeným'),d:_t('Zeleně co získáš, červeně co ztratíš.')}],items:[]},
  {v:'2026-11-12o',d:'12. 11. 2026',t:_t('Ladění'),hl:[{ic:'music',t:_t('Jak se ti líbí rytmus?'),d:_t('Nová otázka po běhu: baví, nebo ruší?')}],
   items:[_t('Chyby hry se teď hlásí samy, ať je opravím rychleji.')]},

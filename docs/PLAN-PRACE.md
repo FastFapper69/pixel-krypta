@@ -19,8 +19,8 @@ Stav aktualizuj tady (✅ hotovo, 🔜 další na řadě, ⏳ čeká na data/roz
 | 4 | Materiály pro nábor 30–50 cizích testerů | C → U | 1 den | ✅ texty v `docs/NABOR.md`; zveřejní U | texty pro Reddit (r/WebGames, r/roguelites, r/incremental_games?), Discord, itch.io; snímky; U je zveřejní |
 | 5 | Krátká videa / GIF ze hry (TikTok, Reels, Reddit) | C | 1 den | ✅ `tests/tools/video.js` (MP4 1080×1920 se zvukem + GIF) | nahrávka z Playwrightu + ffmpeg, 15–30 s: horda → věže → fúze → boss, na výšku |
 | 6 | Zjistit podmínky Poki a CrazyGames | C | 0,5 dne | ✅ `docs/PORTALY.md`: hned Poki Playtesting (10 videí cizích hráčů), pak CrazyGames Basic Launch (D1 a délka hraní zadarmo, neexkluzivní); Poki smlouvu teď ne (5 let exkluzivita) | exkluzivita, SDK, vlastní účty a Supabase, velikost, reklamy, výplaty, jak se přihlásit |
-| 7 | Návrh pasivní truhly („postup i když jsem zaseklý“) | C → U | návrh 0,5 dne, stavba 1–2 dny | ⏳ návrh | hlídat těsnou ekonomiku; plní se časem do stropu, vyzvednutí v menu |
-| 8 | Návrh 2minutového denního módu | C → U | návrh 0,5 dne, stavba 2–3 dny | ⏳ návrh | jistá odměna, krátký boss nebo aréna, na mobil „na zastávku“ |
+| 7 | Pasivní truhla „Kořist krypty“ | C → U | návrh 0,5 dne, stavba 1–2 dny | ✅ 12q | hlídat těsnou ekonomiku; plní se časem do stropu, vyzvednutí v menu |
+| 8 | 2minutový denní mód = denní výzva zkrácená na 2 min, odemčená 2. výhrou | C → U | 1 den | ✅ 12q | jistá odměna, krátký boss nebo aréna, na mobil „na zastávku“ |
 | 9 | Tichý test se 2–3 lidmi, kteří hru neznají | U | 1 večer | ⏳ návod v `docs/NABOR.md`; čeká na U | hrají 10 minut, nikdo neradí, U zapíše, kde se zasekli; C připraví návod |
 | 10 | Rozbor `events` + `runs` po 3–5 dnech | C | 0,5 dne | ⏳ data | kde noví hráči končí, kliky na karty, D1; podle toho další úpravy |
 | 11 | Novinky po dnech, ne jen po výhrách | C | 1 den | ⏳ data | rozhodnout podle dat z #10 (silní hráči dostanou 5 novinek za večer) |

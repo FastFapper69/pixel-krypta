@@ -247,3 +247,6 @@ Hodnoty se losují v rozsahu dané rarity, třeba Vzácná: poškození +6–10 
 7. **Monetizace:** nejdřív kosmetika a Kryptová cesta, placené truhly jen po právní kontrole.
 
 Fáze 1–2 jsou zhruba jedno sezení, 3–4 jedno až dvě, 5 jedno, 6–7 podle toho, jak se rozhodneš.
+
+## 7d. Kořist krypty (12q, hotovo)
+- Pasivní příjem „postup i když jsi zaseklý“: za 8 h nejvýš 140 zlata a 20 Úlomků × (1 + 0,15·kapitola), tj. ≈ půlka výhry. Při jednom vyzvednutí denně to je pod hodnotou denních úkolů; strop drží ekonomiku těsnou. Podrobnosti `docs/HISTORIE.md` 12q.

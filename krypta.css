@@ -1611,3 +1611,11 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 .ic-vs img{width:24px;height:24px;image-rendering:pixelated}
 .ic-st .cmp{font-style:normal;margin-left:8px}.ic-st .cmp.up{color:#7cf0a0}.ic-st .cmp.dn{color:#ff7a6a}
 .ic-st li.miss span,.ic-st li.miss b{color:var(--muted)}
+/* 12q: Kořist krypty – truhla v horní liště za měnou, pod ní 8dílný ukazatel plnění; plná truhla poskakuje jako pečeť */
+.mloot{flex:none;width:44px;height:44px;padding:0;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;touch-action:manipulation;margin-left:2px}
+.mloot[hidden]{display:none}
+.mloot img{width:32px;height:32px;image-rendering:pixelated;filter:drop-shadow(0 2px 0 #000a)}
+.mloot .lb{display:block;width:36px;height:8px;background:#0b0c0e;box-shadow:0 0 0 2px #3a2a14;position:relative}
+.mloot .lb i{position:absolute;left:2px;top:2px;height:4px;width:0;background:repeating-linear-gradient(90deg,#f6c744 0 3px,#8f5a12 3px 4px)}
+.mloot.full img{animation:sealHop 1.6s steps(1,end) infinite;filter:drop-shadow(0 2px 0 #000a) drop-shadow(0 0 6px #f6c744aa)}
+.mloot:active img{transform:translateY(2px)}
