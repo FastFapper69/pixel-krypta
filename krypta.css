@@ -1619,3 +1619,9 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 .mloot .lb i{position:absolute;left:2px;top:2px;height:4px;width:0;background:repeating-linear-gradient(90deg,#f6c744 0 3px,#8f5a12 3px 4px)}
 .mloot.full img{animation:sealHop 1.6s steps(1,end) infinite;filter:drop-shadow(0 2px 0 #000a) drop-shadow(0 0 6px #f6c744aa)}
 .mloot:active img{transform:translateY(2px)}
+/* 12r „Ukaž mi to“: zlatý rám kolem věci, kterou karta nové mechaniky ukazuje, a šipka nad/pod ní (ostré kroky, celé pixely) */
+.kspot{outline:2px solid #f6c744;outline-offset:2px;animation:spotBlink .8s steps(1,end) infinite}
+@keyframes spotBlink{50%{outline-color:#fff3b0}}
+#spotAr{position:fixed;z-index:95;width:24px;height:24px;image-rendering:pixelated;pointer-events:none;animation:sealHop 1s steps(1,end) infinite}
+#mTop .kspot{outline:none;animation:spotGlow .8s steps(1,end) infinite} /* horní lišta je bez rámečků (přání uživatele 10m) → jen záře */
+@keyframes spotGlow{0%{filter:drop-shadow(0 0 4px #f6c744) drop-shadow(0 0 2px #f6c744)}50%{filter:drop-shadow(0 0 7px #fff3b0) drop-shadow(0 0 2px #f6c744)}}

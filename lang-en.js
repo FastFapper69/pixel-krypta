@@ -1,6 +1,14 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+'Zvonice lehčí':'Bell Village easier',
+'Zvonice je lehčí':'Bell Village is easier',
+'Slabší nepřátelé a méně lučištníků.':'Weaker enemies and fewer archers.',
+'„Ukaž mi to“ ukáže cestu':'"Show me" shows the way',
+'Nová mechanika ukáže, kde ji najdeš.':'A new feature shows where to find it.',
+'Karta denní výzvy ukazuje správně 2:00.':'The daily challenge card now correctly shows 2:00.',
+'Novinky počkají, než zavřeš karty nových mechanik.':'News now waits until you close new-feature cards.',
+
 "Spravedlivější obtížnost":"Fairer difficulty",
 "Chyba už neznamená konec":"One mistake is no longer the end",
 "Zásahy nepřátel jsou na všech mapách nastavené tak, aby tě <b>jedna chyba hned nezabila</b>. Kdo leze do davu, vydrží zhruba do půlky mapy.":"Enemy hits on every map are set so that <b>one mistake won't kill you right away</b>. Even if you charge into the crowd, you'll last about half the map.",

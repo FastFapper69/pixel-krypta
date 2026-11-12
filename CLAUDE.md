@@ -47,7 +47,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - Hudba: pravidla, menu skladba a postup náčrtů ve skillu `zvuk-a-hudba`; nová kapitola `hudbacheck.js` + `skladby.js cN`.
 - Jména hrdinů: limit 85 % dlaždice v CZ i EN, písmo se nezmenšuje (`jmenahrdinu.js`, skill `novy-hrdina`).
 
-## Aktuální stav (verze 12q, 12. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 12r, 12. 11. 2026, vše na main, Pages nasazené)
 - **POSTUP OD 11z4 (rozhodnutí uživatele 11. 11. po rozboru procesu):** obsah předběhl hráče (6 hráčů, nikdo se nevrátil druhý den, nikdo za kapitolu I).
   **Nové kapitoly a akt II jsou zmrazené, dokud se testeři nedostanou aspoň do kapitoly III.** Přednost má začátek hry (prvních 30 minut), délka běhu a
   měření návratů (`docs/DATA-HRACU.md` „Návraty“ – před každou větší prací se podívej, kde noví hráči končí). **Jen jeden chat najednou** (souběžné chaty
@@ -55,6 +55,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - **PLÁN PRÁCE: `docs/PLAN-PRACE.md`** (podle researche 12. 11.): fáze 0–1 měření a retence (teď), 2 webové portály, 3 Android a 4 růst jsou zamčené branami retence. **Před prací se podívej, co je tam 🔜, a po dokončení stav přepiš.**
 - **12o** otázka na rytmus v rychlé otázce (`ctx.rh`), chyby JS do `events` (`evErr`), stránka `smazat-ucet.html`; migrace `20261112b_delete_my_data.sql` spuštěná 12. 11. se souhlasem uživatele (maže i události, nahlášení a co-op).
 - **12n první dny hráče** (podrobně `docs/HISTORIE.md` 12n): Nástěnka hned 1. výhrou, `save.day0`/`dayN()`, karta Zítra tě čeká, Dárek na cestu (`loseGift`), **události do tabulky `events`** (`evLog`, fronta `save.evQ`). **Pravidlo: nová obrazovka nebo krok začátku hry = `evLog` (obrazovky jdou samy přes `setState`).** Test `prvnidny.js`, dotazy `docs/DATA-HRACU.md`.
+- **12r „Ukaž mi to“ a Zvonice** (uživatel: dvě karty nových mechanik, „Ukaž mi to“ nic neukázalo a přes to vyskočily Novinky): `spotOn(()=>el,delay)` = zlatý rám (v horní liště jen záře) + šipka, dokud hráč neklepne (max 6 s); mezitím `featShow` i Novinky čekají (`SPOT.on`), Novinky až po 1,5 s klidu v menu (`newsBoot`). **Pravidlo: `go` u karty nové mechaniky musí otevřít obrazovku a věc ukázat (`spotOn`), nikdy jen `openMenu()`.** Test `ukazmi.js`. Zvonice `MAP_TIER` HP 1,18→1,0, lučištníci váha 3→2 (uživatel 2× padl, data: hrdina úr. 1–3, lučištníci půlka poškození). Karta denní výzvy ukazuje `DAILY_T` (bylo natvrdo 3:00).
 - **12q** Kořist krypty (truhla v horní liště menu, plní se 8 h, `lootUi`/`lootClaim`, odemkne 2. výhra) a denní výzva na 2 minuty (`DAILY_T`, odměna hned ve 2:00, odemkne 2. výhra). Test `korist.js`.
 - **12p porovnání výbavy:** okno předmětu ukazuje rozdíl proti kusu nasazenému ve stejném slotu (`itemCardHtml(it,cmp)`, `cmpDelta`).
 - **12m Týden v kryptě** (denní odměna za návrat, `save.lw`, od 4. běhu nebo hned při návratu další den; v testech vypnutá `KRYPTA_NOLW`, zapne `L.open({lw:1})`). Test `tydenkrypta.js`.

@@ -614,3 +614,9 @@ Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co 
 - Test `tests/tools/korist.js [cs|en] [se|15]` (odemčení, vyzvednutí, plná truhla, nic nepřekrývá, výzva ve 2:00 jen jednou, snímky `out/korist_*`).
 
 - 12o dodatek: migrace `20261112b_delete_my_data.sql` spuštěná 12. 11. večer se souhlasem uživatele (předtím nanečisto). `smazat-ucet.html` upravená: smaže se i co-op a nahlášení mířící na hráče; termín 30 dní u žádosti přes formulář uživatel schválil.
+
+## 12r (12. 11. 2026) – „Ukaž mi to“ ukáže cestu, Zvonice lehčí
+- Uživatel po spuštění dostal karty Denní výzva a Kořist krypty; „Ukaž mi to“ u obou jen volalo `openMenu()`, přes menu hned vyskočila další karta a pak Novinky (`newsBoot` po 700 ms nehlídal karty). Nově `spotOn`/`spotOff` (rám `.kspot`, šipka `#spotAr`, v `#mTop` jen záře), Denní výzva otevře Přípravu a ukáže `#dailyBox`, Kořist ukáže `#mLoot`. `featShow` čeká na `SPOT.on` a otevřené Novinky; Novinky čekají na 1,5 s klidu v menu. Test `tests/tools/ukazmi.js`.
+- Zvonice: `MAP_TIER.zvonice` HP ×1,18 → ×1,0, `bonearcher` váha 3 → 2. Data `runs`: uživatel 2 smrti (Rytíř úr. 3 ve 3:43, Bard úr. 1 ve 2:30), lučištníci dali ~půlku poškození; jediný výherce měl hrdinu úr. 7–8.
+- Karta denní výzvy ukazovala natvrdo 3:00, teď `DAILY_T` (2:00).
+

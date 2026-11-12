@@ -942,7 +942,7 @@ const MAPS={
   events:[{t:90,type:'ring',e:'bat',n:22},{t:170,type:'ring',e:'skeleton',n:20},{t:250,type:'ring',e:'ghost',n:16}]},
  zvonice:{name:_t('Zvonice'),desc:_t('Opuštěná vesnice pod kostelní věží. Zvony bijí každé dva takty: <b>stůj u zvonu na úder</b> a vyšle rázovou vlnu. Vydrž 5:30 a poraz Zvoníka.'),dur:330,size:940,seed:67,style:'village',grade:'#ff9a50',gradeA:.26,dark:.44,amb:'#160818',ambient:'leaf',c1:'#5a4a2a',
   speedMul:1.02,base:1.0,boss:'ringer',pools:0,
-  spawns:[{e:'zombie',from:0,w:4},{e:'skeleton',from:0,w:4},{e:'bat',from:0,w:3},{e:'ghost',from:1,w:3},{e:'bonearcher',from:1,w:3},{e:'drowned',from:2,w:2},{e:'wolf',from:2,w:2},{e:'digger',from:3,w:1}],
+  spawns:[{e:'zombie',from:0,w:4},{e:'skeleton',from:0,w:4},{e:'bat',from:0,w:3},{e:'ghost',from:1,w:3},{e:'bonearcher',from:1,w:2},{e:'drowned',from:2,w:2},{e:'wolf',from:2,w:2},{e:'digger',from:3,w:1}],
   elites:[{t:60,e:'zombie'},{t:130,e:'digger'},{t:200,e:'bonearcher'},{t:275,e:'wolf'}],
   events:[{t:100,type:'ring',e:'zombie',n:18},{t:190,type:'ring',e:'bat',n:26},{t:280,type:'ring',e:'skeleton',n:22}]},
  trun:{name:_t('Trůn kostí'),desc:_t('Finále kapitoly. Na trůnu z kostí čeká Morvan, pán kostí. <b>Nejdřív rozbij jeho tři fylaktérie</b>, pak se <b>aréna začne zužovat</b>. Vydrž 7 minut.'),dur:420,size:860,seed:79,style:'throne',grade:'#a868ff',gradeA:.28,dark:.62,amb:'#0a0416',ambient:'soul',c1:'#3a2c3a',finale:1,
@@ -977,7 +977,7 @@ const MAPS={
 // účty ucty.js, 5 povah, ~1 800 běhů): průměrný hráč s účtem, se kterým na mapu přijde, vyhraje v každé kapitole zhruba stejně často.
 // 11z4: hrbitov a bazina nastavené podle skutečných nováčků, ne botů: boti vyhrávali 92 a 67–92 %, lidé 4/8 a 1/6 → HP i poškození níž, boss Hřbitova ×0,85
 const MAP_TIER={
-  hrbitov:[0.62,0,0,0.6,0.85],bazina:[0.7,.1,15,0.75],kostnice:[0.9,.2,30,0.75],zvonice:[1.18,.3,45,0.65],trun:[1.61,.45,90,0.5], // kapitola I vítá (Hřbitov 70 % → Zvonice 45 %, Trůn 25 %)
+  hrbitov:[0.62,0,0,0.6,0.85],bazina:[0.7,.1,15,0.75],kostnice:[0.9,.2,30,0.75],zvonice:[1.0,.3,45,0.65],trun:[1.61,.45,90,0.5], // kapitola I vítá (Hřbitov 70 % → Zvonice 45 %, Trůn 25 %); 12r Zvonice HP 1,18→1,0 a méně lučištníků (hráči s hrdinou úr. 1–3 tam padali, lučištníci dávali půlku poškození)
   poust:[2.11,.6,60,1.29],kanon:[2.48,.6,75,0.77],karavana:[2.63,.58,90,0.98],hrobka:[2.54,.62,105,0.87],brana:[1.36,.7,150,1.11], // II schod (40 % −3 na mapu, finále 20 %); 12l: jen ulehčení (boti chtěli Poušť a Kaňon přitvrdit, skuteční hráči tam ale už padají), data tests/tools/data/12l
   doly:[3.54,1,110,1.26],kovarna:[3.91,1.05,125,1.54],reka:[3.6,1.1,140,2.21],krystaly:[4.55,1.15,155,1.88],srdce:[2.31,1.1,240,1.1], // III zeď (25 %, finále 12 %)
   jezero:[3.85,1.05,170,1.63],pevnost:[3.93,1.05,185,1.74],tajga:[7.31,1.08,200,1.27],soutezka:[4.88,1.1,215,1.11],zima:[3.61,1.2,320,1.51], // IV schod
@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12q';
+const GAME_VER='2026-11-12r';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7227,7 +7227,7 @@ function renderSelect(){sealBtnSync();setTimeout(()=>{const m=$('#mapList .mnode
   db.innerHTML='<div class="card daily'+(di.done?' done':'')+'"><div class="dtop"><span class="dth"><img alt="" src="'+th+'">'+(di.done?'<i class="dok">✓</i>':'')+'</span>'+
     '<div class="dtx"><div class="dl"><span>'+_t('Denní výzva')+'</span><span class="dleft">'+KIT.img('clock')+_t('nová za ')+left+'</span></div><h3>'+MAPS[di.map].name+'</h3>'+
     '<b class="dmod"><img alt="" src="'+dataUrl(SPR.icon[mi])+'">'+di.mod.name+'</b></div></div>'+
-    '<div class="dbot"><div class="k-bd">'+(di.done?'<span class="dyes">'+_t('Dnes splněno')+'</span>':'<span>'+KIT.img('clock')+'3:00</span><span><img alt="" class="kp" src="'+dataUrl(SPR.icon.chest_wood)+'" style="width:36px;height:32px"></span><span>'+KIT.img('shard')+'20</span>')+'</div>'+
+    '<div class="dbot"><div class="k-bd">'+(di.done?'<span class="dyes">'+_t('Dnes splněno')+'</span>':'<span>'+KIT.img('clock')+Math.floor(DAILY_T/60)+':'+String(DAILY_T%60).padStart(2,'0')+'</span><span><img alt="" class="kp" src="'+dataUrl(SPR.icon.chest_wood)+'" style="width:36px;height:32px"></span><span>'+KIT.img('shard')+'20</span>')+'</div>'+
     '<button class="btn sm" id="dailyGo">'+_t('Hrát')+'</button></div>'+
     '<small class="kh"><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small class="kh">'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 2 minuty → truhla s předmětem + 20 Úlomků.'))+_t('</small><small class="kh">Mapa, kterou už máš vyhranou · žebříček Dnes')+'</small></div>';
   $('#dailyGo').onclick=()=>{sfx('ui');startRun(heroOwned(sel.hero)?sel.hero:'knight',di.map,{mod:di.mod.id});};
@@ -8400,8 +8400,8 @@ function skyThumb(v){const c=document.createElement('canvas');c.width=c.height=6
 const FEATS=[
  {id:'gear',at:'hrbitov',ic:'shield',name:_t('Vybavení a Obchod'),d:_t('Předměty z truhel nasadíš hrdinům. V Obchodě je každý den truhla zdarma.'),go:()=>openChestShop()}, // 12b: show the free chest, not an empty inventory
  {id:'quests',at:'hrbitov',ic:'candle',name:_t('Nástěnka'),d:_t('Tři denní úkoly se třemi hvězdami. Za hvězdy dostaneš svíčky a za svíčky truhly.'),go:()=>{qTab='day';openQuests();}}, // 12n: denní úkoly hned 1. výhrou (data: kdo odešel, měl nejvýš 2 výhry a žádný denní háček)
- {id:'daily',at:'bazina',ic:'trophy',name:_t('Denní výzva'),d:_t('Každý den jedna z map, které už máš vyhrané, s modifikátorem. Přežij 2 minuty a čeká tě truhla.'),go:()=>openMenu()}, // 12q: 2minutová denní výzva hned po 2. výhře
- {id:'loot',at:'bazina',ic:'chest_wood',name:_t('Kořist krypty'),d:_t('Truhla nahoře v menu se plní, i když nehraješ. Za 8 hodin je plná a pak čeká.'),go:()=>openMenu()}, // 12q: postup, i když jsi zaseklý
+ {id:'daily',at:'bazina',ic:'trophy',name:_t('Denní výzva'),d:_t('Každý den jedna z map, které už máš vyhrané, s modifikátorem. Přežij 2 minuty a čeká tě truhla.'),go:()=>{renderSelect();setState('select');spotOn(()=>$('#dailyBox'),450);}}, // 12q: 2minutová denní výzva hned po 2. výhře
+ {id:'loot',at:'bazina',ic:'chest_wood',name:_t('Kořist krypty'),d:_t('Truhla nahoře v menu se plní, i když nehraješ. Za 8 hodin je plná a pak čeká.'),go:()=>{openMenu();spotOn(()=>$('#mLoot'),450);}}, // 12q: postup, i když jsi zaseklý
  {id:'fuse',at:'kostnice',ic:'vortex',name:_t('Fúze zbraní'),d:_t('Dvě zbraně na úrovni 5 spojíš v běhu v jednu ultimátní. Ťukej do rytmu a bude silnější.')},
  {id:'forge',at:'zvonice',ic:'power',name:_t('Kovárna: vylepšování'),d:_t('Vylepšuj předměty a kupuj trvalá vylepšení hrdinů za zlato a Úlomky.'),go:()=>{renderShop();setState('shop');}},
  {id:'nm',at:'trun',ic:'eye',name:_t('Noční můra a Nekonečná krypta'),d:_t('Mapy kapitoly znovu a těžší, s lepší kořistí. A souboj s finálním bossem, který se vrací silnější.')},
@@ -8424,7 +8424,23 @@ function featCheck(){featInit();const out=[];for(const F of FEATS)if(!save.feat[
   if(out.length){save.featNew=(save.featNew||[]).concat(out);}return out;}
 const featAt=map=>FEATS.filter(F=>F.at===map&&!featOn(F.id));
 // the card: one at a time, after the run, on the menu or the campaign screen
-function featShow(){featInit();featCheck();if(state!=='menu'&&state!=='select')return;if(CMX.cur)return;if($('#featPop')&&!$('#featPop').hidden)return;
+// 12r: „Ukaž mi to“ ukáže, kde věc je (zlatý rám + šipka), dokud hráč neklepne (nejvýš 6 s); další karty a Novinky mezitím čekají.
+// Dřív go jen otevřelo menu, hned přes něj vyskočila další karta a pak Novinky, takže hráč nic neviděl.
+const SPOT={on:false,el:null,until:0};let SPOT_AR=null;
+function spotArrow(up){if(!SPOT_AR){const R=['....oooo....','....oggo....','....oggo....','....oggo....','oooooggooooo','oggggggggggo','.oggggggggo.','..oggggggo..','...oggggo...','....oggo....','.....oo.....'],
+  mk=f=>{const c=document.createElement('canvas');c.width=12;c.height=12;const g=c.getContext('2d');R.forEach((r,y)=>[...r].forEach((ch,x)=>{if(ch==='.')return;g.fillStyle=ch==='g'?'#f6c744':'#0b0c0e';g.fillRect(x,f?11-y:y+1,1,1);}));return c.toDataURL();};
+  SPOT_AR=[mk(0),mk(1)];}return SPOT_AR[up?1:0];}
+function spotTap(){spotOff();}
+function spotOn(get,delay){spotOff(true);SPOT.on=true;SPOT.until=Date.now()+6000+(delay||0);
+  setTimeout(()=>{if(!SPOT.on)return;const el=get();if(!el||el.hidden||!el.offsetParent){spotOff();return;}SPOT.el=el;el.classList.add('kspot');
+    try{el.scrollIntoView({block:'center',behavior:'smooth'});}catch(_){}
+    let a=$('#spotAr');if(!a){a=document.createElement('img');a.id='spotAr';a.alt='';document.body.appendChild(a);}a.hidden=false;
+    const place=()=>{if(!SPOT.el)return;if(Date.now()>SPOT.until){spotOff();return;}const r=SPOT.el.getBoundingClientRect(),up=r.top<160;
+      a.src=spotArrow(up);a.style.left=Math.round(r.left+r.width/2-12)+'px';a.style.top=Math.round(up?r.bottom+8:r.top-34)+'px';requestAnimationFrame(place);};place();
+    setTimeout(()=>{if(SPOT.on)addEventListener('pointerdown',spotTap,true);},300);},delay||0);}
+function spotOff(quiet){removeEventListener('pointerdown',spotTap,true);const was=SPOT.on;SPOT.on=false;SPOT.until=0;if(SPOT.el)SPOT.el.classList.remove('kspot');SPOT.el=null;
+  const a=$('#spotAr');if(a)a.hidden=true;if(was&&!quiet)setTimeout(featShow,350);}
+function featShow(){featInit();featCheck();if(state!=='menu'&&state!=='select')return;if(CMX.cur||SPOT.on)return;if($('#featPop')&&!$('#featPop').hidden)return;if($('#newsPop')&&!$('#newsPop').hidden)return;
   if(!save.prolog){save.prolog=1;persist();if(!(save.stats&&save.stats.runs)&&state==='menu'&&!window.KRYPTA_NOPROLOG){prologShow();return;}}
   let F=null,sum=false;if(save.featSum){sum=true;save.featSum=0;}else if(save.featNew&&save.featNew.length){F=FEAT_OF[save.featNew.shift()];}
   if(!F&&!sum&&save.storyNew){storyShow(save.storyNew);save.storyNew=null;persist();return;}
@@ -10611,6 +10627,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12r',d:'12. 11. 2026',t:_t('Zvonice lehčí'),hl:[{ic:'map:zvonice',t:_t('Zvonice je lehčí'),d:_t('Slabší nepřátelé a méně lučištníků.')},{ic:'star',t:_t('„Ukaž mi to“ ukáže cestu'),d:_t('Nová mechanika ukáže, kde ji najdeš.')}],
+  items:[_t('Novinky počkají, než zavřeš karty nových mechanik.'),_t('Karta denní výzvy ukazuje správně 2:00.')]},
  {v:'2026-11-12q',d:'12. 11. 2026',t:_t('Kořist krypty'),hl:[{ic:'chest_wood',t:_t('Kořist krypty'),d:_t('Truhla v menu se plní, i když nehraješ.')},{ic:'trophy',t:_t('Denní výzva na 2 minuty'),d:_t('Odemkne se už po druhé výhře.')}],
   items:[_t('Odměna výzvy přijde hned ve 2:00, pak můžeš hrát dál.')]},
  {v:'2026-11-12p',d:'12. 11. 2026',t:_t('Porovnání výbavy'),hl:[{ic:'item:helm:3',t:_t('Porovnání s nasazeným'),d:_t('Zeleně co získáš, červeně co ztratíš.')}],items:[]},
@@ -11134,10 +11152,12 @@ function openNews(all){const full=all?NEWS:newsUnseen().slice(0,3);if(!full.leng
     _t('</div><button class="btn" id="newsOk">Jdu hrát!</button></div>');
   if(full.length>FIRST){const nl=pop.querySelector('.nl');let at=FIRST;const more=()=>{if(at>=full.length||nl.scrollTop+nl.clientHeight<nl.scrollHeight-600)return;
       nl.insertAdjacentHTML('beforeend',full.slice(at,at+10).map(entry).join(''));at+=10;};nl.addEventListener('scroll',more,{passive:true});}
-  pop.hidden=false;$('#newsOk').onclick=()=>{pop.hidden=true;save.newsSeen=NEWS[0].v;persist();sfx('ui');refreshMenu();};}
+  pop.hidden=false;$('#newsOk').onclick=()=>{pop.hidden=true;save.newsSeen=NEWS[0].v;persist();sfx('ui');refreshMenu();setTimeout(featShow,250);};}
 function newsBoot(){if(/[?&]hra=/.test(location.search))return;
   if(!save.newsSeen&&!(save.stats&&save.stats.runs)&&!save.coins){save.newsSeen=NEWS[0].v;persist();return;} // brand new player: nothing is "new"
-  if(newsUnseen().length)setTimeout(()=>{if(state==='menu')openNews(false);},700);}
+  // 12r: Novinky až po kartách nových mechanik a po „Ukaž mi to“ (1,5 s klidu v menu), ne přes ně
+  if(newsUnseen().length){let calm=0,tries=0;const tk=()=>{if(++tries>400||!newsUnseen().length)return;const fp=$('#featPop'),np=$('#newsPop');
+    const busy=state!=='menu'||SPOT.on||CMX.cur||(fp&&!fp.hidden)||(np&&!np.hidden);calm=busy?0:calm+1;if(calm>=3){openNews(false);return;}setTimeout(tk,500);};setTimeout(tk,700);}}
 
 // ----- PWA: service worker + "add to home screen" -----
 let pwaEvt=null;
