@@ -629,3 +629,12 @@ Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co 
 ## 12t (12. 11. 2026) – značka Obchodu, Příprava neposkakuje
 - Uživatel: „Příprava rovnou hodí obrazovku na vybranou mapu, při volbě hrdiny to snapne zpět dolů“. Příčina: `renderSelect` při každém překreslení (výběr hrdiny, mapy) volal `scrollIntoView({block:'center'})` na vybranou mapu. Teď jen při otevření (`state!=='select'`), až po animaci `kScrIn` (měření během najetí lhalo) a jen o kolik je třeba, aby byla mapa nad Vyrazit (nahoře zůstane co nejvíc). Test `tests/tools/priprava-rolovani.js` (bez opravy skok o 857 px).
 - Obchod má pečeť, když čeká denní truhla zdarma (`featOn('gear')&&dailyChestReady()` v `refreshMenu`). Test `tests/tools/obchod-znacka.js`.
+
+## 12u (12. 11. 2026) – audit grafiky, 1. dávka: zbraně a zvuky map
+- Zadání: „udělej všechno“ z `docs/AUDIT-GRAFIKY.md` + přání „zvon by měl mít sfx… vše do beatu (láva)“.
+- Bič/Řetězový bič: kresba `whip` = nápřah (0,22 života) → švih obloukem (strana se střídá `w.sd`) → prásknutí s bílou jiskrou; provaz 2 px s tmavým obrysem; život 0,36 s; zásah = `pop` záblesk a silnější odhoz; nový `sfx('crack')`; označení nepřátelé (`e.wm`, bonus mazlíčků) mají nad hlavou tři rudé drápy.
+- Světelné kopí: `spearHit` dřív nic nekreslil → `sspear` (zlatý paprsek, světlé jádro, rozšířený hrot, kroužek). Halapartna: 5 vrstev, bílá hrana 3 px. Šípy: tělo 2 px, stopa 1 px.
+- `explode(x,y,rad,dmg,v)`: `v=1` = fialový výbuch prázdnoty bez spáleniště (Černá díra, Horizont). Výbuchy s `r>36` mají alfu ×0,6. `burn` výplň 0,09/0,11 + okraj s `M.pulse`, záře 0,14.
+- Čísla poškození: zásahy na jednoho nepřítele za 0,25 s se sčítají (`e.nr`, `val`), kritická velikost 2→1, velká (3/2) jen od 200.
+- Karta nové úrovně: pečeť jen u nové zbraně/pouta (`!PASSIVES[i.icon]`), nový bonus ukazuje tečky.
+- Zvuky: `bell` přepsaný (základ ≥ 520 Hz, alikvoty 2/2,4/3/4,07, úder bandpass 3,2 kHz, tichý hluboký tón f/4), `LOUD` bell 1,7; `lava` (pop + syčení, `LOUD` 2,2) a `lavaSpit()` (louž nejblíž hrdinovi ve výhledu, každá druhá doba, kapky + kouř); `warn` (dvě noty akordu) při rozsvícení erupcí, lavin a chapadel; `bridge` u Hvězdných mostů; `boom` + bandpass 850 Hz. Měření `sfxposlech.js`: zvon na Zvonici +8–10 dB nad hudbou, ostatní 0 až +5 dB.

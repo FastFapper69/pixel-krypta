@@ -12,11 +12,11 @@ UI obrazovky jsou technicky čisté a konzistentní (kámen, dřevo, pergamen). 
 ## 1. Zbraně
 | # | Nález | Návrh | Priorita | Pracnost | Stav |
 |---|---|---|---|---|---|
-| Z1 | **Bič a Řetězový bič jsou na telefonu neviditelné.** Bič = 19 teček po 1 px na vlnovce, žije 0,28 s, na konci jen slabý kroužek. Žádný nápřah, prásknutí ani zásah. | Švih ve 2 fázích (krátký nápřah za hrdinu → prásknutí obloukem), provaz 2 px s tmavým obrysem, na konci bílá jiskra/hvězdička „crack“, záblesk a odhoz zasaženého, vlastní zvuk prásknutí do rytmu. Označení nepřátelé (bonus mazlíčků) s viditelnou značkou drápů nad hlavou. | vysoká | M | ⬜ |
-| Z2 | **Halapartna a Světelné kopí** jsou ve špičce skoro neviditelné, **Šípy** a **Blesk** slabé (1–2px čáry, nízký kontrast na tmavé zemi). | Pravidlo čitelnosti pro všechny zbraně: stopa aspoň 2 px, světlé jádro + tmavý nebo barevný obrys, záblesk v místě zásahu, krátký dosvit. Halapartna = široký půlměsíc sečení, Kopí = paprsek s rozšířeným hrotem a otřesem, Šípy = delší stopy, Blesk = silnější zubatá čára s rozvětvením. | vysoká | M | ⬜ |
-| Z3 | **Černá díra a Horizont událostí** kreslí velké oranžové výbuchy. Barvou nesedí k černé díře a zakrývají nepřátele. | Černý střed, fialový/bílý prstenec světla, částice vtahované dovnitř, výbuch jen krátký a tmavě fialový. | střední | S–M | ⬜ |
-| Z4 | **Čísla poškození a obláčky smrti** u silných fúzí (Parní exploze, Plamenný prstenec, Trnová koruna) zakryjí půlku obrazovky. Kritická čísla jsou větší než nepřátelé. | Sloučit čísla na jednom nepříteli (součet místo deseti čísel), menší kritická, obláčky smrti menší a kratší. Volitelně v Nastavení: čísla vše / jen kritická / vypnout. | střední | M | ⬜ |
-| Z5 | Plošné ohnivé fúze (Sopečné kladivo, max Ohnivá koule) zalijí výřez oranžovou, nepřátelé pod tím mizí. | Průhlednější výplň, výraznější okraj a pulz do rytmu místo plné plochy. | nízká | S | ⬜ |
+| Z1 | **Bič a Řetězový bič jsou na telefonu neviditelné.** Bič = 19 teček po 1 px na vlnovce, žije 0,28 s, na konci jen slabý kroužek. Žádný nápřah, prásknutí ani zásah. | Švih ve 2 fázích (krátký nápřah za hrdinu → prásknutí obloukem), provaz 2 px s tmavým obrysem, na konci bílá jiskra/hvězdička „crack“, záblesk a odhoz zasaženého, vlastní zvuk prásknutí do rytmu. Označení nepřátelé (bonus mazlíčků) s viditelnou značkou drápů nad hlavou. | vysoká | M | ✅ 12u (nápřah, švih, 2px provaz s obrysem, jiskra, `crack`, značka drápů) |
+| Z2 | **Halapartna a Světelné kopí** jsou ve špičce skoro neviditelné, **Šípy** a **Blesk** slabé (1–2px čáry, nízký kontrast na tmavé zemi). | Pravidlo čitelnosti pro všechny zbraně: stopa aspoň 2 px, světlé jádro + tmavý nebo barevný obrys, záblesk v místě zásahu, krátký dosvit. Halapartna = široký půlměsíc sečení, Kopí = paprsek s rozšířeným hrotem a otřesem, Šípy = delší stopy, Blesk = silnější zubatá čára s rozvětvením. | vysoká | M | ✅ 12u (Kopí dřív nekreslilo nic → paprsek `sspear`; Halapartna širší hrana; Šípy silnější. Halapartna byla vidět, jen mimo výřez auditu. Blesk beze změny) |
+| Z3 | **Černá díra a Horizont událostí** kreslí velké oranžové výbuchy. Barvou nesedí k černé díře a zakrývají nepřátele. | Černý střed, fialový/bílý prstenec světla, částice vtahované dovnitř, výbuch jen krátký a tmavě fialový. | střední | S–M | ✅ 12u (`explode(...,1)` → `BOOM_VOID`) |
+| Z4 | **Čísla poškození a obláčky smrti** u silných fúzí (Parní exploze, Plamenný prstenec, Trnová koruna) zakryjí půlku obrazovky. Kritická čísla jsou větší než nepřátelé. | Sloučit čísla na jednom nepříteli (součet místo deseti čísel), menší kritická, obláčky smrti menší a kratší. Volitelně v Nastavení: čísla vše / jen kritická / vypnout. | střední | M | ✅ 12u (součet do jednoho čísla za 0,25 s, kritická menší, velká až od 200) |
+| Z5 | Plošné ohnivé fúze (Sopečné kladivo, max Ohnivá koule) zalijí výřez oranžovou, nepřátelé pod tím mizí. | Průhlednější výplň, výraznější okraj a pulz do rytmu místo plné plochy. | nízká | S | ✅ 12u (velké výbuchy ×0,6, ohnivé plochy průhlednější s okrajem v rytmu) |
 | Z6 | Dobře fungují: Ohnivá koule, Bumerang, Kladivo, Krápníky, Kotva, Šlahouny, Aura; z fúzí Řetězová bouře, Meteorit, Ozvěna, Svatozář, Ledovcová lavina. | Nechat, jen sjednotit podle Z2. | – | – | – |
 
 ## 2. Hrdinové (`hrdinove.png`)
@@ -47,16 +47,16 @@ Nejsilnější sada: 25 věží, každá jiný tvar a materiál, společný sokl
 | # | Nález | Návrh | Priorita | Pracnost | Stav |
 |---|---|---|---|---|---|
 | U1 | `grafcheck.js` 0 nálezů; menu, Obchod, Nástěnka, Příprava, konec běhu, Novinky drží styl. | – | – | – | ✅ |
-| U2 | Na nabídce nové úrovně má **každá** karta pečeť „Nový bonus“, takže pečeť nic neodlišuje. | Pečeť jen u úplně nové zbraně / fúze. | nízká | S | ⬜ |
-| U3 | Konec 1. běhu ukáže „Rytmus v krvi – Mistrovství!“, ale rytmus nikdo nováčkovi nevysvětlil. | Krok v tutoriálu nebo vysvětlivka (?) u mistrovství. | střední | S | ⬜ |
+| U2 | Na nabídce nové úrovně má **každá** karta pečeť „Nový bonus“, takže pečeť nic neodlišuje. | Pečeť jen u úplně nové zbraně / fúze. | nízká | S | ✅ 12u |
+| U3 | Konec 1. běhu ukáže „Rytmus v krvi – Mistrovství!“, ale rytmus nikdo nováčkovi nevysvětlil. | Krok v tutoriálu nebo vysvětlivka (?) u mistrovství. | střední | S | – není potřeba („Rytmus v krvi“ je mistrovství za kombo 300, kombo tutoriál vysvětluje) |
 
 ## 6. Zvuk interaktivních věcí v mapách (přání uživatele 12. 11.)
 Zvon a všechny interaktivní věci v mapách mají mít zvuk a jít do rytmu (např. prskání lávy na takt).
 | # | Nález | Návrh | Stav |
 |---|---|---|---|
-| S1 | Zvon (Zvonice, věž Zvon, boss Zvoník) má `sfx('bell')` na takt, měřeno +7 dB nad hudbou, ale jen sinusovky s hlubokým základním tónem → **telefonní reproduktor ho skoro nezahraje**. | Zvon s kovovými harmonickými nad 400 Hz, úder (noise) a dozvuk. | ⬜ |
-| S2 | Erupce v jádru (finále lávové kapitoly) bez zvuku, lávové louže bez zvuku. | Varování na takt + výbuch na první dobu, louže občas „prsknou“ do rytmu. | ⬜ |
-| S3 | Další mechaniky map bez vlastního zvuku: soupis a doplnění podle skillu `zvuk-a-hudba`. | | ⬜ |
+| S1 | Zvon (Zvonice, věž Zvon, boss Zvoník) má `sfx('bell')` na takt, měřeno +7 dB nad hudbou, ale jen sinusovky s hlubokým základním tónem → **telefonní reproduktor ho skoro nezahraje**. | Zvon s kovovými harmonickými nad 400 Hz, úder (noise) a dozvuk. | ✅ 12u (alikvoty nad 520 Hz + úder, na Zvonici +8–10 dB nad hudbou) |
+| S2 | Erupce v jádru (finále lávové kapitoly) bez zvuku, lávové louže bez zvuku. | Varování na takt + výbuch na první dobu, louže občas „prsknou“ do rytmu. | ✅ 12u (láva prskne na každou druhou dobu `lavaSpit` + `lava`; erupce, laviny a chapadla `warn` na takt; `boom` se středním pásmem) |
+| S3 | Další mechaniky map bez vlastního zvuku: soupis a doplnění podle skillu `zvuk-a-hudba`. | | ✅ 12u (Hvězdné mosty `bridge`; ostatní mechaniky map zvuk mají) |
 
 ## Doporučené pořadí
 1. Z1 bič + Z2 čitelnost zbraní (uživatel to vidí v každém běhu).

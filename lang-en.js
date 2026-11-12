@@ -1,6 +1,18 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+'Bič a zvuky map':'Whip and map sounds',
+'Bič s prásknutím':'Whip with a crack',
+'Bič je vidět a práskne do rytmu.':'The whip is visible and cracks on the beat.',
+'Zvony a láva v rytmu':'Bells and lava on the beat',
+'Zvon je slyšet a láva prská do taktu.':'Bells ring out and lava spits on the beat.',
+'Výraznější zbraně':'Clearer weapons',
+'Kopí, halapartna a šípy jsou lépe vidět.':'Spear, halberd and arrows are easier to see.',
+'Černá díra vybuchuje fialově, ne oranžově.':'The black hole bursts purple, not orange.',
+'Čísla poškození se sčítají a jsou menší.':'Damage numbers add up and are smaller.',
+'Ohnivé plochy jsou průhlednější, nepřátelé pod nimi nemizí.':'Fire fields are see-through, enemies no longer vanish under them.',
+'Erupce, laviny a chapadla ohlásí úder zvukem.':'Eruptions, avalanches and tentacles warn with a sound.',
+'Pečeť na kartě jen u nové zbraně.':'The card seal only marks a new weapon.',
 'Obchod a Příprava':'Shop and Preparation',
 'Truhla zdarma na očích':'Free chest in sight',
 'Obchod ukáže značku, když čeká denní truhla.':'The Shop shows a mark when the daily chest waits.',
