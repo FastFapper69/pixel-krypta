@@ -1559,3 +1559,4 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 @keyframes tutBtn{0%{filter:brightness(1.45) drop-shadow(0 0 0 #f6c744)}50%{filter:none}}
 #luHint{font:var(--k20);color:#ffe9a8;text-align:center;margin:-4px 8px 8px}
 #luList .k-card .kd{display:block;white-space:normal;color:#e8e0cc}#luList .k-card .kd b{color:#f6c744}
+#luList .k-card[data-kd2]{height:116px}

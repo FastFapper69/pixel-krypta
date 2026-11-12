@@ -524,3 +524,13 @@ Uživatel po hraní od nuly: chybí vysvětlení komba, animace textu tutoriálu
   Silnější zbraň · úroveň N, Nový/Silnější bonus · účinek; čísla se vrátí od 4. běhu. První dvě nabídky tutoriálu mají nad kartami dva řádky
   `#luHint` („Vyber jednu kartu. / Zbraně útočí samy, bonusy tě posílí.“). Odpočet 10 s na výběr karty až od 4. běhu (dřív od 2.).
 
+## 12b (12. 11. 2026) – prvních 15 minut botem
+Zadání uživatele: projet prvních 15 minut boty, ať je to zábavné a vše vysvětlené. Nový nástroj `tests/tools/prvnich15.js` (rozumný nováček:
+tutoriál, karty mechanik s „Ukaž mi to“, Příprava → Vyrazit, minihra fúze; časová osa v `/tmp/p15/osa.txt`, hlídá ticho > 30 s). Výsledek: 3 běhy
+(Hřbitov, Utopené hroby, Kostnice), žádné ticho, fúze přijde ve 3. běhu s vlastním úvodem, Kostnice je první opravdová výzva (zdraví až 19 %).
+- Hláška „Kombo N! +X zlata“ chodila každé 2–3 s → zlato je číslo nad hrdinou, hláška jen při nové stovce komba (`run.cbT`, ne na dvoustovkách s Úlomky).
+- Tutoriál: krok Elita (první elitní nepřítel) a Úlomky (první Úlomky na zemi, ikona materiálu mapy).
+- Karta mechaniky Vybavení a Obchod: „Ukaž mi to“ otevře Obchod s denní truhlou (dřív prázdný inventář).
+- Příprava: vybraná mapa se posune doprostřed, ať ji nezakrývá Vyrazit. Dvouřádkové karty nové úrovně vyšší (`data-kd2`, 116 px).
+- Ponecháno k rozhodnutí uživatele: zlato za běh v kapitole I (+420 až +730) stačí po 1. běhu na Mága (150) i Stavitele (250).
+

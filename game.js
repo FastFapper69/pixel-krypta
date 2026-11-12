@@ -3513,7 +3513,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12a';
+const GAME_VER='2026-11-12b';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3920,8 +3920,9 @@ function killEnemy(e){
   // a long combo still pays more: at least 10, from combo 75 → 15 … up to 40 (a clean combo gets about the same as before). Material every 200 combo.
   run.kg=(run.kg||0)+1;
   if(run.kg%25===0){const g=Math.min(40,Math.max(10,5*Math.floor(run.combo/25)));run.coins+=g;sfx('coin');
-    if(run.combo>=25)toast(_t('Kombo ')+run.combo+'! +'+g+_t(' zlata'),1000);
-    else if(run.nums.length<40)run.nums.push({x:run.p.x,y:run.p.y-14,vx:0,vy:-40,txt:'+'+g,life:.8,col:'#f6c744',t:0});}
+    // 12b: gold always as a number above the hero; the toast only for every new hundred of combo (the 15-minute bot run got one every 2–3 s)
+    if(run.nums.length<40)run.nums.push({x:run.p.x,y:run.p.y-14,vx:0,vy:-40,txt:'+'+g,life:.8,col:'#f6c744',t:0});
+    if((run.cbT||0)>run.combo)run.cbT=0;const h=Math.floor(run.combo/100)*100;if(h>=100&&h>(run.cbT||0)&&h%200){run.cbT=h;toast(_t('Kombo ')+run.combo+'! +'+g+_t(' zlata'),1000);}}
   if(run.combo>0&&run.combo%25===0){
     if(run.combo%200===0&&MAT_OF[run.mapId]){run.items.push({x:run.p.x+rnd(-14,14),y:run.p.y+rnd(-14,14),k:'mat',v:2+Math.min(3,Math.floor(run.combo/300))});toast(_t('Kombo ')+run.combo+_t('! Padly Úlomky'),1600);sfx('level');}
     if(st&&st.tal&&st.tal.d20){const p=run.p;run.fx.push({k:'ring',x:p.x,y:p.y,r:2,max:110,dmg:20+run.level*2,hit:new Set(),life:1,noslow:true,col:'#7fe0c8'});}}
@@ -5942,6 +5943,7 @@ function luCard(i,idx,fr){const b=document.createElement('button');b.className='
 // po vložení do stránky: dlouhý název menším písmem, pak kresby
 function luPaint(){const L=$('#luList');for(const b of L.children){const n=b.querySelector('.nm'),side=b.querySelector('.pips,.seal');n.classList.remove('long');
     const lim=b.clientWidth-n.offsetLeft-(side&&side.classList.contains('pips')?side.offsetWidth+26:28);if(n.scrollWidth>lim)n.classList.add('long');
+    const kd=b.querySelector('.kd');if(kd&&kd.offsetHeight>24)b.dataset.kd2=1; // 12b: two-line beginner text needs a taller stone, else it sat on the bottom lip
     const st=b.querySelector('.st'),ls=st.lastElementChild;if(st.offsetHeight>24||(ls&&ls.offsetLeft+ls.offsetWidth+st.offsetLeft>b.clientWidth-84))b.dataset.nr=1;} // dva řádky čísel: runy v rohu se nekreslí, ať se nepletou do textu
   kSnap($('#scr-levelup .wrap'));KIT.paint($('#scr-levelup'));}
 function openLevelUp(){return withRng('u',openLevelUp0);}
@@ -6105,7 +6107,7 @@ function winRun(){finish(true);}
 // and never came back). One thing at a time: icon + one short line, a pointer at the thing (gem on the map, tower button),
 // the step waits until the player does it and ticks it off. The first run is gentler (TUT_DMG) and shows only one tower.
 const TUT_DMG=.6,TUT_DMG_BOSS=.8;
-function tutIcon(k){return dataUrl(k==='gem'?SPR.misc.crystal:k==='chest'?SPR.misc.chest:SPR.icon[k]||SPR.icon.skull);}
+function tutIcon(k){if(k==='mat')return matIcon(MAT_OF[run.mapId]);return dataUrl(k==='gem'?SPR.misc.crystal:k==='chest'?SPR.misc.chest:SPR.icon[k]||SPR.icon.skull);}
 function tutTick(dt){const T=run.tut,p=run.p,el=$('#tut'),tw0=(run.deck||T_BASE)[0];T.t-=dt;T.w=(T.w||0)+dt;
   const show=(ic,txt,d,ptr)=>{T.t=d;T.w=0;T.ptr=ptr||null;T.ok=0;el.className='';el.innerHTML='<img alt="" src="'+tutIcon(ic)+'"><span></span>';el.querySelector('span').textContent=txt;el.hidden=false;
       el.style.animation='none';void el.offsetWidth;el.style.animation='';tutHi(ptr==='tower'?tw0:null);},
@@ -6117,6 +6119,8 @@ function tutTick(dt){const T=run.tut,p=run.p,el=$('#tut'),tw0=(run.deck||T_BASE)
   if(T.chW&&!run.items.some(i=>i.k==='chest'&&!i.dead)){T.chW=0;done();}
   const free=T.s>=9&&(T.t<=0||T.ok)&&!T.chW;
   if(free&&!T.cb&&run.combo>=12){T.cb=1;show('flamering',_t('Kombo = zabití bez zásahu. Vyšší kombo dá víc zlata.'),6);const c=$('#combo');c.classList.add('tuton');setTimeout(()=>c.classList.remove('tuton'),6000);return;}
+  if(free&&!T.el&&run.enemies.some(e=>e.elite&&!e.dead&&!e.boss)){T.el=1;show('skull',_t('Elita: silnější nepřítel, padá z ní víc.'),5);return;}
+  if(free&&!T.mt&&run.items.some(i=>i.k==='mat'&&!i.dead)){T.mt=1;show('mat',_t('Úlomky si odneseš z běhu. V menu je utratíš.'),5);return;}
   if(free&&!T.hp&&p.hp<p.max*.45){T.hp=1;show('heart',_t('Málo zdraví! Uteč z davu, zdraví se doplní.'),4.5);return;}
   if(free&&!T.up&&run.nearTower&&run.nearTower.lv<3&&run.coins>=towerUpCost(run.nearTower)){T.up=1;T.upW=1;show('tower',_t('Jsi u věže. Vylepši ji tlačítkem dole.'),10);$('#upBtn').classList.add('tuton');return;}
   if(T.upW&&(run.nearTower&&run.nearTower.lv>1||T.t<=0)){T.upW=0;$('#upBtn').classList.remove('tuton');if(T.t>0)done();}
@@ -7157,7 +7161,7 @@ function openSeals(){const pop=$('#selPop'),hero=sel.hero,pool=sealPool(hero),st
   const t=$('#sealT');if(t)t.onclick=()=>{if(t.disabled)return;save.seal=save.seal||{};if(save.seal[id])delete save.seal[id];else save.seal[id]=1;persist();sfx(save.seal[id]?'boom':'coin');openSeals();sealBtnSync();};
   $('#sealOk').onclick=()=>{sfx('ui');pop.hidden=true;sealBtnSync();};
   pop.onclick=e=>{if(e.target===pop){pop.hidden=true;sealBtnSync();}};}
-function renderSelect(){sealBtnSync();
+function renderSelect(){sealBtnSync();setTimeout(()=>{const m=$('#mapList .mnode.sel');if(m&&state==='select')m.scrollIntoView({block:'center'});},0); /* 12b: the chosen map sat under the sticky Vyrazit */
   $('#selMats').innerHTML=matsHtml();
   const hl=$('#heroList');
   heroStrip(hl,HERO_IDS,sel.hero,(id,own)=>{const h=HEROES[id];return own?_t('úr. ')+heroLv(id):h.soon?_t('kap. ')+SOON_CH[h.soon]:h.need&&!mapUnlocked(h.need)?_t('kap. ')+ROMAN_CH[CH_OF[h.need].i]:h.ach?'<img alt="" src="'+dataUrl(SPR.icon.medal)+'">':h.win?_t('kap. ')+ROMAN_CH[CH_OF[h.win].i]:'<img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+h.cost;},(id,own)=>{const h=HEROES[id];
@@ -8337,7 +8341,7 @@ function skyThumb(v){const c=document.createElement('canvas');c.width=c.height=6
 
 // ----- Cesta mechanik (09h): features unlock one by one with map wins, each with a "new mechanic" card -----
 const FEATS=[
- {id:'gear',at:'hrbitov',ic:'shield',name:_t('Vybavení a Obchod'),d:_t('Předměty z truhel nasadíš hrdinům. V Obchodě je každý den truhla zdarma.'),go:()=>openHero()},
+ {id:'gear',at:'hrbitov',ic:'shield',name:_t('Vybavení a Obchod'),d:_t('Předměty z truhel nasadíš hrdinům. V Obchodě je každý den truhla zdarma.'),go:()=>openChestShop()}, // 12b: show the free chest, not an empty inventory
  {id:'fuse',at:'bazina',ic:'vortex',name:_t('Fúze zbraní'),d:_t('Dvě zbraně na úrovni 5 spojíš v běhu v jednu ultimátní. Ťukej do rytmu a bude silnější.')},
  {id:'quests',at:'kostnice',ic:'candle',name:_t('Nástěnka'),d:_t('Tři denní úkoly se třemi hvězdami. Za hvězdy dostaneš svíčky a za svíčky truhly.'),go:()=>{qTab='day';openQuests();}},
  {id:'forge',at:'zvonice',ic:'power',name:_t('Kovárna: vylepšování'),d:_t('Vylepšuj předměty a kupuj trvalá vylepšení hrdinů za zlato a Úlomky.'),go:()=>{renderShop();setState('shop');}},
@@ -10169,6 +10173,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12b',d:'12. 11. 2026',t:_t('Klidnější první minuty'),hl:[{ic:'skull',t:_t('Elita a Úlomky'),d:_t('Tutoriál vysvětlí i elity a Úlomky.')},{ic:'flamering',t:_t('Méně hlášek o kombu'),d:_t('Zlato za kombo vyletí nad hrdinou.')}],items:[_t('Ukaž mi to u Vybavení otevře Obchod s denní truhlou.'),_t('V Přípravě je vybraná mapa vždy vidět nad Vyrazit.'),_t('Dvouřádkové karty mají víc místa dole.')]},
  {v:'2026-11-12a',d:'12. 11. 2026',t:_t('Jasnější tutoriál'),hl:[{ic:'flamering',t:_t('Co je kombo'),d:_t('Tutoriál vysvětlí, co dělá kombo.')},{ic:'blade',t:_t('Jasné karty'),d:_t('První běhy píšou, co karta udělá.')}],items:[_t('Text tutoriálu najíždí plynule, nesekaně.'),_t('Prvním 3 během neběží na výběr karty čas.')]},
  {v:'2026-11-11z4',d:'11. 11. 2026',t:_t('Nový tutoriál a kratší běhy'),hl:[{ic:'stick',t:_t('Nový tutoriál'),d:_t('Krok za krokem, s ukazateli a fajfkou.')},{ic:'skull',t:_t('Boss dřív'),d:_t('Přijde nejpozději v 5. minutě.')},{ic:'boss:slimeking',t:_t('Řidší horda u bosse'),d:_t('Během boje s bossem chodí méně nepřátel.')}],items:[_t('Mapy jsou kratší, ale nepřátel, zlata a zkušeností je stejně.'),_t('První běh je mírnější a ukazuje jen jednu věž.'),_t('Nový hráč vidí jen obrázky, které si může vybrat.'),_t('Tlačítko Uložit u přezdívky je vždy na obrazovce.')]},
  {v:'2026-11-11z3',d:'11. 11. 2026',t:_t('Drobnosti v menu'),items:[_t('Všechno nové v menu značí stejná pečeť.'),_t('V Síni slávy je dobře vidět číslo 2. a 3. místa.')]},
