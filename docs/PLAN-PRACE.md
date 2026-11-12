@@ -15,7 +15,7 @@ Stav aktualizuj tady (✅ hotovo, 🔜 další na řadě, ⏳ čeká na data/roz
 |---|---|---|---|---|---|
 | 1 | Chyby JS do `events` (`err`), náhrada za Sentry | C | 0,5 dne | ✅ 12o | `window` error + unhandledrejection, max 5 za relaci, bez duplicit; dotaz v DATA-HRACU |
 | 2 | Otázka na rytmus v rychlé otázce po běhu | C | 0,5 dne | ✅ 12o | „Rytmus: baví / nevím / ruší“, uloží se do `feedback.ctx` |
-| 3 | Webová stránka „Jak smazat účet“ | C | 0,5 dne | ✅ 12o (`smazat-ucet.html`); migrace mazání co-opu a nahlášení čeká na souhlas U | povinná pro Google Play; GitHub Pages, CZ + EN, odkaz ze zásad soukromí |
+| 3 | Webová stránka „Jak smazat účet“ | C | 0,5 dne | ✅ 12o (`smazat-ucet.html`), migrace mazání co-opu a nahlášení spuštěná | povinná pro Google Play; GitHub Pages, CZ + EN, odkaz ze zásad soukromí |
 | 4 | Materiály pro nábor 30–50 cizích testerů | C → U | 1 den | ✅ texty v `docs/NABOR.md`; zveřejní U | texty pro Reddit (r/WebGames, r/roguelites, r/incremental_games?), Discord, itch.io; snímky; U je zveřejní |
 | 5 | Krátká videa / GIF ze hry (TikTok, Reels, Reddit) | C | 1 den | ✅ `tests/tools/video.js` (MP4 1080×1920 se zvukem + GIF) | nahrávka z Playwrightu + ffmpeg, 15–30 s: horda → věže → fúze → boss, na výšku |
 | 6 | Zjistit podmínky Poki a CrazyGames | C | 0,5 dne | ✅ `docs/PORTALY.md`: hned Poki Playtesting (10 videí cizích hráčů), pak CrazyGames Basic Launch (D1 a délka hraní zadarmo, neexkluzivní); Poki smlouvu teď ne (5 let exkluzivita) | exkluzivita, SDK, vlastní účty a Supabase, velikost, reklamy, výplaty, jak se přihlásit |

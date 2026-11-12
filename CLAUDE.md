@@ -53,7 +53,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
   měření návratů (`docs/DATA-HRACU.md` „Návraty“ – před každou větší prací se podívej, kde noví hráči končí). **Jen jeden chat najednou** (souběžné chaty
   si přepisovaly čísla) a pro testery raději jedna dávka denně než verze po každé změně.
 - **PLÁN PRÁCE: `docs/PLAN-PRACE.md`** (podle researche 12. 11.): fáze 0–1 měření a retence (teď), 2 webové portály, 3 Android a 4 růst jsou zamčené branami retence. **Před prací se podívej, co je tam 🔜, a po dokončení stav přepiš.**
-- **12o** otázka na rytmus v rychlé otázce (`ctx.rh`), chyby JS do `events` (`evErr`), stránka `smazat-ucet.html`; migrace `20261112b_delete_my_data.sql` **čeká na souhlas uživatele** (viz `docs/HISTORIE.md` 12o).
+- **12o** otázka na rytmus v rychlé otázce (`ctx.rh`), chyby JS do `events` (`evErr`), stránka `smazat-ucet.html`; migrace `20261112b_delete_my_data.sql` spuštěná 12. 11. se souhlasem uživatele (maže i události, nahlášení a co-op).
 - **12n první dny hráče** (podrobně `docs/HISTORIE.md` 12n): Nástěnka hned 1. výhrou, `save.day0`/`dayN()`, karta Zítra tě čeká, Dárek na cestu (`loseGift`), **události do tabulky `events`** (`evLog`, fronta `save.evQ`). **Pravidlo: nová obrazovka nebo krok začátku hry = `evLog` (obrazovky jdou samy přes `setState`).** Test `prvnidny.js`, dotazy `docs/DATA-HRACU.md`.
 - **12q** Kořist krypty (truhla v horní liště menu, plní se 8 h, `lootUi`/`lootClaim`, odemkne 2. výhra) a denní výzva na 2 minuty (`DAILY_T`, odměna hned ve 2:00, odemkne 2. výhra). Test `korist.js`.
 - **12p porovnání výbavy:** okno předmětu ukazuje rozdíl proti kusu nasazenému ve stejném slotu (`itemCardHtml(it,cmp)`, `cmpDelta`).
