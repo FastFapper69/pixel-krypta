@@ -36,7 +36,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
   - během běhu: pauza `pausetabs.js`, oslava `celeb.js`, ultimátka `ulthold.js`
   - Vždy aspoň: hra se načte bez chyb JS a `?v=` v index.html = `GAME_VER`.
   Nové testy psát nad `tests/tools/lib.js`.
-- **Skilly projektu** jsou v `.claude/skills/` (html5-mobile-game-dev, survivors-design-balance, mobile-store-launch, **nova-kapitola, novy-hrdina, zvuk-a-hudba**). Když je session nenačte sama, přečti si příslušný `SKILL.md` ručně.
+- **Skilly projektu** jsou v `.claude/skills/` (html5-mobile-game-dev, survivors-design-balance, mobile-store-launch, **nova-kapitola, novy-hrdina, zvuk-a-hudba**). Když je session nenačte sama, přečti si příslušný `SKILL.md` ručně. Od 12. 11. jsou tam i převzaté **webapp-testing** (Anthropic, Apache 2.0) a **playwright-skill** (lackeyjb, MIT; `run.js` upravený pro předinstalovaný Playwright) na testy v prohlížeči; pro hru má dál přednost `tests/tools/lib.js`.
 - **Zpětná vazba a telemetrie hráčů:** nejjednodušší je Supabase MCP (`execute_sql`, viz `docs/DATA-HRACU.md`). Jinak čtení potřebuje klíč `dev_key`, který **nesmí do repa** (repo je veřejné). Uživatel ho zná, popros ho o něj a o povolení domény `mpxfppuigwvwlfhsnbgr.supabase.co` (claude.ai → Settings → Capabilities). Pak `KRYPTA_DEV_KEY=… node tests/tools/fbread.js feedback|runs`.
 - **Rozjetí testů v novém sandboxu:** `git clone https://github.com/FastFapper69/pixel-krypta`, pak `cd tests/tools && node -e "require('./lib').prep()"` (vytvoří off.html bez klíče a vedle něj game.js, krypta.css, lang-en.js a symlinky). Audit to dělá sám. Playwright je předinstalovaný.
 
