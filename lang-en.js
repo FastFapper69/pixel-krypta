@@ -1,6 +1,8 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+'Popisy map ukazují skutečnou délku (nejvýš 5:30).':'Map descriptions show the real length (at most 5:30).',
+'Text na kartách nové úrovně už nedojíždí k okraji.':'Level-up card text no longer runs into the edge.',
 'Fúze na Kostnici':'Fusion in the Ossuary',
 'Fúze už na Kostnici':'Fusion from the Ossuary',
 'Cíl fúze vidíš nahoře a karty k ní vedou.':'The fusion goal is shown up top, cards lead to it.',

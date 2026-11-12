@@ -1121,16 +1121,16 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:inherit}
 .lutime.hot i{background:linear-gradient(#ff8a78 0 2px,#e2453a 2px 6px,#5c0f10 6px 8px);animation:luHot .5s steps(2) infinite}
 @keyframes luHot{50%{opacity:.6}}
 .lvl{display:flex;flex-direction:column;gap:12px;width:100%}
-.k-card{position:relative;width:100%;height:100px;display:block;text-align:left;border:0;padding:0;background-color:transparent;color:#e9e2d0;font:var(--k20);letter-spacing:0;touch-action:manipulation}
+.k-card{position:relative;width:100%;min-height:100px;display:block;text-align:left;border:0;padding:0;background-color:transparent;color:#e9e2d0;font:var(--k20);letter-spacing:0;touch-action:manipulation}
 .k-card .sock{position:absolute;left:16px;top:14px;width:64px;height:64px;display:flex;align-items:center;justify-content:center}
 .k-card .sock img{width:44px;height:44px;image-rendering:pixelated}
 .k-card .nm{position:absolute;left:92px;top:12px;margin:0;font:var(--k30);color:#ffd75e;text-shadow:0 2px 0 #000;white-space:nowrap}
 .k-card .nm.long{font:var(--k20);top:18px}
 .k-card.fuse .nm{color:#d9a8f2}
-.k-card .st{position:absolute;left:92px;top:46px;right:14px;display:flex;flex-wrap:wrap;gap:0 16px;align-items:center;color:#bdb7a8;text-shadow:0 2px 0 #000}
+.k-card .st{position:relative;margin:46px 28px 10px 92px;display:flex;flex-wrap:wrap;gap:0 16px;align-items:center;color:#bdb7a8;text-shadow:0 2px 0 #000} /* 12z: text dojížděl k okraji rámu (uživatel); karta roste s počtem řádků */
 .k-card .st>span{white-space:nowrap}
 .k-card .st b{font-weight:400;color:#fffbe6}
-.k-card .st.k-eq{gap:6px;top:44px}
+.k-card .st.k-eq{gap:6px;margin-top:44px}
 .k-card .st.k-eq img.ic{width:44px;height:44px;image-rendering:pixelated}
 .k-card .pips{position:absolute;right:18px;top:20px;display:flex;gap:2px}
 .k-card .seal{position:absolute;right:-6px;top:-8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center}

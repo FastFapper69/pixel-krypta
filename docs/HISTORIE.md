@@ -653,3 +653,7 @@ Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co 
 ## 12y (12. 11. 2026) – fúze se předvede na Kostnici
 - Uživatel: „jestli se měl ve 3. kapitole předvést fúze, tak k ní nedošlo, nevím, že k tomu mám směřovat.“ Příčina: `FEATS.fuse.at='kostnice'` = odemčení až výhrou na Kostnici, a karty jsou náhodné, takže dvě konkrétní zbraně na 5 byly náhoda.
 - `fuse.at='bazina'` (fúze je k dispozici už v běhu na Kostnici). Průvodce první fúzí (dokud `fusedEver()` je false a není co-op): `fuseGuidePick` vybere dvojici se startovní zbraní (bez tajných fúzí, jen odemčené a nezapečetěné zbraně), `levelOptions` nahradí poslední kartu chybějící zbraní (nižší úroveň dřív), `#qPin` ukazuje cíl. Bot `prvnich15.js cs 15`: 3. běh Kostnice, fúze Vír ostří ve 2:27, bez chyb.
+
+## 12z (12. 11. 2026) – časy v popisech map, okraj karet
+- Uživatel (snímek Přípravy): finále „Vydrž 7 minut“, ale přežití je max 5 minut. Od 11z4 se délka map stlačuje na `DUR_CAP` 300 / `DUR_FIN` 330 s, popisy zůstaly staré (5:30, 6, 7 minut). Teď se po stlačení text „Vydrž …“ / „Survive …“ přepíše ze skutečné `m.dur`.
+- Uživatel (snímek karty Poklad!): „Rychlost útoků +8 %“ dojížděla k rámu. `.k-card .st` má okraj 28 px vpravo a je v toku (karta `min-height:100px`, při třetím řádku naroste). `lushot.js` CZ/EN, SE/13 bez chyb.

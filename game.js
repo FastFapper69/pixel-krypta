@@ -1050,6 +1050,10 @@ const DUR_CAP=300,DUR_FIN=330,BOSS_HORDE=3;
 const runMin=()=>run.t*(run.endless?1:(run.map.ts||1))/60; // map minutes in old time: enemy HP, enemy pool and death bursts follow it // BOSS_HORDE: while the boss lives, only every 3rd regular spawn
 for(const c of CHAPTERS)c.maps.forEach((id,i)=>{const m=MAPS[id],cap=i===c.maps.length-1?DUR_FIN:DUR_CAP;m.dur0=m.dur;
   if(m.dur>cap){m.ts=m.dur/cap;m.dur=cap;for(const L of [m.elites,m.events])if(L)for(const e of L)e.t=Math.round(e.t/m.ts);}else m.ts=1;});
+// 12z (uživatel: „myslel jsem, že přežití je max 5 minut“): popisy map měly napevno staré časy (6–7 minut) → čas v popisu ze skutečné délky
+for(const id in MAPS){const m=MAPS[id];if(!m.desc||!m.dur)continue;const d=Math.round(m.dur),mm=Math.floor(d/60),ss=d%60;
+  const cz=ss?mm+':'+String(ss).padStart(2,'0'):mm+(mm===1?' minutu':mm<5?' minuty':' minut'),en=ss?mm+':'+String(ss).padStart(2,'0'):mm+(mm===1?' minute':' minutes');
+  m.desc=m.desc.replace(/Vydrž (\d+:\d\d|\d+ minut[ay]?)/g,'Vydrž '+cz).replace(/Survive (\d+:\d\d|\d+ minutes?)/g,'Survive '+en);}
 // 10j: a chapter hero's price follows the chapter in which it can be bought (gold income grows with the chapter); new heroes get it automatically
 const heroCh=h=>{const n=HEROES[h].need,C=n&&CH_OF[n];return C?C.i+(C.maps[C.maps.length-1]===n?1:0):-1;};
 const HERO_PRICE=ci=>ci<=5?[1000,1000,1500,2000,3000,4000][Math.max(0,ci)]:Math.round(4000*Math.pow(1.4,ci-5)/500)*500; // II 1000, III 1500, IV 2000, V 3000, VI 4000, VII 5500, VIII 8000
@@ -3580,7 +3584,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12y';
+const GAME_VER='2026-11-12z';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -10713,6 +10717,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12z',d:'12. 11. 2026',t:_t('Drobné opravy'),hl:[],items:[_t('Popisy map ukazují skutečnou délku (nejvýš 5:30).'),_t('Text na kartách nové úrovně už nedojíždí k okraji.')]},
  {v:'2026-11-12y',d:'12. 11. 2026',t:_t('Fúze na Kostnici'),hl:[{ic:'vortex',t:_t('Fúze už na Kostnici'),d:_t('Cíl fúze vidíš nahoře a karty k ní vedou.')}],items:[_t('Fúze se odemkne výhrou na Utopených hrobech.')]},
  {v:'2026-11-12x',d:'12. 11. 2026',t:_t('Hrdinové se zbraní'),hl:[{ic:'hero:knight',t:_t('Hrdinové se zbraní v ruce'),d:_t('Každý hrdina drží svůj nástroj.')}],items:[]},
  {v:'2026-11-12w',d:'12. 11. 2026',t:_t('Kovárna postupně'),hl:[{ic:'hammer',t:_t('Kovárna se odkrývá postupně'),d:_t('Nové uzly přibývají, jak sílíš.')},{ic:'lock',t:_t('Tajné schopnosti'),d:_t('Zamčená schopnost ukáže, co ji odemkne.')}],
