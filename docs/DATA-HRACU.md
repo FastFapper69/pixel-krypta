@@ -53,3 +53,21 @@ select count(*) from profiles p where not exists(select 1 from runs r where r.ui
 ```
 Stav 11. 11. 2026: 5 testerů mimo vývojáře, žádný se další den nevrátil (D1 0/5), 17 běhů, nikdo za kapitolu I; 2 ze 6 skončili první běh smrtí
 na Hřbitově a už nehráli; 2 profily z 11. 11. bez jediného běhu.
+
+## Události prvních dnů (12n, tabulka `events`)
+Fronta `save.evQ` v zařízení, odchází po dávkách. `d0` = kolikátý den od prvního běhu (0 = první den, −1 = hráč z doby před 12n), `rn` = počet běhů za sebou.
+```sql
+-- trychtýř prvního dne: kolik nových hráčů prošlo kterým krokem tutoriálu a obrazovkou
+select ev, k, count(distinct uid) hracu from events where d0 = 0 and ev in ('tut','scr','feat','featgo','tmrw','chest','qclaim','gift')
+  group by 1,2 order by 1, 3 desc;
+-- kde nový hráč skončil: poslední událost každého hráče, který se nevrátil další den
+with f as (select uid, min(at)::date d from events where d0 >= 0 group by uid)
+select distinct on (e.uid) e.uid, e.ev, e.k, e.rn, e.at from events e join f using(uid)
+  where not exists (select 1 from events x where x.uid = e.uid and x.d0 >= 1) order by e.uid, e.at desc;
+-- karty novinek: kolik hráčů kliklo „Ukaž mi to“ a kolik „Později“
+select k, count(*) filter (where ev='featgo') ukaz, count(*) filter (where ev='featlater') pozdeji from events where ev in ('featgo','featlater') group by 1;
+-- návraty podle toho, jestli hráč první den viděl kartu Zítra nebo dostal dárek
+select (exists(select 1 from events t where t.uid=e.uid and t.ev='tmrw')) karta, count(distinct uid) hracu,
+  count(distinct uid) filter (where exists(select 1 from events z where z.uid=e.uid and z.d0>=1)) vratilo_se
+  from events e where d0 = 0 group by 1;
+```

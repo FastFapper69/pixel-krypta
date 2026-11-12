@@ -588,3 +588,13 @@ Zadání uživatele: důvod vrátit se každý den, na týdenní bázi, odměna 
 - Každý 4. týden na 7. den navíc profilový obrázek, který jinde nejde získat (`LW_AV`: duch, mumie, přízrak; sekce „Týden v kryptě“ ve výběru obrázku), po všech třech Královská truhla místo odměny 7. dne.
 - Plný inventář: truhla počká, nic se neposune. `petCrateRoll()` vytaženo z `openPetChest` (košík zdarma). Hodnota týdne ≈ třetina denních úkolů Nástěnky.
 - Test `tests/tools/tydenkrypta.js [cs|en] [se|15]` (8 týdnů všech témat, obrázky, vynechané dny, snímky `out/tyden_*.png`).
+
+## 12n (12. 11. 2026) – první dny hráče (podle researche a dat testerů)
+Research `docs/RESEARCH-SURVIVORIO.md` + soupis prvních dnů: kdo odešel, měl nejvýš 2 výhry a žádný denní důvod se vrátit (Nástěnka byla až na 3. mapě). Uživatel: „pusť se do toho“.
+- **Cesta mechanik:** Nástěnka (`quests`) se odemyká na Hřbitově spolu s Vybavením, Fúze (`fuse`) až na Kostnici. Nic se nezamyká znovu (`save.feat` zůstává).
+- **Den prvního běhu** `save.day0` (nastaví `recordRun`; hráči z doby před 12n mají `'old'`), `dayN()` = kolikátý den od něj (−1 neznámo).
+- **Karta „Zítra tě čeká“** (`tmrwShow`, `save.tmrw`): jednou za účet, první den po 2. běhu, ve frontě `featShow` před Týdnem v kryptě (v testech vypnutá s ním, `KRYPTA_NOLW`).
+- **Týden v kryptě hned po návratu:** `lwDue` platí i pro hráče s méně než 3 běhy, když se vrátí další den (`dayN()>0`).
+- **Dárek na cestu** (`loseGift`): 2. prohra za sebou na stejné nevyhrané mapě (normální obtížnost, ne výzvy, co-op ani Nekonečná krypta) dá 80 zlata a 10 Úlomků × `chGoldMul`, nejvýš jednou za mapu a den (`save.lose`, `save.loseG`), a tip podle stavu hráče (`loseTip`). Řádek v tabulce po běhu + tip přes celou šířku (`td.ovtip`).
+- **Události** → tabulka `events` (migrace `supabase/migrations/20261112a_events.sql`, spuštěná 12. 11. se svolením uživatele, předtím nanečisto): `evLog(ev,k,v)` do fronty `save.evQ` (jen v zařízení, max 400), `evFlush` po dávkách 100 (`onlineRetry`, po přihlášení). Události: `open`, `tut` (krok tutoriálu `ikona:krok`, v = čas běhu), `feat`/`featgo`/`featlater`, `scr` (první otevření obrazovky v relaci, `setState`), `chest` (truhla zdarma), `lw`, `gift`, `tmrw`, `qclaim`. Každá nese `ver`, `lang`, `rn` (běhů za sebou), `d0` (den od prvního běhu). Zásady soukromí (`PRIVACY.md` a text v Nastavení) to uvádějí.
+- Test `tests/tools/prvnidny.js [cs|en] [se|15]` (odemykání, karta Zítra, dárek, Týden v kryptě po návratu, starý hráč, události, snímky `out/prvnidny_*`). Dotazy na trychtýř v `docs/DATA-HRACU.md` „Události prvních dnů“.

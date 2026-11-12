@@ -15,6 +15,7 @@ Autor hry Pixel Krypta (správce). Kontakt: formulář „Napsat názor na hru�
 | Přezdívka, otisk PINu (bcrypt) | Supabase | žebříček, obnova postupu na jiném zařízení | do smazání |
 | Postup a statistiky | Supabase | synchronizace, žebříček | do smazání |
 | Souhrn běhu (mapa, hrdina, čas, zabití, zbraně, verze, jazyk) | Supabase | ladění obtížnosti a ekonomiky | do smazání |
+| Záznam prvních kroků (které obrazovky a kroky návodu hráč viděl, vyzvednuté odměny, verze, jazyk) | Supabase | zjistit, kde noví hráči končí | do smazání |
 | Zpětná vazba (text, hodnocení, typ zařízení a prohlížeče) | Supabase | oprava chyb | do smazání |
 | Nahlášení hráčů | Supabase | moderace přezdívek | do vyřízení / smazání |
 

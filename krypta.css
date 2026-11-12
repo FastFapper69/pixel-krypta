@@ -1592,3 +1592,13 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 .featpop .lws img.lwok{position:absolute;left:50%;top:22px;width:40px;height:36px;margin-left:-20px;opacity:1}
 .lws.got>*:not(.lwok){opacity:.4}
 .featpop .fc.lw .lwl{margin:10px 0 0;color:var(--gold)}
+/* 12n: karta Zítra tě čeká, tip po prohrách */
+.featpop .fc.tm{padding:24px 16px 16px}
+.featpop .fc.tm h3{font:var(--k40);margin:4px 0 12px}
+.tml{display:flex;flex-direction:column;gap:8px;text-align:left}
+.tmr{display:flex;align-items:center;gap:12px;padding:6px 10px;background:#2a2d33;box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 4px 0 0 #4a4e57,inset 0 -4px 0 0 #1a1c20}
+.featpop .tmr img{width:40px;height:40px;margin:0;flex:none;animation:none!important;filter:none;image-rendering:pixelated}
+.tmr span{display:flex;flex-direction:column}
+.tmr b{font:var(--k20);color:#fff}
+.tmr i{font:var(--k20);font-style:normal;color:#c9c4b4}
+#ovTable td.ovtip{font:var(--k20);color:var(--gold);text-align:left;padding-top:4px}
