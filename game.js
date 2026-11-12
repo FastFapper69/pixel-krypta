@@ -3580,7 +3580,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12x';
+const GAME_VER='2026-11-12y';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3706,7 +3706,7 @@ function startRun(heroId,mapId,o){metaInit();treeMigrate();if(BI){BI=null;biLine
   if(map.crystal){run.crystal={isCrystal:true,x:map.size/2,y:map.size/2,hp:1300,max:1300,r:9,flash:0,hit:false,calm:0,warn:0,pulse:5,spr:SPR.misc.crystal};run.p.y+=30;run.p.face={x:0,y:1};}
   run.allies=[];mfCall('init');
   run.deck=runDeck(!!hero.builder);run.tws=runTwStats(!!hero.builder);buildBarInit();run.pet=petStart(1);run.pet2=petStart(2);
-  addWeapon(hero.start);run.p.sh=st.tr&&st.tr.d1?1:0;
+  addWeapon(hero.start);run.p.sh=st.tr&&st.tr.d1?1:0;run.fuseGuidePair=fuseGuidePick(hero.start); // 12y
   if(run.heroId==='warlord'&&heroLv(run.heroId)>=10){const pool=['blade','bolt','arrows','fireball','frost','lightning','aura'].filter(w=>WEAPONS[w]&&w!==hero.start);addWeapon(pick(pool));}
   if(hero.builder)addTower(run.deck[0],run.p.x+24,run.p.y,run.tws[run.deck[0]]);
   for(let i=0;i<6;i++)spawnEnemy(chooseEnemy());
@@ -3715,6 +3715,12 @@ function startRun(heroId,mapId,o){metaInit();treeMigrate();if(BI){BI=null;biLine
   toast((run.endless?_t('Nekonečná krypta')+' · '+map.name:run.wk?_t('Týdenní výzva: ')+run.mods.map(m=>DAILY_MODS.find(d=>d.id===m).name).join(' + '):run.mod?_t('Denní výzva: ')+DAILY_MODS.find(d=>d.id===run.mod).name:run.nm?NM_NAME[run.nm]:map.caravan?_t('Doprovoď karavanu!'):map.crystal?_t('Chraň krystal!'):map.name),2200);
 }
 function addWeapon(id){run.W[id]={lv:1,cd:.4,ang:0,tick:0,xn:talentW(id)};}
+// 12y (uživatel: „fúze se na Kostnici nepředvedla, nevím, že k ní mám směřovat“): dokud hráč neudělal žádnou fúzi, běh si vybere dvojici
+// se startovní zbraní, v nabídce nové úrovně je vždy karta, která k ní chybí, a nad HUD visí cíl (qLive)
+const fusedEver=()=>Object.keys((save.codex&&save.codex.f)||{}).some(id=>ULTS[id]);
+function fuseGuidePick(st0){if(!featOn('fuse')||run.pls||fusedEver())return null;const ok=id=>WEAPONS[id]&&wOpen(id)&&!sealOn(id);
+  const L=FUSIONS.filter(f=>!ULTS[f.id].secret&&ok(f.a)&&ok(f.b));const f=L.find(f=>f.a===st0||f.b===st0)||L[0];return f?{a:f.a,b:f.b,id:f.id}:null;}
+function fuseGuideNeed(){const G=run&&run.fuseGuidePair;if(!G||run.W[G.id]||(run.fused&&run.fused[G.a]))return null;return [G.a,G.b].filter(id=>!(run.W[id]&&run.W[id].lv>=5));}
 function nWeapons(){return Object.keys(run.W).length}
 function nPassives(){return Object.keys(run.P).length}
 
@@ -5976,6 +5982,8 @@ function levelOptions(){
     else if(!l&&nPassives()<MAX_P)opts.push({k:'p',id,lv:1});}
   if(run.pls&&run.level>=3){const fr=BOND_IDS.filter(id=>!(run.bond||{})[id]);if(fr.length)opts.push({k:'bond',id:pick(fr)});} // one bond card in the pool at a time
   const out=[],nOpt=st&&st.tr&&Math.random()<.1*st.tr.a3?4:3;while(out.length<nOpt&&opts.length){out.push(opts.splice((Math.random()*opts.length)|0,1)[0]);}
+  {const need=fuseGuideNeed();if(need&&need.length&&out.length&&!out.some(o=>o.k==='w'&&need.includes(o.id))){ // 12y: karta k fúzi vždy v nabídce (nižší úroveň dřív)
+    const c=need.map(id=>{const w=run.W[id];return w?{k:'w',id,lv:w.lv+1}:nWeapons()<maxW()?{k:'w',id,lv:1}:null;}).filter(Boolean).sort((a,b)=>a.lv-b.lv)[0];if(c)out[out.length-1]=c;}}
   if(!out.length){out.push({k:'heal'},{k:'gold'});}
   return out;
 }
@@ -8476,7 +8484,7 @@ const FEATS=[
  {id:'quests',at:'hrbitov',ic:'candle',name:_t('Nástěnka'),d:_t('Tři denní úkoly se třemi hvězdami. Za hvězdy dostaneš svíčky a za svíčky truhly.'),go:()=>{qTab='day';openQuests();}}, // 12n: denní úkoly hned 1. výhrou (data: kdo odešel, měl nejvýš 2 výhry a žádný denní háček)
  {id:'daily',at:'bazina',ic:'trophy',name:_t('Denní výzva'),d:_t('Každý den jedna z map, které už máš vyhrané, s modifikátorem. Přežij 2 minuty a čeká tě truhla.'),go:()=>{renderSelect();setState('select');spotOn(()=>$('#dailyBox'),450);}}, // 12q: 2minutová denní výzva hned po 2. výhře
  {id:'loot',at:'bazina',ic:'chest_wood',name:_t('Kořist krypty'),d:_t('Truhla nahoře v menu se plní, i když nehraješ. Za 8 hodin je plná a pak čeká.'),go:()=>{openMenu();spotOn(()=>$('#mLoot'),450);}}, // 12q: postup, i když jsi zaseklý
- {id:'fuse',at:'kostnice',ic:'vortex',name:_t('Fúze zbraní'),d:_t('Dvě zbraně na úrovni 5 spojíš v běhu v jednu ultimátní. Ťukej do rytmu a bude silnější.')},
+ {id:'fuse',at:'bazina',ic:'vortex',name:_t('Fúze zbraní'),d:_t('Dvě zbraně na úrovni 5 spojíš v běhu v jednu ultimátní. Ťukej do rytmu a bude silnější.')},
  {id:'forge',at:'zvonice',ic:'power',name:_t('Kovárna: vylepšování'),d:_t('Vylepšuj předměty a kupuj trvalá vylepšení hrdinů za zlato a Úlomky.'),go:()=>{renderShop();setState('shop');}},
  {id:'nm',at:'trun',ic:'eye',name:_t('Noční můra a Nekonečná krypta'),d:_t('Mapy kapitoly znovu a těžší, s lepší kořistí. A souboj s finálním bossem, který se vrací silnější.')},
  {id:'arsenal',at:'kanon',ic:'tower',name:_t('Arzenál věží'),d:_t('Vyber si 4 věže do běhu. Nové věže a lepší rarity padají ze Stavitelovy bedny.'),go:()=>openTowers()},
@@ -9662,11 +9670,14 @@ function qDots(){const Q=save.qd,W=save.qw||{c:0,ms:[],k:[]},K=W.k||[],X=save.wk
 function qClaimable(){if(!featOn('quests'))return false;if(!save.qd||save.qd.d!==today()||save.qd.v!==2)return true;return qDots().some(Boolean);}
 
 // live in-run: the pinned quest in the HUD and a toast when one is done
-function qLive(dt){if(!run||run.over)return;if(!featOn('quests')){const el=$('#qPin');if(el&&!el.hidden)el.hidden=true;return;}run.qT=(run.qT||0)-dt;if(run.qT>0)return;run.qT=.4;
+function qLive(dt){if(!run||run.over)return;if(!featOn('quests')&&!fuseGuideNeed()){const el=$('#qPin');if(el&&!el.hidden)el.hidden=true;return;}run.qT=(run.qT||0)-dt;if(run.qT>0)return;run.qT=.4;
   const el=$('#qPin');const wE=isGuest()?run.enemies.find(e=>e.want&&!e.dead):run.wanted;
   if(wE){const k='w'+Math.ceil(wE.wT||0);if(run.qPin!==k){run.qPin=k;el.hidden=false;el.className='hot';
       el.innerHTML='<img alt="" src="'+dataUrl(SPR.icon.skull)+'"><span>'+WANTED[wE.want].name+(wE.wT?_t(' · uteče za ')+Math.ceil(wE.wT)+' s':'')+'</span>';}return;}
   if(isGuest()){if(run.qPin!==''){run.qPin='';el.hidden=true;}return;}
+  {const need=fuseGuideNeed(),G=run.fuseGuidePair;if(need&&need.length){const lv=id=>run.W[id]?run.W[id].lv:0,k='fz'+lv(G.a)+lv(G.b);if(run.qPin!==k){run.qPin=k;el.hidden=false;el.className='';
+    el.innerHTML='<img alt="" src="'+dataUrl(SPR.icon.vortex)+'"><span>'+_t('Fúze:')+'</span><img alt="" src="'+dataUrl(SPR.icon[G.a])+'"><span>'+Math.min(5,lv(G.a))+'/5</span><img alt="" src="'+dataUrl(SPR.icon[G.b])+'"><span>'+Math.min(5,lv(G.b))+'/5</span>';}return;}}
+  if(!featOn('quests'))return;
   const Q=qEnsure(),C=qSnap();if(!C)return;run.qHit=run.qHit||{};let pin=null,pv=0,best=-1;
   Q.q.forEach((q,i)=>{if(q.v>=q.ns[2])return;const pr=qProg(q,C),k=q.ns.filter(n=>pr>=n).length,k0=qStars(q);
     if(k>k0&&(run.qHit[i]||0)<k){run.qHit[i]=k;toast0('★'.repeat(k)+' '+q.t,1900);sfx('coin');}if(k>=3)return;
@@ -10702,6 +10713,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12y',d:'12. 11. 2026',t:_t('Fúze na Kostnici'),hl:[{ic:'vortex',t:_t('Fúze už na Kostnici'),d:_t('Cíl fúze vidíš nahoře a karty k ní vedou.')}],items:[_t('Fúze se odemkne výhrou na Utopených hrobech.')]},
  {v:'2026-11-12x',d:'12. 11. 2026',t:_t('Hrdinové se zbraní'),hl:[{ic:'hero:knight',t:_t('Hrdinové se zbraní v ruce'),d:_t('Každý hrdina drží svůj nástroj.')}],items:[]},
  {v:'2026-11-12w',d:'12. 11. 2026',t:_t('Kovárna postupně'),hl:[{ic:'hammer',t:_t('Kovárna se odkrývá postupně'),d:_t('Nové uzly přibývají, jak sílíš.')},{ic:'lock',t:_t('Tajné schopnosti'),d:_t('Zamčená schopnost ukáže, co ji odemkne.')}],
   items:[_t('Nový uzel v Kovárně má značku a ukáže se.')]},

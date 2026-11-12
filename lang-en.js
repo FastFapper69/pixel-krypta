@@ -1,6 +1,11 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+'Fúze na Kostnici':'Fusion in the Ossuary',
+'Fúze už na Kostnici':'Fusion from the Ossuary',
+'Cíl fúze vidíš nahoře a karty k ní vedou.':'The fusion goal is shown up top, cards lead to it.',
+'Fúze se odemkne výhrou na Utopených hrobech.':'Fusion unlocks by winning the Drowned Graves.',
+'Fúze:':'Fusion:',
 'Hrdinové se zbraní':'Heroes armed',
 'Hrdinové se zbraní v ruce':'Heroes hold their weapons',
 'Každý hrdina drží svůj nástroj.':'Every hero holds their own tool.',

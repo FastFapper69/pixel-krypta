@@ -649,3 +649,7 @@ Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co 
 
 ## 12x (12. 11. 2026) – hrdinové s nástrojem v ruce
 - `HERO_PROP` (řádky nástroje, paleta `PROP_PAL`) + `heroPropsApply()` po stavbě spritů: canvas o 3 px širší z obou stran (hrdina zůstává na středu), nástroj v pravé ruce s tmavým obrysem, ve všech snímcích (`c`, `c2`) i bílých záblescích (`f`, `f2`). Chůze a dýchání (`c2`) existovaly už dřív.
+
+## 12y (12. 11. 2026) – fúze se předvede na Kostnici
+- Uživatel: „jestli se měl ve 3. kapitole předvést fúze, tak k ní nedošlo, nevím, že k tomu mám směřovat.“ Příčina: `FEATS.fuse.at='kostnice'` = odemčení až výhrou na Kostnici, a karty jsou náhodné, takže dvě konkrétní zbraně na 5 byly náhoda.
+- `fuse.at='bazina'` (fúze je k dispozici už v běhu na Kostnici). Průvodce první fúzí (dokud `fusedEver()` je false a není co-op): `fuseGuidePick` vybere dvojici se startovní zbraní (bez tajných fúzí, jen odemčené a nezapečetěné zbraně), `levelOptions` nahradí poslední kartu chybějící zbraní (nižší úroveň dřív), `#qPin` ukazuje cíl. Bot `prvnich15.js cs 15`: 3. běh Kostnice, fúze Vír ostří ve 2:27, bez chyb.

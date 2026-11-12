@@ -47,7 +47,8 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - Hudba: pravidla, menu skladba a postup náčrtů ve skillu `zvuk-a-hudba`; nová kapitola `hudbacheck.js` + `skladby.js cN`.
 - Jména hrdinů: limit 85 % dlaždice v CZ i EN, písmo se nezmenšuje (`jmenahrdinu.js`, skill `novy-hrdina`).
 
-## Aktuální stav (verze 12x, 12. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 12y, 12. 11. 2026, vše na main, Pages nasazené)
+- **12y fúze na Kostnici** (uživatel ji neviděl a nevěděl, k čemu směřovat): `FEATS.fuse.at='bazina'`; dokud hráč neudělal fúzi, `run.fuseGuidePair` (`fuseGuidePick`: dvojice se startovní zbraní), `levelOptions` vždy nabídne chybějící zbraň (`fuseGuideNeed`), `#qPin` ukazuje „Fúze: A x/5 B y/5“. Bot `prvnich15.js cs 15`: fúze ve 3. běhu ve 2:27.
 - **12x hrdinové s nástrojem v ruce** (`HERO_PROP` + `heroPropsApply` skládá do `c/c2/f/f2`, sprite o 6 px širší, střed zachovaný). **Nový hrdina = přidat řádek do `HERO_PROP`.** Audit grafiky hotový celý (`docs/AUDIT-GRAFIKY.md`). Další: ukázka fúze na Kostnici (uživatel ji neviděl), strom Kovárny podle `docs/KOVARNA.md` (uživatel: „udělej všechno“).
 - **12w Kovárna postupně** (`treeVis`, tajné uzly, pečeť + `spotOn` na nový uzel, `docs/KOVARNA.md`, test `kovarna-postupne.js`); popisek „Schopnosti“. **Návrhy, jak strom udělat zajímavější, v `docs/KOVARNA.md` – čekají na uživatele.** Zbývá z auditu: hrdinové (H1–H3).
 - **12v audit grafiky, 2. dávka:** Aurel větší (24×21), úhoř a Stín pod ledem vlastní sprity (`BOSS_DEFS.eel/serpent.rows`), věže Střelecká/Dělo/Ohniště/Písečný vír překreslené; úvodní karta bosse `by=Math.max(6,…)`. Zbývá hrdinové (H1–H3) a Kovárna: postupné odemykání (uživatel schválil) + návrhy, jak strom udělat zajímavější.
