@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12s';
+const GAME_VER='2026-11-12t';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -6987,7 +6987,8 @@ function refreshMenu(){
   $('#mInstall').hidden=!pwaCan();$('#mNews').classList.toggle('has',newsUnseen().length>0);
   nickBtn();
   if(save.cheat&&!isDev()){save.cheat=false;persist();}
-  try{econInit();$('#mQuest').classList.toggle('has',qClaimable());{const a=achClaimable();$('#mBoard').classList.toggle('has',a);document.querySelectorAll('.sectabs [data-to=master]').forEach(b=>b.classList.toggle('has',a));}}catch(_){}
+  try{econInit();$('#mQuest').classList.toggle('has',qClaimable());$('#mChest').classList.toggle('has',featOn('gear')&&dailyChestReady()); // 12s: denní truhla zdarma čeká
+  {const a=achClaimable();$('#mBoard').classList.toggle('has',a);document.querySelectorAll('.sectabs [data-to=master]').forEach(b=>b.classList.toggle('has',a));}}catch(_){}
   $('#mCheat').hidden=!isDev();$('#mCheat').textContent=_t('Testovací režim: ')+onOff(save.cheat);$('#mGold').hidden=!save.cheat;
 }
 let sel={hero:'knight',map:'hrbitov'};
@@ -7210,7 +7211,13 @@ function openSeals(){const pop=$('#selPop'),hero=sel.hero,pool=sealPool(hero),st
   const t=$('#sealT');if(t)t.onclick=()=>{if(t.disabled)return;save.seal=save.seal||{};if(save.seal[id])delete save.seal[id];else save.seal[id]=1;persist();sfx(save.seal[id]?'boom':'coin');openSeals();sealBtnSync();};
   $('#sealOk').onclick=()=>{sfx('ui');pop.hidden=true;sealBtnSync();};
   pop.onclick=e=>{if(e.target===pop){pop.hidden=true;sealBtnSync();}};}
-function renderSelect(){sealBtnSync();setTimeout(()=>{const m=$('#mapList .mnode.sel');if(m&&state==='select')m.scrollIntoView({block:'center'});},0); /* 12b: the chosen map sat under the sticky Vyrazit */
+function renderSelect(){sealBtnSync();const opening=state!=='select'; // 12s: rolovat jen při otevření Přípravy (uživatel: výběr hrdiny skočil dolů k mapě)
+  if(opening)setTimeout(()=>{const S=$('#scr-select'),go=()=>{const m=$('#mapList .mnode.sel');if(!m||state!=='select')return;const r=m.getBoundingClientRect(),g=$('#goBtn'),h=$('#scr-select .head');
+    const bot=g?g.getBoundingClientRect().top-8:innerHeight,top=h?h.getBoundingClientRect().bottom+8:0;if(r.top>=top&&r.bottom<=bot)return;
+    let P=m.parentElement;while(P&&!(/(auto|scroll)/.test(getComputedStyle(P).overflowY)&&P.scrollHeight>P.clientHeight))P=P.parentElement;P=P||document.scrollingElement; // jen o kolik je třeba, ať nahoře zůstane co nejvíc (název kapitoly)
+    if(r.height>bot-top)m.scrollIntoView({block:'center'});else P.scrollTop+=Math.round(r.bottom>bot?r.bottom-bot:r.top-top);};
+    let A=[];try{A=S&&S.getAnimations?S.getAnimations():[];}catch(_){} // měřit až po najetí obrazovky (kScrIn), jinak mapa vypadá mimo
+    if(A.length)Promise.all(A.map(a=>a.finished.catch(()=>0))).then(go);else go();},0); /* 12b: the chosen map sat under the sticky Vyrazit */
   $('#selMats').innerHTML=matsHtml();
   const hl=$('#heroList');
   heroStrip(hl,HERO_IDS,sel.hero,(id,own)=>{const h=HEROES[id];return own?_t('úr. ')+heroLv(id):h.soon?_t('kap. ')+SOON_CH[h.soon]:h.need&&!mapUnlocked(h.need)?_t('kap. ')+ROMAN_CH[CH_OF[h.need].i]:h.ach?'<img alt="" src="'+dataUrl(SPR.icon.medal)+'">':h.win?_t('kap. ')+ROMAN_CH[CH_OF[h.win].i]:'<img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+h.cost;},(id,own)=>{const h=HEROES[id];
@@ -10628,6 +10635,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12t',d:'12. 11. 2026',t:_t('Obchod a Příprava'),hl:[{ic:'chest_wood',t:_t('Truhla zdarma na očích'),d:_t('Obchod ukáže značku, když čeká denní truhla.')},{ic:'hero:knight',t:_t('Příprava neposkakuje'),d:_t('Výběr hrdiny už s obrazovkou nehne.')}],
+  items:[]},
  {v:'2026-11-12s',d:'12. 11. 2026',t:_t('Drobné opravy'),hl:[],
   items:[_t('Šipka „Ukaž mi to“ už nezůstane viset v rohu menu.'),_t('Konec běhu: odemčená věž napíše, kde ji najdeš.')]},
  {v:'2026-11-12r',d:'12. 11. 2026',t:_t('Zvonice lehčí'),hl:[{ic:'map:zvonice',t:_t('Zvonice je lehčí'),d:_t('Slabší nepřátelé a méně lučištníků.')},{ic:'star',t:_t('„Ukaž mi to“ ukáže cestu'),d:_t('Nová mechanika ukáže, kde ji najdeš.')}],

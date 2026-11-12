@@ -1,6 +1,11 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+'Obchod a Příprava':'Shop and Preparation',
+'Truhla zdarma na očích':'Free chest in sight',
+'Obchod ukáže značku, když čeká denní truhla.':'The Shop shows a mark when the daily chest waits.',
+'Příprava neposkakuje':'Preparation stays put',
+'Výběr hrdiny už s obrazovkou nehne.':'Picking a hero no longer scrolls the screen.',
 'Drobné opravy':'Small fixes',
 'Šipka „Ukaž mi to“ už nezůstane viset v rohu menu.':'The “Show me” arrow no longer gets stuck in the menu corner.',
 'Konec běhu: odemčená věž napíše, kde ji najdeš.':'Run end: an unlocked tower says where to find it.',
