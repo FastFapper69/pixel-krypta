@@ -3475,5 +3475,9 @@ window.KRYPTA_EN={
 "Prolog a konce kapitol jako pixel komiks.":"Prologue and chapter endings as pixel comics.",
 "Přehraj si je znovu":"Watch them again",
 "Najdeš je v Kronice v Síni slávy.":"Find them in the Chronicle, Hall of Fame.",
-"Klepnutí ukáže další obrázek, Přeskočit komiks hned zavře.":"Tap shows the next panel, Skip closes the comic."
+"Klepnutí ukáže další obrázek, Přeskočit komiks hned zavře.":"Tap shows the next panel, Skip closes the comic.",
+"Bedna ze světla":"A chest of light",
+"Bedna padá na paprsku":"Chests fall on a beam",
+"Dopadne se zábleskem a září do rytmu.":"It lands with a flash and glows to the beat.",
+"Pasivky v pauze už nezajíždějí pod rámeček.":"Passives in the pause menu no longer slide under the frame."
 };

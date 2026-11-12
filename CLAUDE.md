@@ -47,12 +47,13 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - Hudba: pravidla, menu skladba a postup náčrtů ve skillu `zvuk-a-hudba`; nová kapitola `hudbacheck.js` + `skladby.js cN`.
 - Jména hrdinů: limit 85 % dlaždice v CZ i EN, písmo se nezmenšuje (`jmenahrdinu.js`, skill `novy-hrdina`).
 
-## Aktuální stav (verze 12e, 12. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 12f, 12. 11. 2026, vše na main, Pages nasazené)
 - **POSTUP OD 11z4 (rozhodnutí uživatele 11. 11. po rozboru procesu):** obsah předběhl hráče (6 hráčů, nikdo se nevrátil druhý den, nikdo za kapitolu I).
   **Nové kapitoly a akt II jsou zmrazené, dokud se testeři nedostanou aspoň do kapitoly III.** Přednost má začátek hry (prvních 30 minut), délka běhu a
   měření návratů (`docs/DATA-HRACU.md` „Návraty“ – před každou větší prací se podívej, kde noví hráči končí). **Jen jeden chat najednou** (souběžné chaty
   si přepisovaly čísla) a pro testery raději jedna dávka denně než verze po každé změně.
 - **12e kapitoly IV–X přeladěné** po zkrácení běhů (data `tests/tools/data/12d/`) a **oprava pádu** na mapách s trny/propastmi (`run.kg` → `run.kn`). **Pravidlo: před novým polem na `run` ho vyhledej, krátká jména (`kg`, `kb`) mají mechaniky.**
+- **12f bedna a pauza** (připomínky uživatele): bedna padá na sloupu světla (`CHEST_BEAM`), dopad = prstenec a prach, paprsek dýchá do rytmu, stoupají jiskry, kolem krouží prstenec jisker; pauza: seznam se posouvá ve vnitřním `.pin` uvnitř `.ppane`, nic nezajíždí pod rám lůžka.
 - **12d komiksy** (zadání uživatele 12. 11.: jednoduché, promyšlené cutscény ve stylu hry, pixel komiks): prolog, konce kapitol I–VIII, zvrat IX, konec aktu X = 3 panely z vlastních spritů (`CMX` v `game.js`: `COMIC` šablona `fin()` pád bosse → střep s okem → cesta dál, `horizon` scény, rámy `FR`, rytmus z `M.stepDur`, klepnutí = další panel, Přeskočit). Nahradily textová okna (`prologShow`, `storyShow` → po komiksu rovnou další kapitola, `actEndShow` → komiks pak karta Paladina); Kronika má Přehrát komiks. Test `tests/tools/komiks.js` (texty uvnitř panelů, překryvy, přehrání, finále bez komiksu), `pribeh.js` upravený. **Nová kapitola = nový komiks** (skill `nova-kapitola` 8c). Prototyp `tests/tools/mock/komiks/`.
 - **12c zlato:** zlato za kombo (`run.kgG`) se nepřipisuje do banky; výhra v kapitole I ~200–360 (cíl 150–400).
 - **12b prvních 15 minut** (`tests/tools/prvnich15.js` = nováček od nuly přes 3 běhy a menu; **pusť po každé změně začátku hry**): méně hlášek o kombu, kroky Elita a Úlomky, Vybavení → Obchod, Příprava ukáže vybranou mapu.

@@ -1164,8 +1164,9 @@ html[lang=en] .row2 .btn .lbl{letter-spacing:0;font-size:inherit}
 .k-flags>i{position:absolute;left:-4px;right:-4px;top:0;height:10px;z-index:1}
 .k-flags button{flex:1;min-width:0;height:44px;padding:10px 0 0;border:0;background-color:transparent;font:var(--k20);letter-spacing:0;color:#cfc8b8;text-shadow:0 2px 0 #0009;display:flex;align-items:flex-start;justify-content:center;touch-action:manipulation}
 .k-flags button.on{height:52px;color:#fff3b0;text-shadow:0 2px 0 #501214}
-.ppane{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;padding:8px 8px}
-.ppane::-webkit-scrollbar{display:none}
+.ppane{display:flex;flex-direction:column;overflow:hidden;padding:8px 8px}
+.ppane>.pin{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.ppane>.pin::-webkit-scrollbar{display:none}
 .k-wrow{position:relative;height:60px}
 .k-wrow+.k-wrow,.k-wrow+.k-pas{box-shadow:0 -2px 0 #2a2c31,0 -4px 0 #0e0f11}
 .k-wrow img.ic,.k-ps img.ic{width:44px;height:44px;image-rendering:pixelated;display:block}

@@ -3513,7 +3513,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12e';
+const GAME_VER='2026-11-12f';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -6201,7 +6201,7 @@ function renderPauseBuild(){const box=$('#pBuild');if(!box||!run)return;const p=
   h+='<div class="k-tiles">'+[['clock',fmtTime(run.t)],['up',run.level],['skull',run.kills]].map(([k,v],i)=>'<span class="k-tile" data-k="slab" data-m="slate" data-chip=".7" data-d="2" data-s="t'+i+'">'+KIT.img(k)+v+'</span>').join('')+'</div>';
   h+='<div class="k-hp" data-k="gauge" data-g="hp" data-v="'+(Math.round(hpP*50)/50)+'"><span>'+Math.ceil(p.hp)+'/'+Math.round(p.max)+'</span></div>';
   const tabs=[['run',_t('Výbava')],['hero',_t('Hrdina')]].concat(qOn?[['q',_t('Úkoly')]]:[]);
-  h+='<div class="k-flags" style="--n:'+tabs.length+'"><i data-k="rod"></i>'+tabs.map(([k,t],i)=>'<button data-pt="'+k+'" data-k="flag" data-s="f'+i+'"'+(pauseTab===k?' data-on="1" class="on"':'')+'>'+t+'</button>').join('')+'</div><div class="ppane" data-k="bed" data-s="'+pauseTab+'">';
+  h+='<div class="k-flags" style="--n:'+tabs.length+'"><i data-k="rod"></i>'+tabs.map(([k,t],i)=>'<button data-pt="'+k+'" data-k="flag" data-s="f'+i+'"'+(pauseTab===k?' data-on="1" class="on"':'')+'>'+t+'</button>').join('')+'</div><div class="ppane" data-k="bed" data-s="'+pauseTab+'"><div class="pin">';
   if(pauseTab==='hero'){const S=st||{},T=[];
    const tile=(k,v,l,up)=>T.push('<div class="pt'+(up?' up':'')+'">'+IC(k)+'<b>'+v+'</b><small>'+l+'</small></div>');
    tile('heart',Math.round(p.max),_t('max. zdraví'),p.max>120.5);
@@ -6234,7 +6234,7 @@ function renderPauseBuild(){const box=$('#pBuild');if(!box||!run)return;const p=
       (f?'<span class="k-eq">'+KIT.img('plus')+'<span class="'+(have?'':'k-off')+'">'+IC(mate)+'</span>'+KIT.img('arrow')+(known[f.id]?'<span class="'+(ready?'':'k-off')+'">'+IC(f.id)+'</span>':'<span class="k-unk">?</span>')+'</span>':'')+'</div>';}
    const ps=Object.keys(run.P);
    if(ps.length)h+='<div class="k-pas">'+ps.map((id,i)=>'<span class="k-ps" data-k="socket" data-m="slate" data-s="p'+i+'">'+IC(id)+'<b>'+run.P[id]+'</b></span>').join('')+'</div>';}
-  h+='</div>';box.innerHTML=h;
+  h+='</div></div>';box.innerHTML=h; // 12f: the list scrolls inside .pin, so it never slides over the bed's frame
   box.querySelectorAll('[data-pt]').forEach(b=>b.onclick=()=>{if(pauseTab===b.dataset.pt)return;pauseTab=b.dataset.pt;sfx('ui');renderPauseBuild();});
   pausePaint();}
 // výška lůžka podle místa na obrazovce (sudá), řetězy cedule až k hornímu okraji, pak kresby
@@ -6572,6 +6572,10 @@ function menuBg(g){
   if(vig.width===VW*Z&&vig.height===VH*Z)g.drawImage(vig,0,0,VW,VH);
   if(bm.def.grade){g.globalCompositeOperation='soft-light';g.globalAlpha=bm.def.gradeA||.2;g.fillStyle=bm.def.grade;g.fillRect(0,0,VW,VH);g.globalAlpha=1;g.globalCompositeOperation='source-over';}
 }
+// 12f: the chest's shaft of light (cached): white core, gold sides, dithered fade toward the top
+let CHB=null;const CHEST_BEAM=()=>CHB||(CHB=sprCv(7,56,q=>{const B=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
+  for(let j=0;j<112;j++)for(let i=0;i<14;i++){const dx=Math.abs(i-6.5)/7,v=j/112,f=(.15+v*.85)*16*(1.25-dx*.6),th=B[(j&3)*4+(i&3)];if(dx>.95||th>f)continue;
+    q.fillStyle=dx<.2?'#fffbe0':dx<.5?'#ffe07a':'#e0a838';q.globalAlpha=dx<.2?1:dx<.5?.8:.55;q.fillRect(i/2,j/2,.5,.5);}q.globalAlpha=1;}));
 // 11z2: arrow at the screen edge pointing to something off screen (box with an icon + a tip toward the target); dodges the tower bar
 let ptrBB=null,ptrBBt=0;
 function edgePtr(g,cx,cy,col,spr,isz){if(cx>2&&cy>2&&cx<VW-2&&cy<VH-2)return false;
@@ -6623,12 +6627,21 @@ function render(){
   for(const it of run.items){const x=RZ(it.x+ox),y=RZ(it.y+oy);if(x<-12||y<-12||x>VW+12||y>VH+12)continue;
     const bob=(((M.beatPos+it.x*.01)%1)+1)%1<.25?1:0;
     if(it.k==='chest'){const s=SPR.misc.chest,pu=M.pulse||0,age=run.t-(it.born||-9);
-      // 11z2: a gold beam of light + bigger chest, so it doesn't drown among enemies and gems
-      const bh=age<.6?60*age/.6:60,bw=age<.6?9-5*age/.6:4+pu;g.globalAlpha=.22+.18*pu;g.fillStyle='#ffe07a';g.fillRect(RZ(x-bw/2),RZ(y-4-bh),RZ(bw),RZ(bh));
-      g.globalAlpha=.45+.25*pu;g.fillRect(RZ(x-.5),RZ(y-4-bh),1,RZ(bh));g.globalAlpha=1;
-      g.globalAlpha=.35+.25*pu;g.fillStyle='#ffd24a';g.beginPath();g.ellipse(x,y+1,8+pu*2,3+pu,0,0,6.283);g.fill();g.globalAlpha=1;
-      shadow(g,x,y+s.h-2,s.w+2);g.drawImage(bob?s.c2:s.c,RZ(x-s.w),RZ(y-s.h*2+2),s.w*2,s.h*2);
-      if(((M.step+(it.x|0))&3)===0){g.fillStyle='#fff6c8';const sx=RZ(x+((it.x*7+M.step*3)%11)-5),sy=RZ(y-8-((M.step*5+it.y)%9));g.fillRect(sx,sy,1,1);}}
+      // 12f: the chest falls in on a shaft of light from the sky, lands with a ring and dust, then the shaft breathes on the beat,
+      // motes rise inside it and a ring of sparks circles the chest (11z2 was a flat rectangle – the user found it boring)
+      const W=Math.max(6,s.w*1.5),H=78,land=.32,e=Math.min(1,age/land),bx=RZ(x),top=y-s.h-H,b1=Math.floor(M.beatPos||0),R=s.w*1.25;
+      if(age<land){const hy=top+H*e*e;g.globalAlpha=1;g.drawImage(CHEST_BEAM(),RZ(bx-W/2),top,RZ(W),Math.max(1,hy-top));
+        g.fillStyle='#fffbe0';g.fillRect(RZ(bx-W/4),RZ(hy-3),RZ(W/2),3);}
+      else{const br=Math.min(1,.7+.3*pu+.06*Math.sin(run.t*7)),w=RZ(W*(1+.18*pu));g.globalAlpha=br;g.drawImage(CHEST_BEAM(),RZ(bx-w/2),top,w,H);g.globalAlpha=1;
+        for(let i=0;i<6;i++){const ph=((run.t*.5+i/6+(it.x*.013))%1+1)%1,my=y-s.h-ph*(H-4),mx=bx+Math.round(Math.sin(run.t*2.3+i*1.7)*W*.3*2)/2;
+          g.globalAlpha=1-ph;g.fillStyle=i&1?'#fffbe0':'#ffd24a';g.fillRect(RZ(mx),RZ(my),1,1);if(i%3===0&&ph<.5){g.fillRect(RZ(mx)-.5,RZ(my)+.25,2,.5);g.fillRect(RZ(mx)+.25,RZ(my)-.5,.5,2);}}g.globalAlpha=1;}
+      const lt=age-land;if(lt>=0&&lt<.55){const r=R*.6+lt*R*5,n=28;g.globalAlpha=1-lt/.55;g.fillStyle='#ffe07a';for(let i=0;i<n;i++){const an=i/n*6.283;g.fillRect(RZ(x+Math.cos(an)*r),RZ(y+1+Math.sin(an)*r*.38),1,1);}
+        g.fillStyle='#c8b898';for(let i=0;i<8;i++){const sd=i<4?-1:1,k=(i%4)+1;g.fillRect(RZ(x+sd*(s.w*.8+lt*10*k)),RZ(y-Math.sin(Math.min(1,lt*2.5)*3.14)*k*2),1.5,1);}g.globalAlpha=1;}
+      if(age>=land){const B4=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5],rx=R*1.15+pu*1.5,ry=R*.42+pu*.6;g.globalAlpha=.55+.3*pu;g.fillStyle='#ffd24a';for(let j=-Math.floor(ry);j<=ry;j++)for(let i=-Math.floor(rx);i<=rx;i++){const d=(i/rx)**2+(j/ry)**2;if(d>1)continue;const th=B4[((j&3)*4)+(i&3)];if((1-d)*(1-d)*(10+6*pu)>th)g.fillRect(RZ(x+i),RZ(y+1+j),1,1);}g.globalAlpha=1;
+        const rot=((M.beatPos||0)%4)/4*6.283;for(let i=0;i<10;i++){const an=rot+i/10*6.283,sx=x+Math.cos(an)*R*1.5,sy=y+1+Math.sin(an)*R*.55,lead=i===(b1%10),front=Math.sin(an)>0;
+          g.fillStyle=lead?'#ffffff':front?'#ffe07a':'#c8901a';const z=lead?2:1.5;g.fillRect(RZ(sx-z/2),RZ(sy-z/2),z,z);}}
+      const sq=lt>=0&&lt<.12?1:0;shadow(g,x,y+s.h-2,s.w+2);g.drawImage(bob&&!sq?s.c2:s.c,RZ(x-s.w),RZ(y-s.h*2+2+sq),s.w*2,s.h*2-sq);
+      if(age>=land&&pu>.35){const gx=RZ(x-s.w+2+((b1*7)%Math.max(1,Math.floor(s.w*2-4)))),gy=RZ(y-s.h*2+3);g.fillStyle='#ffffff';g.fillRect(gx,gy,1,1);if(pu>.7){g.fillRect(gx-1,gy+.25,3,.5);g.fillRect(gx+.25,gy-1,.5,3);}}}
     else{const s=SPR.icon[it.k==='coin'?'coin':it.k==='mat'?(MAT_OF[run.mapId]||'coin'):it.k==='heart'?'heart':'magnet'];shadow(g,x,y+4,6);
       const nar=it.k==='coin'&&Math.floor(M.beatPos*2+it.x)%2?2:0;g.drawImage(s.c,RZ(x-s.w/2+nar/2),RZ(y-s.h/2-bob),s.w-nar,s.h);}}
   for(const t of run.towers){if(!inView(t,24)||(t.born!==undefined&&run.t-t.born<.45))continue;towerPlate(g,t,RZ(t.x+ox),RZ(t.y+oy));}
@@ -10440,6 +10453,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12f',d:'12. 11. 2026',t:_t('Bedna ze světla'),hl:[{ic:'chest_wood',t:_t('Bedna padá na paprsku'),d:_t('Dopadne se zábleskem a září do rytmu.')}],items:[_t('Pasivky v pauze už nezajíždějí pod rámeček.')]},
  {v:'2026-11-12e',d:'12. 11. 2026',t:_t('Přeladěno IV–X'),hl:[{ic:'skull',t:_t('Obtížnost IV–X'),d:_t('Kratší běhy jsou dál výzva.')},{ic:'map:kolebka',t:_t('Oprava pádu hry'),d:_t('Kolébka a Ostrovy už nepadají.')}],items:[]},
  {v:'2026-11-12d',d:'12. 11. 2026',t:_t('Příběh v komiksu'),hl:[{ic:'book',t:_t('Komiksy v příběhu'),d:_t('Prolog a konce kapitol jako pixel komiks.')},{ic:'scroll',t:_t('Přehraj si je znovu'),d:_t('Najdeš je v Kronice v Síni slávy.')}],items:[_t('Klepnutí ukáže další obrázek, Přeskočit komiks hned zavře.')]},
  {v:'2026-11-12c',d:'12. 11. 2026',t:_t('Těsnější zlato'),hl:[{ic:'coin',t:_t('Méně zlata za běh'),d:_t('Zlato za kombo jde jen na věže.')}],items:[]},

@@ -556,3 +556,6 @@ skok na jedno kolo omezen na −23 až +30 % (12 běhů na skupinu je rozkolísa
 - Bot (`hraci.js`): na Hvězdárně hledal květiny v `run.kb` paprsku (`R.kb.F`) – opraveno, hra to netýkalo.
 - Kapitola I se nepřepisovala (nastavená podle skutečných nováčků).
 
+
+## 12f (12. 11. 2026) – bedna ze světla, pauza
+Uživatel: „záře z dropnuté bedny je nudná“ (11z2 byl plochý průsvitný obdélník). Nově `CHEST_BEAM` (ditherovaný sloup: bílé jádro, zlaté boky, nahoře se rozpadá), bedna na něm spadne (0,32 s), při dopadu se zmáčkne, rozběhne se prstenec světla a prach; potom paprsek pulzuje s `M.pulse`, stoupají jiskry, kolem bedny krouží 10 jisker (vedoucí na dobu), přes víko běží odlesk. Pauza: pasivky zajížděly pod spodní lištu lůžka – posouvá se vnitřní `.pin`, rám zůstává čistý.
