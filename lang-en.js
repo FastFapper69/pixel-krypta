@@ -3498,5 +3498,14 @@ window.KRYPTA_EN={
 "Nástěnka bez záhad":"No more Board mysteries",
 "Týdenní svíčky na Dnes":"Weekly candles under Today",
 "Dokud je Týden zamčený, najdeš je dole.":"While Week is locked, they sit at the bottom.",
-"Pečeť Nástěnky svítí, jen když tam opravdu je co vyzvednout.":"The Board seal only lights up when there is really something to claim."
+"Pečeť Nástěnky svítí, jen když tam opravdu je co vyzvednout.":"The Board seal only lights up when there is really something to claim.",
+"</small><small class=\"kh\">Mapa, kterou už máš vyhranou · žebříček Dnes":"</small><small class=\"kh\">A map you have already won · Today leaderboard",
+". Mapa se řídí postupem, počítá se tvůj nejlepší pokus dne.":". The map follows your progress, your best attempt of the day counts.",
+"Každý den jedna z map, které už máš vyhrané, s modifikátorem. Přežij 3 minuty a čeká tě truhla.":"Every day one of the maps you have already won, with a modifier. Survive 3 minutes for a chest.",
+"Mapa, kterou už máš vyhranou, jeden hrdina pro všechny a dva modifikátory na celý týden. Bronz, stříbro a zlato.":"A map you have already won, one hero for everyone and two modifiers, all week. Bronze, silver and gold.",
+"Každý den jedna z vyhraných map s modifikátorem a vlastní žebříček Dnes.":"Every day one of your won maps with a modifier, with its own Today leaderboard.",
+"Férové výzvy":"Fair challenges",
+"Výzvy na tvých mapách":"Challenges on your maps",
+"Denní i týdenní jen na vyhraných mapách.":"Daily and weekly only on maps you have won.",
+"Žebříček Dnes a Týden ukazuje, na jaké mapě kdo hrál.":"The Today and Week boards show which map each player played.",
 };

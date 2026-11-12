@@ -47,11 +47,12 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - Hudba: pravidla, menu skladba a postup náčrtů ve skillu `zvuk-a-hudba`; nová kapitola `hudbacheck.js` + `skladby.js cN`.
 - Jména hrdinů: limit 85 % dlaždice v CZ i EN, písmo se nezmenšuje (`jmenahrdinu.js`, skill `novy-hrdina`).
 
-## Aktuální stav (verze 12j, 12. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 12k, 12. 11. 2026, vše na main, Pages nasazené)
 - **POSTUP OD 11z4 (rozhodnutí uživatele 11. 11. po rozboru procesu):** obsah předběhl hráče (6 hráčů, nikdo se nevrátil druhý den, nikdo za kapitolu I).
   **Nové kapitoly a akt II jsou zmrazené, dokud se testeři nedostanou aspoň do kapitoly III.** Přednost má začátek hry (prvních 30 minut), délka běhu a
   měření návratů (`docs/DATA-HRACU.md` „Návraty“ – před každou větší prací se podívej, kde noví hráči končí). **Jen jeden chat najednou** (souběžné chaty
   si přepisovaly čísla) a pro testery raději jedna dávka denně než verze po každé změně.
+- **12k výzvy jen na vyhraných mapách** (data: hráč z kapitoly II dostal denní výzvu z kapitoly VII a umíral do 15 s): `chalPool()` = `save.cleared`, mapa zamčená na den (`save.daily.pk`) / týden (`save.wk.map`), stejný postup = stejná mapa; žebříček Dnes/Týden ukazuje mapu. **Pravidlo: výzva nesmí hráče poslat na mapu, kterou ještě nevyhrál.** Test `tests/tools/vyzvamapa.js`.
 - **12e kapitoly IV–X přeladěné** po zkrácení běhů (data `tests/tools/data/12d/`) a **oprava pádu** na mapách s trny/propastmi (`run.kg` → `run.kn`). **Pravidlo: před novým polem na `run` ho vyhledej, krátká jména (`kg`, `kb`) mají mechaniky.**
 - **12j pečeť Nástěnky** (uživatel: plusko na Nástěnce, ale nic k vyzvednutí): týdenní svíčky (`Q_WMS`) se počítaly do pečeti, ale jejich záložka Týden byla zamčená (odemyká ji `contracts`). Teď `qDots()` = jediný zdroj pro tečky záložek i pečeť menu (se zámky); při zamčeném Týdnu jsou týdenní svíčky dole na Dnes. **Pravidlo: pečeť/tečka smí svítit jen pro věc, kterou hráč v UI uvidí a vyzvedne.** Test `tests/tools/boardseal.js`.
 - **12h oprava odměny z truhly** (uživatel: u truhly za svíčky nejde kliknout): `revealItem` hledal `#rvOk`/`#rvCv` přes `$()` v celé stránce a chytil staré prvky ze skrytého `#chestPop` → teď `pop.querySelector`. **Pravidlo: v oknech, která se kreslí do víc míst (`#chestPop`, `#qPop`, `#forgePop`…), hledej prvky jen uvnitř okna.** Test `tests/tools/revealpop.js`.

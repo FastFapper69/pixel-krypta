@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12j';
+const GAME_VER='2026-11-12k';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7227,7 +7227,7 @@ function renderSelect(){sealBtnSync();setTimeout(()=>{const m=$('#mapList .mnode
     '<b class="dmod"><img alt="" src="'+dataUrl(SPR.icon[mi])+'">'+di.mod.name+'</b></div></div>'+
     '<div class="dbot"><div class="k-bd">'+(di.done?'<span class="dyes">'+_t('Dnes splněno')+'</span>':'<span>'+KIT.img('clock')+'3:00</span><span><img alt="" class="kp" src="'+dataUrl(SPR.icon.chest_wood)+'" style="width:36px;height:32px"></span><span>'+KIT.img('shard')+'20</span>')+'</div>'+
     '<button class="btn sm" id="dailyGo">'+_t('Hrát')+'</button></div>'+
-    '<small class="kh"><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small class="kh">'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 3 minuty → truhla s předmětem + 20 Úlomků.'))+_t('</small><small class="kh">Stejný běh pro všechny · žebříček Dnes')+(mapUnlocked(di.map)?'':_t(' · mapu si tak vyzkoušíš, i když ji ještě nemáš (do kampaně se nepočítá)'))+'</small></div>';
+    '<small class="kh"><b>'+di.mod.name+':</b> '+di.mod.desc+'</small><small class="kh">'+(di.done?_t('Dnes splněno, zítra nová.'):_t('Přežij 3 minuty → truhla s předmětem + 20 Úlomků.'))+_t('</small><small class="kh">Mapa, kterou už máš vyhranou · žebříček Dnes')+'</small></div>';
   $('#dailyGo').onclick=()=>{sfx('ui');startRun(heroOwned(sel.hero)?sel.hero:'knight',di.map,{mod:di.mod.id});};
 }
 // ----- upgrade tree (08g): three branches; each starts with its stat lines (the old Vylepšení, save.meta.hp…), then five key nodes
@@ -7737,7 +7737,7 @@ function boardFacts(r){const sv=r.sv||{},cl=sv.cl||0,hc=sv.hc||0,
   return [boardTab!=='kombo'&&(boardTab==='celkem')?{ic:SPR.icon.note,v:'×'+bNum(bCombo(r.st),1),l:_t('kombo')}:null,{ic:SPR.icon.skull,v:kills,l:_t('zabití'),n:1},
     {ic:SPR.icon.scroll,v:cl+'/'+MAP_IDS.length,l:_t('mapy')},{ic:SPR.hero.knight,v:hc+'/'+HERO_LIVE.length,l:_t('hrdinů')}].filter(Boolean);}
 function boardStats(r,big){const F=boardFacts(r);return '<div class="stg n'+F.length+(big?' big':'')+'">'+F.map(f=>'<div><img alt="" src="'+dataUrl(f.ic)+'"><b>'+(f.n?bNum(f.v,!big):f.v)+'</b>'+(big?'<small>'+f.l+'</small>':'')+'</div>').join('')+'</div>';}
-function boardSub(r){if(boardTab==='celkem')return bNum(r.st.kills||0)+_t(' zabití');if(boardTab==='kombo')return bNum(r.st.kills||0)+_t(' zabití');const b=r.b;return ((boardTab==='dnes'||boardTab==='tyden')&&HEROES[b.hero]?HEROES[b.hero].name+' · ':'')+bNum(b.kills)+_t(' zabití');}
+function boardSub(r){if(boardTab==='celkem')return bNum(r.st.kills||0)+_t(' zabití');if(boardTab==='kombo')return bNum(r.st.kills||0)+_t(' zabití');const b=r.b;if((boardTab==='dnes'||boardTab==='tyden')&&MAPS[b.map])return MAPS[b.map].name;return bNum(b.kills)+_t(' zabití');} // 12k: výzvy mají mapu podle postupu
 
 // 09y: privacy policy (short version of PRIVACY.md – keep both in sync), licences of what the game uses, deleting all own data
 function openPrivacy(){const pop=$('#newsPop'),L=(t,d)=>'<h3>'+t+'</h3><p>'+d+'</p>',blk=(save.blk||[]).length;
@@ -7797,7 +7797,7 @@ function renderBoard(){
     return{id:r.id,nick:r.nick||'?',st,sv,b,score:boardTab==='celkem'?((st.runs||0)?(st.wins||0)*1e6+(st.kills||0):-1):boardTab==='kombo'?(bCombo(st)||-1):mapScore(b)};})
     .filter(r=>r.score>=0).sort((a,b)=>b.score-a.score);
   const di=dailyInfo();
-  msg.textContent=boardTab==='celkem'?'':boardTab==='kombo'?_t('Nejvyšší kombo, jaké kdo udržel v jednom běhu. Kombo shodí každý zásah, který schytáš.'):boardTab==='dnes'?_t('Dnešní výzva: ')+MAPS[di.map].name+' · '+di.mod.name+_t('. Všichni hrají stejný běh, počítá se tvůj nejlepší pokus dne.'):boardTab==='tyden'?(()=>{const I=wkInfo();return _t('Týdenní výzva: ')+MAPS[I.map].name+' · '+HEROES[I.hero].name+' · '+I.mods.map(m=>DAILY_MODS.find(x=>x.id===m).name).join(' + ')+_t('. Počítá se tvůj nejlepší pokus týdne.');})():_t('Nahoře jsou výhry na nejvyšší Noční můře. Výhry se řadí podle nejrychlejšího času.');
+  msg.textContent=boardTab==='celkem'?'':boardTab==='kombo'?_t('Nejvyšší kombo, jaké kdo udržel v jednom běhu. Kombo shodí každý zásah, který schytáš.'):boardTab==='dnes'?_t('Dnešní výzva: ')+MAPS[di.map].name+' · '+di.mod.name+_t('. Mapa se řídí postupem, počítá se tvůj nejlepší pokus dne.'):boardTab==='tyden'?(()=>{const I=wkInfo();return _t('Týdenní výzva: ')+MAPS[I.map].name+' · '+HEROES[I.hero].name+' · '+I.mods.map(m=>DAILY_MODS.find(x=>x.id===m).name).join(' + ')+_t('. Počítá se tvůj nejlepší pokus týdne.');})():_t('Nahoře jsou výhry na nejvyšší Noční můře. Výhry se řadí podle nejrychlejšího času.');
   if(!rows.length){msg.textContent=(msg.textContent?msg.textContent+' ':'')+_t('Zatím tu nikdo nemá výsledek. Buď první!');}
   // top three: champion card, then 2nd and 3rd side by side, each with its numbers as chips
   if(rows.length){pod.hidden=false;const MC=['#f6c744','#c8ccd8','#d08850'];
@@ -8088,8 +8088,13 @@ function nmTiers(map){let t=0;for(let k=1;k<=NM_MAX;k++)if(mapOpenAt(map,k))t=k;
 function nmMigrate(){if(save.nmV===2)return;save.nmw=save.nmw||{};for(const id in save.nm||{}){const n=Math.min(NM_MAX,(save.nm[id]|0)-1);for(let k=1;k<=n;k++)save.nmw[k+'|'+id]=1;}save.nmV=2;}
 
 // ----- daily challenge: same map and modifier for everyone on the same day -----
+// 12k: výzvy jen na mapách, které hráč už vyhrál (dřív ze všech map: hráč z kapitoly II dostal Poslední světlo z VII a umíral do 15 s).
+// Mapa se zamkne na den/týden (save.daily.pk, save.wk.map), aby se nezměnila, když hráč mezitím vyhraje další. Stejný postup = stejná mapa.
+function chalPool(){const P=MAP_IDS.filter(id=>save.cleared&&save.cleared[id]);return P.length?P:[MAP_IDS[0]];}
 function dailyInfo(){const d=today();let h=0;for(const ch of d)h=(h*31+ch.charCodeAt(0))>>>0;
-  const map=MAP_IDS[h%MAP_IDS.length],mod=DAILY_MODS[(h>>>4)%DAILY_MODS.length];return{d,map,mod,done:save.daily.chal===d};}
+  const mod=DAILY_MODS[(h>>>4)%DAILY_MODS.length];save.daily=save.daily||{};let pk=save.daily.pk;
+  if(!pk||pk.d!==d||!MAPS[pk.map]){const P=chalPool();pk=save.daily.pk={d,map:P[h%P.length]};}
+  return{d,map:pk.map,mod,done:save.daily.chal===d};}
 
 // ----- end of run rewards (runs on both co-op sides) -----
 // old saves: chapter materials -> Úlomky 1:1; Esence for finales already won (as their first-win reward), marked so it is not paid twice
@@ -8393,7 +8398,7 @@ const FEATS=[
  {id:'quests',at:'kostnice',ic:'candle',name:_t('Nástěnka'),d:_t('Tři denní úkoly se třemi hvězdami. Za hvězdy dostaneš svíčky a za svíčky truhly.'),go:()=>{qTab='day';openQuests();}},
  {id:'forge',at:'zvonice',ic:'power',name:_t('Kovárna: vylepšování'),d:_t('Vylepšuj předměty a kupuj trvalá vylepšení hrdinů za zlato a Úlomky.'),go:()=>{renderShop();setState('shop');}},
  {id:'nm',at:'trun',ic:'eye',name:_t('Noční můra a Nekonečná krypta'),d:_t('Mapy kapitoly znovu a těžší, s lepší kořistí. A souboj s finálním bossem, který se vrací silnější.')},
- {id:'daily',at:'poust',ic:'trophy',name:_t('Denní výzva'),d:_t('Každý den jiná mapa s modifikátorem, stejná pro všechny. Přežij 3 minuty a čeká tě truhla.'),go:()=>openMenu()},
+ {id:'daily',at:'poust',ic:'trophy',name:_t('Denní výzva'),d:_t('Každý den jedna z map, které už máš vyhrané, s modifikátorem. Přežij 3 minuty a čeká tě truhla.'),go:()=>openMenu()},
  {id:'arsenal',at:'kanon',ic:'tower',name:_t('Arzenál věží'),d:_t('Vyber si 4 věže do běhu. Nové věže a lepší rarity padají ze Stavitelovy bedny.'),go:()=>openTowers()},
  {id:'wanted',at:'karavana',ic:'skull',name:_t('Lov na hledané'),d:_t('Na Nástěnce visí plakát s elitním nepřítelem. Přijmi lov, ulov ho a vyzvedni odměnu.'),go:()=>{qTab='day';openQuests();}},
  {id:'merge',at:'hrobka',ic:'hammer',name:_t('Kovárna: slučování'),d:_t('Tři stejné kusy sliješ v jeden lepší: předměty a věže o raritu výš, mazlíčky o hvězdu.'),go:()=>openForge()},
@@ -8402,7 +8407,7 @@ const FEATS=[
  {id:'contracts',at:'reka',ic:'scroll',name:_t('Týdenní kontrakty'),d:_t('Tři větší úkoly na celý týden. Za celý kontrakt Okovaná truhla, Stavitelova bedna nebo Esence.'),go:()=>{qTab='week';openQuests();}},
  {id:'runes',at:'zima',ic:'rune_fire',name:_t('Runy'),d:_t('Do Epických a Legendárních předmětů vložíš runu se zvláštní silou. Runy padají z bossů na Noční můře a vzácně z truhel.'),go:()=>openRunes()},
  {id:'sky',at:'zatmeni',ic:'star',name:_t('Souhvězdí'),d:_t('Noční obloha s pěti souhvězdími. Za výkony dostáváš hvězdné body a rozsvěcuješ hvězdy s trvalými bonusy pro všechny hrdiny.'),go:()=>openSky()},
- {id:'weekly',at:'srdce',ic:'medal_g',name:_t('Týdenní výzva'),d:_t('Jedna mapa, jeden hrdina a dva modifikátory pro všechny na celý týden. Bronz, stříbro a zlato.'),go:()=>{qTab='wk';openQuests();}}];
+ {id:'weekly',at:'srdce',ic:'medal_g',name:_t('Týdenní výzva'),d:_t('Mapa, kterou už máš vyhranou, jeden hrdina pro všechny a dva modifikátory na celý týden. Bronz, stříbro a zlato.'),go:()=>{qTab='wk';openQuests();}}];
 const FEAT_OF={};for(const F of FEATS)FEAT_OF[F.id]=F;
 function featInit(){if(save.feat)return;save.feat={};
   // players from before 09h keep everything they already had (nothing gets locked again) and see one summary card
@@ -9311,7 +9316,7 @@ function renderGuide(tab){gdTab=tab=tab||gdTab;econInit();const I=k=>SPR.icon[k]
    [I('haste'),_t('Vylepšení'),_t('Strom trvalých bonusů v Kovárně: tři větve (Útok, Obrana, Kořist), klíčové uzly s novými schopnostmi, každá kapitola otevře další patro a na konci je nekonečné Mistrovství.')],
    [I('skull'),_t('Noční můry'),_t('Těžší obtížnost celé kapitoly (I–III). Mapy jdeš znovu postupně až k finále a jeho první výhra na každém stupni dá truhlu setu, ze které si kus vylosuješ.')],
    [I('scroll'),_t('Nástěnka'),_t('Denní úkoly s tématem dne, týdenní kontrakty, týdenní výzva a hledané elity.')],
-   [I('candle'),_t('Denní výzva'),_t('Stejný běh pro všechny hráče a vlastní žebříček Dnes.')],
+   [I('candle'),_t('Denní výzva'),_t('Každý den jedna z vyhraných map s modifikátorem a vlastní žebříček Dnes.')],
    [I('medal'),_t('Mistrovství'),_t('Dlouhodobé cíle. Za splnění dostaneš zlato a titul.')],
    [dataUrl(itemSpr('amulet',4)),_t('Sbírka'),_t('Objevené fúze, sety a legendární předměty.')]].map(r=>gdRow(...r)).join('');}
   const L=$('#gdList');L.innerHTML=h;const sc=L.closest('.scr');if(sc)sc.scrollTop=0;}
@@ -9518,7 +9523,8 @@ const qkClaimable=K=>K.d.some((d,j)=>d&&!K.cl[j]);
 const qkDone=K=>K.d.filter(Boolean).length;
 // weekly challenge
 function wkInfo(){const w=weekKey(),h=qHash('wk|'+w),m1=(h>>>4)%DAILY_MODS.length,m2=(m1+1+(h>>>12)%(DAILY_MODS.length-1))%DAILY_MODS.length;
-  return{w,map:MAP_IDS[h%MAP_IDS.length],hero:HERO_LIVE[(h>>>8)%HERO_LIVE.length],mods:[DAILY_MODS[m1].id,DAILY_MODS[m2].id]};}
+  const W=save.wk&&save.wk.w===w?save.wk:null;let map=W&&MAPS[W.map]?W.map:null;if(!map){const P=chalPool();map=P[h%P.length];if(W)W.map=map;} // 12k
+  return{w,map,hero:HERO_LIVE[(h>>>8)%HERO_LIVE.length],mods:[DAILY_MODS[m1].id,DAILY_MODS[m2].id]};}
 function wkResult(won){qEnsure();const W=save.wk,R=run,hp=R.p&&R.p.max?R.p.hp/R.p.max:0,reach=[won||R.t>=R.map.dur,!!won,!!won&&hp>=.5],got=[];let best=-1;
   reach.forEach((x,i)=>{if(!x)return;best=i;if(!W.got[i]){W.got[i]=1;got.push(i);if(i===0)qkAdd('wkB',1);if(i===2){save.sky=save.sky||{lit:{},wg:0,rw:''};save.sky.wg=(save.sky.wg|0)+1;}}});
   const cur={t:Math.floor(R.t),won:!!won,tier:best};if(!W.best||best>W.best.tier||(best===W.best.tier&&(won?cur.t<W.best.t:cur.t>W.best.t)))W.best=cur;
@@ -10491,6 +10497,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12k',d:'12. 11. 2026',t:_t('Férové výzvy'),hl:[{ic:'trophy',t:_t('Výzvy na tvých mapách'),d:_t('Denní i týdenní jen na vyhraných mapách.')}],items:[_t('Žebříček Dnes a Týden ukazuje, na jaké mapě kdo hrál.')]},
  {v:'2026-11-12j',d:'12. 11. 2026',t:_t('Nástěnka bez záhad'),hl:[{ic:'candle',t:_t('Týdenní svíčky na Dnes'),d:_t('Dokud je Týden zamčený, najdeš je dole.')}],items:[_t('Pečeť Nástěnky svítí, jen když tam opravdu je co vyzvednout.')]},
  {v:'2026-11-12i',d:'12. 11. 2026',t:_t('Pečeti v menu'),hl:[{ic:'bell',t:_t('Všechny pečeti poskakují'),d:_t('Nové i čekající značky se hýbou stejně.')}],items:[]},
  {v:'2026-11-12h',d:'12. 11. 2026',t:_t('Oprava truhel'),hl:[{ic:'candle',t:_t('Truhla za svíčky'),d:_t('Tlačítko Super zase funguje.')}],items:[_t('Truhly mimo Obchod znovu ukazují animaci otevření.')]},
