@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12i';
+const GAME_VER='2026-11-12j';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -9541,9 +9541,13 @@ function qCommit(C){if(!C)return[];const Q=qEnsure(),out=[];
   if(C.won&&!C.trial)qkAdd('chWin',1,ch);qkAdd('chKill',C.kills||0,ch);qkAdd('chElite',C.el||0,ch);qkAdd('chBoss',C.boss||0,ch);if(C.nm)qkAdd('chBossNm',C.boss||0,ch);
   qkAdd('elite',C.el||0);qkAdd('boss',C.boss||0);if(C.nm)qkAdd('nmBoss',C.boss||0);qkAdd('tower',tw);qkAdd('combo',C.combo||0);
   return out;}
-function qClaimable(){if(!featOn('quests'))return false;if(!save.qd||save.qd.d!==today()||save.qd.v!==2)return true;const Q=save.qd,W=save.qw||{c:0,ms:[]},K=(save.qw&&save.qw.k)||[],X=save.wk||{got:[],cl:[]};
-  if(!featOn('quests'))return false;
-  return Q.q.some(q=>qStars(q)>q.cl)||Q.w.st===2||Q_DMS.some((m,i)=>Q.c>=m.at&&!Q.ms[i])||Q_WMS.some((m,i)=>W.c>=m.at&&!(W.ms||[])[i])||(featOn('contracts')&&K.some(qkClaimable))||(featOn('weekly')&&X.got.some((g,i)=>g&&!X.cl[i]));}
+// 12j: what each Board tab can claim, with locks – the menu seal is just "any visible tab has something" (before, weekly candle
+// milestones lit the seal while their tab was locked, so the player saw a seal and nothing to take)
+function qDots(){const Q=save.qd,W=save.qw||{c:0,ms:[],k:[]},K=W.k||[],X=save.wk||{got:[],cl:[]},lkW=!featOn('contracts'),lkX=!featOn('weekly');
+  const wms=Q_WMS.some((m,i)=>W.c>=m.at&&!(W.ms||[])[i]);
+  return [Q.q.some(q=>qStars(q)>q.cl)||(featOn('wanted')&&Q.w&&Q.w.st===2)||Q_DMS.some((m,i)=>Q.c>=m.at&&!Q.ms[i])||(lkW&&wms),
+    !lkW&&(K.some(qkClaimable)||wms),!lkX&&X.got.some((g,i)=>g&&!X.cl[i])];}
+function qClaimable(){if(!featOn('quests'))return false;if(!save.qd||save.qd.d!==today()||save.qd.v!==2)return true;return qDots().some(Boolean);}
 
 // live in-run: the pinned quest in the HUD and a toast when one is done
 function qLive(dt){if(!run||run.over)return;if(!featOn('quests')){const el=$('#qPin');if(el&&!el.hidden)el.hidden=true;return;}run.qT=(run.qT||0)-dt;if(run.qT>0)return;run.qT=.4;
@@ -10023,9 +10027,10 @@ function qWkHtml(){const I=wkInfo(),W=save.wk,M=MAPS[I.map],H=HEROES[I.hero],end
   return h+'<p class="hint">'+_t('Všichni hrají stejnou mapu, hrdinu i modifikátory. Pokusů máš neomezeně, každá medaile se vyplatí jednou za týden.')+'</p>';}
 function renderQuests(keep){qTexInit();const Q=qEnsure(),box=$('#qBody'),sc=keep?screens.quests.scrollTop:0,K=save.qw.k,X=save.wk;
   const lk=[0,!featOn('contracts'),!featOn('weekly')];if((qTab==='week'&&lk[1])||(qTab==='wk'&&lk[2]))qTab='day';
-  const dot=[Q.q.some(q=>qStars(q)>q.cl)||Q.w.st===2||Q_DMS.some((m,i)=>Q.c>=m.at&&!Q.ms[i]),K.some(qkClaimable)||Q_WMS.some((m,i)=>save.qw.c>=m.at&&!(save.qw.ms||[])[i]),X.got.some((g,i)=>g&&!X.cl[i])];
+  const dot=qDots();
   let h='<div class="tabs sectabs qtabs">'+[['day',_t('Dnes')],['week',_t('Týden')],['wk',_t('Výzva')]].map(([id,n],i)=>'<button data-qt="'+id+'" class="'+(qTab===id?'on':'')+(lk[i]?' flock':'')+'">'+n+(dot[i]&&!lk[i]?'<i class="dot"></i>':'')+'</button>').join('')+'</div>';
-  h+='<div class="qpane">'+(qTab==='week'?qWeekHtml():qTab==='wk'?qWkHtml():qDayHtml(Q))+'</div>';
+  // while the Week tab is locked, this week's candle milestones live under Today (they fill up from day one)
+  h+='<div class="qpane">'+(qTab==='week'?qWeekHtml():qTab==='wk'?qWkHtml():qDayHtml(Q)+(lk[1]?'<div class="sec">'+_t('Svíčky tento týden')+' · '+save.qw.c+'</div>'+candleRow(Q_WMS,save.qw,1):''))+'</div>';
   box.innerHTML=h;screens.quests.scrollTop=sc;
   box.querySelectorAll('[data-qt]').forEach(b=>b.onclick=()=>{const fi={week:'contracts',wk:'weekly'}[b.dataset.qt];if(fi&&!featOn(fi)){sfx('ui');note(featLock(fi));return;}if(qTab===b.dataset.qt)return;qTab=b.dataset.qt;sfx('ui');renderQuests();const p=box.querySelector('.qpane');if(p)p.classList.add('in');});
   box.querySelectorAll('[data-claim]').forEach(b=>b.onclick=()=>qClaim(+b.dataset.claim,b));
@@ -10486,6 +10491,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12j',d:'12. 11. 2026',t:_t('Nástěnka bez záhad'),hl:[{ic:'candle',t:_t('Týdenní svíčky na Dnes'),d:_t('Dokud je Týden zamčený, najdeš je dole.')}],items:[_t('Pečeť Nástěnky svítí, jen když tam opravdu je co vyzvednout.')]},
  {v:'2026-11-12i',d:'12. 11. 2026',t:_t('Pečeti v menu'),hl:[{ic:'bell',t:_t('Všechny pečeti poskakují'),d:_t('Nové i čekající značky se hýbou stejně.')}],items:[]},
  {v:'2026-11-12h',d:'12. 11. 2026',t:_t('Oprava truhel'),hl:[{ic:'candle',t:_t('Truhla za svíčky'),d:_t('Tlačítko Super zase funguje.')}],items:[_t('Truhly mimo Obchod znovu ukazují animaci otevření.')]},
  {v:'2026-11-12g',d:'12. 11. 2026',t:_t('Nové zvuky'),hl:[{ic:'boss:morvan',t:_t('Pád bosse zní pořádně'),d:_t('Hudba ztichne, rána a vítězný akord.')},{ic:'chest_gold',t:_t('Truhly mají zvuk'),d:_t('Poskakují, napětí roste, lepší = hlasitější.')},{ic:'chest_wood',t:_t('Bedna v běhu'),d:_t('Dopad, zámek, víko a cinkot mincí.')}],items:[_t('Elita, kování v Kovárně, nasazení a nákup mají vlastní zvuk.')]},

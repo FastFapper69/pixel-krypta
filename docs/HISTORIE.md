@@ -568,3 +568,6 @@ Uživatel (snímek z Nástěnky): u truhly za svíčky nejde kliknout na Super. 
 
 ## 12i (12. 11. 2026) – pečeti v menu
 Uživatel: jedna „plusko“ pečeť pulzuje, druhá ne. `.new` měla starou animaci `qdot` (plynulé zvětšení ×1,3, rozmazává pixel art), `.has` měla `animation:none`. Teď všechny pečeti (menu i horní lišta) `sealHop` – poskok o 3 px v krocích + zjasnění, vypnuté při omezeném pohybu.
+
+## 12j (12. 11. 2026) – pečeť Nástěnky bez ničeho
+Uživatel: plusko na Nástěnce, ale nic k vyzvednutí ani odemčení. `qClaimable` počítal i týdenní milníky svíček (10/25/45), ty ale byly jen na záložce Týden, zamčené do odemčení kontraktů; tečka záložky se kvůli zámku neukázala. Nově `qDots()` (stejný výpočet pro tečky i pečeť, se zámky, hledaný jen při `featOn('wanted')`), týdenní svíčky na Dnes, dokud je Týden zamčený. Test `boardseal.js` (na staré verzi padá).

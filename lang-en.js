@@ -3494,5 +3494,9 @@ window.KRYPTA_EN={
 "Truhly mimo Obchod znovu ukazují animaci otevření.":"Chests outside the Shop show the opening animation again.",
 "Pečeti v menu":"Menu seals",
 "Všechny pečeti poskakují":"All seals hop now",
-"Nové i čekající značky se hýbou stejně.":"New and waiting markers move the same way."
+"Nové i čekající značky se hýbou stejně.":"New and waiting markers move the same way.",
+"Nástěnka bez záhad":"No more Board mysteries",
+"Týdenní svíčky na Dnes":"Weekly candles under Today",
+"Dokud je Týden zamčený, najdeš je dole.":"While Week is locked, they sit at the bottom.",
+"Pečeť Nástěnky svítí, jen když tam opravdu je co vyzvednout.":"The Board seal only lights up when there is really something to claim."
 };
