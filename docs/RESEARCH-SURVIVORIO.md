@@ -234,7 +234,7 @@ Pořadí podle toho, co nejvíc ovlivní návraty. Každý bod má důkaz.
 
 **2. Měřit první minuty jako trychtýř.** Hra dnes posílá na server běhy (`runs`), ale **neposílá kroky tutoriálu** (ověřeno v kódu: žádná událost typu `ftue_step`). Doporučení: událost za každý krok, počítat „otevřel hru dvakrát za první den“ a porovnat cestu hráčů, kteří se vrátili, s těmi, kteří odešli ([devtodev](https://www.devtodev.com/resources/articles/main-metrics-ftue), [PocketGamer.biz](https://www.pocketgamer.biz/first-impressions-count-creating-the-ultimate-first-time-user-experience)). K tomu 2–3 „tiché“ testy: kamarád hraje prvních 10 minut a nikdo mu neradí. To je můj názor, zdroj k tomu nemám.
 
-**3. Ztlumit množství systémů v prvních dnech.** Habby odemyká systémy postupně po dnech a výslovně odmítá „20minutový tutoriál, který odemkne celé UI“. V SSSnakeru posunulo RPG prvky až na 4. den ([mobilegamer.biz](https://mobilegamer.biz/the-design-secrets-powering-habbys-hit-machine/)). Krypta má kolem 25 systémů: hrdiny, talenty, prestiž, výbavu, sety, legendárky, Kovárnu, tři druhy truhel, mazlíčky, runy, Souhvězdí, fúze, pečetě, Nástěnku, úspěchy, profilovky, komiksy, co-op, Noční můry, Nekonečnou kryptu… Úkol: sepsat, co nový hráč uvidí v den 0, 1, 2 až 7, a cílit na **jednu novinku denně**. Hráči Archera 2 si výslovně stěžují na „absurdní množství záložek a vyskakovacích oken“ ([r/ArcheroV2](https://redlib.hackliberty.org/r/ArcheroV2/comments/1jx0uvl/to_many_people_complain_about_this_game)). Zmrazení nových kapitol je správné rozhodnutí. Obsah za kapitolou III dnes nikdo nevidí.
+**3. Rozložit novinky do dnů, ne jen do výher.** Habby odemyká systémy po dnech ([mobilegamer.biz](https://mobilegamer.biz/the-design-secrets-powering-habbys-hit-machine/)). Krypta postupné odemykání už má (Cesta mechanik, jedna mechanika za výhru mapy) a hlavní menu je pro nováčka čisté. Problém je, že se odemyká výhrami, ne dny: silný hráč dostane 5 novinek za 40 minut, slabý jednu a žádný důvod přijít zítra. Viz soupis níže.
 
 **4. Dát důvod přijít zítra.** Tři levné mechaniky, které mají vítězové:
 - **Pasivní kořist / truhla, která se plní i bez hraní.** U Habby existuje, aby hráč „postupoval i v kapitole, kde je zaseklý“ ([mobilegamer.biz](https://mobilegamer.biz/the-design-secrets-powering-habbys-hit-machine/)). Krypta nic takového nemá (ověřeno v kódu).
@@ -261,6 +261,34 @@ Pořadí podle toho, co nejvíc ovlivní návraty. Každý bod má důkaz.
 - trestat za vynechaný den
 - placená reklama dřív, než projdou brány
 - monetizace dřív, než je peněženka na serveru
+
+
+## Soupis: co nový hráč potká v prvních dnech (12. 11.)
+
+Zdroj: kód 12l (`FEATS`), simulace `prvnich15.js`, běhy 5 testerů z `runs`.
+
+| Výhra na mapě | Odemkne | Důvod vrátit se zítra? |
+|---|---|---|
+| 1. Hřbitov | Vybavení a Obchod (truhla zdarma denně) | slabý, nikdo to neřekne |
+| 2. Utopené hroby | Fúze zbraní | ne |
+| 3. Kostnice | Nástěnka (denní úkoly) | **ano, první skutečný** |
+| 4. Zvonice | Kovárna: vylepšování | ne |
+| 5. Trůn | Noční můra, Nekonečná krypta | ne |
+| 6. Poušť | Denní výzva | ano |
+| 7.–10. (kap. II) | Arzenál věží, Lov, Slučování, Mazlíčci | lov ano |
+| kap. III+ | Talenty, Kontrakty, Týdenní výzva, Runy (IV), Souhvězdí (VI) | ano |
+
+| Tester | Den 0 | Odemkl | Pak |
+|---|---|---|---|
+| A | 7 běhů, 39 min, celá kapitola I | 5 novinek | vrátil se; den 1 zeď na Poušti a Karavaně |
+| B | 4 běhy, 3 výhry | Vybavení, Fúze, Nástěnka | hrál 12. 11., návrat neznámý |
+| C | 2 běhy, 2 výhry | bez denního háčku | nevrátil se |
+| D | 1 výhra, 4 smrti na Utopených hrobech (verze 09) | jen Vybavení | nevrátil se |
+| E | smrt na Hřbitově (před 11z4) | nic | nevrátil se |
+
+Závěry: první denní háček až po 3. výhře (všichni, kdo odešli, měli ≤ 2 výhry); odemykání výhrami dělá nerovnost; první běh je hustý (10 hlášek tutoriálu a 19 voleb karet za 4,5 min, ověřit tichým testem); den 1 přichází zeď v kapitole II.
+
+Návrh (k potvrzení): Nástěnka hned 1. výhrou, Fúze na 3. mapu; karta „Zítra tě čeká“ + odpočet u truhly zdarma; dárek a tip po 2 prohrách na stejné mapě; tabulka událostí v Supabase (kroky tutoriálu, karty novinek, obrazovky, denní truhla).
 
 ## Technika: chybí celá vrstva, která bere peníze
 
