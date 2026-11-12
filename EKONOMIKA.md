@@ -206,6 +206,9 @@ Hodnoty se losují v rozsahu dané rarity, třeba Vzácná: poškození +6–10 
 - Týdenní lišta je připravená jako bezplatná větev budoucí „Kryptové cesty“ (fáze 7).
 - Zbývá: týdenní kontrakty, Mistrovství (tituly, kosmetika).
 
+## 7c. Týden v kryptě (12m, hotovo)
+- Denní deska za návrat, 7 dní, roste k 7. dni, témata po týdnech, věrnost +10 %/týden (max +50 %), každý 4. týden obrázek. Hodnota týdne ≈ 1/3 denních úkolů. Podrobnosti `docs/HISTORIE.md` 12m.
+
 ## 8. Menu (nové obrazovky)
 - Hlavní menu: Hrát · Hrát s kamarádem · **Hrdina** · **Obchod** · Vylepšení · Žebříček
 - **Hrdina:** výběr hrdiny, jeho úroveň a talenty, 4 sloty výbavy, souhrn statistik („Poškození +34 %“), tlačítko vylepšit úroveň.

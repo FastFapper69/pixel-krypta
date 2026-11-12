@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12l';
+const GAME_VER='2026-11-12m';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7583,9 +7583,10 @@ const avBossMap=()=>{const o={};for(const m in MAPS)if(MAPS[m].boss)o[MAPS[m].bo
 function avAll(){const BM=avBossMap(),out=AV_BASE.map(id=>({id,ok:true,sec:'base'}));
   for(const h of HERO_IDS)out.push({id:'h:'+h,ok:heroOwned(h),sec:'hero',need:_t('Odemkni hrdinu ')+HEROES[h].name+'.'});
   for(const b in BOSS_DEFS){const m=BM[b];if(!m)continue;out.push({id:'b:'+b,ok:!!(save.nmw&&save.nmw['3|'+m]),sec:'boss',need:_t('Poraz ')+BOSS_DEFS[b].name+_t(' na Noční můře III.')});}
+  LW_AV.forEach((id,i)=>out.push({id,ok:!!(save.lw&&save.lw.av&&save.lw.av.includes(id)),sec:'week',need:_t('Dokonči ')+(4*i+4)+_t('. Týden v kryptě.')})); // 12m
   return out;}
 const avCur=()=>save.av&&avAll().some(a=>a.id===save.av&&a.ok)?save.av:AV_BASE[0];
-function renderAvPick(){const W=$('#avWrap');W.hidden=nickMode==='login'||nickMode==='force';if(W.hidden)return;const cur=avCur(),A0=avAll(),A=nickMode==='new'?A0.filter(a=>a.ok):A0,SEC={base:_t('Základní'),hero:_t('Hrdinové'),boss:_t('Bossové z Noční můry III')};let last='';
+function renderAvPick(){const W=$('#avWrap');W.hidden=nickMode==='login'||nickMode==='force';if(W.hidden)return;const cur=avCur(),A0=avAll(),A=nickMode==='new'?A0.filter(a=>a.ok):A0,SEC={base:_t('Základní'),hero:_t('Hrdinové'),boss:_t('Bossové z Noční můry III'),week:_t('Týden v kryptě')};let last='';
   $('#avList').innerHTML=A.map(a=>(a.sec!==last&&nickMode!=='new'?(last=a.sec,'<div class="avsec">'+SEC[a.sec]+'</div>'):'')+'<button data-a="'+a.id+'" class="'+(a.id===cur?'on':'')+(a.ok?'':' lk')+'"><img alt="" src="'+dataUrl(avImg(a.id))+'"></button>').join('');
   $('#avHint').textContent=nickMode==='new'?_t('Další obrázky odemkneš za hrdiny a bossy.'):_t('Obrázek uvidí ostatní v Síni slávy. Další odemkneš hrdiny a bossy na Noční můře III.');
   $('#avList').querySelectorAll('button').forEach(b=>b.onclick=()=>{const a=A.find(x=>x.id===b.dataset.a);if(!a.ok){note(a.need);return;}save.av=a.id;persist();sfx('ui');renderAvPick();avMenu();});}
@@ -8421,7 +8422,9 @@ const featAt=map=>FEATS.filter(F=>F.at===map&&!featOn(F.id));
 function featShow(){featInit();featCheck();if(state!=='menu'&&state!=='select')return;if(CMX.cur)return;if($('#featPop')&&!$('#featPop').hidden)return;
   if(!save.prolog){save.prolog=1;persist();if(!(save.stats&&save.stats.runs)&&state==='menu'&&!window.KRYPTA_NOPROLOG){prologShow();return;}}
   let F=null,sum=false;if(save.featSum){sum=true;save.featSum=0;}else if(save.featNew&&save.featNew.length){F=FEAT_OF[save.featNew.shift()];}
-  if(!F&&!sum&&save.storyNew){storyShow(save.storyNew);save.storyNew=null;persist();return;}if(!F&&!sum)return;persist();
+  if(!F&&!sum&&save.storyNew){storyShow(save.storyNew);save.storyNew=null;persist();return;}
+  if(!F&&!sum&&state==='menu'&&lwDue()&&!window.KRYPTA_NOLW){lwShow();return;} // 12m: Týden v kryptě, jednou denně
+  if(!F&&!sum)return;persist();
   let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
   const nx=FEATS.find(x=>!save.feat[x.id]);
   pop.innerHTML='<div class="fc"><div class="fc-rays"></div>'+(sum?'<small>'+_t('NOVINKA')+'</small><img alt="" src="'+dataUrl(SPR.icon.star)+'"><h3>'+_t('Cesta mechanik')+'</h3><p>'+_t('Noví hráči teď odemykají mechaniky postupně výhrami map, ať mají z každé radost. Ty už máš všechno, co jsi používal, nic se ti nezamklo.')+'</p>'+
@@ -8962,7 +8965,8 @@ function petStat(c){const m=petM(c),b=c.b||{};return{m,dm:m*(1+(b.dmg||0)),rt:1+
 const petUpCost=c=>upF(c.r,c.lv||0);
 const petRefund=c=>refundF(c.r,c.lv||0);
 const petName=c=>PETS[c.k].name+(c.lv?' +'+c.lv:'');
-function openPetChest(){if(!petCan(PET_CHEST.cost)||chLeft('pet')<=0)return null;chUse('pet');petPay(PET_CHEST.cost);petInit();
+function openPetChest(){if(!petCan(PET_CHEST.cost)||chLeft('pet')<=0)return null;chUse('pet');petPay(PET_CHEST.cost);return petCrateRoll();}
+function petCrateRoll(){petInit(); // 12m: also the free basket of Týden v kryptě
   const r=rollRarity(PET_CHEST),avail=x=>!PETS[x].ch||mapUnlocked(CHAPTERS.find(C=>C.id===PETS[x].ch).maps[0]),k=pick(PET_IDS.filter(x=>PETS[x].r===r&&avail(x))),c=petRoll(k);save.pets.cards.push(c);persist();return c;}
 function openTowerChest(){if(!petCan(TW_CHEST_COST)||chLeft('tower')<=0)return null;chUse('tower');petPay(TW_CHEST_COST);return twCrateRoll();}
 function twCrateRoll(){twInit();
@@ -9624,7 +9628,41 @@ function qGive(rw){const t=[];let rev=null;
   if(rw.c){qAddCandles(rw.c);t.push('+'+qCdl(rw.c));}
   if(rw.chest){const it=openChest(rw.chest,true);if(it)rev=[it,rw.chest];}
   if(rw.tower){const c=twCrateRoll();if(c)rev=[c,'tower'];}
+  if(rw.pet){const c=petCrateRoll();if(c)rev=[c,'pet'];}
   return{txt:t.join(' · '),rev};}
+// ===== 12m: Týden v kryptě – odměna za návrat (přání uživatele 12. 11.) =====
+// 7 dní, odměna roste k 7. dni; vynechaný den nic nemaže (deska počká); vyzvednutí hned po otevření hry (od 4. běhu, ať to nováčka nezahltí).
+// Témata se střídají po týdnech (věže/mazlíčci jen když jsou odemčené), každý dokončený týden přidá věrnost (+10 %, max +50 %),
+// každý 4. týden dá na 7. den profilový obrázek, který jinde nejde získat (pak Královskou truhlu).
+const LW_RUNS=3,LW_AV=['e:ghost','e:mummy','e:wraith'];
+const LW_TH=[{id:'gear',ic:'chest_iron',t:_t('Týden výbavy')},{id:'tower',ic:'chest_tower',t:_t('Týden věží'),f:'arsenal'},{id:'pet',ic:'chest_pet',t:_t('Týden mazlíčků'),f:'pets'},{id:'hero',ic:'ess',t:_t('Týden hrdinů')}];
+function lwInit(){const L=save.lw=save.lw||{};if(L.v!==1){L.v=1;L.n=0;L.wk=0;L.d='';L.tid='';L.av=L.av||[];}return L;}
+function lwTheme(){const L=lwInit();if(L.n&&L.tid)return LW_TH.find(T=>T.id===L.tid)||LW_TH[0];for(let k=0;k<4;k++){const T=LW_TH[(L.wk+k)%4];if(!T.f||featOn(T.f))return T;}return LW_TH[0];}
+function lwChapter(){let c=0;for(const m in save.cleared||{})if(save.cleared[m]&&CH_OF[m])c=Math.max(c,CH_OF[m].i);return c;}
+function lwDays(){const L=lwInit(),T=lwTheme(),k=(1+.15*lwChapter())*(1+.1*Math.min(L.wk,5)),r=x=>Math.max(5,Math.round(x*k/5)*5);
+  const D=[{g:r(80)},{m:r(15)},{chest:'wood'},featOn('quests')?{c:3}:{g:r(120)},{gear:{m:r(30)},tower:{g:r(250)},pet:{m:r(30)},hero:{ess:3}}[T.id],{g:r(200)},{gear:{chest:'iron'},tower:{tower:1},pet:{pet:1},hero:{ess:6}}[T.id]];
+  if(L.wk%4===3){const av=LW_AV.find(a=>!L.av.includes(a));if(av)D[6]=Object.assign({av},D[6]);else D[6]={chest:'gold'};}
+  return D;}
+const lwDue=()=>!!(save.stats&&save.stats.runs>=LW_RUNS)&&lwInit().d!==today();
+function lwIcon(rw){return rw.av?avImg(rw.av):SPR.icon[rw.chest?'chest_'+rw.chest:rw.tower?'chest_tower':rw.pet?'chest_pet':rw.ess?'ess':rw.c?'candle':rw.m?'shard':'coin'];}
+let LW_CK=null;function lwCheck(){if(LW_CK)return LW_CK;const R=['.........o','........og','.......ogo','o.....ogo.','go...ogo..','ogo.ogo...','.ogogo....','..ogo.....','...o......'],c=document.createElement('canvas');c.width=10;c.height=9;const g=c.getContext('2d');
+  R.forEach((r,y)=>[...r].forEach((ch,x)=>{if(ch==='.')return;g.fillStyle=ch==='g'?'#7cf0a0':'#0b2414';g.fillRect(x,y,1,1);}));return LW_CK=c.toDataURL();}
+const lwAmt=rw=>rw.g||rw.m||rw.ess?String(rw.g||rw.m||rw.ess):rw.c?'×'+rw.c:'';
+function lwShow(){const L=lwInit(),T=lwTheme(),D=lwDays(),due=lwDue();let pop=$('#featPop');if(!pop){pop=document.createElement('div');pop.id='featPop';pop.className='featpop';document.body.appendChild(pop);}
+  const slab=(rw,i)=>{const st=i<L.n?'got':i===L.n&&due?'now':'';return '<div class="lws d'+(i+1)+(st?' '+st:'')+'"><b>'+(i+1)+'</b><img alt="" src="'+dataUrl(lwIcon(rw))+'">'+
+    (rw.av?'<img class="lwx" alt="" src="'+dataUrl(lwIcon(Object.assign({},rw,{av:null})))+'">':'')+'<span>'+lwAmt(rw)+'</span>'+(st==='got'?'<img class="lwok" alt="" src="'+lwCheck()+'">':'')+'</div>';};
+  pop.innerHTML='<div class="fc lw"><div class="fc-rays"></div><small>'+_t('TÝDEN V KRYPTĚ')+'</small><h3><img alt="" src="'+dataUrl(SPR.icon[T.ic])+'">'+T.t+'</h3>'+
+    '<div class="lwg">'+D.map(slab).join('')+'</div>'+(L.wk?'<p class="lwl">'+_t('Věrnost')+' '+L.wk+' · +'+Math.min(L.wk,5)*10+(EN?'%':' %')+'</p>':'')+
+    '<div class="fc-b"><button class="btn" id="lwGo">'+(due?_t('Vyzvednout'):_t('Super!'))+'</button></div></div>';
+  pop.hidden=false;pop.classList.remove('in');void pop.offsetWidth;pop.classList.add('in');
+  const close=()=>{pop.hidden=true;setTimeout(featShow,250);};
+  $('#lwGo').onclick=()=>{if(!lwDue()){sfx('ui');close();return;}lwClaim(pop,close);};}
+function lwClaim(pop,close){if(!lwDue())return false;const L=lwInit();if(!L.n)L.tid=lwTheme().id;const rw=Object.assign({},lwDays()[L.n]);
+  if((rw.chest)&&save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return false;}
+  if(rw.c)qEnsure();const R=qGive(rw);if(rw.av&&!L.av.includes(rw.av))L.av.push(rw.av);L.d=today();L.n++;if(L.n>=7){L.n=0;L.wk++;L.tid='';}persist();
+  sfx(R.rev||rw.av?'win':'coin');const txt=R.txt||(rw.av?_t('Nový profilový obrázek!'):'');if(txt)note(txt);
+  if(R.rev){let rv=$('#lwRv');if(!rv){rv=document.createElement('div');rv.id='lwRv';rv.className='popwrap';rv.hidden=true;document.body.appendChild(rv);}if(pop)pop.hidden=true;revealItem(R.rev[0],R.rev[1],null,{pop:rv,done:close||(()=>{})});}else if(pop&&close)setTimeout(()=>{if(!pop.hidden&&pop.querySelector('.lw'))lwShow();},0);
+  return true;}
 const qSum=L=>L.reduce((a,r)=>{for(const k in r)a[k]=typeof r[k]==='number'?(a[k]||0)+r[k]:r[k];return a;},{});
 function qPay(rw,btn){if((rw.chest)&&save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return false;}
   const R=qGive(rw);persist();sfx(R.rev?'win':'level');if(R.txt){note(R.txt);qBurst(btn,R.txt);}
@@ -10497,6 +10535,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12m',d:'12. 11. 2026',t:_t('Týden v kryptě'),hl:[{ic:'chest_iron',t:_t('Odměna za každý den'),d:_t('Otevři hru a vyzvedni si dárek dne.')},{ic:'chest_gold',t:_t('7. den je největší'),d:_t('Každý týden jiné téma a lepší odměny.')},{ic:'enemy:ghost',t:_t('Obrázky za věrnost'),d:_t('Každý 4. týden profilový obrázek.')}],items:[_t('Vynechaný den nic nemaže, deska na tebe počká.')]},
  {v:'2026-11-12l',d:'12. 11. 2026',t:_t('Poušť bez zdi'),hl:[{ic:'map:karavana',t:_t('Karavana je lehčí'),d:_t('Nepřátelé mají méně zdraví.')},{ic:'map:svetlo',t:_t('Poslední světlo opravené'),d:_t('Lucerna už nezhasne po prvním zabití.')}],items:[_t('Hrobka faraona: nepřátelé zraňují o trochu méně.')]},
  {v:'2026-11-12k',d:'12. 11. 2026',t:_t('Férové výzvy'),hl:[{ic:'trophy',t:_t('Výzvy na tvých mapách'),d:_t('Denní i týdenní jen na vyhraných mapách.')}],items:[_t('Žebříček Dnes a Týden ukazuje, na jaké mapě kdo hrál.')]},
  {v:'2026-11-12j',d:'12. 11. 2026',t:_t('Nástěnka bez záhad'),hl:[{ic:'candle',t:_t('Týdenní svíčky na Dnes'),d:_t('Dokud je Týden zamčený, najdeš je dole.')}],items:[_t('Pečeť Nástěnky svítí, jen když tam opravdu je co vyzvednout.')]},

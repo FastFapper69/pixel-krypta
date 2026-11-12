@@ -23,7 +23,7 @@ function src(){const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'),r=f=
  return h.replace(/<link rel="stylesheet" href="krypta\.css[^"]*">/,()=>'<style>\n'+r('krypta.css')+'</style>').replace(/<script src="game\.js[^"]*"><\/script>/,()=>'<script>\n'+r('game.js')+'</script>');}
 function prep(){
  const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8').replace(/url:'https:\/\/mpxfppuigwvwlfhsnbgr\.supabase\.co',key:'[^']*'/,"url:'',key:''");
- fs.writeFileSync(path.join(DIR,'off.html'),h.replace('<head>',()=>'<head><script>if(!window.KRYPTA_PROLOG_TEST)window.KRYPTA_NOPROLOG=1;</script>')); // 11y: prolog (karta pro nového hráče) by překryl menu ve všech testech; ukáže se jen s open({prolog:1})
+ fs.writeFileSync(path.join(DIR,'off.html'),h.replace('<head>',()=>'<head><script>if(!window.KRYPTA_PROLOG_TEST)window.KRYPTA_NOPROLOG=1;if(!window.KRYPTA_LW_TEST)window.KRYPTA_NOLW=1;</script>')); // 11y: prolog (karta pro nového hráče) by překryl menu ve všech testech; ukáže se jen s open({prolog:1})
  fs.copyFileSync(path.join(ROOT,'lang-en.js'),path.join(DIR,'lang-en.js'));
  for(const f of ['game.js','krypta.css'])fs.copyFileSync(path.join(ROOT,f),path.join(DIR,f)); // kopie, ne symlink: testy smí běžet i nad upravenou kopií
  for(const d of ['thumbs','fonts','vendor','licenses','icon-192.png','icon-512.png','icon-180.png','manifest.webmanifest']){const t=path.join(DIR,d);if(!fs.existsSync(t)&&fs.existsSync(path.join(ROOT,d)))fs.symlinkSync(path.join('..','..',d),t);}
@@ -33,6 +33,7 @@ async function open(o={}){
  const c=await b.newContext({viewport:{width:W,height:H},deviceScaleFactor:o.dpr||2,isMobile:true,hasTouch:true});
  await c.addInitScript(([l,t,bt])=>{try{localStorage.setItem('pixel-krypta-lang',l);}catch(_){}document.addEventListener('DOMContentLoaded',()=>{const s=document.createElement('style');s.textContent=':root{--sat:'+t+'px!important;--sab:'+bt+'px!important}';document.head.appendChild(s);});},[o.lang||'cs',top,bot]);
  if(o.prolog)await c.addInitScript(()=>{window.KRYPTA_PROLOG_TEST=1;});
+ if(o.lw)await c.addInitScript(()=>{window.KRYPTA_LW_TEST=1;}); // 12m: deska Týden v kryptě (jinak vypnutá, překryla by menu ve všech testech)
  const p=await c.newPage(),errs=[];
  p.on('pageerror',e=>errs.push('JS: '+e.message+' @ '+((e.stack||'').split('\n')[1]||'').trim()));
  p.on('console',m=>{if(m.type()==='error'&&!/supabase|Failed to fetch|ERR_INTERNET|net::ERR_NAME/.test(m.text()))errs.push('console: '+m.text().slice(0,200));});

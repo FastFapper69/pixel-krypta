@@ -1574,3 +1574,21 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 @media (prefers-reduced-motion:reduce){#mStack .btn.art.new::after,#mStack .btn.art.has::after,#mTop .btn.ic.has::after,#mTop .btn.ic.new::after,#mNews.has::after,#mBoard.has::after,#mSet.has::after,#mGuide.has::after{animation:none}}
 /* 12k: pod časem ve výzvách je název mapy – dlouhý se zkrátí na jeden řádek, nevytlačí počty vlevo */
 .brow .val{flex:0 1 auto;min-width:0;max-width:none}.brow .nm{min-width:96px}.brow .val small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 12m: Týden v kryptě – deska 7 dní ve featPop (kámen, dnešek zlatý a poskakuje ostrými kroky, 7. den přes dva sloupce) */
+#lwRv{z-index:95}
+.featpop .fc.lw{padding:24px 16px 16px}
+.featpop .fc.lw h3{display:flex;align-items:center;justify-content:center;gap:8px;font:var(--k30);margin:4px 0 12px}
+.featpop .fc.lw h3 img{width:32px;height:32px;margin:0;animation:none;filter:none}
+.lwg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.lws{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 2px 4px;background:#2a2d33;box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 4px 0 0 #4a4e57,inset 0 -4px 0 0 #1a1c20}
+.lws b{font:var(--k20);color:var(--muted)}
+.lws span{font:var(--k20);color:#fff;min-height:24px}
+.featpop .lws img{width:32px;height:32px;margin:0;animation:none;filter:none;image-rendering:pixelated}
+.featpop .lws img.lwx{position:absolute;right:4px;top:4px;width:16px;height:16px}
+.lws.d7{grid-column:span 2;box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 0 0 4px #8e5c12,inset 0 6px 0 0 #c98f22}
+.featpop .lws.d7 img:not(.lwx){width:48px;height:48px}
+.lws.now{background:#3a3424;box-shadow:inset 0 0 0 2px #0b0c0e,inset 0 0 0 4px var(--gold);animation:sealHop 1s steps(1,end) infinite}
+.lws.now b{color:var(--gold)}
+.featpop .lws img.lwok{position:absolute;left:50%;top:22px;width:40px;height:36px;margin-left:-20px;opacity:1}
+.lws.got>*:not(.lwok){opacity:.4}
+.featpop .fc.lw .lwl{margin:10px 0 0;color:var(--gold)}

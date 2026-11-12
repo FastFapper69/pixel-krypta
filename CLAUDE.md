@@ -47,11 +47,12 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - Hudba: pravidla, menu skladba a postup náčrtů ve skillu `zvuk-a-hudba`; nová kapitola `hudbacheck.js` + `skladby.js cN`.
 - Jména hrdinů: limit 85 % dlaždice v CZ i EN, písmo se nezmenšuje (`jmenahrdinu.js`, skill `novy-hrdina`).
 
-## Aktuální stav (verze 12l, 12. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 12m, 12. 11. 2026, vše na main, Pages nasazené)
 - **POSTUP OD 11z4 (rozhodnutí uživatele 11. 11. po rozboru procesu):** obsah předběhl hráče (6 hráčů, nikdo se nevrátil druhý den, nikdo za kapitolu I).
   **Nové kapitoly a akt II jsou zmrazené, dokud se testeři nedostanou aspoň do kapitoly III.** Přednost má začátek hry (prvních 30 minut), délka běhu a
   měření návratů (`docs/DATA-HRACU.md` „Návraty“ – před každou větší prací se podívej, kde noví hráči končí). **Jen jeden chat najednou** (souběžné chaty
   si přepisovaly čísla) a pro testery raději jedna dávka denně než verze po každé změně.
+- **12m Týden v kryptě** (přání uživatele: důvod vrátit se každý den): deska 7 dní ve `featShow` od 4. běhu, `save.lw`, témata `LW_TH`, věrnost, obrázky `LW_AV` každý 4. týden; vynechaný den nic nemaže. V testech vypnutá (`KRYPTA_NOLW`, zapnout `L.open({lw:1})`). Test `tydenkrypta.js`. Podrobnosti `docs/HISTORIE.md` 12m. Další krok: podle dat (`runs`) sledovat, jestli se hráči vracejí druhý den.
 - **12l kapitola II podle dat + oprava Posledního světla:** počítadlo zabití `run.killCnt` (v 12e–12k bylo `run.kn` = lucerna, mapa padala a tma zabíjela); Karavana `hpm` 2,63, Hrobka `dmm` 0,87 (jen ulehčení, Poušť a Kaňon nechané, i když je boti chtěli přitvrdit – skuteční hráči tam padají). **Pravidlo: nové pole na `run` pojmenuj dlouze a pusť `tests/tools/runpole.js`.** Kapitola III změřená po zkrácení běhů (3 kola × 36 běhů): všechny mapy v cíli zdi, proložení by je jen mírně přitvrdilo (Krystaly +20 %, Srdce +29 % HP) → nechané beze změny, dokud tam nedojdou skuteční hráči. Data `tests/tools/data/12l/`.
 - **12k výzvy jen na vyhraných mapách** (data: hráč z kapitoly II dostal denní výzvu z kapitoly VII a umíral do 15 s): `chalPool()` = `save.cleared`, mapa zamčená na den (`save.daily.pk`) / týden (`save.wk.map`), stejný postup = stejná mapa; žebříček Dnes/Týden ukazuje mapu. **Pravidlo: výzva nesmí hráče poslat na mapu, kterou ještě nevyhrál.** Test `tests/tools/vyzvamapa.js`.
 - **12e kapitoly IV–X přeladěné** po zkrácení běhů (data `tests/tools/data/12d/`) a **oprava pádu** na mapách s trny/propastmi (`run.kg` → `run.kn`). **Pravidlo: před novým polem na `run` ho vyhledej, krátká jména (`kg`, `kn`, `kb`) mají mechaniky; kontrola `runpole.js`.**
