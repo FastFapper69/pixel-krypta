@@ -1053,7 +1053,7 @@ for(const c of CHAPTERS)c.maps.forEach((id,i)=>{const m=MAPS[id],cap=i===c.maps.
 // 12z (uživatel: „myslel jsem, že přežití je max 5 minut“): popisy map měly napevno staré časy (6–7 minut) → čas v popisu ze skutečné délky
 for(const id in MAPS){const m=MAPS[id];if(!m.desc||!m.dur)continue;const d=Math.round(m.dur),mm=Math.floor(d/60),ss=d%60;
   const cz=ss?mm+':'+String(ss).padStart(2,'0'):mm+(mm===1?' minutu':mm<5?' minuty':' minut'),en=ss?mm+':'+String(ss).padStart(2,'0'):mm+(mm===1?' minute':' minutes');
-  m.desc=m.desc.replace(/Vydrž (\d+:\d\d|\d+ minut[ay]?)/g,'Vydrž '+cz).replace(/Survive (\d+:\d\d|\d+ minutes?)/g,'Survive '+en);}
+  m.desc=m.desc.replace(/Vydr\u017e (\d+:\d\d|\d+ minut[ay]?)/g,'Vydr\u017e '+cz).replace(/Survive (\d+:\d\d|\d+ minutes?)/g,'Survive '+en);}
 // 10j: a chapter hero's price follows the chapter in which it can be bought (gold income grows with the chapter); new heroes get it automatically
 const heroCh=h=>{const n=HEROES[h].need,C=n&&CH_OF[n];return C?C.i+(C.maps[C.maps.length-1]===n?1:0):-1;};
 const HERO_PRICE=ci=>ci<=5?[1000,1000,1500,2000,3000,4000][Math.max(0,ci)]:Math.round(4000*Math.pow(1.4,ci-5)/500)*500; // II 1000, III 1500, IV 2000, V 3000, VI 4000, VII 5500, VIII 8000
