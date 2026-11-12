@@ -3561,4 +3561,8 @@ window.KRYPTA_EN={
 "Nová otázka po běhu: baví, nebo ruší?":"New after-run question: fun or annoying?",
 "Chyby hry se teď hlásí samy, ať je opravím rychleji.":"Game errors now report themselves so I can fix them faster.",
 "Ladění":"Tuning",
+"Proti nasazenému:":"Compared to equipped:",
+"Porovnání výbavy":"Gear comparison",
+"Porovnání s nasazeným":"Compare with equipped",
+"Zeleně co získáš, červeně co ztratíš.":"Green is what you gain, red what you lose.",
 };

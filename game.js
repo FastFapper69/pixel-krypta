@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12o';
+const GAME_VER='2026-11-12p';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -8838,9 +8838,12 @@ function setInfoHtml(id,h){const S=SETS[id],n=h?setCount(h,id):0,eq=(h&&save.eq&
   const pcs=setSlots(id).map(k=>{const it=eq[k]&&itemById(eq[k]),on=it&&it.set===id;return '<img class="'+(on?'on':'')+'" alt="" src="'+dataUrl(itemSpr(k,3,id))+'">';}).join('');
   return '<div class="setinfo" style="--sc:'+S.col+'"><div class="si-h"><b>'+S.name+'</b><span class="si-p">'+pcs+'</span><em>'+n+'/'+setMax(id)+'</em></div>'+
     '<p class="'+(n>=2?'on':'')+'"><i>2</i><span>'+S.b2+'</span></p><p class="'+(n>=4?'on':'')+'"><i>4</i><span><b>'+S.b4n+'.</b> '+S.b4+'</span></p>'+(S.six?'<p class="'+(n>=6?'on':'')+'"><i>6</i><span><b>'+S.b6n+'.</b> '+S.b6+'</span></p>':'')+'</div>';}
-function itemCardHtml(it){const S=itemStats(it),R=RAR[it.r],col=it.set?SETS[it.set].col:R.col;
+// 12p: porovnání s nasazeným kusem (přání uživatele): rozdíl u každé hodnoty zeleně/červeně, hodnoty, které nový kus nemá, s „0“
+function cmpDelta(k,d){const z=fmtStat(k,0),a=fmtStat(k,Math.abs(d));if(a===z)return'';return '<i class="cmp '+(d>0?'up':'dn')+'">'+(d>0?'+':'−')+a.slice(1)+'</i>';}
+function itemCardHtml(it,cmp){const S=itemStats(it),R=RAR[it.r],col=it.set?SETS[it.set].col:R.col,C=cmp?itemStats(cmp):null,keys=Object.keys(S).concat(C?Object.keys(C).filter(k=>!(k in S)):[]);
   return '<div class="ic-head"><img alt="" src="'+itIcon(it)+'"><div><h3 style="color:'+col+'">'+itemName(it)+(it.lv?' +'+it.lv:'')+'</h3><small>'+(it.set?_t('Set kapitoly ')+ROMAN_CH[CHAPTERS.findIndex(c=>c.id===SETS[it.set].ch)]:R.name)+' · '+SLOTS[it.s].name+'</small></div></div>'+
-    '<ul class="ic-st">'+Object.keys(S).map(k=>'<li><span>'+STATS[k].name+'</span><b>'+fmtStat(k,S[k])+'</b></li>').join('')+'</ul>'+
+    (C?'<p class="ic-vs">'+_t('Proti nasazenému:')+' <img alt="" src="'+itIcon(cmp)+'"><b style="color:'+(cmp.set?SETS[cmp.set].col:RAR[cmp.r].col)+'">'+itemName(cmp)+(cmp.lv?' +'+cmp.lv:'')+'</b></p>':'')+
+    '<ul class="ic-st'+(C?' vs':'')+'">'+keys.map(k=>'<li'+(k in S?'':' class="miss"')+'><span>'+STATS[k].name+'</span><b>'+(k in S?fmtStat(k,S[k]):'0')+(C?cmpDelta(k,(S[k]||0)-(C[k]||0)):'')+'</b></li>').join('')+'</ul>'+
     (it.lg?'<p class="ic-lg">'+LEGS[it.lg].desc+'</p>':'')+(it.af&&AFX[it.af]?'<p class="ic-af">★ <b>'+AFX[it.af].name+':</b> '+AFX[it.af].d(afVal(it))+'</p>':'')+(it.set?setInfoHtml(it.set,state==='hero'||$('#itemPop')&&!$('#itemPop').hidden?heroSel:null):'');}
 function tileHtml(it,extra){return '<button class="itile r'+it.r+(it.set?' set set-'+it.set:'')+(extra||'')+'" data-u="'+it.u+'"><img alt="" src="'+itIcon(it)+'">'+(it.lv?'<em>+'+it.lv+'</em>':'')+(it.af?'<s class="afs">★</s>':'')+(equippedBy(it.u)?(equippedBy(it.u)===heroSel?'<i class="inb me" aria-label="'+_t('NASAZENO')+'"></i>':'<i class="inb" aria-label="'+HEROES[equippedBy(it.u)].name+'"><img alt="" src="'+dataUrl(SPR.hero[equippedBy(it.u)])+'"></i>'):'')+(isFresh('item','i'+it.u)?'<b class="nwt" aria-label="'+_t('NOVÉ')+'">'+KIT.img('sealDot')+'</b>':'')+'</button>';}
 
@@ -9129,7 +9132,8 @@ function renderHero(){
   g.querySelectorAll('.itile').forEach(b=>b.onclick=()=>{sfx('ui');openItem(b.dataset.u);});
 }
 function openItem(u){const it=itemById(u);if(!it)return;if(seeOne('i'+u)&&state==='hero')renderHero();const pop=$('#itemPop'),h=heroSel,who=equippedBy(u),on=who===h,c=ECON.upCost(it),rf=ECON.refund(it);
-  pop.innerHTML='<div class="pop-card r'+it.r+(it.set?' set set-'+it.set:'')+'">'+itemCardHtml(it)+
+  const cu=on?null:itemById((save.eq[h]||{})[it.s]);
+  pop.innerHTML='<div class="pop-card r'+it.r+(it.set?' set set-'+it.set:'')+'">'+itemCardHtml(it,cu&&cu.u!==it.u?cu:null)+
     runeSockHtml(it)+(who&&!on?_t('<p class="hint">Nosí ho ')+HEROES[who].name+'.</p>':'')+
     '<div class="pop-btns"><button class="btn sm" id="ipEq">'+(on?_t('Sundat'):_t('Nasadit ')+(HERO_DAT[h]||HEROES[h].name))+'</button>'+
     (!featOn('forge')?'<p class="hint">'+_t('Vylepšování: ')+featLock('forge')+'</p>':it.lv<10?_t('<button class="btn alt sm" id="ipUp">Vylepšit +')+(it.lv+1)+' <span class="costs">'+costHtml(c,1)+'</span></button>'+missHint(c):_t('<p class="hint">Maximální vylepšení.</p>'))+''+
@@ -10584,6 +10588,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12p',d:'12. 11. 2026',t:_t('Porovnání výbavy'),hl:[{ic:'item:helm:3',t:_t('Porovnání s nasazeným'),d:_t('Zeleně co získáš, červeně co ztratíš.')}],items:[]},
  {v:'2026-11-12o',d:'12. 11. 2026',t:_t('Ladění'),hl:[{ic:'music',t:_t('Jak se ti líbí rytmus?'),d:_t('Nová otázka po běhu: baví, nebo ruší?')}],
   items:[_t('Chyby hry se teď hlásí samy, ať je opravím rychleji.')]},
  {v:'2026-11-12n',d:'12. 11. 2026',t:_t('Návrat do krypty'),hl:[{ic:'candle',t:_t('Nástěnka hned od začátku'),d:_t('Denní úkoly se odemknou první výhrou.')},{ic:'chest_wood',t:_t('Dárek na cestu'),d:_t('Dvě prohry na stejné mapě? Dárek a tip.')},{ic:'chest_iron',t:_t('Dárek i druhý den'),d:_t('Kdo se vrátí, dostane Týden v kryptě hned.')}],

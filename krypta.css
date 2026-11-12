@@ -1606,3 +1606,8 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 .ovask .df.rh{align-items:center}
 .ovask .df.rh span{flex:none;display:flex;align-items:center;gap:4px;font:var(--k20);color:#ffd75e;padding-right:2px}
 .ovask .df.rh span img{width:24px;height:24px;image-rendering:pixelated;filter:drop-shadow(0 2px 0 #000)}
+/* 12p: porovnání předmětu s nasazeným kusem */
+.ic-vs{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:10px 0 2px;font:var(--k20);color:var(--muted)}
+.ic-vs img{width:24px;height:24px;image-rendering:pixelated}
+.ic-st .cmp{font-style:normal;margin-left:8px}.ic-st .cmp.up{color:#7cf0a0}.ic-st .cmp.dn{color:#ff7a6a}
+.ic-st li.miss span,.ic-st li.miss b{color:var(--muted)}

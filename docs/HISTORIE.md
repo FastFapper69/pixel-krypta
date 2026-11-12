@@ -604,3 +604,6 @@ Research `docs/RESEARCH-SURVIVORIO.md` + soupis prvních dnů: kdo odešel, měl
 - **Chyby JS do `events`** (`evErr`, ev `err`, k = zpráva @ soubor:řádek), nejvýš 5 různých za relaci; náhrada za Sentry. Dotaz v `docs/DATA-HRACU.md`.
 - **`smazat-ucet.html`** (CZ + EN) na GitHub Pages: jak smazat účet ve hře, co se smaže, co zůstane; odkaz z `PRIVACY.md`. Povinné pro Google Play.
 - Migrace `supabase/migrations/20261112b_delete_my_data.sql` (mazání i událostí, nahlášení mířících na hráče a co-op výsledků) je **připravená a nanečisto ověřená, ale NEspuštěná** – spuštění změny na serveru zastavilo povolení; čeká na souhlas uživatele. Po spuštění upravit odstavec „Co zůstane“ v `smazat-ucet.html`.
+
+## 12p (12. 11. 2026) – porovnání výbavy s nasazeným kusem
+Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co má hrdina nasazené. `openItem` předá `itemCardHtml(it,cmp)` kus ze stejného slotu vybraného hrdiny (když okno ukazuje jiný předmět). Nad hodnotami řádek „Proti nasazenému: ikona + jméno +úroveň“, u každé hodnoty rozdíl `cmpDelta` (zeleně plus, červeně minus, nulový rozdíl se nepíše), hodnoty, které nový kus nemá, šedě s „0“ a červeným úbytkem. Legendární schopnosti, ★ vlastnosti a sety se číslem neporovnávají. Styly `.ic-vs`, `.ic-st .cmp` na konci `krypta.css`.
