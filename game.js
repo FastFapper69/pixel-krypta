@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12g';
+const GAME_VER='2026-11-12h';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -9207,7 +9207,7 @@ function revealItem(it,chest,title,opts){const pop=(opts&&opts.pop)||$('#chestPo
     _t('<div class="pop-btns"><button class="btn sm" id="rvOk">Super</button></div></div><p class="rv-skip" id="rvSkip">Ťukni pro přeskočení</p></div>');
   pop.className='popwrap rvwrap';pop.hidden=false;
   if(!opts&&state!=='chests'){renderChests();setState('chests');}
-  const cv=$('#rvCv'),dpr=Math.min(3,window.devicePixelRatio||1),W=260,H=240;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
+  const cv=pop.querySelector('#rvCv'),dpr=Math.min(3,window.devicePixelRatio||1),W=260,H=240;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
   const g=cv.getContext('2d'),spr=chest?SPR.icon['chest_'+chest]:null,isp=it.pet?SPR.pet[it.k]:it.k?SPR.tower[it.k]:itemSpr(it.s,it.r,it.set,it.b),col=R.col,dk=R.dk;
   const RL=opts&&opts.roll,T_OPEN=spr?(RL?2.6:1.55):0,parts=[];let t=0,last=performance.now(),opened=false,shown=false,hops=0,done=false,rl={i:0,next:0,dt:.06};
   const card=pop.querySelector('.rv-card'),ease=x=>1-Math.pow(1-x,3);
@@ -9255,10 +9255,10 @@ function revealItem(it,chest,title,opts){const pop=(opts&&opts.pop)||$('#chestPo
     if(opened){const d=t-T_OPEN,f=ease(clamp(d/.7,0,1)),sz=(24+44*f)*(1+.06*Math.sin(t*5)*(d>.7)),iy=cy-12-f*84;
       const gr2=g.createRadialGradient(cx,iy,2,cx,iy,sz);gr2.addColorStop(0,'#ffffff');gr2.addColorStop(.35,col);gr2.addColorStop(1,'rgba(0,0,0,0)');g.globalAlpha=.55*f;g.fillStyle=gr2;g.fillRect(cx-sz,iy-sz,sz*2,sz*2);g.globalAlpha=1;
       {const aw=isp.w/isp.h;g.drawImage(isp.c,cx-sz*aw/2,iy-sz/2,sz*aw,sz);}
-      if(d>.55&&!shown){shown=true;card.classList.add('show');$('#rvSkip').style.opacity=0;}}
+      if(d>.55&&!shown){shown=true;card.classList.add('show');pop.querySelector('#rvSkip').style.opacity=0;}}
     requestAnimationFrame(draw);};
   if(!spr){t=0;}requestAnimationFrame(draw);
-  $('#rvOk').onclick=e=>{e.stopPropagation();done=true;pop.hidden=true;pop.onpointerdown=null;sfx('ui');if(opts&&opts.done)opts.done();else renderChests();};}
+  pop.querySelector('#rvOk').onclick=e=>{e.stopPropagation();done=true;pop.hidden=true;pop.onpointerdown=null;sfx('ui');if(opts&&opts.done)opts.done();else renderChests();};}
 
 // ----- Codex -----
 /* ============ guide: a short illustrated overview of how the game works (menu → Průvodce) ============
@@ -10486,6 +10486,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12h',d:'12. 11. 2026',t:_t('Oprava truhel'),hl:[{ic:'candle',t:_t('Truhla za svíčky'),d:_t('Tlačítko Super zase funguje.')}],items:[_t('Truhly mimo Obchod znovu ukazují animaci otevření.')]},
  {v:'2026-11-12g',d:'12. 11. 2026',t:_t('Nové zvuky'),hl:[{ic:'boss:morvan',t:_t('Pád bosse zní pořádně'),d:_t('Hudba ztichne, rána a vítězný akord.')},{ic:'chest_gold',t:_t('Truhly mají zvuk'),d:_t('Poskakují, napětí roste, lepší = hlasitější.')},{ic:'chest_wood',t:_t('Bedna v běhu'),d:_t('Dopad, zámek, víko a cinkot mincí.')}],items:[_t('Elita, kování v Kovárně, nasazení a nákup mají vlastní zvuk.')]},
  {v:'2026-11-12f',d:'12. 11. 2026',t:_t('Bedna ze světla'),hl:[{ic:'chest_wood',t:_t('Bedna padá na paprsku'),d:_t('Dopadne se zábleskem a září do rytmu.')}],items:[_t('Pasivky v pauze už nezajíždějí pod rámeček.')]},
  {v:'2026-11-12e',d:'12. 11. 2026',t:_t('Přeladěno IV–X'),hl:[{ic:'skull',t:_t('Obtížnost IV–X'),d:_t('Kratší běhy jsou dál výzva.')},{ic:'map:kolebka',t:_t('Oprava pádu hry'),d:_t('Kolébka a Ostrovy už nepadají.')}],items:[]},

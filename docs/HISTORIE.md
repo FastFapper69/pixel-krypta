@@ -562,3 +562,6 @@ Uživatel: „záře z dropnuté bedny je nudná“ (11z2 byl plochý průsvitn�
 
 ## 12g (12. 11. 2026) – chybějící zvuky
 Uživatel: „chybí mi sfx, jako poražení bosse, otvírání beden jak ve hře tak v obchodě atd.“ Boss měl jen obyčejné `kill`, truhla v obchodě `hit` při poskocích a `win/level/coin` při otevření, bedna v běhu `coin`. Nově (vše v akordu skladby, velké momenty duckují hudbu): `bossdie` (rána 170→28 Hz, crash, rozpadlý akord, vítězný akord na další takt), `elite`, `chestdrop` (svist dolů a dopad za 0,31 s = obraz 12f), `chestopen` (zámek, víko, stoupající běh, mince), `hop` (dřevěné ťuknutí o stupeň výš), `riser` (do otevření), `open` podle rarity (běžná pop, vzácná akord, epická fanfára, legendární + zvon + rána), `anvil` (Kovárna), `equip`, `buy`. Měření `sfxposlech.js`: všechny efekty 0 až +14 dB nad hudbou, špička max −8 dB.
+
+## 12h (12. 11. 2026) – truhla za svíčky
+Uživatel (snímek z Nástěnky): u truhly za svíčky nejde kliknout na Super. Příčina: `revealItem` bral `$('#rvOk')` a `$('#rvCv')` z celé stránky – po dřívějším otevření v Obchodě zůstaly ve skrytém `#chestPop` staré prvky se stejným id, takže se tlačítko i animace napojily na ně. Teď `pop.querySelector`. Test `revealpop.js` (na staré verzi padá).

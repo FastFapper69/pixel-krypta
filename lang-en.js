@@ -3487,5 +3487,9 @@ window.KRYPTA_EN={
 "Poskakují, napětí roste, lepší = hlasitější.":"They hop, tension builds, rarer = bigger.",
 "Bedna v běhu":"Chests in a run",
 "Dopad, zámek, víko a cinkot mincí.":"A thump, the latch, the lid and coins.",
-"Elita, kování v Kovárně, nasazení a nákup mají vlastní zvuk.":"Elites, forge upgrades, equipping and buying have their own sound."
+"Elita, kování v Kovárně, nasazení a nákup mají vlastní zvuk.":"Elites, forge upgrades, equipping and buying have their own sound.",
+"Oprava truhel":"Chest fix",
+"Truhla za svíčky":"Candle chest",
+"Tlačítko Super zase funguje.":"The Great button works again.",
+"Truhly mimo Obchod znovu ukazují animaci otevření.":"Chests outside the Shop show the opening animation again."
 };
