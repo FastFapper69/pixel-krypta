@@ -49,6 +49,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 
 ## Aktuální stav (verze 12t, 12. 11. 2026, vše na main, Pages nasazené)
 - **12s–12t opravy z bota nováčka** (`prvnich15.js`): šipka „Ukaž mi to“ zmizí, když cíl zmizí (`place()` → `spotOff`); konec běhu: věž ve Stavitelově bedně jako poznámka `ovtip`; **značka na Obchodu, když čeká denní truhla zdarma** (`dailyChestReady`, test `obchod-znacka.js`); **Příprava roluje jen při otevření**, až po najetí obrazovky (`getAnimations`) a jen o kolik je třeba (uživatel: výběr hrdiny skočil dolů k mapě; test `priprava-rolovani.js`). Chyby JS v `events` od 12o žádné.
+- **AUDIT GRAFIKY 12. 11.: `docs/AUDIT-GRAFIKY.md`** (obrázky `docs/audit-grafiky/`): zbraně Bič/Řetězový bič/Halapartna/Kopí neviditelné (1px čáry), hrdinové = jedna šablona, Aurel slabý, úhoř = had, čísla poškození zakrývají dění; **zvuky map do rytmu** (zvon neslyšný na telefonu, erupce bez zvuku). Čeká na výběr uživatele, stav přepisuj v tabulkách.
 - **POSTUP OD 11z4 (rozhodnutí uživatele 11. 11. po rozboru procesu):** obsah předběhl hráče (6 hráčů, nikdo se nevrátil druhý den, nikdo za kapitolu I).
   **Nové kapitoly a akt II jsou zmrazené, dokud se testeři nedostanou aspoň do kapitoly III.** Přednost má začátek hry (prvních 30 minut), délka běhu a
   měření návratů (`docs/DATA-HRACU.md` „Návraty“ – před každou větší prací se podívej, kde noví hráči končí). **Jen jeden chat najednou** (souběžné chaty
