@@ -657,3 +657,9 @@ Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co 
 ## 12z (12. 11. 2026) – časy v popisech map, okraj karet
 - Uživatel (snímek Přípravy): finále „Vydrž 7 minut“, ale přežití je max 5 minut. Od 11z4 se délka map stlačuje na `DUR_CAP` 300 / `DUR_FIN` 330 s, popisy zůstaly staré (5:30, 6, 7 minut). Teď se po stlačení text „Vydrž …“ / „Survive …“ přepíše ze skutečné `m.dur`.
 - Uživatel (snímek karty Poklad!): „Rychlost útoků +8 %“ dojížděla k rámu. `.k-card .st` má okraj 28 px vpravo a je v toku (karta `min-height:100px`, při třetím řádku naroste). `lushot.js` CZ/EN, SE/13 bez chyb.
+
+## 12z1 (12. 11. 2026) – kratší kapitola I, Kovárna: milníky, kladivo, přerozdělení
+- Uživatel: 7 minut je moc a kapitola I je bez vylepšení pořád těžká. Data (`runs`, NM 0): Hřbitov 57 % výher (cíl 85), Bažina 33 % (75), Zvonice 50 %, Trůn 33 %, smrti kolem 2:30–3:30.
+- Kapitola I: mapy `DUR_CH1` 210 s, finále `DUR_CH1_FIN` 240 s a **bez zhuštění** (`m.ts=1`, nepřátelé jako v prvních 3:30 původní mapy); `m.rts` = původní/nová délka násobí odměny za čas (`rewT`) a zkušenosti (`recalc`), elity a události se posunou o `rts`. Ostatní kapitoly beze změny (`rts=ts`). Boti (vstup, 4 běhy): 85/100/80/80/75 % (dřív v cíli 85/75/60/50/25). `DIFF_CIL` a `ladeni.js` CIL kapitoly I zvednuté na 95/90/85/80, finále 60, ať je ladění zpátky nepřitvrdí. Nováček (`prvnich15.js`): 4 běhy za 16 minut, výhra ve 4:01, zlato +269.
+- Kovárna (`docs/KOVARNA.md`): milníky 10/20/30 u každé statistiky (`MILES`), úder kladiva do rytmu při nákupu, přerozdělení s poplatkem 10 % zlata. Volba variant schopností odložená.
+

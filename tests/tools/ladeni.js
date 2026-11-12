@@ -14,7 +14,7 @@ const {execFileSync}=require('child_process'),fs=require('fs'),path=require('pat
 const PRUM=['stavitel','fuzak'],NEOP=['agresor','sberatel'],ZKUS=['opatrny','expert'],POV=[...PRUM,...NEOP,...ZKUS].join(',');
 const STENA=ci=>ci%3===2;
 function PREZ(ci,mi,fin){return fin||STENA(ci)?.4:ci===0&&mi<2?.65:.5;} // průměrné přežití neopatrného hráče jako díl délky mapy
-function CIL(ci,mi,fin){if(fin)return ci===0?25:STENA(ci)?12:ci%10===9?15:20;if(ci===0)return[85,75,60,50][mi]; /* 11z4: nováček prohrával první dvě mapy (uživatel i testeři) → vítá víc */return(STENA(ci)?25:40)-3*mi;}
+function CIL(ci,mi,fin){if(fin)return ci===0?60:STENA(ci)?12:ci%10===9?15:20;if(ci===0)return[95,90,85,80][mi]; /* 12z1: skuteční hráči tu vyhrávají o 30–40 bodů méně než boti, uživateli byla kapitola I těžká */ /* 11z4: nováček prohrával první dvě mapy (uživatel i testeři) → vítá víc */return(STENA(ci)?25:40)-3*mi;}
 const logit=p=>Math.log(p/(1-p)),clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const GAME=path.join(__dirname,'..','..','game.js');
 function chapters(){const s=fs.readFileSync(GAME,'utf8'),m=s.match(/const CHAPTERS=\[([\s\S]*?)\]\;/)[1],out=[];let i=0;

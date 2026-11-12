@@ -1625,3 +1625,12 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 #spotAr{position:fixed;z-index:95;width:24px;height:24px;image-rendering:pixelated;pointer-events:none;animation:sealHop 1s steps(1,end) infinite}
 #mTop .kspot{outline:none;animation:spotGlow .8s steps(1,end) infinite} /* horní lišta je bez rámečků (přání uživatele 10m) → jen záře */
 @keyframes spotGlow{0%{filter:drop-shadow(0 0 4px #f6c744) drop-shadow(0 0 2px #f6c744)}50%{filter:drop-shadow(0 0 7px #fff3b0) drop-shadow(0 0 2px #f6c744)}}
+/* 12z1 Kovárna: úder kladiva při nákupu (ostré kroky, celé pixely) a milníky v okně statistiky */
+.tn.hit{animation:tnHit .42s steps(1,end)}
+@keyframes tnHit{0%{transform:translate(0,3px);filter:brightness(2.2)}14%{transform:translate(-2px,0);filter:brightness(1.7)}28%{transform:translate(2px,0);filter:brightness(1.4)}42%{transform:translate(-1px,0);filter:brightness(1.2)}56%,100%{transform:none;filter:none}}
+.tpop .tmiles{margin:8px 0 2px;padding:6px 8px;background:#1a1c21;clip-path:var(--px)}
+.tpop .tmiles p{margin:2px 0;font:var(--k20);color:var(--muted)}
+.tpop .tmiles p b{display:inline-block;min-width:24px;color:var(--muted)}
+.tpop .tmiles p.on{color:var(--fg)}
+.tpop .tmiles p.on b{color:var(--bc)}
+.tpop .costs.refund .mt{color:#9be07a}
