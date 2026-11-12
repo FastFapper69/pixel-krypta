@@ -559,3 +559,6 @@ skok na jedno kolo omezen na −23 až +30 % (12 běhů na skupinu je rozkolísa
 
 ## 12f (12. 11. 2026) – bedna ze světla, pauza
 Uživatel: „záře z dropnuté bedny je nudná“ (11z2 byl plochý průsvitný obdélník). Nově `CHEST_BEAM` (ditherovaný sloup: bílé jádro, zlaté boky, nahoře se rozpadá), bedna na něm spadne (0,32 s), při dopadu se zmáčkne, rozběhne se prstenec světla a prach; potom paprsek pulzuje s `M.pulse`, stoupají jiskry, kolem bedny krouží 10 jisker (vedoucí na dobu), přes víko běží odlesk. Pauza: pasivky zajížděly pod spodní lištu lůžka – posouvá se vnitřní `.pin`, rám zůstává čistý.
+
+## 12g (12. 11. 2026) – chybějící zvuky
+Uživatel: „chybí mi sfx, jako poražení bosse, otvírání beden jak ve hře tak v obchodě atd.“ Boss měl jen obyčejné `kill`, truhla v obchodě `hit` při poskocích a `win/level/coin` při otevření, bedna v běhu `coin`. Nově (vše v akordu skladby, velké momenty duckují hudbu): `bossdie` (rána 170→28 Hz, crash, rozpadlý akord, vítězný akord na další takt), `elite`, `chestdrop` (svist dolů a dopad za 0,31 s = obraz 12f), `chestopen` (zámek, víko, stoupající běh, mince), `hop` (dřevěné ťuknutí o stupeň výš), `riser` (do otevření), `open` podle rarity (běžná pop, vzácná akord, epická fanfára, legendární + zvon + rána), `anvil` (Kovárna), `equip`, `buy`. Měření `sfxposlech.js`: všechny efekty 0 až +14 dB nad hudbou, špička max −8 dB.

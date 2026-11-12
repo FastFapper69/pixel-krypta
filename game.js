@@ -3440,7 +3440,8 @@ function qTime(div){if(!ac)return 0;const g=M.stepDur*div,now=ac.currentTime+.01
 function sfx(k,arg){
   if(!save.sound||!ac||!M.sfxBus||!M.song||ac.state!=='running')return;if(M.log)M.log.push([ac.currentTime,k]);
   const now=performance.now(),gap={hit:40,shoot:50,gem:30,kill:35,zap:50,boom:70,coin:60}[k]||0;if(sfxT[k]&&now-sfxT[k]<gap)return;sfxT[k]=now;
-  const B=M.sfxBus,T=ac.currentTime,sd=M.stepDur;
+  const LOUD={chestopen:1.9,hop:1.6,equip:1.9,buy:1.8,anvil:1.5,open:1},T=ac.currentTime,sd=M.stepDur;let B=M.sfxBus;
+  if(LOUD[k]){const G=ac.createGain();G.gain.value=k==='open'?(arg|0)<1?1.9:(arg|0)<3?1.5:1:LOUD[k];G.connect(M.sfxBus);B=G;setTimeout(()=>{try{G.disconnect();}catch(e){}},4000);}
   try{switch(k){
    case'hit':{const t=qTime(.5);osc('square',NOTE(chordNote(rndi(0,2),2)),t,.03,.045,B,null,2800);noiz(t,.025,.06,B,'highpass',3000);break;}
    case'kill':{const t=qTime(.5),i=Math.min(run?run.combo:0,11),n=chordNote(i,1);osc('square',NOTE(n),t,.09,.075,B,null,4200);osc('triangle',NOTE(n-12),t,.12,.09,B);break;}
@@ -3448,7 +3449,39 @@ function sfx(k,arg){
    case'gem':{const t=qTime(.5),i=run?run.gemChain||0:0;osc('square',NOTE(chordNote(i,2)),t,.06,.035,B,null,5200);osc('sine',NOTE(chordNote(i,3)),t+.012,.05,.02,B);break;}
    case'coin':{const t=qTime(.5);osc('square',NOTE(chordNote(3,2)),t,.06,.045,B,null,5200);osc('square',NOTE(chordNote(5,2)),t+sd*.5,.09,.045,B,null,5200);break;}
    case'hurt':osc('sawtooth',170,T,.2,.12,B,55,1800);noiz(T,.1,.1,B,'lowpass',900);break;
-   case'chestdrop':{const t=qTime(.5);[0,1,2,3].forEach(i=>osc('triangle',NOTE(chordNote(i,2)),t+i*.05,.12,.08,B,null,5000));break;}
+   // 12g: the chest falls on its beam (whoosh down) and lands 0.32 s later with a thump and a chime in key – synced with the picture
+   case'chestdrop':{noizSweep(T,.3,.07,'bandpass',5200,700,2.5,.2);osc('sine',NOTE(chordNote(4,2)),T,.28,.025,B,NOTE(chordNote(0,1)));const u=T+.31;
+     osc('sine',140,u,.22,.3,B,44);noiz(u,.08,.12,B,'lowpass',900);noiz(u+.01,.18,.04,B,'bandpass',260);
+     [0,1,2].forEach(i=>{const f=NOTE(chordNote(i+3,2));osc('triangle',f,u+.04+i*.045,.5,.05,B,null,6000);osc('sine',f*2.01,u+.04+i*.045,.3,.012,B);});break;}
+   // picking the chest up in a run: latch, lid creak, then a bright rising run and a coin shower into the treasure screen
+   case'chestopen':{const t=qTime(.5);noiz(T,.03,.1,B,'highpass',3500);noizSweep(T+.03,.22,.06,'bandpass',600,1500,6,.05);
+     for(let i=0;i<6;i++)osc('square',NOTE(chordNote(i,2)),t+i*sd*.5,.12,.04,B,null,5200);for(const n of [0,1,2])osc('triangle',NOTE(chordNote(n,1)),t+sd*3,.5,.04,B,null,4000);
+     for(let i=0;i<5;i++)osc('square',NOTE(chordNote(3+(i%3),3)),t+sd*3+i*.04,.05,.018,B,null,7000);break;}
+   // shop chest hops before it opens: a wooden knock that climbs a step each hop (arg = 0,1,2)
+   case'hop':{const i=arg|0;osc('triangle',NOTE(chordNote(i,0)),T,.09,.16,B,NOTE(chordNote(i,0))*.7,1400);noiz(T,.035,.09,B,'bandpass',900+i*400);break;}
+   // the shake before the lid flies: a riser that ends exactly on the opening (arg = seconds to go)
+   case'riser':{const d=Math.max(.3,+arg||1);noizSweep(T,d,.07,'bandpass',300,5000,2.5,d*.9);break;}
+   // the lid flies open: bigger with rarity (arg 0..4) – common = bright pop, rare = chord stab, epic = fanfare, legendary = fanfare + bell + boom
+   case'open':{const r=arg|0,t=T+.005;if(r>=2)duckMusic(-6-r*1.5,.6+r*.25);noiz(t,.05,.12,B,'highpass',2500);osc('sine',200,t,.2,.2+r*.04,B,60);
+     for(const n of [0,1,2])osc('square',NOTE(chordNote(n,1+(r>=1?1:0))),t,.25+r*.08,.035+r*.006,B,null,3600+r*600);
+     const run_=r>=3?9:r>=1?6:3;for(let i=0;i<run_;i++)osc('square',NOTE(chordNote(i,2)),t+.06+i*sd*.5,.12,.035,B,null,5600);
+     if(r>=2){noizSweep(t,1.1,.08,'highpass',3000,9000,0,.05);for(let i=0;i<4;i++)osc('sine',NOTE(chordNote(i,3)),t+.1+i*.07,.6,.02,B);}
+     if(r>=3){const f=NOTE(chordNote(0,1));osc('sine',f,t+sd*4,1.8,.12,B);osc('sine',f*2.76,t+sd*4,1,.04,B);osc('triangle',f*.5,t+sd*4,1.4,.06,B);osc('sine',120,t,.5,.32,B,34);noiz(t,.4,.14,B,'lowpass',900);}
+     if(r>=4)for(let i=0;i<8;i++)osc('square',NOTE(chordNote(7-i,3)),t+sd*4+i*.05,.08,.02,B,null,8000);break;}
+   // boss defeated: the music drops away, a heavy low crash, the boss's chord falls apart, then a triumphant stab lands on the next bar
+   case'bossdie':{duckMusic(-14,2.2);osc('sine',170,T,.9,.6,B,28);osc('square',95,T,.16,.14,B,38,600);noiz(T,.6,.3,B,'lowpass',1200);noizSweep(T,1.8,.14,'highpass',8000,1800,0,.02);
+     for(let i=0;i<5;i++)osc('sawtooth',NOTE(chordNote(4-i,0)),T+.12+i*.11,.3,.045,B,NOTE(chordNote(4-i,-1)),1600);
+     const u=qTime(4)+sd*4;for(const n of [0,1,2,3])osc('square',NOTE(chordNote(n,1)),u,.7,.045,B,null,3800);osc('sine',NOTE(chordNote(0,-1)),u,1.2,.2,B);
+     for(let i=0;i<8;i++)osc('square',NOTE(chordNote(i,2)),u+i*sd*.5,.14,.035,B,null,6000);noizSweep(u,1.4,.06,'highpass',4000,9000,0,.02);break;}
+   // elite down: a short heavy thump and a two-note stab, so it doesn't sound like any other kill
+   case'elite':{const t=qTime(.5);osc('sine',130,t,.22,.3,B,40);noiz(t,.08,.1,B,'lowpass',1400);osc('square',NOTE(chordNote(0,1)),t,.1,.05,B,null,3600);osc('square',NOTE(chordNote(2,1)),t+sd,.16,.05,B,null,3600);break;}
+   // forge upgrade: an anvil clang (inharmonic partials) with a short ring in key
+   case'anvil':{const t=T+.005,f=NOTE(chordNote(0,2));osc('square',f,t,.05,.05,B,null,6000);osc('sine',f*2.41,t,.5,.05,B);osc('sine',f*3.9,t,.35,.03,B);osc('sine',f*5.6,t,.2,.02,B);noiz(t,.04,.12,B,'highpass',4000);
+     osc('triangle',NOTE(chordNote(2,1)),t+sd*2,.3,.04,B,null,4000);break;}
+   // equip: a quick metal clink + leather thud
+   case'equip':{osc('square',NOTE(chordNote(1,3)),T,.04,.03,B,null,7000);osc('sine',NOTE(chordNote(1,3))*2.7,T,.12,.02,B);osc('triangle',150,T+.02,.08,.1,B,90,900);break;}
+   // buying: coins counted out onto the counter
+   case'buy':{for(let i=0;i<4;i++){const u=T+i*.055;osc('square',NOTE(chordNote(3+(i%2),2)),u,.05,.03,B,null,6500);noiz(u,.02,.03,B,'highpass',6000);}osc('triangle',NOTE(chordNote(0,1)),T+.24,.25,.05,B,null,4000);break;}
    case'level':{const t=qTime(1);for(let i=0;i<6;i++)osc('square',NOTE(chordNote(i,1)),t+i*sd*.5,.16,.055,B,null,4200);break;}
    case'boss':{const t=qTime(4);duckMusic(-10,1.2);osc('sawtooth',NOTE(chordNote(0,-2)),t,1.4,.16,B,NOTE(chordNote(0,-3)),900);noiz(t,.8,.12,B,'lowpass',400);break;}
    case'win':{const t=qTime(2);for(let i=0;i<9;i++)osc('square',NOTE(chordNote(i,1)),t+i*sd*.5,.22,.06,B,null,4500);break;}
@@ -3461,7 +3494,7 @@ function sfx(k,arg){
    case'trap':{const t=qTime(.5);noiz(t,.08,.09,B,'highpass',2400);osc('square',NOTE(chordNote(4,2)),t,.05,.03,B,null,3000);break;}
    case'wind':noiz(T,1.6,.07,B,'bandpass',700);noiz(T+.3,1.2,.05,B,'bandpass',1200);break;
    case'zap':{const t=Math.max(T,M.lastAudio);osc('sawtooth',NOTE(chordNote(rndi(3,5),2)),t,.08,.035,B,null,3400);noiz(t,.05,.035,B,'highpass',6000);break;}
-  }}catch(e){}}
+  }}catch(e){if(window.KRYPTA_SFXDBG)console.error('sfx '+k+': '+e.message);}}
 
 /* ----- ultimate drops: a heavy hit on the downbeat of every 4-bar phrase, in key, plus a riser in the bar before ----- */
 // noise through a filter whose cutoff glides from f0 to f1 (whooshes, risers, rumbles)
@@ -3513,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12f';
+const GAME_VER='2026-11-12g';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3936,7 +3969,7 @@ function killEnemy(e){
   if(e.elite||e.boss)run.hitstop=Math.max(run.hitstop||0,e.boss?.25:.08);
   const v=e.xp;
   if(run.gems.length>220){const g=pick(run.gems);g.v+=v;}else run.gems.push({x:e.x,y:e.y,v});
-  if(e.elite||e.boss){run.items.push({x:e.x,y:e.y,k:'chest',born:run.t});sfx('chestdrop');}
+  if(e.elite||e.boss){run.items.push({x:e.x,y:e.y,k:'chest',born:run.t});sfx(e.boss?'bossdie':'elite');setTimeout(()=>sfx('chestdrop'),e.boss?250:80);}
   if(MAT_OF[run.mapId]){if(e.boss){}else if(e.elite)run.items.push({x:e.x+6,y:e.y,k:'mat',v:rndi(2,3)+Math.round(.3*((st&&st.tr&&st.tr.l4)||0))});else if(Math.random()<.01)run.items.push({x:e.x,y:e.y,k:'mat',v:1});}
   else{const r=Math.random();
     if(r<.10)run.items.push({x:e.x,y:e.y,k:'coin'});
@@ -4859,7 +4892,7 @@ function updatePickups0(dt){
       else if(it.k==='heart'&&hasMod('noheal')){}
       else if(it.k==='heart'){p.hp=Math.min(p.max,p.hp+Math.round(p.max*.3));toast(_t('Zdraví +'),900);sfx('level');}
       else if(it.k==='magnet'){run.gems.forEach(g=>g.pull=p);toast(_t('Magnet!'),900);sfx('level');}
-      else if(it.k==='chest'){run.coins+=rndi(15,30);run.pending+=st.tr&&Math.random()<.08*st.tr.l1?2:1;sfx('coin');run.chestOpen=true;}}}
+      else if(it.k==='chest'){run.coins+=rndi(15,30);run.pending+=st.tr&&Math.random()<.08*st.tr.l1?2:1;sfx('chestopen');run.chestOpen=true;}}}
   run.items=run.items.filter(i=>!i.dead);
 }
 
@@ -9089,8 +9122,8 @@ function openItem(u){const it=itemById(u);if(!it)return;if(seeOne('i'+u)&&state=
     (who?'':'<button class="btn alt sm" id="ipDel">'+_t('Rozebrat ')+'<span class="costs">'+costHtml(rf).replace(/ no/g,'')+'</span></button>'+(it.lv?_t('<p class="hint">Rozebrání vrátí i polovinu vylepšení.</p>'):''))+
     _t('<button class="btn alt sm" id="ipClose">Zavřít</button></div></div>');
   pop.hidden=false;
-  $('#ipEq').onclick=()=>{const E=save.eq[h]||(save.eq[h]={});if(on)delete E[it.s];else{if(who)delete save.eq[who][it.s];E[it.s]=it.u;}persist();sfx(on?'ui':'level');pop.hidden=true;renderHero();};
-  const ub=$('#ipUp');if(ub){ub.disabled=!canPay(c);ub.onclick=()=>{if(upgradeItem(u)){sfx('level');openItem(u);renderHero();}};}
+  $('#ipEq').onclick=()=>{const E=save.eq[h]||(save.eq[h]={});if(on)delete E[it.s];else{if(who)delete save.eq[who][it.s];E[it.s]=it.u;}persist();sfx(on?'ui':'equip');pop.hidden=true;renderHero();};
+  const ub=$('#ipUp');if(ub){ub.disabled=!canPay(c);ub.onclick=()=>{if(upgradeItem(u)){sfx('anvil');openItem(u);renderHero();}};}
   const rb=$('#ipRf');if(rb)rb.onclick=()=>{pop.hidden=true;sfx('ui');openReforge('item',it,()=>{renderHero();openItem(u);});};
   const db=$('#ipDel');if(db)db.onclick=()=>{if(db.dataset.sure){dismantleItem(u);sfx('coin');pop.hidden=true;renderHero();}else{db.dataset.sure=1;db.firstChild.textContent=_t('Opravdu rozebrat? ');}};
   pop.querySelectorAll('[data-rs]').forEach(b=>b.onclick=()=>{sfx('ui');runeSock(u,+b.dataset.rs,()=>{openItem(u);if(state==='hero')renderHero();});});
@@ -9112,7 +9145,7 @@ function renderChests(){
     const pity=chBadges(C.pity,save.pity[C.id]||0,CH_LIMIT[C.id]?chLeft(C.id):null,CH_LIMIT[C.id]);
     c.innerHTML='<img alt="" src="'+dataUrl(SPR.icon['chest_'+C.id])+'"><div class="t"><h3>'+C.name+'</h3><div class="odds">'+C.odds.map((o,i)=>o?'<span style="color:'+RAR[i].col+'">'+o+'</span>':'').join('')+'<span class="pc">%</span></div>'+pity+'</div>';
     const b=document.createElement('button');b.className='btn sm';b.innerHTML='<span class="cost" style="color:inherit">'+KIT.img('coin')+C.cost+'</span>';b.disabled=save.coins<C.cost||chLeft(C.id)<=0;
-    b.onclick=()=>{const it=openChest(C.id);if(!it){note(save.inv.length>=INV_MAX?_t('Inventář je plný, rozeber nějaké předměty'):chLeft(C.id)<=0?_t('Dnes už žádná, zítra zase'):_t('Chybí ti zlato'));return;}sfx('coin');revealItem(it,C.id);renderChests();};
+    b.onclick=()=>{const it=openChest(C.id);if(!it){note(save.inv.length>=INV_MAX?_t('Inventář je plný, rozeber nějaké předměty'):chLeft(C.id)<=0?_t('Dnes už žádná, zítra zase'):_t('Chybí ti zlato'));return;}sfx('buy');revealItem(it,C.id);renderChests();};
     c.appendChild(b);box.appendChild(c);}
   for(const [C,cost,spr,ttl,sub,pk,mk] of [[TW_CHEST,TW_CHEST_COST,'chest_tower',_t('Stavitelova bedna'),_t('Karta věže. Věže odemčené v kampani padají jen odsud.'),'tower',openTowerChest],[PET_CHEST,PET_CHEST.cost,'chest_pet',_t('Kouzelný košík'),_t('Nový mazlíček, od vlka po fénixe.'),'pet',openPetChest]].filter(x=>featOn(x[5]==='tower'?'arsenal':'pets'))){const c=document.createElement('div');c.className='card chest tw';
     c.innerHTML='<img alt="" src="'+dataUrl(SPR.icon[spr])+'"><div class="t"><h3>'+ttl+'</h3><div class="odds">'+C.odds.map((o,i)=>o?'<span style="color:'+RAR[i].col+'">'+o+'</span>':'').join('')+'<span class="pc">%</span></div>'+chBadges(C.pity,save.pity[pk]||0,chLeft(pk),CH_LIMIT[pk])+missHint(cost)+'</div>';
@@ -9178,7 +9211,7 @@ function revealItem(it,chest,title,opts){const pop=(opts&&opts.pop)||$('#chestPo
   const g=cv.getContext('2d'),spr=chest?SPR.icon['chest_'+chest]:null,isp=it.pet?SPR.pet[it.k]:it.k?SPR.tower[it.k]:itemSpr(it.s,it.r,it.set,it.b),col=R.col,dk=R.dk;
   const RL=opts&&opts.roll,T_OPEN=spr?(RL?2.6:1.55):0,parts=[];let t=0,last=performance.now(),opened=false,shown=false,hops=0,done=false,rl={i:0,next:0,dt:.06};
   const card=pop.querySelector('.rv-card'),ease=x=>1-Math.pow(1-x,3);
-  const burst=()=>{opened=true;sfx(it.r>=3?'win':it.r>=1?'level':'coin');try{navigator.vibrate&&navigator.vibrate(it.r>=3?[30,40,60]:25);}catch(e){}
+  const burst=()=>{opened=true;sfx('open',it.r);try{navigator.vibrate&&navigator.vibrate(it.r>=3?[30,40,60]:25);}catch(e){}
     for(let i=0;i<(it.r>=3?70:44);i++){const a=Math.random()*6.283,v=60+Math.random()*190;parts.push({x:W/2,y:H*.62,vx:Math.cos(a)*v,vy:Math.sin(a)*v-80,life:.7+Math.random()*.8,c:pick([col,col,'#ffffff',dk]),s:2+(Math.random()*3|0)});}};
   const skip=()=>{if(t<T_OPEN){t=T_OPEN;}if(!opened)burst();};
   pop.onpointerdown=e=>{if(e.target.closest('#rvOk'))return;skip();};
@@ -9195,7 +9228,7 @@ function revealItem(it,chest,title,opts){const pop=(opts&&opts.pop)||$('#chestPo
     if(spr){const sc=spr.c.width>24?3.4:6,w=spr.c.width*sc,h=spr.c.height*sc;
       let sx=0,sy=0,sqx=1,sqy=1;
       if(!opened){const hp=[.35,.8,1.25];for(let i=0;i<3;i++){const d=t-hp[i];if(d>0&&d<.3){const f=d/.3,amp=10+i*7;sy=-Math.sin(f*Math.PI)*amp;sqx=1+(f<.15?.12:-.06)*(1-f);sqy=1/sqx;}
-          if(d>0&&hops<=i){hops=i+1;sfx('hit');}}
+          if(d>0&&hops<=i){hops=i+1;sfx('hop',i);if(i===0)sfx('riser',T_OPEN-t);}}
         sx=Math.sin(t*46)*k*k*4;}
       const lidH=Math.round(spr.c.height*.42);
       g.save();g.translate(cx+sx,cy+sy);g.scale(sqx,sqy);
@@ -10453,6 +10486,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12g',d:'12. 11. 2026',t:_t('Nové zvuky'),hl:[{ic:'boss:morvan',t:_t('Pád bosse zní pořádně'),d:_t('Hudba ztichne, rána a vítězný akord.')},{ic:'chest_gold',t:_t('Truhly mají zvuk'),d:_t('Poskakují, napětí roste, lepší = hlasitější.')},{ic:'chest_wood',t:_t('Bedna v běhu'),d:_t('Dopad, zámek, víko a cinkot mincí.')}],items:[_t('Elita, kování v Kovárně, nasazení a nákup mají vlastní zvuk.')]},
  {v:'2026-11-12f',d:'12. 11. 2026',t:_t('Bedna ze světla'),hl:[{ic:'chest_wood',t:_t('Bedna padá na paprsku'),d:_t('Dopadne se zábleskem a září do rytmu.')}],items:[_t('Pasivky v pauze už nezajíždějí pod rámeček.')]},
  {v:'2026-11-12e',d:'12. 11. 2026',t:_t('Přeladěno IV–X'),hl:[{ic:'skull',t:_t('Obtížnost IV–X'),d:_t('Kratší běhy jsou dál výzva.')},{ic:'map:kolebka',t:_t('Oprava pádu hry'),d:_t('Kolébka a Ostrovy už nepadají.')}],items:[]},
  {v:'2026-11-12d',d:'12. 11. 2026',t:_t('Příběh v komiksu'),hl:[{ic:'book',t:_t('Komiksy v příběhu'),d:_t('Prolog a konce kapitol jako pixel komiks.')},{ic:'scroll',t:_t('Přehraj si je znovu'),d:_t('Najdeš je v Kronice v Síni slávy.')}],items:[_t('Klepnutí ukáže další obrázek, Přeskočit komiks hned zavře.')]},

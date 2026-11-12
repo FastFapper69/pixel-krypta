@@ -3479,5 +3479,13 @@ window.KRYPTA_EN={
 "Bedna ze světla":"A chest of light",
 "Bedna padá na paprsku":"Chests fall on a beam",
 "Dopadne se zábleskem a září do rytmu.":"It lands with a flash and glows to the beat.",
-"Pasivky v pauze už nezajíždějí pod rámeček.":"Passives in the pause menu no longer slide under the frame."
+"Pasivky v pauze už nezajíždějí pod rámeček.":"Passives in the pause menu no longer slide under the frame.",
+"Nové zvuky":"New sounds",
+"Pád bosse zní pořádně":"Boss defeats sound epic",
+"Hudba ztichne, rána a vítězný akord.":"The music drops, a crash, then a victory chord.",
+"Truhly mají zvuk":"Chests have sound",
+"Poskakují, napětí roste, lepší = hlasitější.":"They hop, tension builds, rarer = bigger.",
+"Bedna v běhu":"Chests in a run",
+"Dopad, zámek, víko a cinkot mincí.":"A thump, the latch, the lid and coins.",
+"Elita, kování v Kovárně, nasazení a nákup mají vlastní zvuk.":"Elites, forge upgrades, equipping and buying have their own sound."
 };

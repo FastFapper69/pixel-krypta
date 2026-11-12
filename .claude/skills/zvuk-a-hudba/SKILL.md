@@ -57,6 +57,11 @@ Komunikuj česky. Kód je v `game.js`, oddíl `audio: music + rhythm` (mapa v `d
 - Engine umí `lead[64]`, `bass[64]`, `cm[64]`, `pure`, `free`, `spb` (12 = 3/4 nebo 6/8, jen pro psané skladby do menu – herní logika počítá takty po 16), stupnici `phryg`, saturaci `drive(k)` a nástroje `IN` (kick, tom, snare, clap, hat, bone, bell, xylo, fiddle, pluck, brass, choir).
 - Náčrty: dočasné `SONGS.skN` + styl ve větvi, render `node tests/tools/poslech-offline.js skN <s> 999 <prefix>`, MP3 přes ffmpeg `loudnorm` na stejnou hlasitost.
 
+## Efekty (12g)
+- Každý důležitý moment má vlastní efekt v `sfx()` (boss `bossdie`, elita `elite`, bedny `chestdrop`/`chestopen`, truhla v obchodě `hop`+`riser`+`open(rarita)`, `anvil`, `equip`, `buy`). Nový moment = nový `case`, ne recyklace `level`/`coin`.
+- Efekt synchronizovaný s obrazem plánuj od `T` (ne `qTime`), jinak ujede od animace.
+- Kontrola: `node tests/tools/sfxposlech.js <výstup>` – efekt ≥ 0 dB nad hudbou, špička pod −6 dB; tiché efekty zesil v `LOUD`, ne zvýšením hlasitosti celé sběrnice.
+
 ## Kontrola po změně zvuku (rychlá, ne celý audit)
 - `node tests/tools/zvuk.js <skladby>`: běh všech stylů kolem −31 dB (±1,5), boss o 3–5 dB výš, špička pod −3 dB, žádné `musicErr`.
 - `node tests/tools/ulthold.js` u změn časování ultimátek.
