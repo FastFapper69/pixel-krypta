@@ -1,0 +1,188 @@
+
+BĚH 1: {"map":"hrbitov","hero":"knight","tut":true,"dur":240}
+  0:02 toast: Zapomněný hřbitov
+  0:02 poprvé nepřítel: slime
+  0:02 poprvé nepřítel: bat
+  0:02 poprvé tlačítko vylepšení věže
+  0:04 TUTORIÁL: Táhni prstem kamkoli. Hrdina poběží.
+  0:09 TUTORIÁL: Útočí sám. Ty jen uhýbej.
+  0:11 TUTORIÁL: Seber krystaly, co padají z nepřátel.
+  0:11 nová úroveň 2 : Kouzelná střela [Nová zbraň · Střílí na nejbližší nepřátele.] | Boty [Nový bonus · +8 % rychlost pohybu] | Síla [Nový bonus · +12 % poškození]
+  0:13 TUTORIÁL: Věž střílí sama. Když stojíš u ní, sílí.
+  0:17 TUTORIÁL: Kombo = zabití bez zásahu. Vyšší kombo dá víc zlata.
+  0:25 nová úroveň 3 : Kouzelná střela [Silnější zbraň · úroveň 2] | Bumerang [Nová zbraň · Letí k nepříteli a vrací se zpátky, cestou tam i zpět zraňuje.] | Mrazivá vlna [Nová zbraň · Kruh mrazu zraní a zpomalí nepřátele.]
+  0:40 nová úroveň 4 : Blesk [Nová zbraň · Zasáhne náhodné nepřátele na obrazovce.] | Bumerang [Silnější zbraň · úroveň 2] | Rotující čepele [Silnější zbraň · úroveň 2]
+  1:02 poprvé nepřítel: skeleton
+  1:02 nová úroveň 5 : Ohnivá koule [Nová zbraň · Exploduje a poškodí všechny v okolí.] | Rotující čepele [Silnější zbraň · úroveň 2] | Magnet [Nový bonus · +25 % dosah sbírání]
+  1:13 TUTORIÁL: Elita: silnější nepřítel, padá z ní víc.
+  1:13 toast: Elitní nepřítel!
+  1:13 poprvé nepřítel: ELITA zombie
+  1:14 poprvé předmět na zemi: mat
+  1:22 nová úroveň 6 : Spěch [Nový bonus · útočíš o 8 % rychleji] | Lakota [Nový bonus · +10 % zlata z běhu] | Boty [Nový bonus · +8 % rychlost pohybu]
+  1:36 TUTORIÁL: Bedna! Doběhni pro ni.
+  1:36 poprvé předmět na zemi: chest
+  1:36 nová úroveň 7 : Boty [Nový bonus · +8 % rychlost pohybu] | Kouzelná střela [Silnější zbraň · úroveň 2] | Lakota [Nový bonus · +10 % zlata z běhu]
+  1:36 nová úroveň 7 : Kouzelná střela [Silnější zbraň · úroveň 3] | Blesk [Silnější zbraň · úroveň 2] | Bumerang [Silnější zbraň · úroveň 2]
+  1:39 TUTORIÁL: Jsi u věže. Vylepši ji tlačítkem dole.
+  1:50 nová úroveň 8 : Síla [Nový bonus · +12 % poškození] | Spěch [Silnější bonus · útočíš o 8 % rychleji] | Ohnivá koule [Silnější zbraň · úroveň 2]
+  1:51 toast: Obklíčili tě!
+  1:56 TUTORIÁL: Úlomky si odneseš z běhu. V menu je utratíš.
+  2:03 poprvé nepřítel: ghost
+  2:04 poprvé nepřítel: zombie
+  2:04 nová úroveň 9 : Štít [Nový bonus · −1 poškození z každého zásahu] | Blesk [Silnější zbraň · úroveň 2] | Lakota [Nový bonus · +10 % zlata z běhu]
+  2:11 toast: Kombo 108! +20 zlata
+  2:20 nová úroveň 10 : Sokolí oko [Nový bonus · +6 % šance na kritický zásah] | Boty [Nový bonus · +8 % rychlost pohybu] | Spěch [Silnější bonus · útočíš o 8 % rychleji]
+  2:21 toast: Elitní nepřítel!
+  2:21 poprvé nepřítel: ELITA skeleton
+  2:30 nová úroveň 10 : Síla [Nový bonus · +12 % poškození] | Ohnivá koule [Silnější zbraň · úroveň 3] | Lakota [Nový bonus · +10 % zlata z běhu]
+  2:40 nová úroveň 11 : Boty [Nový bonus · +8 % rychlost pohybu] | Bumerang [Silnější zbraň · úroveň 2] | Srdce [Nový bonus · +20 max. zdraví]
+  2:42 toast: Kombo 200! Padly Úlomky
+  2:52 nová úroveň 12 : Ohnivá koule [Silnější zbraň · úroveň 4] | Síla [Nový bonus · +12 % poškození] | Lakota [Nový bonus · +10 % zlata z běhu]
+  3:12 toast: Obklíčili tě!
+  3:16 nová úroveň 13 : Síla [Nový bonus · +12 % poškození] | Bumerang [Silnější zbraň · úroveň 3] | Rotující čepele [Silnější zbraň · úroveň 2]
+  3:21 toast: Elitní nepřítel!
+  3:23 toast: Kombo 119! +20 zlata
+  3:24 hláška: Víc než 8 věží se nevejde
+  3:31 nová úroveň 14 : Blesk [Silnější zbraň · úroveň 3] | Srdce [Nový bonus · +20 max. zdraví] | Lakota [Nový bonus · +10 % zlata z běhu]
+  3:43 toast: Kombo 200! Padly Úlomky
+  3:43 nová úroveň 14 : Blesk [Silnější zbraň · úroveň 4] | Rotující čepele [Silnější zbraň · úroveň 2] | Sokolí oko [Silnější bonus · +6 % šance na kritický zásah]
+  3:45 TUTORIÁL: Za chvíli přijde boss.
+  3:49 nová úroveň 15 : Sokolí oko [Silnější bonus · +6 % šance na kritický zásah] | Štít [Nový bonus · −1 poškození z každého zásahu] | Boty [Nový bonus · +8 % rychlost pohybu]
+  4:01 TUTORIÁL: Boss! Poraz ho a mapa je tvoje.
+  4:01 poprvé nepřítel: BOSS slimeking
+  4:04 toast: Sliz se dělí!
+  4:05 toast: Kombo 319! +40 zlata
+  4:06 nová úroveň 16 : Bumerang [Silnější zbraň · úroveň 4] | Štít [Nový bonus · −1 poškození z každého zásahu] | Sokolí oko [Silnější bonus · +6 % šance na kritický zásah]
+  4:11 toast: Sliz se dělí!
+  4:23 toast: Kombo 400! Padly Úlomky
+  4:29 nová úroveň 17 : Spěch [Silnější bonus · útočíš o 8 % rychleji] | Lakota [Nový bonus · +10 % zlata z běhu] | Ohnivá koule [Silnější zbraň · úroveň 5]
+  4:30 toast: Sliz se dělí!
+  KONEC 4:31: VÝHRA, úroveň 17, zbraně blade1 bolt3 rang4 lightning4 fireball5, věží 8, nejnižší zdraví 100 %
+  nové úrovně v časech: 0:11, 0:25, 0:40, 1:02, 1:22, 1:36, 1:36, 1:50, 2:04, 2:20, 2:30, 2:40, 2:52, 3:16, 3:31, 3:43, 3:49, 4:06, 4:29
+  obrazovka po běhu: Vítězství! Boss poražen: Král slizů. Odemčeno: Utopené hroby. 1 3 4 4 5 1 2 Čas 04:30 Zabití 785 Úroveň 17 Zlato celkem +422 Úlomky +64 Přežití ★★★ Lovec bossů ★ · 1 / 2 Na elitu ★ · 3 / 5 Rytmus v krvi Mistrovství! Pokračovat
+  [menu po běhu 1] VYSKOČÍ: NOVÁ MECHANIKA! Vybavení a Obchod Předměty z truhel nasadíš hrdinům. V Obchodě je každý den truhla zdarma. Další: Fúze zbraní · Utopené hroby UKAŽ MI TO POZDĚJI
+    → „Ukaž mi to“ otevře: chests
+  [menu po běhu 1] značky „nové“ na: mBoard
+  [Příprava] značky „nové“ na: mBoard
+
+Příprava: Příprava Zpět 422 64 0 Hrdina Rytíř úr. 1 Mág 150 Střelec 300 Bard Stavitel 250 Žoldák kap. I Krotitel kap. I Kovářka kap. III Vločka kap. IV Pirátka kap. V Astra kap. VI Nyx kap. VII Réva kap. VIII Paladin kap. X Rytíř Start: Rotující čepele Tank do první linie: +25 zdraví a brnění +1. Kampaň ‹ KAP
+
+BĚH 2: {"map":"bazina","hero":"knight","tut":false,"dur":270}
+  0:02 toast: Utopené hroby
+  0:02 poprvé nepřítel: drowned
+  0:06 toast: Vpravo dole postavíš věž za zlato
+  0:13 nová úroveň 2 : Mrazivá vlna [Nová zbraň · Kruh mrazu zraní a zpomalí nepřátele.] | Spěch [Nový bonus · útočíš o 8 % rychleji] | Kouzelná střela [Nová zbraň · Střílí na nejbližší nepřátele.]
+  0:18 nová úroveň 3 : Ohnivá koule [Nová zbraň · Exploduje a poškodí všechny v okolí.] | Šípy [Nová zbraň · Vystřelí salvu šípů na nejbližšího nepřítele.] | Srdce [Nový bonus · +20 max. zdraví]
+  0:25 nová úroveň 4 : Aura [Nová zbraň · Neustále zraňuje nepřátele kolem tebe.] | Síla [Nový bonus · +12 % poškození] | Mrazivá vlna [Silnější zbraň · úroveň 2]
+  0:39 nová úroveň 5 : Rotující čepele [Silnější zbraň · úroveň 2] | Noty [Nová zbraň · Noty letí ve vlnách a prolétají nepřáteli.] | Spěch [Nový bonus · útočíš o 8 % rychleji]
+  0:57 nová úroveň 6 : Mrazivá vlna [Silnější zbraň · úroveň 2] | Srdce [Nový bonus · +20 max. zdraví] | Síla [Nový bonus · +12 % poškození]
+  1:02 toast: Elitní nepřítel!
+  1:02 poprvé nepřítel: ELITA drowned
+  1:10 nová úroveň 7 : Kouzelná střela [Nová zbraň · Střílí na nejbližší nepřátele.] | Magnet [Nový bonus · +25 % dosah sbírání] | Boty [Nový bonus · +8 % rychlost pohybu]
+  1:19 nová úroveň 8 : Štít [Nový bonus · −1 poškození z každého zásahu] | Síla [Nový bonus · +12 % poškození] | Kouzelná střela [Silnější zbraň · úroveň 2]
+  1:24 nová úroveň 8 : Magnet [Nový bonus · +25 % dosah sbírání] | Boty [Nový bonus · +8 % rychlost pohybu] | Spěch [Nový bonus · útočíš o 8 % rychleji]
+  1:35 nová úroveň 9 : Lakota [Nový bonus · +10 % zlata z běhu] | Štít [Nový bonus · −1 poškození z každého zásahu] | Regenerace [Nový bonus · +0,3 zdraví za sekundu]
+  1:42 toast: Obklíčili tě!
+  1:47 nová úroveň 10 : Kouzelná střela [Silnější zbraň · úroveň 3] | Štít [Nový bonus · −1 poškození z každého zásahu] | Magnet [Silnější bonus · +25 % dosah sbírání]
+  1:59 nová úroveň 11 : Rotující čepele [Silnější zbraň · úroveň 3] | Síla [Nový bonus · +12 % poškození] | Regenerace [Nový bonus · +0,3 zdraví za sekundu]
+  2:08 nová úroveň 12 : Regenerace [Nový bonus · +0,3 zdraví za sekundu] | Štít [Nový bonus · −1 poškození z každého zásahu] | Rotující čepele [Silnější zbraň · úroveň 4]
+  2:11 toast: Elitní nepřítel!
+  2:22 nová úroveň 13 : Aura [Silnější zbraň · úroveň 2] | Síla [Nový bonus · +12 % poškození] | Ohnivá koule [Silnější zbraň · úroveň 2]
+  2:31 toast: Kombo 115! +20 zlata
+  2:39 nová úroveň 14 : Magnet [Silnější bonus · +25 % dosah sbírání] | Síla [Nový bonus · +12 % poškození] | Ohnivá koule [Silnější zbraň · úroveň 2]
+  2:43 nová úroveň 14 : Magnet [Silnější bonus · +25 % dosah sbírání] | Aura [Silnější zbraň · úroveň 3] | Mrazivá vlna [Silnější zbraň · úroveň 3]
+  2:52 nová úroveň 15 : Štít [Nový bonus · −1 poškození z každého zásahu] | Mrazivá vlna [Silnější zbraň · úroveň 3] | Síla [Nový bonus · +12 % poškození]
+  2:57 toast: Kombo 200! Padly Úlomky
+  3:02 toast: Obklíčili tě!
+  3:08 nová úroveň 16 : Aura [Silnější zbraň · úroveň 4] | Spěch [Nový bonus · útočíš o 8 % rychleji] | Sokolí oko [Nový bonus · +6 % šance na kritický zásah]
+  3:21 toast: Elitní nepřítel!
+  3:23 nová úroveň 17 : Sokolí oko [Nový bonus · +6 % šance na kritický zásah] | Kouzelná střela [Silnější zbraň · úroveň 4] | Lakota [Silnější bonus · +10 % zlata z běhu]
+  3:24 toast: Kombo 315! +40 zlata
+  3:36 nová úroveň 17 : Rotující čepele [Silnější zbraň · úroveň 5] | Srdce [Nový bonus · +20 max. zdraví] | Lakota [Silnější bonus · +10 % zlata z běhu]
+  3:37 nová úroveň 18 : Ohnivá koule [Silnější zbraň · úroveň 3] | Kouzelná střela [Silnější zbraň · úroveň 5] | Regenerace [Nový bonus · +0,3 zdraví za sekundu]
+  3:38 toast: Kombo 400! Padly Úlomky
+  3:49 nová úroveň 19 : Aura [Silnější zbraň · úroveň 5] | Magnet [Silnější bonus · +25 % dosah sbírání] | Rotující čepele [Silnější zbraň · úroveň 6]
+  3:51 toast: Kombo 515! +40 zlata
+  3:57 toast: Obklíčili tě!
+  4:01 nová úroveň 20 : Síla [Nový bonus · +12 % poškození] | Mrazivá vlna [Silnější zbraň · úroveň 4] | Lakota [Silnější bonus · +10 % zlata z běhu]
+  4:02 toast: Kombo 600! Padly Úlomky
+  4:06 toast: Elitní nepřítel!
+  4:06 poprvé nepřítel: ELITA ghost
+  4:15 nová úroveň 21 : Kouzelná střela [Silnější zbraň · úroveň 5] | Štít [Nový bonus · −1 poškození z každého zásahu] | Rotující čepele [Silnější zbraň · úroveň 6]
+  4:16 toast: Kombo 715! +40 zlata
+  4:19 nová úroveň 21 : Mrazivá vlna [Silnější zbraň · úroveň 5] | Sokolí oko [Nový bonus · +6 % šance na kritický zásah] | Lakota [Silnější bonus · +10 % zlata z běhu]
+  4:22 hláška: Víc než 8 věží se nevejde
+  4:23 toast: Kombo 800! Padly Úlomky
+  4:24 nová úroveň 22 : Ohnivá koule [Silnější zbraň · úroveň 4] | Regenerace [Nový bonus · +0,3 zdraví za sekundu] | Rotující čepele [Silnější zbraň · úroveň 6]
+  4:32 poprvé nepřítel: BOSS priest
+  4:34 nová úroveň 23 : Spěch [Nový bonus · útočíš o 8 % rychleji] | Ohnivá koule [Silnější zbraň · úroveň 5] | Magnet [Silnější bonus · +25 % dosah sbírání]
+  4:36 toast: Kombo 915! +40 zlata
+  KONEC 5:08: VÝHRA, úroveň 23, zbraně blade5 frost5 fireball5 aura5 bolt5, věží 8, nejnižší zdraví 76 %
+  nové úrovně v časech: 0:13, 0:18, 0:25, 0:39, 0:57, 1:10, 1:19, 1:24, 1:35, 1:47, 1:59, 2:08, 2:22, 2:39, 2:43, 2:52, 3:08, 3:23, 3:36, 3:37, 3:49, 4:01, 4:15, 4:19, 4:24, 4:34
+  obrazovka po běhu: Vítězství! Boss poražen: Bahenní kněz. Odemčeno: Kostnice. 5 5 5 5 5 1 1 Čas 05:07 Zabití 1260 Úroveň 23 Zlato celkem +728 Úlomky +87 Odemčená věž Kostěná krypta · ve Stavitelově bedně Lovec bossů ★★ · 2 / 3 Na elitu ★★ · 7 / 8 Pokračovat
+  [menu po běhu 2] VYSKOČÍ: NOVÁ MECHANIKA! Fúze zbraní Dvě zbraně na úrovni 5 spojíš v běhu v jednu ultimátní. Ťukej do rytmu a bude silnější. Další: Nástěnka · Kostnice SUPER!
+  [menu po běhu 2] značky „nové“ na: mBoard
+  [Příprava] značky „nové“ na: mBoard
+
+Příprava: Příprava Zpět 1150 151 0 Hrdina Rytíř úr. 1 Mág 150 Střelec 300 Bard Stavitel 250 Žoldák kap. I Krotitel kap. I Kovářka kap. III Vločka kap. IV Pirátka kap. V Astra kap. VI Nyx kap. VII Réva kap. VIII Paladin kap. X Rytíř Start: Rotující čepele Tank do první linie: +25 zdraví a brnění +1. Kampaň ‹ K
+
+BĚH 3: {"map":"kostnice","hero":"knight","tut":false,"dur":300}
+  0:02 toast: Kostnice
+  0:08 nová úroveň 2 : Rotující čepele [Silnější zbraň · úroveň 2] | Lakota [Nový bonus · +10 % zlata z běhu] | Blesk [Nová zbraň · Zasáhne náhodné nepřátele na obrazovce.]
+  0:16 nová úroveň 3 : Regenerace [Nový bonus · +0,3 zdraví za sekundu] | Ohnivá koule [Nová zbraň · Exploduje a poškodí všechny v okolí.] | Vrhací sekera [Nová zbraň · Letí obloukem vzhůru a padá dolů.]
+  0:30 nová úroveň 4 : Vrhací sekera [Nová zbraň · Letí obloukem vzhůru a padá dolů.] | Sokolí oko [Nový bonus · +6 % šance na kritický zásah] | Síla [Nový bonus · +12 % poškození]
+  0:35 toast: Pochodeň hoří: nepřátelé v jejím světle dostávají +25 % poškození
+  0:53 nová úroveň 5 : Magnet [Nový bonus · +25 % dosah sbírání] | Blesk [Silnější zbraň · úroveň 2] | Lakota [Nový bonus · +10 % zlata z běhu]
+  1:01 poprvé nepřítel: bonearcher
+  1:02 toast: Elitní nepřítel!
+  1:06 nová úroveň 6 : Lakota [Nový bonus · +10 % zlata z běhu] | Ohnivá koule [Silnější zbraň · úroveň 2] | Magnet [Nový bonus · +25 % dosah sbírání]
+  1:14 nová úroveň 6 : Šípy [Nová zbraň · Vystřelí salvu šípů na nejbližšího nepřítele.] | Srdce [Nový bonus · +20 max. zdraví] | Rotující čepele [Silnější zbraň · úroveň 2]
+  1:18 nová úroveň 7 : Rotující čepele [Silnější zbraň · úroveň 2] | Blesk [Silnější zbraň · úroveň 3] | Lakota [Nový bonus · +10 % zlata z běhu]
+  1:27 nová úroveň 8 : Štít [Nový bonus · −1 poškození z každého zásahu] | Spěch [Nový bonus · útočíš o 8 % rychleji] | Regenerace [Nový bonus · +0,3 zdraví za sekundu]
+  1:30 toast: Obklíčili tě!
+  1:43 nová úroveň 9 : Lakota [Nový bonus · +10 % zlata z běhu] | Štít [Silnější bonus · −1 poškození z každého zásahu] | Boty [Nový bonus · +8 % rychlost pohybu]
+  1:58 nová úroveň 10 : Šípy [Silnější zbraň · úroveň 2] | Srdce [Nový bonus · +20 max. zdraví] | Ohnivá koule [Silnější zbraň · úroveň 3]
+  2:01 poprvé nepřítel: spider
+  2:02 toast: Elitní nepřítel!
+  2:02 poprvé nepřítel: ELITA digger
+  2:12 nová úroveň 11 : Ohnivá koule [Silnější zbraň · úroveň 3] | Blesk [Silnější zbraň · úroveň 3] | Spěch [Nový bonus · útočíš o 8 % rychleji]
+  2:20 nová úroveň 11 : Ohnivá koule [Silnější zbraň · úroveň 4] | Blesk [Silnější zbraň · úroveň 3] | Štít [Silnější bonus · −1 poškození z každého zásahu]
+  2:21 nová úroveň 12 : Vrhací sekera [Silnější zbraň · úroveň 2] | Spěch [Nový bonus · útočíš o 8 % rychleji] | Sokolí oko [Nový bonus · +6 % šance na kritický zásah]
+  2:35 nová úroveň 13 : Srdce [Nový bonus · +20 max. zdraví] | Sokolí oko [Nový bonus · +6 % šance na kritický zásah] | Lakota [Silnější bonus · +10 % zlata z běhu]
+  2:51 toast: Obklíčili tě!
+  2:52 nová úroveň 14 : Rotující čepele [Silnější zbraň · úroveň 3] | Boty [Nový bonus · +8 % rychlost pohybu] | Lakota [Silnější bonus · +10 % zlata z běhu]
+  2:58 toast: Kombo 113! +20 zlata
+  3:01 nová úroveň 15 : Blesk [Silnější zbraň · úroveň 3] | Regenerace [Nový bonus · +0,3 zdraví za sekundu] | Magnet [Nový bonus · +25 % dosah sbírání]
+  3:02 poprvé nepřítel: digger
+  3:04 toast: Elitní nepřítel!
+  3:04 poprvé nepřítel: ELITA bonearcher
+  3:12 nová úroveň 16 : Magnet [Nový bonus · +25 % dosah sbírání] | Šípy [Silnější zbraň · úroveň 3] | Síla [Nový bonus · +12 % poškození]
+  3:19 nová úroveň 16 : Blesk [Silnější zbraň · úroveň 4] | Rotující čepele [Silnější zbraň · úroveň 4] | Štít [Silnější bonus · −1 poškození z každého zásahu]
+  3:20 nová úroveň 17 : Štít [Silnější bonus · −1 poškození z každého zásahu] | Ohnivá koule [Silnější zbraň · úroveň 5] | Boty [Nový bonus · +8 % rychlost pohybu]
+  3:30 nová úroveň 18 : Boty [Nový bonus · +8 % rychlost pohybu] | Šípy [Silnější zbraň · úroveň 4] | Lakota [Silnější bonus · +10 % zlata z běhu]
+  3:33 toast: Kombo 112! +20 zlata
+  3:38 nová úroveň 19 : Boty [Nový bonus · +8 % rychlost pohybu] | Vrhací sekera [Silnější zbraň · úroveň 3] | Ohnivá koule [Silnější zbraň · úroveň 6]
+  3:53 nová úroveň 20 : Blesk [Silnější zbraň · úroveň 5] | Štít [Silnější bonus · −1 poškození z každého zásahu] | Magnet [Nový bonus · +25 % dosah sbírání]
+  4:05 hláška: Víc než 8 věží se nevejde
+  4:06 nová úroveň 21 : Boty [Nový bonus · +8 % rychlost pohybu] | Síla [Nový bonus · +12 % poškození] | Ohnivá koule [Silnější zbraň · úroveň 6]
+  4:11 toast: Obklíčili tě!
+  4:15 nová úroveň 22 : Lakota [Silnější bonus · +10 % zlata z běhu] | Regenerace [Nový bonus · +0,3 zdraví za sekundu] | Šípy [Silnější zbraň · úroveň 5]
+  4:16 toast: Kombo 106! +20 zlata
+  4:24 nová úroveň 23 : Regenerace [Nový bonus · +0,3 zdraví za sekundu] | Lakota [Silnější bonus · +10 % zlata z běhu] | Rotující čepele [Silnější zbraň · úroveň 4]
+  4:28 nová úroveň 23 : Štít [Silnější bonus · −1 poškození z každého zásahu] | Regenerace [Nový bonus · +0,3 zdraví za sekundu] | Magnet [Nový bonus · +25 % dosah sbírání]
+  4:38 nová úroveň 24 : Rotující čepele [Silnější zbraň · úroveň 5] | Boty [Nový bonus · +8 % rychlost pohybu] | Regenerace [Nový bonus · +0,3 zdraví za sekundu]
+  4:40 toast: Kombo 104! +20 zlata
+  4:51 nová úroveň 25 : Spěch [Nový bonus · útočíš o 8 % rychleji] | Blesk [Silnější zbraň · úroveň 6] | Magnet [Nový bonus · +25 % dosah sbírání]
+  4:59 toast: Kombo 121! +20 zlata
+  5:01 poprvé nepřítel: BOSS warden
+  5:05 toast: Kombo 200! Padly Úlomky
+  5:08 nová úroveň 26 : Vrhací sekera [Silnější zbraň · úroveň 4] | Boty [Nový bonus · +8 % rychlost pohybu] | Sokolí oko [Nový bonus · +6 % šance na kritický zásah]
+  5:10 toast: Strážce zhasíná pochodně!
+  KONEC 5:23: VÝHRA, úroveň 26, zbraně blade5 lightning6 fireball6 axe4 arrows5, věží 8, nejnižší zdraví 19 %
+  nové úrovně v časech: 0:08, 0:16, 0:30, 0:53, 1:06, 1:14, 1:18, 1:27, 1:43, 1:58, 2:12, 2:20, 2:21, 2:35, 2:52, 3:01, 3:12, 3:19, 3:20, 3:30, 3:38, 3:53, 4:06, 4:15, 4:24, 4:28, 4:38, 4:51, 5:08
+  obrazovka po běhu: Vítězství! Boss poražen: Strážce kostnice. Odemčeno: Zvonice. 5 6 6 4 5 2 1 1 Čas 05:23 Zabití 1672 Úroveň 26 Zlato celkem +565 Úlomky +64 Lovec bossů ★★★ Na elitu ★★★ Pokračovat
+  [menu po běhu 3] VYSKOČÍ: NOVÁ MECHANIKA! Nástěnka Tři denní úkoly se třemi hvězdami. Za hvězdy dostaneš svíčky a za svíčky truhly. Další: Kovárna: vylepšování · Zvonice UKAŽ MI TO POZDĚJI
+    → „Ukaž mi to“ otevře: quests
+  [menu po běhu 3] značky „nové“ na: mBoard,mQuest
+
+CELKEM: hra 15 min, menu ~2 min. Chyby JS: žádné
