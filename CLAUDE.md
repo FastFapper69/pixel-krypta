@@ -47,11 +47,13 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - Hudba: pravidla, menu skladba a postup náčrtů ve skillu `zvuk-a-hudba`; nová kapitola `hudbacheck.js` + `skladby.js cN`.
 - Jména hrdinů: limit 85 % dlaždice v CZ i EN, písmo se nezmenšuje (`jmenahrdinu.js`, skill `novy-hrdina`).
 
-## Aktuální stav (verze 12b, 12. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 12c, 12. 11. 2026, vše na main, Pages nasazené)
 - **POSTUP OD 11z4 (rozhodnutí uživatele 11. 11. po rozboru procesu):** obsah předběhl hráče (6 hráčů, nikdo se nevrátil druhý den, nikdo za kapitolu I).
   **Nové kapitoly a akt II jsou zmrazené, dokud se testeři nedostanou aspoň do kapitoly III.** Přednost má začátek hry (prvních 30 minut), délka běhu a
   měření návratů (`docs/DATA-HRACU.md` „Návraty“ – před každou větší prací se podívej, kde noví hráči končí). **Jen jeden chat najednou** (souběžné chaty
   si přepisovaly čísla) a pro testery raději jedna dávka denně než verze po každé změně.
+- **DALŠÍ KROK (zadání uživatele 12. 11. ráno):** přeladit boty kapitoly IV–X po stlačení času z 11z4 (`ladeni.js c4 2 6` … `c10`, ~8 min na kapitolu a kolo, po kapitolách → `ladeni.js zapis`; kapitolu I tím nepřepisovat, ta je nastavená podle skutečných nováčků). Spouštět v kopii (`cp -rL tests/tools /tmp/lad/tests/tools` + `game.js` do `/tmp/lad`), ať testy v repu můžou běžet souběžně; výsledek pak `cp ladeni-last.json` zpět a `zapis`.
+- **12c zlato:** zlato za kombo (`run.kgG`) se nepřipisuje do banky; výhra v kapitole I ~200–360 (cíl 150–400).
 - **12b prvních 15 minut** (`tests/tools/prvnich15.js` = nováček od nuly přes 3 běhy a menu; **pusť po každé změně začátku hry**): méně hlášek o kombu, kroky Elita a Úlomky, Vybavení → Obchod, Příprava ukáže vybranou mapu.
 - **12a tutoriál blbuvzdorný** (připomínky uživatele po hraní od nuly): plynulý pruh `tutIn`, krok komba, karty v prvních 3 bězích slovy (`luEasy`, `luKind`), `#luHint`, odpočet karty až od 4. běhu. **Pravidlo: nový hráč nesmí narazit na prvek, který mu nikdo nevysvětlil – nová mechanika na začátku hry dostane krok v `tutTick`.**
 - **11z4 první minuty a kratší běhy** (podrobně `docs/HISTORIE.md`): nový tutoriál `tutTick` (krok čeká na hráče, ikona, ✓, šipka `tutPtr`, blikající

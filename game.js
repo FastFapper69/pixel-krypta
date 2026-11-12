@@ -3513,7 +3513,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12b';
+const GAME_VER='2026-11-12c';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3919,7 +3919,7 @@ function killEnemy(e){
   // 11z2: gold comes every 25 KILLS (a hit no longer wipes it out – in hard maps the combo kept resetting and towers came only late);
   // a long combo still pays more: at least 10, from combo 75 → 15 … up to 40 (a clean combo gets about the same as before). Material every 200 combo.
   run.kg=(run.kg||0)+1;
-  if(run.kg%25===0){const g=Math.min(40,Math.max(10,5*Math.floor(run.combo/25)));run.coins+=g;sfx('coin');
+  if(run.kg%25===0){const g=Math.min(40,Math.max(10,5*Math.floor(run.combo/25)));run.coins+=g;run.kgG=(run.kgG||0)+g;sfx('coin');
     // 12b: gold always as a number above the hero; the toast only for every new hundred of combo (the 15-minute bot run got one every 2–3 s)
     if(run.nums.length<40)run.nums.push({x:run.p.x,y:run.p.y-14,vx:0,vy:-40,txt:'+'+g,life:.8,col:'#f6c744',t:0});
     if((run.cbT||0)>run.combo)run.cbT=0;const h=Math.floor(run.combo/100)*100;if(h>=100&&h>(run.cbT||0)&&h%200){run.cbT=h;toast(_t('Kombo ')+run.combo+'! +'+g+_t(' zlata'),1000);}}
@@ -6086,7 +6086,8 @@ const rewT=()=>run.endless?run.t:Math.min(run.t,run.map.dur+BOSS_RAGE+60)*(run.m
 // gold kept after a run: part of the gold collected in it (the rest is meant for towers and repairs) – 30 % of the first
 // 2000, 10 % above that, so very long fights don't pay thousands – plus time and the win bonus
 const keepGold=c=>.3*Math.min(c,2000)+.1*Math.max(0,c-2000);
-function endCoins(won){return Math.round((keepGold(Math.max(0,run.coins+(run.spent||0)-run.startCoins))+Math.floor(rewT()/4)+(won?100+(run.map.gb||0):0))*(1+((st&&st.gold)||0)+.3*(run.nm||0)+(run.thm==='feast'?.2:0))*petGoldMul()*chGoldMul());}
+// 12c: combo gold (11z2, every 25 kills) is for towers during the run, not for the bank – it had doubled the gold per run (bots: +420…730 in chapter I)
+function endCoins(won){return Math.round((keepGold(Math.max(0,run.coins+(run.spent||0)-run.startCoins-(run.kgG||0)))+Math.floor(rewT()/4)+(won?100+(run.map.gb||0):0))*(1+((st&&st.gold)||0)+.3*(run.nm||0)+(run.thm==='feast'?.2:0))*petGoldMul()*chGoldMul());}
 // 10j: like Shards, gold grows +15 % per chapter (bots: a win in II paid only 6 % more than in I although II is much harder)
 const chGoldMul=()=>{const C=!run.endless&&CH_OF[run.mapId];return C?1+.15*C.i:1;};
 function finish(won){
@@ -10173,6 +10174,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12c',d:'12. 11. 2026',t:_t('Těsnější zlato'),hl:[{ic:'coin',t:_t('Méně zlata za běh'),d:_t('Zlato za kombo jde jen na věže.')}],items:[]},
  {v:'2026-11-12b',d:'12. 11. 2026',t:_t('Klidnější první minuty'),hl:[{ic:'skull',t:_t('Elita a Úlomky'),d:_t('Tutoriál vysvětlí i elity a Úlomky.')},{ic:'flamering',t:_t('Méně hlášek o kombu'),d:_t('Zlato za kombo vyletí nad hrdinou.')}],items:[_t('Ukaž mi to u Vybavení otevře Obchod s denní truhlou.'),_t('V Přípravě je vybraná mapa vždy vidět nad Vyrazit.'),_t('Dvouřádkové karty mají víc místa dole.')]},
  {v:'2026-11-12a',d:'12. 11. 2026',t:_t('Jasnější tutoriál'),hl:[{ic:'flamering',t:_t('Co je kombo'),d:_t('Tutoriál vysvětlí, co dělá kombo.')},{ic:'blade',t:_t('Jasné karty'),d:_t('První běhy píšou, co karta udělá.')}],items:[_t('Text tutoriálu najíždí plynule, nesekaně.'),_t('Prvním 3 během neběží na výběr karty čas.')]},
  {v:'2026-11-11z4',d:'11. 11. 2026',t:_t('Nový tutoriál a kratší běhy'),hl:[{ic:'stick',t:_t('Nový tutoriál'),d:_t('Krok za krokem, s ukazateli a fajfkou.')},{ic:'skull',t:_t('Boss dřív'),d:_t('Přijde nejpozději v 5. minutě.')},{ic:'boss:slimeking',t:_t('Řidší horda u bosse'),d:_t('Během boje s bossem chodí méně nepřátel.')}],items:[_t('Mapy jsou kratší, ale nepřátel, zlata a zkušeností je stejně.'),_t('První běh je mírnější a ukazuje jen jednu věž.'),_t('Nový hráč vidí jen obrázky, které si může vybrat.'),_t('Tlačítko Uložit u přezdívky je vždy na obrazovce.')]},

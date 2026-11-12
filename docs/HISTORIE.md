@@ -534,3 +534,8 @@ tutoriál, karty mechanik s „Ukaž mi to“, Příprava → Vyrazit, minihra f
 - Příprava: vybraná mapa se posune doprostřed, ať ji nezakrývá Vyrazit. Dvouřádkové karty nové úrovně vyšší (`data-kd2`, 116 px).
 - Ponecháno k rozhodnutí uživatele: zlato za běh v kapitole I (+420 až +730) stačí po 1. běhu na Mága (150) i Stavitele (250).
 
+## 12c (12. 11. 2026) – ubrat zlato
+Uživatel: „ubrat zlato“ (12b ukázalo +420…730 za běh v kapitole I, Mág 150 a Stavitel 250 hned po prvních bězích). Příčina: zlato za kombo z 11z2
+(10–40 každých 25 zabití) se po běhu z 30 % připisovalo do banky (`keepGold`). Teď se sčítá do `run.kgG` a `endCoins` ho odečte – v běhu na věže
+zůstává stejně. Boti (`hraci.js` vstup, 6 běhů): výhra Hřbitov ~200, Hroby ~245, Kostnice ~235, Zvonice ~290, Trůn ~360 = cíl 150–400 z `EKONOMIKA.md`.
+
