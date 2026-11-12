@@ -1,0 +1,23 @@
+
+kolo 1 (252 s)
+  doly        hpm 3.54 dmm 1.26     průměrný 25/25 %   neopatrný přežije 40/40 %  zkušený 100 % v cíli
+  kovarna     hpm 3.91 dmm 1.54     průměrný 25/22 %   neopatrný přežije 41/40 %  zkušený 92 %  v cíli
+  reka        hpm 3.6 dmm 2.21      průměrný 25/19 %   neopatrný přežije 40/40 %  zkušený 100 % v cíli
+  krystaly    hpm 4.55 dmm 1.88     průměrný 25/16 %   neopatrný přežije 40/40 %  zkušený 92 %  → hpm 5.01, dmm 1.88
+  srdce       hpm 2.31 dmm 1.1      průměrný 17/12 %   neopatrný přežije 46/40 %  zkušený 92 %  → hpm 2.51, dmm 1.1
+
+kolo 2 (246 s)
+  doly        hpm 3.54 dmm 1.26     průměrný 42/25 %   neopatrný přežije 47/40 %  zkušený 92 %  → hpm 3.97, dmm 1.26
+  kovarna     hpm 3.91 dmm 1.54     průměrný 8/22 %    neopatrný přežije 41/40 %  zkušený 100 % → hpm 3.49, dmm 1.54
+  reka        hpm 3.6 dmm 2.21      průměrný 25/19 %   neopatrný přežije 44/40 %  zkušený 92 %  v cíli
+  krystaly    hpm 5.01 dmm 1.88     průměrný 25/16 %   neopatrný přežije 40/40 %  zkušený 92 %  → hpm 5.52, dmm 1.88
+  srdce       hpm 2.51 dmm 1.1      průměrný 25/12 %   neopatrný přežije 41/40 %  zkušený 83 %  → hpm 2.9, dmm 1.1
+
+kolo 3 (248 s)
+  doly        hpm 3.97 dmm 1.26     průměrný 8/25 %    neopatrný přežije 38/40 %  zkušený 92 %  → hpm 3.46, dmm 1.26
+  kovarna     hpm 3.49 dmm 1.54     průměrný 42/22 %   neopatrný přežije 46/40 %  zkušený 100 % → hpm 4.01, dmm 1.54
+  reka        hpm 3.6 dmm 2.21      průměrný 17/19 %   neopatrný přežije 40/40 %  zkušený 100 % v cíli
+  krystaly    hpm 5.52 dmm 1.88     průměrný 0/16 %    neopatrný přežije 37/40 %  zkušený 83 %  → hpm 4.39, dmm 1.88
+  srdce       hpm 2.9 dmm 1.1       průměrný 17/12 %   neopatrný přežije 44/40 %  zkušený 83 %  → hpm 3.15, dmm 1.1
+
+hotovo: ladeni-last.json (zapiš: node ladeni.js zapis)
