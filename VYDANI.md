@@ -2,6 +2,7 @@
 
 Stav: **jen plán** (sepsáno 6. 11. 2026, nic z toho zatím není hotové). Navazuje na `EKONOMIKA.md` (fáze 6 serverový inventář, fáze 7 monetizace).
 Research monetizace a regulace k 11. 11. 2026 (DFA, PEGI 16, reklamy, battle pass): `docs/RESEARCH-MONETIZACE.md`.
+Rozbor Survivor.io, srovnání s konkurencí, šance na výdělek, technické mezery a plán s branami (12. 11. 2026): `docs/RESEARCH-SURVIVORIO.md` (dokument: https://claude.ai/artifact/EXKsd5UoARaXwd2CFWWMCv).
 Údaje o obchodech (poplatky, pravidla testování, pravidla k AI) se mění – před každým krokem je ověř znovu.
 
 ## 1. Co je potřeba
