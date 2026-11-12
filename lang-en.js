@@ -1,6 +1,9 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+'Drobné opravy':'Small fixes',
+'Šipka „Ukaž mi to“ už nezůstane viset v rohu menu.':'The “Show me” arrow no longer gets stuck in the menu corner.',
+'Konec běhu: odemčená věž napíše, kde ji najdeš.':'Run end: an unlocked tower says where to find it.',
 'Zvonice lehčí':'Bell Village easier',
 'Zvonice je lehčí':'Bell Village is easier',
 'Slabší nepřátelé a méně lučištníků.':'Weaker enemies and fewer archers.',
@@ -517,6 +520,7 @@ window.KRYPTA_EN={
 "Drží o polovinu déle.":"Holds half as long again.",
 "Harpunovaný nepřítel dostává od všeho o 25 % víc.":"A harpooned enemy takes 25 % more damage from everything.",
 "Odemčená věž":"Tower unlocked",
+"Najdeš ji ve Stavitelově bedně v Obchodě.":"Find it in the Builder's Crate in the Shop.",
 "ve Stavitelově bedně":"in the Builder's Crate",
 "Odemčeno. Padá ze Stavitelovy bedny.":"Unlocked. Drops from the Builder's Crate.",
 "Karta věže. Věže odemčené v kampani padají jen odsud.":"A tower card. Towers unlocked in the campaign drop only from here.",

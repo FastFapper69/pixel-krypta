@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12r';
+const GAME_VER='2026-11-12s';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -6203,7 +6203,7 @@ function showOver(){
   if(W.fin)rows.push([_t('Poklad finále'),'<b style="color:'+RAR[W.fin.r].col+'">'+itemName(W.fin)+'</b>']);
   if(W.rune)rows.push(['<img class="cdl" alt="" src="'+runeIcon(runeOf(W.rune).t)+'"> '+_t('Runa'),'<b style="color:'+RUNES[runeOf(W.rune).t].col+'">'+runeName(W.rune)+'</b>']);
   if(W.leg)rows.push([_t('Legendárka kapitoly'),'<b style="color:'+RAR[4].col+'">'+itemName(W.leg)+'</b>']);
-  if(W.twU)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.tower[W.twU])+'"> '+_t('Odemčená věž'),'<b style="color:var(--gold)">'+TOWERS[W.twU].name+'</b> · '+_t('ve Stavitelově bedně')]);
+  if(W.twU)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.tower[W.twU])+'"> '+_t('Odemčená věž'),'<b style="color:var(--gold)">'+TOWERS[W.twU].name+'</b>'],[_t('Najdeš ji ve Stavitelově bedně v Obchodě.'),null]); // 12s: dřív „· ve Stavitelově bedně“ v hodnotě, lámalo se na 3 řádky
   if(W.set)rows.push(['<img class="cdl" alt="" src="'+itIcon(W.set)+'"> '+_t('Kus setu'),'<b style="color:'+SETS[W.set.set].col+'">'+itemName(W.set)+'</b>']);
   if(W.av)rows.push(['<img class="cdl" alt="" src="'+dataUrl(avImg(W.av))+'"> '+_t('Profilový obrázek'),_t('<b style="color:var(--gold)">Odemčen!</b>')]);
   if(W.setCh)rows.push(['<img class="cdl" alt="" src="'+dataUrl(SPR.icon.chest_gold)+'"> '+_t('Truhla setu'),'<b style="color:'+SETS[W.setCh].col+'">'+SETS[W.setCh].name+'</b>']);
@@ -8435,7 +8435,8 @@ function spotOn(get,delay){spotOff(true);SPOT.on=true;SPOT.until=Date.now()+6000
   setTimeout(()=>{if(!SPOT.on)return;const el=get();if(!el||el.hidden||!el.offsetParent){spotOff();return;}SPOT.el=el;el.classList.add('kspot');
     try{el.scrollIntoView({block:'center',behavior:'smooth'});}catch(_){}
     let a=$('#spotAr');if(!a){a=document.createElement('img');a.id='spotAr';a.alt='';document.body.appendChild(a);}a.hidden=false;
-    const place=()=>{if(!SPOT.el)return;if(Date.now()>SPOT.until){spotOff();return;}const r=SPOT.el.getBoundingClientRect(),up=r.top<160;
+    const place=()=>{if(!SPOT.el)return;if(Date.now()>SPOT.until||!SPOT.el.offsetParent){spotOff();return;} // 12s: cíl zmizel (jiná obrazovka bez klepnutí) → šipka nesmí zůstat v rohu
+      const r=SPOT.el.getBoundingClientRect(),up=r.top<160;
       a.src=spotArrow(up);a.style.left=Math.round(r.left+r.width/2-12)+'px';a.style.top=Math.round(up?r.bottom+8:r.top-34)+'px';requestAnimationFrame(place);};place();
     setTimeout(()=>{if(SPOT.on)addEventListener('pointerdown',spotTap,true);},300);},delay||0);}
 function spotOff(quiet){removeEventListener('pointerdown',spotTap,true);const was=SPOT.on;SPOT.on=false;SPOT.until=0;if(SPOT.el)SPOT.el.classList.remove('kspot');SPOT.el=null;
@@ -10627,6 +10628,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12s',d:'12. 11. 2026',t:_t('Drobné opravy'),hl:[],
+  items:[_t('Šipka „Ukaž mi to“ už nezůstane viset v rohu menu.'),_t('Konec běhu: odemčená věž napíše, kde ji najdeš.')]},
  {v:'2026-11-12r',d:'12. 11. 2026',t:_t('Zvonice lehčí'),hl:[{ic:'map:zvonice',t:_t('Zvonice je lehčí'),d:_t('Slabší nepřátelé a méně lučištníků.')},{ic:'star',t:_t('„Ukaž mi to“ ukáže cestu'),d:_t('Nová mechanika ukáže, kde ji najdeš.')}],
   items:[_t('Novinky počkají, než zavřeš karty nových mechanik.'),_t('Karta denní výzvy ukazuje správně 2:00.')]},
  {v:'2026-11-12q',d:'12. 11. 2026',t:_t('Kořist krypty'),hl:[{ic:'chest_wood',t:_t('Kořist krypty'),d:_t('Truhla v menu se plní, i když nehraješ.')},{ic:'trophy',t:_t('Denní výzva na 2 minuty'),d:_t('Odemkne se už po druhé výhře.')}],

@@ -30,4 +30,7 @@ const L=require('./lib');const lang=process.argv[2]||'cs',phone=process.argv[3]|
  // bez ťuknutí zvýraznění samo zmizí po 6 s
  await E("document.querySelector('#newsOk').click();spotOn(()=>document.querySelector('#mLoot'),0);1");await p.waitForTimeout(6600);s=await st();ok(!s.spot&&!s.ar,'zvýraznění samo zmizí po 6 s');
  ok(await E("!document.querySelector('.kspot')"),'po zvýraznění nezůstane rám');
+ // 12s (bot nováček): zvýraznění v Přípravě a přechod na jinou obrazovku bez klepnutí → šipka zůstala v levém horním rohu menu
+ await E("$('#mPlay').click();1");await p.waitForTimeout(600);await E("spotOn(()=>document.querySelector('#dailyBox'),0);1");await p.waitForTimeout(500);
+ await E("openMenu();1");await p.waitForTimeout(400);s=await st();ok(!s.spot&&!s.ar,'změna obrazovky bez klepnutí → šipka zmizí '+JSON.stringify(s));
  ok(!errs.length,'bez chyb JS '+errs.slice(0,2).join(' | '));await close();process.exit(bad?1:0);})();

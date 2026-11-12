@@ -47,7 +47,8 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - Hudba: pravidla, menu skladba a postup náčrtů ve skillu `zvuk-a-hudba`; nová kapitola `hudbacheck.js` + `skladby.js cN`.
 - Jména hrdinů: limit 85 % dlaždice v CZ i EN, písmo se nezmenšuje (`jmenahrdinu.js`, skill `novy-hrdina`).
 
-## Aktuální stav (verze 12r, 12. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 12s, 12. 11. 2026, vše na main, Pages nasazené)
+- **12s opravy z bota nováčka** (`prvnich15.js`): šipka „Ukaž mi to“ zmizí, když cíl zmizí (`place()` → `spotOff`); konec běhu: věž ve Stavitelově bedně jako poznámka `ovtip`. Chyby JS v `events` od 12o žádné. Návrhy (značka Obchodu při truhle zdarma, rolování Přípravy) v `docs/HISTORIE.md` 12s.
 - **POSTUP OD 11z4 (rozhodnutí uživatele 11. 11. po rozboru procesu):** obsah předběhl hráče (6 hráčů, nikdo se nevrátil druhý den, nikdo za kapitolu I).
   **Nové kapitoly a akt II jsou zmrazené, dokud se testeři nedostanou aspoň do kapitoly III.** Přednost má začátek hry (prvních 30 minut), délka běhu a
   měření návratů (`docs/DATA-HRACU.md` „Návraty“ – před každou větší prací se podívej, kde noví hráči končí). **Jen jeden chat najednou** (souběžné chaty

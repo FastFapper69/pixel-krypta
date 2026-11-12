@@ -620,3 +620,8 @@ Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co 
 - Zvonice: `MAP_TIER.zvonice` HP ×1,18 → ×1,0, `bonearcher` váha 3 → 2. Data `runs`: uživatel 2 smrti (Rytíř úr. 3 ve 3:43, Bard úr. 1 ve 2:30), lučištníci dali ~půlku poškození; jediný výherce měl hrdinu úr. 7–8.
 - Karta denní výzvy ukazovala natvrdo 3:00, teď `DAILY_T` (2:00).
 
+
+## 12s (12. 11. 2026) – opravy z bota nováčka
+- Chyby JS hráčů (`events`, `ev='err'`): od 12o žádná (hrál 1 hráč); zápis ověřen vyvolanou chybou. Feedback bez hlášení chyb.
+- Bot nováček (`prvnich15.js cs 10`, 2 běhy, obě výhry, 0 chyb JS) našel: (1) šipka `spotOn` zůstala v levém horním rohu menu, když se obrazovka změnila bez klepnutí (cíl skrytý → `getBoundingClientRect` 0,0). Oprava: `place()` volá `spotOff()`, když cíl nemá `offsetParent`; regrese v `ukazmi.js`. (2) Konec běhu: hodnota „Bleskový sloup · ve Stavitelově bedně“ zúžila sloupec popisků („Lovec / bossů“). Oprava: hodnota jen název věže, poznámka „Najdeš ji ve Stavitelově bedně v Obchodě.“ jako řádek `ovtip`. Pravidlo `nowrap` na popisky zkoušené a zahozené (u „Přemožitel Morvana“ + „Mistrovství!“ přetékalo o 16 px na SE).
+- Návrhy z bota (neudělané, čekají na uživatele): značka na Obchodě, když čeká denní truhla zdarma; Příprava zbytečně odroluje k mapě, i když se vejde (název kapitoly pak useknutý nahoře).
