@@ -1568,3 +1568,7 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 #comic .cm-skip{margin-top:10px;height:32px;padding:0 14px;font:var(--k20);color:#e8d6a4;background:#1a1218;border:2px solid #120a10;box-shadow:inset 0 0 0 2px #5a4e3a;border-radius:0;text-shadow:none}
 #cxStory .cm-play{display:inline-flex;align-items:center;gap:8px;margin-top:6px;height:28px;padding:0 10px;font:var(--k20);color:#2a1a0c;background:#d8c490;border:2px solid #5a4024;border-radius:0;text-shadow:none;cursor:pointer}
 #cxStory .cm-play i{width:0;height:0;border-left:8px solid #5a4024;border-top:6px solid transparent;border-bottom:6px solid transparent}
+/* 12i: every seal marker (new / waiting, menu and top bar) does the same crisp pixel hop – before, .new scaled smoothly (blurry) and .has stood still */
+#mStack .btn.art.new::after,#mStack .btn.art.has::after,#mTop .btn.ic.has::after,#mTop .btn.ic.new::after,#mNews.has::after,#mBoard.has::after,#mSet.has::after,#mGuide.has::after,#mQuest.art.has::after{animation:sealHop 1.6s steps(1,end) infinite}
+@keyframes sealHop{0%{transform:none;filter:none}50%{transform:translateY(-3px);filter:brightness(1.25)}62%{transform:translateY(-1px);filter:none}75%{transform:none}}
+@media (prefers-reduced-motion:reduce){#mStack .btn.art.new::after,#mStack .btn.art.has::after,#mTop .btn.ic.has::after,#mTop .btn.ic.new::after,#mNews.has::after,#mBoard.has::after,#mSet.has::after,#mGuide.has::after{animation:none}}

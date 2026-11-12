@@ -3491,5 +3491,8 @@ window.KRYPTA_EN={
 "Oprava truhel":"Chest fix",
 "Truhla za svíčky":"Candle chest",
 "Tlačítko Super zase funguje.":"The Great button works again.",
-"Truhly mimo Obchod znovu ukazují animaci otevření.":"Chests outside the Shop show the opening animation again."
+"Truhly mimo Obchod znovu ukazují animaci otevření.":"Chests outside the Shop show the opening animation again.",
+"Pečeti v menu":"Menu seals",
+"Všechny pečeti poskakují":"All seals hop now",
+"Nové i čekající značky se hýbou stejně.":"New and waiting markers move the same way."
 };

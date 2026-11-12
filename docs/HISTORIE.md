@@ -565,3 +565,6 @@ Uživatel: „chybí mi sfx, jako poražení bosse, otvírání beden jak ve hř
 
 ## 12h (12. 11. 2026) – truhla za svíčky
 Uživatel (snímek z Nástěnky): u truhly za svíčky nejde kliknout na Super. Příčina: `revealItem` bral `$('#rvOk')` a `$('#rvCv')` z celé stránky – po dřívějším otevření v Obchodě zůstaly ve skrytém `#chestPop` staré prvky se stejným id, takže se tlačítko i animace napojily na ně. Teď `pop.querySelector`. Test `revealpop.js` (na staré verzi padá).
+
+## 12i (12. 11. 2026) – pečeti v menu
+Uživatel: jedna „plusko“ pečeť pulzuje, druhá ne. `.new` měla starou animaci `qdot` (plynulé zvětšení ×1,3, rozmazává pixel art), `.has` měla `animation:none`. Teď všechny pečeti (menu i horní lišta) `sealHop` – poskok o 3 px v krocích + zjasnění, vypnuté při omezeném pohybu.

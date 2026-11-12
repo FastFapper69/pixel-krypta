@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12h';
+const GAME_VER='2026-11-12i';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -10486,6 +10486,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12i',d:'12. 11. 2026',t:_t('Pečeti v menu'),hl:[{ic:'bell',t:_t('Všechny pečeti poskakují'),d:_t('Nové i čekající značky se hýbou stejně.')}],items:[]},
  {v:'2026-11-12h',d:'12. 11. 2026',t:_t('Oprava truhel'),hl:[{ic:'candle',t:_t('Truhla za svíčky'),d:_t('Tlačítko Super zase funguje.')}],items:[_t('Truhly mimo Obchod znovu ukazují animaci otevření.')]},
  {v:'2026-11-12g',d:'12. 11. 2026',t:_t('Nové zvuky'),hl:[{ic:'boss:morvan',t:_t('Pád bosse zní pořádně'),d:_t('Hudba ztichne, rána a vítězný akord.')},{ic:'chest_gold',t:_t('Truhly mají zvuk'),d:_t('Poskakují, napětí roste, lepší = hlasitější.')},{ic:'chest_wood',t:_t('Bedna v běhu'),d:_t('Dopad, zámek, víko a cinkot mincí.')}],items:[_t('Elita, kování v Kovárně, nasazení a nákup mají vlastní zvuk.')]},
  {v:'2026-11-12f',d:'12. 11. 2026',t:_t('Bedna ze světla'),hl:[{ic:'chest_wood',t:_t('Bedna padá na paprsku'),d:_t('Dopadne se zábleskem a září do rytmu.')}],items:[_t('Pasivky v pauze už nezajíždějí pod rámeček.')]},
