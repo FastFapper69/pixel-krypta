@@ -102,7 +102,7 @@ async function runOne(p,J){const P=POVAHY[J.pov],isFin=chs[J.ci].maps[4]===J.map
         let goal=null;
         if(R.kcr&&R.kcr.ph===3&&R.kcr.fw&&R.boss&&Math.random()<P.aware+.5){const C=map.size/2,S=R.boss;let bd=1e9;for(const q of E('C10_COLS')){const px=C+q[0],py=C+q[1],ux=px-S.x,uy=py-S.y,L=Math.hypot(ux,uy)||1,gx=px+ux/L*22,gy=py+uy/L*22,d=Math.hypot(gx-p.x,gy-p.y);if(d<bd){bd=d;goal={x:gx,y:gy,sh:1};}}} // 11p: the solar flare → behind a pillar
         if(R.ks&&R.ks.warn>0&&Math.random()<P.aware+.4){const o=(map.kit.mech.find(m=>m.id==='sundial')||{}),d0=60+((o.len||460)-60)*.25;goal={x:R.ks.x+Math.cos(R.ks.a)*d0,y:R.ks.y+Math.sin(R.ks.a)*d0,sh:1};} // 11k: noon → into the obelisk's shadow
-        if(!goal&&R.kb&&p.hp<p.max*Math.max(.5,P.panic)){let bd=1e9;for(const f of R.kb.F){const d=Math.hypot(f.x-p.x,f.y-p.y);if(d<bd){bd=d;goal=f;}}} // 11k: low on health → to a flower
+        if(!goal&&R.kb&&R.kb.F&&p.hp<p.max*Math.max(.5,P.panic)){let bd=1e9;for(const f of R.kb.F){const d=Math.hypot(f.x-p.x,f.y-p.y);if(d<bd){bd=d;goal=f;}}} // 11k: low on health → to a flower
         if(R.kn){const o=(map.kit.mech.find(m=>m.id==='lantern')||{}),rr=(o.r||120)*(R.kn.dim>0?.6:1);if(Math.hypot(R.kn.x-p.x,R.kn.y-p.y)>rr*(.45+.3*(1-P.aware)))goal=R.kn;}
         if(R.fcy&&seen(R.fcy)){let bd=1e9;for(const i of R.fcy.act){const q=R.built.runes[i],d=Math.hypot(q.x-p.x,q.y-p.y);if(d<bd){bd=d;goal=q;}}}
         if(!goal&&(p.cold||0)>.55&&R.built.fires&&R.built.fires.length){let bd=1e9;for(const f of R.built.fires){const d=Math.hypot(f.x-p.x,f.y-p.y);if(d<bd){bd=d;goal=f;}}}

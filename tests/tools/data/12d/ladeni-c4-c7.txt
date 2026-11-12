@@ -1,0 +1,46 @@
+
+kolo 1 (2197 s)
+  jezero      hpm 3.85 dmm 1.63     průměrný 42/40 %   neopatrný přežije 60/50 %  zkušený 92 %  v cíli
+  pevnost     hpm 3.47 dmm 1.74     průměrný 50/37 %   neopatrný přežije 56/50 %  zkušený 100 % v cíli
+  tajga       hpm 7.31 dmm 1.27     průměrný 42/34 %   neopatrný přežije 55/50 %  zkušený 100 % v cíli
+  soutezka    hpm 4.34 dmm 1.11     průměrný 25/31 %   neopatrný přežije 58/50 %  zkušený 100 % v cíli
+  zima        hpm 3.97 dmm 1.51     průměrný 8/20 %    neopatrný přežije 50/40 %  zkušený 92 %  → hpm 3.61, dmm 1.51
+  vrakoviste  hpm 21.26 dmm 2.54    průměrný 42/40 %   neopatrný přežije 44/50 %  zkušený 92 %  v cíli
+  pristav     hpm 17.1 dmm 1.98     průměrný 42/37 %   neopatrný přežije 48/50 %  zkušený 100 % v cíli
+  majak       hpm 22.07 dmm 2.54    průměrný 50/34 %   neopatrný přežije 59/50 %  zkušený 100 % → hpm 24.32, dmm 2.54
+  vir         hpm 55.44 dmm 1.32    průměrný 58/31 %   neopatrný přežije 54/50 %  zkušený 58 %  → hpm 65.22, dmm 1.32
+  paluba      hpm 11.88 dmm 1.39    průměrný 17/20 %   neopatrný přežije 48/40 %  zkušený 33 %  v cíli
+  hvezdarna   hpm 5.76 dmm 1.97     průměrný NaN/25 %  neopatrný přežije -/40 %   zkušený 100 % → hpm 6.76, dmm 1.97
+  mlhovina    hpm 26.84 dmm 2.65    průměrný 58/22 %   neopatrný přežije 41/40 %  zkušený 75 %  → hpm 33.8, dmm 2.65
+  ostrovy     hpm 8.93 dmm 2        průměrný NaN/19 %  neopatrný přežije -/40 %   zkušený NaN % → hpm 11.04, dmm 2
+  souhvezdi   hpm 20.99 dmm 2.22    průměrný 42/16 %   neopatrný přežije 48/40 %  zkušený 75 %  → hpm 25.57, dmm 2.22
+  zatmeni     hpm 11.56 dmm 1.12    průměrný 0/12 %    neopatrný přežije 51/40 %  zkušený 83 %  → hpm 9.66, dmm 1.12
+  okraj       hpm 29.75 dmm 2.29    průměrný 8/40 %    neopatrný přežije 46/50 %  zkušený 92 %  → hpm 23.43, dmm 2.29
+  trosky      hpm 44.69 dmm 2.59    průměrný 67/37 %   neopatrný přežije 46/50 %  zkušený 75 %  → hpm 53.02, dmm 2.59
+  ozveny      hpm 26.37 dmm 2.19    průměrný 50/34 %   neopatrný přežije 64/50 %  zkušený 83 %  → hpm 29.06, dmm 2.19
+  svetlo      hpm 10.11 dmm 2.49    průměrný 33/31 %   neopatrný přežije 58/50 %  zkušený 17 %  v cíli
+  nicota      hpm 22.66 dmm 2.75    průměrný 42/20 %   neopatrný přežije 63/40 %  zkušený 83 %  → hpm 26.52, dmm 2.75
+
+kolo 2 (1849 s)
+  jezero      hpm 3.85 dmm 1.63     průměrný 50/40 %   neopatrný přežije 59/50 %  zkušený 92 %  v cíli
+  pevnost     hpm 3.47 dmm 1.74     průměrný 58/37 %   neopatrný přežije 51/50 %  zkušený 100 % → hpm 3.93, dmm 1.74
+  tajga       hpm 7.31 dmm 1.27     průměrný 42/34 %   neopatrný přežije 53/50 %  zkušený 92 %  v cíli
+  soutezka    hpm 4.34 dmm 1.11     průměrný 50/31 %   neopatrný přežije 59/50 %  zkušený 100 % → hpm 4.88, dmm 1.11
+  zima        hpm 3.61 dmm 1.51     průměrný 17/20 %   neopatrný přežije 45/40 %  zkušený 92 %  v cíli
+  vrakoviste  hpm 21.26 dmm 2.54    průměrný 50/40 %   neopatrný přežije 45/50 %  zkušený 83 %  v cíli
+  pristav     hpm 17.1 dmm 1.98     průměrný 33/37 %   neopatrný přežije 64/50 %  zkušený 100 % v cíli
+  majak       hpm 24.32 dmm 2.54    průměrný 58/34 %   neopatrný přežije 57/50 %  zkušený 92 %  → hpm 28.04, dmm 2.54
+  vir         hpm 65.22 dmm 1.32    průměrný 67/31 %   neopatrný přežije 46/50 %  zkušený 58 %  → hpm 80.47, dmm 1.32
+  paluba      hpm 11.88 dmm 1.39    průměrný 17/20 %   neopatrný přežije 53/40 %  zkušený 33 %  v cíli
+  hvezdarna   hpm 6.76 dmm 1.97     průměrný 100/25 %  neopatrný přežije -/40 %   zkušený NaN % → hpm 9.32, dmm 1.97
+  mlhovina    hpm 33.8 dmm 2.65     průměrný 33/22 %   neopatrný přežije 46/40 %  zkušený 92 %  → hpm 37.06, dmm 2.65
+  ostrovy     hpm 11.04 dmm 2       průměrný NaN/19 %  neopatrný přežije -/40 %   zkušený NaN % → hpm 13.65, dmm 2
+  souhvezdi   hpm 25.57 dmm 2.22    průměrný 17/16 %   neopatrný přežije 41/40 %  zkušený 67 %  v cíli
+  zatmeni     hpm 9.66 dmm 1.12     průměrný 17/12 %   neopatrný přežije 50/40 %  zkušený 67 %  → hpm 10.48, dmm 1.12
+  okraj       hpm 23.43 dmm 2.29    průměrný 42/40 %   neopatrný přežije 43/50 %  zkušený 92 %  v cíli
+  trosky      hpm 53.02 dmm 2.59    průměrný 67/37 %   neopatrný přežije 56/50 %  zkušený 75 %  → hpm 62.91, dmm 2.59
+  ozveny      hpm 29.06 dmm 2.19    průměrný 42/34 %   neopatrný přežije 64/50 %  zkušený 92 %  v cíli
+  svetlo      hpm 10.11 dmm 2.49    průměrný 33/31 %   neopatrný přežije 50/50 %  zkušený 50 %  v cíli
+  nicota      hpm 26.52 dmm 2.75    průměrný 17/20 %   neopatrný přežije 52/40 %  zkušený 58 %  v cíli
+
+hotovo: ladeni-last.json (zapiš: node ladeni.js zapis)

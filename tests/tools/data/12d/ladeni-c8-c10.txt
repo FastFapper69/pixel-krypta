@@ -1,0 +1,36 @@
+
+kolo 1 (1856 s)
+  rozbresk    hpm 8.87 dmm 2        průměrný NaN/40 %  neopatrný přežije -/50 %   zkušený NaN % v cíli
+  pole        hpm 48.24 dmm 2.6     průměrný 42/37 %   neopatrný přežije 53/50 %  zkušený 75 %  v cíli
+  hodiny      hpm 5.3 dmm 1.77      průměrný 58/34 %   neopatrný přežije 72/50 %  zkušený 58 %  → hpm 6.11, dmm 1.77
+  zahrada     hpm 71.89 dmm 3.06    průměrný 83/31 %   neopatrný přežije 51/50 %  zkušený 100 % → hpm 99.71, dmm 3.06
+  kolebka     hpm 6.16 dmm 1.62     průměrný NaN/20 %  neopatrný přežije -/40 %   zkušený NaN % → hpm 7.55, dmm 1.62
+  predmesti   hpm 224.87 dmm 6.35   průměrný 8/25 %    neopatrný přežije 49/40 %  zkušený 83 %  → hpm 196.02, dmm 6.35
+  mincovna    hpm 47.76 dmm 3.38    průměrný 17/22 %   neopatrný přežije 41/40 %  zkušený 58 %  v cíli
+  sochy       hpm 189.76 dmm 5.58   průměrný 25/19 %   neopatrný přežije 38/40 %  zkušený 100 % v cíli
+  pokladnice  hpm 338.58 dmm 5.55   průměrný 0/16 %    neopatrný přežije 39/40 %  zkušený 67 %  → hpm 269.45, dmm 5.55
+  dvur        hpm 168.86 dmm 4.42   průměrný 17/12 %   neopatrný přežije 48/40 %  zkušený 67 %  → hpm 183.21, dmm 4.42
+  schody      hpm 28.92 dmm 2.78    průměrný 58/40 %   neopatrný přežije 59/50 %  zkušený 100 % → hpm 32.11, dmm 2.78
+  trofeje     hpm 12.11 dmm 2.65    průměrný 83/37 %   neopatrný přežije 72/50 %  zkušený 92 %  → hpm 16.15, dmm 2.65
+  hkovarna    hpm 50.26 dmm 3.15    průměrný 50/34 %   neopatrný přežije 52/50 %  zkušený 58 %  → hpm 55.38, dmm 3.15
+  vecnost     hpm 97.2 dmm 3.96     průměrný 58/31 %   neopatrný přežije 60/50 %  zkušený 83 %  → hpm 114.35, dmm 3.96
+  korunace    hpm 95 dmm 3.91       průměrný 25/15 %   neopatrný přežije 58/40 %  zkušený 67 %  → hpm 105.8, dmm 3.91
+
+kolo 2 (2023 s)
+  rozbresk    hpm 8.87 dmm 2        průměrný NaN/40 %  neopatrný přežije -/50 %   zkušený NaN % v cíli
+  pole        hpm 48.24 dmm 2.6     průměrný 67/37 %   neopatrný přežije 51/50 %  zkušený 75 %  → hpm 57.23, dmm 2.6
+  hodiny      hpm 6.11 dmm 1.77     průměrný 33/34 %   neopatrný přežije 72/50 %  zkušený 50 %  v cíli
+  zahrada     hpm 99.71 dmm 3.06    průměrný 17/31 %   neopatrný přežije 54/50 %  zkušený 100 % → hpm 90.86, dmm 3.06
+  kolebka     hpm 7.55 dmm 1.62     průměrný NaN/20 %  neopatrný přežije -/40 %   zkušený NaN % → hpm 9.25, dmm 1.62
+  predmesti   hpm 196.02 dmm 6.35   průměrný 50/25 %   neopatrný přežije 50/40 %  zkušený 75 %  → hpm 230.21, dmm 6.35
+  mincovna    hpm 47.76 dmm 3.38    průměrný 25/22 %   neopatrný přežije 45/40 %  zkušený 92 %  v cíli
+  sochy       hpm 189.76 dmm 5.58   průměrný 50/19 %   neopatrný přežije 42/40 %  zkušený 100 % → hpm 234.62, dmm 5.58
+  pokladnice  hpm 269.45 dmm 5.55   průměrný 0/16 %    neopatrný přežije 50/40 %  zkušený 83 %  → hpm 214.43, dmm 5.55
+  dvur        hpm 183.21 dmm 4.42   průměrný 0/12 %    neopatrný přežije 51/40 %  zkušený 67 %  → hpm 153.11, dmm 4.42
+  schody      hpm 32.11 dmm 2.78    průměrný 75/40 %   neopatrný přežije 51/50 %  zkušený 100 % → hpm 39.43, dmm 2.78
+  trofeje     hpm 16.15 dmm 2.65    průměrný 58/37 %   neopatrný přežije 64/50 %  zkušený 100 % → hpm 18.27, dmm 2.65
+  hkovarna    hpm 55.38 dmm 3.15    průměrný 42/34 %   neopatrný přežije 52/50 %  zkušený 58 %  v cíli
+  vecnost     hpm 114.35 dmm 3.96   průměrný 92/31 %   neopatrný přežije 64/50 %  zkušený 67 %  → hpm 173.2, dmm 3.96
+  korunace    hpm 105.8 dmm 3.91    průměrný 42/15 %   neopatrný přežije 52/40 %  zkušený 50 %  → hpm 130.32, dmm 3.91
+
+hotovo: ladeni-last.json (zapiš: node ladeni.js zapis)

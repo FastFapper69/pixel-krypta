@@ -980,25 +980,25 @@ const MAP_TIER={
   hrbitov:[0.62,0,0,0.6,0.85],bazina:[0.7,.1,15,0.75],kostnice:[0.9,.2,30,0.75],zvonice:[1.18,.3,45,0.65],trun:[1.61,.45,90,0.5], // kapitola I vítá (Hřbitov 70 % → Zvonice 45 %, Trůn 25 %)
   poust:[2.11,.6,60,1.29],kanon:[2.48,.6,75,0.77],karavana:[3.46,.58,90,0.98],hrobka:[2.54,.62,105,0.98],brana:[1.36,.7,150,1.11], // II schod (40 % −3 na mapu, finále 20 %)
   doly:[3.54,1,110,1.26],kovarna:[3.91,1.05,125,1.54],reka:[3.6,1.1,140,2.21],krystaly:[4.55,1.15,155,1.88],srdce:[2.31,1.1,240,1.1], // III zeď (25 %, finále 12 %)
-  jezero:[3.85,1.05,170,1.63],pevnost:[3.47,1.05,185,1.74],tajga:[7.31,1.08,200,1.27],soutezka:[4.34,1.1,215,1.11],zima:[3.97,1.2,320,1.51], // IV schod
-  vrakoviste:[21.26,1.2,230,2.54],pristav:[17.1,1.15,245,1.98],majak:[22.07,1.15,260,2.54],vir:[55.44,1.15,275,1.32,3.41],paluba:[11.88,1.2,380,1.39], // V schod (Maják a Vír na HP skoro nereagují, potřebují mechaniku)
-  hvezdarna:[5.76,.98,300,1.97],mlhovina:[26.84,1.32,315,2.65],ostrovy:[8.93,.94,330,2],souhvezdi:[20.99,.96,345,2.22],zatmeni:[11.56,1.04,480,1.12], // VI zeď (Mlhovina a Souhvězdí jdou vykitovat, HP vysoko)
-  okraj:[29.75,0.99,360,2.29],trosky:[44.69,1.01,375,2.59],ozveny:[26.37,1.03,390,2.19],svetlo:[10.11,1.05,405,2.49],nicota:[22.66,1.13,540,2.75],
-  rozbresk:[8.87,1.08,420,2],
-  pole:[48.24,1.1,435,2.6],
-  hodiny:[5.3,1.12,450,1.77],
-  zahrada:[71.89,1.14,465,3.06,1.73],
+  jezero:[3.85,1.05,170,1.63],pevnost:[3.93,1.05,185,1.74],tajga:[7.31,1.08,200,1.27],soutezka:[4.88,1.1,215,1.11],zima:[3.61,1.2,320,1.51], // IV schod
+  vrakoviste:[21.26,1.2,230,2.54],pristav:[17.1,1.15,245,1.98],majak:[28.04,1.15,260,2.54],vir:[72.07,1.15,275,1.32,3.41],paluba:[11.88,1.2,380,1.39], // V schod (Maják a Vír na HP skoro nereagují, potřebují mechaniku)
+  hvezdarna:[6.46,.98,300,1.97],mlhovina:[34.89,1.32,315,2.65],ostrovy:[7.76,.94,330,2],souhvezdi:[25.57,.96,345,2.22],zatmeni:[10.48,1.04,480,1.12], // VI zeď (Mlhovina a Souhvězdí jdou vykitovat, HP vysoko)
+  okraj:[23.43,0.99,360,2.29],trosky:[58.1,1.01,375,2.59],ozveny:[29.06,1.03,390,2.19],svetlo:[10.11,1.05,405,2.49],nicota:[26.52,1.13,540,2.75],
+  rozbresk:[7.63,1.08,420,2],
+  pole:[57.23,1.1,435,2.6],
+  hodiny:[6.11,1.12,450,1.77],
+  zahrada:[90.86,1.14,465,3.06,1.73],
   kolebka:[6.16,1.22,600,1.62],
-  predmesti:[224.87,1.17,480,6.35,2.67],
+  predmesti:[230.21,1.17,480,6.35,2.67],
   mincovna:[47.76,1.19,495,3.38],
-  sochy:[189.76,1.21,510,5.58,2.54],
-  pokladnice:[338.58,1.23,525,5.55,3.19],
-  dvur:[168.86,1.3,660,4.42],
-  schody:[28.92,1.26,540,2.78],
-  trofeje:[12.11,1.28,555,2.65],
-  hkovarna:[50.26,1.3,570,3.15],
-  vecnost:[97.2,1.3,585,3.96,1.4],
-  korunace:[95,1.3,720,3.91,2.1]}; // VII schod
+  sochy:[234.62,1.21,510,5.58,2.54],
+  pokladnice:[260.71,1.23,525,5.55,3.19],
+  dvur:[153.11,1.3,660,4.42],
+  schody:[37.6,1.26,540,2.78],
+  trofeje:[15.74,1.28,555,2.65],
+  hkovarna:[55.38,1.3,570,3.15],
+  vecnost:[126.36,1.3,585,3.96,1.4],
+  korunace:[123.5,1.3,720,3.91,2.1]}; // VII schod
 // 11r: optional 5th number = boss health multiplier (bhm) for maps where the boss, not the waves, decides the run
 for(const id in MAPS){const T=MAP_TIER[id]||[1,0,0];MAPS[id].hpm=T[0];MAPS[id].spx=T[1];MAPS[id].gb=T[2];MAPS[id].dmm=T[3]||1;MAPS[id].bhm=T[4]||1;}
 // campaign: a chapter = one theme, five maps and one material; its last map is the finale with a special boss
@@ -1031,7 +1031,7 @@ for(const h in HEROES)if(heroCh(h)>=1&&!HEROES[h].costFix)HEROES[h].cost=HERO_PR
 // síla čtená z kódu hry: úroveň hrdiny, Prestiž, talenty, Vylepšení, strom, výbava, sety, runy, Souhvězdí).
 //   u, v = útok a výdrž hráče na vstupu kapitoly (index = kapitola; za koncem tabulky se prodlouží stejným tempem)
 //   kh, kd = HP a poškození běžné mapy na cíl 40 % (khf, kdf finále), b = sklon (HP ×e^(1/b) ubere 1 logit výher)
-const PWR={u:[1.095,1.489,1.91,2.377,2.658,3.325,3.656,4.562,4.991,7.039,7.878,8.34,8.469,8.598],v:[135,355,634,678,825,1315,1315,1315,1315,1946,2110,2275,2336,2403],kh:2133.52,khf:2149.32,kd:4.358,kdf:4.975,b:2.67};
+const PWR={u:[1.095,1.489,1.91,2.377,2.658,3.325,3.656,4.562,4.991,7.039,7.878,8.34,8.469,8.598],v:[140,355,634,678,825,1315,1315,1315,1315,1946,2110,2275,2336,2403],kh:2773.58,khf:2794.11,kd:4.358,kdf:4.975,b:2.67};
 const pwrAt=(a,ci)=>ci<a.length?a[ci]:a[a.length-1]*Math.pow(a[a.length-1]/a[a.length-2],ci-a.length+1);
 const isWall=ci=>ci%3===2; // III, VI, IX… = zeď
 // cílová úspěšnost průměrného hráče s účtem, se kterým na mapu přijde (stejné číslo v tests/tools/ladeni.js CIL)
@@ -3513,7 +3513,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12d';
+const GAME_VER='2026-11-12e';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -3918,8 +3918,8 @@ function killEnemy(e){
     if(e.want){Q.want=e.want;run.wanted=null;toast(_t('Hledaný dopaden! Odměnu si vyzvedni na Nástěnce'),2800);run.items.push({x:e.x-6,y:e.y,k:'mat',v:8});for(let i=0;i<3;i++)run.items.push({x:e.x+rnd(-8,8),y:e.y+rnd(-8,8),k:'coin'});}}
   // 11z2: gold comes every 25 KILLS (a hit no longer wipes it out – in hard maps the combo kept resetting and towers came only late);
   // a long combo still pays more: at least 10, from combo 75 → 15 … up to 40 (a clean combo gets about the same as before). Material every 200 combo.
-  run.kg=(run.kg||0)+1;
-  if(run.kg%25===0){const g=Math.min(40,Math.max(10,5*Math.floor(run.combo/25)));run.coins+=g;run.kgG=(run.kgG||0)+g;sfx('coin');
+  run.kn=(run.kn||0)+1; // 12d: was run.kg – that name belongs to the growth/gaps mechanics (an object), the counter turned it into a number and crashed those maps
+  if(run.kn%25===0){const g=Math.min(40,Math.max(10,5*Math.floor(run.combo/25)));run.coins+=g;run.kgG=(run.kgG||0)+g;sfx('coin');
     // 12b: gold always as a number above the hero; the toast only for every new hundred of combo (the 15-minute bot run got one every 2–3 s)
     if(run.nums.length<40)run.nums.push({x:run.p.x,y:run.p.y-14,vx:0,vy:-40,txt:'+'+g,life:.8,col:'#f6c744',t:0});
     if((run.cbT||0)>run.combo)run.cbT=0;const h=Math.floor(run.combo/100)*100;if(h>=100&&h>(run.cbT||0)&&h%200){run.cbT=h;toast(_t('Kombo ')+run.combo+'! +'+g+_t(' zlata'),1000);}}
@@ -10440,6 +10440,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12e',d:'12. 11. 2026',t:_t('Přeladěno IV–X'),hl:[{ic:'skull',t:_t('Obtížnost IV–X'),d:_t('Kratší běhy jsou dál výzva.')},{ic:'map:kolebka',t:_t('Oprava pádu hry'),d:_t('Kolébka a Ostrovy už nepadají.')}],items:[]},
  {v:'2026-11-12d',d:'12. 11. 2026',t:_t('Příběh v komiksu'),hl:[{ic:'book',t:_t('Komiksy v příběhu'),d:_t('Prolog a konce kapitol jako pixel komiks.')},{ic:'scroll',t:_t('Přehraj si je znovu'),d:_t('Najdeš je v Kronice v Síni slávy.')}],items:[_t('Klepnutí ukáže další obrázek, Přeskočit komiks hned zavře.')]},
  {v:'2026-11-12c',d:'12. 11. 2026',t:_t('Těsnější zlato'),hl:[{ic:'coin',t:_t('Méně zlata za běh'),d:_t('Zlato za kombo jde jen na věže.')}],items:[]},
  {v:'2026-11-12b',d:'12. 11. 2026',t:_t('Klidnější první minuty'),hl:[{ic:'skull',t:_t('Elita a Úlomky'),d:_t('Tutoriál vysvětlí i elity a Úlomky.')},{ic:'flamering',t:_t('Méně hlášek o kombu'),d:_t('Zlato za kombo vyletí nad hrdinou.')}],items:[_t('Ukaž mi to u Vybavení otevře Obchod s denní truhlou.'),_t('V Přípravě je vybraná mapa vždy vidět nad Vyrazit.'),_t('Dvouřádkové karty mají víc místa dole.')]},

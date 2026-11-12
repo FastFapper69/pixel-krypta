@@ -546,3 +546,13 @@ odhalení Aurela splývalo s Heroldem, oko vypadalo jako křížek, na konci 4 s
 rám s nýty a barvou scény (`FR`: kost, zlato, kámen, led, žár, prázdnota), bossové se rozpadnou na vlastní pixely a zůstane po nich hromádka (Morvanovi koruna),
 oko kreslené po 2px (víčko, duhovka, štěrbina). Výkon ~2–6 ms na snímek (desktop Chromium). Test `komiks.js`, `pribeh.js` přepsaný na komiksy.
 
+## 12e (12. 11. 2026) – přeladění kapitol IV–X po zkrácení běhů, oprava pádu
+Zadání uživatele: pustit boty na kapitoly IV–X (11z4 stlačilo čas, ale nepřeladilo je). `ladeni.js` 2 kola × 6 běhů, dvě sady souběžně v kopiích
+(`/tmp/lad*`), data `tests/tools/data/12d/`. Většina map vyšla po zkrácení **lehčí** (hustší vlny = rychlejší úrovně), boti je přitvrdili;
+skok na jedno kolo omezen na −23 až +30 % (12 běhů na skupinu je rozkolísaných). Pak `krivka.js zapis`.
+- **Oprava pádu hry:** počítadlo zabití pro zlato za kombo (11z2) používalo `run.kg`, které patří mechanikám `growth` (trny, Kolébka a kapitola VIII)
+  a `gaps` (Ostrovy). Po prvním zabití se z objektu stalo číslo → `inBush`/`psp` hodily chybu každý snímek. Teď `run.kn`.
+  **Pravidlo: nové pole na `run` vyhledej (`grep "run\.jméno"`), krátká jména jako `kg`, `kb` už mají mechaniky.**
+- Bot (`hraci.js`): na Hvězdárně hledal květiny v `run.kb` paprsku (`R.kb.F`) – opraveno, hra to netýkalo.
+- Kapitola I se nepřepisovala (nastavená podle skutečných nováčků).
+

@@ -1,0 +1,14 @@
+
+kolo 1 (178 s)
+  hvezdarna   hpm 5.76 dmm 1.97     průměrný NaN/25 %  neopatrný přežije -/40 %   zkušený 100 % → hpm 6.76, dmm 1.97
+  ostrovy     hpm 8.93 dmm 2        průměrný 0/19 %    neopatrný přežije 38/40 %  zkušený 42 %  → hpm 6.89, dmm 2
+  rozbresk    hpm 8.87 dmm 2        průměrný 50/40 %   neopatrný přežije 57/50 %  zkušený 83 %  v cíli
+  kolebka     hpm 6.16 dmm 1.62     průměrný 25/20 %   neopatrný přežije 62/40 %  zkušený 25 %  v cíli
+
+kolo 2 (184 s)
+  hvezdarna   hpm 6.76 dmm 1.97     průměrný 100/25 %  neopatrný přežije -/40 %   zkušený 100 % → hpm 9.32, dmm 1.97
+  ostrovy     hpm 6.89 dmm 2        průměrný 33/19 %   neopatrný přežije 40/40 %  zkušený 50 %  → hpm 7.76, dmm 2
+  rozbresk    hpm 8.87 dmm 2        průměrný 17/40 %   neopatrný přežije 64/50 %  zkušený 83 %  → hpm 7.63, dmm 2
+  kolebka     hpm 6.16 dmm 1.62     průměrný 25/20 %   neopatrný přežije 52/40 %  zkušený 17 %  v cíli
+
+hotovo: ladeni-last.json (zapiš: node ladeni.js zapis)
