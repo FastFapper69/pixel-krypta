@@ -643,3 +643,6 @@ Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co 
 - Úhoř (`eel`) a Stín pod ledem (`serpent`) už nesdílí řádky Červa: úhoř má ploutve a světélkující skvrny (`f`, `g`), Stín ledové krystaly a bledé oči (`i`, `j`, `e`).
 - Aurel: nový sprite 12×21 (zrcadlený na 24 š.), paprsky svatozáře nad hlavou, koruna se střepem (`t`), plášť (`r`), slunce na hrudi (`m`). Úvodní karta bosse: `by` se nesmí dostat nad 6 px (vysoký boss se usekl). `komiks.js` OK.
 - Věže: Střelecká věž (špičatá střecha, střílna, praporek), Lodní dělo (hlaveň s ústím, lafeta, kola dole), Ohniště (kamenná mísa s plameny), Písečný vír (vír nad jámou). Úroveň a pohyb věží se už kreslily (`drawTower`), audit V2/V3 hodnotil jen statické sprity.
+
+## 12w (12. 11. 2026) – Kovárna se odkrývá postupně
+- Uživatel (snímek Kovárny): „nemělo by se tohle odemykat postupně?“ – logika odemykání byla, ale vidět byl celý strom. Teď `treeVis` (podrobně `docs/KOVARNA.md`), tajné uzly „?“ s podmínkou, nový uzel = pečeť na Kovárně + `spotOn`. Popisek „Nové schopnosti“ → „Schopnosti“ (na iPhonu SE se slévaly sloupce). Test `kovarna-postupne.js`.

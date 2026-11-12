@@ -3555,7 +3555,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12v';
+const GAME_VER='2026-11-12w';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7168,9 +7168,11 @@ function newAll(kind){const o=[];
   if(kind==='map')for(const id in MAPS)if(mapUnlocked(id))o.push('m'+id);
   if(kind==='hero')for(const id of HERO_IDS)if(save.heroes[id])o.push('h'+id);
   if(kind==='rank')for(let r=1;r<META_RANKS.length;r++)if(metaOpen(r))o.push('r'+r);
+  if(kind==='tree'&&save.meta)for(const T of TREE)for(const n of treeVis(T))if(!n.sec)o.push('n'+n.id); // 12w
   return o;}
-const NEW_KINDS=['item','tw','map','hero','rank'],FRESH={};
+const NEW_KINDS=['item','tw','map','hero','rank','tree'],FRESH={};
 function seenInit(){if(!save.seen||typeof save.seen!=='object'){save.seen={};for(const k of NEW_KINDS)for(const x of newAll(k))save.seen[x]=1;return;}
+  if(!save.seen._tree){save.seen._tree=1;for(const x of newAll('tree'))save.seen[x]=1;} // 12w: stávající hráči nedostanou značku za uzly, které už znají
   const keep=new Set([...newAll('item'),...newAll('tw')]);for(const k in save.seen)if((k[0]==='i'||k[0]==='t')&&!keep.has(k))delete save.seen[k];}
 const newOf=kind=>{seenInit();return newAll(kind).filter(k=>!save.seen[k]);};
 // a screen opens: remember what is new there for its badges, then count it as seen
@@ -7183,7 +7185,7 @@ function kNewInit(){if(!kNewInit.ok){kNewInit.ok=1;document.documentElement.styl
 function refreshNew(){try{const it=newOf('item').length+newOf('hero').length,tw=newOf('tw').length,mp=newOf('map').length,rk=newOf('rank').length;
   kNewInit(); // 11b: pečeť místo nápisu NOVÉ (na malém telefonu zakrýval název)
   const T=(sel,on)=>{const e=$(sel);if(e){e.classList.toggle('new',!!on);e.dataset.new=_t('NOVÉ');}};
-  T('#mPlay',mp);T('#mHero',it||tw);T('#mForge',rk);
+  T('#mPlay',mp);T('#mHero',it||tw);T('#mForge',rk||newOf('tree').length);
   document.querySelectorAll('.sectabs [data-to=hero]').forEach(b=>b.classList.toggle('has',!!it));
   document.querySelectorAll('.sectabs [data-to=towers]').forEach(b=>b.classList.toggle('has',!!tw));
   document.querySelectorAll('.sectabs [data-to=shop]').forEach(b=>b.classList.toggle('has',!!rk));}catch(_){}}
@@ -7315,6 +7317,12 @@ function tnInfo(kind,T,id){const m=save.meta;
   const M=T.mast,L=m[M.id]||0,open=mastOpen(T);
   return{icon:M.icon,name:M.name,lv:L?_t('úr. ')+L:'',done:false,part:L>0,cost:mastCost(L),lock:open?'':'mast',desc:_t('Nekonečné úrovně. Každá přidá ')+M.fmt(M.per)+'.',now:L?_t('Celkem ')+M.fmt(M.per*L):'',bl:branchLv(T)};}
 const tnCan=I=>I.cost&&!I.lock&&canPay(I.cost);
+// 12w (uživatel: „nemělo by se tohle odemykat postupně?“): druhá statistika sloupce se ukáže po 5 úrovních první, z nových schopností jen koupené,
+// další v řadě a za ní jedna tajná (?) s podmínkou; mistrovství až když se otevře. Viditelnost závisí jen na rostoucích číslech, nic se znovu neschová.
+const TREE_STAT_SHOW=5;
+function treeVis(T){const m=save.meta,o=[];T.stats.forEach((id,i)=>{if(!i||(m[id]||0)>0||(m[T.stats[i-1]]||0)>=TREE_STAT_SHOW)o.push({kind:'s',id});});
+  for(const K of T.keys){const I=tnInfo('k',T,K.id);if(I.part){o.push({kind:'k',id:K.id});continue;}if(!I.lock){o.push({kind:'k',id:K.id});continue;}o.push({kind:'k',id:K.id,sec:1});break;}
+  {const I=tnInfo('m',T,T.mast.id);if(I.part||!I.lock)o.push({kind:'m',id:T.mast.id});}return o;}
 function tnBuy(kind,T,id){const I=tnInfo(kind,T,id);if(!tnCan(I))return false;payC(I.cost);const m=save.meta;
   if(kind==='s'||kind==='k')m[id]=(m[id]||0)+1;else m[T.mast.id]=(m[T.mast.id]||0)+1;persist();return true;}
 function tnLockTxt(I,T){if(I.lock==='prev')return _t('Nejdřív kup aspoň 3 úrovně uzlu ')+I.prev.name+'.';
@@ -7328,14 +7336,18 @@ function renderShop(pop){metaInit();treeMigrate();if(save.treeBack){save.treeBac
     const node=(kind,id,I,cls)=>{const st=I.done?'on':I.part?'part':'',can=tnCan(I)?' can':'',lk=I.lock&&!I.part?' lock':'';
       return '<button class="tn '+cls+' '+st+can+lk+(pop===kind+id?' pop':'')+'" data-k="'+kind+'" data-id="'+id+'"><img alt="" src="'+dataUrl(SPR.icon[I.icon])+'">'+
         (I.lv?'<span class="lv">'+I.lv+'</span>':'')+(kind==='k'&&I.done?'<i class="ok"></i>':'')+(I.lock&&I.lock!=='prev'&&I.lock!=='mast'&&!I.part?'<span class="lk">'+ROMAN_CH[CH_OF[I.lock].i]+'</span>':'')+'</button><div class="tnm'+(I.lock&&!I.part?' dim':'')+'">'+I.name+'</div>';};
-    T.stats.forEach((id,i)=>{const I=tnInfo('s',T,id);if(i)h+='<i class="tln'+(I.part?' on':'')+'"></i>';h+=node('s',id,I,'');});
-    h+='<div class="tsep"><i></i><span>'+_t('Nové schopnosti')+'</span></div>';
-    T.keys.forEach((K,i)=>{const I=tnInfo('k',T,K.id);if(i)h+='<i class="tln'+(I.part?' on':'')+'"></i>';h+=node('k',K.id,I,'key');});
-    {const I=tnInfo('m',T,T.mast.id);h+='<i class="tln'+(I.part?' on':'')+'"></i>'+node('m',T.mast.id,I,'mast');}
+    const V=treeVis(T),sec=id=>'<button class="tn key lock sec" data-k="k" data-id="'+id+'" data-sec="1"><img alt="" src="'+dataUrl(SPR.icon.lock)+'"></button><div class="tnm dim">?</div>';
+    V.filter(n=>n.kind==='s').forEach((n,i)=>{const I=tnInfo('s',T,n.id);if(i)h+='<i class="tln'+(I.part?' on':'')+'"></i>';h+=node('s',n.id,I,'');});
+    h+='<div class="tsep"><i></i><span>'+_t('Schopnosti')+'</span></div>'; // 12w: „Nové schopnosti“ se na malém iPhonu slévaly mezi sloupci
+    V.filter(n=>n.kind==='k').forEach((n,i)=>{const I=tnInfo('k',T,n.id);if(i)h+='<i class="tln'+(I.part?' on':'')+'"></i>';h+=n.sec?sec(n.id):node('k',n.id,I,'key');});
+    V.filter(n=>n.kind==='m').forEach(n=>{const I=tnInfo('m',T,n.id);h+='<i class="tln'+(I.part?' on':'')+'"></i>'+node('m',n.id,I,'mast');});
     col.innerHTML=h;tree.appendChild(col);}
   box.appendChild(tree);
-  box.querySelectorAll('.tn').forEach(b=>b.onclick=()=>{sfx('ui');const T=TREE.find(t=>t.keys.some(k=>k.id===b.dataset.id)||t.stats.includes(b.dataset.id)||t.mast.id===b.dataset.id);openTreeNode(b.dataset.k,T,b.dataset.id);});}
-function openTreeNode(kind,T,id){const I=tnInfo(kind,T,id),pop=$('#newsPop'),lk=tnLockTxt(I,T);
+  box.querySelectorAll('.tn').forEach(b=>b.onclick=()=>{sfx('ui');const T=TREE.find(t=>t.keys.some(k=>k.id===b.dataset.id)||t.stats.includes(b.dataset.id)||t.mast.id===b.dataset.id);openTreeNode(b.dataset.k,T,b.dataset.id,!!b.dataset.sec);});
+  {const fr=newOf('tree');if(fr.length&&(state==='shop'||state==='forge')){const el=box.querySelector('.tn[data-id="'+fr[0].slice(1)+'"]');for(const x of fr)save.seen[x]=1;persist();try{refreshNew();}catch(_){}if(el&&!SPOT.on)spotOn(()=>el,250);}}}
+function openTreeNode(kind,T,id,secret){const I=tnInfo(kind,T,id),pop=$('#newsPop'),lk=tnLockTxt(I,T);
+  if(secret){pop.innerHTML='<div class="pop-card news tpop" style="--bc:'+T.col+'"><div class="tph"><img alt="" src="'+dataUrl(SPR.icon.lock)+'"><div><small>'+_t('Nová schopnost · ')+T.name+'</small><h3>?</h3></div></div><p class="lkm">'+lk+'</p><div class="stack"><button class="btn alt" id="tnClose">'+_t('Zavřít')+'</button></div></div>';
+    pop.hidden=false;$('#tnClose').onclick=()=>{pop.hidden=true;sfx('ui');};return;}
   const head=(kind==='k'?_t('Klíčový uzel · ')+T.name:kind==='m'?_t('Mistrovství · ')+T.name:T.name)+(I.lv?' · '+I.lv:'');
   pop.innerHTML='<div class="pop-card news tpop" style="--bc:'+T.col+'"><div class="tph"><img alt="" src="'+dataUrl(SPR.icon[I.icon])+'"><div><small>'+head+'</small><h3>'+I.name+'</h3></div></div>'+
     '<p>'+I.desc+'</p>'+(I.now?'<p><b>'+I.now+'</b></p>':'')+(I.next?'<p>'+I.next+'</p>':'')+(lk?'<p class="lkm">'+lk+'</p>':'')+
@@ -10665,6 +10677,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12w',d:'12. 11. 2026',t:_t('Kovárna postupně'),hl:[{ic:'hammer',t:_t('Kovárna se odkrývá postupně'),d:_t('Nové uzly přibývají, jak sílíš.')},{ic:'lock',t:_t('Tajné schopnosti'),d:_t('Zamčená schopnost ukáže, co ji odemkne.')}],
+  items:[_t('Nový uzel v Kovárně má značku a ukáže se.')]},
  {v:'2026-11-12v',d:'12. 11. 2026',t:_t('Bossové a věže'),hl:[{ic:'boss:aurel',t:_t('Aurel v plné kráse'),d:_t('Finální boss aktu I je větší a vznešenější.')},{ic:'tower:cannon',t:_t('Věže v novém kabátě'),d:_t('Střelecká věž, Dělo, Ohniště a Vír.')},{ic:'boss:eel',t:_t('Úhoř a Stín pod ledem'),d:_t('Už nevypadají jako Písečný červ.')}],
   items:[_t('Úvodní karta bosse už neusekne vysokého bosse.')]},
  {v:'2026-11-12u',d:'12. 11. 2026',t:_t('Bič a zvuky map'),hl:[{ic:'whip',t:_t('Bič s prásknutím'),d:_t('Bič je vidět a práskne do rytmu.')},{ic:'bell',t:_t('Zvony a láva v rytmu'),d:_t('Zvon je slyšet a láva prská do taktu.')},{ic:'halberd',t:_t('Výraznější zbraně'),d:_t('Kopí, halapartna a šípy jsou lépe vidět.')}],

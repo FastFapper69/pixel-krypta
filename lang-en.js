@@ -1,6 +1,14 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+'Kovárna postupně':'Forge step by step',
+'Kovárna se odkrývá postupně':'The Forge reveals itself',
+'Nové uzly přibývají, jak sílíš.':'New nodes appear as you grow stronger.',
+'Tajné schopnosti':'Secret abilities',
+'Zamčená schopnost ukáže, co ji odemkne.':'A locked ability shows what unlocks it.',
+'Nový uzel v Kovárně má značku a ukáže se.':'A new Forge node gets a mark and is shown to you.',
+'Schopnosti':'Abilities',
+'Nová schopnost · ':'New ability · ',
 'Bossové a věže':'Bosses and towers',
 'Aurel v plné kráse':'Aurel in full glory',
 'Finální boss aktu I je větší a vznešenější.':'The Act I final boss is bigger and grander.',
