@@ -1,6 +1,9 @@
 /* English translation. Keys are the exact Czech texts from index.html (_t('…') calls and static HTML).
    When you add or change a Czech text, add/update its line here. Check: node tests/tools/i18n.js */
 window.KRYPTA_EN={
+'Hrdinové se zbraní':'Heroes armed',
+'Hrdinové se zbraní v ruce':'Heroes hold their weapons',
+'Každý hrdina drží svůj nástroj.':'Every hero holds their own tool.',
 'Kovárna postupně':'Forge step by step',
 'Kovárna se odkrývá postupně':'The Forge reveals itself',
 'Nové uzly přibývají, jak sílíš.':'New nodes appear as you grow stronger.',

@@ -92,6 +92,30 @@ function distField(filled,W,H,cap){const d=new Float32Array(W*H);
     if(x<W-1)v=Math.min(v,d[i+1]+1);if(y<H-1)v=Math.min(v,d[i+W]+1);if(x<W-1&&y<H-1)v=Math.min(v,d[i+W+1]+1.4);if(x>0&&y<H-1)v=Math.min(v,d[i+W-1]+1.4);
     if(x===W-1||y===H-1)v=Math.min(v,1);d[i]=v;}
   return d;}
+// 12x (audit grafiky H1: všech 14 hrdinů mělo stejnou siluetu): nástroj v ruce, kreslený do obou snímků spritu i do bílých záblesků
+const PROP_PAL={s:'#dfe6f4',S:'#8a94a8',w:'#a8743e',W:'#5a3a1e',g:'#f6c744',b:'#5ab4ff',r:'#e8453c',v:'#b48aff',c:'#7affd0',l:'#6ac84a',y:'#fff6c8'};
+const HERO_PROP={
+ knight:['..s..','..s..','..s..','..s..','..s..','.ggg.','..W..','..W..'],
+ mage:['.bb.','bccb','.bb.','.w..','.w..','.w..','.w..','.w..','.w..'],
+ archer:['..w.','.w.y','w..y','w..y','w..y','.w.y','..w.'],
+ bard:['...W','..W.','.ww.','wwww','wWww','wwww','.ww.'],
+ builder:['SSS','SSS','.w.','.w.','.w.','.w.'],
+ warlord:['.wSS','.wSS','.wS.','.w..','.w..','.w..','.w..'],
+ tamer:['.ww.','w..w','w..w','.ww.','..W.','..W.'],
+ smith:['SSSS','SSSS','.w..','.w..','.w..','.w..'],
+ shaman:['.l.l','.bb.','byyb','.bb.','.w..','.w..','.w..','.w..'],
+ sailor:['.S.','SSS','.S.','.S.','S.S','SSS'],
+ astro:['.g.','ggg','.g.','.w.','.w.','.w.','.w.'],
+ nyx:['vvvv','v..w','...w','...w','...w','...w','...w'],
+ reva:['.r.','ryr','.r.','.l.','.ll','.l.','.l.'],
+ paladin:['.g.','gyg','.g.','.s.','.s.','.w.','.w.','.w.','.w.']};
+function heroPropsApply(){const P=3;for(const id in HERO_PROP){const sp=SPR.hero[id];if(!sp||!sp.c||sp.prop)continue;const R=HERO_PROP[id],pw=Math.max(...R.map(r=>r.length)),ph=R.length;
+  const W0=sp.c.width,H0=sp.c.height,W=W0+2*P,px=P+W0-4,py=Math.max(1,Math.round(H0*.64)-(ph-2));
+  const comp=(src,tint)=>{const c=document.createElement('canvas');c.width=W;c.height=H0;const x=c.getContext('2d');x.imageSmoothingEnabled=false;x.drawImage(src,P,0);
+    const on=(a,b)=>b>=0&&b<ph&&a>=0&&a<(R[b]||'').length&&R[b][a]!=='.';
+    x.fillStyle=tint||'#120c1a';for(let b=-1;b<=ph;b++)for(let a=-1;a<=pw;a++)if(!on(a,b)&&(on(a-1,b)||on(a+1,b)||on(a,b-1)||on(a,b+1)))x.fillRect(px+a,py+b,1,1);
+    for(let b=0;b<ph;b++)for(let a=0;a<pw;a++)if(on(a,b)){x.fillStyle=tint||PROP_PAL[R[b][a]]||'#ffffff';x.fillRect(px+a,py+b,1,1);}return c;};
+  sp.c=comp(sp.c);sp.c2=comp(sp.c2);sp.f=comp(sp.f,'#ffffff');sp.f2=comp(sp.f2,'#ffffff');sp.w=W/Z;sp.prop=1;}}
 function buildSprite(rows,o){
   o=o||{};const mirror=o.mirror!==false,big=o.scale===2,outline=o.outline!==false,shadeOn=o.shade!==false;
   const colors=Object.assign({},PAL,o.pal||{});
@@ -578,6 +602,7 @@ function initSprites(){
   for(const id in BOSS_DEFS)SPR.boss[id]=buildSprite(BOSS_DEFS[id].rows,{pal:BOSS_DEFS[id].pal,scale:2});
   SPR.boss.phoenix_egg=buildSprite(['.....oooo','...ooyyyy','..oyyyyyy','..oyyrryy','.oyyyyyyy','.oyyryyyy','.oyyyyyyy','.oyyyyrry','..oyyyyyy','..ooyyyyy','...oooooo','..rr.rr.r'],{pal:{o:'#c86a1a',y:'#ffe9a8',r:'#ff6a1a'},scale:2}); // 11k: the Phoenix's egg (rebirth phase)
   for(const id in HEROES)SPR.hero[id]=buildSprite(HEROES[id].rows,{pal:HEROES[id].pal});
+  heroPropsApply(); // 12x: každý hrdina drží svůj nástroj (audit grafiky H1)
   SPR.misc.chest=buildSprite(['.nnnnn','nnnnnn','yyyyyy','nnnnny','nbbbbb','nbbbbb'].map(r=>r),{pal:{b:'#5a3a22'}});
   SPR.misc.shot=buildSprite(['.rr','rrr','rrr','.rr'],{pal:{r:'#ff5a7a'},outline:false,shade:false});
   for(const k in TOWERS)SPR.tower[k]=buildSprite(TOWERS[k].rows,{pal:TOWERS[k].pal});
@@ -3555,7 +3580,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12w';
+const GAME_VER='2026-11-12x';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -10677,6 +10702,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12x',d:'12. 11. 2026',t:_t('Hrdinové se zbraní'),hl:[{ic:'hero:knight',t:_t('Hrdinové se zbraní v ruce'),d:_t('Každý hrdina drží svůj nástroj.')}],items:[]},
  {v:'2026-11-12w',d:'12. 11. 2026',t:_t('Kovárna postupně'),hl:[{ic:'hammer',t:_t('Kovárna se odkrývá postupně'),d:_t('Nové uzly přibývají, jak sílíš.')},{ic:'lock',t:_t('Tajné schopnosti'),d:_t('Zamčená schopnost ukáže, co ji odemkne.')}],
   items:[_t('Nový uzel v Kovárně má značku a ukáže se.')]},
  {v:'2026-11-12v',d:'12. 11. 2026',t:_t('Bossové a věže'),hl:[{ic:'boss:aurel',t:_t('Aurel v plné kráse'),d:_t('Finální boss aktu I je větší a vznešenější.')},{ic:'tower:cannon',t:_t('Věže v novém kabátě'),d:_t('Střelecká věž, Dělo, Ohniště a Vír.')},{ic:'boss:eel',t:_t('Úhoř a Stín pod ledem'),d:_t('Už nevypadají jako Písečný červ.')}],

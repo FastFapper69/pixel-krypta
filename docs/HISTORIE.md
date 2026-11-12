@@ -646,3 +646,6 @@ Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co 
 
 ## 12w (12. 11. 2026) – Kovárna se odkrývá postupně
 - Uživatel (snímek Kovárny): „nemělo by se tohle odemykat postupně?“ – logika odemykání byla, ale vidět byl celý strom. Teď `treeVis` (podrobně `docs/KOVARNA.md`), tajné uzly „?“ s podmínkou, nový uzel = pečeť na Kovárně + `spotOn`. Popisek „Nové schopnosti“ → „Schopnosti“ (na iPhonu SE se slévaly sloupce). Test `kovarna-postupne.js`.
+
+## 12x (12. 11. 2026) – hrdinové s nástrojem v ruce
+- `HERO_PROP` (řádky nástroje, paleta `PROP_PAL`) + `heroPropsApply()` po stavbě spritů: canvas o 3 px širší z obou stran (hrdina zůstává na středu), nástroj v pravé ruce s tmavým obrysem, ve všech snímcích (`c`, `c2`) i bílých záblescích (`f`, `f2`). Chůze a dýchání (`c2`) existovaly už dřív.

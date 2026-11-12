@@ -22,9 +22,9 @@ UI obrazovky jsou technicky čisté a konzistentní (kámen, dřevo, pergamen). 
 ## 2. Hrdinové (`hrdinove.png`)
 | # | Nález | Návrh | Priorita | Pracnost | Stav |
 |---|---|---|---|---|---|
-| H1 | **Všech 14 hrdinů má stejné tělo** (fazole s čepicí a sukní). Liší se barvou a pokrývkou hlavy, nikdo nic nedrží, siluety jsou stejné. V Přípravě i na mapě splývají (Rytíř/Námořník, Mág/Astra/Nyx). | Každý hrdina dostane 1–2 prvky siluety, které ho prozradí i ve stínu: zbraň nebo nástroj v ruce (meč a štít, hůl, luk, loutna, kladivo, kotva, kosa…), plášť, vousy, rohy. Velikost spritu zůstane, mění se obrys. | vysoká | L (14 spritů) | ⬜ |
-| H2 | Hrdina nemá chůzi ani nečinnost (stojí jako obrázek). | 2snímková chůze (kroky nohou) + dýchání při stání; směr pohledu podle pohybu. Hodně přidá živosti při malé práci. | vysoká | M | ⬜ |
-| H3 | Paladin (odměna za konec aktu I) vypadá jako ostatní. | Výraznější: zlatá aura, plášť, kopí. | střední | S | ⬜ |
+| H1 | **Všech 14 hrdinů má stejné tělo** (fazole s čepicí a sukní). Liší se barvou a pokrývkou hlavy, nikdo nic nedrží, siluety jsou stejné. V Přípravě i na mapě splývají (Rytíř/Námořník, Mág/Astra/Nyx). | Každý hrdina dostane 1–2 prvky siluety, které ho prozradí i ve stínu: zbraň nebo nástroj v ruce (meč a štít, hůl, luk, loutna, kladivo, kotva, kosa…), plášť, vousy, rohy. Velikost spritu zůstane, mění se obrys. | vysoká | L (14 spritů) | ✅ 12x (nástroj v ruce `HERO_PROP`, složený do všech snímků `heroPropsApply`) |
+| H2 | Hrdina nemá chůzi ani nečinnost (stojí jako obrázek). | 2snímková chůze (kroky nohou) + dýchání při stání; směr pohledu podle pohybu. Hodně přidá živosti při malé práci. | vysoká | M | – už bylo (kroky na osminy a dýchání na dobu, `c2`; audit hodnotil statický arch) |
+| H3 | Paladin (odměna za konec aktu I) vypadá jako ostatní. | Výraznější: zlatá aura, plášť, kopí. | střední | S | ✅ 12x (Paladin drží kopí se sluncem) |
 
 ## 3. Věže (`veze.png`)
 Nejsilnější sada: 25 věží, každá jiný tvar a materiál, společný sokl drží jednotný styl.
