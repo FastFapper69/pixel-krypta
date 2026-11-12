@@ -1602,3 +1602,7 @@ body:has(#scr-over:not([hidden])) #buildbar{visibility:hidden}
 .tmr b{font:var(--k20);color:#fff}
 .tmr i{font:var(--k20);font-style:normal;color:#c9c4b4}
 #ovTable td.ovtip{font:var(--k20);color:var(--gold);text-align:left;padding-top:4px}
+/* 12o: otázka na rytmus v rychlé otázce po běhu */
+.ovask .df.rh{align-items:center}
+.ovask .df.rh span{flex:none;display:flex;align-items:center;gap:4px;font:var(--k20);color:#ffd75e;padding-right:2px}
+.ovask .df.rh span img{width:24px;height:24px;image-rendering:pixelated;filter:drop-shadow(0 2px 0 #000)}

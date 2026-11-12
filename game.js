@@ -3546,7 +3546,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12n';
+const GAME_VER='2026-11-12o';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -9706,6 +9706,11 @@ async function evFlush(){const Q=save.evQ;if(!Q||!Q.length||!ON.sb||!ON.me||!ON.
       if(error){if(error.code==='42P01'||error.code==='PGRST205')ON.noEv=1;break;}
       save.evQ=save.evQ.filter(r=>!part.includes(r));try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}}}
   catch(_){}ON.evBusy=0;}
+// 12o: chyby JS do events (ev='err'): zpráva + místo, nejvýš 5 za relaci, každá jen jednou (náhrada za Sentry)
+function evErr(msg,src){try{const S=evErr.seen||(evErr.seen=new Set());const k=String(msg||'?').slice(0,40);if(S.size>=5||S.has(k))return;S.add(k);
+  evLog('err',k,null);const Q=save.evQ;if(Q&&Q.length)Q[Q.length-1].k=(k+' @'+String(src||'').replace(/^.*\//,'').slice(0,24)).slice(0,48);}catch(_){}}
+addEventListener('error',e=>{if(e&&e.message)evErr(e.message,(e.filename||'')+':'+(e.lineno||0));});
+addEventListener('unhandledrejection',e=>{const r=e&&e.reason;evErr(r&&r.message||String(r),r&&r.stack&&String(r.stack).split('\n')[1]);});
 setTimeout(()=>evLog('open',null,dayN()),1500);
 const qSum=L=>L.reduce((a,r)=>{for(const k in r)a[k]=typeof r[k]==='number'?(a[k]||0)+r[k]:r[k];return a;},{});
 function qPay(rw,btn){if((rw.chest)&&save.inv.length>=INV_MAX){note(_t('Inventář je plný, rozeber nějaké předměty'));return false;}
@@ -10579,6 +10584,8 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-12o',d:'12. 11. 2026',t:_t('Ladění'),hl:[{ic:'music',t:_t('Jak se ti líbí rytmus?'),d:_t('Nová otázka po běhu: baví, nebo ruší?')}],
+  items:[_t('Chyby hry se teď hlásí samy, ať je opravím rychleji.')]},
  {v:'2026-11-12n',d:'12. 11. 2026',t:_t('Návrat do krypty'),hl:[{ic:'candle',t:_t('Nástěnka hned od začátku'),d:_t('Denní úkoly se odemknou první výhrou.')},{ic:'chest_wood',t:_t('Dárek na cestu'),d:_t('Dvě prohry na stejné mapě? Dárek a tip.')},{ic:'chest_iron',t:_t('Dárek i druhý den'),d:_t('Kdo se vrátí, dostane Týden v kryptě hned.')}],
   items:[_t('Fúze zbraní se odemyká až na Kostnici (3. mapa).'),_t('Noví hráči uvidí kartu, co je čeká zítra.'),_t('Hra zaznamená první kroky nováčků, ať víme, kde končí.')]},
  {v:'2026-11-12m',d:'12. 11. 2026',t:_t('Týden v kryptě'),hl:[{ic:'chest_iron',t:_t('Odměna za každý den'),d:_t('Otevři hru a vyzvedni si dárek dne.')},{ic:'chest_gold',t:_t('7. den je největší'),d:_t('Každý týden jiné téma a lepší odměny.')},{ic:'enemy:ghost',t:_t('Obrázky za věrnost'),d:_t('Každý 4. týden profilový obrázek.')}],items:[_t('Vynechaný den nic nemaže, deska na tebe počká.')]},
@@ -11051,27 +11058,30 @@ function openFeedback(pre){const pop=$('#newsPop');const F={kind:'napad',rate:0,
 /* 11s: quick question on the results screen after a few runs (3rd, then every FBQ_EVERY-th, at most once a day):
    stars + how hard the map felt, one tap each, no reward; goes to `feedback` (kind 'rychle', ctx = map, result, rid of the run)
    through the device queue save.fbQ, so it also works offline. "Napsat víc" opens the full feedback with the stars filled in. */
-const FBQ_FIRST=3,FBQ_EVERY=6,FBQ_DIFF=[['easy',_t('Lehké')],['ok',_t('Akorát')],['hard',_t('Těžké')]];
+const FBQ_FIRST=3,FBQ_EVERY=6,FBQ_DIFF=[['easy',_t('Lehké')],['ok',_t('Akorát')],['hard',_t('Těžké')]],
+  FBQ_RH=[['fun',_t('Baví')],['meh',_t('Nevím')],['bad',_t('Ruší')]]; // 12o: research – je rytmus zábava, nebo tření?
 let fbA=null;
 function fbAskNow(){if(!run||!onlineConfigured()||save.cheat||isGuest()||run.tut||run.trial)return false;const n=(save.stats&&save.stats.runs)||0;
   if(n<FBQ_FIRST||(n-FBQ_FIRST)%FBQ_EVERY)return false;return !(save.fbAsk&&save.fbAsk.d===today());}
 function fbAskRender(){const old=$('#ovAsk');if(old)old.remove();fbA=null;if(!fbAskNow())return;
   const R=run;
-  fbA={rate:0,diff:null,sent:false,ctx:{map:R.mapId,nm:R.nm||0,won:!!R.won,t:Math.floor(R.t),hero:R.heroId,lv:R.level,coop:!!R.coop,hlv:heroLv(R.heroId),runs:(save.stats&&save.stats.runs)||0,rid:R.rid||null}};
+  fbA={rate:0,diff:null,rh:null,sent:false,ctx:{map:R.mapId,nm:R.nm||0,won:!!R.won,t:Math.floor(R.t),hero:R.heroId,lv:R.level,coop:!!R.coop,hlv:heroLv(R.heroId),runs:(save.stats&&save.stats.runs)||0,rid:R.rid||null}};
   save.fbAsk={d:today(),n:((save.fbAsk&&save.fbAsk.n)||0)+1};persist();
   const el=document.createElement('div');el.id='ovAsk';el.className='ovask';el.setAttribute('data-k','slab');el.setAttribute('data-m','rune');el.setAttribute('data-s','ask');
   $('#ovTable').after(el);fbAskPaint();}
 function fbAskPaint(){const el=$('#ovAsk');if(!el||!fbA)return;
   if(fbA.sent){el.innerHTML='<p class="ok">'+KIT.img('star')+_t('Díky! Podle toho hru ladím.')+'</p><button class="more" id="ovAskMore">'+_t('Napsat víc')+'</button>';}
   else el.innerHTML='<p>'+_t('Jak se ti hrálo?')+'</p><div class="st">'+[1,2,3,4,5].map(i=>'<button data-r="'+i+'" aria-label="'+i+'"><img alt="" class="'+(i<=fbA.rate?'on':'off')+'" src="'+dataUrl(SPR.icon.star)+'"></button>').join('')+'</div>'+
-    '<div class="df">'+FBQ_DIFF.map(([k,t])=>'<button data-dq="'+k+'"'+(fbA.diff===k?' class="on"':'')+'>'+t+'</button>').join('')+'</div>';
+    '<div class="df">'+FBQ_DIFF.map(([k,t])=>'<button data-dq="'+k+'"'+(fbA.diff===k?' class="on"':'')+'>'+t+'</button>').join('')+'</div>'+
+    '<div class="df rh"><span><img alt="" src="'+dataUrl(SPR.icon.music)+'">'+_t('Rytmus')+'</span>'+FBQ_RH.map(([k,t])=>'<button data-rh="'+k+'"'+(fbA.rh===k?' class="on"':'')+'>'+t+'</button>').join('')+'</div>';
   el.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{fbA.rate=+b.dataset.r;sfx('ui');fbAskDone();});
   el.querySelectorAll('[data-dq]').forEach(b=>b.onclick=()=>{fbA.diff=b.dataset.dq;sfx('ui');fbAskDone();});
+  el.querySelectorAll('[data-rh]').forEach(b=>b.onclick=()=>{fbA.rh=b.dataset.rh;sfx('ui');fbAskDone();});
   const m=$('#ovAskMore');if(m)m.onclick=()=>{sfx('ui');openFeedback({rate:fbA.rate,kind:fbA.diff&&fbA.diff!=='ok'?'balanc':'napad'});};
   requestAnimationFrame(()=>{try{KIT.paint(el.parentNode);}catch(_){}});}
-function fbAskDone(){if(fbA.rate&&fbA.diff)fbAskSend();fbAskPaint();}
-function fbAskSend(){if(!fbA||fbA.sent||!(fbA.rate||fbA.diff))return;fbA.sent=true;
-  const row={kind:'rychle',rating:fbA.rate||null,msg:(fbA.rate?fbA.rate+'/5':'-')+' · '+(fbA.diff||'-')+' · '+fbA.ctx.map+(fbA.ctx.nm?' NM'+fbA.ctx.nm:'')+(fbA.ctx.won?' win':' loss'),ver:GAME_VER,lang:LANG,ctx:Object.assign({diff:fbA.diff},fbA.ctx),at:Date.now()};
+function fbAskDone(){if(fbA.rate&&fbA.diff&&fbA.rh)fbAskSend();fbAskPaint();}
+function fbAskSend(){if(!fbA||fbA.sent||!(fbA.rate||fbA.diff||fbA.rh))return;fbA.sent=true;
+  const row={kind:'rychle',rating:fbA.rate||null,msg:(fbA.rate?fbA.rate+'/5':'-')+' · '+(fbA.diff||'-')+' · '+fbA.ctx.map+(fbA.ctx.nm?' NM'+fbA.ctx.nm:'')+(fbA.ctx.won?' win':' loss')+(fbA.rh?' · rytmus '+fbA.rh:''),ver:GAME_VER,lang:LANG,ctx:Object.assign({diff:fbA.diff,rh:fbA.rh},fbA.ctx),at:Date.now()};
   const Q=save.fbQ||(save.fbQ=[]);Q.push(row);if(Q.length>20)Q.splice(0,Q.length-20);try{localStorage.setItem(SAVE_KEY,JSON.stringify(save))}catch(e){}fbqFlush();}
 function fbAskLeave(){if(fbA&&!fbA.sent)fbAskSend();fbA=null;}
 async function fbqFlush(){const Q=save.fbQ;if(!Q||!Q.length||!ON.sb||!ON.me||!ON.ready||ON.fbqBusy)return;ON.fbqBusy=1;

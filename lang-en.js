@@ -3554,4 +3554,11 @@ window.KRYPTA_EN={
 "Fúze zbraní se odemyká až na Kostnici (3. mapa).":"Weapon fusion now unlocks on the Ossuary (map 3).",
 "Noví hráči uvidí kartu, co je čeká zítra.":"New players see a card with what waits tomorrow.",
 "Hra zaznamená první kroky nováčků, ať víme, kde končí.":"The game records new players' first steps so we know where they stop.",
+"Baví":"Fun",
+"Nevím":"Not sure",
+"Ruší":"Annoying",
+"Jak se ti líbí rytmus?":"How do you like the rhythm?",
+"Nová otázka po běhu: baví, nebo ruší?":"New after-run question: fun or annoying?",
+"Chyby hry se teď hlásí samy, ať je opravím rychleji.":"Game errors now report themselves so I can fix them faster.",
+"Ladění":"Tuning",
 };

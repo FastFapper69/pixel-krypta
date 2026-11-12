@@ -71,3 +71,9 @@ select (exists(select 1 from events t where t.uid=e.uid and t.ev='tmrw')) karta,
   count(distinct uid) filter (where exists(select 1 from events z where z.uid=e.uid and z.d0>=1)) vratilo_se
   from events e where d0 = 0 group by 1;
 ```
+```sql
+-- 12o: chyby hry (ev='err', k = zpráva @ soubor:řádek), nejčastější za týden
+select k, count(*) n, count(distinct uid) hracu, max(ver) posledni_verze from events where ev='err' and created_at > now() - interval '7 days' group by 1 order by 2 desc limit 20;
+-- 12o: rytmus z rychlé otázky (fun / meh / bad)
+select ctx->>'rh' rytmus, count(*) n, round(avg(rating),1) hvezdy from feedback where kind='rychle' and ctx ? 'rh' group by 1 order by 2 desc;
+```

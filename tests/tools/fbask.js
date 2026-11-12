@@ -1,4 +1,4 @@
-// 11s: rychlá otázka na konci běhu – kdy se ukáže, odpověď do fronty save.fbQ a odeslání, snímky CZ/EN.
+// 11s (+12o rytmus): rychlá otázka na konci běhu – kdy se ukáže, odpověď do fronty save.fbQ a odeslání, snímky CZ/EN.
 // node fbask.js [složka] [telefon]
 const L=require('./lib');L.prep();const dir=process.argv[2]||'/tmp',phone=process.argv[3]||'se';
 (async()=>{const bad=[];for(const lang of ['cs','en']){const o=await L.open({phone,lang,save:'mid'});
@@ -10,7 +10,8 @@ const L=require('./lib');L.prep();const dir=process.argv[2]||'/tmp',phone=proces
  const el=await o.p.$('#ovAsk');if(el)await el.scrollIntoViewIfNeeded();await o.p.waitForTimeout(300);await o.p.screenshot({path:dir+'/fbask_'+lang+'_a.png'});
  const r2=await o.p.evaluate(async()=>{const K=window.__krypta,out={};
   document.querySelector('#ovAsk [data-r="4"]').click();out.poHvezde=K._ev("save.fbQ.length");
-  document.querySelector('#ovAsk [data-dq="hard"]').click();out.fronta=K._ev("save.fbQ.length");out.row=K._ev("save.fbQ[0]");out.diky=!!document.querySelector('#ovAsk .ok');
+  document.querySelector('#ovAsk [data-dq="hard"]').click();out.poObtiznosti=K._ev("save.fbQ.length");
+  document.querySelector('#ovAsk [data-rh="bad"]').click();out.fronta=K._ev("save.fbQ.length");out.row=K._ev("save.fbQ[0]");out.diky=!!document.querySelector('#ovAsk .ok');
   return out;});
  await o.p.waitForTimeout(300);await o.p.screenshot({path:dir+'/fbask_'+lang+'_b.png'});
  const r3=await o.p.evaluate(async()=>{const K=window.__krypta,out={},sent=[];
@@ -24,6 +25,6 @@ const L=require('./lib');L.prep();const dir=process.argv[2]||'/tmp',phone=proces
   document.querySelector('#ovAsk [data-r="5"]').click();K._ev("openMenu()");await new Promise(r=>setTimeout(r,100));out.odchod=sent.length;
   return out;});
  const R=Object.assign({},r,r2,r3);console.log(lang,JSON.stringify(R));
- if(!(!R.run2&&R.run3&&R.poHvezde===0&&R.fronta===1&&R.diky&&R.row.rating===4&&R.row.ctx.diff==='hard'&&R.row.ctx.rid&&R.vic===4&&R.kind==='balanc'&&R.poslano===1&&R.zbylo===0&&R.kindSent==='rychle'&&!R.znovu&&R.odchod===2))bad.push(lang);
+ if(!(!R.run2&&R.run3&&R.poHvezde===0&&R.fronta===1&&R.diky&&R.row.rating===4&&R.poObtiznosti===0&&R.row.ctx.diff==='hard'&&R.row.ctx.rh==='bad'&&R.row.ctx.rid&&R.vic===4&&R.kind==='balanc'&&R.poslano===1&&R.zbylo===0&&R.kindSent==='rychle'&&!R.znovu&&R.odchod===2))bad.push(lang);
  if(o.errs.length)bad.push(lang+' chyby '+o.errs.join());await o.close();}
  console.log(bad.length?'✗ '+bad.join(', '):'✓ vše v pořádku');process.exit(bad.length?1:0);})();

@@ -7,6 +7,8 @@ Platné od 9. 11. 2026. Ve hře: Nastavení → Soukromí a licence (zkrácená 
 ## Kdo údaje zpracovává
 Autor hry Pixel Krypta (správce). Kontakt: formulář „Napsat názor na hru“ v Nastavení.
 
+Jak smazat účet a data: [smazat-ucet.html](smazat-ucet.html) (CZ + EN).
+
 ## Co ukládáme a proč
 | Údaj | Kde | Proč | Jak dlouho |
 |---|---|---|---|
@@ -37,4 +39,4 @@ Urážlivé, vulgární, nenávistné a sexuální přezdívky nejsou povolené 
 ---
 
 # Pixel Krypta – Privacy policy (English)
-Same content as above: progress on your device; on Supabase (EU – Ireland) an anonymous account, nickname and PIN hash, progress and stats, run summaries, feedback with device/browser type and player reports; no name, e-mail or location; no ads or tracking; other players see your nickname, title, avatar, stats and progress in the leaderboard; processors Supabase, GitHub Pages, Google STUN (co-op only). Delete everything in Settings → Privacy and licences → Delete my data; other requests via Send feedback; complaints to your data protection authority. Offensive nicknames are not allowed; reports are reviewed within 24 hours.
+Same content as above: progress on your device; on Supabase (EU – Ireland) an anonymous account, nickname and PIN hash, progress and stats, run summaries, a record of first steps in the game, feedback with device/browser type and player reports; no name, e-mail or location; no ads or tracking; other players see your nickname, title, avatar, stats and progress in the leaderboard; processors Supabase, GitHub Pages, Google STUN (co-op only). Delete everything in Settings → Privacy and licences → Delete my data; other requests via Send feedback; complaints to your data protection authority. Offensive nicknames are not allowed; reports are reviewed within 24 hours.
