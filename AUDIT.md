@@ -1,36 +1,35 @@
-# Audit projektu – 11. 11. 2026 (verze 11x)
+# Audit projektu – 13. 11. 2026 (verze 12z1)
 
-Opakovat: skill `.claude/skills/audit-projektu`, příkaz `node tests/tools/audit.js` (rychlý, ~3 min) nebo `node tests/tools/audit.js plny` (s boty a výkonem). Serverovou část kontroluje skill přes Supabase nástroje. Předchozí audit (10. 11., 10i) je v historii gitu.
+Opakovat: skill `.claude/skills/audit-projektu`, `node tests/tools/audit.js plny` (~25 min v sandboxu) a nově **proklikání všech tlačítek** `node tests/tools/proklik.js [hloubka] [cs|en] [souběh]` (hloubka 2 v češtině ~40 min, hloubka 1 v angličtině ~7 min).
 
 ## Co prošlo
-- **`audit.js plny` celý zelený** (na 11w i po čistce na 11x): 18 obrazovek × nový i pokročilý účet × CZ/EN, **50 map** 20 s + boss, konec běhu, pohlednice, 76 běhů botů (první mapa a finále všech 10 kapitol, vstup i grind), plynulost menu – žádná chyba JS ani chybějící soubor.
-- **Testy:** překlady, ukládání, kapitoly a hrdinové (`chapcheck all`), denní výzva, mechaniky po restartu, menu, server (stub), horní okraj, pauza, oslava, úder ultimátky. Nový `ulozeni-plne.js` (plné úložiště).
-- **Statické kontroly:** žádné duplicitní funkce, verze = první Novinka i `?v=` u souborů, žádné tajné klíče, fialová jen 4 tlumené v CSS, CLAUDE.md 40 kB → po čistce 32 kB.
+- **Proklikání celé hry (nové, `proklik.js`):** 46 scénářů = 18 obrazovek menu + běh, pauza, nabídka úrovně, výhra, prohra, vždy pro nového i pokročilého hráče. Každé viditelné tlačítko zmáčknuté skutečným klepnutím, do hloubky 2 (tlačítka v oknech, která se po kliku otevřou). **CZ ~2 750 kliků, EN 477 kliků: 0 chyb JS, 0 pádů, 0 tlačítek zakrytých něčím jiným než otevřeným oknem.**
+  - „Bez reakce“ zůstaly jen vybrané záložky, šipka „‹“ na první kapitole, už zvolený jazyk/ovládání a hvězdy v okně názoru (mění jen výběr). Vypnutá tlačítka (nový hráč nemá zlato na hrdinu, truhlu, hvězdu; co-op offline) jsou správně `disabled` a proklikávač je od teď přeskakuje.
+- **`audit.js plny`:** 24 kontrol ✓ – duplicitní funkce, verze a `?v=`, tajné klíče, fialová v UI, překlady, ukládání, denní výzva, mechaniky po restartu, menu, server (stub), horní okraj, pauza, oslava, ultimátka, 18 obrazovek × 2 účty × CZ/EN, **50 map** 20 s + boss, běh do konce, pohlednice, boti přes všechny kapitoly.
+- **Oblastní testy (29):** `boardseal`, `fbask`, `komiks`, `korist`, `kovarna-milniky`, `kovarna-postupne`, `novinky`, `obchod-znacka`, `offline`, `offline-navrat`, `opusteny`, `pribeh`, `priprava-rolovani`, `prvnidny`, `revealpop`, `runpole`, `tutorial` (nový hráč vyhrál Hřbitov ve 4:03), `tydenkrypta`, `ukazmi` (CZ/EN, malý i velký iPhone), `ulozeni-plne`, `vezpostat`, `vyzvamapa`, `fuzemark`, `jmenahrdinu`, `botcoop`, `prvnich15` (nováček 16 min hry, bez chyb), `grafcheck` CZ/SE + EN/15 (0 nálezů), `i18n static` (0 chybějících překladů) – vše ✓.
 - **ESLint:** žádné `no-undef` ani `no-redeclare`.
-- **Server:** 0 otevřených nahlášení, 0 podvodů za 2 dny, 0 chybných PINů, žádná viditelná závadná přezdívka. Sloupec `save` v `profiles` nejde číst ani anonymně, ani přihlášeně (jen `id, nick, stats, hidden, updated_at`). Exporty chrání `dev_key`. Za 24 h 14 běhů, 2 zprávy ve `feedback` celkem, rychlá otázka po běhu zatím 0 odpovědí, 0 co-op běhů, 10 profilů.
+- **Server:** 0 otevřených nahlášení, 0 podvodů za 3 dny, 0 chybných PINů, 0 závadných přezdívek, **0 chyb JS od hráčů v `events`**. Za 2 dny 30 běhů od 2 hráčů; na verzi 12z1 zatím nikdo nehrál (kontrolu výher v kapitole I udělat, až budou data).
 
-## Opraveno v rámci čistky (11x)
-1. **Tiché selhání uložení** (otevřené od 9. 11.): `persist()` při chybě `localStorage` smaže mezipaměť pohlednic `pk-th-*` a zkusí to znovu; když to pořád nejde, jednou za spuštění ukáže hlášku „Postup se neuložil – telefon je plný.“ Test `ulozeni-plne.js`, snímky CZ i EN zkontrolované.
-2. **`storyShow`** (otevřené od 9. 11.): pojistka proti poškozenému `save.storyNew`.
-3. **Mrtvý kód:** pryč `CHEST_ROWS`, `ROMAN_NM`, `MAX_LV`, `twMat`, `teleRing`, `money`, `EN_RATE`, `FEAT_BTN`, `CO_ABC`, `sharp` a 12 nepoužitých lokálních proměnných; 3 duplicitní klíče v `window.__krypta` (`renderSelect`, `openChestShop`, `MAPS`). Palety `C9P`, `C9R`, `C10L` zůstávají (popsané v `KAMPAN.md`, hodí se pro další mapy).
-4. **Soubory navíc v repu:** smazané `tests/tools/off2.html` (1 MB stará kopie hry), `net3_g.png`, `net3_h.png` (1,3 MB snímky z co-op testu v kořeni webu); `coop-test.js` teď fotí do `/tmp`, obojí v `.gitignore`.
-5. Popisky: audit a `hraci.js zed` tvrdily „kapitoly I–VI“, boti ale hrají všech 10 kapitol. `docs/KOD.md` ukazoval na smazané `CHEST_ROWS`.
+## Opraveno v rámci auditu (beze změny hry pro hráče)
+1. **`chapcheck.js` hlásil 48 chyb „chybí anglický popis“** u všech map – falešný poplach po 12z (hra přepisuje čas „Vydrž M:SS“ v popisu podle skutečné délky, kontrola porovnávala už přepsaný text). Ve hře anglické popisy fungují (ověřeno). Kontrola teď čas při porovnání ignoruje → `chapcheck all` „Vše v pořádku“.
+2. **Zdvojené barvy v paletě věže Ohniště** (`o`, `y` dvakrát, platila druhá) – první dvojice smazaná, vzhled beze změny.
+3. **Testy `prvnidny.js` a `ukazmi.js` zastaralé po 12y** (Fúze se odemyká výhrou na Bažině, po ní přijdou 3 karty místo 2) – upravené, ověřují nové chování (3. karta Fúze bez „Ukaž mi to“, Novinky až po ní).
+4. `lib.open({init})` – vlastní skript před načtením hry (pro proklikávač); `vezpostat.js` a `fuzemark.js` si složku na snímky vytvoří samy (bez ní padaly).
 
 ## Nálezy (podle priority)
 
 ### Střední
-1. **Server – výkon (z minula, roste s hráči):** 6 RLS pravidel volá `auth.uid()` pro každý řádek (`auth_rls_initplan`: profiles ×2, feedback, runs, reports, coop_runs), chybí indexy `feedback.uid` a `runs.uid`. **Vyřešeno** migrací `20261111c_audit_vykon.sql` (spuštěná 11. 11. po souhlasu, ověřená nanečisto: vlastní zápis projde, cizí ne, denní limit zpráv funguje).
-2. ~~CLAUDE.md 40 kB~~ – vyřešeno v čistce: předávky z 10. 11. přesunuté do `docs/HISTORIE.md`, v CLAUDE.md zůstala platná rozhodnutí (teď ~32 kB).
+1. **Vzorec obtížnosti `kitTier` je zastaralý** (`chapcheck` 53× „HP pod vzorcem síly hráče“): pro mapu bez řádku v `MAP_TIER` by dal např. Hřbitovu HP ×51 místo ×0,62. **Hráčům to teď nevadí** – všech 50 map má vlastní řádek a `kitTier` se nepoužije. Ale nová kapitola (akt II) by bez `ladeni.js` dostala nehratelná čísla. Oprava před rozmrazením kapitol: `node tests/tools/krivka.js zapis` po posledním ladění (`PWR` neodpovídá zkráceným běhům z 12d/12z1) a pak upozornění v `chapcheck` zmizí.
 
 ### Nízká
-3. **Server – `stats_clean` a `stats_entry_ok` bez pevného `search_path`** (WARN, z minula). **Vyřešeno** stejnou migrací.
-4. **`feedback_limit()`** je triggerová funkce, ale jde volat přes `/rpc` (anon i přihlášení). Zavolání samo selže, škodu neudělá; **vyřešeno** stejnou migrací (`revoke execute`).
-5. **Zbylých 20 nepoužitých lokálních proměnných** uvnitř dlouhých řádků kreslení a mechanik – neškodné, nechávám (riziko úpravy > přínos).
-6. **Upozornění serveru, která jsou v pořádku:** SECURITY DEFINER funkce volatelné hráči (záměr, kontrolují `auth.uid()`/klíč), `coop_board` pro anon (veřejný žebříček), RLS bez pravidel na `private.*` (nikdo zvenku), anonymní přihlášení u `profiles` (hra jinak nefunguje), „leaked password protection“ (hra hesla nepoužívá).
-7. Jeden hráč má pořád vynucené přejmenování (`rename_req`) – ještě nespustil hru.
-8. Plynulost menu na pomalém telefonu (z minula) – audit už ji hlásí jako ✓.
+2. **Plynulost menu v sandboxu:** první otevření Hrdiny ~430 ms a Přípravy ~370 ms jedno zaseknutí (2 procesory bez grafiky, měření je hrubé). **Na telefonu ověří uživatel** – když se otevření Hrdiny/Přípravy sekne, stojí za to předkreslit sprity hrdinů už v menu.
+3. **CLAUDE.md 45 kB** (cíl < 40 kB): „Aktuální stav“ má popisy verzí 11f–11x, ty patří do `docs/HISTORIE.md`.
+4. **25 nepoužitých proměnných** (ESLint `no-unused-vars`, např. `C9P`, `C9R`, `C10L`, `prevOn`) – neškodné, mrtvý kód k úklidu při další práci v daném místě.
+5. **Server (beze změny, záměr):** SECURITY DEFINER funkce volatelné hráči (kontrolují `auth.uid()` nebo klíč), `coop_board` pro anon, RLS bez pravidel na `private.*` (nikdo tam nesmí), nepoužitý index `feedback_uid_created` (zatím málo dat), vypnutá ochrana proti uniklým heslům (hra hesla nepoužívá, jen PIN).
+6. Jeden hráč má pořád vynucené přejmenování (`rename_req`) – ještě nespustil hru.
+7. Drobnost vzhledu: v Síni slávy (žebříček offline) stojí pohár nad kamennou deskou s mezerou – deska vypadá, že visí zvlášť. Jen pro informaci, ve hře s připojením je pod pohárem žebříček.
 
 ## Kde si ulehčit práci
-1. **Automatická kontrola na GitHubu** (z minula): GitHub Actions pustí po pushi `audit.js` a u commitu ukáže ✓/✗ – při dvou souběžných chatech by hned bylo vidět, kdo co rozbil.
-2. **`newsshot.js`** potřebuje verzi o jednu *starší*, než je nová Novinka (`save.newsSeen`); s aktuální verzí nic neotevře. Stálo by za to, aby bez třetího parametru vzal předposlední položku `NEWS` sám.
-3. **ESLint do `audit.js`** (dnes ruční krok skillu, ~1 min): hlídat aspoň `no-undef` a `no-redeclare`.
+1. **`proklik.js`** je nový nástroj: po větší změně UI ho pustit s hloubkou 1 (`node proklik.js 1 cs 2 'late:'` ~10 min) – chytí chybu JS za kterýmkoli tlačítkem.
+2. **Automatická kontrola na GitHubu** (z minula): GitHub Actions s `audit.js` po pushi.
+3. **ESLint do `audit.js`** (z minula): dnes ruční krok skillu.

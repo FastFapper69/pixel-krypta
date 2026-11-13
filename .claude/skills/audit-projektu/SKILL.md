@@ -18,6 +18,14 @@ Kontroluje: duplicitní funkce (platí jen poslední – tak zmizelo ztlumení h
 
 Nové testy a kontroly piš nad `tests/tools/lib.js` (`prep()`, `open({phone,lang,save})`, `SCREENS`). Když přibude obrazovka, přidej ji do `SCREENS` v lib.js; když přibude povinný test, přidej ho do seznamu v audit.js.
 
+## 1b. Proklikání všech tlačítek (`proklik.js`, od 13. 11. 2026)
+```
+cd tests/tools && node proklik.js 2 cs 2      # hloubka 2, ~40 min v sandboxu (2 procesory) – pusť na pozadí
+node proklik.js 1 en 2                         # angličtina, hloubka 1, ~7 min
+node proklik.js 1 cs 2 'late:(hero|forge)'     # jen vybrané scénáře (regex)
+```
+46 scénářů (obrazovky z `L.SCREENS` + běh, pauza, nabídka úrovně, výhra, prohra; nový i pokročilý účet). Každé tlačítko se zmáčkne skutečným klepnutím; mezi kliky se hra vrátí do výchozího stavu bez načítání, chyba JS se vždy ověří na čistě načtené hře. Hlásí chyby JS, zakrytá tlačítka (jen když je nezakrývá otevřené okno) a tlačítka bez reakce (vybrané záložky jsou v pořádku). Výsledek `/tmp/proklik/vysledek-<jazyk>.json`. Nová obrazovka = přidat do `SCREENS` v lib.js a proklikávač ji projde sám.
+
 ## 2. Hlubší kontrola kódu (ESLint, ~1 min)
 ```
 mkdir -p /tmp/lint && cd /tmp/lint && npm i -s eslint@8.57.0 >/dev/null
@@ -43,6 +51,7 @@ Skutečné chyby: `no-redeclare`, `no-undef`, `no-dupe-keys` (u exportu `window.
 - Pracovní postup: velikost CLAUDE.md (cíl < 40 kB, historie do `docs/HISTORIE.md`), zastaralé testy v `tests/tools`, opakované ruční kroky → nástroj.
 
 ## Poučení z auditů
+- 13. 11. 2026 (12z1): ~3 200 kliků bez chyby JS. Po změně chování (12y Fúze na Bažině, 12z čas v popisu mapy) zastaraly testy `prvnidny`, `ukazmi` a kontrola `chapcheck` (48 falešných chyb) – **při změně chování hledej testy, které staré chování hlídají** (`grep` názvu funkce/mapy v `tests/tools`). `kitTier`/`PWR` neodpovídá zkráceným běhům – přepočítat `krivka.js zapis` před novou kapitolou.
 - 11. 11. 2026 (11x): `toast` se v menu nezobrazí (je v HUD běhu) – hlášky mimo běh přes `note`. `newsshot.js` potřebuje verzi o jednu starší než nová Novinka. Do repa se dostaly výstupy testů (`off2.html`, `net3_*.png` v kořeni webu) – kontrolovat `git ls-files | xargs du` a testy fotit do `/tmp`. Server: migraci zkoušet v `DO $$ … raise exception $$` i s vložením jako `authenticated` (`set local role`, `request.jwt.claims`).
 - 9. 11. 2026 večer: okna otevřená během běhu (nabídka úrovně) zahazují kroky rytmu – úder ultimátky mizel.
 - 9. 11. 2026: duplicitní `duckMusic` (09r ztlumení nikdy nefungovalo), PIN bez limitu pokusů, žebříček stahuje cizí savy kvůli jednomu obrázku, pokles plynulosti menu po rámech v plátně, 108 kB CLAUDE.md.

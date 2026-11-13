@@ -72,8 +72,10 @@ const arg=process.argv[2]||'all',root=path.join(__dirname,'..','..');
    for(const id in r.songs){for(const i of r.songs[id].issues)o.issues.push(id+' hudba: '+i);for(const w of r.songs[id].warn)o.warn.push(id+' hudba: '+w);}
    if(arg!=='all')o.warn.push('hudba: změř hlasitost po taktech – node skladby.js '+o.id+' (propady 0, klid −2 až −6, boss +3 až +5 dB)');}
  const missEN=s=>s&&EN[s]==null;
+ const NT=x=>x.replace(/(Vydr\u017e |P\u0159e\u017eij |Survive )(\d+:\d\d|\d+ minutes?|\d+ minut[ay]?)\b/g,'$1#'),ENN=new Set(Object.keys(EN).map(NT)); // 12z: hra přepíše čas v popisu mapy podle skutečné délky
+ const missENd=s=>s&&EN[s]==null&&!ENN.has(NT(s));
  for(const o of D.ch){if(!kampan.includes(o.name))o.warn.push('KAMPAN.md nezmiňuje kapitolu');
-   for(const m of o.maps){if(missEN(m.name))o.issues.push(m.id+': chybí anglický název');if(missEN(m.desc))o.issues.push(m.id+': chybí anglický popis');if(!fs.existsSync(path.join(root,'thumbs',m.id+'.png')))o.issues.push(m.id+': chybí pohlednice thumbs/'+m.id+'.png (thumbgen.js)');}
+   for(const m of o.maps){if(missEN(m.name))o.issues.push(m.id+': chybí anglický název');if(missENd(m.desc))o.issues.push(m.id+': chybí anglický popis');if(!fs.existsSync(path.join(root,'thumbs',m.id+'.png')))o.issues.push(m.id+': chybí pohlednice thumbs/'+m.id+'.png (thumbgen.js)');}
    for(const l of o.introLines||[])if(missEN(l))o.issues.push('hláška bez překladu: '+l);
    console.log('\n== Kapitola '+o.id+' · '+o.name+' == mapy '+o.maps.map(m=>m.id).join(', ')+' | noví nepřátelé '+o.enemies.join(', ')+' | set '+(o.set?o.set.id+' ['+o.set.slots.join(',')+']'+(o.set.six?' ×6':''):'-')+' | legendárka '+(o.leg||'-')+' | hrdinové '+o.heroes.join(', '));
    for(const i of o.issues)console.log('  CHYBA  '+i);for(const w of o.warn)console.log('  pozor  '+w);bad+=o.issues.length;if(!o.issues.length)console.log('  OK');}

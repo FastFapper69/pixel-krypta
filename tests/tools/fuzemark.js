@@ -2,7 +2,7 @@
 // Kontroluje: odznak jen když hráč nese druhou půlku receptu, „připraveno“ jen když obě zbraně dosáhnou 5, tajný recept až po ukutí,
 // odznak nepřekrývá název ani čísla, kroužek jde vypnout posuvníkem. Snímky karet a čtyř fází kroužku.
 const L=require('./lib.js'),path=require('path');
-const out=process.argv[2]||'.',lang=process.argv[3]||'cs',phone=process.argv[4]||'se';let bad=0;
+const out=process.argv[2]||'.',lang=process.argv[3]||'cs',phone=process.argv[4]||'se';let bad=0; require('fs').mkdirSync(out,{recursive:true});
 const ok=(c,t)=>{if(!c){bad++;console.log('✗',t);}else console.log('✓',t);};
 const W=lv=>"{lv:"+lv+",cd:.4,ang:0,tick:0,mul:1,r:0,pulse:0}";
 const show=opts=>"(()=>{const O="+opts+";const lo=levelOptions;levelOptions=()=>O;try{run.luT=0;setState('play');openLevelUp();}finally{levelOptions=lo;}})()";

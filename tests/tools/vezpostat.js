@@ -2,7 +2,7 @@
 // Pravidla: 2 doby u věže → úroveň +1 (stojí zlato jako tlačítko), rychlý průběh nic, čerstvá věž 4 s klid, bez zlata nic,
 // úr. 3 se jen opraví, jen nejbližší věž, co-op snímek nese průběh. Snímky teček kolem paty věže.
 const L=require('./lib.js'),path=require('path'),fs=require('fs');
-const out=process.argv[2]||'.',lang=process.argv[3]||'cs',phone=process.argv[4]||'se';let bad=0;
+const out=process.argv[2]||'.',lang=process.argv[3]||'cs',phone=process.argv[4]||'se';let bad=0; require('fs').mkdirSync(out,{recursive:true});
 const ok=(c,t)=>{if(!c){bad++;console.log('✗',t);}else console.log('✓',t);};
 (async()=>{L.prep();const o=await L.open({phone,lang,save:'late'});
  await o.E("openMenu();startRun('knight','hrbitov',{});for(let i=0;i<60;i++)step(1/30);$('#toast').style.display='none';run.p.inv=1e9;run.p.hp=run.p.max=1e6;");

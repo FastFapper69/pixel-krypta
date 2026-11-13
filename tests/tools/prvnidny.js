@@ -44,8 +44,8 @@ const L=require('./lib');const lang=process.argv[2]||'cs',phone=process.argv[3]|
  ok(await E("dayN()===1&&lwDue()"),'vrátil se další den: Týden v kryptě hned');
  // starý hráč (bez day0) kartu Zítra nedostane
  await E("delete save.day0;save.stats.runs=40;delete save.tmrw;1");ok(await E("day0Init()==='old'&&!tmrwDue()&&dayN()===-1"),'starý hráč: bez karty Zítra');
- // Fúze se odemkne na Kostnici
- await E("save.cleared.bazina=true;featCheck();1");ok(!(await E("featOn('fuse')")),'Utopené hroby už Fúzi neodemknou');
+ // 12y: Fúze se odemkne výhrou na Utopených hrobech (Bažina), aby ji hráč poznal hned na Kostnici
+ await E("save.cleared.bazina=true;featCheck();1");ok(await E("featOn('fuse')"),'výhra na Utopených hrobech odemkne Fúzi (hraje se s ní na Kostnici)');
  await E("save.cleared.kostnice=true;featCheck();1");ok(await E("featOn('fuse')"),'Kostnice odemkne Fúzi');
  // události
  const ev=await E("(save.evQ||[]).map(e=>e.ev+(e.k?':'+e.k:'')).join(' ')");

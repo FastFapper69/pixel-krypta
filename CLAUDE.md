@@ -34,6 +34,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
   - ukládání → `savekeys.js`; server, přezdívky, žebříček → `cloudstub.js` (+ SQL v transakci, která se vrátí)
   - kapitoly, mapy, hrdinové → `chapcheck.js <kapitola>`; mechaniky Cesty → `featreload.js`; denní/týdenní výzva → `dailysame.js`
   - během běhu: pauza `pausetabs.js`, oslava `celeb.js`, ultimátka `ulthold.js`
+  - tlačítka po větší změně UI → `proklik.js 1 cs 2 '<scénáře>'` (chyba JS za kterýmkoli tlačítkem)
   - Vždy aspoň: hra se načte bez chyb JS a `?v=` v index.html = `GAME_VER`.
   Nové testy psát nad `tests/tools/lib.js`.
 - **Skilly projektu** jsou v `.claude/skills/` (html5-mobile-game-dev, survivors-design-balance, mobile-store-launch, **nova-kapitola, novy-hrdina, zvuk-a-hudba**). Když je session nenačte sama, přečti si příslušný `SKILL.md` ručně. Od 12. 11. jsou tam i převzaté **webapp-testing** (Anthropic, Apache 2.0) a **playwright-skill** (lackeyjb, MIT; `run.js` upravený pro předinstalovaný Playwright) na testy v prohlížeči; pro hru má dál přednost `tests/tools/lib.js`.
@@ -48,6 +49,7 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - Jména hrdinů: limit 85 % dlaždice v CZ i EN, písmo se nezmenšuje (`jmenahrdinu.js`, skill `novy-hrdina`).
 
 ## Aktuální stav (verze 12z1, 12. 11. 2026, vše na main, Pages nasazené)
+- **Audit 13. 11. (`AUDIT.md`):** vše zelené, ~3 200 kliků po celé hře bez chyby JS (nový `tests/tools/proklik.js`, popis ve skillu `audit-projektu`). **Před rozmrazením kapitol přepočítat `krivka.js zapis`** (`kitTier` dává staré HP ×51). Na telefonu ověřit, jestli se nesekne první otevření Hrdiny/Přípravy.
 - **12z1 kapitola I kratší a lehčí** (uživatel + data: Hřbitov 57 %, Bažina 33 %): mapy 3:30, finále 4:00, **bez zhuštění** (`m.ts=1`), odměny a XP přes `m.rts`. **Pravidlo: kapitolu I neladit zpátky na boty – skuteční hráči v ní vyhrávají o 30–40 bodů méně** (cíle 95/90/85/80/60). Kovárna: milníky `MILES`, kladivo do rytmu, přerozdělení (`treeRespecAsk`, test `kovarna-milniky.js`); volba variant schopností čeká. Po vydání zkontroluj v `runs` výhry v kapitole I.
 - **12z** popisy map: čas „Vydrž …/Survive …“ se přepisuje ze skutečné `m.dur` (po `DUR_CAP`/`DUR_FIN`), dřív napevno 6–7 minut; karta nové úrovně `.st` s okrajem 28 px a `min-height` (roste místo přetékání). **Pravidlo: v popisu mapy nepiš čas napevno jinak než ve tvaru „Vydrž M:SS / N minut“ – přepíše se sám.**
 - **12y fúze na Kostnici** (uživatel ji neviděl a nevěděl, k čemu směřovat): `FEATS.fuse.at='bazina'`; dokud hráč neudělal fúzi, `run.fuseGuidePair` (`fuseGuidePick`: dvojice se startovní zbraní), `levelOptions` vždy nabídne chybějící zbraň (`fuseGuideNeed`), `#qPin` ukazuje „Fúze: A x/5 B y/5“. Bot `prvnich15.js cs 15`: fúze ve 3. běhu ve 2:27.

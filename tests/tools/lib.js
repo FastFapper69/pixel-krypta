@@ -34,6 +34,7 @@ async function open(o={}){
  await c.addInitScript(([l,t,bt])=>{try{localStorage.setItem('pixel-krypta-lang',l);}catch(_){}document.addEventListener('DOMContentLoaded',()=>{const s=document.createElement('style');s.textContent=':root{--sat:'+t+'px!important;--sab:'+bt+'px!important}';document.head.appendChild(s);});},[o.lang||'cs',top,bot]);
  if(o.prolog)await c.addInitScript(()=>{window.KRYPTA_PROLOG_TEST=1;});
  if(o.lw)await c.addInitScript(()=>{window.KRYPTA_LW_TEST=1;}); // 12m: deska Týden v kryptě (jinak vypnutá, překryla by menu ve všech testech)
+ if(o.init)await c.addInitScript(o.init); // vlastní skript před načtením hry (proklik.js)
  const p=await c.newPage(),errs=[];
  p.on('pageerror',e=>errs.push('JS: '+e.message+' @ '+((e.stack||'').split('\n')[1]||'').trim()));
  p.on('console',m=>{if(m.type()==='error'&&!/supabase|Failed to fetch|ERR_INTERNET|net::ERR_NAME/.test(m.text()))errs.push('console: '+m.text().slice(0,200));});

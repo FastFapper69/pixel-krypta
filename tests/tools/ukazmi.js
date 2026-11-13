@@ -25,6 +25,10 @@ const L=require('./lib');const lang=process.argv[2]||'cs',phone=process.argv[3]|
  await p.screenshot({path:'out/ukazmi_'+lang+'_'+phone+'_truhla.png'});
  const c0=await E("save.coins");await p.click('#mLoot');await p.waitForTimeout(2600);s=await st();
  ok(!s.spot&&(await E("save.coins"))>c0,'klepnutí na truhlu ji rovnou vyzvedne a zvýraznění zmizí');
+ // 12y: výhra na Bažině odemyká i Fúzi zbraní (3. karta, jen vysvětlení bez „Ukaž mi to“) – Novinky až po ní
+ ok(s.feat&&!s.news&&/Fúze|[Ff]usion/.test(s.card||''),'3. karta Fúze zbraní '+JSON.stringify(s));
+ ok(!(await E("!!document.querySelector('#featPop #fcGo')&&getComputedStyle(document.querySelector('#featPop #fcGo')).display!=='none'")),'Fúze nemá „Ukaž mi to“ (mechanika běhu)');
+ await p.click('#fcOk');await p.waitForTimeout(2600);s=await st();
  ok(s.news&&!s.feat,'až teď Novinky '+JSON.stringify(s));
  await p.screenshot({path:'out/ukazmi_'+lang+'_'+phone+'_novinky.png'});
  // bez ťuknutí zvýraznění samo zmizí po 6 s
