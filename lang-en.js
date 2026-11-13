@@ -45,6 +45,7 @@ window.KRYPTA_EN={
 'Příprava neposkakuje':'Preparation stays put',
 'Výběr hrdiny už s obrazovkou nehne.':'Picking a hero no longer scrolls the screen.',
 'Drobné opravy':'Small fixes',
+ 'Příprava se otevře rovnou u vybrané mapy, bez probliknutí a skoku.':'Preparation opens right at the selected map, without a flicker or jump.',
  'Pohár v Síni slávy stojí na podstavci, nevisí ve vzduchu.':'The Hall of Fame trophy now stands on its pedestal instead of floating.',
 'Šipka „Ukaž mi to“ už nezůstane viset v rohu menu.':'The “Show me” arrow no longer gets stuck in the menu corner.',
 'Konec běhu: odemčená věž napíše, kde ji najdeš.':'Run end: an unlocked tower says where to find it.',

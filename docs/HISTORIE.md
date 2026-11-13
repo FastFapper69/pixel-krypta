@@ -688,3 +688,6 @@ Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co 
 - Pohár v Síni slávy stojí na podstavci (`.k-ped img` bottom 22 → 13 px; sprite má 2 průhledné řádky a deska je kreslená 9 px pod horním okrajem `.k-ped`).
 - `chapcheck`: vzorec síly `kitTier`/`PWR` (model z posledních 2 kapitol pro další kapitolu) srovnává jen s posledními dvěma kapitolami.
 - Úklid: 6 nepoužitých proměnných, CLAUDE.md 46 → 39 kB.
+
+## 13b (13. 11. 2026) – Příprava bez skoku
+- Uživatel: při otevření Přípravy to problikne a skočí dolů na mapy. Záznam po snímcích: obrazovka se otevřela nahoře (vybraná mapa pod Vyrazit) a ~0,25 s po najetí (`kScrIn`) odrolovala. Teď `renderSelect` roluje v `queueMicrotask` po `setState` = před prvním vykreslením; pojistka po animaci jen když se rozložení mezitím změnilo. Test `priprava-rolovani.js` kontroluje 20 snímků po otevření.

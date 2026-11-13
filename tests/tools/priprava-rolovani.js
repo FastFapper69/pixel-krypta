@@ -7,6 +7,11 @@ const L=require('./lib');const lang=process.argv[2]||'cs',phone=process.argv[3]|
  // vybraná mapa = poslední otevřená v kapitole (dole v seznamu)
  await E("save.heroes=save.heroes||{};save.heroes.mage=true;persist();sel.picked=1;const C=CHAPTERS[2];sel.map=C.maps[C.maps.length-1];sel.nm=0;renderSelect();setState('select');1");await p.waitForTimeout(700);
  ok(await vis(),'po otevření je vybraná mapa vidět (nad Vyrazit) · rolováno '+await sc());
+ // 13b (uživatel: „při otevření přípravy to problikne a snapne se zase dolů“): odrolovat ještě před 1. vykreslením, pak už se nehýbat
+ await E("openMenu();1");await p.waitForTimeout(400);
+ const fr=await p.evaluate(()=>new Promise(res=>{const K=window.__krypta,el=()=>[document.querySelector('#scr-select'),document.querySelector('#scr-select .wrap'),document.scrollingElement].find(x=>x&&x.scrollTop>0),v=()=>{const e=el();return e?Math.round(e.scrollTop):0;};
+  K._ev("sel.picked=1;const C=CHAPTERS[2];sel.map=C.maps[C.maps.length-1];renderSelect();setState('select');1");const a=[];let n=0;const f=()=>{a.push(v());if(++n<20)requestAnimationFrame(f);else res(a);};requestAnimationFrame(f);}));
+ ok(fr[0]>0&&fr.every(x=>x===fr[0]),'otevření: od 1. snímku na místě, žádný skok · '+fr.join(','));
  await E("(()=>{for(const e of [document.querySelector('#scr-select'),document.querySelector('#scr-select .wrap'),document.scrollingElement])if(e)e.scrollTop=0;})()");await p.waitForTimeout(200);
  const own=await E("HERO_IDS.filter(h=>heroOwned(h)&&h!==sel.hero)[0]||''");
  if(own){await E("document.querySelectorAll('#heroList [data-id], #heroList button, #heroList .hcard').length");

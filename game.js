@@ -3588,7 +3588,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-13a';
+const GAME_VER='2026-11-13b';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -7288,12 +7288,14 @@ function openSeals(){const pop=$('#selPop'),hero=sel.hero,pool=sealPool(hero),st
   $('#sealOk').onclick=()=>{sfx('ui');pop.hidden=true;sealBtnSync();};
   pop.onclick=e=>{if(e.target===pop){pop.hidden=true;sealBtnSync();}};}
 function renderSelect(){sealBtnSync();const opening=state!=='select'; // 12s: rolovat jen při otevření Přípravy (uživatel: výběr hrdiny skočil dolů k mapě)
-  if(opening)setTimeout(()=>{const S=$('#scr-select'),go=()=>{const m=$('#mapList .mnode.sel');if(!m||state!=='select')return;const r=m.getBoundingClientRect(),g=$('#goBtn'),h=$('#scr-select .head');
+  if(opening)queueMicrotask(()=>{const S=$('#scr-select'),go=()=>{const m=$('#mapList .mnode.sel');if(!m||state!=='select')return;const r=m.getBoundingClientRect(),g=$('#goBtn'),h=$('#scr-select .head');
     const bot=g?g.getBoundingClientRect().top-8:innerHeight,top=h?h.getBoundingClientRect().bottom+8:0;if(r.top>=top&&r.bottom<=bot)return;
     let P=m.parentElement;while(P&&!(/(auto|scroll)/.test(getComputedStyle(P).overflowY)&&P.scrollHeight>P.clientHeight))P=P.parentElement;P=P||document.scrollingElement; // jen o kolik je třeba, ať nahoře zůstane co nejvíc (název kapitoly)
     if(r.height>bot-top)m.scrollIntoView({block:'center'});else P.scrollTop+=Math.round(r.bottom>bot?r.bottom-bot:r.top-top);};
-    let A=[];try{A=S&&S.getAnimations?S.getAnimations():[];}catch(_){} // měřit až po najetí obrazovky (kScrIn), jinak mapa vypadá mimo
-    if(A.length)Promise.all(A.map(a=>a.finished.catch(()=>0))).then(go);else go();},0); /* 12b: the chosen map sat under the sticky Vyrazit */
+    // 13b (uživatel: „problikne a snapne se dolů na mapy“): rolovat hned po zobrazení obrazovky, ještě před prvním vykreslením
+    // (mikroúloha po setState), ne až po najetí (kScrIn posune celou obrazovku stejně, takže porovnání mapy s hlavičkou a Vyrazit sedí i během něj)
+    go();let A=[];try{A=S&&S.getAnimations?S.getAnimations():[];}catch(_){}
+    if(A.length)Promise.all(A.map(a=>a.finished.catch(()=>0))).then(go);}); /* 12b: the chosen map sat under the sticky Vyrazit; pojistka po najetí jen když se rozložení mezitím změnilo */
   $('#selMats').innerHTML=matsHtml();
   const hl=$('#heroList');
   heroStrip(hl,HERO_IDS,sel.hero,(id,own)=>{const h=HEROES[id];return own?_t('úr. ')+heroLv(id):h.soon?_t('kap. ')+SOON_CH[h.soon]:h.need&&!mapUnlocked(h.need)?_t('kap. ')+ROMAN_CH[CH_OF[h.need].i]:h.ach?'<img alt="" src="'+dataUrl(SPR.icon.medal)+'">':h.win?_t('kap. ')+ROMAN_CH[CH_OF[h.win].i]:'<img alt="" src="'+dataUrl(SPR.icon.coin)+'">'+h.cost;},(id,own)=>{const h=HEROES[id];
@@ -10750,7 +10752,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
- {v:'2026-11-13a',d:'13. 11. 2026',t:_t('Drobné opravy'),hl:[],items:[_t('Pohár v Síni slávy stojí na podstavci, nevisí ve vzduchu.')]},
+ {v:'2026-11-13b',d:'13. 11. 2026',t:_t('Drobné opravy'),hl:[],items:[_t('Příprava se otevře rovnou u vybrané mapy, bez probliknutí a skoku.'),_t('Pohár v Síni slávy stojí na podstavci, nevisí ve vzduchu.')]},
  {v:'2026-11-12z1',d:'12. 11. 2026',t:_t('Kratší kapitola I a Kovárna'),hl:[{ic:'map:hrbitov',t:_t('Kapitola I kratší'),d:_t('Mapy 3:30, finále 4 minuty, méně nepřátel.')},{ic:'hammer',t:_t('Milníky v Kovárně'),d:_t('Úroveň 10, 20 a 30 dá novou schopnost.')},{ic:'coin',t:_t('Přerozdělení bodů'),d:_t('Strom jde vrátit na nulu za 10 % zlata.')}],items:[_t('Nákup v Kovárně udeří kladivem do rytmu hudby.'),_t('Kořist i zkušenosti v kapitole I zůstávají stejné jako dřív.')]},
  {v:'2026-11-12z',d:'12. 11. 2026',t:_t('Drobné opravy'),hl:[],items:[_t('Popisy map ukazují skutečnou délku (nejvýš 5:30).'),_t('Text na kartách nové úrovně už nedojíždí k okraji.')]},
  {v:'2026-11-12y',d:'12. 11. 2026',t:_t('Fúze na Kostnici'),hl:[{ic:'vortex',t:_t('Fúze už na Kostnici'),d:_t('Cíl fúze vidíš nahoře a karty k ní vedou.')}],items:[_t('Fúze se odemkne výhrou na Utopených hrobech.')]},

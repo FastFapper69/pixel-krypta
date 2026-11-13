@@ -48,7 +48,8 @@ Uživatel střídá víc Claude účtů. Paměť ani historie chatů se mezi nim
 - Hudba: pravidla, menu skladba a postup náčrtů ve skillu `zvuk-a-hudba`; nová kapitola `hudbacheck.js` + `skladby.js cN`.
 - Jména hrdinů: limit 85 % dlaždice v CZ i EN, písmo se nezmenšuje (`jmenahrdinu.js`, skill `novy-hrdina`).
 
-## Aktuální stav (verze 13a, 13. 11. 2026, vše na main, Pages nasazené)
+## Aktuální stav (verze 13b, 13. 11. 2026, vše na main, Pages nasazené)
+- **13b Příprava bez skoku** (uživatel: „při otevření přípravy to problikne a snapne se zase dolů na mapy“): rolování k vybrané mapě v `renderSelect` běží v `queueMicrotask` hned po `setState`, tedy před 1. vykreslením (dřív až po najetí obrazovky `kScrIn` → viditelný skok). **Pravidlo: rolování při otevření obrazovky dělej před prvním vykreslením, nikdy po animaci.** Test `priprava-rolovani.js` hlídá, že se od 1. snímku nehne.
 - **13a opravy po auditu:** pohár v Síni slávy stojí na podstavci (`.k-ped img` bottom 13 px), 6 nepoužitých proměnných pryč, CLAUDE.md zkrácený (11f–11x v `docs/HISTORIE.md`), `chapcheck` srovnává vzorec síly jen s posledními 2 kapitolami.
 - **Audit 13. 11. (`AUDIT.md`):** vše zelené, ~3 200 kliků po celé hře bez chyby JS (nový `tests/tools/proklik.js`, popis ve skillu `audit-projektu`). `kitTier`/`PWR` je model z posledních 2 kapitol pro další kapitolu (ne pro staré) – `chapcheck` ho srovnává jen s nimi. Na telefonu ověřit, jestli se nesekne první otevření Hrdiny/Přípravy (v sandboxu ~0,4 s, z toho JS jen ~0,15 s).
 - **12z1 kapitola I kratší a lehčí** (uživatel + data: Hřbitov 57 %, Bažina 33 %): mapy 3:30, finále 4:00, **bez zhuštění** (`m.ts=1`), odměny a XP přes `m.rts`. **Pravidlo: kapitolu I neladit zpátky na boty – skuteční hráči v ní vyhrávají o 30–40 bodů méně** (cíle 95/90/85/80/60). Kovárna: milníky `MILES`, kladivo do rytmu, přerozdělení (`treeRespecAsk`, test `kovarna-milniky.js`); volba variant schopností čeká. Po vydání zkontroluj v `runs` výhry v kapitole I.
