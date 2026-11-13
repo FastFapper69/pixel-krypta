@@ -691,3 +691,6 @@ Přání uživatele (snímek okna předmětu ve Vybavení): porovnat s tím, co 
 
 ## 13b (13. 11. 2026) – Příprava bez skoku
 - Uživatel: při otevření Přípravy to problikne a skočí dolů na mapy. Záznam po snímcích: obrazovka se otevřela nahoře (vybraná mapa pod Vyrazit) a ~0,25 s po najetí (`kScrIn`) odrolovala. Teď `renderSelect` roluje v `queueMicrotask` po `setState` = před prvním vykreslením; pojistka po animaci jen když se rozložení mezitím změnilo. Test `priprava-rolovani.js` kontroluje 20 snímků po otevření.
+
+## 13c (13. 11. 2026) – horní lišta
+- Uživatel poslal snímek z iPhonu: počet fialových krystalů lezl přes truhlu Kořisti krypty. Měny (`#mCur`) potřebují ~165 px, s truhlou a 4 ikonami se do lišty nevešly (na SE truhla zakryla celou ikonu). Truhla přesunutá na podlahu krypty (uprostřed pod přehlídkou postav, `lootPlace`), karta mechaniky „Truhla u ohně v kryptě“, šipka Ukaž mi to teď míří shora (`ukazmi.js` upravený).

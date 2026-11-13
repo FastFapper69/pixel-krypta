@@ -3588,7 +3588,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-13b';
+const GAME_VER='2026-11-13c';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -8522,7 +8522,7 @@ const FEATS=[
  {id:'gear',at:'hrbitov',ic:'shield',name:_t('Vybavení a Obchod'),d:_t('Předměty z truhel nasadíš hrdinům. V Obchodě je každý den truhla zdarma.'),go:()=>openChestShop()}, // 12b: show the free chest, not an empty inventory
  {id:'quests',at:'hrbitov',ic:'candle',name:_t('Nástěnka'),d:_t('Tři denní úkoly se třemi hvězdami. Za hvězdy dostaneš svíčky a za svíčky truhly.'),go:()=>{qTab='day';openQuests();}}, // 12n: denní úkoly hned 1. výhrou (data: kdo odešel, měl nejvýš 2 výhry a žádný denní háček)
  {id:'daily',at:'bazina',ic:'trophy',name:_t('Denní výzva'),d:_t('Každý den jedna z map, které už máš vyhrané, s modifikátorem. Přežij 2 minuty a čeká tě truhla.'),go:()=>{renderSelect();setState('select');spotOn(()=>$('#dailyBox'),450);}}, // 12q: 2minutová denní výzva hned po 2. výhře
- {id:'loot',at:'bazina',ic:'chest_wood',name:_t('Kořist krypty'),d:_t('Truhla nahoře v menu se plní, i když nehraješ. Za 8 hodin je plná a pak čeká.'),go:()=>{openMenu();spotOn(()=>$('#mLoot'),450);}}, // 12q: postup, i když jsi zaseklý
+ {id:'loot',at:'bazina',ic:'chest_wood',name:_t('Kořist krypty'),d:_t('Truhla u ohně v kryptě se plní, i když nehraješ. Za 8 hodin je plná a pak čeká.'),go:()=>{openMenu();spotOn(()=>$('#mLoot'),450);}}, // 12q: postup, i když jsi zaseklý
  {id:'fuse',at:'bazina',ic:'vortex',name:_t('Fúze zbraní'),d:_t('Dvě zbraně na úrovni 5 spojíš v běhu v jednu ultimátní. Ťukej do rytmu a bude silnější.')},
  {id:'forge',at:'zvonice',ic:'power',name:_t('Kovárna: vylepšování'),d:_t('Vylepšuj předměty a kupuj trvalá vylepšení hrdinů za zlato a Úlomky.'),go:()=>{renderShop();setState('shop');}},
  {id:'nm',at:'trun',ic:'eye',name:_t('Noční můra a Nekonečná krypta'),d:_t('Mapy kapitoly znovu a těžší, s lepší kořistí. A souboj s finálním bossem, který se vrací silnější.')},
@@ -9868,8 +9868,11 @@ function lootFull(){const k=1+.15*lwChapter();return{g:Math.round(140*k/5)*5,sh:
 // v horní liště hned za měnou (na malém iPhonu pod průvodem v síni nezbývá místo)
 function lootUi(){const T=$('#mTop'),cur=$('#mCur');if(!T||!cur)return;let b=$('#mLoot');const on=featOn('loot');
   if(!on){if(b)b.hidden=true;return;}
-  if(!b){b=document.createElement('button');b.id='mLoot';b.className='mloot';b.setAttribute('aria-label',_t('Kořist krypty'));b.innerHTML='<img alt=""><i class="lb"><i></i></i>';cur.after(b);b.onclick=lootClaim;}
-  b.hidden=false;b.querySelector('img').src=dataUrl(SPR.icon.chest_wood);const f=lootFill();b.querySelector('.lb i').style.width=(Math.floor(f*8)*4)+'px';b.classList.toggle('full',f>=1);}
+  if(!b){b=document.createElement('button');b.id='mLoot';b.className='mloot';b.setAttribute('aria-label',_t('Kořist krypty'));b.innerHTML='<img alt=""><i class="lb"><i></i></i>';($('#scr-menu')||T).appendChild(b);b.onclick=lootClaim;} // 13c: truhla stojí na podlaze krypty (v horní liště se nevešla – přes měny)
+  b.hidden=false;b.querySelector('img').src=dataUrl(SPR.icon.chest_wood);const f=lootFill();b.querySelector('.lb i').style.width=(Math.floor(f*8)*4)+'px';b.classList.toggle('full',f>=1);lootPlace();}
+function lootPlace(){const b=$('#mLoot'),sc=$('#mScene'),par=$('#parade'),S=$('#scr-menu');if(!b||b.hidden||!sc||!par||!S||S.hidden)return; // podlaha = od spodku přehlídky po spodek scény
+  const R=S.getBoundingClientRect(),y0=par.getBoundingClientRect().bottom-R.top+S.scrollTop,y1=sc.offsetTop+sc.offsetHeight,h=b.offsetHeight||42;
+  b.style.top=Math.round(Math.max(y0+2,y0+(y1-y0-h)/2))+'px';b.style.left=Math.round(S.clientWidth/2-b.offsetWidth/2)+'px';}
 function lootClaim(){const f=lootFill();sfx('ui');if(f<LOOT_MIN){const m=Math.ceil((LOOT_MIN-f)*LOOT_H*60);note(_t('Truhla se teprve plní. Zkus to za ')+m+_t(' min.'));return;}
   const F=lootFull(),g=Math.round(F.g*f),sh=Math.round(F.sh*f);gainC({gold:g,shard:sh});save.loot.t=Date.now();persist();evLog('loot',null,Math.round(f*100));
   sfx('chestopen');note(_t('Kořist krypty: +')+g+_t(' zlata, +')+sh+_t(' Úlomků'));try{openMenu();}catch(_){lootUi();}}
@@ -10752,7 +10755,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
- {v:'2026-11-13b',d:'13. 11. 2026',t:_t('Drobné opravy'),hl:[],items:[_t('Příprava se otevře rovnou u vybrané mapy, bez probliknutí a skoku.'),_t('Pohár v Síni slávy stojí na podstavci, nevisí ve vzduchu.')]},
+ {v:'2026-11-13c',d:'13. 11. 2026',t:_t('Drobné opravy'),hl:[],items:[_t('Kořist krypty stojí u ohně, horní lišta se už nepřekrývá.'),_t('Příprava se otevře rovnou u vybrané mapy, bez probliknutí a skoku.'),_t('Pohár v Síni slávy stojí na podstavci, nevisí ve vzduchu.')]},
  {v:'2026-11-12z1',d:'12. 11. 2026',t:_t('Kratší kapitola I a Kovárna'),hl:[{ic:'map:hrbitov',t:_t('Kapitola I kratší'),d:_t('Mapy 3:30, finále 4 minuty, méně nepřátel.')},{ic:'hammer',t:_t('Milníky v Kovárně'),d:_t('Úroveň 10, 20 a 30 dá novou schopnost.')},{ic:'coin',t:_t('Přerozdělení bodů'),d:_t('Strom jde vrátit na nulu za 10 % zlata.')}],items:[_t('Nákup v Kovárně udeří kladivem do rytmu hudby.'),_t('Kořist i zkušenosti v kapitole I zůstávají stejné jako dřív.')]},
  {v:'2026-11-12z',d:'12. 11. 2026',t:_t('Drobné opravy'),hl:[],items:[_t('Popisy map ukazují skutečnou délku (nejvýš 5:30).'),_t('Text na kartách nové úrovně už nedojíždí k okraji.')]},
  {v:'2026-11-12y',d:'12. 11. 2026',t:_t('Fúze na Kostnici'),hl:[{ic:'vortex',t:_t('Fúze už na Kostnici'),d:_t('Cíl fúze vidíš nahoře a karty k ní vedou.')}],items:[_t('Fúze se odemkne výhrou na Utopených hrobech.')]},

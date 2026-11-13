@@ -20,8 +20,9 @@ const L=require('./lib');const lang=process.argv[2]||'cs',phone=process.argv[3]|
  await p.mouse.click(30,400);await p.waitForTimeout(1200);s=await st();ok(!s.spot&&s.feat&&!s.news,'klepnutí → zvýraznění zmizí, přijde 2. karta '+JSON.stringify(s));
  await p.click('#fcGo');await p.waitForTimeout(1300);s=await st();
  ok(s.st==='menu'&&s.spot&&s.spotEl==='mLoot'&&s.ar&&!s.feat&&!s.news,'Ukaž mi to → menu, truhla zvýrazněná '+JSON.stringify(s));
- const ar=await E("(()=>{const r=document.querySelector('#mLoot').getBoundingClientRect(),a=document.querySelector('#spotAr').getBoundingClientRect();return a.top>=r.bottom&&a.bottom<=r.bottom+40&&Math.abs((a.left+a.right)/2-(r.left+r.right)/2)<=2;})()");
- ok(ar,'šipka je pod truhlou a míří na ni');
+ const ar=await E("(()=>{const r=document.querySelector('#mLoot').getBoundingClientRect(),a=document.querySelector('#spotAr').getBoundingClientRect();return (a.top>=r.bottom&&a.bottom<=r.bottom+40||a.bottom<=r.top&&a.top>=r.top-40)&&Math.abs((a.left+a.right)/2-(r.left+r.right)/2)<=2;})()");
+ ok(ar,'šipka u truhly míří na ni (13c: truhla na podlaze krypty → šipka shora)');
+ if(process.env.SHOT)await p.screenshot({path:process.env.SHOT});
  await p.screenshot({path:'out/ukazmi_'+lang+'_'+phone+'_truhla.png'});
  const c0=await E("save.coins");await p.click('#mLoot');await p.waitForTimeout(2600);s=await st();
  ok(!s.spot&&(await E("save.coins"))>c0,'klepnutí na truhlu ji rovnou vyzvedne a zvýraznění zmizí');
