@@ -1315,7 +1315,7 @@ button,input,select,textarea{font-family:inherit}
 /* síň slávy: pohár na podstavci mezi svícemi */
 .k-hall{display:flex;align-items:flex-end;justify-content:center;gap:26px;height:88px;margin:-4px 0 0}
 .k-ped{width:104px;height:28px;position:relative;display:block}
-.k-ped img{position:absolute;left:8px;bottom:22px;width:88px;height:88px;image-rendering:pixelated}
+.k-ped img{position:absolute;left:8px;bottom:13px;width:88px;height:88px;image-rendering:pixelated}
 .k-candle{position:relative;width:8px;height:40px;background:linear-gradient(90deg,#f6ecc8 0 2px,#dcc793 2px 6px,#b89c64 6px);box-shadow:0 0 0 2px #2a1c0c}
 .k-candle .k-flame{left:-3px;top:-20px}
 .k-hall{padding-top:40px;height:128px}

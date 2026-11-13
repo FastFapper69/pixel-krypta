@@ -633,11 +633,11 @@ const C8G=['#4e6e24','#5a7a2a','#668a30','#729838','#7ea640','#8ab24a'],C8W=['#1
   C8P=['#a8844a','#b49052','#c09c5c','#cca866'],C8Z=['#b8962a','#c8a630','#d8b638','#e6c644'],C8B=[['#3e5a1a','#f6e27a'],['#4a6a20','#ff9ab8']];
 // chapter IX the Golden Realm (11n): streets paved with gold, deep red carpets and walls, gold tiles; everything the sun looked at is gold
 const C9G=['#4a3614','#564018','#624a1c','#6e5420','#7a5e26','#86682c'],C9W=['#1a0808','#2a0e0c','#3a1410','#4a1a14'],C9T=['#6e5420','#7a5e26','#86682c','#927232'],
-  C9P=['#5a1410','#6a1814','#7a1e18','#88261e'],C9S=['#7a5a20','#866426','#92702c','#9e7a32'],C9R=['#5a1008','#8a1a10','#d8a830','#ffd040'],C9Z=['#9a7418','#b48a22','#cca230','#e2bc44'],C9B=[['#3a2a10','#f6d460'],['#4a3412','#ffffff']];
+  C9S=['#7a5a20','#866426','#92702c','#9e7a32'],C9Z=['#9a7418','#b48a22','#cca230','#e2bc44'],C9B=[['#3a2a10','#f6d460'],['#4a3412','#ffffff']];
 // chapter X Crowned Sun (11p): inside the sun Aurel forged from the shards – white light, gold, a red core; the stairs float on dusky clouds
 const C10G=['#5a5470','#625b78','#6a6280','#726a88','#7a7290','#827a98'],C10W=['#1a0604','#2a0a06','#3a100a','#4a160c'],C10T=['#8a7a62','#96866c','#a29276','#ae9e80'],
   C10S=['#b8a888','#c2b292','#ccbc9c','#d6c6a6'],C10F=['#3a2a24','#44322a','#4e3a30','#584236'],C10K=['#4e4436','#584c3c','#625442','#6c5c48','#766450','#806c56'],
-  C10L=['#8a1a08','#b8300c','#e05a14','#ff8a2a'],C10B=[['#3a3450','#fff6d8'],['#4a4060','#ffd040']],C10R=['#5a1008','#8a1a10','#e0b030','#fff2b0'];
+  C10B=[['#3a3450','#fff6d8'],['#4a4060','#ffd040']],C10R=['#5a1008','#8a1a10','#e0b030','#fff2b0'];
 // the six pillars of the throne arena (Aurel's sun phase: their shade is the only safe place) and the seven shard pedestals
 const C10_COLS=[0,1,2,3,4,5].map(k=>{const a=k/6*6.283;return[Math.round(Math.cos(a)*165),Math.round(Math.sin(a)*150)];}),
   C10_SH=[0,1,2,3,4,5,6].map(k=>{const a=-1.12+k/7*6.283;return[Math.round(Math.cos(a)*250),Math.round(Math.sin(a)*235)];});
@@ -3588,7 +3588,7 @@ function fitApp(){try{const sa=window.navigator.standalone===true||matchMedia('(
   let h=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0);
   if(sa&&(/iPhone|iPad|iPod/.test(navigator.userAgent||'')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))){const land=(window.innerWidth||0)>(window.innerHeight||0);h=Math.max(h,land?Math.min(screen.width,screen.height):Math.max(screen.width,screen.height));}
   document.documentElement.style.setProperty('--appH',h+'px');document.documentElement.style.setProperty('--kw',Math.min(360,Math.floor(((window.innerWidth||360)-16)/2)*2)+'px');fitApp.info={sa,h,ih:window.innerHeight,ch:document.documentElement.clientHeight,sh:screen.height,sw:screen.width};}catch(_){}}
-const GAME_VER='2026-11-12z1';
+const GAME_VER='2026-11-13a';
 fitApp();addEventListener('resize',()=>{fitApp();resize();try{if(state==='menu')fitMenuCur();}catch(_){}});addEventListener('orientationchange',()=>setTimeout(()=>{fitApp();resize();},250));
 
 /* ============ state ============ */
@@ -9540,7 +9540,7 @@ function achClaim(id){const A=ACHM[id];if(!A||save.ach[id]||!achDone(A))return f
   const newH=A.hero&&!save.heroes[A.hero];if(A.hero)save.heroes[A.hero]=true;if(!save.title)save.title=id;persist();sfx('win');if(newH)setTimeout(()=>heroCelebrate(A.hero),400);
   note(_t('Mistrovství ')+A.name+': +'+A.g+_t(' zlata')+(A.hero?_t(' · odemčen hrdina ')+HEROES[A.hero].name:'')+_t(' · titul ')+A.title);return true;}
 function openMaster(){achInit();renderMaster();setState('master');}
-function renderMaster(){const S=achInit();
+function renderMaster(){achInit();
   $('#maCount').textContent=ACH.filter(A=>save.ach[A.id]).length+' / '+ACH.length;
   const cur=titleOf(save);$('#maTitle').classList.toggle('kh',!cur);$('#maTitle').innerHTML=cur?_t('Tvůj titul: <b>')+cur+_t('</b>. Jiný si nasadíš tlačítkem Nosit nebo v profilu u přezdívky.'):_t('Zatím nemáš titul. Splň mistrovství a vyzvedni si ho.');
   $('#maList').innerHTML=ACH.map(A=>{const v=achProg(A),got=!!save.ach[A.id],done=v>=A.n,worn=save.title===A.id&&got;
@@ -10284,7 +10284,7 @@ function qWkHtml(){const I=wkInfo(),W=save.wk,M=MAPS[I.map],H=HEROES[I.hero],end
   h+='<p class="qrow"><span>'+_t('Tvůj nejlepší pokus: ')+'<b>'+(W.best?(W.best.tier>=0?WK_TIER[W.best.tier].name+' · ':'')+fmtTime(W.best.t):'—')+'</b></span></p>';
   h+='<div class="wk-btns"><button class="btn" id="wkGo">'+_t('Hrát výzvu')+'</button><button class="btn alt" id="wkBoard">'+_t('Žebříček Týden')+'</button></div>';
   return h+'<p class="hint">'+_t('Všichni hrají stejnou mapu, hrdinu i modifikátory. Pokusů máš neomezeně, každá medaile se vyplatí jednou za týden.')+'</p>';}
-function renderQuests(keep){qTexInit();const Q=qEnsure(),box=$('#qBody'),sc=keep?screens.quests.scrollTop:0,K=save.qw.k,X=save.wk;
+function renderQuests(keep){qTexInit();const Q=qEnsure(),box=$('#qBody'),sc=keep?screens.quests.scrollTop:0;
   const lk=[0,!featOn('contracts'),!featOn('weekly')];if((qTab==='week'&&lk[1])||(qTab==='wk'&&lk[2]))qTab='day';
   const dot=qDots();
   let h='<div class="tabs sectabs qtabs">'+[['day',_t('Dnes')],['week',_t('Týden')],['wk',_t('Výzva')]].map(([id,n],i)=>'<button data-qt="'+id+'" class="'+(qTab===id?'on':'')+(lk[i]?' flock':'')+'">'+n+(dot[i]&&!lk[i]?'<i class="dot"></i>':'')+'</button>').join('')+'</div>';
@@ -10750,6 +10750,7 @@ function drawMateArrow(g,ox,oy){const m=coMate();if(!m)return;const cx=m.x+ox,cy
 /* ============ news (what's new popup), install to home screen, result sharing ============ */
 // newest first; v must grow (date + letter). Shown once per new version, all of it under menu "Novinky".
 const NEWS=[
+ {v:'2026-11-13a',d:'13. 11. 2026',t:_t('Drobné opravy'),hl:[],items:[_t('Pohár v Síni slávy stojí na podstavci, nevisí ve vzduchu.')]},
  {v:'2026-11-12z1',d:'12. 11. 2026',t:_t('Kratší kapitola I a Kovárna'),hl:[{ic:'map:hrbitov',t:_t('Kapitola I kratší'),d:_t('Mapy 3:30, finále 4 minuty, méně nepřátel.')},{ic:'hammer',t:_t('Milníky v Kovárně'),d:_t('Úroveň 10, 20 a 30 dá novou schopnost.')},{ic:'coin',t:_t('Přerozdělení bodů'),d:_t('Strom jde vrátit na nulu za 10 % zlata.')}],items:[_t('Nákup v Kovárně udeří kladivem do rytmu hudby.'),_t('Kořist i zkušenosti v kapitole I zůstávají stejné jako dřív.')]},
  {v:'2026-11-12z',d:'12. 11. 2026',t:_t('Drobné opravy'),hl:[],items:[_t('Popisy map ukazují skutečnou délku (nejvýš 5:30).'),_t('Text na kartách nové úrovně už nedojíždí k okraji.')]},
  {v:'2026-11-12y',d:'12. 11. 2026',t:_t('Fúze na Kostnici'),hl:[{ic:'vortex',t:_t('Fúze už na Kostnici'),d:_t('Cíl fúze vidíš nahoře a karty k ní vedou.')}],items:[_t('Fúze se odemkne výhrou na Utopených hrobech.')]},

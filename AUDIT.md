@@ -19,15 +19,15 @@ Opakovat: skill `.claude/skills/audit-projektu`, `node tests/tools/audit.js plny
 ## Nálezy (podle priority)
 
 ### Střední
-1. **Vzorec obtížnosti `kitTier` je zastaralý** (`chapcheck` 53× „HP pod vzorcem síly hráče“): pro mapu bez řádku v `MAP_TIER` by dal např. Hřbitovu HP ×51 místo ×0,62. **Hráčům to teď nevadí** – všech 50 map má vlastní řádek a `kitTier` se nepoužije. Ale nová kapitola (akt II) by bez `ladeni.js` dostala nehratelná čísla. Oprava před rozmrazením kapitol: `node tests/tools/krivka.js zapis` po posledním ladění (`PWR` neodpovídá zkráceným běhům z 12d/12z1) a pak upozornění v `chapcheck` zmizí.
+– žádné. (Původně tu byl „zastaralý vzorec `kitTier`“ – po přepočtu `krivka.js` 13. 11. se ukázalo, že model z kapitol IX–X sedí (kh 2733 proti zapsaným 2774). Je určený pro **další** kapitolu, ne pro staré, a dává spíš přísný výchozí odhad, který postup nové kapitoly vždy doladí boty (`ladeni.js`). `chapcheck` ho teď srovnává jen s posledními dvěma kapitolami: 53 upozornění → 6.)
 
 ### Nízká
-2. **Plynulost menu v sandboxu:** první otevření Hrdiny ~430 ms a Přípravy ~370 ms jedno zaseknutí (2 procesory bez grafiky, měření je hrubé). **Na telefonu ověří uživatel** – když se otevření Hrdiny/Přípravy sekne, stojí za to předkreslit sprity hrdinů už v menu.
-3. **CLAUDE.md 45 kB** (cíl < 40 kB): „Aktuální stav“ má popisy verzí 11f–11x, ty patří do `docs/HISTORIE.md`.
-4. **25 nepoužitých proměnných** (ESLint `no-unused-vars`, např. `C9P`, `C9R`, `C10L`, `prevOn`) – neškodné, mrtvý kód k úklidu při další práci v daném místě.
+2. **Plynulost menu v sandboxu:** první otevření Hrdiny ~430 ms a Přípravy ~370 ms jedno zaseknutí. Rozbor (trace Chromia): JavaScript nejvýš ~145 ms (z toho `kaKick` = kreslení kamenných rámů ~70 ms), zbytek je skládání vrstev (`Commit`) bez grafické karty – na telefonu výrazně kratší. **Na telefonu ověří uživatel**; když se sekne, zrychlit `kaKick` (kreslit jen viditelné rámy).
+3. ~~CLAUDE.md 45 kB~~ – vyřešeno: popisy verzí 11f–11x přesunuté do `docs/HISTORIE.md` („Stav k 12. 11.“), pravidla z nich shrnutá v jednom bodu → 39 kB.
+4. **Nepoužité proměnné:** 6 bezpečných pryč v 13a (`C9P`, `C9R`, `C10L`, `S` v `renderMaster`, `K`/`X` v Nástěnce); zbylých 19 je uvnitř kreslicích výpočtů – neškodné, nechávám.
 5. **Server (beze změny, záměr):** SECURITY DEFINER funkce volatelné hráči (kontrolují `auth.uid()` nebo klíč), `coop_board` pro anon, RLS bez pravidel na `private.*` (nikdo tam nesmí), nepoužitý index `feedback_uid_created` (zatím málo dat), vypnutá ochrana proti uniklým heslům (hra hesla nepoužívá, jen PIN).
 6. Jeden hráč má pořád vynucené přejmenování (`rename_req`) – ještě nespustil hru.
-7. Drobnost vzhledu: v Síni slávy (žebříček offline) stojí pohár nad kamennou deskou s mezerou – deska vypadá, že visí zvlášť. Jen pro informaci, ve hře s připojením je pod pohárem žebříček.
+7. ~~Pohár v Síni slávy visel nad deskou~~ – opraveno v 13a.
 
 ## Kde si ulehčit práci
 1. **`proklik.js`** je nový nástroj: po větší změně UI ho pustit s hloubkou 1 (`node proklik.js 1 cs 2 'late:'` ~10 min) – chytí chybu JS za kterýmkoli tlačítkem.
